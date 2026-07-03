@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>CoupleMed — Study Platform</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#081324" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/ai-tutor-widget.css" />
+</head>
+<body class="platform-page" data-page="home">
+  <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Open menu">☰</button>
+  <div id="sidebarScrim" class="sidebar-scrim"></div>
+  <aside id="sidebar" class="sidebar" aria-label="Study platform menu">
+    <a class="brand" href="app.html" data-link="home" aria-label="CoupleMed Home">
+      <img src="assets/cm-logo.png" alt="" />
+      <div>
+        <strong>COUPLE <span>MED</span></strong>
+        <em>Jonathan &amp; Alysson</em>
+      </div>
+    </a>
+    <nav class="menu">
+      <a class="menu-row active" href="app.html" data-page-link="home"><span class="mi">⌂</span><span data-i18n="home">Home</span></a>
+
+      <h2>STUDY</h2>
+      <button class="menu-row has-sub" data-toggle="notebook"><span class="mi">▣</span><span data-i18n="myNotebook">My Notebook</span></button>
+      <div id="notebook" class="submenu">
+        <a href="app.html?page=notebooks" data-page-link="notebooks" data-i18n="notebooks">Notebooks</a>
+        <a href="app.html?page=notes" data-page-link="notes" data-i18n="notes">Notes</a>
+      </div>
+      <button class="menu-row has-sub" data-toggle="study-planner"><span class="mi">□</span><span data-i18n="studyPlanner">Study Planner</span></button>
+      <div id="study-planner" class="submenu">
+        <a href="app.html?page=week-planner" data-page-link="week-planner" data-i18n="weekPlanner">Week Planner</a>
+        <a href="app.html?page=month-planner" data-page-link="month-planner" data-i18n="monthPlanner">Month Planner</a>
+      </div>
+      <button class="menu-row has-sub" data-toggle="study-materials"><span class="mi">▱</span><span data-i18n="studyMaterials">Study Materials</span></button>
+      <div id="study-materials" class="submenu">
+        <a href="app.html?page=first-aid" data-page-link="first-aid">First Aid</a>
+        <a href="app.html?page=pathology" data-page-link="pathology">Pathology</a>
+        <a href="app.html?page=pharmacology" data-page-link="pharmacology">Pharmacology</a>
+      </div>
+      <button class="menu-row has-sub" data-toggle="medical-library"><span class="mi">▤</span><span data-i18n="medicalLibrary">Medical Library</span></button>
+      <div id="medical-library" class="submenu deep">
+        <button class="sub-toggle" data-toggle="library-rd">RD </button>
+        <div id="library-rd" class="submenu books"></div>
+        <button class="sub-toggle" data-toggle="library-uworld">UWorld </button>
+        <div id="library-uworld" class="submenu books"></div>
+        <button class="sub-toggle" data-toggle="library-first-aid">First Aid </button>
+        <div id="library-first-aid" class="submenu books firstaid"><a href="app.html?page=first-aid-library" data-page-link="first-aid-library">First Aid Library</a></div>
+      </div>
+      <a class="menu-row" href="app.html?page=ai-tutor" data-page-link="ai-tutor"><span class="mi">⌘</span><span>AI Tutor</span></a>
+
+      <h2>USMLE</h2>
+      <button class="menu-row has-sub" data-toggle="step1"><span class="mi">≡</span><span>Step 1</span></button>
+      <div id="step1" class="submenu deep">
+        <button class="sub-toggle" data-toggle="qbank">QBank </button>
+        <div id="qbank" class="submenu deep">
+          <button class="sub-toggle" data-toggle="qbank-uworld">UWorld </button>
+          <div id="qbank-uworld" class="submenu deep rounds">
+            <button class="sub-toggle" data-toggle="round-1"><span data-round-label="1">Pass/Round 1 — 0 questions</span></button>
+            <div id="round-1" class="submenu"><a href="app.html?page=round-1-questions" data-page-link="round-1-questions">Questions</a><a href="app.html?page=round-1-performance" data-page-link="round-1-performance">Performance</a></div>
+            <button class="sub-toggle" data-toggle="round-2"><span data-round-label="2">Pass/Round 2 — 0 questions</span></button>
+            <div id="round-2" class="submenu"><a href="app.html?page=round-2-questions" data-page-link="round-2-questions">Questions</a><a href="app.html?page=round-2-performance" data-page-link="round-2-performance">Performance</a></div>
+            <button class="sub-toggle" data-toggle="round-3"><span data-round-label="3">Pass/Round 3 — 0 questions</span></button>
+            <div id="round-3" class="submenu"><a href="app.html?page=round-3-questions" data-page-link="round-3-questions">Questions</a><a href="app.html?page=round-3-performance" data-page-link="round-3-performance">Performance</a></div>
+            <button class="sub-toggle" data-toggle="round-4"><span data-round-label="4">Pass/Round 4 — 0 questions</span></button>
+            <div id="round-4" class="submenu"><a href="app.html?page=round-4-questions" data-page-link="round-4-questions">Questions</a><a href="app.html?page=round-4-performance" data-page-link="round-4-performance">Performance</a></div>
+          </div>
+          <button class="sub-toggle" data-toggle="qbank-rd">RD </button>
+          <div id="qbank-rd" class="submenu"><a href="app.html?page=rd-qbank-folder" data-page-link="rd-qbank-folder">Unnamed folder</a></div>
+        </div>
+      </div>
+      <button class="menu-row has-sub" data-toggle="step2"><span class="mi">≡</span><span>Step 2</span></button>
+      <div id="step2" class="submenu"><a href="app.html?page=step-2" data-page-link="step-2">In Progress</a></div>
+      <button class="menu-row has-sub" data-toggle="step3"><span class="mi">≡</span><span>Step 3</span></button>
+      <div id="step3" class="submenu"><a href="app.html?page=step-3" data-page-link="step-3">In Progress</a></div>
+
+      <h2>CAREER</h2>
+      <a class="menu-row" href="app.html?page=languages" data-page-link="languages"><span class="mi">◎</span><span data-i18n="languages">Languages / English</span></a>
+      <a class="menu-row" href="app.html?page=observership" data-page-link="observership"><span class="mi">✧</span><span>Observership</span></a>
+      <a class="menu-row" href="app.html?page=residency-match" data-page-link="residency-match"><span class="mi">♕</span><span>Residency Match</span></a>
+      <a class="menu-row" href="app.html?page=links" data-page-link="links"><span class="mi">⌁</span><span>Links</span></a>
+
+      <h2>SETTINGS</h2>
+      <a class="menu-row" href="app.html?page=settings" data-page-link="settings"><span class="mi">⚙</span><span data-i18n="settings">Settings</span></a>
+      <a id="logoutLink" class="menu-row logout" href="index.html"><span class="mi">↪</span><span data-i18n="logout">Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="platform-main">
+    <div class="top-actions" aria-label="Language and theme controls">
+      <button class="flag-button" data-lang="pt" aria-label="Português"><img src="assets/flag-br.svg" alt="" /></button>
+      <button class="flag-button" data-lang="en" aria-label="English"><img src="assets/flag-us.svg" alt="" /></button>
+      <button id="themeToggle" class="theme-pill" aria-label="Toggle light and dark theme"><span>◐</span><span>☼</span></button>
+    </div>
+
+    <section class="hero-panel" aria-label="USMLE journey hero">
+      <img src="assets/platform-hero-current.jpg" alt="Your USMLE journey starts now" />
+    </section>
+
+    <section id="homeDashboard" class="dashboard-strip" aria-label="Platform quick dashboard">
+      <div class="mini-card streak"><div class="check">✓</div><div><span>STUDY<br/>STREAK</span><strong>1 Day</strong><small>Keep it going!</small></div></div>
+      <div class="mini-card progress-card"><h3>STEP 1 - QBANK PROGRESS</h3><div class="bar-line"><span>Round 1 → 0 - X</span><i></i><b>0%</b><button>Continue</button></div><div class="bar-line"><span>Round 2 → 0 - X</span><i></i><b>0%</b><button>Continue</button></div><div class="bar-line"><span>Round 3 → 0 - X</span><i></i><b>0%</b><button>Continue</button></div></div>
+      <a class="mini-card action" href="app.html?page=question-bank"><span>▣</span><strong>Question Bank</strong></a>
+      <a class="mini-card action" href="app.html?page=flashcards"><span>▥</span><strong>Flashcards</strong></a>
+      <a class="mini-card action" href="app.html?page=performance"><span>⌁</span><strong>Performance Analytics</strong></a>
+      <a class="mini-card action" href="app.html?page=ai-tutor"><span>⌘</span><strong>AI Tutor</strong></a>
+    </section>
+
+    <section id="internalContent" class="internal-content" hidden>
+      <div class="internal-card">
+        <h1 id="internalTitle">Page ready to receive content</h1>
+        <p id="internalDescription">This internal area opens with a white background by fixed rule. The sidebar remains navy like the initial platform.</p>
+      </div>
+    </section>
+  </main>
+  <script src="js/site.js"></script>
+  <script src="js/flashcards.js"></script>
+  <script src="js/ai-tutor-widget.js"></script>
+</body>
+</html>

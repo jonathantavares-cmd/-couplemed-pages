@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>CoupleMed — Access</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#010208" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="login-page">
+  <main class="login-viewport" aria-label="CoupleMed access page">
+    <div class="login-stage">
+      <img class="stage-img" src="assets/login-layout.jpg" alt="" draggable="false" />
+      <div class="stage-overlay"><form id="loginForm" class="access-card" autocomplete="off" novalidate>
+        <label class="sr-only" for="password">Password</label>
+        <div class="access-input-row">
+          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+          <input id="password" name="password" type="password" placeholder="Password" required />
+          <button class="access-arrow" type="submit" aria-label="Enter">→</button>
+        </div>
+        <button class="access-submit" type="submit">Enter</button>
+        <p id="loginMessage" class="login-message" aria-live="polite"></p>
+      </form></div>
+    </div>
+  </main>
+  <script src="js/site.js"></script>
+</body>
+</html>
