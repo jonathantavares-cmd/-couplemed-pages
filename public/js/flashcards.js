@@ -75,7 +75,11 @@
       view:'Browse', del:'Delete', edit:'Edit', back:'← Back',
       front:'Front (question)', backSide:'Back (answer)', tags:'Tags (comma separated)', deck:'Deck',
       newDeck:'+ New deck…', deckName:'Deck name', save:'Save', cancel:'Cancel',
-      shareLbl:'Share with other users (adds to the shared bank)',
+      shareLbl:'Visible to everyone: John, Alysson and all guest accounts.', shareTitle:'⇄ Share this with everyone',
+      shareToast:'⇄ Shared! Now visible to all users in the Shared bank.', shareToastBatch:n=>`⇄ ${n} cards shared! Now visible to all users.`,
+      shareBannerTitle:'⇄ Shared bank between everyone',
+      shareBannerBody:'Cards you share (created or imported) become visible to John, Alysson and every guest account — each person keeps their own review progress.',
+      sharedByMe:'shared by you', sharedByOthers:'shared by others',
       reversedLbl:'Also create reversed copy (back → front)',
       clozeHint:'Tip: use {{c1::hidden text}} for cloze deletion cards (like Anki).',
       sharedBadge:'shared', byOwner:o=>`by ${o}`, sharedBank:'Shared bank',
@@ -99,6 +103,8 @@
       leechMsg:'Card marked as leech and suspended (8+ lapses).',
       statsTitle:'Statistics', statsToday:'Today', statsReviews:'reviews', statsCards:'Cards by state',
       statsWeek:'Last 7 days', statsRetentionInfo:'Mature retention (Good/Easy on review cards)',
+      statsPerf:'Detailed performance', statsAvgDay:'avg/day', statsGoodEasy:'Good/Easy answers',
+      range_7d:'7 days', range_1m:'1 month', range_3m:'3 months', range_6m:'6 months',
       limits:'Daily limits & scheduling', newLimit:'New cards/day', revLimit:'Reviews/day',
       retentionLbl:'Desired retention', retentionHint:'Higher = more reviews/day, lower risk of forgetting.',
       easyDaysLbl:'Easy days (no new cards)', postponeLbl:'Postpone due reviews', postponeBtn:'Postpone',
@@ -120,7 +126,11 @@
       view:'Navegar', del:'Excluir', edit:'Editar', back:'← Voltar',
       front:'Frente (pergunta)', backSide:'Verso (resposta)', tags:'Tags (separadas por vírgula)', deck:'Deck',
       newDeck:'+ Novo deck…', deckName:'Nome do deck', save:'Salvar', cancel:'Cancelar',
-      shareLbl:'Compartilhar com os outros usuários (entra no banco compartilhado)',
+      shareLbl:'Visível para todos: John, Alysson e todas as contas convidadas.', shareTitle:'⇄ Compartilhar com todos',
+      shareToast:'⇄ Compartilhado! Agora visível para todos os usuários no Banco compartilhado.', shareToastBatch:n=>`⇄ ${n} cards compartilhados! Agora visíveis para todos.`,
+      shareBannerTitle:'⇄ Banco compartilhado entre todos',
+      shareBannerBody:'Cards que você compartilha (criados ou importados) ficam visíveis para John, Alysson e todas as contas convidadas — cada pessoa mantém seu próprio progresso de revisão.',
+      sharedByMe:'compartilhados por você', sharedByOthers:'compartilhados por outros',
       reversedLbl:'Criar também a cópia invertida (verso → frente)',
       clozeHint:'Dica: use {{c1::texto oculto}} para cards cloze (igual ao Anki).',
       sharedBadge:'compartilhado', byOwner:o=>`por ${o}`, sharedBank:'Banco compartilhado',
@@ -144,6 +154,8 @@
       leechMsg:'Card marcado como leech e suspenso (8+ lapsos).',
       statsTitle:'Estatísticas', statsToday:'Hoje', statsReviews:'revisões', statsCards:'Cards por estado',
       statsWeek:'Últimos 7 dias', statsRetentionInfo:'Retenção madura (Bom/Fácil em cards de revisão)',
+      statsPerf:'Performance detalhada', statsAvgDay:'média/dia', statsGoodEasy:'Respostas Bom/Fácil',
+      range_7d:'7 dias', range_1m:'1 mês', range_3m:'3 meses', range_6m:'6 meses',
       limits:'Limites diários e agendamento', newLimit:'Cards novos/dia', revLimit:'Revisões/dia',
       retentionLbl:'Retenção desejada', retentionHint:'Maior = mais revisões/dia, menor risco de esquecer.',
       easyDaysLbl:'Dias fáceis (sem cards novos)', postponeLbl:'Adiar revisões vencidas', postponeBtn:'Adiar',
@@ -155,7 +167,11 @@
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
   const t = k => T[lang()][k];
-  const ownerName = o => o.charAt(0).toUpperCase() + o.slice(1);
+  const ownerName = o => {
+    const m = o.match(/^guest(\d+)$/i);
+    if(m) return (lang()==='pt'?'Convidado ':'Guest ') + m[1];
+    return o.charAt(0).toUpperCase() + o.slice(1);
+  };
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const todayStr = () => new Date().toISOString().slice(0,10);
 
@@ -343,6 +359,51 @@
     preview.querySelectorAll('[data-act]').forEach(el => el.addEventListener('click', onAct));
   }
 
+  function showToast(msg){
+    if(!root) return;
+    const old = root.querySelector('.fc-toast'); if(old) old.remove();
+    const el = document.createElement('div');
+    el.className = 'fc-toast';
+    el.innerHTML = `<span class="fc-toast-icon">⇄</span><span>${esc(msg)}</span>`;
+    root.appendChild(el);
+    requestAnimationFrame(()=> el.classList.add('show'));
+    setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(), 300); }, 3200);
+  }
+
+  /* ---------- tradução dinâmica do CONTEÚDO dos cards (front/back) ----------
+     Mesmo motor usado no AI Tutor. A interface (botões/labels) já traduz via T[lang];
+     isto traduz o texto que o usuário escreveu/importou, em qualquer idioma de origem,
+     sempre que a bandeira for trocada. Cards cloze não são traduzidos (preserva a sintaxe
+     {{c1::...}}); o original em DB nunca é sobrescrito, só a exibição. */
+  const TRANSLATE_API = 'https://api.mymemory.translated.net/get';
+  const transCache = {}; // `${text}|${targetLang}` -> texto traduzido
+  let renderToken = 0;
+  async function translateField(text, targetLang){
+    if(!text || !text.trim()) return text;
+    const key = text + '|' + targetLang;
+    if(transCache[key]) return transCache[key];
+    try{
+      const url = `${TRANSLATE_API}?q=${encodeURIComponent(text.slice(0,480))}&langpair=autodetect|${targetLang}`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      const out = data?.responseData?.translatedText || text;
+      transCache[key] = out;
+      return out;
+    }catch(e){ return text; }
+  }
+  function translateVisibleCardTexts(){
+    const myToken = renderToken;
+    const targetLang = lang();
+    root.querySelectorAll('[data-fc-i18n-text]').forEach(async el => {
+      const original = el.dataset.fcOriginal;
+      if(!original) return;
+      if(isCloze(original)) return; // preserva sintaxe cloze
+      const translated = await translateField(original, targetLang);
+      if(renderToken !== myToken) return; // usuário já navegou para outra tela
+      el.textContent = translated;
+    });
+  }
+
   /* ---------- estado/UI ---------- */
   let view = {name:'home'};
   let root = null, undoBuf = null;
@@ -367,11 +428,13 @@
   }
   function render(){
     if(!root) return;
+    renderToken++;
     if(view.name === 'home') renderHome();
     else if(view.name === 'dash') renderDash();
     else if(view.name === 'browse') renderBrowse();
     else if(view.name === 'review') renderReview();
     else if(view.name === 'stats') renderStats();
+    translateVisibleCardTexts();
   }
 
   const stBadge = s => {
@@ -405,12 +468,21 @@
     const steps = QUICKSTART[L].map((s,i) => `<div class="fc-step"><b>${i+1}</b><span>${s}</span></div>`).join('');
     const feats = FEATURES.map(f => `<div class="fc-feat"><span class="fc-feat-i">${f.i}</span>
       <div><strong>${f[L][0]}</strong><p>${f[L][1]}</p></div></div>`).join('');
+    const myShared = DB.cards.filter(c=>c.shared).length;
+    const theirShared = foreignShared().length;
+    const shareBanner = `<div class="fc-share-banner">
+      <span class="fc-share-banner-icon">⇄</span>
+      <div><strong>${t('shareBannerTitle')}</strong><p>${t('shareBannerBody')}</p></div>
+      <div class="fc-share-counts"><b>${myShared}</b><span>${t('sharedByMe')}</span></div>
+      <div class="fc-share-counts"><b>${theirShared}</b><span>${t('sharedByOthers')}</span></div>
+    </div>`;
     root.innerHTML = `
       <div class="fc-hero">
         <div><h1 class="fc-title">${t('title')}</h1><p class="fc-bread">${t('bread')}</p>
         <p class="fc-hero-sub">${t('heroSub')}</p></div>
         <button class="fc-btn fc-primary fc-cta" data-act="open-app">${t('openApp')}</button>
       </div>
+      ${shareBanner}
       <h2 class="fc-sub">${t('quickTitle')}</h2>
       <div class="fc-steps">${steps}</div>
       <h2 class="fc-sub">${t('featTitle')}</h2>
@@ -508,14 +580,16 @@
       return true;
     });
     const suspCount = rowsData.filter(it => it.kind==='own' && stateOf(it).suspended).length;
+    const transSpan = (text, cls) => `<span class="${cls||''}" data-fc-i18n-text data-fc-original="${esc(text)}">${esc(text)}</span>`;
     const rows = rowsData.length ? rowsData.map(it => {
       const c = it.card, s = stateOf(it), own = it.kind === 'own';
       const cid = own ? c.id : c.id;
+      const cloze = isCloze(c.front);
       return `<div class="fc-row">
-        <div class="fc-row-txt"><strong>${flagDot(s)}${isCloze(c.front)?clozeBack(c.front):esc(c.front)}
+        <div class="fc-row-txt"><strong>${flagDot(s)}${cloze?clozeBack(c.front):transSpan(c.front)}
           ${stBadge(s)} ${isBuried(s)?'<i class="fc-st fc-st-susp">💤</i>':''} ${own && c.shared?`<i class="fc-badge">⇄ ${t('sharedBadge')}</i>`:''}
           ${!own?`<i class="fc-owner">${t('byOwner')(ownerName(c.owner))}</i>`:''}</strong>
-        <span>${esc(c.back)}</span>
+        <span>${cloze?esc(c.back):transSpan(c.back)}</span>
         ${(c.tags||[]).length?`<em>${c.tags.map(esc).join(' · ')}</em>`:''}</div>
         <div class="fc-row-meta">${s.state==='review' ? t('days')(s.interval)+' · '+new Date(s.due).toISOString().slice(0,10) : ''}</div>
         <div class="fc-row-actions">
@@ -571,8 +645,9 @@
       `<button class="fc-btn fc-rate fc-rate-${r}" data-act="rate" data-rate="${r}"><small>${i+1}</small>${t(r)}<small>${nextIvPreview(s, r)}</small></button>`).join('');
     const ownerTag = item.kind === 'shared' ? `<p class="fc-owner-tag">⇄ ${t('byOwner')(ownerName(c.owner))} · ${esc(c.deckName)}</p>` : '';
     const cloze = isCloze(c.front);
-    const frontHtml = cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : esc(c.front);
-    const backHtml = view.showBack && (!cloze || c.back) ? `<hr class="fc-sep"/><div class="fc-card-back">${esc(c.back)}</div>` : '';
+    const transSpan = (text, cls) => `<span class="${cls||''}" data-fc-i18n-text data-fc-original="${esc(text)}">${esc(text)}</span>`;
+    const frontHtml = cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(c.front);
+    const backHtml = view.showBack && (!cloze || c.back) ? `<hr class="fc-sep"/><div class="fc-card-back">${cloze?esc(c.back):transSpan(c.back)}</div>` : '';
     const imgHtml = c.image64 ? `<div class="fc-card-image"><img src="${c.image64}" style="max-width:100%;max-height:200px;border-radius:8px;margin:10px 0"/></div>` : '';
     root.innerHTML = `<div class="fc-review-wrap">
       <div class="fc-counts"><b class="fc-c-new">${counts.n}</b> + <b class="fc-c-learn">${counts.l}</b> + <b class="fc-c-rev">${counts.r}</b> ${flagDot(s)}</div>
@@ -615,16 +690,50 @@
   }
 
   /* ---------- estatísticas + configurações ---------- */
+  const STATS_RANGES = {'7d':{n:7,unit:'day'}, '1m':{n:30,unit:'day'}, '3m':{n:13,unit:'week'}, '6m':{n:26,unit:'week'}};
+  function buildRangeData(rangeKey){
+    const r = STATS_RANGES[rangeKey] || STATS_RANGES['7d'];
+    const buckets = [];
+    if(r.unit === 'day'){
+      for(let i=r.n-1;i>=0;i--){
+        const d = new Date(Date.now()-i*DAY);
+        const key = d.toISOString().slice(0,10);
+        const rec = DB.days[key] || {};
+        buckets.push({label: d.toLocaleDateString(lang()==='pt'?'pt-BR':'en-US',{day:'2-digit',month:'2-digit'}),
+          total: rec.total||0, ok: rec.ok||0, matOk: rec.matOk||0, matTotal: rec.matTotal||0});
+      }
+    } else { // semana
+      for(let w=r.n-1; w>=0; w--){
+        let total=0, ok=0, matOk=0, matTotal=0;
+        const end = new Date(Date.now() - w*7*DAY);
+        for(let d=0; d<7; d++){
+          const day = new Date(end.getTime() - d*DAY).toISOString().slice(0,10);
+          const rec = DB.days[day]; if(rec){ total+=rec.total||0; ok+=rec.ok||0; matOk+=rec.matOk||0; matTotal+=rec.matTotal||0; }
+        }
+        buckets.push({label: (lang()==='pt'?'sem ':'wk ')+end.toLocaleDateString(lang()==='pt'?'pt-BR':'en-US',{day:'2-digit',month:'2-digit'}),
+          total, ok, matOk, matTotal});
+      }
+    }
+    return buckets;
+  }
   function renderStats(){
     const dc = dayCounters();
     const states = {new:0, learn:0, review:0, relearn:0, susp:0};
     DB.cards.forEach(c => c.suspended ? states.susp++ : states[c.state]++);
     const ret = DB.stats.matTotal ? Math.round(100*DB.stats.matOk/DB.stats.matTotal) : 0;
-    const days = [];
-    for(let i=6;i>=0;i--){ const d = new Date(Date.now()-i*DAY).toISOString().slice(0,10);
-      days.push({d: d.slice(5), n: (DB.days[d]||{}).total || 0}); }
-    const max = Math.max(1, ...days.map(x=>x.n));
-    const bars = days.map(x => `<div class="fc-bar-col"><div class="fc-bar" style="height:${Math.round(70*x.n/max)+4}px"></div><span>${x.d}</span><b>${x.n}</b></div>`).join('');
+    const range = view.statsRange || (view.statsRange = '7d');
+    const data = buildRangeData(range);
+    const max = Math.max(1, ...data.map(x=>x.total));
+    const showEvery = data.length > 14 ? Math.ceil(data.length/14) : 1;
+    const bars = data.map((x,i) => `<div class="fc-bar-col"><div class="fc-bar" style="height:${Math.round(70*x.total/max)+4}px" title="${x.total}"></div>
+      <span>${i % showEvery === 0 ? x.label : ''}</span><b>${x.total||''}</b></div>`).join('');
+    const totalRange = data.reduce((a,x)=>a+x.total,0);
+    const okRange = data.reduce((a,x)=>a+x.ok,0);
+    const matOkR = data.reduce((a,x)=>a+x.matOk,0), matTotR = data.reduce((a,x)=>a+x.matTotal,0);
+    const retRange = matTotR ? Math.round(100*matOkR/matTotR) : 0;
+    const avgDay = data.length ? Math.round(totalRange/(range==='7d'||range==='1m'?data.length:data.length*7)) : 0;
+    const rangeTabs = Object.keys(STATS_RANGES).map(k =>
+      `<button class="fc-src-btn ${range===k?'on':''}" data-act="stats-range" data-range="${k}">${t('range_'+k)}</button>`).join('');
     const dows = t('dow').map((n,i) => `<label class="fc-dow"><input type="checkbox" data-dow="${i}" ${DB.prefs.easyDays.includes(i)?'checked':''}/> ${n}</label>`).join('');
     root.innerHTML = `<button class="fc-btn fc-back" data-act="back">${t('back')}</button>
       <div class="fc-head"><div><h1 class="fc-title">${t('statsTitle')}</h1><p class="fc-bread">${t('bread')} › ${t('stats')}</p></div></div>
@@ -634,7 +743,15 @@
         <div class="fc-stat"><strong>${ret}%</strong><span>${t('retention')}</span></div>
         <div class="fc-stat"><strong>🔥 ${streakDays()}</strong><span>${t('streak')(streakDays()).replace(/^[\d]+[- ]?/,'')}</span></div>
         <div class="fc-stat"><strong>${DB.cards.length}</strong><span>Cards</span></div></div>
-      <h2 class="fc-sub">${t('statsWeek')}</h2><div class="fc-bars">${bars}</div>
+      <h2 class="fc-sub">${t('statsPerf')}</h2>
+      <div class="fc-src">${rangeTabs}</div>
+      <div class="fc-stats" style="margin-top:10px">
+        <div class="fc-stat"><strong>${totalRange}</strong><span>${t('statsReviews')}</span></div>
+        <div class="fc-stat"><strong>${avgDay}</strong><span>${t('statsAvgDay')}</span></div>
+        <div class="fc-stat"><strong>${okRange}</strong><span>${t('statsGoodEasy')}</span></div>
+        <div class="fc-stat"><strong>${retRange}%</strong><span>${t('retention')}</span></div>
+      </div>
+      <div class="fc-bars fc-bars-range">${bars}</div>
       <h2 class="fc-sub">${t('statsCards')}</h2>
       <div class="fc-state-grid">
         <div><b class="fc-c-new">${states.new}</b><span>${t('stNew')}</span></div>
@@ -682,7 +799,11 @@
     if(!DB.decks.length) sel.value = '__new__';
     sel.addEventListener('change', upd); upd();
   }
-  const shareCheckbox = checked => `<label class="fc-check"><input type="checkbox" id="fcShare" ${checked?'checked':''}/> ⇄ ${t('shareLbl')}</label>`;
+  const shareCheckbox = checked => `<label class="fc-share-box ${checked?'on':''}" id="fcShareBox">
+      <input type="checkbox" id="fcShare" ${checked?'checked':''}/>
+      <span class="fc-share-icon">⇄</span>
+      <span class="fc-share-text"><strong>${t('shareTitle')}</strong><small>${t('shareLbl')}</small></span>
+    </label>`;
 
   function cardForm(card, presetDeck){
     const c = card || {front:'',back:'',tags:[],deckId:presetDeck||'',shared:false,image64:null};
@@ -787,7 +908,8 @@
     else if(act==='src'){ DB.prefs.source = el.dataset.src; save(); render(); }
     else if(act==='browse'){ view={name:'browse'}; render(); }
     else if(act==='browse-deck'){ view={name:'browse', deckId: el.dataset.deck}; render(); }
-    else if(act==='stats'){ view={name:'stats'}; render(); }
+    else if(act==='stats'){ view={name:'stats', statsRange: view.statsRange||'7d'}; render(); }
+    else if(act==='stats-range'){ view.statsRange = el.dataset.range; render(); }
     else if(act==='export-deck') exportDeck(el.dataset.deck);
     else if(act==='del-deck'){ if(confirm(t('confirmDeck'))){
       DB.cards.filter(c=>c.deckId===el.dataset.deck).forEach(removeFromShared);
@@ -856,6 +978,7 @@
         }
       }
       syncShare(card); save(); closeModal(); render();
+      if(shared) showToast(t('shareToast'));
     }
     else if(act==='save-batch'){
       const msg = root.querySelector('#fcMsg');
@@ -871,6 +994,7 @@
       });
       if(!n){ msg.textContent = t('impHint'); return; }
       save(); closeModal(); render();
+      if(shared) showToast(t('shareToastBatch')(n));
     }
     else if(act==='review-src' || act==='review-deck'){
       const q = act==='review-deck' ? buildSession('mine', el.dataset.deck) : buildSession();
