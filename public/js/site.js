@@ -160,9 +160,13 @@
   function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
     const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3';
     const isUW=p===UWORLD_PAGE;
+    const isModule=p==='flashcards'||p==='ai-tutor';
     const cs=$('#comingSoonPage'); const rp=$('#regularPage');
-    if(isUW){if(cs)cs.hidden=true; if(rp){rp.hidden=false; renderUWorldPage(rp);}}
-    else{if(cs)cs.hidden=!isCS; if(rp)rp.hidden=isCS; if(!isCS&&!isUW){const title=$('#internalTitle'); if(title)title.textContent=p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}}
+    if(cs) cs.hidden=true;
+    if(isUW){if(rp){rp.hidden=false; renderUWorldPage(rp);}}
+    else if(isCS){if(cs)cs.hidden=false; if(rp)rp.hidden=true;}
+    else if(isModule){if(cs)cs.hidden=true; if(rp)rp.hidden=false;}
+    else{if(rp)rp.hidden=false; const title=$('#internalTitle'); if(title)title.textContent=p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
   } else {document.body.classList.remove('internal');}
     $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle); if(el)el.classList.toggle('open');}));
     $$('[data-page-link]').forEach(a=>{if(a.dataset.pageLink===p){a.classList.add('active'); let anc=a.closest('.submenu'); while(anc){anc.classList.add('open'); anc=anc.parentElement?anc.parentElement.closest('.submenu'):null;}}});
