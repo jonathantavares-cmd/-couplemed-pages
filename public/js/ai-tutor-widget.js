@@ -39,6 +39,32 @@
     };
     const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
     const t = k => T[lang()][k];
+    
+    /* ---------- tradução dinâmica de respostas ---------- */
+    const TRANSLATE_API = 'https://api.mymemory.translated.net/get';
+    async function translateText(text, fromLang, toLang){
+      if(text.length > 500) return text;
+      try{
+        const url = `${TRANSLATE_API}?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+        return data.responseData?.translatedText || text;
+      }catch(e){ return text; }
+    }
+    async function translateAssistantMessages(){
+      const oldLang = lang() === 'pt' ? 'en' : 'pt';
+      const newLang = lang();
+      const panel = document.querySelector('.ai-tutor-messages');
+      if(!panel) return;
+      const msgs = panel.querySelectorAll('.ai-tutor-msg.assistant');
+      for(const msg of msgs){
+        const original = msg.dataset.original || msg.textContent;
+        if(!msg.dataset.original) msg.dataset.original = original;
+        const translated = await translateText(original, oldLang, newLang);
+        msg.textContent = translated;
+        msg.dataset.lang = newLang;
+      }
+    }
 
     /* ---------- estado persistente por usuário (sessão) ---------- */
     function loadChat(){
@@ -107,6 +133,10 @@
       const div = document.createElement('div');
       div.className = `ai-tutor-msg ${role}`;
       div.textContent = texto;
+      if(role === 'assistant'){
+        div.dataset.original = texto;
+        div.dataset.lang = lang();
+      }
       if (opts && opts.fcButton) attachFcButton(div, texto);
       msgsEl.appendChild(div);
       msgsEl.scrollTop = msgsEl.scrollHeight;
@@ -204,7 +234,7 @@
     }
     applyTexts();
     restore();
-    new MutationObserver(applyTexts).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    new MutationObserver(() => { applyTexts(); translateAssistantMessages(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 
     /* Na página AI Tutor do menu, o painel já abre sozinho */
     if (PAGE === 'ai-tutor') panel.classList.add('open');

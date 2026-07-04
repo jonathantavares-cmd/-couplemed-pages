@@ -246,6 +246,28 @@
   /* ---------- estado/UI ---------- */
   let view = {name:'dash'};
   let root = null, undoBuf = null;
+
+  function imgToBase64(file){
+    return new Promise((res,rej)=>{
+      if(!file.type.startsWith('image/')) return rej('Only images allowed');
+      if(file.size > 5242880) return rej('Max 5MB'); // 5MB limit
+      const r = new FileReader(); r.onload = () => res(r.result);
+      r.onerror = () => rej('Read failed'); r.readAsDataURL(file);
+    });
+  }
+  async function pasteImage(){ 
+    try{ const items = await navigator.clipboard.read();
+      for(const item of items){ if(item.types.includes('image/png')){ 
+        const blob = await item.getType('image/png'); const b64 = await imgToBase64(blob);
+        displayImagePreview(b64); } } }catch(e){ console.log('Paste failed',e); } }
+  function displayImagePreview(b64){
+    const preview = document.querySelector('#fcImagePreview');
+    if(!preview) return;
+    preview.innerHTML = `<img src="${b64}" style="max-width:100%;max-height:120px;border-radius:8px"/>
+      <button class="fc-btn fc-sm" data-act="remove-image" style="margin-top:6px">Remove</button>`;
+    window.currentImageB64 = b64;
+  }
+
   function boot(){
     const host = document.querySelector('#internalContent .internal-card');
     if(!host) return;
@@ -410,10 +432,11 @@
     const cloze = isCloze(c.front);
     const frontHtml = cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : esc(c.front);
     const backHtml = view.showBack && (!cloze || c.back) ? `<hr class="fc-sep"/><div class="fc-card-back">${esc(c.back)}</div>` : '';
+    const imgHtml = c.image64 ? `<div class="fc-card-image"><img src="${c.image64}" style="max-width:100%;max-height:200px;border-radius:8px;margin:10px 0"/></div>` : '';
     root.innerHTML = `<div class="fc-review-wrap">
       <div class="fc-counts"><b class="fc-c-new">${counts.n}</b> + <b class="fc-c-learn">${counts.l}</b> + <b class="fc-c-rev">${counts.r}</b></div>
       ${ownerTag}
-      <div class="fc-card"><div class="fc-card-front">${frontHtml}</div>${backHtml}</div>
+      <div class="fc-card">${imgHtml}<div class="fc-card-front">${frontHtml}</div>${backHtml}</div>
       ${view.showBack ? `<div class="fc-rates">${ratings}</div>`
         : `<button class="fc-btn fc-primary fc-show" data-act="show">${t('showAnswer')}</button>`}
       <p class="fc-kbd">${t('kbdHint')}</p>
@@ -502,10 +525,16 @@
   const shareCheckbox = checked => `<label class="fc-check"><input type="checkbox" id="fcShare" ${checked?'checked':''}/> ⇄ ${t('shareLbl')}</label>`;
 
   function cardForm(card, presetDeck){
-    const c = card || {front:'',back:'',tags:[],deckId:presetDeck||'',shared:false};
+    const c = card || {front:'',back:'',tags:[],deckId:presetDeck||'',shared:false,image64:null};
+    window.currentImageB64 = c.image64 || null;
     openModal(`<h2>${card?t('edit'):t('create').replace('+ ','')}</h2>
       ${deckPicker(c.deckId)}
       <label>${t('front')}</label><textarea id="fcFront" rows="2">${esc(c.front)}</textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0">
+        <button class="fc-btn fc-sm" data-act="upload-image">📁 Upload</button>
+        <button class="fc-btn fc-sm" data-act="paste-image">📋 Paste</button>
+      </div>
+      <div id="fcImagePreview" style="margin:10px 0">${c.image64?`<img src="${c.image64}" style="max-width:100%;max-height:120px;border-radius:8px"/><button class="fc-btn fc-sm" data-act="remove-image" style="margin-top:6px">Remove</button>`:''}</div>
       <label>${t('backSide')}</label><textarea id="fcBack" rows="3">${esc(c.back)}</textarea>
       <p class="fc-hint">${t('clozeHint')}</p>
       <label>${t('tags')}</label><input id="fcTags" value="${esc((c.tags||[]).join(', '))}"/>
@@ -514,6 +543,10 @@
       <div class="fc-modal-actions"><button class="fc-btn" data-act="close">${t('cancel')}</button>
       <button class="fc-btn fc-primary" data-act="save-card" data-card="${card?card.id:''}">${t('save')}</button></div>`);
     wireDeckPicker();
+    // File input oculto
+    const fileInput = document.createElement('input'); fileInput.type='file'; fileInput.accept='image/*'; fileInput.id='fcImageUpload'; fileInput.style.display='none';
+    root.querySelector('#fcModal').appendChild(fileInput);
+    fileInput.addEventListener('change', async e => { if(e.target.files[0]) { try{ const b64 = await imgToBase64(e.target.files[0]); displayImagePreview(b64); }catch(err){ root.querySelector('#fcMsg').textContent = err; } } });
   }
   function importForm(){
     openModal(`<h2>${t('imp')}</h2>${deckPicker('')}
@@ -534,7 +567,7 @@
     if(existing) return existing.id;
     const d = {id: uid('dk'), name}; DB.decks.push(d); return d.id;
   }
-  const newCard = (deckId, front, back, tags, shared) => ({id: uid('fc'), deckId, front, back,
+  const newCard = (deckId, front, back, tags, shared, image64) => ({id: uid('fc'), deckId, front, back, image64: image64||null,
     tags: tags||[], type: isCloze(front)?'cloze':'basic', source:'manual', shared: !!shared,
     createdAt: todayStr(), state:'new', stepIdx:0, due: Date.now(), interval:0,
     ease:CFG.startEase, reps:0, lapses:0, suspended:false});
@@ -580,6 +613,9 @@
       if(s){ s.suspended = !s.suspended; save(); render(); }
     }
     else if(act==='edit-card'){ cardForm(DB.cards.find(c=>c.id===el.dataset.card)); }
+    else if(act==='upload-image') document.querySelector('#fcImageUpload').click();
+    else if(act==='paste-image') pasteImage();
+    else if(act==='remove-image'){ window.currentImageB64 = null; displayImagePreview(null); }
     else if(act==='save-card'){
       const front = root.querySelector('#fcFront').value.trim(), back = root.querySelector('#fcBack').value.trim();
       const msg = root.querySelector('#fcMsg');
@@ -590,8 +626,8 @@
       const shared = root.querySelector('#fcShare').checked;
       const id = el.dataset.card;
       let card;
-      if(id){ card = DB.cards.find(x=>x.id===id); Object.assign(card,{front,back,tags,deckId,shared,type:isCloze(front)?'cloze':'basic'}); }
-      else { card = newCard(deckId, front, back, tags, shared); DB.cards.push(card); }
+      if(id){ card = DB.cards.find(x=>x.id===id); Object.assign(card,{front,back,tags,deckId,shared,type:isCloze(front)?'cloze':'basic',image64:window.currentImageB64||null}); }
+      else { card = newCard(deckId, front, back, tags, shared, window.currentImageB64); DB.cards.push(card); }
       syncShare(card); save(); closeModal(); render();
     }
     else if(act==='save-batch'){
