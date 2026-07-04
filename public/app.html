@@ -8,8 +8,8 @@
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <meta name="theme-color" content="#081324" />
-  <link rel="stylesheet" href="css/styles.css?v=18" />
-  <link rel="stylesheet" href="css/ai-tutor-widget.css?v=18" />
+  <link rel="stylesheet" href="css/styles.css?v=19" />
+  <link rel="stylesheet" href="css/ai-tutor-widget.css?v=19" />
 </head>
 <body class="platform-page" data-page="home">
   <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Open menu">☰</button>
@@ -26,43 +26,30 @@
       <a class="menu-row active" href="app.html" data-page-link="home"><span class="mi">⌂</span><span data-i18n="home">Home</span></a>
 
       <h2>STUDY</h2>
-      <button class="menu-row has-sub" data-toggle="notebook"><span class="mi">▣</span><span data-i18n="myNotebook">My Notebook</span></button>
+      <button class="menu-row has-sub" data-toggle="notebook"><span class="mi">▣</span><span data-i18n="myWorkspace">My Workspace</span></button>
       <div id="notebook" class="submenu">
-        <a href="app.html?page=notebooks" data-page-link="notebooks" data-i18n="notebooks">Notebooks</a>
-        <a href="app.html?page=notes" data-page-link="notes" data-i18n="notes">Notes</a>
+        <a href="app.html?page=notebooks" data-page-link="notebooks" data-i18n="notebooks"><span class="mi">📘</span>Notebooks</a>
+        <a href="app.html?page=notes" data-page-link="notes" data-i18n="notes"><span class="mi">📝</span>Notes</a>
       </div>
-      <button class="menu-row has-sub" data-toggle="study-planner"><span class="mi">□</span><span data-i18n="studyPlanner">Study Planner</span></button>
-      <div id="study-planner" class="submenu">
-        <a href="app.html?page=week-planner" data-page-link="week-planner" data-i18n="weekPlanner">Week Planner</a>
-        <a href="app.html?page=month-planner" data-page-link="month-planner" data-i18n="monthPlanner">Month Planner</a>
-      </div>
+      <a class="menu-row" href="app.html?page=study-planner" data-page-link="study-planner"><span class="mi">□</span><span data-i18n="studyPlanner">Study Planner</span></a>
       <button class="menu-row has-sub" data-toggle="study-materials"><span class="mi">▱</span><span data-i18n="studyMaterials">Study Materials</span></button>
       <div id="study-materials" class="submenu">
-        <a href="app.html?page=first-aid" data-page-link="first-aid">First Aid</a>
-        <a href="app.html?page=pathology" data-page-link="pathology">Pathology</a>
-        <a href="app.html?page=pharmacology" data-page-link="pharmacology">Pharmacology</a>
+        <a href="app.html?page=video-lectures" data-page-link="video-lectures"><span class="mi">🎥</span>Video Lectures</a>
+        <a href="app.html?page=audio-lessons" data-page-link="audio-lessons"><span class="mi">🎵</span>Audio Lessons</a>
       </div>
       <button class="menu-row has-sub" data-toggle="medical-library"><span class="mi">▤</span><span data-i18n="medicalLibrary">Medical Library</span></button>
-      <div id="medical-library" class="submenu deep">
-        <button class="sub-toggle" data-toggle="library-rd">RD </button>
-        <div id="library-rd" class="submenu books"></div>
-        <button class="sub-toggle" data-toggle="library-uworld">UWorld </button>
-        <div id="library-uworld" class="submenu books"></div>
-        <button class="sub-toggle" data-toggle="library-first-aid">First Aid </button>
-        <div id="library-first-aid" class="submenu books firstaid"><a href="app.html?page=first-aid-library" data-page-link="first-aid-library">First Aid Library</a></div>
+      <div id="medical-library" class="submenu">
+        <a href="app.html?page=library-uworld" data-page-link="library-uworld">UWorld</a>
+        <a href="app.html?page=library-rd" data-page-link="library-rd">RD</a>
+        <a href="app.html?page=first-aid-library" data-page-link="first-aid-library">First Aid</a>
       </div>
       <a class="menu-row" href="app.html?page=ai-tutor" data-page-link="ai-tutor"><span class="mi">⌘</span><span>AI Tutor</span></a>
 
       <h2>USMLE</h2>
       <button class="menu-row has-sub" data-toggle="step1"><span class="mi">≡</span><span>Step 1</span></button>
-      <div id="step1" class="submenu deep">
-        <button class="sub-toggle" data-toggle="qbank">QBank</button>
-        <div id="qbank" class="submenu deep">
-          <button class="sub-toggle" data-toggle="qbank-uworld">UWorld</button>
-          <div id="qbank-uworld" class="submenu deep">
-          </div>
-          <a href="app.html?page=qbank-rd" data-page-link="qbank-rd">RD</a>
-        </div>
+      <div id="step1" class="submenu">
+        <a href="app.html?page=qbank-uworld" data-page-link="qbank-uworld">UWorld</a>
+        <a href="app.html?page=qbank-rd" data-page-link="qbank-rd">RD</a>
       </div>
       <a class="menu-row has-sub" href="app.html?page=step-2" data-page-link="step-2"><span class="mi">≡</span><span>Step 2</span></a>
       <a class="menu-row has-sub" href="app.html?page=step-3" data-page-link="step-3"><span class="mi">≡</span><span>Step 3</span></a>
@@ -104,13 +91,12 @@
         <img src="assets/coming-soon.png" alt="Coming soon" class="coming-soon-img" />
       </div>
       <div id="regularPage" class="internal-card">
-        <h1 id="internalTitle">Page ready to receive content</h1>
-        <p id="internalDescription">This internal area opens with a white background by fixed rule. The sidebar remains navy like the initial platform.</p>
+        <h1 id="internalTitle"></h1>
       </div>
     </section>
   </main>
-  <script src="js/site.js?v=18"></script>
-  <script src="js/flashcards.js?v=18"></script>
-  <script src="js/ai-tutor-widget.js?v=18"></script>
+  <script src="js/site.js?v=19"></script>
+  <script src="js/flashcards.js?v=19"></script>
+  <script src="js/ai-tutor-widget.js?v=19"></script>
 </body>
 </html>

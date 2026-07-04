@@ -116,8 +116,8 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myNotebook:'My Notebook',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',weekPlanner:'Week Planner',monthPlanner:'Month Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',readyTitle:'Page ready to receive content',readyDesc:'This internal area opens with a white background by fixed rule. The sidebar remains navy like the initial platform.'},
-    pt: {home:'Home',myNotebook:'Meu Caderno',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',weekPlanner:'Planejador Semanal',monthPlanner:'Planejador Mensal',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',readyTitle:'Página pronta para receber conteúdo',readyDesc:'Esta área interna abre com fundo branco por regra fixa. O menu lateral permanece azul navy como na plataforma inicial.'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair'}
   };
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
   function params(){return new URLSearchParams(location.search)}
@@ -156,7 +156,7 @@
       </div>
     </div>`;
   }
-  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k])el.textContent=I18N[lang][k];}); const title=$('#internalTitle'), desc=$('#internalDescription'); if(title&&page()==='home')title.textContent=I18N[lang].readyTitle; if(desc)desc.textContent=I18N[lang].readyDesc;}
+  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k])el.textContent=I18N[lang][k];});}
   function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
     const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3';
     const isUW=p===UWORLD_PAGE;
@@ -166,7 +166,7 @@
     if(isUW){if(rp){rp.hidden=false; renderUWorldPage(rp);}}
     else if(isCS){if(cs)cs.hidden=false; if(rp)rp.hidden=true;}
     else if(isModule){if(cs)cs.hidden=true; if(rp)rp.hidden=false;}
-    else{if(rp)rp.hidden=false; const title=$('#internalTitle'); if(title)title.textContent=p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
+    else{if(rp)rp.hidden=false; const title=$('#internalTitle'); if(title){const titleMap={'qbank-uworld':'QBank UWorld','qbank-rd':'QBank RD'}; title.textContent=titleMap[p]||p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}}
   } else {document.body.classList.remove('internal');}
     $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle); if(el)el.classList.toggle('open');}));
     $$('[data-page-link]').forEach(a=>{if(a.dataset.pageLink===p){a.classList.add('active'); let anc=a.closest('.submenu'); while(anc){anc.classList.add('open'); anc=anc.parentElement?anc.parentElement.closest('.submenu'):null;}}});
