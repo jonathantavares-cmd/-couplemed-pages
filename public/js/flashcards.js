@@ -481,14 +481,18 @@
       <strong class="${cls||''}">${val}</strong><span>${label}</span></div>`;
     root.innerHTML = `
       <div class="fc-hero">
-        <div class="fc-hero-txt"><h1 class="fc-title">${t('title')}</h1><p class="fc-bread">${t('bread')}</p>
-        <p class="fc-hero-sub">${t('heroSub')}</p></div>
-        <button class="fc-btn fc-primary fc-cta" data-act="open-app">${t('openApp')}</button>
+        <div class="fc-hero-txt">
+          <div class="fc-title-row">
+            <h1 class="fc-title">${t('title')}</h1>
+            <button class="fc-btn fc-primary fc-cta" data-act="open-app">${t('openApp')}</button>
+          </div>
+          <p class="fc-bread">${t('bread')}</p>
+          <p class="fc-hero-sub">${t('heroSub')}</p>
+        </div>
       </div>
 
       <div class="fc-perf">
-        <div class="fc-perf-head"><h2 class="fc-perf-title">${t('perfTitle')}</h2>
-          <button class="fc-btn fc-review fc-perf-cta" data-act="open-app">${t('openApp')}</button></div>
+        <div class="fc-perf-head"><h2 class="fc-perf-title">${t('perfTitle')}</h2></div>
         <div class="fc-perf-grid">
           ${perfCard(q.review.length + q.learn.length, t('dueToday'), 'fc-c-rev')}
           ${perfCard(q.fresh.length, t('newCards'), 'fc-c-new')}
@@ -812,8 +816,10 @@
   }
   const shareCheckbox = checked => `<label class="fc-share-box ${checked?'on':''}" id="fcShareBox">
       <input type="checkbox" id="fcShare" ${checked?'checked':''}/>
-      <span class="fc-share-icon">⇄</span>
-      <span class="fc-share-text"><strong>${t('shareTitle')}</strong><small>${t('shareLbl')}</small></span>
+      <div class="fc-share-body">
+        <strong class="fc-share-title">⇄ ${t('shareTitle')}</strong>
+        <small class="fc-share-sub">${t('shareLbl')}</small>
+      </div>
     </label>`;
 
   function cardForm(card, presetDeck){
