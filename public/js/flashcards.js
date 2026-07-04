@@ -77,7 +77,7 @@
       newDeck:'+ New deck…', deckName:'Deck name', save:'Save', cancel:'Cancel',
       shareLbl:'Visible to everyone: John, Alysson and all guest accounts.', shareTitle:'⇄ Share this with everyone',
       shareToast:'⇄ Shared! Now visible to all users in the Shared bank.', shareToastBatch:n=>`⇄ ${n} cards shared! Now visible to all users.`,
-      shareBannerTitle:'⇄ Shared bank between everyone',
+      shareBannerTitle:'⇄ Flashcard bank sharing between users',
       shareBannerBody:'Cards you share (created or imported) become visible to John, Alysson and every guest account — each person keeps their own review progress.',
       sharedByMe:'shared by you', sharedByOthers:'shared by others',
       reversedLbl:'Also create reversed copy (back → front)',
@@ -128,7 +128,7 @@
       newDeck:'+ Novo deck…', deckName:'Nome do deck', save:'Salvar', cancel:'Cancelar',
       shareLbl:'Visível para todos: John, Alysson e todas as contas convidadas.', shareTitle:'⇄ Compartilhar com todos',
       shareToast:'⇄ Compartilhado! Agora visível para todos os usuários no Banco compartilhado.', shareToastBatch:n=>`⇄ ${n} cards compartilhados! Agora visíveis para todos.`,
-      shareBannerTitle:'⇄ Banco compartilhado entre todos',
+      shareBannerTitle:'⇄ Compartilhamento do banco de Flashcards entre os Usuários',
       shareBannerBody:'Cards que você compartilha (criados ou importados) ficam visíveis para John, Alysson e todas as contas convidadas — cada pessoa mantém seu próprio progresso de revisão.',
       sharedByMe:'compartilhados por você', sharedByOthers:'compartilhados por outros',
       reversedLbl:'Criar também a cópia invertida (verso → frente)',
@@ -470,34 +470,45 @@
       <div><strong>${f[L][0]}</strong><p>${f[L][1]}</p></div></div>`).join('');
     const myShared = DB.cards.filter(c=>c.shared).length;
     const theirShared = foreignShared().length;
+    const streak = streakDays();
     const shareBanner = `<div class="fc-share-banner">
       <span class="fc-share-banner-icon">⇄</span>
-      <div><strong>${t('shareBannerTitle')}</strong><p>${t('shareBannerBody')}</p></div>
+      <div class="fc-share-banner-txt"><strong>${t('shareBannerTitle')}</strong><p>${t('shareBannerBody')}</p></div>
       <div class="fc-share-counts"><b>${myShared}</b><span>${t('sharedByMe')}</span></div>
       <div class="fc-share-counts"><b>${theirShared}</b><span>${t('sharedByOthers')}</span></div>
     </div>`;
+    const perfCard = (val, label, cls) => `<div class="fc-perf-card">
+      <strong class="${cls||''}">${val}</strong><span>${label}</span></div>`;
     root.innerHTML = `
       <div class="fc-hero">
-        <div><h1 class="fc-title">${t('title')}</h1><p class="fc-bread">${t('bread')}</p>
+        <div class="fc-hero-txt"><h1 class="fc-title">${t('title')}</h1><p class="fc-bread">${t('bread')}</p>
         <p class="fc-hero-sub">${t('heroSub')}</p></div>
         <button class="fc-btn fc-primary fc-cta" data-act="open-app">${t('openApp')}</button>
       </div>
-      ${shareBanner}
-      <h2 class="fc-sub">${t('quickTitle')}</h2>
-      <div class="fc-steps">${steps}</div>
-      <h2 class="fc-sub">${t('featTitle')}</h2>
-      <div class="fc-feats">${feats}</div>
+
       <div class="fc-perf">
-        <h2 class="fc-sub">${t('perfTitle')}</h2>
-        <div class="fc-perf-row">
-          <div class="fc-stat"><strong class="fc-c-rev">${q.review.length + q.learn.length}</strong><span>${t('dueToday')}</span></div>
-          <div class="fc-stat"><strong class="fc-c-new">${q.fresh.length}</strong><span>${t('newCards')}</span></div>
-          <div class="fc-stat"><strong>${dc.total}</strong><span>${t('statsToday')} · ${t('statsReviews')}</span></div>
-          <div class="fc-stat"><strong>${ret}%</strong><span>${t('retention')}</span></div>
-          <div class="fc-stat"><strong>🔥 ${streakDays()}</strong><span>${t('streak')(streakDays()).replace(/^[\d]+[- ]?/,'')}</span></div>
-          <button class="fc-btn fc-review" data-act="open-app">${t('openApp')}</button>
+        <div class="fc-perf-head"><h2 class="fc-perf-title">${t('perfTitle')}</h2>
+          <button class="fc-btn fc-review fc-perf-cta" data-act="open-app">${t('openApp')}</button></div>
+        <div class="fc-perf-grid">
+          ${perfCard(q.review.length + q.learn.length, t('dueToday'), 'fc-c-rev')}
+          ${perfCard(q.fresh.length, t('newCards'), 'fc-c-new')}
+          ${perfCard(dc.total, t('statsToday')+' · '+t('statsReviews'))}
+          ${perfCard(ret+'%', t('retention'))}
+          <div class="fc-perf-card fc-perf-streak">
+            <span class="fc-check">✓</span>
+            <div><strong>${streak}</strong><span>${t('streak')(streak).replace(/^[\d]+[- ]?/,'')}</span></div>
+          </div>
         </div>
-      </div>`;
+      </div>
+
+      <div class="fc-guide-section">
+        <h2 class="fc-sub">${t('quickTitle')}</h2>
+        <div class="fc-steps">${steps}</div>
+        <h2 class="fc-sub">${t('featTitle')}</h2>
+        <div class="fc-feats">${feats}</div>
+      </div>
+
+      ${shareBanner}`;
     wire();
   }
 
