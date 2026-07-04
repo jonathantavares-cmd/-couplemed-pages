@@ -1,3 +1,4 @@
+/* CoupleMed v16.1 — 2026-07-04 */
 (function(){
   const USERS = { 'Ja@120622':'john', 'Aj@120622':'alysson', 'Gmed@07':'guest1', 'Gmed@77':'guest2' };
   const quotes = [
