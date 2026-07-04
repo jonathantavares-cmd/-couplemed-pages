@@ -130,9 +130,39 @@
   function buildBooks(){['library-rd','library-uworld'].forEach(id=>{const el=$('#'+id); if(!el||el.dataset.done)return; const prefix=id.replace('library-',''); for(let i=1;i<=17;i++){const a=document.createElement('a'); a.textContent=`Book ${i}`; a.href=`app.html?page=${prefix}-book-${i}&u=${user()}`; a.dataset.pageLink=`${prefix}-book-${i}`; el.appendChild(a)} el.dataset.done='1';});}
   function qCount(){return Number(localStorage.getItem('couplemed_qbank_uworld_total')||0)}
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
-  const COMING_SOON_PAGES=['qbank-rd','step-2','step-3','languages','observership','residency-match','links','uworld-pass-1','uworld-pass-2','uworld-pass-3'];
+  const COMING_SOON_PAGES=['qbank-rd','step-2','step-3','languages','observership','residency-match','links'];
+  const UWORLD_PAGE='qbank-uworld';
+  function renderUWorldPage(container){
+    container.innerHTML=`<div class="uw-folder-page">
+      <h1 class="uw-title">UWorld — QBank</h1>
+      <p class="uw-sub">Selecione o passe para iniciar sua sessão de estudos</p>
+      <div class="uw-folders">
+        <a href="app.html?page=uworld-pass-1&u=${user()}" class="uw-folder" data-page-link="uworld-pass-1">
+          <span class="uw-folder-icon">📁</span>
+          <div class="uw-folder-info"><strong>1 Pass</strong><span>Primeiro passe — todas as questões</span></div>
+          <span class="uw-folder-arrow">›</span>
+        </a>
+        <a href="app.html?page=uworld-pass-2&u=${user()}" class="uw-folder" data-page-link="uworld-pass-2">
+          <span class="uw-folder-icon">📁</span>
+          <div class="uw-folder-info"><strong>2 Pass</strong><span>Segundo passe — revisão</span></div>
+          <span class="uw-folder-arrow">›</span>
+        </a>
+        <a href="app.html?page=uworld-pass-3&u=${user()}" class="uw-folder" data-page-link="uworld-pass-3">
+          <span class="uw-folder-icon">📁</span>
+          <div class="uw-folder-info"><strong>3 Pass</strong><span>Terceiro passe — domínio total</span></div>
+          <span class="uw-folder-arrow">›</span>
+        </a>
+      </div>
+    </div>`;
+  }
   function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k])el.textContent=I18N[lang][k];}); const title=$('#internalTitle'), desc=$('#internalDescription'); if(title&&page()==='home')title.textContent=I18N[lang].readyTitle; if(desc)desc.textContent=I18N[lang].readyDesc;}
-  function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false; const isCS=COMING_SOON_PAGES.includes(p); const cs=$('#comingSoonPage'); const rp=$('#regularPage'); if(cs) cs.hidden=!isCS; if(rp) rp.hidden=isCS; if(!isCS){const title=$('#internalTitle'); if(title) title.textContent = p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}} else {document.body.classList.remove('internal');}
+  function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
+    const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3';
+    const isUW=p===UWORLD_PAGE;
+    const cs=$('#comingSoonPage'); const rp=$('#regularPage');
+    if(isUW){if(cs)cs.hidden=true; if(rp){rp.hidden=false; renderUWorldPage(rp);}}
+    else{if(cs)cs.hidden=!isCS; if(rp)rp.hidden=isCS; if(!isCS&&!isUW){const title=$('#internalTitle'); if(title)title.textContent=p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}}
+  } else {document.body.classList.remove('internal');}
     $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle); if(el)el.classList.toggle('open');}));
     $$('[data-page-link]').forEach(a=>{if(a.dataset.pageLink===p){a.classList.add('active'); let anc=a.closest('.submenu'); while(anc){anc.classList.add('open'); anc=anc.parentElement?anc.parentElement.closest('.submenu'):null;}}});
     $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en');
