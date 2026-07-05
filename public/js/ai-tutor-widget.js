@@ -24,13 +24,13 @@
       { id: 'anki',      pt: 'Gerador de Flashcards', en: 'Flashcard Builder' }
     ];
     const T = {
-      en: { title:'AI Tutor — USMLE Step 1', ph:'Type your question or topic…', send:'Send',
+      en: { title:'AI Tutor', ph:'Type your question or topic…', send:'Send',
         hello:'Hi! Pick a study mode above and tell me the topic (e.g., type III hypersensitivity, inferior MI ECG, sickle cell anemia).',
         modeChanged: l => `Mode switched to "${l}". Which topic do you want to study now?`,
         thinking:'Thinking…', connError:'Connection error. Please try again.', errPrefix:'Error: ',
         toFc:'⇄ Import into Flashcards', imported: n => `${n} card${n===1?'':'s'} imported into the "AI Tutor" deck in Flashcards.`,
         noneFound:'No "front :: back" lines found in this reply.', clear:'Clear chat' },
-      pt: { title:'AI Tutor — USMLE Step 1', ph:'Digite sua pergunta ou tema…', send:'Enviar',
+      pt: { title:'AI Tutor', ph:'Digite sua pergunta ou tema…', send:'Enviar',
         hello:'Olá! Escolha um modo de estudo acima e me diga o tema (ex.: hipersensibilidade tipo III, ECG em IAM inferior, anemia falciforme).',
         modeChanged: l => `Modo alterado para "${l}". Sobre qual tema você quer estudar agora?`,
         thinking:'Pensando…', connError:'Erro de conexão. Tente novamente.', errPrefix:'Erro: ',
