@@ -202,3 +202,47 @@ body:not(.light) .qb-rc-opt{--qb-card2:#122844}
   .qb-head-tools{width:100%;justify-content:flex-start}
   .qb-sys-row>span{flex-basis:50%}
 }
+
+/* -------- CREATE TEST: TAXONOMIA (Systems + Subjects, acordeão) v23 -------- */
+.qb-tax{margin:18px 0;border:1px solid var(--qb-line);border-radius:14px;background:var(--qb-card2);overflow:hidden}
+.qb-tax-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--qb-line);background:linear-gradient(180deg,rgba(140,160,190,.06),transparent)}
+.qb-tax-head strong{font-size:15px;font-weight:800;color:var(--qb-text)}
+.qb-tax-toggle{margin-left:auto;background:none;border:0;color:var(--qb-blue);font-weight:700;font-size:12.5px;padding:0}
+.qb-tax-toggle:hover{text-decoration:underline}
+.qb-tax-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 34px;padding:12px 18px 16px}
+@media(max-width:760px){.qb-tax-grid{grid-template-columns:1fr}}
+.qb-acc-grid{align-content:start}
+
+/* checkbox custom */
+.qb-cbx{flex:none;width:19px;height:19px;border-radius:5px;border:2px solid var(--qb-line);background:var(--qb-card);cursor:pointer;position:relative;transition:.14s}
+.qb-cbx:hover{border-color:var(--qb-blue)}
+.qb-cbx.on{background:var(--qb-blue);border-color:var(--qb-blue)}
+.qb-cbx.on::after{content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+
+/* subjects (folhas simples) */
+.qb-leaf{display:flex;align-items:center;gap:11px;padding:7px 4px}
+.qb-leaf-name{font-size:13.5px;color:var(--qb-text);flex:1;min-width:0}
+.qb-leaf-count,.qb-acc-count,.qb-cat-count{flex:none;font-style:normal;font-size:11px;font-weight:700;color:var(--qb-muted);min-width:24px;height:22px;padding:0 7px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--qb-line);border-radius:999px}
+
+/* systems (acordeão) */
+.qb-acc{border-bottom:1px solid transparent}
+.qb-acc-head{display:flex;align-items:center;gap:11px;padding:7px 4px}
+.qb-acc-name{flex:1;min-width:0;display:flex;align-items:center;gap:9px;background:none;border:0;padding:0;text-align:left;color:var(--qb-text);font-size:13.5px;font-weight:600}
+.qb-acc-name>span:first-child{flex:1;min-width:0}
+.qb-acc-caret{flex:none;width:20px;height:20px;display:grid;place-items:center;color:var(--qb-muted);font-weight:800;font-size:15px;line-height:1}
+.qb-acc.open>.qb-acc-head .qb-acc-caret{color:var(--qb-blue)}
+.qb-acc-name:hover{color:var(--qb-blue)}
+.qb-acc-cats{padding:2px 0 10px 30px}
+.qb-cat{display:flex;align-items:center;gap:11px;padding:5px 4px}
+.qb-cat-name{font-size:13px;color:var(--qb-muted);flex:1;min-width:0}
+.qb-cat .qb-cbx{width:17px;height:17px}
+.qb-cat .qb-cbx.on::after{left:4px;top:1px;height:9px}
+
+/* nº de questões */
+.qb-numq{margin:20px 0 4px}
+.qb-numq>label{display:block;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--qb-muted);text-transform:uppercase;margin-bottom:10px}
+.qb-numq-row{display:flex;align-items:center;gap:16px}
+.qb-numq-row input{width:92px;padding:11px 14px;font-size:16px;font-weight:700;border:1px solid var(--qb-line);border-radius:10px;background:var(--qb-card);color:var(--qb-text);text-align:center}
+.qb-numq-row input:focus{outline:none;border-color:var(--qb-blue)}
+.qb-numq-max{font-size:13px;color:var(--qb-muted)}
+.qb-numq-max em{font-style:normal;font-weight:800;color:var(--qb-text);margin-left:4px}

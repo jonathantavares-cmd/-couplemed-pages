@@ -107,7 +107,7 @@
       objective:'Link progressive dysphagia, weight loss, and a mid-esophageal mass in a smoker/drinker to squamous cell carcinoma.',
       peer:{A:56,B:30,C:6,D:3,E:5} },
 
-    { id:'q_gp_vongierke', system:'general_principles', discipline:'biochem', category:'Doenças de depósito', difficulty:'hard',
+    { id:'q_gp_vongierke', system:'biochem_gp', discipline:'biochem', category:'Doenças de depósito', difficulty:'hard',
       vignette:'A 5-month-old infant is brought in with a protuberant abdomen. Exam reveals marked hepatomegaly and doll-like facies. During a brief fast the infant becomes lethargic; labs show severe hypoglycemia, lactic acidosis, hyperuricemia, and hyperlipidemia. Ketones are present but the infant does not improve with glucagon.',
       q:'A deficiency of which enzyme best explains this presentation?',
       options:[{label:'A',text:'Glucose-6-phosphatase'},{label:'B',text:'Alpha-1,4-glucosidase (acid maltase)'},{label:'C',text:'Debranching enzyme'},{label:'D',text:'Muscle glycogen phosphorylase'},{label:'E',text:'Branching enzyme'}],
@@ -139,6 +139,56 @@
   const SYS_NAMES = {cardiovascular_system:'Cardiovascular',respiratory_system:'Respiratory',renal_urinary:'Renal/Urinary',infectious_disease:'Infectious Disease',endocrine:'Endocrine',nervous_special_senses:'Nervous System',heme_onc:'Hematology & Oncology',gi_nutrition:'GI & Nutrition',general_principles:'General Principles',psych_behavioral:'Psychiatric/Behavioral'};
   const DISC_NAMES = {pathophysiology:'Pathophysiology',pathology:'Pathology',physiology:'Physiology',microbiology:'Microbiology',pharmacology:'Pharmacology',biochem:'Biochemistry',behavioral_science:'Behavioral Science'};
 
+  /* ===================== TAXONOMIA COMPLETA (UWorld Step 1) =====================
+     Árvore oficial de Sistemas (com categorias) e Subjects (disciplinas), exibida
+     integralmente no Create Test — mesmo com contagem 0, como no UWorld real.
+     Os IDs de sistema batem com o schema.sql (D1) para o import futuro casar. */
+  const SYSTEMS_TAX = [
+    {id:'biochem_gp', en:'Biochemistry (General Principles)', pt:'Bioquímica (Princípios Gerais)', cats:['Amino acids, proteins, and enzymes','Bioenergetics and carbohydrate metabolism','Cell and molecular biology','Lipid metabolism','Miscellaneous']},
+    {id:'genetics_gp', en:'Genetics (General Principles)', pt:'Genética (Princípios Gerais)', cats:['Clinical genetics','DNA structure, replication, and repair','Gene expression and regulation','Protein synthesis','RNA structure, synthesis, and processing','Miscellaneous']},
+    {id:'micro_gp', en:'Microbiology (General Principles)', pt:'Microbiologia (Princípios Gerais)', cats:['Bacteriology','Mycology','Parasitology','Virology','Miscellaneous']},
+    {id:'pathology_gp', en:'Pathology (General Principles)', pt:'Patologia (Princípios Gerais)', cats:['Cellular pathology','Inflammation and repair','Neoplasia']},
+    {id:'pharm_gp', en:'Pharmacology (General Principles)', pt:'Farmacologia (Princípios Gerais)', cats:['Drug metabolism and toxicity','Drug receptors and pharmacodynamics','Pharmacokinetics','Miscellaneous']},
+    {id:'biostat_epi', en:'Biostatistics & Epidemiology', pt:'Bioestatística & Epidemiologia', cats:['Epidemiology and population health','Measures and distribution of data','Probability and principles of testing','Study design and interpretation','Miscellaneous']},
+    {id:'poisoning_environmental', en:'Poisoning & Environmental Exposure', pt:'Intoxicação & Exposição Ambiental', cats:['Environmental exposure','Toxicology']},
+    {id:'allergy_immunology', en:'Allergy & Immunology', pt:'Alergia & Imunologia', cats:['Anaphylaxis and allergic reactions','Autoimmune diseases','Immune deficiencies','Transplant medicine','Principles of immunology','Miscellaneous']},
+    {id:'cardiovascular_system', en:'Cardiovascular System', pt:'Sistema Cardiovascular', cats:['Normal structure and function of the cardiovascular system','Aortic and peripheral artery diseases','Cardiac arrhythmias','Congenital heart disease','Coronary heart disease','Heart failure and shock','Hypertension','Myopericardial diseases','Valvular heart diseases','Cardiovascular drugs','Miscellaneous']},
+    {id:'dermatology', en:'Dermatology', pt:'Dermatologia', cats:['Normal structure and function of skin','Disorders of epidermal appendages','Inflammatory dermatoses and bullous diseases','Skin and soft tissue infections','Skin tumors and tumor-like lesions','Miscellaneous']},
+    {id:'ent', en:'Ear, Nose & Throat (ENT)', pt:'Ouvido, Nariz & Garganta (ENT)', cats:['Disorders of the ear, nose, and throat']},
+    {id:'endocrine', en:'Endocrine, Diabetes & Metabolism', pt:'Endócrino, Diabetes & Metabolismo', cats:['Normal structure and function of endocrine glands','Congenital and developmental anomalies','Adrenal disorders','Diabetes mellitus','Endocrine tumors','Hypothalamus and pituitary disorders','Obesity and dyslipidemia','Reproductive endocrinology','Thyroid disorders','Miscellaneous']},
+    {id:'female_repro_breast', en:'Female Reproductive System & Breast', pt:'Sistema Reprodutor Feminino & Mama', cats:['Normal structure and function of the female reproductive system and breast','Congenital and developmental anomalies','Breast disorders','Genital tract tumors and tumor-like lesions','Genitourinary tract infections','Menstrual disorders and contraception','Miscellaneous']},
+    {id:'gi_nutrition', en:'Gastrointestinal & Nutrition', pt:'Gastrointestinal & Nutrição', cats:['Normal structure and function of the GI tract','Congenital and developmental anomalies','Biliary tract disorders','Disorders of nutrition','Gastroesophageal disorders','Hepatic disorders','Intestinal and colorectal disorders','Pancreatic disorders','Tumors of the GI tract','Miscellaneous']},
+    {id:'heme_onc', en:'Hematology & Oncology', pt:'Hematologia & Oncologia', cats:['Normal hematologic structure and function','Hemostasis and thrombosis','Plasma cell disorders','Platelet disorders','Red blood cell disorders','Transfusion medicine','White blood cell disorders','Principles of oncology','Miscellaneous']},
+    {id:'infectious_disease', en:'Infectious Diseases', pt:'Doenças Infecciosas', cats:['Antimicrobial drugs','Bacterial infections','Fungal infections','HIV and sexually transmitted infections','Infection control','Parasitic and helminthic infections','Viral infections','Miscellaneous']},
+    {id:'male_repro', en:'Male Reproductive System', pt:'Sistema Reprodutor Masculino', cats:['Normal structure and function of the male reproductive system','Disorders of the male reproductive system','Miscellaneous']},
+    {id:'nervous_special_senses', en:'Nervous System', pt:'Sistema Nervoso', cats:['Normal structure and function of the nervous system','Congenital and developmental anomalies','Cerebrovascular disease','CNS infections','Demyelinating diseases','Disorders of peripheral nerves and muscles','Headache','Neurodegenerative disorders and dementias','Seizures and epilepsy','Spinal cord disorders','Traumatic brain injuries','Tumors of the nervous system','Hydrocephalus','Anesthesia','Sleep disorders','Miscellaneous']},
+    {id:'ophthalmology', en:'Ophthalmology', pt:'Oftalmologia', cats:['Normal structure and function of the eye and associated structures','Disorders of the eye and associated structures']},
+    {id:'pregnancy_childbirth', en:'Pregnancy, Childbirth & Puerperium', pt:'Gravidez, Parto & Puerpério', cats:['Normal pregnancy, childbirth, and puerperium','Disorders of pregnancy, childbirth, and puerperium']},
+    {id:'psych_behavioral', en:'Psychiatric/Behavioral & Substance Use Disorder', pt:'Psiquiátrico/Comportamental & Uso de Substâncias', cats:['Normal behavior and development','Anxiety and trauma-related disorders','Mood disorders','Neurodevelopmental disorders','Personality disorders','Psychotic disorders','Substance use disorders','Eating disorders','Somatoform disorders','Miscellaneous']},
+    {id:'respiratory_system', en:'Pulmonary & Critical Care', pt:'Pulmonar & Terapia Intensiva', cats:['Normal pulmonary structure and function','Congenital and developmental anomalies','Critical care medicine','Interstitial lung disease','Lung cancer','Obstructive lung disease','Pulmonary infections','Pulmonary vascular disease','Sleep disorders','Miscellaneous']},
+    {id:'renal_urinary', en:'Renal, Urinary Systems & Electrolytes', pt:'Sistema Renal, Urinário & Eletrólitos', cats:['Normal structure and function of the kidneys and urinary system','Congenital and developmental anomalies','Acute kidney injury','Bone metabolism','Chronic kidney disease','Cystic kidney diseases','Fluid, electrolytes, and acid-base','Glomerular diseases','Neoplasms of the kidneys and urinary tract','Nephrolithiasis and urinary tract obstruction','Diabetes insipidus','Urinary incontinence','Miscellaneous']},
+    {id:'rheum_ortho', en:'Rheumatology/Orthopedics & Sports', pt:'Reumatologia/Ortopedia & Esportes', cats:['Normal structure and function of the musculoskeletal system','Congenital and developmental anomalies','Arthritis and spondyloarthropathies','Autoimmune disorders and vasculitides','Bone/joint injuries and infections','Bone tumors and tumor-like lesions','Spinal disorders and back pain','Metabolic bone disorders','Miscellaneous']},
+    {id:'social_sciences', en:'Social Sciences (Ethics/Legal/Professional)', pt:'Ciências Sociais (Ética/Legal/Profissional)', cats:['Communication and interpersonal skills','Healthcare policy and economics','Medical ethics and jurisprudence','Patient safety','System based-practice and quality improvement','Miscellaneous']},
+    {id:'multisystem', en:'Miscellaneous (Multisystem)', pt:'Diversos (Multissistêmico)', cats:['Miscellaneous']},
+  ];
+  const SUBJECTS_TAX = [
+    {id:'anatomy', en:'Anatomy', pt:'Anatomia'},
+    {id:'behavioral_science', en:'Behavioral science', pt:'Ciência do Comportamento'},
+    {id:'biochem', en:'Biochemistry', pt:'Bioquímica'},
+    {id:'biostatistics', en:'Biostatistics', pt:'Bioestatística'},
+    {id:'embryology', en:'Embryology', pt:'Embriologia'},
+    {id:'genetics', en:'Genetics', pt:'Genética'},
+    {id:'histology', en:'Histology', pt:'Histologia'},
+    {id:'immunology', en:'Immunology', pt:'Imunologia'},
+    {id:'microbiology', en:'Microbiology', pt:'Microbiologia'},
+    {id:'pathology', en:'Pathology', pt:'Patologia'},
+    {id:'pathophysiology', en:'Pathophysiology', pt:'Fisiopatologia'},
+    {id:'pharmacology', en:'Pharmacology', pt:'Farmacologia'},
+    {id:'physiology', en:'Physiology', pt:'Fisiologia'},
+  ];
+  const catKey = (sysId, catName) => sysId + '::' + catName;
+
+
   /* ============================= i18n ============================= */
   const T = {
     en:{ home:'QBank — UWorld', createTest:'Create Test', reviewFlagged:'Review flagged',
@@ -152,6 +202,7 @@
       diffAll:'All', easy:'Easy', medium:'Medium', hard:'Hard',
       tutor:'Tutor', timed:'Timed', secsPerQ:'sec / question',
       available:'available', generate:'Generate Test', noMatch:'No questions match these filters. Loosen a filter to continue.',
+      ctSubjects:'Subjects', ctCollapseAll:'Collapse All', ctExpandAll:'Expand All', ctSelectAll:'Select all', ctNoQuestions:'No. of Questions', ctMaxBlock:'Max allowed per block', ctTestMode:'Test Mode',
       back:'‹ Back to QBank',
       // solve
       qOf:(a,b)=>`Question ${a} of ${b}`, suspend:'Suspend', endBlock:'End Block', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
@@ -184,6 +235,7 @@
       diffAll:'Todas', easy:'Fácil', medium:'Média', hard:'Difícil',
       tutor:'Tutor', timed:'Cronometrado', secsPerQ:'seg / questão',
       available:'disponíveis', generate:'Gerar Teste', noMatch:'Nenhuma questão corresponde a esses filtros. Afrouxe um filtro para continuar.',
+      ctSubjects:'Assuntos', ctCollapseAll:'Recolher Tudo', ctExpandAll:'Expandir Tudo', ctSelectAll:'Selecionar todos', ctNoQuestions:'Nº de Questões', ctMaxBlock:'Máximo permitido por bloco', ctTestMode:'Modo de Teste',
       back:'‹ Voltar ao Banco',
       qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Suspender', endBlock:'Encerrar Bloco', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
       submit:'Responder', next:'Próxima ›', prev:'‹ Anterior', confirmEnd:'Encerrar o bloco agora? Questões sem resposta serão registradas como omitidas.',
@@ -205,6 +257,51 @@
   const t = k => T[lang()][k];
   const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const uid = p => p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+
+  /* ============= TRADUÇÃO DINÂMICA DO CONTEÚDO (mesmo motor do Flashcards) =============
+     O texto médico (vinheta, enunciado, alternativas, explicações, objetivo) é gravado
+     em inglês. Ao trocar a bandeira, todo [data-qb-i18n] é traduzido para PT via API,
+     com cache e divisão em blocos (a vinheta é longa demais para 1 requisição só).
+     Em EN mostramos o original. O texto no DB nunca é sobrescrito, só a exibição. */
+  const TRANSLATE_API = 'https://api.mymemory.translated.net/get';
+  const transCache = {};              // `${textoOriginal}` -> tradução PT
+  let renderToken = 0;                // invalida traduções pendentes ao navegar
+  async function _tchunk(text){
+    const url = `${TRANSLATE_API}?q=${encodeURIComponent(text)}&langpair=en|pt`;
+    const r = await fetch(url); const d = await r.json();
+    return (d && d.responseData && d.responseData.translatedText) || text;
+  }
+  async function translateField(text){
+    if(!text || !text.trim()) return text;
+    if(transCache[text]) return transCache[text];
+    try{
+      const parts = []; let buf = '';
+      text.split(/(?<=[.!?])\s+/).forEach(s=>{
+        if((buf+' '+s).trim().length > 450){ if(buf) parts.push(buf); buf = s; }
+        else buf = buf ? buf+' '+s : s;
+      });
+      if(buf) parts.push(buf);
+      const out = [];
+      for(const p of parts){ out.push(await _tchunk(p)); }
+      const joined = out.join(' ');
+      transCache[text] = joined;
+      return joined;
+    }catch(e){ return text; }
+  }
+  function translateVisibleQBTexts(){
+    if(lang() !== 'pt') return;       // EN = original já renderizado
+    const my = renderToken;
+    if(!root) return;
+    root.querySelectorAll('[data-qb-i18n]').forEach(async el=>{
+      const original = el.getAttribute('data-qb-o');
+      if(!original) return;
+      const tr = await translateField(original);
+      if(renderToken !== my) return;  // usuário já navegou; descarta
+      el.textContent = tr;
+    });
+  }
+  // helper: renderiza um trecho traduzível (span/tag) já com o original guardado
+  const i18nAttr = txt => `data-qb-i18n data-qb-o="${esc(txt)}"`;
 
   /* ===================== CAMADA DE DADOS (QB.store) =====================
      localStorage hoje; troca para fetch('/api/qbank/*') amanhã sem tocar na UI. */
@@ -254,6 +351,7 @@
     return SEED.filter(q=>{
       if(f.systems.length && !f.systems.includes(q.system)) return false;
       if(f.disciplines.length && !f.disciplines.includes(q.discipline)) return false;
+      if(f.categories && f.categories.length && !f.categories.includes(catKey(q.system,q.category))) return false;
       if(f.difficulty!=='all' && q.difficulty!==f.difficulty) return false;
       // status
       const st = store.statusOf(q.id);
@@ -292,11 +390,13 @@
 
   function render(){
     if(!root) return;
-    if(view.name==='home') return renderHome();
-    if(view.name==='create') return renderCreate();
-    if(view.name==='test') return renderTest();
-    if(view.name==='results') return renderResults();
-    if(view.name==='analytics') return renderAnalytics();
+    renderToken++;
+    if(view.name==='home') renderHome();
+    else if(view.name==='create') renderCreate();
+    else if(view.name==='test') renderTest();
+    else if(view.name==='results') renderResults();
+    else if(view.name==='analytics') renderAnalytics();
+    translateVisibleQBTexts();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
 
@@ -356,16 +456,55 @@
   /* =========================== CREATE TEST =========================== */
   function renderCreate(){
     const preset = view.preset || {};
-    view.f = view.f || { systems:[], disciplines:[], status:'all', pass:preset.pass||'all', difficulty:'all', mode:'tutor', secs:90, count:10 };
+    view.f = view.f || { systems:[], disciplines:[], categories:[], status:'all', pass:preset.pass||'all', difficulty:'all', mode:'tutor', secs:90, count:10 };
     const f = view.f;
-    const systems=[...new Set(SEED.map(q=>q.system))];
-    const disciplines=[...new Set(SEED.map(q=>q.discipline))];
-    const sysChip = s=>{ const n=SEED.filter(q=>q.system===s && (store.statusOf(q.id)==='unused')).length; const total=SEED.filter(q=>q.system===s).length;
-      return `<button class="qb-chip ${f.systems.includes(s)?'on':''}" data-act="tog-sys" data-v="${s}">${esc(SYS_NAMES[s]||s)}<em>${total}</em></button>`; };
-    const discChip = d=>`<button class="qb-chip ${f.disciplines.includes(d)?'on':''}" data-act="tog-disc" data-v="${d}">${esc(DISC_NAMES[d]||d)}</button>`;
+    if(!f.categories) f.categories = [];
+    view.expanded = view.expanded || {};           // { sysId: true } sistemas abertos
+    const L = lang();
+    const nm = o => (L==='pt' && o.pt) ? o.pt : o.en;
+    // contagens independentes, respeitando apenas status/passada/dificuldade (como no UWorld)
+    const baseF = { systems:[], disciplines:[], categories:[], status:f.status, pass:f.pass, difficulty:f.difficulty };
+    const cnt = partial => filterPool(Object.assign({}, baseF, partial)).length;
+
     const seg = (act,val,opts)=>opts.map(o=>`<button class="qb-seg ${val===o.v?'on':''}" data-act="${act}" data-v="${o.v}">${esc(o.l)}</button>`).join('');
-    const pool = filterPool(f);
-    const avail = pool.length;
+    const cbx = (on,act,v)=>`<span class="qb-cbx ${on?'on':''}" data-act="${act}" data-v="${esc(v)}" role="checkbox" aria-checked="${on?'true':'false'}"></span>`;
+
+    // ---- SUBJECTS ----
+    const allSubjSel = SUBJECTS_TAX.every(s=>f.disciplines.includes(s.id));
+    const subjRows = SUBJECTS_TAX.map(s=>`
+      <div class="qb-leaf">
+        ${cbx(f.disciplines.includes(s.id),'tog-disc',s.id)}
+        <span class="qb-leaf-name">${esc(nm(s))}</span>
+        <em class="qb-leaf-count">${cnt({disciplines:[s.id]})}</em>
+      </div>`).join('');
+
+    // ---- SYSTEMS (acordeão) ----
+    const anyOpen = SYSTEMS_TAX.some(s=>view.expanded[s.id]);
+    const allSysSel = SYSTEMS_TAX.every(s=>f.systems.includes(s.id));
+    const sysBlocks = SYSTEMS_TAX.map(sys=>{
+      const open = !!view.expanded[sys.id];
+      const catRows = open ? sys.cats.map(cat=>{
+        const key = catKey(sys.id,cat);
+        return `<div class="qb-cat">
+          ${cbx(f.categories.includes(key),'tog-cat',key)}
+          <span class="qb-cat-name" ${i18nAttr(cat)}>${esc(cat)}</span>
+          <em class="qb-cat-count">${cnt({categories:[key]})}</em>
+        </div>`;
+      }).join('') : '';
+      return `<div class="qb-acc ${open?'open':''}">
+        <div class="qb-acc-head">
+          ${cbx(f.systems.includes(sys.id),'tog-sys',sys.id)}
+          <button class="qb-acc-name" data-act="exp-sys" data-v="${sys.id}">
+            <span>${esc(nm(sys))}</span>
+            <em class="qb-acc-count">${cnt({systems:[sys.id]})}</em>
+            <span class="qb-acc-caret">${open?'−':'+'}</span>
+          </button>
+        </div>
+        ${open?`<div class="qb-acc-cats">${catRows}</div>`:''}
+      </div>`;
+    }).join('');
+
+    const avail = filterPool(f).length;
     const count = Math.min(f.count, Math.max(1,avail));
 
     root.innerHTML = `
@@ -373,9 +512,10 @@
         <button class="qb-link" data-act="home">${esc(t('back'))}</button>
         <h1>${esc(t('ctTitle'))}</h1>
 
-        <div class="qb-field"><label>${esc(t('ctSystems'))}</label><div class="qb-chips">${systems.map(sysChip).join('')}</div></div>
-        <div class="qb-field"><label>${esc(t('ctDisciplines'))}</label><div class="qb-chips">${disciplines.map(discChip).join('')}</div></div>
-
+        <div class="qb-field"><label>${esc(t('ctTestMode'))}</label><div class="qb-segs">${seg('mode',f.mode,[
+          {v:'tutor',l:t('tutor')},{v:'timed',l:t('timed')}])}</div>
+          ${f.mode==='timed'?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
+        </div>
         <div class="qb-row">
           <div class="qb-field"><label>${esc(t('ctStatus'))}</label><div class="qb-segs">${seg('status',f.status,[
             {v:'all',l:t('stAll')},{v:'unused',l:t('stUnused')},{v:'correct',l:t('stCorrect')},{v:'incorrect',l:t('stIncorrect')},{v:'marked',l:t('stMarked')},{v:'omitted',l:t('stOmitted')}])}</div></div>
@@ -386,19 +526,35 @@
           <div class="qb-field"><label>${esc(t('ctDifficulty'))}</label><div class="qb-segs">${seg('diff',f.difficulty,[
             {v:'all',l:t('diffAll')},{v:'easy',l:t('easy')},{v:'medium',l:t('medium')},{v:'hard',l:t('hard')}])}</div></div>
         </div>
-        <div class="qb-row">
-          <div class="qb-field"><label>${esc(t('ctMode'))}</label><div class="qb-segs">${seg('mode',f.mode,[
-            {v:'tutor',l:t('tutor')},{v:'timed',l:t('timed')}])}</div>
-            ${f.mode==='timed'?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
+
+        <div class="qb-tax">
+          <div class="qb-tax-head">
+            ${cbx(allSubjSel,'all-subj','')}
+            <strong>${esc(t('ctSubjects'))}</strong>
           </div>
-          <div class="qb-field"><label>${esc(t('ctCount'))}</label>
-            <div class="qb-count"><input type="range" min="1" max="${Math.max(1,avail)}" value="${count}" data-act="count" ${avail?'':'disabled'}><span>${count}</span></div>
+          <div class="qb-tax-grid">${subjRows}</div>
+        </div>
+
+        <div class="qb-tax">
+          <div class="qb-tax-head">
+            ${cbx(allSysSel,'all-sys','')}
+            <strong>${esc(t('ctSystems'))}</strong>
+            <button class="qb-tax-toggle" data-act="${anyOpen?'collapse-all':'expand-all'}">${anyOpen?'− '+esc(t('ctCollapseAll')):'+ '+esc(t('ctExpandAll'))}</button>
+          </div>
+          <div class="qb-tax-grid qb-acc-grid">${sysBlocks}</div>
+        </div>
+
+        <div class="qb-numq">
+          <label>${esc(t('ctNoQuestions'))}</label>
+          <div class="qb-numq-row">
+            <input type="number" min="0" max="${Math.max(0,avail)}" value="${avail?count:0}" data-act="count" ${avail?'':'disabled'}>
+            <span class="qb-numq-max">${esc(t('ctMaxBlock'))} <em>${avail}</em></span>
           </div>
         </div>
 
         <div class="qb-gen">
-          <div class="qb-avail"><strong>${avail}</strong> ${esc(t('available'))}</div>
           <button class="qb-btn primary big" data-act="generate" ${avail?'':'disabled'}>${esc(t('generate'))} →</button>
+          <div class="qb-avail"><strong>${avail}</strong> ${esc(t('available'))}</div>
         </div>
         ${avail?'':`<p class="qb-nomatch">${esc(t('noMatch'))}</p>`}
       </div>`;
@@ -430,7 +586,7 @@
       if(struck)cls+=' struck';
       return `<div class="${cls}" data-act="pick" data-o="${o.label}">
         <button class="qb-strike" data-act="strike" data-o="${o.label}" title="strikethrough">✕</button>
-        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${esc(o.text)}</span>
+        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t" ${i18nAttr(o.text)}>${esc(o.text)}</span>
         ${revealed&&o.label===q.correct?'<span class="qb-tick">✓</span>':''}
       </div>`;
     };
@@ -457,8 +613,8 @@
 
         <div class="qb-test-body">
           <div class="qb-vignette">
-            ${q.vignette?`<p>${esc(q.vignette)}</p>`:''}
-            <p class="qb-stem">${esc(q.q)}</p>
+            ${q.vignette?`<p ${i18nAttr(q.vignette)}>${esc(q.vignette)}</p>`:''}
+            <p class="qb-stem" ${i18nAttr(q.q)}>${esc(q.q)}</p>
             <div class="qb-opts">${q.options.map(opt).join('')}</div>
             ${!answered?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
             ${revealed?renderExplanation(q,ans):''}
@@ -488,7 +644,7 @@
         <div class="qb-peer-bar"><span style="width:${pct}%"></span></div>
         <span class="qb-peer-pct">${pct}%</span></div>`;
     }).join('');
-    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${esc(e.explanation)}</li>`).join('');
+    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> <span ${i18nAttr(e.explanation)}>${esc(e.explanation)}</span></li>`).join('');
     return `<div class="qb-expl">
       <div class="qb-expl-head">${badge}
         <div class="qb-expl-actions">
@@ -497,9 +653,9 @@
         </div>
       </div>
       <h3>${esc(t('explanation'))}</h3>
-      <p class="qb-expl-correct">${esc(q.explC)}</p>
+      <p class="qb-expl-correct" ${i18nAttr(q.explC)}>${esc(q.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
-      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${esc(q.objective)}</p></div>
+      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p ${i18nAttr(q.objective)}>${esc(q.objective)}</p></div>
       <div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>
     </div>`;
   }
@@ -717,7 +873,7 @@
   /* ============================== EVENTOS ============================== */
   function wire(){
     root.querySelectorAll('[data-act]').forEach(el=>el.addEventListener('click',onAct));
-    const c=root.querySelector('[data-act="count"]'); if(c)c.addEventListener('input',e=>{ view.f.count=+e.target.value; render(); });
+    const c=root.querySelector('[data-act="count"]'); if(c)c.addEventListener('input',e=>{ view.f.count=Math.max(0,+e.target.value||0); });
     const s=root.querySelector('[data-act="secs"]'); if(s)s.addEventListener('input',e=>{ view.f.secs=+e.target.value; render(); });
   }
   function onAct(e){
@@ -731,6 +887,12 @@
       case 'pass-card': { const pn=el.dataset.pn; view.f={systems:[],disciplines:[],status:'all',pass:pn,difficulty:'all',mode:'tutor',secs:90,count:10}; go({name:'create',f:view.f,preset:{pass:pn}}); break; }
       case 'tog-sys': { const v=el.dataset.v,a=view.f.systems; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); render(); break; }
       case 'tog-disc': { const v=el.dataset.v,a=view.f.disciplines; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); render(); break; }
+      case 'tog-cat': { const v=el.dataset.v; view.f.categories=view.f.categories||[]; const a=view.f.categories; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); render(); break; }
+      case 'exp-sys': { const v=el.dataset.v; view.expanded=view.expanded||{}; view.expanded[v]=!view.expanded[v]; render(); break; }
+      case 'expand-all': { view.expanded={}; SYSTEMS_TAX.forEach(s=>view.expanded[s.id]=true); render(); break; }
+      case 'collapse-all': { view.expanded={}; render(); break; }
+      case 'all-sys': { const all=SYSTEMS_TAX.every(s=>view.f.systems.includes(s.id)); view.f.systems = all?[]:SYSTEMS_TAX.map(s=>s.id); render(); break; }
+      case 'all-subj': { const all=SUBJECTS_TAX.every(s=>view.f.disciplines.includes(s.id)); view.f.disciplines = all?[]:SUBJECTS_TAX.map(s=>s.id); render(); break; }
       case 'status': view.f.status=el.dataset.v; render(); break;
       case 'pass': view.f.pass=el.dataset.v; render(); break;
       case 'diff': view.f.difficulty=el.dataset.v; render(); break;
