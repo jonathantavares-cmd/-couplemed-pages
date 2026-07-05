@@ -116,9 +116,10 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout'},
-    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'STEP 1 - QBANK PROGRESS',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'STEP 1 - QBANK PROGRESS',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continuar',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando'}
   };
+  const PAGE_TITLE_KEYS = {'notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle','first-aid-library':'firstAidLibraryTitle','qbank-uworld':'qbankUworldTitle','qbank-rd':'qbankRdTitle','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
   function params(){return new URLSearchParams(location.search)}
   function user(){return params().get('u')||sessionStorage.getItem('couplemed_active_user')||'guest1'}
@@ -133,40 +134,56 @@
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
   const COMING_SOON_PAGES=['qbank-rd','step-2','step-3','languages','observership','residency-match','links'];
   const UWORLD_PAGE='qbank-uworld';
-  function renderUWorldPage(container){
+  function renderUWorldPage(container,lang){
+    const t=I18N[lang];
+    const stat=`0 - XXXX ${t.uwQuestionsAnswered} · 0%`;
     container.innerHTML=`<div class="uw-folder-page">
-      <h1 class="uw-title">UWorld — QBank</h1>
-      <p class="uw-sub">Selecione o passe para iniciar sua sessão de estudos</p>
+      <h1 class="uw-title">${t.uwFolderTitle}</h1>
       <div class="uw-folders">
         <a href="app.html?page=uworld-pass-1&u=${user()}" class="uw-folder" data-page-link="uworld-pass-1">
           <span class="uw-folder-icon">📁</span>
-          <div class="uw-folder-info"><strong>1 Pass</strong><span>Primeiro passe — todas as questões</span></div>
+          <div class="uw-folder-info"><strong>${t.uwPass1} — ${t.pass1Name}</strong><span>${stat}</span></div>
           <span class="uw-folder-arrow">›</span>
         </a>
         <a href="app.html?page=uworld-pass-2&u=${user()}" class="uw-folder" data-page-link="uworld-pass-2">
           <span class="uw-folder-icon">📁</span>
-          <div class="uw-folder-info"><strong>2 Pass</strong><span>Segundo passe — revisão</span></div>
+          <div class="uw-folder-info"><strong>${t.uwPass2} — ${t.pass2Name}</strong><span>${stat}</span></div>
           <span class="uw-folder-arrow">›</span>
         </a>
         <a href="app.html?page=uworld-pass-3&u=${user()}" class="uw-folder" data-page-link="uworld-pass-3">
           <span class="uw-folder-icon">📁</span>
-          <div class="uw-folder-info"><strong>3 Pass</strong><span>Terceiro passe — domínio total</span></div>
+          <div class="uw-folder-info"><strong>${t.uwPass3} — ${t.pass3Name}</strong><span>${stat}</span></div>
+          <span class="uw-folder-arrow">›</span>
+        </a>
+        <a href="app.html?page=uworld-pass-4&u=${user()}" class="uw-folder" data-page-link="uworld-pass-4">
+          <span class="uw-folder-icon">📁</span>
+          <div class="uw-folder-info"><strong>${t.uwPass4} — ${t.pass4Name}</strong><span>(${t.uwOnlyMissed})</span></div>
           <span class="uw-folder-arrow">›</span>
         </a>
       </div>
     </div>`;
   }
-  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k])el.textContent=I18N[lang][k];});}
+  function updateDynamicContent(lang){
+    const p=page(); if(p==='home')return;
+    const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3'||p==='uworld-pass-4';
+    const isUW=p===UWORLD_PAGE;
+    const isModule=p==='flashcards'||p==='ai-tutor';
+    if(isUW){const rp=$('#regularPage'); if(rp)renderUWorldPage(rp,lang); return;}
+    if(isCS||isModule)return;
+    const title=$('#internalTitle');
+    if(title){const key=PAGE_TITLE_KEYS[p]; title.textContent=(key&&I18N[lang][key])?I18N[lang][key]:p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
+  }
+  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); updateDynamicContent(lang);}
   function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
-    const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3';
+    const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3'||p==='uworld-pass-4';
     const isUW=p===UWORLD_PAGE;
     const isModule=p==='flashcards'||p==='ai-tutor';
     const cs=$('#comingSoonPage'); const rp=$('#regularPage');
     if(cs) cs.hidden=true;
-    if(isUW){if(rp){rp.hidden=false; renderUWorldPage(rp);}}
+    if(isUW){if(rp)rp.hidden=false;}
     else if(isCS){if(cs)cs.hidden=false; if(rp)rp.hidden=true;}
     else if(isModule){if(cs)cs.hidden=true; if(rp)rp.hidden=false;}
-    else{if(rp)rp.hidden=false; const title=$('#internalTitle'); if(title){const titleMap={'qbank-uworld':'QBank UWorld','qbank-rd':'QBank RD'}; title.textContent=titleMap[p]||p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}}
+    else{if(rp)rp.hidden=false;}
   } else {document.body.classList.remove('internal');}
     $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle); if(el)el.classList.toggle('open');}));
     $$('[data-page-link]').forEach(a=>{if(a.dataset.pageLink===p){a.classList.add('active'); let anc=a.closest('.submenu'); while(anc){anc.classList.add('open'); anc=anc.parentElement?anc.parentElement.closest('.submenu'):null;}}});

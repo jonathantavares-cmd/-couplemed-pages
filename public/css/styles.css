@@ -46,7 +46,8 @@
 .uw-folder:hover{border-color:#aacbff;box-shadow:0 8px 28px rgba(11,25,48,.10);transform:translateY(-2px)}
 .uw-folder-icon{font-size:28px;flex:0 0 auto}
 .uw-folder-info{flex:1}.uw-folder-info strong{display:block;font-size:16px;font-weight:700;color:#0b1930;margin-bottom:3px}
-.uw-folder-info span{font-size:13px;color:#66788f}
+.uw-folder-info span{font-size:13px;color:#66788f;display:block}
+.uw-folder-info span+span{margin-top:2px}
 .uw-folder-arrow{font-size:22px;color:#aab8cc;font-weight:300}
 body:not(.light) .uw-title{color:#f0f5fc}
 body:not(.light) .uw-sub{color:#9db1cc}

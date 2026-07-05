@@ -8,8 +8,8 @@
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <meta name="theme-color" content="#081324" />
-  <link rel="stylesheet" href="css/styles.css?v=19" />
-  <link rel="stylesheet" href="css/ai-tutor-widget.css?v=19" />
+  <link rel="stylesheet" href="css/styles.css?v=20" />
+  <link rel="stylesheet" href="css/ai-tutor-widget.css?v=20" />
 </head>
 <body class="platform-page" data-page="home">
   <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Open menu">☰</button>
@@ -30,12 +30,12 @@
       <div id="notebook" class="submenu">
         <a href="app.html?page=notebooks" data-page-link="notebooks" data-i18n="notebooks"><span class="mi">📘</span>Notebooks</a>
         <a href="app.html?page=notes" data-page-link="notes" data-i18n="notes"><span class="mi">📝</span>Notes</a>
+        <a href="app.html?page=study-planner" data-page-link="study-planner" data-i18n="studyPlanner"><span class="mi">□</span>Study Planner</a>
       </div>
-      <a class="menu-row" href="app.html?page=study-planner" data-page-link="study-planner"><span class="mi">□</span><span data-i18n="studyPlanner">Study Planner</span></a>
       <button class="menu-row has-sub" data-toggle="study-materials"><span class="mi">▱</span><span data-i18n="studyMaterials">Study Materials</span></button>
       <div id="study-materials" class="submenu">
-        <a href="app.html?page=video-lectures" data-page-link="video-lectures"><span class="mi">🎥</span>Video Lectures</a>
-        <a href="app.html?page=audio-lessons" data-page-link="audio-lessons"><span class="mi">🎵</span>Audio Lessons</a>
+        <a href="app.html?page=video-lectures" data-page-link="video-lectures" data-i18n="videoLectures"><span class="mi">🎥</span>Video Lectures</a>
+        <a href="app.html?page=audio-lessons" data-page-link="audio-lessons" data-i18n="audioLessons"><span class="mi">🎵</span>Audio Lessons</a>
       </div>
       <button class="menu-row has-sub" data-toggle="medical-library"><span class="mi">▤</span><span data-i18n="medicalLibrary">Medical Library</span></button>
       <div id="medical-library" class="submenu">
@@ -43,7 +43,7 @@
         <a href="app.html?page=library-rd" data-page-link="library-rd">RD</a>
         <a href="app.html?page=first-aid-library" data-page-link="first-aid-library">First Aid</a>
       </div>
-      <a class="menu-row" href="app.html?page=ai-tutor" data-page-link="ai-tutor"><span class="mi">⌘</span><span>AI Tutor</span></a>
+      <a class="menu-row" href="app.html?page=ai-tutor" data-page-link="ai-tutor"><span class="mi">⌘</span><span data-i18n="aiTutorLabel">AI Tutor</span></a>
 
       <h2>USMLE</h2>
       <button class="menu-row has-sub" data-toggle="step1"><span class="mi">≡</span><span>Step 1</span></button>
@@ -56,9 +56,9 @@
 
       <h2>CAREER</h2>
       <a class="menu-row" href="app.html?page=languages" data-page-link="languages"><span class="mi">◎</span><span data-i18n="languages">Languages / English</span></a>
-      <a class="menu-row" href="app.html?page=observership" data-page-link="observership"><span class="mi">✧</span><span>Observership</span></a>
-      <a class="menu-row" href="app.html?page=residency-match" data-page-link="residency-match"><span class="mi">♕</span><span>Residency Match</span></a>
-      <a class="menu-row" href="app.html?page=links" data-page-link="links"><span class="mi">⌁</span><span>Links</span></a>
+      <a class="menu-row" href="app.html?page=observership" data-page-link="observership"><span class="mi">✧</span><span data-i18n="observership">Observership</span></a>
+      <a class="menu-row" href="app.html?page=residency-match" data-page-link="residency-match"><span class="mi">♕</span><span data-i18n="residencyMatch">Residency Match</span></a>
+      <a class="menu-row" href="app.html?page=links" data-page-link="links"><span class="mi">⌁</span><span data-i18n="linksLabel">Links</span></a>
 
       <h2>SETTINGS</h2>
       <a class="menu-row" href="app.html?page=settings" data-page-link="settings"><span class="mi">⚙</span><span data-i18n="settings">Settings</span></a>
@@ -78,12 +78,12 @@
     </section>
 
     <section id="homeDashboard" class="dashboard-strip" aria-label="Platform quick dashboard">
-      <div class="mini-card streak"><div class="check">✓</div><div><span>STUDY<br/>STREAK</span><strong>1 Day</strong><small>Keep it going!</small></div></div>
-      <div class="mini-card progress-card"><h3>STEP 1 - QBANK PROGRESS</h3><div class="bar-line"><span>1 Pass → 0 - X</span><i></i><b>0%</b><button>Continue</button></div><div class="bar-line"><span>2 Pass → 0 - X</span><i></i><b>0%</b><button>Continue</button></div><div class="bar-line"><span>3 Pass → 0 - X</span><i></i><b>0%</b><button>Continue</button></div></div>
-      <a class="mini-card action" href="app.html?page=question-bank"><span>▣</span><strong>Question Bank</strong></a>
-      <a class="mini-card action" href="app.html?page=flashcards"><span>▥</span><strong>Flashcards</strong></a>
-      <a class="mini-card action" href="app.html?page=performance"><span>⌁</span><strong>Performance Analytics</strong></a>
-      <a class="mini-card action" href="app.html?page=ai-tutor"><span>⌘</span><strong>AI Tutor</strong></a>
+      <div class="mini-card streak"><div class="check">✓</div><div><span data-i18n-html="studyStreak">STUDY<br/>STREAK</span><strong data-i18n="oneDay">1 Day</strong><small data-i18n="keepGoing">Keep it going!</small></div></div>
+      <div class="mini-card progress-card"><h3 data-i18n="qbankProgress">STEP 1 - QBANK PROGRESS</h3><div class="bar-line"><span><span data-i18n="pass1">1 Pass</span> → 0 - X</span><i></i><b>0%</b><button data-i18n="continueBtn">Continue</button></div><div class="bar-line"><span><span data-i18n="pass2">2 Pass</span> → 0 - X</span><i></i><b>0%</b><button data-i18n="continueBtn">Continue</button></div><div class="bar-line"><span><span data-i18n="pass3">3 Pass</span> → 0 - X</span><i></i><b>0%</b><button data-i18n="continueBtn">Continue</button></div></div>
+      <a class="mini-card action" href="app.html?page=qbank-uworld"><span>▣</span><strong data-i18n="questionBank">QBank</strong></a>
+      <a class="mini-card action" href="app.html?page=flashcards"><span>▥</span><strong data-i18n="flashcardsLabel">Flashcards</strong></a>
+      <a class="mini-card action" href="app.html?page=performance"><span>⌁</span><strong data-i18n="performanceAnalytics">Performance Analytics</strong></a>
+      <a class="mini-card action" href="app.html?page=ai-tutor"><span>⌘</span><strong data-i18n="aiTutorLabel">AI Tutor</strong></a>
     </section>
 
     <section id="internalContent" class="internal-content" hidden>
@@ -95,8 +95,8 @@
       </div>
     </section>
   </main>
-  <script src="js/site.js?v=19"></script>
-  <script src="js/flashcards.js?v=19"></script>
-  <script src="js/ai-tutor-widget.js?v=19"></script>
+  <script src="js/site.js?v=20"></script>
+  <script src="js/flashcards.js?v=20"></script>
+  <script src="js/ai-tutor-widget.js?v=20"></script>
 </body>
 </html>

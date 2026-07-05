@@ -1,9 +1,9 @@
 # CoupleMed — Documento de Handoff Técnico
 ### Contexto completo para continuar o desenvolvimento em outro chat ou com outra IA
 
-> **Versão atual: v18** (menu simplificado — subpastas removidas, textos placeholder removidos)
+> **Versão atual: v19** (Study Planner movido para My Workspace, tradução completa EN/PT, QBank UWorld com 4 passes)
 > **Data deste handoff:** 04/07/2026
-> **ZIP que acompanha este documento:** `couplemed_v18.zip`
+> **ZIP que acompanha este documento:** `couplemed_v19.zip`
 
 Cole este documento inteiro no início de uma nova conversa (com qualquer IA) e anexe o ZIP.
 Ele contém tudo o que é necessário para entender, editar e publicar o site sem retrabalho.
@@ -310,27 +310,39 @@ Não usar `.fc-share-icon` ou `.fc-share-text` (removidos na v14).
   página UWorld com 3 pastas, Step 2/3 como links diretos. Fix `wrangler.toml` (name = "couplemed").
 - **v17:** fix crítico do CSS — `.coming-soon-page[hidden]{display:none!important}` corrige
   bug onde `display:flex` sobrepunha o atributo `hidden`, fazendo a imagem aparecer em páginas erradas.
-- **v18 (atual):** simplificação geral do menu lateral:
-  - Removido texto placeholder "Page ready to receive content" / "Esta área interna abre com fundo
-    branco..." de TODAS as páginas internas (`#internalTitle` continua exibindo o nome da página,
-    mas sem descrição). Removidas chaves `readyTitle`/`readyDesc` do `I18N` em `site.js`.
-  - **My Notebook → My Workspace** (chave i18n `myWorkspace`); subitens "Notebooks" e "Notes" agora
-    com ícones 📘 e 📝.
-  - **Study Planner:** removidas subpastas "Week Planner"/"Month Planner" — agora é link direto
-    para `?page=study-planner`.
-  - **Study Materials:** removidas subpastas "First Aid", "Pathology", "Pharmacology" — substituídas
-    por "Video Lectures" (`?page=video-lectures`) e "Audio Lessons" (`?page=audio-lessons`).
-  - **Medical Library:** removida a estrutura `deep` com listas de "Book 1..17" sob RD/UWorld.
-    Agora tem 3 links diretos: UWorld (`?page=library-uworld`), RD (`?page=library-rd`) e
-    First Aid (`?page=first-aid-library`). A função `buildBooks()` ficou órfã (sem alvo no DOM) mas
-    foi mantida no código por segurança — não quebra nada.
-  - **USMLE → Step 1:** removido o nível intermediário "QBank" — agora Step 1 tem 2 links diretos:
-    UWorld (`?page=qbank-uworld`, abre a página com 3 pastas 1/2/3 Pass) e RD (`?page=qbank-rd`,
-    coming soon). Adicionado mapeamento de título em `site.js` (`titleMap`) para exibir "QBank
-    UWorld" / "QBank RD" corretamente nas páginas de biblioteca.
-  - **AI Tutor:** removido texto placeholder do `#regularPage` no `app.html` (módulo monta seu
-    próprio conteúdo).
-  - Cache-bust incrementado de `?v=18` para `?v=19` em todos os assets de `app.html`.
+- **v18:** simplificação geral do menu lateral (ver detalhes na v18 anterior — subpastas
+  removidas de Study Planner/Study Materials/Medical Library/Step 1, textos placeholder
+  removidos, My Notebook renomeado para My Workspace).
+- **v19 (atual):** tradução completa EN/PT + reorganização do menu:
+  - **Study Planner** movido para dentro de "My Workspace", como 3º subitem (abaixo de Notes).
+    Removido como item independente do menu.
+  - **Sistema de tradução robusto (`site.js`):** ao clicar na bandeira EN/US ou BR, agora
+    TUDO é traduzido — títulos de página dinâmicos (`PAGE_TITLE_KEYS`), conteúdo da página
+    QBank-UWorld (`renderUWorldPage`), dashboard da Home (streak, progresso, mini-cards) e
+    todos os itens do menu lateral. Chaves de nomes próprios/marcas (UWorld, RD, First Aid,
+    AI Tutor, QBank, Step 1/2/3, USMLE, cabeçalhos de seção STUDY/CAREER/SETTINGS) permanecem
+    como exceção estabelecida, sem tradução. Adicionado suporte a `data-i18n-html` para textos
+    com `<br>` (ex.: "STUDY<br>STREAK").
+  - **Página QBank-UWorld reestruturada:** título alterado de "UWorld — QBank" para
+    "QBank - UWorld"; removida a frase "Selecione o passe...". Agora exibe **4 passes**
+    (antes eram 3), cada um com nome de fase e estatística de progresso:
+    - 1 Pass — Learning / 1ª Passada — Aprendizado
+    - 2 Pass — Consolidation / 2ª Passada — Consolidação
+    - 3 Pass — Refinement / 3ª Passada — Refinamento
+    - 4 Pass — Total Mastery / 4ª Passada — Domínio Total (nota: "somente questões que
+      continua errando")
+    Cada pass (exceto o 4º) mostra `0 - XXXX Questions Answered · 0%`. Nova página
+    `?page=uworld-pass-4` adicionada à lista de coming-soon. CSS ajustado
+    (`.uw-folder-info span{display:block}`) para múltiplas linhas dentro do card.
+  - **IMPORTANTE:** os labels "1 Pass"/"2 Pass"/"3 Pass" do dashboard da Home (card
+    "STEP 1 - QBANK PROGRESS") usam chaves separadas (`pass1`/`pass2`/`pass3`) das usadas na
+    página QBank-UWorld (`uwPass1`/`uwPass2`/`uwPass3`/`uwPass4`). O dashboard da Home
+    **NÃO é traduzido** para "1ª Passada" — mantém sempre "1 Pass", "2 Pass", "3 Pass" e o
+    título "STEP 1 - QBANK PROGRESS" em maiúsculas, igual em EN e PT (exceção estabelecida).
+  - **Card "Question Bank" → "QBank"** no dashboard da Home; link alterado de
+    `?page=question-bank` para `?page=qbank-uworld` (agora leva direto à página QBank-UWorld).
+  - Cache-bust incrementado de `?v=19` para `?v=20` em todos os assets de `app.html`
+    (`site.js` e `styles.css` foram alterados).
 
 ---
 
@@ -358,5 +370,5 @@ Não usar `.fc-share-icon` ou `.fc-share-text` (removidos na v14).
 
 ---
 
-*Fim do handoff. Com este documento + o ZIP `couplemed_v18.zip`, qualquer IA
+*Fim do handoff. Com este documento + o ZIP `couplemed_v19.zip`, qualquer IA
 consegue entender a arquitetura, editar com segurança e orientar o deploy sem retrabalho.*
