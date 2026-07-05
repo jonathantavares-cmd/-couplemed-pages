@@ -8,9 +8,9 @@
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <meta name="theme-color" content="#081324" />
-  <link rel="stylesheet" href="css/styles.css?v=24" />
+  <link rel="stylesheet" href="css/styles.css?v=32" />
   <link rel="stylesheet" href="css/ai-tutor-widget.css?v=24" />
-  <link rel="stylesheet" href="css/qbank.css?v=24" />
+  <link rel="stylesheet" href="css/qbank.css?v=25" />
 </head>
 <body class="platform-page" data-page="home">
   <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Open menu">☰</button>
@@ -47,7 +47,7 @@
       <a class="menu-row" href="app.html?page=ai-tutor" data-page-link="ai-tutor"><span class="mi">⌘</span><span data-i18n="aiTutorLabel">AI Tutor</span></a>
 
       <h2>USMLE</h2>
-      <button class="menu-row has-sub" data-toggle="step1"><span class="mi">≡</span><span>Step 1</span></button>
+      <a class="menu-row has-sub" href="app.html?page=step-1" data-page-link="step-1" data-toggle="step1"><span class="mi">≡</span><span>Step 1</span></a>
       <div id="step1" class="submenu">
         <a href="app.html?page=qbank-uworld" data-page-link="qbank-uworld">UWorld</a>
         <a href="app.html?page=qbank-rd" data-page-link="qbank-rd">RD</a>
@@ -96,9 +96,10 @@
       </div>
     </section>
   </main>
-  <script src="js/site.js?v=24"></script>
+  <script src="js/uworld-structure.js?v=1"></script>
+  <script src="js/site.js?v=31"></script>
   <script src="js/flashcards.js?v=24"></script>
-  <script src="js/qbank.js?v=24"></script>
+  <script src="js/qbank.js?v=28"></script>
   <script src="js/ai-tutor-widget.js?v=24"></script>
 </body>
 </html>

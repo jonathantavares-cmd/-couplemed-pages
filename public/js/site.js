@@ -116,8 +116,8 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing'},
-    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'Progresso Banco de Questões',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'Banco de Questões UWorld',qbankRdTitle:'Banco de Questões RD',uwFolderTitle:'Banco de Questões - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Uworld:'UWorld',step1Rd:'RD'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'Progresso Banco de Questões',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'Banco de Questões UWorld',qbankRdTitle:'Banco de Questões RD',uwFolderTitle:'Banco de Questões - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Uworld:'UWorld',step1Rd:'RD'}
   };
   const PAGE_TITLE_KEYS = {'notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle','first-aid-library':'firstAidLibraryTitle','qbank-uworld':'qbankUworldTitle','qbank-rd':'qbankRdTitle','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
@@ -129,16 +129,102 @@
   function draw(key,arr){let deck;try{deck=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){deck=[]}if(!Array.isArray(deck)||!deck.length)deck=shuffle([...arr.keys()]);const idx=deck.shift();localStorage.setItem(key,JSON.stringify(deck));return arr[idx]||arr[0]}
   function initLogin(){const form=$('#loginForm'); if(!form)return; form.addEventListener('submit',e=>{e.preventDefault(); const pass=$('#password').value.trim(); const u=USERS[pass]; const msg=$('#loginMessage'); if(!u){msg.textContent='Invalid password.';return} sessionStorage.setItem('couplemed_active_user',u); $('.access-submit').classList.add('loading'); document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22'; setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);});}
   function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),6450); setTimeout(()=>location.href=`app.html?u=${u}`,7000);}
-  function buildBooks(){['library-rd','library-uworld'].forEach(id=>{const el=$('#'+id); if(!el||el.dataset.done)return; const prefix=id.replace('library-',''); for(let i=1;i<=17;i++){const a=document.createElement('a'); a.textContent=`Book ${i}`; a.href=`app.html?page=${prefix}-book-${i}&u=${user()}`; a.dataset.pageLink=`${prefix}-book-${i}`; el.appendChild(a)} el.dataset.done='1';});}
+  const LIB_TITLE_KEY = {'library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle'};
+  // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
+  const LIB_FOLDERS = {
+    'library-rd': [
+      'Biochemistry','Immunology','Microbiology','Pathology','General Pharmacology',
+      'Biostatistics','Public Health Science','Cardiovascular','Endocrinology',
+      'Gastrointestinal System','Hematology & Oncology',
+      'Musculoskeletal, Skin and Connective Tissue','Neurology','Psychiatry',
+      'Nephrology','Reproductive System','Pulmonology'
+    ]
+  };
+  // UWorld: 26 pastas, cada uma com sua lista de tópicos (ordem exata do arquivo enviado pelo usuário)
+  const UWORLD_STRUCTURE = window.UWORLD_STRUCTURE || [];
+  const slugify = s => s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  function libBack(id,lang){
+    history.pushState(null,'',`app.html?page=${id}&u=${user()}`);
+    renderLibrary(id,lang);
+  }
+  function libOpenFolder(id,lang,slug){
+    history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}`);
+    renderLibrary(id,lang);
+  }
+  function renderLibrary(id,lang){
+    const rp=$('#regularPage'); if(!rp) return;
+    const titleKey=LIB_TITLE_KEY[id];
+    const libTitle=(titleKey&&I18N[lang][titleKey])?I18N[lang][titleKey]:id;
+    const folderSlug=params().get('folder');
+
+    // UWorld tem 2 níveis: lista de 26 pastas -> lista de tópicos dentro da pasta
+    if(id==='library-uworld' && UWORLD_STRUCTURE.length){
+      const openFolder = folderSlug ? UWORLD_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
+      if(openFolder){
+        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle"></h1><div class="lib-list"></div>`;
+        $('#internalTitle').textContent=openFolder.name;
+        const list=rp.querySelector('.lib-list');
+        openFolder.items.forEach(topic=>{
+          const a=document.createElement('a');
+          a.className='lib-book lib-topic';
+          a.textContent=topic;
+          a.href='#';
+          a.addEventListener('click',e=>e.preventDefault());
+          list.appendChild(a);
+        });
+        $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
+        return;
+      }
+      rp.innerHTML=`<h1 id="internalTitle"></h1><div class="lib-list"></div>`;
+      $('#internalTitle').textContent=libTitle;
+      const list=rp.querySelector('.lib-list');
+      UWORLD_STRUCTURE.forEach(folder=>{
+        const slug=slugify(folder.name);
+        const a=document.createElement('a');
+        a.className='lib-book';
+        a.textContent=folder.name;
+        a.href=`app.html?page=${id}&u=${user()}&folder=${slug}`;
+        a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,slug);});
+        list.appendChild(a);
+      });
+      return;
+    }
+
+    // RD (e demais bibliotecas simples): 1 nível, lista direta
+    rp.innerHTML=`<h1 id="internalTitle"></h1><div class="lib-list"></div>`;
+    $('#internalTitle').textContent=libTitle;
+    const list=rp.querySelector('.lib-list');
+    const folders=LIB_FOLDERS[id]||[];
+    folders.forEach(name=>{
+      const slug=slugify(name);
+      const a=document.createElement('a');
+      a.className='lib-book';
+      a.textContent=name;
+      a.href=`app.html?page=${id.replace('library-','')}-${slug}&u=${user()}`;
+      a.dataset.pageLink=`${id.replace('library-','')}-${slug}`;
+      list.appendChild(a);
+    });
+  }
+  function renderStep1(lang){
+    const rp=$('#regularPage'); if(!rp) return;
+    rp.innerHTML=`<h1 id="internalTitle"></h1><div class="step1-bars">
+      <a class="step1-bar step1-bar-uworld" href="app.html?page=qbank-uworld&u=${user()}" data-page-link="qbank-uworld">${I18N[lang].step1Uworld}</a>
+      <a class="step1-bar step1-bar-rd" href="app.html?page=qbank-rd&u=${user()}" data-page-link="qbank-rd">${I18N[lang].step1Rd}</a>
+    </div>`;
+    $('#internalTitle').textContent=I18N[lang].instructionsTitle;
+  }
+  function buildBooks(){}
   function qCount(){return Number(localStorage.getItem('couplemed_qbank_uworld_total')||0)}
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
   const COMING_SOON_PAGES=['qbank-rd','step-2','step-3','languages','observership','residency-match','links'];
   const QBANK_PAGES=['qbank-uworld','uworld-pass-1','uworld-pass-2','uworld-pass-3','uworld-pass-4','library-uworld','library-rd'];
   function updateDynamicContent(lang){
     const p=page(); if(p==='home')return;
+    if(p==='step-1'){ renderStep1(lang); return; }
+    if(LIB_TITLE_KEY[p]){ renderLibrary(p,lang); return; }
     if(QBANK_PAGES.includes(p))return; // qbank.js monta e traduz sozinho
     const isCS=COMING_SOON_PAGES.includes(p);
-    const isModule=p==='flashcards'||p==='ai-tutor'||p==='library-uworld'||p==='library-rd';
+    const isModule=p==='flashcards'||p==='ai-tutor';
     if(isCS||isModule)return;
     const title=$('#internalTitle');
     if(title){const key=PAGE_TITLE_KEYS[p]; title.textContent=(key&&I18N[lang][key])?I18N[lang][key]:p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}

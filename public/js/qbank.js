@@ -267,6 +267,65 @@
       resume:'Retomar', empty:'Nenhuma questão aqui ainda.', flaggedEmpty:'Você ainda não marcou nenhuma questão.' }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
+
+  /* ---------- tradução dinâmica do CONTEÚDO das questões (vinheta/stem/opções/explicação) ----------
+     Mesmo motor usado no Flashcards/AI Tutor (MyMemory API). A interface (botões/labels) já
+     traduz via T[lang]; isto traduz o texto das questões, que vem sempre em inglês no banco,
+     sempre que a bandeira for trocada. O original nunca é sobrescrito, só a exibição. */
+  const QB_TRANSLATE_API = 'https://api.mymemory.translated.net/get';
+  const qbTransCache = {}; // `${text}|${targetLang}` -> texto traduzido
+  let qbRenderToken = 0;
+  async function qbTranslateField(text, targetLang){
+    if(!text || !text.trim()) return text;
+    const key = text + '|' + targetLang;
+    if(qbTransCache[key]) return qbTransCache[key];
+    try{
+      const CHUNK = 480;
+      if(text.length <= CHUNK){
+        const url = `${QB_TRANSLATE_API}?q=${encodeURIComponent(text)}&langpair=autodetect|${targetLang}`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+        const out = data?.responseData?.translatedText || text;
+        qbTransCache[key] = out;
+        return out;
+      }
+      const parts = text.match(/[^.!?]+[.!?]*\s*/g) || [text];
+      const chunks = [];
+      let cur = '';
+      parts.forEach(p=>{
+        if((cur+p).length > CHUNK){ if(cur) chunks.push(cur); cur = p; }
+        else cur += p;
+      });
+      if(cur) chunks.push(cur);
+      const translated = [];
+      for(const c of chunks){
+        const url = `${QB_TRANSLATE_API}?q=${encodeURIComponent(c)}&langpair=autodetect|${targetLang}`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+        translated.push(data?.responseData?.translatedText || c);
+      }
+      const out = translated.join(' ');
+      qbTransCache[key] = out;
+      return out;
+    }catch(e){ return text; }
+  }
+  function qbTransSpan(text, cls){
+    if(text==null || text==='') return '';
+    return `<span class="${cls||''}" data-qb-i18n-text data-qb-original="${esc(String(text))}">${esc(String(text))}</span>`;
+  }
+  function translateVisibleQuestionTexts(){
+    const myToken = qbRenderToken;
+    const targetLang = lang();
+    if(!root) return;
+    root.querySelectorAll('[data-qb-i18n-text]').forEach(async el => {
+      const original = el.dataset.qbOriginal;
+      if(!original) return;
+      const translated = await qbTranslateField(original, targetLang);
+      if(qbRenderToken !== myToken) return;
+      el.textContent = translated;
+    });
+  }
+
   const t = k => T[lang()][k];
   const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const uid = p => p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
@@ -376,11 +435,13 @@
 
   function render(){
     if(!root) return;
-    if(view.name==='home') return renderHome();
-    if(view.name==='create') return renderCreate();
-    if(view.name==='test') return renderTest();
-    if(view.name==='results') return renderResults();
-    if(view.name==='analytics') return renderAnalytics();
+    qbRenderToken++;
+    if(view.name==='home') renderHome();
+    else if(view.name==='create') renderCreate();
+    else if(view.name==='test') renderTest();
+    else if(view.name==='results') renderResults();
+    else if(view.name==='analytics') renderAnalytics();
+    translateVisibleQuestionTexts();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
 
@@ -549,7 +610,7 @@
       if(struck)cls+=' struck';
       return `<div class="${cls}" data-act="pick" data-o="${o.label}">
         <button class="qb-strike" data-act="strike" data-o="${o.label}" title="strikethrough">✕</button>
-        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${esc(o.text)}</span>
+        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${qbTransSpan(o.text)}</span>
         ${revealed&&o.label===q.correct?'<span class="qb-tick">✓</span>':''}
       </div>`;
     };
@@ -576,8 +637,8 @@
 
         <div class="qb-test-body">
           <div class="qb-vignette">
-            ${q.vignette?`<p>${esc(q.vignette)}</p>`:''}
-            <p class="qb-stem">${esc(q.q)}</p>
+            ${q.vignette?`<p>${qbTransSpan(q.vignette)}</p>`:''}
+            <p class="qb-stem">${qbTransSpan(q.q)}</p>
             <div class="qb-opts">${q.options.map(opt).join('')}</div>
             ${!answered?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
             ${revealed?renderExplanation(q,ans):''}
@@ -607,7 +668,7 @@
         <div class="qb-peer-bar"><span style="width:${pct}%"></span></div>
         <span class="qb-peer-pct">${pct}%</span></div>`;
     }).join('');
-    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${esc(e.explanation)}</li>`).join('');
+    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${qbTransSpan(e.explanation)}</li>`).join('');
     return `<div class="qb-expl">
       <div class="qb-expl-head">${badge}
         <div class="qb-expl-actions">
@@ -616,9 +677,9 @@
         </div>
       </div>
       <h3>${esc(t('explanation'))}</h3>
-      <p class="qb-expl-correct">${esc(q.explC)}</p>
+      <p class="qb-expl-correct">${qbTransSpan(q.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
-      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${esc(q.objective)}</p></div>
+      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${qbTransSpan(q.objective)}</p></div>
       <div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>
     </div>`;
   }
