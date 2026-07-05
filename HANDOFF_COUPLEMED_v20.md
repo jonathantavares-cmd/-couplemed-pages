@@ -1,9 +1,9 @@
 # CoupleMed — Documento de Handoff Técnico
 ### Contexto completo para continuar o desenvolvimento em outro chat ou com outra IA
 
-> **Versão atual: v19** (Study Planner movido para My Workspace, tradução completa EN/PT, QBank UWorld com 4 passes)
+> **Versão atual: v20** (dashboard premium — ícones SVG, QBank Progress redesenhado, QBank→Banco de Questões)
 > **Data deste handoff:** 04/07/2026
-> **ZIP que acompanha este documento:** `couplemed_v19.zip`
+> **ZIP que acompanha este documento:** `couplemed_v20.zip`
 
 Cole este documento inteiro no início de uma nova conversa (com qualquer IA) e anexe o ZIP.
 Ele contém tudo o que é necessário para entender, editar e publicar o site sem retrabalho.
@@ -313,7 +313,27 @@ Não usar `.fc-share-icon` ou `.fc-share-text` (removidos na v14).
 - **v18:** simplificação geral do menu lateral (ver detalhes na v18 anterior — subpastas
   removidas de Study Planner/Study Materials/Medical Library/Step 1, textos placeholder
   removidos, My Notebook renomeado para My Workspace).
-- **v19 (atual):** tradução completa EN/PT + reorganização do menu:
+- **v19:** tradução completa EN/PT + reorganização (Study Planner movido para My Workspace,
+  sistema de tradução robusto, QBank-UWorld com 4 passes, Question Bank → QBank).
+- **v20 (atual):** redesign premium do dashboard da Home + ajustes de nomenclatura:
+  - **"QBank" → "Banco de Questões"** em TODAS as ocorrências traduzidas para PT
+    (`questionBank`, `qbankProgress`, `qbankUworldTitle`, `qbankRdTitle`, `uwFolderTitle`).
+    Em EN permanece "QBank".
+  - **Card "STEP 1 - QBANK PROGRESS" → "QBank Progress"** (maiúsc/minúsc, igual em EN/PT).
+  - **Progress card redesenhado** (`.bar-line` reescrito): cada pass agora usa estrutura
+    `.bar-body` (coluna) + `.bar-btn`. Linha de cima: nome do pass ("1 Pass") à esquerda +
+    "0 / XXXX" à direita. Linha de baixo: barra de progresso (`.bar-progress`/`.bar-fill`,
+    gradiente azul) + "0%". Botão "Continue" à direita, centralizado verticalmente.
+  - **Ícones SVG premium** substituíram os caracteres unicode (▣ ▥ ⌁ ⌘) nos 4 action cards:
+    cada um com SVG line-icon próprio e cor-tema (QBank=azul, Flashcards=roxo,
+    Performance=verde, AI Tutor=ciano), fundo com gradiente sutil e borda interna. Classes
+    `.action-ico` + `.ico-qbank/.ico-flash/.ico-perf/.ico-ai`, com variantes light-mode.
+    Hover eleva o card (`translateY(-3px)`) e amplia levemente o ícone.
+  - **Check do streak** (✓) trocado por SVG de check; tipografia do streak reforçada
+    (tamanhos/pesos maiores).
+  - Cache-bust incrementado de `?v=20` para `?v=21` (`styles.css` e `app.html` alterados).
+
+---
   - **Study Planner** movido para dentro de "My Workspace", como 3º subitem (abaixo de Notes).
     Removido como item independente do menu.
   - **Sistema de tradução robusto (`site.js`):** ao clicar na bandeira EN/US ou BR, agora
@@ -370,5 +390,5 @@ Não usar `.fc-share-icon` ou `.fc-share-text` (removidos na v14).
 
 ---
 
-*Fim do handoff. Com este documento + o ZIP `couplemed_v19.zip`, qualquer IA
+*Fim do handoff. Com este documento + o ZIP `couplemed_v20.zip`, qualquer IA
 consegue entender a arquitetura, editar com segurança e orientar o deploy sem retrabalho.*
