@@ -133,56 +133,24 @@
   function qCount(){return Number(localStorage.getItem('couplemed_qbank_uworld_total')||0)}
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
   const COMING_SOON_PAGES=['qbank-rd','step-2','step-3','languages','observership','residency-match','links'];
-  const UWORLD_PAGE='qbank-uworld';
-  function renderUWorldPage(container,lang){
-    const t=I18N[lang];
-    const stat=`0 - XXXX ${t.uwQuestionsAnswered} · 0%`;
-    container.innerHTML=`<div class="uw-folder-page">
-      <h1 class="uw-title">${t.uwFolderTitle}</h1>
-      <div class="uw-folders">
-        <a href="app.html?page=uworld-pass-1&u=${user()}" class="uw-folder" data-page-link="uworld-pass-1">
-          <span class="uw-folder-icon">📁</span>
-          <div class="uw-folder-info"><strong>${t.uwPass1} — ${t.pass1Name}</strong><span>${stat}</span></div>
-          <span class="uw-folder-arrow">›</span>
-        </a>
-        <a href="app.html?page=uworld-pass-2&u=${user()}" class="uw-folder" data-page-link="uworld-pass-2">
-          <span class="uw-folder-icon">📁</span>
-          <div class="uw-folder-info"><strong>${t.uwPass2} — ${t.pass2Name}</strong><span>${stat}</span></div>
-          <span class="uw-folder-arrow">›</span>
-        </a>
-        <a href="app.html?page=uworld-pass-3&u=${user()}" class="uw-folder" data-page-link="uworld-pass-3">
-          <span class="uw-folder-icon">📁</span>
-          <div class="uw-folder-info"><strong>${t.uwPass3} — ${t.pass3Name}</strong><span>${stat}</span></div>
-          <span class="uw-folder-arrow">›</span>
-        </a>
-        <a href="app.html?page=uworld-pass-4&u=${user()}" class="uw-folder" data-page-link="uworld-pass-4">
-          <span class="uw-folder-icon">📁</span>
-          <div class="uw-folder-info"><strong>${t.uwPass4} — ${t.pass4Name}</strong><span>(${t.uwOnlyMissed})</span></div>
-          <span class="uw-folder-arrow">›</span>
-        </a>
-      </div>
-    </div>`;
-  }
+  const QBANK_PAGES=['qbank-uworld','uworld-pass-1','uworld-pass-2','uworld-pass-3','uworld-pass-4'];
   function updateDynamicContent(lang){
     const p=page(); if(p==='home')return;
-    const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3'||p==='uworld-pass-4';
-    const isUW=p===UWORLD_PAGE;
+    if(QBANK_PAGES.includes(p))return; // qbank.js monta e traduz sozinho
+    const isCS=COMING_SOON_PAGES.includes(p);
     const isModule=p==='flashcards'||p==='ai-tutor';
-    if(isUW){const rp=$('#regularPage'); if(rp)renderUWorldPage(rp,lang); return;}
     if(isCS||isModule)return;
     const title=$('#internalTitle');
     if(title){const key=PAGE_TITLE_KEYS[p]; title.textContent=(key&&I18N[lang][key])?I18N[lang][key]:p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
   }
   function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); updateDynamicContent(lang);}
   function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
-    const isCS=COMING_SOON_PAGES.includes(p)||p==='uworld-pass-1'||p==='uworld-pass-2'||p==='uworld-pass-3'||p==='uworld-pass-4';
-    const isUW=p===UWORLD_PAGE;
-    const isModule=p==='flashcards'||p==='ai-tutor';
+    const isQBank=QBANK_PAGES.includes(p);
+    const isCS=COMING_SOON_PAGES.includes(p);
+    const isModule=p==='flashcards'||p==='ai-tutor'||isQBank;
     const cs=$('#comingSoonPage'); const rp=$('#regularPage');
     if(cs) cs.hidden=true;
-    if(isUW){if(rp)rp.hidden=false;}
-    else if(isCS){if(cs)cs.hidden=false; if(rp)rp.hidden=true;}
-    else if(isModule){if(cs)cs.hidden=true; if(rp)rp.hidden=false;}
+    if(isCS){if(cs)cs.hidden=false; if(rp)rp.hidden=true;}
     else{if(rp)rp.hidden=false;}
   } else {document.body.classList.remove('internal');}
     $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle); if(el)el.classList.toggle('open');}));

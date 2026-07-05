@@ -392,3 +392,44 @@ Não usar `.fc-share-icon` ou `.fc-share-text` (removidos na v14).
 
 *Fim do handoff. Com este documento + o ZIP `couplemed_v20.zip`, qualquer IA
 consegue entender a arquitetura, editar com segurança e orientar o deploy sem retrabalho.*
+
+---
+
+# ADENDO v21 — MÓDULO QBANK UWORLD (Step 1)
+
+## O que entrou
+Módulo de banco de questões estilo UWorld para USMLE Step 1, em **arquitetura de 2 camadas**:
+a interface roda 100% em **localStorage hoje**, mas toda persistência passa por `QB.store`,
+projetado para trocar para a **API D1** depois sem reescrever a UI.
+
+### Arquivos novos
+- `schema.sql` (RAIZ) — schema D1 completo (Partes 1, 15.1, 16.2). Ainda NÃO aplicado.
+- `public/js/qbank.js` — o módulo (seed de 10 questões, Create Test, resolução, passes, causa-raiz, analytics, SmartCards).
+- `public/css/qbank.css` — estilos (dark/light + cores diagnósticas UWorld).
+
+### Arquivos editados
+- `worker.js` — router `/api/qbank/*` sobre D1 (fallback 503 se D1 não vinculado; site segue em localStorage).
+- `wrangler.toml` — bloco `[[d1_databases]]` **comentado**, pronto para ativar.
+- `public/js/site.js` — páginas `qbank-uworld` e `uworld-pass-1..4` agora entregam controle ao módulo.
+- `public/app.html` — inclui `qbank.css`/`qbank.js`; todos os assets em `?v=22`.
+
+## Como funciona hoje (localStorage)
+- Banco por usuário: `couplemed_qb_${user}` (attempts imutáveis, tests, notebook, flags, links).
+- SmartCards gravam no MESMO banco do módulo Flashcards (`couplemed_fc_${user}`), deck "QBank SmartCards".
+- `pass_number` calculado por attempts (0→1,1→2,2→3,3+→99). `attempts` nunca é sobrescrito.
+- Pool da Passada Dirigida: último attempt incorreto OU flagged, excluindo 2 acertos consecutivos.
+
+## Como LIGAR o backend D1 (quando quiser)
+1. `npx wrangler d1 create qbank-db` → copie o `database_id` retornado.
+2. Em `wrangler.toml`, descomente o bloco `[[d1_databases]]` e cole o `database_id`.
+3. `npx wrangler d1 execute qbank-db --file ./schema.sql --remote`
+4. Faça deploy. `couplemed.com/api/qbank/health` deve responder `{"dbReady":true}`.
+5. (Próximo passo de código) trocar os métodos de `QB.store` no `qbank.js` de localStorage
+   para `fetch('/api/qbank/...')`. A UI não muda — só a camada de dados.
+
+## Ainda NÃO implementado (próximas partes)
+- Parte 16 (UI de importação de questões CSV/JSON/XLSX + R2) — hoje as questões são um SEED no `qbank.js`.
+- Parte 8 (self-assessments/simulados) e Parte 9 (study planner).
+- Oclusão de imagem em SmartCards e versionamento de questão.
+
+*Fim do adendo v21.*

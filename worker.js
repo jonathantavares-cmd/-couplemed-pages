@@ -99,7 +99,112 @@ export default {
       }
     }
 
+    /* ---------- rotas QBank (D1) ---------- */
+    if (url.pathname.startsWith('/api/qbank')) {
+      return handleQBank(request, env, url);
+    }
+
     /* ---------- arquivos estáticos (public/) ---------- */
     return env.ASSETS.fetch(request);
   }
 };
+
+/**
+ * Router do QBank sobre Cloudflare D1 (binding esperado: env.QBANK_DB).
+ * Enquanto o D1 não estiver ligado no wrangler.toml, todas as rotas respondem
+ * 503 com dbReady:false — o frontend detecta isso e continua em localStorage.
+ * Isso deixa o backend "preparado" sem quebrar o site atual.
+ *
+ * Endpoints implementados (referência às Partes do prompt mestre):
+ *   GET  /api/qbank/health                       → status do banco
+ *   GET  /api/qbank/questions?system=&...         → Parte 2 (pool p/ Create Test)
+ *   GET  /api/qbank/questions/:id/history?user=   → Parte 4.5 (indicador colorido)
+ *   POST /api/qbank/attempts                       → Parte 3/4 (registra tentativa, imutável)
+ *   GET  /api/qbank/analytics/pass-comparison?user=       → Parte 4.4
+ *   GET  /api/qbank/analytics/root-cause-breakdown?user=  → Parte 5.3
+ */
+async function handleQBank(request, env, url) {
+  const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,POST,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
+  if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+
+  const reply = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', ...cors } });
+  const path = url.pathname.replace(/^\/api\/qbank/, '') || '/';
+  const db = env.QBANK_DB; // binding D1
+
+  if (path === '/health' || path === '/') {
+    return reply({ ok: true, dbReady: !!db, mode: db ? 'd1' : 'localStorage-fallback' });
+  }
+  if (!db) {
+    // Backend preparado, mas D1 ainda não vinculado → frontend usa localStorage.
+    return reply({ error: 'D1 not bound', dbReady: false, hint: 'Configure [[d1_databases]] no wrangler.toml e rode wrangler d1 execute com schema.sql' }, 503);
+  }
+
+  try {
+    // ---- Parte 2: pool de questões para Create Test ----
+    if (path === '/questions' && request.method === 'GET') {
+      const p = url.searchParams;
+      const where = [], bind = [];
+      if (p.get('system'))     { where.push('system_id = ?');     bind.push(p.get('system')); }
+      if (p.get('discipline')) { where.push('discipline_id = ?'); bind.push(p.get('discipline')); }
+      if (p.get('category'))   { where.push('category_id = ?');   bind.push(p.get('category')); }
+      if (p.get('difficulty')) { where.push('difficulty_level = ?'); bind.push(p.get('difficulty')); }
+      const sql = 'SELECT * FROM questions' + (where.length ? ' WHERE ' + where.join(' AND ') : '') + ' LIMIT 500';
+      const { results } = await db.prepare(sql).bind(...bind).all();
+      return reply({ questions: results });
+    }
+
+    // ---- Parte 4.5: histórico de uma questão (indicador colorido) ----
+    let m = path.match(/^\/questions\/([^/]+)\/history$/);
+    if (m && request.method === 'GET') {
+      const user = url.searchParams.get('user');
+      const { results } = await db.prepare(
+        'SELECT status, is_correct, pass_number, created_at FROM attempts WHERE user_id=? AND question_id=? ORDER BY created_at ASC'
+      ).bind(user, m[1]).all();
+      return reply({ history: results });
+    }
+
+    // ---- Parte 3/4: registrar tentativa (INSERT-only, nunca sobrescreve) ----
+    if (path === '/attempts' && request.method === 'POST') {
+      const b = await request.json();
+      // Parte 4.1: pass_number calculado por attempts anteriores.
+      const prior = await db.prepare('SELECT COUNT(*) AS n FROM attempts WHERE user_id=? AND question_id=?')
+        .bind(b.user_id, b.question_id).first();
+      const n = (prior?.n ?? 0);
+      const pass_number = n === 0 ? 1 : n === 1 ? 2 : n === 2 ? 3 : 99;
+      const id = crypto.randomUUID();
+      await db.prepare(
+        `INSERT INTO attempts (id,user_id,question_id,test_id,pass_number,selected_option,is_correct,status,time_spent_seconds,mode,flagged,strikethrough_options,root_cause_tag)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`
+      ).bind(id, b.user_id, b.question_id, b.test_id ?? null, pass_number, b.selected_option ?? null,
+             b.is_correct ?? null, b.status, b.time_spent_seconds ?? 0, b.mode, b.flagged ? 1 : 0,
+             JSON.stringify(b.strikethrough_options ?? []), b.root_cause_tag ?? null).run();
+      return reply({ id, pass_number });
+    }
+
+    // ---- Parte 4.4: comparação por pass_number × system ----
+    if (path === '/analytics/pass-comparison' && request.method === 'GET') {
+      const user = url.searchParams.get('user');
+      const { results } = await db.prepare(
+        `SELECT pass_number, system_id,
+                ROUND(100.0*SUM(is_correct)/COUNT(*),1) AS pct, COUNT(*) AS total
+         FROM attempts WHERE user_id=? AND status!='omitted'
+         GROUP BY pass_number, system_id`
+      ).bind(user).all();
+      return reply({ passComparison: results });
+    }
+
+    // ---- Parte 5.3: distribuição de causa-raiz ----
+    if (path === '/analytics/root-cause-breakdown' && request.method === 'GET') {
+      const user = url.searchParams.get('user');
+      const { results } = await db.prepare(
+        `SELECT root_cause_tag AS tag, COUNT(*) AS n FROM attempts
+         WHERE user_id=? AND root_cause_tag IS NOT NULL GROUP BY root_cause_tag ORDER BY n DESC`
+      ).bind(user).all();
+      return reply({ rootCause: results });
+    }
+
+    return reply({ error: 'Not found' }, 404);
+  } catch (err) {
+    return reply({ error: 'D1 error', detail: String(err) }, 500);
+  }
+}
