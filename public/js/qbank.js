@@ -27,7 +27,7 @@
      Substituível pelo pipeline de importação (Parte 16) ou pela API D1.
      Cada questão: vinheta estilo NBME, 5 alternativas, explicações e peer stats. */
   const SEED = [
-    { id:'q_cv_as', system:'cardiovascular_system', discipline:'pathophysiology', category:'Valvopatias', difficulty:'medium',
+    { id:'q_cv_as', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::valvular_heart_diseases', difficulty:'medium',
       vignette:'A 72-year-old man is evaluated for two episodes of syncope during exertion over the past month. He also reports dyspnea on climbing stairs. On auscultation there is a harsh crescendo-decrescendo systolic murmur best heard at the right upper sternal border, radiating to both carotids. The murmur intensity decreases with handgrip. Peripheral pulses are delayed and diminished (pulsus parvus et tardus).',
       q:'Which of the following is the most likely diagnosis?',
       options:[{label:'A',text:'Aortic stenosis'},{label:'B',text:'Mitral regurgitation'},{label:'C',text:'Hypertrophic obstructive cardiomyopathy'},{label:'D',text:'Aortic regurgitation'},{label:'E',text:'Mitral valve prolapse'}],
@@ -37,7 +37,7 @@
       objective:'Recognize severe aortic stenosis by exertional syncope, an ejection systolic murmur radiating to the carotids, and pulsus parvus et tardus.',
       peer:{A:71,B:9,C:12,D:5,E:3} },
 
-    { id:'q_resp_emph', system:'respiratory_system', discipline:'pathology', category:'DPOC', difficulty:'medium',
+    { id:'q_resp_emph', system:'pulmonary_critical_care', discipline:'pathology', category:'pulmonary_critical_care::obstructive_lung', difficulty:'medium',
       vignette:'A 66-year-old man with a 45-pack-year smoking history reports progressive exertional dyspnea. He is thin, sits leaning forward, and breathes through pursed lips. The chest is hyperresonant with diminished breath sounds and a prolonged expiratory phase. Chest imaging shows hyperinflation with a flattened diaphragm and increased retrosternal air space. Arterial blood gas is near normal at rest.',
       q:'Which pathologic process best explains these findings?',
       options:[{label:'A',text:'Destruction of alveolar walls distal to the terminal bronchiole'},{label:'B',text:'Hyperplasia of bronchial submucosal glands'},{label:'C',text:'Non-caseating granulomas in the interstitium'},{label:'D',text:'Diffuse alveolar damage with hyaline membranes'},{label:'E',text:'Reversible bronchospasm from mast cell degranulation'}],
@@ -47,7 +47,7 @@
       objective:'Attribute the emphysema ("pink puffer") phenotype to destruction of alveolar walls distal to the terminal bronchiole with loss of elastic recoil.',
       peer:{A:64,B:20,C:4,D:5,E:7} },
 
-    { id:'q_renal_hyperk', system:'renal_urinary', discipline:'physiology', category:'Distúrbios eletrolíticos', difficulty:'hard',
+    { id:'q_renal_hyperk', system:'renal_urinary', discipline:'physiology', category:'renal_urinary::fluid_electrolytes_acidbase', difficulty:'hard',
       vignette:'A 59-year-old man with end-stage renal disease missed his last two dialysis sessions. He presents with weakness and palpitations. Serum potassium is 7.2 mEq/L. The ECG shows peaked T waves, a widened QRS, and loss of P waves.',
       q:'Which is the most appropriate immediate next step in management?',
       options:[{label:'A',text:'Intravenous calcium gluconate'},{label:'B',text:'Intravenous regular insulin with dextrose'},{label:'C',text:'Nebulized albuterol'},{label:'D',text:'Oral sodium polystyrene sulfonate'},{label:'E',text:'Urgent hemodialysis'}],
@@ -57,7 +57,7 @@
       objective:'When hyperkalemia produces ECG changes, give IV calcium first to stabilize the myocardium before shifting or removing potassium.',
       peer:{A:52,B:31,C:2,D:4,E:11} },
 
-    { id:'q_id_gc', system:'infectious_disease', discipline:'microbiology', category:'IST', difficulty:'medium',
+    { id:'q_id_gc', system:'infectious_diseases', discipline:'microbiology', category:'infectious_diseases::hiv_sti', difficulty:'medium',
       vignette:'A 24-year-old sexually active man presents with dysuria and a purulent urethral discharge for three days. Gram stain of the discharge shows numerous neutrophils containing gram-negative diplococci.',
       q:'Which organism is the most likely cause?',
       options:[{label:'A',text:'Neisseria gonorrhoeae'},{label:'B',text:'Chlamydia trachomatis'},{label:'C',text:'Treponema pallidum'},{label:'D',text:'Trichomonas vaginalis'},{label:'E',text:'Haemophilus ducreyi'}],
@@ -67,7 +67,7 @@
       objective:'Identify Neisseria gonorrhoeae from intracellular gram-negative diplococci in neutrophils on urethral Gram stain.',
       peer:{A:78,B:14,C:3,D:3,E:2} },
 
-    { id:'q_endo_graves', system:'endocrine', discipline:'pathophysiology', category:'Tireoide', difficulty:'medium',
+    { id:'q_endo_graves', system:'endocrine', discipline:'pathophysiology', category:'endocrine::thyroid_disorders', difficulty:'medium',
       vignette:'A 32-year-old woman reports a 6-kg weight loss despite increased appetite, palpitations, heat intolerance, and anxiety over three months. On exam she has a fine resting tremor, warm moist skin, a diffusely enlarged nontender thyroid with a bruit, and bilateral proptosis. TSH is undetectable and free T4 is elevated.',
       q:'Which finding is most specific for the underlying diagnosis?',
       options:[{label:'A',text:'Proptosis (exophthalmos)'},{label:'B',text:'Fine resting tremor'},{label:'C',text:'Undetectable TSH'},{label:'D',text:'Weight loss with increased appetite'},{label:'E',text:'Heat intolerance'}],
@@ -77,7 +77,7 @@
       objective:'Recognize that thyroid ophthalmopathy is specific to Graves disease among the causes of thyrotoxicosis.',
       peer:{A:58,B:6,C:22,D:6,E:8} },
 
-    { id:'q_neuro_levodopa', system:'nervous_special_senses', discipline:'pharmacology', category:'Parkinson', difficulty:'hard',
+    { id:'q_neuro_levodopa', system:'nervous_system', discipline:'pharmacology', category:'nervous_system::neurodegenerative_dementias', difficulty:'hard',
       vignette:'A 68-year-old man has a resting pill-rolling tremor, cogwheel rigidity, bradykinesia, and a shuffling gait. He is started on a medication that is combined with carbidopa.',
       q:'What is the purpose of adding carbidopa to this therapy?',
       options:[{label:'A',text:'It inhibits peripheral DOPA decarboxylase, reducing peripheral side effects and increasing central levodopa delivery'},{label:'B',text:'It directly stimulates central dopamine receptors'},{label:'C',text:'It inhibits catechol-O-methyltransferase in the brain'},{label:'D',text:'It blocks central muscarinic receptors to reduce tremor'},{label:'E',text:'It crosses the blood-brain barrier to be converted to dopamine'}],
@@ -87,7 +87,7 @@
       objective:'Explain that carbidopa blocks peripheral DOPA decarboxylase to reduce peripheral side effects and boost central levodopa availability.',
       peer:{A:61,B:8,C:18,D:6,E:7} },
 
-    { id:'q_heme_ida', system:'heme_onc', discipline:'pathology', category:'Anemias', difficulty:'medium',
+    { id:'q_heme_ida', system:'heme_onc', discipline:'pathology', category:'heme_onc::rbc_disorders', difficulty:'medium',
       vignette:'A 41-year-old woman with heavy menstrual bleeding reports fatigue and pica (craving ice). Labs show hemoglobin 9.1 g/dL, MCV 74 fL, low serum ferritin, elevated total iron-binding capacity, and low transferrin saturation.',
       q:'Which is the most likely diagnosis?',
       options:[{label:'A',text:'Iron deficiency anemia'},{label:'B',text:'Anemia of chronic disease'},{label:'C',text:'Beta-thalassemia minor'},{label:'D',text:'Sideroblastic anemia'},{label:'E',text:'Vitamin B12 deficiency'}],
@@ -97,7 +97,7 @@
       objective:'Distinguish iron deficiency (low ferritin, high TIBC) from other microcytic anemias using iron studies.',
       peer:{A:74,B:15,C:6,D:2,E:3} },
 
-    { id:'q_gi_scc', system:'gi_nutrition', discipline:'pathophysiology', category:'Esôfago', difficulty:'medium',
+    { id:'q_gi_scc', system:'gi_nutrition', discipline:'pathophysiology', category:'gi_nutrition::tumors_gi', difficulty:'medium',
       vignette:'A 61-year-old man with a long history of tobacco and alcohol use reports difficulty swallowing solid foods for two months, now progressing to difficulty with liquids as well. He has lost 7 kg. Upper endoscopy reveals an irregular ulcerated mass in the mid-esophagus.',
       q:'Which is the most likely diagnosis?',
       options:[{label:'A',text:'Squamous cell carcinoma of the esophagus'},{label:'B',text:'Esophageal adenocarcinoma'},{label:'C',text:'Achalasia'},{label:'D',text:'Diffuse esophageal spasm'},{label:'E',text:'Eosinophilic esophagitis'}],
@@ -107,7 +107,7 @@
       objective:'Link progressive dysphagia, weight loss, and a mid-esophageal mass in a smoker/drinker to squamous cell carcinoma.',
       peer:{A:56,B:30,C:6,D:3,E:5} },
 
-    { id:'q_gp_vongierke', system:'biochem_gp', discipline:'biochem', category:'Doenças de depósito', difficulty:'hard',
+    { id:'q_gp_vongierke', system:'biochemistry', discipline:'biochem', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
       vignette:'A 5-month-old infant is brought in with a protuberant abdomen. Exam reveals marked hepatomegaly and doll-like facies. During a brief fast the infant becomes lethargic; labs show severe hypoglycemia, lactic acidosis, hyperuricemia, and hyperlipidemia. Ketones are present but the infant does not improve with glucagon.',
       q:'A deficiency of which enzyme best explains this presentation?',
       options:[{label:'A',text:'Glucose-6-phosphatase'},{label:'B',text:'Alpha-1,4-glucosidase (acid maltase)'},{label:'C',text:'Debranching enzyme'},{label:'D',text:'Muscle glycogen phosphorylase'},{label:'E',text:'Branching enzyme'}],
@@ -117,7 +117,7 @@
       objective:'Recognize von Gierke disease (G6Pase deficiency) by fasting hypoglycemia unresponsive to glucagon with lactic acidosis, hyperuricemia, and hepatomegaly.',
       peer:{A:49,B:14,C:20,D:9,E:8} },
 
-    { id:'q_psych_mdd', system:'psych_behavioral', discipline:'behavioral_science', category:'Transtornos do humor', difficulty:'medium',
+    { id:'q_psych_mdd', system:'psychiatric_behavioral', discipline:'behavioral_science', category:'psychiatric_behavioral::mood_disorders', difficulty:'medium',
       vignette:'A 29-year-old woman reports six weeks of depressed mood and loss of interest in activities she used to enjoy. She also describes insomnia, poor concentration, low energy, feelings of worthlessness, and a 4-kg unintentional weight loss. She denies manic episodes, substance use, and has a normal physical exam and TSH.',
       q:'Which is the most likely diagnosis?',
       options:[{label:'A',text:'Major depressive disorder'},{label:'B',text:'Persistent depressive disorder (dysthymia)'},{label:'C',text:'Adjustment disorder with depressed mood'},{label:'D',text:'Bipolar II disorder'},{label:'E',text:'Normal grief'}],
@@ -136,58 +136,66 @@
     {id:'time_pressure',              en:'Time pressure',                 pt:'Pressão do tempo'},
   ];
 
-  const SYS_NAMES = {cardiovascular_system:'Cardiovascular',respiratory_system:'Respiratory',renal_urinary:'Renal/Urinary',infectious_disease:'Infectious Disease',endocrine:'Endocrine',nervous_special_senses:'Nervous System',heme_onc:'Hematology & Oncology',gi_nutrition:'GI & Nutrition',general_principles:'General Principles',psych_behavioral:'Psychiatric/Behavioral'};
-  const DISC_NAMES = {pathophysiology:'Pathophysiology',pathology:'Pathology',physiology:'Physiology',microbiology:'Microbiology',pharmacology:'Pharmacology',biochem:'Biochemistry',behavioral_science:'Behavioral Science'};
-
-  /* ===================== TAXONOMIA COMPLETA (UWorld Step 1) =====================
-     Árvore oficial de Sistemas (com categorias) e Subjects (disciplinas), exibida
-     integralmente no Create Test — mesmo com contagem 0, como no UWorld real.
-     Os IDs de sistema batem com o schema.sql (D1) para o import futuro casar. */
-  const SYSTEMS_TAX = [
-    {id:'biochem_gp', en:'Biochemistry (General Principles)', pt:'Bioquímica (Princípios Gerais)', cats:['Amino acids, proteins, and enzymes','Bioenergetics and carbohydrate metabolism','Cell and molecular biology','Lipid metabolism','Miscellaneous']},
-    {id:'genetics_gp', en:'Genetics (General Principles)', pt:'Genética (Princípios Gerais)', cats:['Clinical genetics','DNA structure, replication, and repair','Gene expression and regulation','Protein synthesis','RNA structure, synthesis, and processing','Miscellaneous']},
-    {id:'micro_gp', en:'Microbiology (General Principles)', pt:'Microbiologia (Princípios Gerais)', cats:['Bacteriology','Mycology','Parasitology','Virology','Miscellaneous']},
-    {id:'pathology_gp', en:'Pathology (General Principles)', pt:'Patologia (Princípios Gerais)', cats:['Cellular pathology','Inflammation and repair','Neoplasia']},
-    {id:'pharm_gp', en:'Pharmacology (General Principles)', pt:'Farmacologia (Princípios Gerais)', cats:['Drug metabolism and toxicity','Drug receptors and pharmacodynamics','Pharmacokinetics','Miscellaneous']},
-    {id:'biostat_epi', en:'Biostatistics & Epidemiology', pt:'Bioestatística & Epidemiologia', cats:['Epidemiology and population health','Measures and distribution of data','Probability and principles of testing','Study design and interpretation','Miscellaneous']},
-    {id:'poisoning_environmental', en:'Poisoning & Environmental Exposure', pt:'Intoxicação & Exposição Ambiental', cats:['Environmental exposure','Toxicology']},
-    {id:'allergy_immunology', en:'Allergy & Immunology', pt:'Alergia & Imunologia', cats:['Anaphylaxis and allergic reactions','Autoimmune diseases','Immune deficiencies','Transplant medicine','Principles of immunology','Miscellaneous']},
-    {id:'cardiovascular_system', en:'Cardiovascular System', pt:'Sistema Cardiovascular', cats:['Normal structure and function of the cardiovascular system','Aortic and peripheral artery diseases','Cardiac arrhythmias','Congenital heart disease','Coronary heart disease','Heart failure and shock','Hypertension','Myopericardial diseases','Valvular heart diseases','Cardiovascular drugs','Miscellaneous']},
-    {id:'dermatology', en:'Dermatology', pt:'Dermatologia', cats:['Normal structure and function of skin','Disorders of epidermal appendages','Inflammatory dermatoses and bullous diseases','Skin and soft tissue infections','Skin tumors and tumor-like lesions','Miscellaneous']},
-    {id:'ent', en:'Ear, Nose & Throat (ENT)', pt:'Ouvido, Nariz & Garganta (ENT)', cats:['Disorders of the ear, nose, and throat']},
-    {id:'endocrine', en:'Endocrine, Diabetes & Metabolism', pt:'Endócrino, Diabetes & Metabolismo', cats:['Normal structure and function of endocrine glands','Congenital and developmental anomalies','Adrenal disorders','Diabetes mellitus','Endocrine tumors','Hypothalamus and pituitary disorders','Obesity and dyslipidemia','Reproductive endocrinology','Thyroid disorders','Miscellaneous']},
-    {id:'female_repro_breast', en:'Female Reproductive System & Breast', pt:'Sistema Reprodutor Feminino & Mama', cats:['Normal structure and function of the female reproductive system and breast','Congenital and developmental anomalies','Breast disorders','Genital tract tumors and tumor-like lesions','Genitourinary tract infections','Menstrual disorders and contraception','Miscellaneous']},
-    {id:'gi_nutrition', en:'Gastrointestinal & Nutrition', pt:'Gastrointestinal & Nutrição', cats:['Normal structure and function of the GI tract','Congenital and developmental anomalies','Biliary tract disorders','Disorders of nutrition','Gastroesophageal disorders','Hepatic disorders','Intestinal and colorectal disorders','Pancreatic disorders','Tumors of the GI tract','Miscellaneous']},
-    {id:'heme_onc', en:'Hematology & Oncology', pt:'Hematologia & Oncologia', cats:['Normal hematologic structure and function','Hemostasis and thrombosis','Plasma cell disorders','Platelet disorders','Red blood cell disorders','Transfusion medicine','White blood cell disorders','Principles of oncology','Miscellaneous']},
-    {id:'infectious_disease', en:'Infectious Diseases', pt:'Doenças Infecciosas', cats:['Antimicrobial drugs','Bacterial infections','Fungal infections','HIV and sexually transmitted infections','Infection control','Parasitic and helminthic infections','Viral infections','Miscellaneous']},
-    {id:'male_repro', en:'Male Reproductive System', pt:'Sistema Reprodutor Masculino', cats:['Normal structure and function of the male reproductive system','Disorders of the male reproductive system','Miscellaneous']},
-    {id:'nervous_special_senses', en:'Nervous System', pt:'Sistema Nervoso', cats:['Normal structure and function of the nervous system','Congenital and developmental anomalies','Cerebrovascular disease','CNS infections','Demyelinating diseases','Disorders of peripheral nerves and muscles','Headache','Neurodegenerative disorders and dementias','Seizures and epilepsy','Spinal cord disorders','Traumatic brain injuries','Tumors of the nervous system','Hydrocephalus','Anesthesia','Sleep disorders','Miscellaneous']},
-    {id:'ophthalmology', en:'Ophthalmology', pt:'Oftalmologia', cats:['Normal structure and function of the eye and associated structures','Disorders of the eye and associated structures']},
-    {id:'pregnancy_childbirth', en:'Pregnancy, Childbirth & Puerperium', pt:'Gravidez, Parto & Puerpério', cats:['Normal pregnancy, childbirth, and puerperium','Disorders of pregnancy, childbirth, and puerperium']},
-    {id:'psych_behavioral', en:'Psychiatric/Behavioral & Substance Use Disorder', pt:'Psiquiátrico/Comportamental & Uso de Substâncias', cats:['Normal behavior and development','Anxiety and trauma-related disorders','Mood disorders','Neurodevelopmental disorders','Personality disorders','Psychotic disorders','Substance use disorders','Eating disorders','Somatoform disorders','Miscellaneous']},
-    {id:'respiratory_system', en:'Pulmonary & Critical Care', pt:'Pulmonar & Terapia Intensiva', cats:['Normal pulmonary structure and function','Congenital and developmental anomalies','Critical care medicine','Interstitial lung disease','Lung cancer','Obstructive lung disease','Pulmonary infections','Pulmonary vascular disease','Sleep disorders','Miscellaneous']},
-    {id:'renal_urinary', en:'Renal, Urinary Systems & Electrolytes', pt:'Sistema Renal, Urinário & Eletrólitos', cats:['Normal structure and function of the kidneys and urinary system','Congenital and developmental anomalies','Acute kidney injury','Bone metabolism','Chronic kidney disease','Cystic kidney diseases','Fluid, electrolytes, and acid-base','Glomerular diseases','Neoplasms of the kidneys and urinary tract','Nephrolithiasis and urinary tract obstruction','Diabetes insipidus','Urinary incontinence','Miscellaneous']},
-    {id:'rheum_ortho', en:'Rheumatology/Orthopedics & Sports', pt:'Reumatologia/Ortopedia & Esportes', cats:['Normal structure and function of the musculoskeletal system','Congenital and developmental anomalies','Arthritis and spondyloarthropathies','Autoimmune disorders and vasculitides','Bone/joint injuries and infections','Bone tumors and tumor-like lesions','Spinal disorders and back pain','Metabolic bone disorders','Miscellaneous']},
-    {id:'social_sciences', en:'Social Sciences (Ethics/Legal/Professional)', pt:'Ciências Sociais (Ética/Legal/Profissional)', cats:['Communication and interpersonal skills','Healthcare policy and economics','Medical ethics and jurisprudence','Patient safety','System based-practice and quality improvement','Miscellaneous']},
-    {id:'multisystem', en:'Miscellaneous (Multisystem)', pt:'Diversos (Multissistêmico)', cats:['Miscellaneous']},
+  /* ===================== TAXONOMIA OFICIAL UWORLD (Systems → Subjects) =====================
+     Extraída das telas reais do UWorld USMLE Step 1. Cada subtópico tem id namespaced
+     por sistema (systemId::slug) para garantir unicidade. É a fonte única do accordion. */
+  const TAXONOMY = [
+    {id:'biochemistry', name:'Biochemistry (General Principles)', subs:[
+      ['amino_acids_proteins_enzymes','Amino acids, proteins, and enzymes'],['bioenergetics_carb_metabolism','Bioenergetics and carbohydrate metabolism'],['cell_molecular_biology','Cell and molecular biology'],['lipid_metabolism','Lipid metabolism'],['misc','Miscellaneous']]},
+    {id:'genetics', name:'Genetics (General Principles)', subs:[
+      ['clinical_genetics','Clinical genetics'],['dna_structure_replication_repair','DNA structure, replication, and repair'],['gene_expression_regulation','Gene expression and regulation'],['protein_synthesis','Protein synthesis'],['rna_structure_synthesis_processing','RNA structure, synthesis, and processing'],['misc','Miscellaneous']]},
+    {id:'microbiology', name:'Microbiology (General Principles)', subs:[
+      ['bacteriology','Bacteriology'],['mycology','Mycology'],['parasitology','Parasitology'],['virology','Virology'],['misc','Miscellaneous']]},
+    {id:'pathology', name:'Pathology (General Principles)', subs:[
+      ['cellular_pathology','Cellular pathology'],['inflammation_repair','Inflammation and repair'],['neoplasia','Neoplasia']]},
+    {id:'pharmacology', name:'Pharmacology (General Principles)', subs:[
+      ['drug_metabolism_toxicity','Drug metabolism and toxicity'],['drug_receptors_pharmacodynamics','Drug receptors and pharmacodynamics'],['pharmacokinetics','Pharmacokinetics'],['misc','Miscellaneous']]},
+    {id:'biostatistics_epidemiology', name:'Biostatistics & Epidemiology', subs:[
+      ['epidemiology_population_health','Epidemiology and population health'],['measures_distribution_data','Measures and distribution of data'],['probability_principles_testing','Probability and principles of testing'],['study_design_interpretation','Study design and interpretation'],['misc','Miscellaneous']]},
+    {id:'poisoning_environmental', name:'Poisoning & Environmental Exposure', subs:[
+      ['environmental_exposure','Environmental exposure'],['toxicology','Toxicology']]},
+    {id:'allergy_immunology', name:'Allergy & Immunology', subs:[
+      ['anaphylaxis_allergic_reactions','Anaphylaxis and allergic reactions'],['autoimmune_diseases','Autoimmune diseases'],['immune_deficiencies','Immune deficiencies'],['transplant_medicine','Transplant medicine'],['principles_immunology','Principles of immunology'],['misc','Miscellaneous']]},
+    {id:'cardiovascular', name:'Cardiovascular System', subs:[
+      ['normal_cv','Normal structure and function of the cardiovascular system'],['aortic_peripheral_artery','Aortic and peripheral artery diseases'],['cardiac_arrhythmias','Cardiac arrhythmias'],['congenital_heart_disease','Congenital heart disease'],['coronary_heart_disease','Coronary heart disease'],['heart_failure_shock','Heart failure and shock'],['hypertension','Hypertension'],['myopericardial_diseases','Myopericardial diseases'],['valvular_heart_diseases','Valvular heart diseases'],['cardiovascular_drugs','Cardiovascular drugs'],['misc','Miscellaneous']]},
+    {id:'dermatology', name:'Dermatology', subs:[
+      ['normal_skin','Normal structure and function of skin'],['disorders_epidermal_appendages','Disorders of epidermal appendages'],['inflammatory_dermatoses_bullous','Inflammatory dermatoses and bullous diseases'],['skin_soft_tissue_infections','Skin and soft tissue infections'],['skin_tumors','Skin tumors and tumor-like lesions'],['misc','Miscellaneous']]},
+    {id:'ent', name:'Ear, Nose & Throat (ENT)', subs:[
+      ['disorders_ent','Disorders of the ear, nose, and throat']]},
+    {id:'endocrine', name:'Endocrine, Diabetes & Metabolism', subs:[
+      ['normal_endocrine','Normal structure and function of endocrine glands'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['adrenal_disorders','Adrenal disorders'],['diabetes_mellitus','Diabetes mellitus'],['endocrine_tumors','Endocrine tumors'],['hypothalamus_pituitary','Hypothalamus and pituitary disorders'],['obesity_dyslipidemia','Obesity and dyslipidemia'],['reproductive_endocrinology','Reproductive endocrinology'],['thyroid_disorders','Thyroid disorders'],['misc','Miscellaneous']]},
+    {id:'female_repro_breast', name:'Female Reproductive System & Breast', subs:[
+      ['normal_female_repro','Normal structure and function of the female reproductive system and breast'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['breast_disorders','Breast disorders'],['genital_tract_tumors','Genital tract tumors and tumor-like lesions'],['genitourinary_infections','Genitourinary tract infections'],['menstrual_disorders_contraception','Menstrual disorders and contraception'],['misc','Miscellaneous']]},
+    {id:'gi_nutrition', name:'Gastrointestinal & Nutrition', subs:[
+      ['normal_gi','Normal structure and function of the GI tract'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['biliary_tract','Biliary tract disorders'],['disorders_nutrition','Disorders of nutrition'],['gastroesophageal','Gastroesophageal disorders'],['hepatic','Hepatic disorders'],['intestinal_colorectal','Intestinal and colorectal disorders'],['pancreatic','Pancreatic disorders'],['tumors_gi','Tumors of the GI tract'],['misc','Miscellaneous']]},
+    {id:'heme_onc', name:'Hematology & Oncology', subs:[
+      ['normal_heme','Normal hematologic structure and function'],['hemostasis_thrombosis','Hemostasis and thrombosis'],['plasma_cell','Plasma cell disorders'],['platelet_disorders','Platelet disorders'],['rbc_disorders','Red blood cell disorders'],['transfusion_medicine','Transfusion medicine'],['wbc_disorders','White blood cell disorders'],['principles_oncology','Principles of oncology'],['misc','Miscellaneous']]},
+    {id:'infectious_diseases', name:'Infectious Diseases', subs:[
+      ['antimicrobial_drugs','Antimicrobial drugs'],['bacterial_infections','Bacterial infections'],['fungal_infections','Fungal infections'],['hiv_sti','HIV and sexually transmitted infections'],['infection_control','Infection control'],['parasitic_helminthic','Parasitic and helminthic infections'],['viral_infections','Viral infections'],['misc','Miscellaneous']]},
+    {id:'male_repro', name:'Male Reproductive System', subs:[
+      ['normal_male_repro','Normal structure and function of the male reproductive system'],['disorders_male_repro','Disorders of the male reproductive system']]},
+    {id:'nervous_system', name:'Nervous System', subs:[
+      ['normal_nervous','Normal structure and function of the nervous system'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['cerebrovascular_disease','Cerebrovascular disease'],['cns_infections','CNS infections'],['demyelinating_diseases','Demyelinating diseases'],['peripheral_nerves_muscles','Disorders of peripheral nerves and muscles'],['headache','Headache'],['neurodegenerative_dementias','Neurodegenerative disorders and dementias'],['seizures_epilepsy','Seizures and epilepsy'],['spinal_cord_disorders','Spinal cord disorders'],['traumatic_brain_injuries','Traumatic brain injuries'],['tumors_nervous','Tumors of the nervous system'],['hydrocephalus','Hydrocephalus'],['anesthesia','Anesthesia'],['sleep_disorders','Sleep disorders'],['misc','Miscellaneous']]},
+    {id:'ophthalmology', name:'Ophthalmology', subs:[
+      ['normal_eye','Normal structure and function of the eye and associated structures'],['disorders_eye','Disorders of the eye and associated structures']]},
+    {id:'pregnancy_childbirth', name:'Pregnancy, Childbirth & Puerperium', subs:[
+      ['normal_pregnancy','Normal pregnancy, childbirth, and puerperium'],['disorders_pregnancy','Disorders of pregnancy, childbirth, and puerperium']]},
+    {id:'psychiatric_behavioral', name:'Psychiatric/Behavioral & Substance Use Disorder', subs:[
+      ['normal_behavior_development','Normal behavior and development'],['anxiety_trauma','Anxiety and trauma-related disorders'],['mood_disorders','Mood disorders'],['neurodevelopmental_disorders','Neurodevelopmental disorders'],['personality_disorders','Personality disorders'],['psychotic_disorders','Psychotic disorders'],['substance_use_disorders','Substance use disorders'],['eating_disorders','Eating disorders'],['somatoform_disorders','Somatoform disorders'],['misc','Miscellaneous']]},
+    {id:'pulmonary_critical_care', name:'Pulmonary & Critical Care', subs:[
+      ['normal_pulmonary','Normal pulmonary structure and function'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['critical_care','Critical care medicine'],['interstitial_lung','Interstitial lung disease'],['lung_cancer','Lung cancer'],['obstructive_lung','Obstructive lung disease'],['pulmonary_infections','Pulmonary infections'],['pulmonary_vascular','Pulmonary vascular disease'],['sleep_disorders','Sleep disorders'],['misc','Miscellaneous']]},
+    {id:'renal_urinary', name:'Renal, Urinary Systems & Electrolytes', subs:[
+      ['normal_renal','Normal structure and function of the kidneys and urinary system'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['acute_kidney_injury','Acute kidney injury'],['bone_metabolism','Bone metabolism'],['chronic_kidney_disease','Chronic kidney disease'],['cystic_kidney','Cystic kidney diseases'],['fluid_electrolytes_acidbase','Fluid, electrolytes, and acid-base'],['glomerular_diseases','Glomerular diseases'],['neoplasms_kidney_urinary','Neoplasms of the kidneys and urinary tract'],['nephrolithiasis_obstruction','Nephrolithiasis and urinary tract obstruction'],['diabetes_insipidus','Diabetes insipidus'],['urinary_incontinence','Urinary incontinence'],['misc','Miscellaneous']]},
+    {id:'rheum_ortho', name:'Rheumatology/Orthopedics & Sports', subs:[
+      ['normal_msk','Normal structure and function of the musculoskeletal system'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['arthritis_spondylo','Arthritis and spondyloarthropathies'],['autoimmune_vasculitides','Autoimmune disorders and vasculitides'],['bone_joint_injuries_infections','Bone/joint injuries and infections'],['bone_tumors','Bone tumors and tumor-like lesions'],['spinal_disorders_back_pain','Spinal disorders and back pain'],['metabolic_bone','Metabolic bone disorders'],['misc','Miscellaneous']]},
+    {id:'social_sciences', name:'Social Sciences (Ethics/Legal/Professional)', subs:[
+      ['communication_interpersonal','Communication and interpersonal skills'],['healthcare_policy_economics','Healthcare policy and economics'],['medical_ethics_jurisprudence','Medical ethics and jurisprudence'],['patient_safety','Patient safety'],['system_based_practice_qi','System based-practice and quality improvement'],['misc','Miscellaneous']]},
+    {id:'multisystem', name:'Miscellaneous (Multisystem)', subs:[
+      ['misc','Miscellaneous']]},
   ];
-  const SUBJECTS_TAX = [
-    {id:'anatomy', en:'Anatomy', pt:'Anatomia'},
-    {id:'behavioral_science', en:'Behavioral science', pt:'Ciência do Comportamento'},
-    {id:'biochem', en:'Biochemistry', pt:'Bioquímica'},
-    {id:'biostatistics', en:'Biostatistics', pt:'Bioestatística'},
-    {id:'embryology', en:'Embryology', pt:'Embriologia'},
-    {id:'genetics', en:'Genetics', pt:'Genética'},
-    {id:'histology', en:'Histology', pt:'Histologia'},
-    {id:'immunology', en:'Immunology', pt:'Imunologia'},
-    {id:'microbiology', en:'Microbiology', pt:'Microbiologia'},
-    {id:'pathology', en:'Pathology', pt:'Patologia'},
-    {id:'pathophysiology', en:'Pathophysiology', pt:'Fisiopatologia'},
-    {id:'pharmacology', en:'Pharmacology', pt:'Farmacologia'},
-    {id:'physiology', en:'Physiology', pt:'Fisiologia'},
-  ];
-  const catKey = (sysId, catName) => sysId + '::' + catName;
-
+  const subjId = (sysId,slug)=>`${sysId}::${slug}`;
+  const SYS_NAMES={}, SUBJ_NAMES={};
+  TAXONOMY.forEach(s=>{ SYS_NAMES[s.id]=s.name; s.subs.forEach(([slug,name])=>{ SUBJ_NAMES[subjId(s.id,slug)]=name; }); });
 
   /* ============================= i18n ============================= */
   const T = {
@@ -196,13 +204,12 @@
       passes:'Passes', pass:'Pass', dirigido:'Directed Pass', questions:'questions', continue:'Continue', start:'Start',
       passName:{1:'Learning',2:'Consolidation',3:'Refinement',99:'Total Mastery'},
       // create test
-      ctTitle:'Create Test', ctSystems:'Systems', ctDisciplines:'Disciplines', ctStatus:'Question status', ctPass:'Pass', ctDifficulty:'Difficulty', ctMode:'Mode', ctCount:'Number of questions',
+      ctTitle:'Create Test', ctSystems:'Systems', ctDisciplines:'Disciplines', ctStatus:'Question status', ctPass:'Pass', ctDifficulty:'Difficulty', ctMode:'Mode', ctCount:'Number of questions', collapseAll:'Collapse all', expandAll:'Expand all', maxPerBlock:'Max allowed',
       stAll:'All', stUnused:'Unused', stCorrect:'Correct', stIncorrect:'Incorrect', stMarked:'Marked', stOmitted:'Omitted',
       passAll:'All', pass1:'First', pass2:'Second', pass3:'Third', pass99:'Directed',
       diffAll:'All', easy:'Easy', medium:'Medium', hard:'Hard',
       tutor:'Tutor', timed:'Timed', secsPerQ:'sec / question',
       available:'available', generate:'Generate Test', noMatch:'No questions match these filters. Loosen a filter to continue.',
-      ctSubjects:'Subjects', ctCollapseAll:'Collapse All', ctExpandAll:'Expand All', ctSelectAll:'Select all', ctNoQuestions:'No. of Questions', ctMaxBlock:'Max allowed per block', ctTestMode:'Test Mode',
       back:'‹ Back to QBank',
       // solve
       qOf:(a,b)=>`Question ${a} of ${b}`, suspend:'Suspend', endBlock:'End Block', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
@@ -229,13 +236,12 @@
       perfTitle:'Seu desempenho', used:'Usadas', correct:'Acertos', incorrect:'Erros', omitted:'Omitidas', unused:'Não usadas', overall:'Nota geral',
       passes:'Passadas', pass:'Passada', dirigido:'Passada Dirigida', questions:'questões', continue:'Continuar', start:'Iniciar',
       passName:{1:'Aprendizado',2:'Consolidação',3:'Refinamento',99:'Domínio Total'},
-      ctTitle:'Criar Teste', ctSystems:'Sistemas', ctDisciplines:'Disciplinas', ctStatus:'Status da questão', ctPass:'Passada', ctDifficulty:'Dificuldade', ctMode:'Modo', ctCount:'Número de questões',
+      ctTitle:'Criar Teste', ctSystems:'Sistemas', ctDisciplines:'Disciplinas', ctStatus:'Status da questão', ctPass:'Passada', ctDifficulty:'Dificuldade', ctMode:'Modo', ctCount:'Número de questões', collapseAll:'Recolher tudo', expandAll:'Expandir tudo', maxPerBlock:'Máx. permitido',
       stAll:'Todas', stUnused:'Não usadas', stCorrect:'Acertadas', stIncorrect:'Erradas', stMarked:'Marcadas', stOmitted:'Omitidas',
       passAll:'Todas', pass1:'Primeira', pass2:'Segunda', pass3:'Terceira', pass99:'Dirigida',
       diffAll:'Todas', easy:'Fácil', medium:'Média', hard:'Difícil',
       tutor:'Tutor', timed:'Cronometrado', secsPerQ:'seg / questão',
       available:'disponíveis', generate:'Gerar Teste', noMatch:'Nenhuma questão corresponde a esses filtros. Afrouxe um filtro para continuar.',
-      ctSubjects:'Assuntos', ctCollapseAll:'Recolher Tudo', ctExpandAll:'Expandir Tudo', ctSelectAll:'Selecionar todos', ctNoQuestions:'Nº de Questões', ctMaxBlock:'Máximo permitido por bloco', ctTestMode:'Modo de Teste',
       back:'‹ Voltar ao Banco',
       qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Suspender', endBlock:'Encerrar Bloco', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
       submit:'Responder', next:'Próxima ›', prev:'‹ Anterior', confirmEnd:'Encerrar o bloco agora? Questões sem resposta serão registradas como omitidas.',
@@ -257,51 +263,6 @@
   const t = k => T[lang()][k];
   const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const uid = p => p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-
-  /* ============= TRADUÇÃO DINÂMICA DO CONTEÚDO (mesmo motor do Flashcards) =============
-     O texto médico (vinheta, enunciado, alternativas, explicações, objetivo) é gravado
-     em inglês. Ao trocar a bandeira, todo [data-qb-i18n] é traduzido para PT via API,
-     com cache e divisão em blocos (a vinheta é longa demais para 1 requisição só).
-     Em EN mostramos o original. O texto no DB nunca é sobrescrito, só a exibição. */
-  const TRANSLATE_API = 'https://api.mymemory.translated.net/get';
-  const transCache = {};              // `${textoOriginal}` -> tradução PT
-  let renderToken = 0;                // invalida traduções pendentes ao navegar
-  async function _tchunk(text){
-    const url = `${TRANSLATE_API}?q=${encodeURIComponent(text)}&langpair=en|pt`;
-    const r = await fetch(url); const d = await r.json();
-    return (d && d.responseData && d.responseData.translatedText) || text;
-  }
-  async function translateField(text){
-    if(!text || !text.trim()) return text;
-    if(transCache[text]) return transCache[text];
-    try{
-      const parts = []; let buf = '';
-      text.split(/(?<=[.!?])\s+/).forEach(s=>{
-        if((buf+' '+s).trim().length > 450){ if(buf) parts.push(buf); buf = s; }
-        else buf = buf ? buf+' '+s : s;
-      });
-      if(buf) parts.push(buf);
-      const out = [];
-      for(const p of parts){ out.push(await _tchunk(p)); }
-      const joined = out.join(' ');
-      transCache[text] = joined;
-      return joined;
-    }catch(e){ return text; }
-  }
-  function translateVisibleQBTexts(){
-    if(lang() !== 'pt') return;       // EN = original já renderizado
-    const my = renderToken;
-    if(!root) return;
-    root.querySelectorAll('[data-qb-i18n]').forEach(async el=>{
-      const original = el.getAttribute('data-qb-o');
-      if(!original) return;
-      const tr = await translateField(original);
-      if(renderToken !== my) return;  // usuário já navegou; descarta
-      el.textContent = tr;
-    });
-  }
-  // helper: renderiza um trecho traduzível (span/tag) já com o original guardado
-  const i18nAttr = txt => `data-qb-i18n data-qb-o="${esc(txt)}"`;
 
   /* ===================== CAMADA DE DADOS (QB.store) =====================
      localStorage hoje; troca para fetch('/api/qbank/*') amanhã sem tocar na UI. */
@@ -349,9 +310,7 @@
   /* ===================== SELEÇÃO POR FILTROS (Parte 2) ===================== */
   function filterPool(f){
     return SEED.filter(q=>{
-      if(f.systems.length && !f.systems.includes(q.system)) return false;
-      if(f.disciplines.length && !f.disciplines.includes(q.discipline)) return false;
-      if(f.categories && f.categories.length && !f.categories.includes(catKey(q.system,q.category))) return false;
+      if(f.subjects && f.subjects.length && !f.subjects.includes(q.category)) return false;
       if(f.difficulty!=='all' && q.difficulty!==f.difficulty) return false;
       // status
       const st = store.statusOf(q.id);
@@ -363,6 +322,26 @@
         if(f.status==='marked' && !store.isFlagged(q.id)) return false;
       }
       // pass
+      if(f.pass!=='all'){
+        const pn = store.passNumber(q.id);
+        if(f.pass==='99'){ if(!store.directedPool().some(x=>x.id===q.id)) return false; }
+        else if(String(pn)!==String(f.pass)) return false;
+      }
+      return true;
+    });
+  }
+  // disponibilidade ignorando a seleção de subtópicos (para contadores do accordion)
+  function availablePool(f){
+    return SEED.filter(q=>{
+      if(f.difficulty!=='all' && q.difficulty!==f.difficulty) return false;
+      const st = store.statusOf(q.id);
+      if(f.status!=='all'){
+        if(f.status==='unused' && st!=='unused') return false;
+        if(f.status==='correct' && st!=='correct') return false;
+        if(f.status==='incorrect' && st!=='incorrect') return false;
+        if(f.status==='omitted' && st!=='omitted') return false;
+        if(f.status==='marked' && !store.isFlagged(q.id)) return false;
+      }
       if(f.pass!=='all'){
         const pn = store.passNumber(q.id);
         if(f.pass==='99'){ if(!store.directedPool().some(x=>x.id===q.id)) return false; }
@@ -390,13 +369,11 @@
 
   function render(){
     if(!root) return;
-    renderToken++;
-    if(view.name==='home') renderHome();
-    else if(view.name==='create') renderCreate();
-    else if(view.name==='test') renderTest();
-    else if(view.name==='results') renderResults();
-    else if(view.name==='analytics') renderAnalytics();
-    translateVisibleQBTexts();
+    if(view.name==='home') return renderHome();
+    if(view.name==='create') return renderCreate();
+    if(view.name==='test') return renderTest();
+    if(view.name==='results') return renderResults();
+    if(view.name==='analytics') return renderAnalytics();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
 
@@ -456,66 +433,52 @@
   /* =========================== CREATE TEST =========================== */
   function renderCreate(){
     const preset = view.preset || {};
-    view.f = view.f || { systems:[], disciplines:[], categories:[], status:'all', pass:preset.pass||'all', difficulty:'all', mode:'tutor', secs:90, count:10 };
+    view.f = view.f || { subjects:[], status:'all', pass:preset.pass||'all', difficulty:'all', mode:'tutor', secs:90, count:10 };
     const f = view.f;
-    if(!f.categories) f.categories = [];
-    view.expanded = view.expanded || {};           // { sysId: true } sistemas abertos
-    const L = lang();
-    const nm = o => (L==='pt' && o.pt) ? o.pt : o.en;
-    // contagens independentes, respeitando apenas status/passada/dificuldade (como no UWorld)
-    const baseF = { systems:[], disciplines:[], categories:[], status:f.status, pass:f.pass, difficulty:f.difficulty };
-    const cnt = partial => filterPool(Object.assign({}, baseF, partial)).length;
+    if(!f.subjects) f.subjects=[];
+    view.collapsed = view.collapsed || {};
+    const avail = availablePool(f);
+    const countBy = {};                      // subjectId -> nº disponível
+    avail.forEach(q=>{ countBy[q.category]=(countBy[q.category]||0)+1; });
 
     const seg = (act,val,opts)=>opts.map(o=>`<button class="qb-seg ${val===o.v?'on':''}" data-act="${act}" data-v="${o.v}">${esc(o.l)}</button>`).join('');
-    const cbx = (on,act,v)=>`<span class="qb-cbx ${on?'on':''}" data-act="${act}" data-v="${esc(v)}" role="checkbox" aria-checked="${on?'true':'false'}"></span>`;
 
-    // ---- SUBJECTS ----
-    const allSubjSel = SUBJECTS_TAX.every(s=>f.disciplines.includes(s.id));
-    const subjRows = SUBJECTS_TAX.map(s=>`
-      <div class="qb-leaf">
-        ${cbx(f.disciplines.includes(s.id),'tog-disc',s.id)}
-        <span class="qb-leaf-name">${esc(nm(s))}</span>
-        <em class="qb-leaf-count">${cnt({disciplines:[s.id]})}</em>
-      </div>`).join('');
-
-    // ---- SYSTEMS (acordeão) ----
-    const anyOpen = SYSTEMS_TAX.some(s=>view.expanded[s.id]);
-    const allSysSel = SYSTEMS_TAX.every(s=>f.systems.includes(s.id));
-    const sysBlocks = SYSTEMS_TAX.map(sys=>{
-      const open = !!view.expanded[sys.id];
-      const catRows = open ? sys.cats.map(cat=>{
-        const key = catKey(sys.id,cat);
-        return `<div class="qb-cat">
-          ${cbx(f.categories.includes(key),'tog-cat',key)}
-          <span class="qb-cat-name" ${i18nAttr(cat)}>${esc(cat)}</span>
-          <em class="qb-cat-count">${cnt({categories:[key]})}</em>
-        </div>`;
-      }).join('') : '';
-      return `<div class="qb-acc ${open?'open':''}">
-        <div class="qb-acc-head">
-          ${cbx(f.systems.includes(sys.id),'tog-sys',sys.id)}
-          <button class="qb-acc-name" data-act="exp-sys" data-v="${sys.id}">
-            <span>${esc(nm(sys))}</span>
-            <em class="qb-acc-count">${cnt({systems:[sys.id]})}</em>
-            <span class="qb-acc-caret">${open?'−':'+'}</span>
-          </button>
+    // accordion de um sistema
+    const groupHTML = sys=>{
+      const subIds = sys.subs.map(([slug])=>subjId(sys.id,slug));
+      const selCount = subIds.filter(id=>f.subjects.includes(id)).length;
+      const sysChecked = selCount===subIds.length;
+      const sysPartial = selCount>0 && !sysChecked;
+      const sysCount = subIds.reduce((n,id)=>n+(countBy[id]||0),0);
+      const collapsed = !!view.collapsed[sys.id];
+      const rows = sys.subs.map(([slug,name])=>{ const id=subjId(sys.id,slug); const on=f.subjects.includes(id); const c=countBy[id]||0;
+        return `<label class="qb-tax-sub ${on?'on':''}">
+          <input type="checkbox" data-act="tog-sub" data-v="${id}" ${on?'checked':''}>
+          <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(name)}</span><span class="qb-tax-count">${c}</span>
+        </label>`; }).join('');
+      return `<div class="qb-tax-group">
+        <div class="qb-tax-head">
+          <label class="qb-tax-sys ${sysChecked?'on':''} ${sysPartial?'partial':''}">
+            <input type="checkbox" data-act="tog-sys" data-v="${sys.id}" ${sysChecked?'checked':''}>
+            <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(sys.name)}</span><span class="qb-tax-count">${sysCount}</span>
+          </label>
+          <button class="qb-tax-toggle" data-act="collapse" data-v="${sys.id}" aria-label="toggle">${collapsed?'＋':'—'}</button>
         </div>
-        ${open?`<div class="qb-acc-cats">${catRows}</div>`:''}
+        ${collapsed?'':`<div class="qb-tax-subs">${rows}</div>`}
       </div>`;
-    }).join('');
+    };
 
-    const avail = filterPool(f).length;
-    const count = Math.min(f.count, Math.max(1,avail));
+    const pool = filterPool(f);
+    const availN = pool.length;
+    const maxN = Math.max(1, availN);
+    const count = Math.min(f.count||1, maxN);
+    const allCollapsed = TAXONOMY.every(s=>view.collapsed[s.id]);
 
     root.innerHTML = `
       <div class="qb qb-create">
         <button class="qb-link" data-act="home">${esc(t('back'))}</button>
         <h1>${esc(t('ctTitle'))}</h1>
 
-        <div class="qb-field"><label>${esc(t('ctTestMode'))}</label><div class="qb-segs">${seg('mode',f.mode,[
-          {v:'tutor',l:t('tutor')},{v:'timed',l:t('timed')}])}</div>
-          ${f.mode==='timed'?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
-        </div>
         <div class="qb-row">
           <div class="qb-field"><label>${esc(t('ctStatus'))}</label><div class="qb-segs">${seg('status',f.status,[
             {v:'all',l:t('stAll')},{v:'unused',l:t('stUnused')},{v:'correct',l:t('stCorrect')},{v:'incorrect',l:t('stIncorrect')},{v:'marked',l:t('stMarked')},{v:'omitted',l:t('stOmitted')}])}</div></div>
@@ -526,37 +489,31 @@
           <div class="qb-field"><label>${esc(t('ctDifficulty'))}</label><div class="qb-segs">${seg('diff',f.difficulty,[
             {v:'all',l:t('diffAll')},{v:'easy',l:t('easy')},{v:'medium',l:t('medium')},{v:'hard',l:t('hard')}])}</div></div>
         </div>
-
-        <div class="qb-tax">
-          <div class="qb-tax-head">
-            ${cbx(allSubjSel,'all-subj','')}
-            <strong>${esc(t('ctSubjects'))}</strong>
+        <div class="qb-row">
+          <div class="qb-field"><label>${esc(t('ctMode'))}</label><div class="qb-segs">${seg('mode',f.mode,[
+            {v:'tutor',l:t('tutor')},{v:'timed',l:t('timed')}])}</div>
+            ${f.mode==='timed'?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
           </div>
-          <div class="qb-tax-grid">${subjRows}</div>
         </div>
 
-        <div class="qb-tax">
-          <div class="qb-tax-head">
-            ${cbx(allSysSel,'all-sys','')}
-            <strong>${esc(t('ctSystems'))}</strong>
-            <button class="qb-tax-toggle" data-act="${anyOpen?'collapse-all':'expand-all'}">${anyOpen?'− '+esc(t('ctCollapseAll')):'+ '+esc(t('ctExpandAll'))}</button>
-          </div>
-          <div class="qb-tax-grid qb-acc-grid">${sysBlocks}</div>
+        <div class="qb-tax-bar">
+          <label class="qb-tax-sys master ${f.subjects.length?'partial':''}">
+            <input type="checkbox" data-act="tog-all" ${f.subjects.length?'checked':''}>
+            <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(t('ctSystems'))}</span>
+          </label>
+          <button class="qb-link" data-act="collapse-all">${allCollapsed?esc(t('expandAll')):esc(t('collapseAll'))}</button>
         </div>
+        <div class="qb-tax">${TAXONOMY.map(groupHTML).join('')}</div>
 
-        <div class="qb-numq">
-          <label>${esc(t('ctNoQuestions'))}</label>
-          <div class="qb-numq-row">
-            <input type="number" min="0" max="${Math.max(0,avail)}" value="${avail?count:0}" data-act="count" ${avail?'':'disabled'}>
-            <span class="qb-numq-max">${esc(t('ctMaxBlock'))} <em>${avail}</em></span>
-          </div>
+        <div class="qb-field qb-count-field"><label>${esc(t('ctCount'))}</label>
+          <div class="qb-count"><input type="number" min="1" max="${maxN}" value="${count}" data-act="count-num" ${availN?'':'disabled'}><span class="qb-count-max">${esc(t('maxPerBlock'))} <b>${maxN}</b></span></div>
         </div>
 
         <div class="qb-gen">
-          <button class="qb-btn primary big" data-act="generate" ${avail?'':'disabled'}>${esc(t('generate'))} →</button>
-          <div class="qb-avail"><strong>${avail}</strong> ${esc(t('available'))}</div>
+          <div class="qb-avail"><strong>${availN}</strong> ${esc(t('available'))}</div>
+          <button class="qb-btn primary big" data-act="generate" ${availN?'':'disabled'}>${esc(t('generate'))} →</button>
         </div>
-        ${avail?'':`<p class="qb-nomatch">${esc(t('noMatch'))}</p>`}
+        ${availN?'':`<p class="qb-nomatch">${esc(t('noMatch'))}</p>`}
       </div>`;
     wire();
   }
@@ -586,7 +543,7 @@
       if(struck)cls+=' struck';
       return `<div class="${cls}" data-act="pick" data-o="${o.label}">
         <button class="qb-strike" data-act="strike" data-o="${o.label}" title="strikethrough">✕</button>
-        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t" ${i18nAttr(o.text)}>${esc(o.text)}</span>
+        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${esc(o.text)}</span>
         ${revealed&&o.label===q.correct?'<span class="qb-tick">✓</span>':''}
       </div>`;
     };
@@ -613,8 +570,8 @@
 
         <div class="qb-test-body">
           <div class="qb-vignette">
-            ${q.vignette?`<p ${i18nAttr(q.vignette)}>${esc(q.vignette)}</p>`:''}
-            <p class="qb-stem" ${i18nAttr(q.q)}>${esc(q.q)}</p>
+            ${q.vignette?`<p>${esc(q.vignette)}</p>`:''}
+            <p class="qb-stem">${esc(q.q)}</p>
             <div class="qb-opts">${q.options.map(opt).join('')}</div>
             ${!answered?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
             ${revealed?renderExplanation(q,ans):''}
@@ -644,7 +601,7 @@
         <div class="qb-peer-bar"><span style="width:${pct}%"></span></div>
         <span class="qb-peer-pct">${pct}%</span></div>`;
     }).join('');
-    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> <span ${i18nAttr(e.explanation)}>${esc(e.explanation)}</span></li>`).join('');
+    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${esc(e.explanation)}</li>`).join('');
     return `<div class="qb-expl">
       <div class="qb-expl-head">${badge}
         <div class="qb-expl-actions">
@@ -653,9 +610,9 @@
         </div>
       </div>
       <h3>${esc(t('explanation'))}</h3>
-      <p class="qb-expl-correct" ${i18nAttr(q.explC)}>${esc(q.explC)}</p>
+      <p class="qb-expl-correct">${esc(q.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
-      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p ${i18nAttr(q.objective)}>${esc(q.objective)}</p></div>
+      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${esc(q.objective)}</p></div>
       <div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>
     </div>`;
   }
@@ -872,27 +829,32 @@
 
   /* ============================== EVENTOS ============================== */
   function wire(){
-    root.querySelectorAll('[data-act]').forEach(el=>el.addEventListener('click',onAct));
-    const c=root.querySelector('[data-act="count"]'); if(c)c.addEventListener('input',e=>{ view.f.count=Math.max(0,+e.target.value||0); });
-    const s=root.querySelector('[data-act="secs"]'); if(s)s.addEventListener('input',e=>{ view.f.secs=+e.target.value; render(); });
+    root.querySelectorAll('[data-act]').forEach(el=>{
+      const a=el.dataset.act;
+      if(el.tagName==='INPUT' && (el.type==='checkbox')) el.addEventListener('change',onAct);
+      else if(a==='count-num'||a==='secs'||a==='count') el.addEventListener('input',onNumInput);
+      else el.addEventListener('click',onAct);
+    });
+  }
+  function onNumInput(e){
+    const a=e.target.dataset.act;
+    if(a==='secs'){ view.f.secs=+e.target.value; render(); }
+    else if(a==='count-num'||a==='count'){ view.f.count=Math.max(1,+e.target.value||1); }
   }
   function onAct(e){
     const el=e.currentTarget, act=el.dataset.act;
-    if(['count','secs'].includes(act)) return;
+    if(['count','count-num','secs'].includes(act)) return;
     switch(act){
       case 'home': go({name:'home'}); break;
       case 'analytics': go({name:'analytics'}); break;
       case 'create': go({name:'create'}); break;
-      case 'flagged': { view.f={systems:[],disciplines:[],status:'marked',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:Math.max(1,Object.keys(store.raw.flags).length)}; if(!filterPool(view.f).length){toast(t('flaggedEmpty'));break;} go({name:'create',f:view.f}); break; }
-      case 'pass-card': { const pn=el.dataset.pn; view.f={systems:[],disciplines:[],status:'all',pass:pn,difficulty:'all',mode:'tutor',secs:90,count:10}; go({name:'create',f:view.f,preset:{pass:pn}}); break; }
-      case 'tog-sys': { const v=el.dataset.v,a=view.f.systems; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); render(); break; }
-      case 'tog-disc': { const v=el.dataset.v,a=view.f.disciplines; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); render(); break; }
-      case 'tog-cat': { const v=el.dataset.v; view.f.categories=view.f.categories||[]; const a=view.f.categories; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); render(); break; }
-      case 'exp-sys': { const v=el.dataset.v; view.expanded=view.expanded||{}; view.expanded[v]=!view.expanded[v]; render(); break; }
-      case 'expand-all': { view.expanded={}; SYSTEMS_TAX.forEach(s=>view.expanded[s.id]=true); render(); break; }
-      case 'collapse-all': { view.expanded={}; render(); break; }
-      case 'all-sys': { const all=SYSTEMS_TAX.every(s=>view.f.systems.includes(s.id)); view.f.systems = all?[]:SYSTEMS_TAX.map(s=>s.id); render(); break; }
-      case 'all-subj': { const all=SUBJECTS_TAX.every(s=>view.f.disciplines.includes(s.id)); view.f.disciplines = all?[]:SUBJECTS_TAX.map(s=>s.id); render(); break; }
+      case 'flagged': { view.f={subjects:[],status:'marked',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:Math.max(1,Object.keys(store.raw.flags).length)}; if(!filterPool(view.f).length){toast(t('flaggedEmpty'));break;} go({name:'create',f:view.f}); break; }
+      case 'pass-card': { const pn=el.dataset.pn; view.f={subjects:[],status:'all',pass:pn,difficulty:'all',mode:'tutor',secs:90,count:10}; go({name:'create',f:view.f,preset:{pass:pn}}); break; }
+      case 'tog-sys': { const sys=TAXONOMY.find(s=>s.id===el.dataset.v); const ids=sys.subs.map(([slug])=>subjId(sys.id,slug)); const allOn=ids.every(id=>view.f.subjects.includes(id)); if(allOn){ view.f.subjects=view.f.subjects.filter(id=>!ids.includes(id)); } else { ids.forEach(id=>{ if(!view.f.subjects.includes(id)) view.f.subjects.push(id); }); } render(); break; }
+      case 'tog-sub': { const id=el.dataset.v; const i=view.f.subjects.indexOf(id); i>=0?view.f.subjects.splice(i,1):view.f.subjects.push(id); render(); break; }
+      case 'tog-all': { if(view.f.subjects.length){ view.f.subjects=[]; } else { const all=[]; TAXONOMY.forEach(s=>s.subs.forEach(([slug])=>all.push(subjId(s.id,slug)))); view.f.subjects=all; } render(); break; }
+      case 'collapse': { const id=el.dataset.v; view.collapsed[id]=!view.collapsed[id]; render(); break; }
+      case 'collapse-all': { const all=TAXONOMY.every(s=>view.collapsed[s.id]); TAXONOMY.forEach(s=>view.collapsed[s.id]=!all); render(); break; }
       case 'status': view.f.status=el.dataset.v; render(); break;
       case 'pass': view.f.pass=el.dataset.v; render(); break;
       case 'diff': view.f.difficulty=el.dataset.v; render(); break;
@@ -928,7 +890,7 @@
     const extra = store.directedPool();
     const set=[...new Set([...pool,...extra])].slice(0,15);
     if(!set.length){ toast(t('flaggedEmpty')); return; }
-    view.f={systems:[],disciplines:[],status:'all',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:set.length};
+    view.f={subjects:[],status:'all',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:set.length};
     const test={id:uid('test'),user_id:USER,test_type:'surgical_review',filters:{},mode:'tutor',secs:90,status:'in_progress',
       qids:set.map(q=>q.id),idx:0,answers:{},strikes:{},times:{},started_at:new Date().toISOString()};
     store.saveTest(test); go({name:'test',test,showAns:false,qStart:Date.now()});

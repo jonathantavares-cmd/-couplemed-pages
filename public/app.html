@@ -72,7 +72,6 @@
       <button class="flag-button" data-lang="pt" aria-label="Português"><img src="assets/flag-br.svg" alt="" /></button>
       <button class="flag-button" data-lang="en" aria-label="English"><img src="assets/flag-us.svg" alt="" /></button>
       <button id="themeToggle" class="theme-pill" aria-label="Toggle light and dark theme"><span>◐</span><span>☼</span></button>
-      <button id="translateToggle" class="theme-pill" aria-pressed="false" aria-label="Toggle translator">🔤 Translate</button>
     </div>
 
     <section class="hero-panel" aria-label="USMLE journey hero">
@@ -101,42 +100,5 @@
   <script src="js/flashcards.js?v=23"></script>
   <script src="js/qbank.js?v=23"></script>
   <script src="js/ai-tutor-widget.js?v=23"></script>
-  <script>
-  (function(){
-    const API = 'https://api.mymemory.translated.net/get';
-    const cache = {};
-    const btn = document.getElementById('translateToggle');
-    let active = false;
-    function highlightOn(e){
-      const el = document.elementFromPoint(e.clientX,e.clientY);
-      document.querySelectorAll('.trans-highlight').forEach(x=>x.classList.remove('trans-highlight'));
-      if(el && el !== btn) el.classList.add('trans-highlight');
-    }
-    async function translateText(text, to='pt'){
-      if(!text || !text.trim()) return text;
-      const key = to+ '::' + text;
-      if(cache[key]) return cache[key];
-      try{
-        const url = `${API}?q=${encodeURIComponent(text)}&langpair=en|${to}`;
-        const r = await fetch(url); const d = await r.json(); const out=(d&&d.responseData&&d.responseData.translatedText)||text;
-        cache[key]=out; return out;
-      }catch(e){ return text; }
-    }
-    function setActive(v){ active=v; btn.setAttribute('aria-pressed', String(v)); if(v){ document.addEventListener('mousemove',highlightOn); document.body.classList.add('trans-mode'); } else { document.removeEventListener('mousemove',highlightOn); document.querySelectorAll('.trans-highlight').forEach(x=>x.classList.remove('trans-highlight')); document.body.classList.remove('trans-mode'); } }
-    btn.addEventListener('click',()=>{ setActive(!active); });
-    document.addEventListener('click', async function ev(e){ if(!active) return; const el = e.target; if(el===btn) return; e.preventDefault(); e.stopPropagation(); const original = el.getAttribute('data-tr-orig') || el.innerText || el.textContent || '';
-      if(!original.trim()) return;
-      // Shift-click to undo
-      if(e.shiftKey && el.getAttribute('data-tr-orig')){ el.textContent = el.getAttribute('data-tr-orig'); el.removeAttribute('data-tr-orig'); return; }
-      el.setAttribute('data-tr-orig', original);
-      const lang = document.documentElement.lang && document.documentElement.lang.startsWith('pt') ? 'en' : 'pt';
-      const to = (lang==='en') ? 'pt' : 'pt';
-      const tr = await translateText(original, 'pt');
-      el.textContent = tr;
-    }, true);
-    // minimal styles
-    const s=document.createElement('style'); s.textContent=`.trans-highlight{outline:2px dashed #ffb100!important;outline-offset:2px}.trans-mode {cursor:crosshair}`; document.head.appendChild(s);
-  })();
-  </script>
 </body>
 </html>
