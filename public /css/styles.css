@@ -386,3 +386,83 @@ body.light .search-result-item{color:#132235}
 body.light .search-result-snippet{color:#66788f}
 body.light .search-result-item:hover{background:#eaf1ff}
 @media(max-width:820px){.search-toggle{width:30px;height:30px}.site-search.open .search-input{width:160px}}
+
+/* ============================== SETTINGS PAGE ============================== */
+.stg-admin-card{background:#0d1e36;border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:24px 28px;margin-bottom:18px;position:relative}
+.stg-admin-self{border-color:rgba(39,104,255,.35)}
+.stg-admin-badge{position:absolute;top:14px;right:18px;background:linear-gradient(135deg,#2768ff,#0a52f0);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 14px;border-radius:20px}
+.stg-section-title{font-size:18px;font-weight:700;color:#f0f5fc;margin:32px 0 16px;letter-spacing:.01em}
+.stg-info-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:14px}
+.stg-label{color:#8ba5c2;min-width:90px;font-weight:600}
+.stg-value{color:#f0f5fc;word-break:break-all}
+.stg-pass{font-family:'Courier New',monospace;letter-spacing:.04em}
+.stg-user-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px}
+.stg-user-name{font-size:18px;font-weight:700;color:#fff}
+.stg-user-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stg-btn{border:0;border-radius:8px;font-size:12px;font-weight:600;padding:8px 16px;cursor:pointer;transition:all .2s;letter-spacing:.02em}
+.stg-btn-perf{background:rgba(39,104,255,.15);color:#6ba4ff;border:1px solid rgba(39,104,255,.3)}
+.stg-btn-perf:hover,.stg-btn-perf.active{background:rgba(39,104,255,.3);color:#fff}
+.stg-btn-reset{background:rgba(255,60,60,.12);color:#ff6b6b;border:1px solid rgba(255,60,60,.3)}
+.stg-btn-reset:hover{background:rgba(255,60,60,.25);color:#fff}
+.stg-btn-edit{background:rgba(39,104,255,.15);color:#6ba4ff;border:1px solid rgba(39,104,255,.3);margin-top:16px}
+.stg-btn-edit:hover{background:rgba(39,104,255,.3);color:#fff}
+.stg-btn-save{background:linear-gradient(180deg,#3d84ff,#0a52f0);color:#fff}
+.stg-btn-save:hover{filter:brightness(1.1)}
+.stg-btn-cancel{background:rgba(255,255,255,.08);color:#a9bad2}
+.stg-btn-cancel:hover{background:rgba(255,255,255,.14);color:#fff}
+
+/* Toggle switch */
+.stg-toggle-wrap{display:flex;align-items:center}
+.stg-toggle{display:flex;align-items:center;gap:8px;background:none;border:0;cursor:pointer;padding:4px}
+.stg-toggle-knob{position:relative;width:44px;height:24px;border-radius:12px;transition:background .25s}
+.stg-toggle-on .stg-toggle-knob{background:#22c55e}
+.stg-toggle-off .stg-toggle-knob{background:#ef4444}
+.stg-toggle-knob::after{content:'';position:absolute;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.stg-toggle-on .stg-toggle-knob::after{left:23px}
+.stg-toggle-off .stg-toggle-knob::after{left:3px}
+.stg-toggle-label{font-size:12px;font-weight:600;min-width:64px}
+.stg-toggle-on .stg-toggle-label{color:#22c55e}
+.stg-toggle-off .stg-toggle-label{color:#ef4444}
+
+/* Performance panel */
+.stg-perf-panel{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 0 4px}
+.stg-perf-section{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px}
+.stg-perf-section h4{margin:0 0 10px;font-size:14px;color:#6ba4ff;font-weight:700}
+.stg-perf-section p{margin:4px 0;font-size:13px;color:#a9bad2}
+.stg-perf-section strong{color:#f0f5fc}
+.stg-no-data{color:#6b7d94!important;font-style:italic}
+
+/* Custom credentials note (admin view) */
+.stg-custom-note{margin-top:12px;padding:12px 16px;background:rgba(255,180,50,.06);border:1px solid rgba(255,180,50,.18);border-radius:10px}
+.stg-custom-badge{display:inline-block;background:rgba(255,180,50,.2);color:#ffb84d;font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 10px;border-radius:10px;margin-bottom:8px;text-transform:uppercase}
+
+/* User self-edit card */
+.stg-user-self-card{background:#0d1e36;border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:24px 28px;margin-bottom:18px}
+.stg-edit-form .stg-field{margin-bottom:16px}
+.stg-edit-form label{display:block;font-size:12px;font-weight:600;color:#8ba5c2;margin-bottom:6px;letter-spacing:.04em}
+.stg-edit-form input{width:100%;padding:10px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#f0f5fc;font-size:14px;outline:none;transition:border-color .2s}
+.stg-edit-form input:focus{border-color:#2768ff}
+.stg-edit-actions{display:flex;gap:10px;margin-top:20px}
+.stg-msg{margin-top:14px;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600}
+.stg-msg-success{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+
+/* Light mode overrides */
+body.light .stg-admin-card,body.light .stg-user-self-card{background:#fff;border-color:#d8e1ef}
+body.light .stg-section-title{color:#0b1930}
+body.light .stg-label{color:#5f7089}
+body.light .stg-value{color:#0b1930}
+body.light .stg-user-name{color:#0b1930}
+body.light .stg-perf-section{background:rgba(11,25,48,.03);border-color:rgba(11,25,48,.08)}
+body.light .stg-perf-section p{color:#4b5c70}
+body.light .stg-perf-section strong{color:#0b1930}
+body.light .stg-edit-form input{background:rgba(11,25,48,.04);border-color:#d8e1ef;color:#0b1930}
+body.light .stg-custom-note{background:rgba(255,180,50,.05);border-color:rgba(255,180,50,.2)}
+
+/* Mobile responsiveness for settings */
+@media(max-width:768px){
+  .stg-user-header{flex-direction:column;align-items:flex-start}
+  .stg-user-actions{width:100%}
+  .stg-perf-panel{grid-template-columns:1fr}
+  .stg-info-row{flex-direction:column;align-items:flex-start;gap:2px}
+  .stg-label{min-width:auto}
+}

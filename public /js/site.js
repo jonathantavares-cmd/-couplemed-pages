@@ -1,4 +1,4 @@
-/* CoupleMed v28 — 2026-07-05
+/* CoupleMed v31 — 2026-07-06
 
    PADRÃO OBRIGATÓRIO DE I18N DE CONTEÚDO (vale para QUALQUER conteúdo novo — QBank,
    Flashcards, Medical Library, AI Tutor, e qualquer módulo futuro):
@@ -22,6 +22,30 @@
     'guest3': { pass:'Gjesus@37', user:'guest3' },
     'guest4': { pass:'Gjesus@47', user:'guest4' }
   };
+  const USER_META = {
+    john:    { displayName:'John',    role:'admin', originalLogin:'jonathan.tavares@hotmail.com', originalPass:'Ja@120622' },
+    alysson: { displayName:'Alysson', role:'user',  originalLogin:'alyssonaranha@gmail.com',      originalPass:'Aj@120622' },
+    guest1:  { displayName:'Guest 1', role:'user',  originalLogin:'guest1',                       originalPass:'Gjesus@17' },
+    guest2:  { displayName:'Guest 2', role:'user',  originalLogin:'guest2',                       originalPass:'Gjesus@27' },
+    guest3:  { displayName:'Guest 3', role:'user',  originalLogin:'guest3',                       originalPass:'Gjesus@37' },
+    guest4:  { displayName:'Guest 4', role:'user',  originalLogin:'guest4',                       originalPass:'Gjesus@47' }
+  };
+  function getUserCustom(uid){try{return JSON.parse(localStorage.getItem('couplemed_user_custom_'+uid))||null}catch(e){return null}}
+  function setUserCustom(uid,data){localStorage.setItem('couplemed_user_custom_'+uid,JSON.stringify(data))}
+  function isUserBlocked(uid){return localStorage.getItem('couplemed_user_blocked_'+uid)==='true'}
+  function setUserBlocked(uid,blocked){if(blocked)localStorage.setItem('couplemed_user_blocked_'+uid,'true');else localStorage.removeItem('couplemed_user_blocked_'+uid)}
+  function getUserDisplay(uid){const c=getUserCustom(uid);return(c&&c.displayName)?c.displayName:(USER_META[uid]?USER_META[uid].displayName:uid)}
+  function findUserByCredentials(login,pass){
+    /* 1. check original hardcoded credentials */
+    const orig=USERS[login]; if(orig&&orig.pass===pass)return orig.user;
+    /* 2. check custom credentials in localStorage */
+    for(const uid of Object.keys(USER_META)){
+      const c=getUserCustom(uid); if(!c)continue;
+      if(c.login&&c.login.toLowerCase()===login&&c.password===pass)return uid;
+    }
+    return null;
+  }
+
   const quotes = [
     '“Todos os seus sonhos podem se tornar realidade se você tiver coragem para persegui-los.”',
     '“A disciplina transforma sonhos distantes em conquistas inevitáveis.”',
@@ -137,8 +161,8 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank - UWorld Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD'},
-    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank - UWorld Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'Banco de Questões UWorld',qbankRdTitle:'Banco de Questões RD',uwFolderTitle:'Banco de Questões - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank - UWorld Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank - UWorld Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'Banco de Questões UWorld',qbankRdTitle:'Banco de Questões RD',uwFolderTitle:'Banco de Questões - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda'}
   };
   const PAGE_TITLE_KEYS = {'notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle','first-aid-library':'firstAidLibraryTitle','qbank-uworld':'qbankUworldTitle','qbank-rd':'qbankRdTitle','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
@@ -148,7 +172,7 @@
   function preserveUserLinks(){const u=user(); $$('a[href^="app.html"]').forEach(a=>{const url=new URL(a.getAttribute('href'),location.href); url.searchParams.set('u',u); a.href=url.pathname.split('/').pop()+url.search;});}
   function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
   function draw(key,arr){let deck;try{deck=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){deck=[]}if(!Array.isArray(deck)||!deck.length)deck=shuffle([...arr.keys()]);const idx=deck.shift();localStorage.setItem(key,JSON.stringify(deck));return arr[idx]||arr[0]}
-  function initLogin(){const form=$('#loginForm'); if(!form)return; form.addEventListener('submit',e=>{e.preventDefault(); const login=$('#login').value.trim().toLowerCase(); const pass=$('#password').value.trim(); const entry=USERS[login]; const msg=$('#loginMessage'); if(!entry||entry.pass!==pass){msg.textContent='Invalid login or password.';return} const u=entry.user; sessionStorage.setItem('couplemed_active_user',u); $('.access-submit').classList.add('loading'); document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22'; setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);});}
+  function initLogin(){const form=$('#loginForm'); if(!form)return; form.addEventListener('submit',e=>{e.preventDefault(); const login=$('#login').value.trim().toLowerCase(); const pass=$('#password').value.trim(); const msg=$('#loginMessage'); const u=findUserByCredentials(login,pass); if(!u){msg.textContent='Invalid login or password.';return} if(isUserBlocked(u)){msg.textContent='Your access has been blocked. Contact the administrator.';return} sessionStorage.setItem('couplemed_active_user',u); $('.access-submit').classList.add('loading'); document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22'; setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);});}
   function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),6450); setTimeout(()=>location.href=`app.html?u=${u}`,7000);}
   const LIB_TITLE_KEY = {'library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle'};
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
@@ -225,6 +249,205 @@
     </div>`;
     $('#internalTitle').textContent=I18N[lang].instructionsTitle;
   }
+  /* ============================== SETTINGS PAGE ==============================
+     Admin (john): vê todos os usuários, seus dados originais, botão de
+     performance analytics, toggle liberado/bloqueado, e botão de reset.
+     Demais usuários: vêem apenas seus próprios dados com opção de alterar. */
+
+  function getPerformanceData(uid){
+    const result={qbank:{total:0,correct:0},flashcards:{cards:0,reviews:0}};
+    try{
+      const qb=JSON.parse(localStorage.getItem('couplemed_qb_'+uid)||'{}');
+      if(qb&&qb.answers){
+        const answers=Array.isArray(qb.answers)?qb.answers:Object.values(qb.answers||{});
+        result.qbank.total=answers.length;
+        result.qbank.correct=answers.filter(a=>a.correct||a.isCorrect).length;
+      }
+      /* fallback: try flat arrays */
+      if(result.qbank.total===0&&qb){
+        const keys=Object.keys(qb);
+        keys.forEach(k=>{
+          if(qb[k]&&typeof qb[k]==='object'&&qb[k].answered!==undefined){
+            result.qbank.total++;
+            if(qb[k].correct||qb[k].isCorrect)result.qbank.correct++;
+          }
+        });
+      }
+    }catch(e){}
+    try{
+      const fc=JSON.parse(localStorage.getItem('couplemed_fc_'+uid)||'{}');
+      if(fc){
+        const decks=fc.decks||[];
+        decks.forEach(d=>{
+          const cards=d.cards||[];
+          result.flashcards.cards+=cards.length;
+          cards.forEach(c=>{result.flashcards.reviews+=(c.reps||0)});
+        });
+      }
+    }catch(e){}
+    return result;
+  }
+
+  function resetUserPlatform(uid,lang){
+    const name=getUserDisplay(uid);
+    const t=I18N[lang];
+    const msg1=t.settingsResetConfirm1+' '+name+'?';
+    if(!confirm(msg1))return;
+    const msg2=t.settingsResetConfirm2+' '+name+'?\n\n'+t.settingsResetConfirm2b;
+    if(!confirm(msg2))return;
+    /* Remove all user-scoped localStorage keys */
+    const prefixes=['couplemed_qb_'+uid,'couplemed_fc_'+uid,'couplemed_lang_current_'+uid,'couplemed_transition_deck_'+uid,'couplemed_user_custom_'+uid];
+    const toRemove=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(prefixes.some(p=>k===p||k.startsWith(p+'_')))toRemove.push(k);
+    }
+    toRemove.forEach(k=>localStorage.removeItem(k));
+    alert(t.settingsResetDone+' '+name+'.');
+    renderSettings(lang);
+  }
+
+  function renderPerformancePanel(uid,lang){
+    const t=I18N[lang];
+    const data=getPerformanceData(uid);
+    const pct=data.qbank.total>0?Math.round((data.qbank.correct/data.qbank.total)*100):0;
+    return `<div class="stg-perf-panel">
+      <div class="stg-perf-section">
+        <h4>QBank</h4>
+        ${data.qbank.total>0?`<p>${t.settingsQuestionsAnswered}: <strong>${data.qbank.total}</strong></p><p>${t.settingsCorrectRate}: <strong>${pct}%</strong></p>`:`<p class="stg-no-data">${t.settingsNoData}</p>`}
+      </div>
+      <div class="stg-perf-section">
+        <h4>Flashcards</h4>
+        ${data.flashcards.cards>0?`<p>${t.settingsCardsTotal}: <strong>${data.flashcards.cards}</strong></p><p>${t.settingsReviewsDone}: <strong>${data.flashcards.reviews}</strong></p>`:`<p class="stg-no-data">${t.settingsNoData}</p>`}
+      </div>
+    </div>`;
+  }
+
+  function renderSettings(lang){
+    const rp=$('#regularPage'); if(!rp)return;
+    const t=I18N[lang];
+    const u=user();
+    const isAdmin=USER_META[u]&&USER_META[u].role==='admin';
+
+    if(isAdmin){
+      /* ======= ADMIN VIEW ======= */
+      const me=USER_META[u];
+      let html=`<h1 id="internalTitle">${t.settings}</h1>`;
+      html+=`<div class="stg-admin-card stg-admin-self">
+        <div class="stg-admin-badge">${t.settingsAdmin}</div>
+        <div class="stg-info-row"><span class="stg-label">${t.settingsUser}:</span> <span class="stg-value">${me.displayName}</span></div>
+        <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${me.originalLogin}</span></div>
+        <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass">${me.originalPass}</span></div>
+      </div>`;
+      html+=`<h2 class="stg-section-title">${t.settingsUsers}</h2>`;
+      Object.keys(USER_META).forEach(uid=>{
+        if(uid===u)return; /* skip self */
+        const m=USER_META[uid];
+        const custom=getUserCustom(uid);
+        const blocked=isUserBlocked(uid);
+        const displayName=getUserDisplay(uid);
+        html+=`<div class="stg-admin-card stg-user-card" data-uid="${uid}">
+          <div class="stg-user-header">
+            <div class="stg-user-name">${displayName}</div>
+            <div class="stg-user-actions">
+              <button class="stg-btn stg-btn-perf" data-action="perf" data-uid="${uid}">${t.settingsPerformance}</button>
+              <div class="stg-toggle-wrap">
+                <button class="stg-toggle ${blocked?'stg-toggle-off':'stg-toggle-on'}" data-action="toggle" data-uid="${uid}">
+                  <span class="stg-toggle-knob"></span>
+                  <span class="stg-toggle-label">${blocked?t.settingsBlocked:t.settingsEnabled}</span>
+                </button>
+              </div>
+              <button class="stg-btn stg-btn-reset" data-action="reset" data-uid="${uid}">${t.settingsReset}</button>
+            </div>
+          </div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${m.originalLogin}</span></div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass">${m.originalPass}</span></div>
+          ${custom?`<div class="stg-custom-note">
+            <span class="stg-custom-badge">Custom</span>
+            ${custom.displayName?`<div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}:</span> <span class="stg-value">${custom.displayName}</span></div>`:''}
+            ${custom.login?`<div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${custom.login}</span></div>`:''}
+            ${custom.password?`<div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass">${custom.password}</span></div>`:''}
+          </div>`:''}
+          <div class="stg-perf-container" id="stgPerf_${uid}" hidden></div>
+        </div>`;
+      });
+      rp.innerHTML=html;
+
+      /* Wire admin buttons */
+      rp.querySelectorAll('[data-action="perf"]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const uid=btn.dataset.uid;
+          const panel=$('#stgPerf_'+uid);
+          if(!panel)return;
+          if(!panel.hidden){panel.hidden=true;btn.classList.remove('active');return}
+          panel.innerHTML=renderPerformancePanel(uid,lang);
+          panel.hidden=false;
+          btn.classList.add('active');
+        });
+      });
+      rp.querySelectorAll('[data-action="toggle"]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const uid=btn.dataset.uid;
+          const nowBlocked=isUserBlocked(uid);
+          setUserBlocked(uid,!nowBlocked);
+          renderSettings(lang);
+        });
+      });
+      rp.querySelectorAll('[data-action="reset"]').forEach(btn=>{
+        btn.addEventListener('click',()=>resetUserPlatform(btn.dataset.uid,lang));
+      });
+
+    } else {
+      /* ======= REGULAR USER VIEW ======= */
+      const m=USER_META[u];
+      if(!m){rp.innerHTML=`<h1 id="internalTitle">${t.settings}</h1>`;return}
+      const custom=getUserCustom(u);
+      const currentName=custom&&custom.displayName?custom.displayName:m.displayName;
+      const currentLogin=custom&&custom.login?custom.login:m.originalLogin;
+      const currentPass=custom&&custom.password?custom.password:m.originalPass;
+
+      let html=`<h1 id="internalTitle">${t.settings}</h1>`;
+      html+=`<div class="stg-user-self-card" id="stgUserView">
+        <div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}:</span> <span class="stg-value" id="stgShowName">${currentName}</span></div>
+        <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value" id="stgShowLogin">${currentLogin}</span></div>
+        <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass" id="stgShowPass">${currentPass}</span></div>
+        <button class="stg-btn stg-btn-edit" id="stgEditBtn">${t.settingsChangeData}</button>
+      </div>
+      <div class="stg-user-self-card stg-edit-form" id="stgUserEdit" hidden>
+        <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgEditName" value="${currentName.replace(/"/g,'&quot;')}" /></div>
+        <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgEditLogin" value="${currentLogin.replace(/"/g,'&quot;')}" /></div>
+        <div class="stg-field"><label>${t.settingsPassword}</label><input type="text" id="stgEditPass" value="${currentPass.replace(/"/g,'&quot;')}" /></div>
+        <div class="stg-edit-actions">
+          <button class="stg-btn stg-btn-save" id="stgSaveBtn">${t.settingsSave}</button>
+          <button class="stg-btn stg-btn-cancel" id="stgCancelBtn">${t.settingsCancel}</button>
+        </div>
+        <div class="stg-msg" id="stgMsg" hidden></div>
+      </div>`;
+      rp.innerHTML=html;
+
+      $('#stgEditBtn').addEventListener('click',()=>{
+        $('#stgUserView').hidden=true;
+        $('#stgUserEdit').hidden=false;
+      });
+      $('#stgCancelBtn').addEventListener('click',()=>{
+        $('#stgUserEdit').hidden=true;
+        $('#stgUserView').hidden=false;
+      });
+      $('#stgSaveBtn').addEventListener('click',()=>{
+        const newName=$('#stgEditName').value.trim();
+        const newLogin=$('#stgEditLogin').value.trim();
+        const newPass=$('#stgEditPass').value.trim();
+        if(!newName||!newLogin||!newPass){return}
+        setUserCustom(u,{displayName:newName,login:newLogin,password:newPass});
+        const msg=$('#stgMsg');
+        msg.textContent=t.settingsDataSaved;
+        msg.hidden=false;
+        msg.classList.add('stg-msg-success');
+        setTimeout(()=>renderSettings(lang),1200);
+      });
+    }
+  }
+
   function buildBooks(){}
   function qCount(){return Number(localStorage.getItem('couplemed_qbank_uworld_total')||0)}
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
@@ -232,6 +455,7 @@
   const QBANK_PAGES=['qbank-uworld','uworld-pass-1','uworld-pass-2','uworld-pass-3','uworld-pass-4','library-uworld','library-rd'];
   function updateDynamicContent(lang){
     const p=page(); if(p==='home')return;
+    if(p==='settings'){ renderSettings(lang); return; }
     if(p==='step-1'){ renderStep1(lang); return; }
     if(LIB_TITLE_KEY[p]){ renderLibrary(p,lang); return; }
     if(QBANK_PAGES.includes(p))return; // qbank.js monta e traduz sozinho
