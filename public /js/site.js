@@ -486,6 +486,8 @@
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',()=>sessionStorage.removeItem('couplemed_active_user'));
     initSiteSearch();
+    /* — QBank sidebar: atualiza "0 / XXXX" com SEED.length real — */
+    (function(){var t=window.QBANK_TOTAL||0;if(!t)return;document.querySelectorAll('.bar-count').forEach(function(el){var m=el.textContent.match(/^(\d+)\s*\//);el.textContent=(m?m[1]:'0')+' / '+t;});})();
   }
 
   /* ============================== BUSCA GLOBAL ==============================
