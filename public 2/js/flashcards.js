@@ -13,7 +13,7 @@
 (function(){
   'use strict';
   const params = new URLSearchParams(location.search);
-  if((params.get('page')||'home') !== 'flashcards') return;
+  const IS_FLASHCARDS_PAGE = (params.get('page')||'home') === 'flashcards';
   const USER = params.get('u') || 'guest';
   const KEY = `couplemed_fc_${USER}`;
   const SHARED_KEY = 'couplemed_fc_shared';
@@ -221,6 +221,36 @@
   const save = () => localStorage.setItem(KEY, JSON.stringify(DB));
   const saveShared = () => localStorage.setItem(SHARED_KEY, JSON.stringify(SH));
   save();
+
+  /* ---------- ponte de busca global (window.CMSearchProviders.flashcards) ----------
+     Registrado ANTES do guard de página abaixo, para que a busca funcione em
+     qualquer lugar do site — não só quando o usuário está na tela de Flashcards.
+     Expõe decks e cards (front/back) do usuário para o índice de busca central
+     em site.js, sem acoplar os módulos — chamado sob demanda ao digitar. */
+  window.CMSearchProviders = window.CMSearchProviders || {};
+  window.CMSearchProviders.flashcards = function(){
+    const items = [];
+    const deckName = id => { const d = DB.decks.find(x=>x.id===id); return d ? d.name : ''; };
+    DB.decks.forEach(d=>{
+      items.push({ label: d.name, snippetSource: '', href: `app.html?page=flashcards&u=${USER}`, cat: 'Flashcards · Decks' });
+    });
+    DB.cards.forEach(c=>{
+      if(!c.front && !c.back) return;
+      items.push({
+        label: (c.front||'').replace(/\{\{c\d+::(.*?)(::.*?)?\}\}/g,'$1').slice(0,80) || '(sem frente)',
+        snippetSource: [c.front, c.back].filter(Boolean).join(' — '),
+        href: `app.html?page=flashcards&u=${USER}`,
+        cat: 'Flashcards · ' + (deckName(c.deckId) || 'Sem deck')
+      });
+    });
+    return items;
+  };
+
+  // guard de página: todo o restante do arquivo (UI completa de Flashcards) só roda
+  // quando o usuário está de fato na página de Flashcards — o provider acima já
+  // ficou registrado e funciona independente disso.
+  if(!IS_FLASHCARDS_PAGE) return;
+
   const uid = p => p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
   const dayCounters = () => { const k = todayStr();
     if(!DB.days[k]) DB.days[k] = {newDone:0, revDone:0, ok:0, total:0, matOk:0, matTotal:0};
@@ -371,25 +401,16 @@
   }
 
   /* ---------- tradução dinâmica do CONTEÚDO dos cards (front/back) ----------
-     Mesmo motor usado no AI Tutor. A interface (botões/labels) já traduz via T[lang];
-     isto traduz o texto que o usuário escreveu/importou, em qualquer idioma de origem,
-     sempre que a bandeira for trocada. Cards cloze não são traduzidos (preserva a sintaxe
-     {{c1::...}}); o original em DB nunca é sobrescrito, só a exibição. */
-  const TRANSLATE_API = 'https://api.mymemory.translated.net/get';
-  const transCache = {}; // `${text}|${targetLang}` -> texto traduzido
+     Usa o motor único e compartilhado window.CMI18N (js/i18n-content.js) — mesmo banco
+     persistente de traduções usado pelo QBank e Medical Library. A interface (botões/labels)
+     já traduz via T[lang]; isto traduz o texto que o usuário escreveu/importou, em qualquer
+     idioma de origem (autodetect), sempre que a bandeira for trocada. Cards cloze não são
+     traduzidos (preserva a sintaxe {{c1::...}}); o original em DB nunca é sobrescrito, só a
+     exibição. */
   let renderToken = 0;
   async function translateField(text, targetLang){
-    if(!text || !text.trim()) return text;
-    const key = text + '|' + targetLang;
-    if(transCache[key]) return transCache[key];
-    try{
-      const url = `${TRANSLATE_API}?q=${encodeURIComponent(text.slice(0,480))}&langpair=autodetect|${targetLang}`;
-      const resp = await fetch(url);
-      const data = await resp.json();
-      const out = data?.responseData?.translatedText || text;
-      transCache[key] = out;
-      return out;
-    }catch(e){ return text; }
+    if(!window.CMI18N) return text;
+    return window.CMI18N.translateText(text, targetLang, 'autodetect');
   }
   function translateVisibleCardTexts(){
     const myToken = renderToken;

@@ -18,7 +18,6 @@
   const params = new URLSearchParams(location.search);
   const PAGE = params.get('page') || 'home';
   const QB_PAGES = ['qbank-uworld','uworld-pass-1','uworld-pass-2','uworld-pass-3','uworld-pass-4'];
-  if(!QB_PAGES.includes(PAGE)) return;
   const USER = params.get('u') || 'guest1';
   const KEY = `couplemed_qb_${USER}`;
   const FC_KEY = `couplemed_fc_${USER}`;
@@ -127,6 +126,45 @@
       objective:'Apply DSM-5 criteria (≥5 SIG E CAPS symptoms for ≥2 weeks) to diagnose major depressive disorder.',
       peer:{A:70,B:12,C:10,D:5,E:3} },
   ];
+
+  /* ---------- ponte de busca global (window.CMSearchProviders.qbank) ----------
+     Registrado ANTES do guard de página abaixo, para que a busca funcione em
+     qualquer lugar do site — não só quando o usuário está na tela do QBank.
+     Expõe as questões (vinheta/stem/opções/explicação) e notas do notebook do
+     usuário para o índice de busca central em site.js, sem acoplar os módulos —
+     site.js chama isto sob demanda, só quando o usuário digita algo na busca. */
+  window.CMSearchProviders = window.CMSearchProviders || {};
+  window.CMSearchProviders.qbank = function(){
+    const items = [];
+    SEED.forEach(q=>{
+      const parts = [q.vignette, q.q, ...(q.options||[]).map(o=>o.text), q.explC, q.objective].filter(Boolean);
+      items.push({
+        label: q.q || q.vignette.slice(0,60),
+        snippetSource: parts.join(' — '),
+        href: `app.html?page=qbank-uworld&u=${USER}`,
+        cat: 'QBank · Questões'
+      });
+    });
+    try{
+      const db = JSON.parse(localStorage.getItem(KEY));
+      (db && db.notebook || []).forEach(n=>{
+        if(!n.text) return;
+        const q = SEED.find(x=>x.id===n.question_id);
+        items.push({
+          label: 'Nota — ' + (q ? q.q : n.question_id),
+          snippetSource: n.text,
+          href: `app.html?page=qbank-uworld&u=${USER}`,
+          cat: 'QBank · Notebook'
+        });
+      });
+    }catch(e){}
+    return items;
+  };
+
+  // guard de página: todo o restante do arquivo (UI completa do QBank) só roda
+  // quando o usuário está de fato numa página do QBank — o provider acima já
+  // ficou registrado e funciona independente disso.
+  if(!QB_PAGES.includes(PAGE)) return;
 
   const ROOT_CAUSES = [
     {id:'knowledge_gap',              en:'Knowledge gap',                 pt:'Falta de conteúdo'},
@@ -269,61 +307,16 @@
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
 
   /* ---------- tradução dinâmica do CONTEÚDO das questões (vinheta/stem/opções/explicação) ----------
-     Mesmo motor usado no Flashcards/AI Tutor (MyMemory API). A interface (botões/labels) já
-     traduz via T[lang]; isto traduz o texto das questões, que vem sempre em inglês no banco,
-     sempre que a bandeira for trocada. O original nunca é sobrescrito, só a exibição. */
-  const QB_TRANSLATE_API = 'https://api.mymemory.translated.net/get';
-  const qbTransCache = {}; // `${text}|${targetLang}` -> texto traduzido
-  let qbRenderToken = 0;
-  async function qbTranslateField(text, targetLang){
-    if(!text || !text.trim()) return text;
-    const key = text + '|' + targetLang;
-    if(qbTransCache[key]) return qbTransCache[key];
-    try{
-      const CHUNK = 480;
-      if(text.length <= CHUNK){
-        const url = `${QB_TRANSLATE_API}?q=${encodeURIComponent(text)}&langpair=autodetect|${targetLang}`;
-        const resp = await fetch(url);
-        const data = await resp.json();
-        const out = data?.responseData?.translatedText || text;
-        qbTransCache[key] = out;
-        return out;
-      }
-      const parts = text.match(/[^.!?]+[.!?]*\s*/g) || [text];
-      const chunks = [];
-      let cur = '';
-      parts.forEach(p=>{
-        if((cur+p).length > CHUNK){ if(cur) chunks.push(cur); cur = p; }
-        else cur += p;
-      });
-      if(cur) chunks.push(cur);
-      const translated = [];
-      for(const c of chunks){
-        const url = `${QB_TRANSLATE_API}?q=${encodeURIComponent(c)}&langpair=autodetect|${targetLang}`;
-        const resp = await fetch(url);
-        const data = await resp.json();
-        translated.push(data?.responseData?.translatedText || c);
-      }
-      const out = translated.join(' ');
-      qbTransCache[key] = out;
-      return out;
-    }catch(e){ return text; }
-  }
-  function qbTransSpan(text, cls){
-    if(text==null || text==='') return '';
-    return `<span class="${cls||''}" data-qb-i18n-text data-qb-original="${esc(String(text))}">${esc(String(text))}</span>`;
-  }
+     Usa o motor único e compartilhado window.CMI18N (js/i18n-content.js), que mantém um banco
+     persistente (localStorage) de traduções EN->PT reaproveitável por todo o site — QBank,
+     Flashcards, Medical Library etc. A interface (botões/labels) já traduz via T[lang]; isto
+     traduz o texto das questões, que vem sempre em inglês no banco, sempre que a bandeira for
+     trocada. O original nunca é sobrescrito, só a exibição. */
+  const CM = window.CMI18N;
+  function qbTransSpan(text, cls){ return CM ? CM.span(text, cls) : (text==null?'':esc(String(text))); }
   function translateVisibleQuestionTexts(){
-    const myToken = qbRenderToken;
-    const targetLang = lang();
-    if(!root) return;
-    root.querySelectorAll('[data-qb-i18n-text]').forEach(async el => {
-      const original = el.dataset.qbOriginal;
-      if(!original) return;
-      const translated = await qbTranslateField(original, targetLang);
-      if(qbRenderToken !== myToken) return;
-      el.textContent = translated;
-    });
+    if(!root || !CM) return;
+    CM.translateAllVisible(root);
   }
 
   const t = k => T[lang()][k];
@@ -435,7 +428,7 @@
 
   function render(){
     if(!root) return;
-    qbRenderToken++;
+    CM&&CM.bumpToken();
     if(view.name==='home') renderHome();
     else if(view.name==='create') renderCreate();
     else if(view.name==='test') renderTest();

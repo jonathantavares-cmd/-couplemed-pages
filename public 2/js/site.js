@@ -1,4 +1,18 @@
-/* CoupleMed v16.1 — 2026-07-04 */
+/* CoupleMed v28 — 2026-07-05
+
+   PADRÃO OBRIGATÓRIO DE I18N DE CONTEÚDO (vale para QUALQUER conteúdo novo — QBank,
+   Flashcards, Medical Library, AI Tutor, e qualquer módulo futuro):
+     - Todo texto dinâmico é criado/armazenado em INGLÊS.
+     - Ao renderizar HTML, o texto NUNCA vai direto (nem via textContent nem via innerHTML
+       cru) — sempre passa por window.CMI18N.span(text) (definido em js/i18n-content.js),
+       que marca o elemento para tradução automática.
+     - Depois de inserir o HTML no DOM, sempre chamar window.CMI18N.translateAllVisible(root)
+       (ou deixar isso a cargo do render() do módulo, como já ocorre no QBank e na Medical
+       Library) — isso troca o texto para PT quando o idioma ativo for português.
+     - O motor mantém um banco de traduções persistente (localStorage), reaproveitado por
+       todo o site, então o mesmo termo nunca é retraduzido à toa.
+     - Ver js/i18n-content.js para a implementação e mais detalhes.
+*/
 (function(){
   const USERS = { 'Ja@120622':'john', 'Aj@120622':'alysson', 'Gmed@07':'guest1', 'Gmed@77':'guest2' };
   const quotes = [
@@ -116,8 +130,8 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Uworld:'UWorld',step1Rd:'RD'},
-    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'Progresso Banco de Questões',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'Banco de Questões UWorld',qbankRdTitle:'Banco de Questões RD',uwFolderTitle:'Banco de Questões - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Uworld:'UWorld',step1Rd:'RD'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank - UWorld Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank - UWorld Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'Banco de Questões UWorld',qbankRdTitle:'Banco de Questões RD',uwFolderTitle:'Banco de Questões - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD'}
   };
   const PAGE_TITLE_KEYS = {'notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle','first-aid-library':'firstAidLibraryTitle','qbank-uworld':'qbankUworldTitle','qbank-rd':'qbankRdTitle','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
@@ -156,60 +170,51 @@
     const titleKey=LIB_TITLE_KEY[id];
     const libTitle=(titleKey&&I18N[lang][titleKey])?I18N[lang][titleKey]:id;
     const folderSlug=params().get('folder');
+    const CM=window.CMI18N;
+    CM&&CM.bumpToken();
 
     // UWorld tem 2 níveis: lista de 26 pastas -> lista de tópicos dentro da pasta
     if(id==='library-uworld' && UWORLD_STRUCTURE.length){
       const openFolder = folderSlug ? UWORLD_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
       if(openFolder){
-        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle"></h1><div class="lib-list"></div>`;
-        $('#internalTitle').textContent=openFolder.name;
-        const list=rp.querySelector('.lib-list');
-        openFolder.items.forEach(topic=>{
-          const a=document.createElement('a');
-          a.className='lib-book lib-topic';
-          a.textContent=topic;
-          a.href='#';
-          a.addEventListener('click',e=>e.preventDefault());
-          list.appendChild(a);
-        });
+        const items=openFolder.items.map(topic=>
+          `<a class="lib-book lib-topic" href="#" data-no-nav>${CM?CM.span(topic):topic}</a>`
+        ).join('');
+        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${CM?CM.span(openFolder.name):openFolder.name}</h1><div class="lib-list">${items}</div>`;
+        rp.querySelectorAll('.lib-topic[data-no-nav]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
         $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
+        CM&&CM.translateAllVisible(rp);
         return;
       }
-      rp.innerHTML=`<h1 id="internalTitle"></h1><div class="lib-list"></div>`;
-      $('#internalTitle').textContent=libTitle;
-      const list=rp.querySelector('.lib-list');
-      UWORLD_STRUCTURE.forEach(folder=>{
+      const folders=UWORLD_STRUCTURE.map(folder=>{
         const slug=slugify(folder.name);
-        const a=document.createElement('a');
-        a.className='lib-book';
-        a.textContent=folder.name;
-        a.href=`app.html?page=${id}&u=${user()}&folder=${slug}`;
-        a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,slug);});
-        list.appendChild(a);
+        return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${CM?CM.span(folder.name):folder.name}</a>`;
+      }).join('');
+      rp.innerHTML=`<h1 id="internalTitle">${libTitle}</h1><div class="lib-list">${folders}</div>`;
+      rp.querySelectorAll('.lib-list a[data-folder-slug]').forEach(a=>{
+        a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,a.dataset.folderSlug);});
       });
+      CM&&CM.translateAllVisible(rp);
       return;
     }
 
     // RD (e demais bibliotecas simples): 1 nível, lista direta
-    rp.innerHTML=`<h1 id="internalTitle"></h1><div class="lib-list"></div>`;
-    $('#internalTitle').textContent=libTitle;
-    const list=rp.querySelector('.lib-list');
-    const folders=LIB_FOLDERS[id]||[];
-    folders.forEach(name=>{
+    const folders=(LIB_FOLDERS[id]||[]).map(name=>{
       const slug=slugify(name);
-      const a=document.createElement('a');
-      a.className='lib-book';
-      a.textContent=name;
-      a.href=`app.html?page=${id.replace('library-','')}-${slug}&u=${user()}`;
-      a.dataset.pageLink=`${id.replace('library-','')}-${slug}`;
-      list.appendChild(a);
-    });
+      const pageLink=`${id.replace('library-','')}-${slug}`;
+      return `<a class="lib-book" href="app.html?page=${pageLink}&u=${user()}" data-page-link="${pageLink}">${CM?CM.span(name):name}</a>`;
+    }).join('');
+    rp.innerHTML=`<h1 id="internalTitle">${libTitle}</h1><div class="lib-list">${folders}</div>`;
+    CM&&CM.translateAllVisible(rp);
   }
   function renderStep1(lang){
     const rp=$('#regularPage'); if(!rp) return;
-    rp.innerHTML=`<h1 id="internalTitle"></h1><div class="step1-bars">
-      <a class="step1-bar step1-bar-uworld" href="app.html?page=qbank-uworld&u=${user()}" data-page-link="qbank-uworld">${I18N[lang].step1Uworld}</a>
-      <a class="step1-bar step1-bar-rd" href="app.html?page=qbank-rd&u=${user()}" data-page-link="qbank-rd">${I18N[lang].step1Rd}</a>
+    rp.innerHTML=`<div class="step1-page">
+      <h1 id="internalTitle" class="step1-title"></h1>
+      <div class="step1-bars">
+        <a class="step1-bar step1-bar-uworld" href="app.html?page=qbank-uworld&u=${user()}" data-page-link="qbank-uworld">${I18N[lang].step1Uworld}</a>
+        <a class="step1-bar step1-bar-rd" href="app.html?page=qbank-rd&u=${user()}" data-page-link="qbank-rd">${I18N[lang].step1Rd}</a>
+      </div>
     </div>`;
     $('#internalTitle').textContent=I18N[lang].instructionsTitle;
   }
@@ -241,10 +246,177 @@
   } else {document.body.classList.remove('internal');}
     $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle); if(el)el.classList.toggle('open');}));
     $$('[data-page-link]').forEach(a=>{if(a.dataset.pageLink===p){a.classList.add('active'); let anc=a.closest('.submenu'); while(anc){anc.classList.add('open'); anc=anc.parentElement?anc.parentElement.closest('.submenu'):null;}}});
+    // itens de menu que são link (navegam) E toggle (abrem submenu) ao mesmo tempo: ao navegar
+    // para a própria página do item (ex: Step 1 -> step-1), o submenu deve ficar aberto, já que
+    // o data-page-link acima só cobre os links FILHOS do submenu, não o pai que os contém.
+    $$('[data-toggle][data-page-link]').forEach(btn=>{ if(btn.dataset.pageLink===p){ const el=$('#'+btn.dataset.toggle); if(el)el.classList.add('open'); } });
     $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en');
     const applyTheme=t=>document.body.classList.toggle('light',t!=='dark'); applyTheme(p==='home'?'dark':'light'); const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>applyTheme(document.body.classList.contains('light')?'dark':'light'));
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',()=>sessionStorage.removeItem('couplemed_active_user'));
+    initSiteSearch();
+  }
+
+  /* ============================== BUSCA GLOBAL ==============================
+     Estilo Spotlight/Google: cobre TUDO que existe na plataforma — menu,
+     Medical Library (UWorld/RD, pastas e tópicos), QBank (questões e notas do
+     notebook do usuário) e Flashcards (decks e cards). Novo conteúdo criado
+     pelo usuário entra automaticamente, pois o índice é reconstruído a cada
+     busca lendo os dados atuais (localStorage) via "providers" que cada módulo
+     expõe em window.CMSearchProviders — sem acoplamento entre os arquivos.
+
+     Bilíngue e rápido: a query é comparada contra o texto original em inglês
+     E contra qualquer tradução já em cache (window.CMI18N). Além disso, se a
+     query não achar nada tentando casar direto, ela é traduzida uma vez
+     (EN<->PT, uma única chamada de API) e a busca é refeita — isso cobre o
+     caso de o usuário digitar um termo que nunca apareceu traduzido antes. */
+  function normalizeSearch(s){
+    return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+  }
+  function buildSearchIndex(){
+    const idx = [];
+    const seen = new Set();
+    const addLink = (a, catOverride) => {
+      const href = a.getAttribute('href');
+      if(!href || !href.startsWith('app.html')) return;
+      const label = a.textContent.trim();
+      if(!label) return;
+      const key = label+'|'+href;
+      if(seen.has(key)) return;
+      seen.add(key);
+      idx.push({ label, snippetSource:'', href, cat: catOverride || 'Menu' });
+    };
+    // menu lateral + cards de ação da dashboard — todo ponto de navegação clicável
+    $$('[data-page-link]').forEach(a=>addLink(a));
+    $$('.mini-card.action').forEach(a=>addLink(a));
+    // Medical Library — UWorld: 26 pastas + 1838 tópicos dentro delas
+    UWORLD_STRUCTURE.forEach(folder=>{
+      const slug = slugify(folder.name);
+      idx.push({ label: folder.name, snippetSource:'', href: `app.html?page=library-uworld&u=${user()}&folder=${slug}`, cat: 'Medical Library · UWorld' });
+      folder.items.forEach(topic=>{
+        idx.push({ label: topic, snippetSource:'', href: `app.html?page=library-uworld&u=${user()}&folder=${slug}`, cat: `UWorld · ${folder.name}` });
+      });
+    });
+    // Medical Library — RD: 17 pastas
+    (LIB_FOLDERS['library-rd']||[]).forEach(name=>{
+      idx.push({ label: name, snippetSource:'', href: `app.html?page=library-rd&u=${user()}`, cat: 'Medical Library · RD' });
+    });
+    // conteúdo dinâmico do usuário: QBank (questões + notebook) e Flashcards (decks + cards),
+    // lido sob demanda dos módulos correspondentes — sempre reflete o estado atual.
+    const providers = window.CMSearchProviders || {};
+    ['qbank','flashcards'].forEach(name=>{
+      if(typeof providers[name] !== 'function') return;
+      try{ providers[name]().forEach(item=>idx.push(item)); }catch(e){}
+    });
+    return idx;
+  }
+
+  // gera um trecho (estilo Google) ao redor do ponto onde o termo foi encontrado
+  function makeSnippet(text, qNorm, maxLen){
+    maxLen = maxLen || 140;
+    if(!text) return '';
+    const norm = normalizeSearch(text);
+    const pos = norm.indexOf(qNorm);
+    if(pos === -1) return text.slice(0, maxLen) + (text.length>maxLen?'…':'');
+    const start = Math.max(0, pos - 50);
+    const end = Math.min(text.length, pos + qNorm.length + 90);
+    let snippet = text.slice(start, end);
+    if(start>0) snippet = '…' + snippet;
+    if(end<text.length) snippet += '…';
+    return snippet;
+  }
+
+  // tenta casar a query contra o label, o snippetSource (texto completo do item) e
+  // qualquer tradução já em cache (PT<->EN) — cobre busca nos dois idiomas sem
+  // precisar retraduzir nada que já foi visto antes.
+  function itemMatchesQuery(item, qNorm){
+    if(normalizeSearch(item.label).includes(qNorm)) return {field:'label'};
+    if(item.snippetSource && normalizeSearch(item.snippetSource).includes(qNorm)) return {field:'snippet'};
+    const CM = window.CMI18N;
+    if(CM && CM.getCached){
+      const cachedLabelPt = CM.getCached(item.label, 'pt');
+      if(cachedLabelPt && normalizeSearch(cachedLabelPt).includes(qNorm)) return {field:'label'};
+      if(item.snippetSource){
+        const cachedSnippetPt = CM.getCached(item.snippetSource, 'pt');
+        if(cachedSnippetPt && normalizeSearch(cachedSnippetPt).includes(qNorm)) return {field:'snippet', translated:cachedSnippetPt};
+      }
+    }
+    return null;
+  }
+
+  function renderResults(results, matches, qNorm){
+    if(!matches.length){
+      const curLang = document.documentElement.lang==='pt-BR' ? 'pt' : 'en';
+      results.innerHTML = `<div class="search-empty">${curLang==='pt'?'Nada encontrado.':'Nothing found.'}</div>`;
+      results.hidden = false;
+      return;
+    }
+    const byCat = {};
+    matches.forEach(m=>{ (byCat[m.cat] = byCat[m.cat]||[]).push(m); });
+    let html = '';
+    Object.keys(byCat).forEach(cat=>{
+      html += `<div class="search-result-cat">${cat}</div>`;
+      byCat[cat].forEach(m=>{
+        const snippetText = m.match && m.match.field==='snippet'
+          ? makeSnippet(m.match.translated || m.snippetSource, qNorm)
+          : '';
+        html += `<a class="search-result-item" href="${m.href}"><span class="search-result-title">${m.label}</span>${snippetText?`<span class="search-result-snippet">${snippetText}</span>`:''}</a>`;
+      });
+    });
+    results.innerHTML = html;
+    results.hidden = false;
+  }
+
+  function initSiteSearch(){
+    const wrap = $('.site-search'), toggle = $('#siteSearchToggle'), input = $('#siteSearchInput'), results = $('#siteSearchResults');
+    if(!wrap || !toggle || !input || !results) return;
+    if(wrap.dataset.wired) return; // evita múltiplos binds entre re-renders
+    wrap.dataset.wired = '1';
+
+    function openSearch(){ wrap.classList.add('open'); input.focus(); }
+    function closeSearch(){ wrap.classList.remove('open'); results.hidden = true; input.value=''; }
+    toggle.addEventListener('click', ()=>{ wrap.classList.contains('open') ? closeSearch() : openSearch(); });
+    document.addEventListener('click', e=>{ if(!wrap.contains(e.target)) closeSearch(); });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSearch(); });
+
+    let debounceTimer=null, searchToken=0;
+    input.addEventListener('input', ()=>{
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(runSearch, 120);
+    });
+
+    async function runSearch(){
+      const myToken = ++searchToken;
+      const raw = input.value;
+      const qNorm = normalizeSearch(raw);
+      if(qNorm.length < 2){ results.hidden = true; results.innerHTML=''; return; }
+      // índice reconstruído a cada busca — reflete conteúdo criado pelo usuário em tempo real
+      const idx = buildSearchIndex();
+      let matches = idx.map(item=>{
+        const m = itemMatchesQuery(item, qNorm);
+        return m ? Object.assign({}, item, {match:m}) : null;
+      }).filter(Boolean).slice(0,30);
+
+      if(matches.length){ renderResults(results, matches, qNorm); return; }
+
+      // nada encontrado com correspondência direta/cache — tenta traduzir a PRÓPRIA
+      // query uma vez (rápido, uma chamada) e busca de novo com o termo traduzido,
+      // cobrindo o caso de o usuário digitar em português algo nunca visto em cache.
+      const CM = window.CMI18N;
+      if(!CM){ renderResults(results, [], qNorm); return; }
+      const curLang = document.documentElement.lang==='pt-BR' ? 'pt' : 'en';
+      const otherLang = curLang==='pt' ? 'en' : 'pt';
+      const translatedQuery = await CM.translateText(raw, otherLang, curLang);
+      if(searchToken !== myToken) return; // usuário já digitou algo novo
+      const qNorm2 = normalizeSearch(translatedQuery);
+      if(qNorm2 && qNorm2 !== qNorm){
+        matches = idx.map(item=>{
+          const m = itemMatchesQuery(item, qNorm2);
+          return m ? Object.assign({}, item, {match:m}) : null;
+        }).filter(Boolean).slice(0,30);
+      }
+      renderResults(results, matches, qNorm2 || qNorm);
+    }
   }
   initLogin(); initTransition(); initPlatform();
 })();

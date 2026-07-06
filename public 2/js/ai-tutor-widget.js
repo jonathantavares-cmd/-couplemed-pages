@@ -40,16 +40,13 @@
     const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
     const t = k => T[lang()][k];
     
-    /* ---------- tradução dinâmica de respostas ---------- */
-    const TRANSLATE_API = 'https://api.mymemory.translated.net/get';
+    /* ---------- tradução dinâmica de respostas ----------
+       Usa o motor único e compartilhado window.CMI18N (js/i18n-content.js) — mesmo banco
+       persistente de traduções usado pelo QBank, Flashcards e Medical Library. */
     async function translateText(text, fromLang, toLang){
       if(text.length > 500) return text;
-      try{
-        const url = `${TRANSLATE_API}?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`;
-        const resp = await fetch(url);
-        const data = await resp.json();
-        return data.responseData?.translatedText || text;
-      }catch(e){ return text; }
+      if(!window.CMI18N) return text;
+      return window.CMI18N.translateText(text, toLang, fromLang);
     }
     async function translateAssistantMessages(){
       const oldLang = lang() === 'pt' ? 'en' : 'pt';
