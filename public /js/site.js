@@ -14,7 +14,14 @@
      - Ver js/i18n-content.js para a implementação e mais detalhes.
 */
 (function(){
-  const USERS = { 'Ja@120622':'john', 'Aj@120622':'alysson', 'Gmed@07':'guest1', 'Gmed@77':'guest2' };
+  const USERS = {
+    'jonathan.tavares@hotmail.com': { pass:'Ja@120622', user:'john' },
+    'alyssonaranha@gmail.com':      { pass:'Aj@120622', user:'alysson' },
+    'guest1': { pass:'Gjesus@17', user:'guest1' },
+    'guest2': { pass:'Gjesus@27', user:'guest2' },
+    'guest3': { pass:'Gjesus@37', user:'guest3' },
+    'guest4': { pass:'Gjesus@47', user:'guest4' }
+  };
   const quotes = [
     '“Todos os seus sonhos podem se tornar realidade se você tiver coragem para persegui-los.”',
     '“A disciplina transforma sonhos distantes em conquistas inevitáveis.”',
@@ -141,7 +148,7 @@
   function preserveUserLinks(){const u=user(); $$('a[href^="app.html"]').forEach(a=>{const url=new URL(a.getAttribute('href'),location.href); url.searchParams.set('u',u); a.href=url.pathname.split('/').pop()+url.search;});}
   function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
   function draw(key,arr){let deck;try{deck=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){deck=[]}if(!Array.isArray(deck)||!deck.length)deck=shuffle([...arr.keys()]);const idx=deck.shift();localStorage.setItem(key,JSON.stringify(deck));return arr[idx]||arr[0]}
-  function initLogin(){const form=$('#loginForm'); if(!form)return; form.addEventListener('submit',e=>{e.preventDefault(); const pass=$('#password').value.trim(); const u=USERS[pass]; const msg=$('#loginMessage'); if(!u){msg.textContent='Invalid password.';return} sessionStorage.setItem('couplemed_active_user',u); $('.access-submit').classList.add('loading'); document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22'; setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);});}
+  function initLogin(){const form=$('#loginForm'); if(!form)return; form.addEventListener('submit',e=>{e.preventDefault(); const login=$('#login').value.trim().toLowerCase(); const pass=$('#password').value.trim(); const entry=USERS[login]; const msg=$('#loginMessage'); if(!entry||entry.pass!==pass){msg.textContent='Invalid login or password.';return} const u=entry.user; sessionStorage.setItem('couplemed_active_user',u); $('.access-submit').classList.add('loading'); document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22'; setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);});}
   function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),6450); setTimeout(()=>location.href=`app.html?u=${u}`,7000);}
   const LIB_TITLE_KEY = {'library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle'};
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.

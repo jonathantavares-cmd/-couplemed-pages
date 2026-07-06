@@ -15,11 +15,18 @@
     <div class="login-stage">
       <img class="stage-img" src="assets/login-layout.jpg" alt="" draggable="false" />
       <div class="stage-overlay"><form id="loginForm" class="access-card" autocomplete="off" novalidate>
-        <label class="sr-only" for="password">Password</label>
-        <div class="access-input-row">
-          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
-          <input id="password" name="password" type="password" placeholder="Password" required />
-          <button class="access-arrow" type="submit" aria-label="Enter">→</button>
+        <div class="access-fields">
+          <label class="sr-only" for="login">Login</label>
+          <div class="access-input-row">
+            <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.4 7-6.4s7 2.8 7 6.4"/></svg>
+            <input id="login" name="login" type="text" placeholder="Login" required />
+          </div>
+          <label class="sr-only" for="password">Password</label>
+          <div class="access-input-row">
+            <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+            <input id="password" name="password" type="password" placeholder="Password" required />
+            <button class="access-arrow" type="submit" aria-label="Enter">→</button>
+          </div>
         </div>
         <button class="access-submit" type="submit">Enter</button>
         <p id="loginMessage" class="login-message" aria-live="polite"></p>
