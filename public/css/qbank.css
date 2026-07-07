@@ -1,6 +1,6 @@
-/* CoupleMed — QBank UWorld v1 styles
+/* CoupleMed — QBank v1 styles
    Herda o chrome do CoupleMed (navy/azul, Montserrat) e usa as cores
-   diagnósticas do UWorld: verde=correto, vermelho=errado, âmbar=omitido. */
+   diagnósticas padrão: verde=correto, vermelho=errado, âmbar=omitido. */
 
 /* variáveis locais — base dark; body.light inverte */
 .qb{
@@ -133,7 +133,7 @@ body.light .qb{
 .qb-peer-row.is-correct .qb-peer-l{color:var(--qb-ok)}
 .qb-peer-pct{font-size:12px;font-weight:700;color:var(--qb-text);min-width:34px;text-align:right}
 
-/* navegação em grid colorido (assinatura UWorld) */
+/* navegação em grid colorido */
 .qb-nav{display:flex;align-items:center;gap:14px;margin-top:20px;padding-top:16px;border-top:1px solid var(--qb-line)}
 .qb-grid{flex:1;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .qb-grid-cell{width:30px;height:30px;border-radius:8px;border:1px solid var(--qb-line);background:var(--qb-chip);color:var(--qb-text);font-size:12px;font-weight:700;position:relative;transition:.12s}

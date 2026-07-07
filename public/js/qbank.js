@@ -1,6 +1,6 @@
-/* CoupleMed — QBank UWorld v1
+/* CoupleMed — QBank v1
    ============================================================================
-   Módulo de banco de questões estilo UWorld para USMLE Step 1.
+   Módulo de banco de questões para USMLE Step 1.
    Arquitetura de 2 camadas: toda persistência passa por QB.store, que hoje usa
    localStorage e amanhã troca para a API D1 (worker.js /api/qbank/*) sem mexer na UI.
 
@@ -17,7 +17,7 @@
   'use strict';
   const params = new URLSearchParams(location.search);
   const PAGE = params.get('page') || 'home';
-  const QB_PAGES = ['qbank-uworld','uworld-pass-1','uworld-pass-2','uworld-pass-3','uworld-pass-4'];
+  const QB_PAGES = ['qbank-1','qbank1-pass-1','qbank1-pass-2','qbank1-pass-3','qbank1-pass-4'];
   const USER = params.get('u') || 'guest1';
   const KEY = `couplemed_qb_${USER}`;
   const FC_KEY = `couplemed_fc_${USER}`;
@@ -416,7 +416,7 @@
       items.push({
         label: q.q || q.vignette.slice(0,60),
         snippetSource: parts.join(' — '),
-        href: `app.html?page=qbank-uworld&u=${USER}`,
+        href: `app.html?page=qbank-1&u=${USER}`,
         cat: 'QBank · Questões'
       });
     });
@@ -428,7 +428,7 @@
         items.push({
           label: 'Nota — ' + (q ? q.q : n.question_id),
           snippetSource: n.text,
-          href: `app.html?page=qbank-uworld&u=${USER}`,
+          href: `app.html?page=qbank-1&u=${USER}`,
           cat: 'QBank · Notebook'
         });
       });
@@ -449,8 +449,8 @@
     {id:'time_pressure',              en:'Time pressure',                 pt:'Pressão do tempo'},
   ];
 
-  /* ===================== TAXONOMIA OFICIAL UWORLD (Systems → Subjects) =====================
-     Extraída das telas reais do UWorld USMLE Step 1. Cada subtópico tem id namespaced
+  /* ===================== TAXONOMIA OFICIAL (Systems → Subjects) =====================
+     Taxonomia oficial de sistemas e disciplinas do USMLE Step 1. Cada subtópico tem id namespaced
      por sistema (systemId::slug) para garantir unicidade. É a fonte única do accordion. */
   const TAXONOMY = [
     {id:'biochemistry', name:'Biochemistry (General Principles)', subs:[
@@ -519,7 +519,7 @@
 
   /* ============================= i18n ============================= */
   const T = {
-    en:{ home:'QBank — UWorld', createTest:'Create Test', reviewFlagged:'Review flagged',
+    en:{ home:'QBank 1', createTest:'Create Test', reviewFlagged:'Review flagged',
       perfTitle:'Your performance', used:'Used', correct:'Correct', incorrect:'Incorrect', omitted:'Omitted', unused:'Unused', overall:'Overall score',
       passes:'Passes', pass:'Pass', dirigido:'Directed Pass', questions:'questions', continue:'Continue', start:'Start',
       passName:{1:'Learning',2:'Consolidation',3:'Refinement',99:'Total Mastery'},
@@ -552,7 +552,7 @@
       nbTitle:'Add to Notebook', nbPh:'Write a note about this question…', nbSave:'Save note', nbSaved:'✓ Saved to Notebook.',
       labTitle:'Common reference ranges', close:'Close',
       resume:'Resume', empty:'No questions here yet.', flaggedEmpty:'You have not flagged any questions yet.' },
-    pt:{ home:'Banco de Questões — UWorld', createTest:'Criar Teste', reviewFlagged:'Revisar marcadas',
+    pt:{ home:'Banco de Questões 1', createTest:'Criar Teste', reviewFlagged:'Revisar marcadas',
       perfTitle:'Seu desempenho', used:'Usadas', correct:'Acertos', incorrect:'Erros', omitted:'Omitidas', unused:'Não usadas', overall:'Nota geral',
       passes:'Passadas', pass:'Passada', dirigido:'Passada Dirigida', questions:'questões', continue:'Continuar', start:'Iniciar',
       passName:{1:'Aprendizado',2:'Consolidação',3:'Refinamento',99:'Domínio Total'},
@@ -709,7 +709,7 @@
 
   /* ============================== ESTADO ============================== */
   let host, root, view={name:'home'};
-  const passFromPage = { 'uworld-pass-1':'1','uworld-pass-2':'2','uworld-pass-3':'3','uworld-pass-4':'99' };
+  const passFromPage = { 'qbank1-pass-1':'1','qbank1-pass-2':'2','qbank1-pass-3':'3','qbank1-pass-4':'99' };
 
   function boot(){
     host = document.querySelector('#internalContent .internal-card');

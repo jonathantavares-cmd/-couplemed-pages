@@ -1,4 +1,4 @@
-/* CoupleMed v31 — 2026-07-06
+/* CoupleMed v36 — 2026-07-07
 
    PADRÃO OBRIGATÓRIO DE I18N DE CONTEÚDO (vale para QUALQUER conteúdo novo — QBank,
    Flashcards, Medical Library, AI Tutor, e qualquer módulo futuro):
@@ -161,10 +161,10 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank - UWorld Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',libraryUworldTitle:'UWorld Library',libraryRdTitle:'RD Library',firstAidLibraryTitle:'First Aid Library',qbankUworldTitle:'QBank UWorld',qbankRdTitle:'QBank RD',uwFolderTitle:'QBank - UWorld',uwPass1:'1 Pass',uwPass2:'2 Pass',uwPass3:'3 Pass',uwPass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',uwQuestionsAnswered:'Questions Answered',uwOnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet'},
-    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank - UWorld Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',libraryUworldTitle:'Biblioteca UWorld',libraryRdTitle:'Biblioteca RD',firstAidLibraryTitle:'Biblioteca First Aid',qbankUworldTitle:'Banco de Questões UWorld',qbankRdTitle:'Banco de Questões RD',uwFolderTitle:'Banco de Questões - UWorld',uwPass1:'1ª Passada',uwPass2:'2ª Passada',uwPass3:'3ª Passada',uwPass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',uwQuestionsAnswered:'Questões Respondidas',uwOnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Uworld:'QBank - UWorld',step1Rd:'QBank - RD',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank 1 - Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',library1Title:'CoupleMed Library 1',library2Title:'CoupleMed Library 2',library3Title:'CoupleMed Library 3',qbank1Title:'QBank 1',qbank2Title:'QBank 2',library1FolderTitle:'QBank 1',qbank1Pass1:'1 Pass',qbank1Pass2:'2 Pass',qbank1Pass3:'3 Pass',qbank1Pass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',qbank1QuestionsAnswered:'Questions Answered',qbank1OnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank 1 - Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',library1Title:'Biblioteca CoupleMed 1',library2Title:'Biblioteca CoupleMed 2',library3Title:'Biblioteca CoupleMed 3',qbank1Title:'Banco de Questões 1',qbank2Title:'Banco de Questões 2',library1FolderTitle:'Banco de Questões 1',qbank1Pass1:'1ª Passada',qbank1Pass2:'2ª Passada',qbank1Pass3:'3ª Passada',qbank1Pass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',qbank1QuestionsAnswered:'Questões Respondidas',qbank1OnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda'}
   };
-  const PAGE_TITLE_KEYS = {'notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle','first-aid-library':'firstAidLibraryTitle','qbank-uworld':'qbankUworldTitle','qbank-rd':'qbankRdTitle','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
+  const PAGE_TITLE_KEYS = {'notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-1':'library1Title','library-2':'library2Title','library-3':'library3Title','qbank-1':'qbank1Title','qbank-2':'qbank2Title','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
   function params(){return new URLSearchParams(location.search)}
   function user(){return params().get('u')||sessionStorage.getItem('couplemed_active_user')||'guest1'}
@@ -174,10 +174,10 @@
   function draw(key,arr){let deck;try{deck=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){deck=[]}if(!Array.isArray(deck)||!deck.length)deck=shuffle([...arr.keys()]);const idx=deck.shift();localStorage.setItem(key,JSON.stringify(deck));return arr[idx]||arr[0]}
   function initLogin(){const form=$('#loginForm'); if(!form)return; form.addEventListener('submit',e=>{e.preventDefault(); const login=$('#login').value.trim().toLowerCase(); const pass=$('#password').value.trim(); const msg=$('#loginMessage'); const u=findUserByCredentials(login,pass); if(!u){msg.textContent='Invalid login or password.';return} if(isUserBlocked(u)){msg.textContent='Your access has been blocked. Contact the administrator.';return} sessionStorage.setItem('couplemed_active_user',u); $('.access-submit').classList.add('loading'); document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22'; setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);});}
   function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),6450); setTimeout(()=>location.href=`app.html?u=${u}`,7000);}
-  const LIB_TITLE_KEY = {'library-uworld':'libraryUworldTitle','library-rd':'libraryRdTitle'};
+  const LIB_TITLE_KEY = {'library-1':'library1Title','library-2':'library2Title'};
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
   const LIB_FOLDERS = {
-    'library-rd': [
+    'library-2': [
       'Biochemistry','Immunology','Microbiology','Pathology','General Pharmacology',
       'Biostatistics','Public Health Science','Cardiovascular','Endocrinology',
       'Gastrointestinal System','Hematology & Oncology',
@@ -185,8 +185,8 @@
       'Nephrology','Reproductive System','Pulmonology'
     ]
   };
-  // UWorld: 26 pastas, cada uma com sua lista de tópicos (ordem exata do arquivo enviado pelo usuário)
-  const UWORLD_STRUCTURE = window.UWORLD_STRUCTURE || [];
+  // Biblioteca 1: 26 pastas, cada uma com sua lista de tópicos (ordem exata do arquivo enviado pelo usuário)
+  const LIBRARY1_STRUCTURE = window.LIBRARY1_STRUCTURE || [];
   const slugify = s => s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   function libBack(id,lang){
     history.pushState(null,'',`app.html?page=${id}&u=${user()}`);
@@ -204,9 +204,9 @@
     const CM=window.CMI18N;
     CM&&CM.bumpToken();
 
-    // UWorld tem 2 níveis: lista de 26 pastas -> lista de tópicos dentro da pasta
-    if(id==='library-uworld' && UWORLD_STRUCTURE.length){
-      const openFolder = folderSlug ? UWORLD_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
+    // Biblioteca 1 tem 2 níveis: lista de 26 pastas -> lista de tópicos dentro da pasta
+    if(id==='library-1' && LIBRARY1_STRUCTURE.length){
+      const openFolder = folderSlug ? LIBRARY1_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
       if(openFolder){
         const items=openFolder.items.map(topic=>
           `<a class="lib-book lib-topic" href="#" data-no-nav>${CM?CM.span(topic):topic}</a>`
@@ -217,7 +217,7 @@
         CM&&CM.translateAllVisible(rp);
         return;
       }
-      const folders=UWORLD_STRUCTURE.map(folder=>{
+      const folders=LIBRARY1_STRUCTURE.map(folder=>{
         const slug=slugify(folder.name);
         return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${CM?CM.span(folder.name):folder.name}</a>`;
       }).join('');
@@ -229,7 +229,7 @@
       return;
     }
 
-    // RD (e demais bibliotecas simples): 1 nível, lista direta
+    // Biblioteca 2 (e demais bibliotecas simples): 1 nível, lista direta
     const folders=(LIB_FOLDERS[id]||[]).map(name=>{
       const slug=slugify(name);
       const pageLink=`${id.replace('library-','')}-${slug}`;
@@ -243,8 +243,8 @@
     rp.innerHTML=`<div class="step1-page">
       <h1 id="internalTitle" class="step1-title"></h1>
       <div class="step1-bars">
-        <a class="step1-bar step1-bar-uworld" href="app.html?page=qbank-uworld&u=${user()}" data-page-link="qbank-uworld">${I18N[lang].step1Uworld}</a>
-        <a class="step1-bar step1-bar-rd" href="app.html?page=qbank-rd&u=${user()}" data-page-link="qbank-rd">${I18N[lang].step1Rd}</a>
+        <a class="step1-bar step1-bar-qbank1" href="app.html?page=qbank-1&u=${user()}" data-page-link="qbank-1">${I18N[lang].step1Qbank1}</a>
+        <a class="step1-bar step1-bar-qbank2" href="app.html?page=qbank-2&u=${user()}" data-page-link="qbank-2">${I18N[lang].step1Qbank2}</a>
       </div>
     </div>`;
     $('#internalTitle').textContent=I18N[lang].instructionsTitle;
@@ -449,10 +449,18 @@
   }
 
   function buildBooks(){}
-  function qCount(){return Number(localStorage.getItem('couplemed_qbank_uworld_total')||0)}
+  function qCount(){
+    // migração única: se existir a chave antiga e não a nova, copia o valor para preservar o progresso já salvo
+    try{
+      var oldTotal=localStorage.getItem('couplemed_qbank_uworld_total');
+      var newTotal=localStorage.getItem('couplemed_qbank_1_total');
+      if(oldTotal!==null && newTotal===null){ localStorage.setItem('couplemed_qbank_1_total', oldTotal); localStorage.removeItem('couplemed_qbank_uworld_total'); }
+    }catch(e){}
+    return Number(localStorage.getItem('couplemed_qbank_1_total')||0);
+  }
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
-  const COMING_SOON_PAGES=['qbank-rd','step-2','step-3','languages','observership','residency-match','links'];
-  const QBANK_PAGES=['qbank-uworld','uworld-pass-1','uworld-pass-2','uworld-pass-3','uworld-pass-4','library-uworld','library-rd'];
+  const COMING_SOON_PAGES=['qbank-2','step-2','step-3','languages','observership','residency-match','links'];
+  const QBANK_PAGES=['qbank-1','qbank1-pass-1','qbank1-pass-2','qbank1-pass-3','qbank1-pass-4','library-1','library-2'];
   function updateDynamicContent(lang){
     const p=page(); if(p==='home')return;
     if(p==='settings'){ renderSettings(lang); return; }
@@ -500,7 +508,7 @@
 
   /* ============================== BUSCA GLOBAL ==============================
      Estilo Spotlight/Google: cobre TUDO que existe na plataforma — menu,
-     Medical Library (UWorld/RD, pastas e tópicos), QBank (questões e notas do
+     Medical Library (Library 1/2, pastas e tópicos), QBank (questões e notas do
      notebook do usuário) e Flashcards (decks e cards). Novo conteúdo criado
      pelo usuário entra automaticamente, pois o índice é reconstruído a cada
      busca lendo os dados atuais (localStorage) via "providers" que cada módulo
@@ -530,17 +538,17 @@
     // menu lateral + cards de ação da dashboard — todo ponto de navegação clicável
     $$('[data-page-link]').forEach(a=>addLink(a));
     $$('.mini-card.action').forEach(a=>addLink(a));
-    // Medical Library — UWorld: 26 pastas + 1838 tópicos dentro delas
-    UWORLD_STRUCTURE.forEach(folder=>{
+    // Medical Library — Biblioteca 1: 26 pastas + tópicos dentro delas
+    LIBRARY1_STRUCTURE.forEach(folder=>{
       const slug = slugify(folder.name);
-      idx.push({ label: folder.name, snippetSource:'', href: `app.html?page=library-uworld&u=${user()}&folder=${slug}`, cat: 'Medical Library · UWorld' });
+      idx.push({ label: folder.name, snippetSource:'', href: `app.html?page=library-1&u=${user()}&folder=${slug}`, cat: 'Medical Library · Library 1' });
       folder.items.forEach(topic=>{
-        idx.push({ label: topic, snippetSource:'', href: `app.html?page=library-uworld&u=${user()}&folder=${slug}`, cat: `UWorld · ${folder.name}` });
+        idx.push({ label: topic, snippetSource:'', href: `app.html?page=library-1&u=${user()}&folder=${slug}`, cat: `Library 1 · ${folder.name}` });
       });
     });
-    // Medical Library — RD: 17 pastas
-    (LIB_FOLDERS['library-rd']||[]).forEach(name=>{
-      idx.push({ label: name, snippetSource:'', href: `app.html?page=library-rd&u=${user()}`, cat: 'Medical Library · RD' });
+    // Medical Library — Biblioteca 2: 17 pastas
+    (LIB_FOLDERS['library-2']||[]).forEach(name=>{
+      idx.push({ label: name, snippetSource:'', href: `app.html?page=library-2&u=${user()}`, cat: 'Medical Library · Library 2' });
     });
     // conteúdo dinâmico do usuário: QBank (questões + notebook) e Flashcards (decks + cards),
     // lido sob demanda dos módulos correspondentes — sempre reflete o estado atual.
