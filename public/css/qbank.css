@@ -234,3 +234,25 @@ body:not(.light) .qb-rc-opt{--qb-card2:#122844}
 .qb-count input[type=number]{width:88px;border:1px solid var(--qb-line);background:var(--qb-card2);color:var(--qb-text);border-radius:9px;padding:10px 12px;font:inherit;font-size:15px;font-weight:700;text-align:center}
 .qb-count input[type=number]:focus{outline:2px solid var(--qb-blue);outline-offset:1px;border-color:transparent}
 .qb-count-max{font-size:13px;color:var(--qb-muted)}.qb-count-max b{color:var(--qb-text)}
+
+
+/* QBank question images */
+.qb-question-image{
+  margin: 18px 0 20px;
+  padding: 12px;
+  border: 1px solid rgba(132, 160, 190, .28);
+  border-radius: 18px;
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 10px 28px rgba(8, 19, 36, .08);
+}
+.qb-question-image img{
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+body.dark .qb-question-image{
+  background: rgba(12, 22, 40, .72);
+  border-color: rgba(164, 189, 220, .22);
+}
