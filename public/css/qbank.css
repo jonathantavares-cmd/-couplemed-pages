@@ -235,24 +235,17 @@ body:not(.light) .qb-rc-opt{--qb-card2:#122844}
 .qb-count input[type=number]:focus{outline:2px solid var(--qb-blue);outline-offset:1px;border-color:transparent}
 .qb-count-max{font-size:13px;color:var(--qb-muted)}.qb-count-max b{color:var(--qb-text)}
 
-
-/* QBank question images */
-.qb-question-image{
-  margin: 18px 0 20px;
-  padding: 12px;
-  border: 1px solid rgba(132, 160, 190, .28);
-  border-radius: 18px;
-  background: rgba(255,255,255,.72);
-  box-shadow: 0 10px 28px rgba(8, 19, 36, .08);
-}
-.qb-question-image img{
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
-  border-radius: 12px;
-}
-body.dark .qb-question-image{
-  background: rgba(12, 22, 40, .72);
-  border-color: rgba(164, 189, 220, .22);
-}
+/* QBank metadata filters — Subject / System / Topic */
+.qb-meta-filter small{display:block;margin:.25rem 0 .75rem;color:var(--muted,#7f8ca3);font-size:.86rem}
+.qb-meta-checks{display:flex;flex-wrap:wrap;gap:.5rem}
+.qb-meta-check{display:inline-flex;align-items:center;gap:.45rem;border:1px solid rgba(148,163,184,.28);border-radius:999px;padding:.46rem .72rem;background:rgba(255,255,255,.04);cursor:pointer;font-size:.9rem;transition:.18s ease}
+.qb-meta-check input{accent-color:currentColor}
+.qb-meta-check.on{border-color:rgba(59,130,246,.65);background:rgba(59,130,246,.12)}
+.qb-meta-end{margin-top:1rem;padding:1rem;border:1px solid rgba(148,163,184,.22);border-radius:18px;background:rgba(15,23,42,.04)}
+.qb-meta-end h4{margin:0 0 .7rem;font-size:.95rem;letter-spacing:.02em;text-transform:uppercase;color:var(--muted,#7f8ca3)}
+.qb-meta-pills{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:.7rem}
+.qb-meta-pill{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(148,163,184,.28);border-radius:999px;padding:.52rem .78rem;background:rgba(255,255,255,.05);color:inherit;cursor:pointer;text-align:left;transition:.18s ease}
+.qb-meta-pill:hover{transform:translateY(-1px);border-color:rgba(59,130,246,.75);background:rgba(59,130,246,.12)}
+.qb-meta-pill b{font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted,#7f8ca3)}
+.qb-meta-pill span{font-weight:650}
+.qb-meta-end small{display:block;color:var(--muted,#7f8ca3);line-height:1.4}
