@@ -138,7 +138,10 @@
       explI:[{option:'A',explanation:'UTI with Candida albicans is generally seen only in elderly, hospitalized, and immunocompromised patients. Dipstick would be positive for leukocyte esterase but negative for nitrites.'},{option:'B',explanation:'Enterococcus faecalis does not produce nitrate reductase, making its presence inconsistent with this patient\'s positive urinary nitrites.'},{option:'D',explanation:'Genital herpes simplex virus typically presents with clusters of vesicles that may cause dysuria. Leukocyte esterase may be present but nitrites would not.'},{option:'E',explanation:'Proteus mirabilis produces urease which generates alkaline urine (pH >8). This patient\'s acidic pH (5) makes P. mirabilis unlikely.'},{option:'F',explanation:'Staphylococcus saprophyticus does not produce nitrate reductase, making it inconsistent with positive urinary nitrites.'}],
       objective:'The most common cause of urinary tract infection is Escherichia coli, a nitrate reductase-producing bacterium. Dipstick analysis should show positive leukocyte esterase, positive nitrites, and a mildly acidic pH.',
       peer:{A:1,B:7,C:70,D:1,E:13,F:6},
-      ptTranslation:{vignette:'Um homem de 24 anos procura o consultório com 2 dias de dor ao urinar e aumento da frequência urinária. Sem febre, calafrios, dor nas costas ou secreção peniana. Sexualmente ativo com seu namorado. Urinálise: esterase de leucócitos positiva, nitritos positivos, pH 5.',q:'Com base nos resultados da urinálise, qual organismo é a causa mais provável?',objective:'A causa mais comum de ITU é Escherichia coli, produtora de nitrato redutase.'} },
+      ptTranslation:{vignette:'Um homem de 24 anos procura o consultório com 2 dias de dor ao urinar e aumento da frequência urinária. Sem febre, calafrios, dor nas costas ou secreção peniana. Sexualmente ativo com seu namorado. Urinálise: esterase de leucócitos positiva, nitritos positivos, pH 5.',q:'Com base nos resultados da urinálise, qual organismo é a causa mais provável?',objective:'A causa mais comum de ITU é Escherichia coli, produtora de nitrato redutase.',
+      options:[{label:'A',text:'Candida albicans'},{label:'B',text:'Enterococcus faecalis'},{label:'C',text:'Escherichia coli'},{label:'D',text:'Vírus herpes simples'},{label:'E',text:'Proteus mirabilis'},{label:'F',text:'Staphylococcus saprophyticus'}],
+      explC:'A disúria em homens sexualmente ativos é mais comumente causada por uretrite e, menos comumente, por prostatite, epididimite ou infecção do trato urinário (ITU). Neste caso, a ausência de sintomas sistêmicos, a ausência de secreção peniana e a urinálise positiva são consistentes com ITU. A causa mais comum de ITU é a flora fecal, incluindo bacilos gram-negativos como a Escherichia coli. Achados da urinálise: esterase de leucócitos positiva (marcador de inflamação), nitritos positivos (produzidos por bactérias produtoras de nitrato redutase, como E. coli) e pH ácido (pH = 5, o que torna improvável o Proteus mirabilis, que produz urina alcalina via urease). Esse padrão é mais consistente com ITU por E. coli.',
+      explI:[{option:'A',explanation:'ITU por Candida albicans ocorre geralmente apenas em pacientes idosos, hospitalizados ou imunocomprometidos. O exame seria positivo para esterase de leucócitos, mas negativo para nitritos.'},{option:'B',explanation:'Enterococcus faecalis não produz nitrato redutase, o que é inconsistente com os nitritos urinários positivos deste paciente.'},{option:'D',explanation:'O herpes simples genital geralmente se apresenta com vesículas em cacho que podem causar disúria. A esterase de leucócitos pode estar presente, mas os nitritos não.'},{option:'E',explanation:'Proteus mirabilis produz urease, que gera urina alcalina (pH >8). O pH ácido (5) deste paciente torna P. mirabilis improvável.'},{option:'F',explanation:'Staphylococcus saprophyticus não produz nitrato redutase, o que é inconsistente com nitritos urinários positivos.'}]} },
 
     { id:'CMQ-STEP1-MRS-0002', system:'male-reproductive-system', discipline:'pharmacology', category:'male-reproductive-system::benign_prostatic_hyperplasia', difficulty:'medium',
       vignette:'A 65-year-old man with benign prostatic hyperplasia has moderately severe symptoms and is started on finasteride. After six months of treatment with finasteride, his symptoms improve markedly and his prostate has regressed in size.',
@@ -149,10 +152,13 @@
       explI:[{option:'B',explanation:'Alpha-1 blockers produce symptomatic improvement in patients with BPH by their action on smooth muscles in prostate and bladder base. Patients with smooth muscle predominance respond to alpha-1 blockers, not finasteride.'},{option:'C',explanation:'Patients with collagen predominance respond neither to finasteride nor to alpha-1 blockers.'},{option:'D',explanation:'Patients with both collagen and smooth muscle predominance respond neither to finasteride nor to alpha-1 blockers.'}],
       objective:'Finasteride acts on epithelium and alpha-1 blockers act on smooth muscles of prostate and bladder base.',
       peer:{A:41,B:25,C:5,D:27},
-      ptTranslation:{vignette:'Um homem de 65 anos com HPB tem sintomas moderadamente graves e é iniciado em finasterida. Após seis meses, seus sintomas melhoram e a próstata regrediu.',q:'Qual padrão histológico era mais provável no início do tratamento?',objective:'A finasterida atua no epitélio e os bloqueadores alfa-1 nos músculos lisos da próstata.'} },
+      ptTranslation:{vignette:'Um homem de 65 anos com HPB tem sintomas moderadamente graves e é iniciado em finasterida. Após seis meses, seus sintomas melhoram e a próstata regrediu.',q:'Qual padrão histológico era mais provável no início do tratamento?',objective:'A finasterida atua no epitélio e os bloqueadores alfa-1 nos músculos lisos da próstata.',
+      options:[{label:'A',text:'Hiperplasia da próstata com predomínio de componentes epiteliais'},{label:'B',text:'Hiperplasia da próstata com predomínio do elemento muscular'},{label:'C',text:'Hiperplasia da próstata com predomínio de colágeno'},{label:'D',text:'Hiperplasia da próstata com predomínio de colágeno e músculo liso'}],
+      explC:'A finasterida é um inibidor da 5-alfa redutase que inibe a conversão de testosterona em di-hidrotestosterona. Ela atua nos componentes epiteliais da próstata, produzindo melhora dos sintomas e redução do tamanho da glândula. Pacientes com predomínio epitelial respondem melhor ao tratamento com finasterida.',
+      explI:[{option:'B',explanation:'Os bloqueadores alfa-1 melhoram os sintomas da HPB por atuarem no músculo liso da próstata e da base da bexiga. Pacientes com predomínio de músculo liso respondem aos bloqueadores alfa-1, não à finasterida.'},{option:'C',explanation:'Pacientes com predomínio de colágeno não respondem nem à finasterida nem aos bloqueadores alfa-1.'},{option:'D',explanation:'Pacientes com predomínio de colágeno e músculo liso não respondem nem à finasterida nem aos bloqueadores alfa-1.'}]} },
 
     { id:'CMQ-STEP1-MRS-0003', system:'male-reproductive-system', discipline:'pathophysiology', category:'male-reproductive-system::testicular_torsion', difficulty:'medium',
-      vignette:'A 19-year-old man comes to the emergency department due to intense scrotal pain over the past 6 hours. The pain started shortly after participating in a soccer game; he does not recall any specific trauma. He is sexually active and has been treated twice in the past for Neisseria gonorrhoeae. Temperature is 36.9 C (98.5 F), blood pressure is 110/86 mm Hg, and pulse is 92/min. On examination, there is significant discomfort with scrotal examination primarily on the right where a high-riding swollen mass is palpable within the hemiscrotum.',
+      vignette:'A 19-year-old man comes to the emergency department due to intense scrotal pain over the past 6 hours. The pain started shortly after participating in a soccer game; he does not recall any specific trauma and took ibuprofen at home with minimal relief. He is sexually active and has been treated twice in the past for Neisseria gonorrhoeae. Temperature is 36.9 C (98.5 F), blood pressure is 110/86 mm Hg, and pulse is 92/min. On examination, there is no inguinal lymphadenopathy or palpable mass. There is significant discomfort with scrotal examination primarily on the right where a high-riding swollen mass is palpable within the hemiscrotum; the left testicle is palpated lower in the scrotum.',
       q:'Which of the following additional physical examination findings is most likely present in this patient?',
       options:[{label:'A',text:'Absent elevation of the mass with stroking of the ipsilateral thigh'},{label:'B',text:'Enlargement of the mass when the patient coughs or bears down'},{label:'C',text:'Increase in the size of the mass when standing relative to laying'},{label:'D',text:'Reduction in pain with manual elevation of the mass'},{label:'E',text:'Transillumination of the mass when a flashlight is placed behind the scrotum'}],
       correct:'A',
@@ -160,7 +166,10 @@
       explI:[{option:'B',explanation:'Cough/Valsalva causing bulging suggests inguinal hernia, not testicular torsion.'},{option:'C',explanation:'Varicocele increases in size when standing and causes a dull ache, not acute severe pain.'},{option:'D',explanation:'Pain relief with elevation (positive Prehn sign) suggests epididymitis, not torsion.'},{option:'E',explanation:'Transillumination suggests hydrocele, a fluid collection that causes enlargement but not acute pain.'}],
       objective:'Testicular torsion presents with acute unilateral scrotal pain. Classic findings include a high-riding testicle and absent cremasteric reflex.',
       peer:{A:66,B:6,C:3,D:18,E:5},
-      ptTranslation:{vignette:'Um homem de 19 anos com dor escrotal intensa há 6 horas após futebol. Massa inchada e elevada no hemiscrotum direito.',q:'Qual achado de exame físico adicional é mais provável?',objective:'A torção testicular apresenta dor escrotal aguda com testículo elevado e reflexo cremastérico ausente.'} },
+      ptTranslation:{vignette:'Um homem de 19 anos com dor escrotal intensa há 6 horas, iniciada após jogo de futebol; sem trauma específico, uso de ibuprofeno em casa com alívio mínimo. Sem linfadenopatia ou massa inguinal. Massa elevada e inchada no hemiscroto direito; o testículo esquerdo está posicionado mais baixo no escroto.',q:'Qual achado de exame físico adicional é mais provável?',objective:'A torção testicular apresenta dor escrotal aguda com testículo elevado e reflexo cremastérico ausente.',
+      options:[{label:'A',text:'Ausência de elevação da massa ao estimular a face interna da coxa ipsilateral'},{label:'B',text:'Aumento da massa quando o paciente tosse ou faz força'},{label:'C',text:'Aumento do tamanho da massa em pé em comparação à posição deitada'},{label:'D',text:'Redução da dor com elevação manual da massa'},{label:'E',text:'Transiluminação da massa ao posicionar uma lanterna atrás do escroto'}],
+      explC:'Este paciente apresenta dor escrotal aguda, intensa e progressiva, unilateral, com massa escrotal elevada — achados preocupantes para torção testicular. A ausência do reflexo cremastérico (elevação testicular ao estimular a face interna da coxa ipsilateral) é altamente sugestiva de torção testicular.',
+      explI:[{option:'B',explanation:'O aumento da massa com tosse/Valsalva sugere hérnia inguinal, não torção testicular.'},{option:'C',explanation:'O varicocele aumenta de tamanho em pé e causa dor surda, não dor aguda e intensa.'},{option:'D',explanation:'O alívio da dor com elevação (sinal de Prehn positivo) sugere epididimite, não torção.'},{option:'E',explanation:'A transiluminação sugere hidrocele, uma coleção de líquido que causa aumento de volume, mas não dor aguda.'}]} },
 
     { id:'CMQ-STEP1-MRS-0004', system:'male-reproductive-system', discipline:'genetics', category:'male-reproductive-system::klinefelter_syndrome', difficulty:'medium',
       vignette:'A 16-year-old boy is brought to the office for a well-child visit. The parents report that his teacher has expressed concerns about the patient\'s reading and writing skills. Height is at the 98th percentile and weight is at the 75th percentile. He has bilateral gynecomastia and Tanner stage 1 genitalia.',
@@ -171,7 +180,10 @@
       explI:[{option:'A',explanation:'FBN1 mutation causes Marfan syndrome. Tall stature but no hypogonadism or gynecomastia.'},{option:'B',explanation:'Loss of paternal genes on chr 15 causes Prader-Willi: short stature and obesity, not seen here.'},{option:'D',explanation:'Nondisjunction of Y gives XYY (47,XYY): tall stature and learning disabilities but no hypogonadism.'},{option:'E',explanation:'Trinucleotide repeat on X causes Fragile X: macroorchidism (not Tanner 1), long face, large ears.'}],
       objective:'Klinefelter syndrome (47,XXY) is the most common cause of male primary hypogonadism, caused by meiotic nondisjunction of chromosome X.',
       peer:{A:5,B:7,C:61,D:12,E:12},
-      ptTranslation:{vignette:'Um menino de 16 anos com dificuldades de leitura e escrita, altura no P98, ginecomastia bilateral e Tanner 1.',q:'Qual é o mecanismo subjacente mais provável?',objective:'Síndrome de Klinefelter (47,XXY): causa mais comum de hipogonadismo primário masculino.'} },
+      ptTranslation:{vignette:'Um menino de 16 anos com dificuldades de leitura e escrita, altura no P98, ginecomastia bilateral e Tanner 1.',q:'Qual é o mecanismo subjacente mais provável?',objective:'Síndrome de Klinefelter (47,XXY): causa mais comum de hipogonadismo primário masculino.',
+      options:[{label:'A',text:'Mutação do gene FBN1 no cromossomo 15'},{label:'B',text:'Perda de genes de origem paterna no cromossomo 15'},{label:'C',text:'Não disjunção meiótica do cromossomo X'},{label:'D',text:'Não disjunção meiótica do cromossomo Y'},{label:'E',text:'Expansão de repetição trinucleotídica no cromossomo X'}],
+      explC:'Este paciente com dificuldades de aprendizagem, estatura elevada, testículos pequenos e ginecomastia provavelmente tem síndrome de Klinefelter (47,XXY), a causa mais comum de hipogonadismo primário em homens. A patogênese envolve não disjunção meiótica do cromossomo X.',
+      explI:[{option:'A',explanation:'A mutação do FBN1 causa síndrome de Marfan. Há estatura elevada, mas sem hipogonadismo ou ginecomastia.'},{option:'B',explanation:'A perda de genes paternos no cromossomo 15 causa síndrome de Prader-Willi: estatura baixa e obesidade, não observadas aqui.'},{option:'D',explanation:'A não disjunção do Y resulta em síndrome XYY (47,XYY): estatura elevada e dificuldades de aprendizagem, mas sem hipogonadismo.'},{option:'E',explanation:'A repetição trinucleotídica no X causa síndrome do X frágil: macro-orquidismo (não Tanner 1), face alongada, orelhas grandes.'}]} },
 
     { id:'CMQ-STEP1-MRS-0005', system:'male-reproductive-system', discipline:'behavioral_science', category:'male-reproductive-system::male_sexual_dysfunction', difficulty:'easy',
       vignette:'A 78-year-old man comes to the office for a regularly scheduled review. He has hypertension, CAD, and type 2 DM, taking metformin, atorvastatin, lisinopril, and nitroglycerin PRN. He hesitates, laughs nervously, and says, "I can\'t get an erection anymore, and my wife says I have to ask you about getting the blue pill."',
@@ -182,7 +194,10 @@
       explI:[{option:'A',explanation:'Reiterates and draws attention to his anxiety, potentially reinforcing awkwardness.'},{option:'B',explanation:'Age is not a contraindication. However, his nitrate use does contraindicate PDE5 inhibitors.'},{option:'C',explanation:'This may make him feel he must justify raising the concern.'},{option:'E',explanation:'Age does not determine efficacy. This is dismissive.'}],
       objective:'When counseling patients on sexuality, the clinician should normalize the concern and reassure them.',
       peer:{A:18,B:4,C:7,D:69,E:1},
-      ptTranslation:{vignette:'Um homem de 78 anos com HAS, DAC e DM2 hesita e diz: "Não consigo mais ter ereção, minha esposa diz que devo perguntar sobre a pílula azul."',q:'Qual é a resposta mais apropriada?',objective:'Ao aconselhar sobre sexualidade, normalize a preocupação e tranquilize o paciente.'} },
+      ptTranslation:{vignette:'Um homem de 78 anos com HAS, DAC e DM2 hesita e diz: "Não consigo mais ter ereção, minha esposa diz que devo perguntar sobre a pílula azul."',q:'Qual é a resposta mais apropriada?',objective:'Ao aconselhar sobre sexualidade, normalize a preocupação e tranquilize o paciente.',
+      options:[{label:'A',text:'"Percebo que você se sente desconfortável falando sobre isso. Pode ser um assunto delicado para alguns homens."'},{label:'B',text:'"Entendo sua preocupação, mas na sua idade, hesitamos em iniciar muitos medicamentos."'},{label:'C',text:'"Medicamentos para disfunção erétil têm efeitos colaterais significativos. Eu não os buscaria a menos que você considere importante."'},{label:'D',text:'"Este é um problema muito comum para homens conforme envelhecem. É bom que você tenha mencionado."'},{label:'E',text:'"Podemos tentar um medicamento para disfunção erétil, mas pode não ser eficaz na sua idade."'}],
+      explC:'Ao aconselhar sobre sexualidade, o primeiro objetivo é deixar o paciente confortável. Tranquilizar que a disfunção sexual é comum e apropriada para discussão. A alternativa D normaliza a preocupação e valida o paciente por trazer o assunto.',
+      explI:[{option:'A',explanation:'Reitera e chama atenção para sua ansiedade, podendo reforçar o constrangimento.'},{option:'B',explanation:'A idade não é uma contraindicação. No entanto, o uso de nitrato sim contraindica inibidores da PDE5.'},{option:'C',explanation:'Isso pode fazer o paciente sentir que precisa justificar a preocupação.'},{option:'E',explanation:'A idade não determina a eficácia. Essa resposta é desdenhosa.'}]} },
 
     { id:'CMQ-STEP1-MRS-0006', system:'male-reproductive-system', discipline:'histology', category:'male-reproductive-system::blood_testis_barrier', difficulty:'medium',
       vignette:'A 34-year-old man is found to have low sperm count during an infertility evaluation. He has a history of testicular trauma from a motorcycle accident several years ago. Further evaluation reveals antisperm antibodies.',
@@ -193,7 +208,10 @@
       explI:[{option:'A',explanation:'Leydig cells produce testosterone outside the tubules. They do not form the BTB.'},{option:'B',explanation:'Primary spermatocytes migrate inside the BTB but do not form it.'},{option:'C',explanation:'Secondary spermatocytes are inside the BTB but do not form the barrier.'},{option:'E',explanation:'Tunica albuginea is the outer capsule of the testis, not the BTB.'}],
       objective:'The blood-testis barrier is formed by tight junctions between Sertoli cells. Disruption leads to antisperm antibodies.',
       peer:{A:9,B:3,C:3,D:58,E:25},
-      ptTranslation:{vignette:'Um homem de 34 anos com baixa contagem de esperma e histórico de trauma testicular desenvolveu anticorpos antiesperma.',q:'Qual componente formava a barreira danificada?',objective:'A barreira sangue-testis é formada por junções entre células de Sertoli.'} },
+      ptTranslation:{vignette:'Um homem de 34 anos com baixa contagem de esperma e histórico de trauma testicular desenvolveu anticorpos antiesperma.',q:'Qual componente formava a barreira danificada?',objective:'A barreira sangue-testis é formada por junções entre células de Sertoli.',
+      options:[{label:'A',text:'Células de Leydig'},{label:'B',text:'Espermatócitos primários'},{label:'C',text:'Espermatócitos secundários'},{label:'D',text:'Células de Sertoli'},{label:'E',text:'Túnica albugínea'}],
+      explC:'A barreira hematotesticular é formada por junções firmes entre as células de Sertoli nos túbulos seminíferos. Sua disrupção pode levar à formação de anticorpos antiesperma e prejudicar a fertilidade.',
+      explI:[{option:'A',explanation:'As células de Leydig produzem testosterona fora dos túbulos. Não formam a barreira hematotesticular.'},{option:'B',explanation:'Os espermatócitos primários migram dentro da barreira, mas não a formam.'},{option:'C',explanation:'Os espermatócitos secundários estão dentro da barreira, mas não a formam.'},{option:'E',explanation:'A túnica albugínea é a cápsula externa do testículo, não a barreira hematotesticular.'}]} },
 
     { id:'CMQ-STEP1-MRS-0007', system:'male-reproductive-system', discipline:'anatomy', category:'male-reproductive-system::vasectomy', difficulty:'easy',
       vignette:'A 42-year-old man with 6 children elects to undergo a vasectomy after appropriate discussion regarding contraceptive options. On examination, normal circumcised penis with no abnormalities.',
@@ -204,7 +222,10 @@
       explI:[{option:'A',explanation:'Vasectomy does not affect libido; testosterone production continues.'},{option:'B',explanation:'Erectile function is not affected by vasectomy.'},{option:'C',explanation:'Ejaculate volume is determined by seminal vesicles and prostate, which are unaffected.'},{option:'D',explanation:'Testosterone production is unaffected; testes and blood supply remain intact.'}],
       objective:'After vasectomy, viable sperm may persist for months until cleared. Alternative contraception is needed until confirmed azoospermia.',
       peer:{A:2,B:4,C:22,D:2,E:68},
-      ptTranslation:{vignette:'Um homem de 42 anos com 6 filhos opta pela vasectomia.',q:'Qual efeito colateral esperar nos primeiros meses?',objective:'Após vasectomia, esperma viável pode persistir por meses até ser eliminado.'} },
+      ptTranslation:{vignette:'Um homem de 42 anos com 6 filhos opta pela vasectomia.',q:'Qual efeito colateral esperar nos primeiros meses?',objective:'Após vasectomia, esperma viável pode persistir por meses até ser eliminado.',
+      options:[{label:'A',text:'Diminuição do interesse na atividade sexual'},{label:'B',text:'Dificuldade em manter uma ereção'},{label:'C',text:'Grande redução no volume do ejaculado'},{label:'D',text:'Redução da produção de testosterona'},{label:'E',text:'Espermatozoides viáveis no ejaculado'}],
+      explC:'A vasectomia secciona o ducto deferente. Espermatozoides podem persistir no ejaculado por meses até serem eliminados da porção proximal à secção. É necessário método contraceptivo alternativo até duas análises seminais confirmarem azoospermia.',
+      explI:[{option:'A',explanation:'A vasectomia não afeta a libido; a produção de testosterona continua normalmente.'},{option:'B',explanation:'A função erétil não é afetada pela vasectomia.'},{option:'C',explanation:'O volume do ejaculado é determinado pelas vesículas seminais e pela próstata, que não são afetadas.'},{option:'D',explanation:'A produção de testosterona não é afetada; os testículos e o suprimento sanguíneo permanecem intactos.'}]} },
 
     { id:'CMQ-STEP1-MRS-0008', system:'male-reproductive-system', discipline:'genetics', category:'male-reproductive-system::androgen_insensitivity', difficulty:'hard',
       vignette:'An autopsy on a stillborn fetus at 20 weeks gestation reveals a 46,XY karyotype with a loss of function mutation of the androgen receptor gene on the X chromosome, resulting in complete androgen insensitivity.',
@@ -215,7 +236,10 @@
       explI:[{option:'B',explanation:'Male external genitalia need DHT via functional androgen receptor. Absent in CAIS.'},{option:'C',explanation:'AMH is produced normally, so Müllerian structures (uterus, tubes) regress.'},{option:'D',explanation:'Both Müllerian structures and male genitalia cannot co-develop in CAIS.'},{option:'E',explanation:'Wolffian duct development requires functional androgen receptor, absent in CAIS.'}],
       objective:'CAIS: 46,XY with absent internal genital ducts and female external genitalia.',
       peer:{A:34,B:6,C:17,D:5,E:36},
-      ptTranslation:{vignette:'Feto natimorto 46,XY com mutação do receptor androgênico, insensibilidade androgênica completa.',q:'Qual fenótipo é mais provável?',objective:'CAIS: cariótipo 46,XY com dutos genitais internos ausentes e genitália externa feminina.'} },
+      ptTranslation:{vignette:'Feto natimorto 46,XY com mutação do receptor androgênico, insensibilidade androgênica completa.',q:'Qual fenótipo é mais provável?',objective:'CAIS: cariótipo 46,XY com dutos genitais internos ausentes e genitália externa feminina.',
+      options:[{label:'A',text:'Dutos genitais internos ausentes, genitália externa feminina'},{label:'B',text:'Dutos genitais internos ausentes, genitália externa masculina'},{label:'C',text:'Útero e tubas uterinas, genitália externa ambígua'},{label:'D',text:'Útero e tubas uterinas, genitália externa masculina'},{label:'E',text:'Ducto deferente e epidídimo, genitália externa feminina'}],
+      explC:'Na síndrome de insensibilidade androgênica completa (CAIS), os testículos produzem AMH (regressão mülleriana) e testosterona, mas o receptor androgênico é não funcional. Resultado: os ductos müllerianos regridem (sem útero/tubas), os ductos wolffianos também regridem (sem ducto deferente), e a genitália externa é feminina (sem resposta à DHT).',
+      explI:[{option:'B',explanation:'A genitália externa masculina requer DHT via receptor androgênico funcional, ausente na CAIS.'},{option:'C',explanation:'O AMH é produzido normalmente, portanto as estruturas müllerianas (útero, tubas) regridem.'},{option:'D',explanation:'As estruturas müllerianas e a genitália masculina não podem coexistir na CAIS.'},{option:'E',explanation:'O desenvolvimento do ducto wolffiano requer receptor androgênico funcional, ausente na CAIS.'}]} },
 
     { id:'CMQ-STEP1-MRS-0009', system:'male-reproductive-system', discipline:'anatomy', category:'male-reproductive-system::urethral_injury', difficulty:'medium',
       vignette:'A 45-year-old man is brought to the ED after a high-speed motor vehicle collision. He has lower abdominal pain, sensation of bladder fullness, but has been unable to urinate since the collision. CT reveals rib fractures and a pelvic fracture.',
@@ -226,7 +250,10 @@
       explI:[{option:'A',explanation:'Bladder wall injury presents with extraperitoneal urine leakage. Inability to void suggests urethral, not bladder injury.'},{option:'B',explanation:'Prostatic urethra is supported by prostate tissue and is less likely to be injured.'},{option:'D',explanation:'Bulbar urethra (anterior) is mobile and protected from indirect forces; injured by straddle injury.'},{option:'E',explanation:'Penile urethra is anterior and mobile; injured by direct trauma, not pelvic fracture.'}],
       objective:'Pelvic fractures are associated with posterior urethral injury at the bulbomembranous junction.',
       peer:{A:17,B:12,C:61,D:6,E:1},
-      ptTranslation:{vignette:'Um homem de 45 anos após colisão veicular com dor abdominal, bexiga cheia mas incapaz de urinar. TC: fratura pélvica.',q:'Qual porção do trato urogenital está mais provavelmente ferida?',objective:'Fraturas pélvicas associam-se a lesão da uretra posterior na junção bulbomembranosa.'} },
+      ptTranslation:{vignette:'Um homem de 45 anos após colisão veicular com dor abdominal, bexiga cheia mas incapaz de urinar. TC: fratura pélvica.',q:'Qual porção do trato urogenital está mais provavelmente ferida?',objective:'Fraturas pélvicas associam-se a lesão da uretra posterior na junção bulbomembranosa.',
+      options:[{label:'A',text:'Parede anterior da bexiga'},{label:'B',text:'Uretra prostática'},{label:'C',text:'Uretra membranosa (junção bulbomembranosa)'},{label:'D',text:'Uretra bulbar'},{label:'E',text:'Uretra peniana'}],
+      explC:'A fratura pélvica causa mais comumente lesão da uretra posterior na junção bulbomembranosa. A uretra posterior é fixa aos ossos pélvicos. A fratura traumática causa deslocamento superior e ruptura. Achados clínicos: sangue no meato, próstata elevada ("high-riding"), incapacidade de urinar.',
+      explI:[{option:'A',explanation:'A lesão da parede da bexiga se apresenta com extravasamento extraperitoneal de urina. A incapacidade de urinar sugere lesão uretral, não vesical.'},{option:'B',explanation:'A uretra prostática é sustentada pelo tecido prostático e é menos propensa a ser lesada.'},{option:'D',explanation:'A uretra bulbar (anterior) é móvel e protegida de forças indiretas; é lesada por trauma direto (straddle injury).'},{option:'E',explanation:'A uretra peniana é anterior e móvel; é lesada por trauma direto, não por fratura pélvica.'}]} },
 
     { id:'CMQ-STEP1-MRS-0010', system:'male-reproductive-system', discipline:'pathology', category:'male-reproductive-system::testicular_cancer', difficulty:'medium',
       vignette:'A 28-year-old man comes to the office due to a bump on his right testicle. He is otherwise asymptomatic and healthy. A solid mass is palpated. Scrotal ultrasound reveals a suspicious, partially necrotic mass. Serum LDH and AFP are markedly elevated. He undergoes right radical inguinal orchiectomy.',
@@ -237,7 +264,10 @@
       explI:[{option:'A',explanation:'Leydig cell tumors produce testosterone, not AFP.'},{option:'C',explanation:'Sertoli cell tumors are rare and do not elevate AFP.'},{option:'D',explanation:'Pure teratomas typically do not elevate AFP.'},{option:'E',explanation:'Testicular lymphoma is most common in men over 60, not in young men.'}],
       objective:'NSGCT is the most likely diagnosis with elevated AFP in a young man with a testicular mass.',
       peer:{A:5,B:74,C:7,D:10,E:1},
-      ptTranslation:{vignette:'Um homem de 28 anos com massa testicular direita. AFP e LDH elevados. Orquiectomia inguinal radical.',q:'Qual é o diagnóstico histológico mais provável?',objective:'Tumor germinativo não seminomatoso: AFP elevada em homem jovem com massa testicular.'} },
+      ptTranslation:{vignette:'Um homem de 28 anos com massa testicular direita. AFP e LDH elevados. Orquiectomia inguinal radical.',q:'Qual é o diagnóstico histológico mais provável?',objective:'Tumor germinativo não seminomatoso: AFP elevada em homem jovem com massa testicular.',
+      options:[{label:'A',text:'Tumor de células de Leydig'},{label:'B',text:'Tumor germinativo não seminomatoso'},{label:'C',text:'Tumor de células de Sertoli'},{label:'D',text:'Teratoma'},{label:'E',text:'Linfoma testicular'}],
+      explC:'O câncer testicular é a neoplasia sólida mais comum em homens de 15 a 35 anos. Uma massa indolor associada a AFP elevada sugere fortemente tumor germinativo não seminomatoso (NSGCT). Os NSGCTs produzem AFP e/ou hCG. Os seminomas não produzem AFP.',
+      explI:[{option:'A',explanation:'Os tumores de células de Leydig produzem testosterona, não AFP.'},{option:'C',explanation:'Os tumores de células de Sertoli são raros e não elevam a AFP.'},{option:'D',explanation:'Os teratomas puros geralmente não elevam a AFP.'},{option:'E',explanation:'O linfoma testicular é mais comum em homens acima de 60 anos, não em homens jovens.'}]} },
 
     // ═══════════════════════════════════════════════════════════════
     // BATCH 02 — Cardiovascular System (9 questions)
@@ -251,7 +281,10 @@
       explI:[{option:'A',explanation:'Ezetimibe: mixed evidence for CV event reduction; minimal benefit over statin monotherapy.'},{option:'B',explanation:'Bile acid sequestrants: mixed CV outcomes evidence.'},{option:'D',explanation:'Omega-3 fatty acids: no significant CV outcome improvement.'},{option:'E',explanation:'Niacin raises HDL but does not improve CV outcomes when added to statin therapy.'},{option:'F',explanation:'Fibrates (PPARα ligands) primarily lower triglycerides; no significant CV benefit with statins.'}],
       objective:'Statins are the most effective lipid-lowering drugs for preventing cardiovascular events.',
       peer:{A:5,B:2,C:55,D:6,E:26,F:4},
-      ptTranslation:{vignette:'Um homem de 53 anos pós-IAM. Colesterol total 155, HDL 27, triglicerídeos 92 mg/dL.',q:'Qual agente redutor de lipídios é mais eficaz para prevenção secundária?',objective:'As estatinas são os medicamentos mais eficazes para prevenir eventos cardiovasculares.'} },
+      ptTranslation:{vignette:'Um homem de 53 anos pós-IAM. Colesterol total 155, HDL 27, triglicerídeos 92 mg/dL.',q:'Qual agente redutor de lipídios é mais eficaz para prevenção secundária?',objective:'As estatinas são os medicamentos mais eficazes para prevenir eventos cardiovasculares.',
+      options:[{label:'A',text:'Inibidor de absorção'},{label:'B',text:'Resina de troca catiônica'},{label:'C',text:'Inibidor de enzima'},{label:'D',text:'Ácidos graxos essenciais'},{label:'E',text:'Vitamina farmacológica'},{label:'F',text:'Ligante de fator de transcrição'}],
+      explC:'As estatinas (inibidores da HMG-CoA redutase / inibidores de enzima) são os medicamentos redutores de lipídios mais eficazes para prevenir eventos cardiovasculares. Indicadas para prevenção secundária em todos os pacientes com doença aterosclerótica conhecida, independentemente dos níveis lipídicos basais.',
+      explI:[{option:'A',explanation:'Ezetimiba: evidência mista de redução de eventos cardiovasculares; benefício mínimo sobre a monoterapia com estatina.'},{option:'B',explanation:'Sequestrantes de ácidos biliares: evidência mista sobre desfechos cardiovasculares.'},{option:'D',explanation:'Ácidos graxos ômega-3: sem melhora significativa de desfechos cardiovasculares.'},{option:'E',explanation:'A niacina eleva o HDL, mas não melhora desfechos cardiovasculares quando associada à estatina.'},{option:'F',explanation:'Os fibratos (ligantes de PPARα) reduzem principalmente os triglicerídeos; sem benefício cardiovascular significativo associado a estatinas.'}]} },
 
     { id:'CMQ-STEP1-CVS-0002', system:'cardiovascular', discipline:'embryology', category:'cardiovascular::congenital_heart_disease', difficulty:'hard',
       vignette:'A newborn girl born at 39 weeks via SVD. At 1 hour, a 2/6 systolic murmur at the left upper sternal border. At 8 hours, the murmur is continuous (systole and diastole). At 24 hours, no murmur.',
@@ -262,7 +295,10 @@
       explI:[{option:'A',explanation:'VSD would cause a holosystolic murmur that does not self-resolve in 24 hours.'},{option:'B',explanation:'Ventricular R-to-L shunt suggests cyanotic disease, not a benign self-resolving murmur.'},{option:'D',explanation:'R-to-L arterial flow occurs in fetal life; after birth it reverses to L-to-R before DA closure.'},{option:'E',explanation:'ASD does not typically close within 24 hours.'},{option:'F',explanation:'Foramen ovale closure is gradual and does not produce the described murmur pattern.'}],
       objective:'The ductus arteriosus normally closes 24-72 hours after birth. The murmur disappears when the left-to-right shunt ceases.',
       peer:{A:5,B:2,C:44,D:18,E:17,F:12},
-      ptTranslation:{vignette:'Recém-nascida com sopro sistólico que se torna contínuo e desaparece em 24 horas.',q:'O que ocorreu imediatamente antes do desaparecimento do sopro?',objective:'O ducto arterioso normalmente fecha 24-72 horas após o nascimento.'} },
+      ptTranslation:{vignette:'Recém-nascida com sopro sistólico que se torna contínuo e desaparece em 24 horas.',q:'O que ocorreu imediatamente antes do desaparecimento do sopro?',objective:'O ducto arterioso normalmente fecha 24-72 horas após o nascimento.',
+      options:[{label:'A',text:'Fechamento de um shunt ventricular esquerda-direita'},{label:'B',text:'Fechamento de um shunt ventricular direita-esquerda'},{label:'C',text:'Fechamento de um shunt arterial esquerda-direita'},{label:'D',text:'Fechamento de um shunt arterial direita-esquerda'},{label:'E',text:'Fechamento de um shunt atrial esquerda-direita'},{label:'F',text:'Fechamento de um shunt atrial direita-esquerda'}],
+      explC:'A evolução do sopro reflete o fechamento normal do ducto arterioso. Após o nascimento, a RVP cai e a RVS aumenta, revertendo o fluxo fetal direita-esquerda para esquerda-direita através do ducto arterioso. Isso cria um sopro contínuo. Quando o ducto se fecha (24-72 horas), o shunt esquerda-direita cessa e o sopro desaparece.',
+      explI:[{option:'A',explanation:'A CIV causaria um sopro holossistólico que não se resolve espontaneamente em 24 horas.'},{option:'B',explanation:'Um shunt ventricular direita-esquerda sugere doença cianótica, não um sopro benigno autolimitado.'},{option:'D',explanation:'O fluxo arterial direita-esquerda ocorre na vida fetal; após o nascimento, reverte para esquerda-direita antes do fechamento do ducto.'},{option:'E',explanation:'A CIA normalmente não se fecha em 24 horas.'},{option:'F',explanation:'O fechamento do forame oval é gradual e não produz o padrão de sopro descrito.'}]} },
 
     { id:'CMQ-STEP1-CVS-0003', system:'cardiovascular', discipline:'pathology', category:'cardiovascular::valvular_heart_diseases', difficulty:'hard',
       vignette:'A 63-year-old man with hypertension, hyperlipidemia, and diet-controlled DM2 presents with 2 hours of chest pain. A systolic murmur is heard. Basilar crackles bilaterally. Coronary catheterization reveals an occlusion; successfully revascularized. The next morning, lungs are clear and no murmur is present.',
@@ -273,7 +309,10 @@
       explI:[{option:'A',explanation:'Aortic root is not directly affected by myocardial ischemia.'},{option:'B',explanation:'Aortic valve leaflets are not affected by MI.'},{option:'C',explanation:'Septal rupture is a mechanical complication (3-5 days post-MI) that requires surgery.'},{option:'D',explanation:'Chordae rupture is also a mechanical complication requiring surgery.'}],
       objective:'MI can cause papillary muscle dysfunction leading to MR that improves with revascularization.',
       peer:{A:8,B:19,C:7,D:21,E:43},
-      ptTranslation:{vignette:'Um homem de 63 anos com IAM, sopro sistólico que desaparece após revascularização.',q:'O sopro é explicado por processo envolvendo qual estrutura?',objective:'A isquemia do músculo papilar causa regurgitação mitral que melhora com revascularização.'} },
+      ptTranslation:{vignette:'Um homem de 63 anos com IAM, sopro sistólico que desaparece após revascularização.',q:'O sopro é explicado por processo envolvendo qual estrutura?',objective:'A isquemia do músculo papilar causa regurgitação mitral que melhora com revascularização.',
+      options:[{label:'A',text:'Raiz aórtica'},{label:'B',text:'Folhetos da valva aórtica'},{label:'C',text:'Septo interventricular'},{label:'D',text:'Cordas tendíneas da valva mitral'},{label:'E',text:'Músculo papilar'}],
+      explC:'A isquemia do músculo papilar induzida pelo IAM causa disfunção e regurgitação mitral. A revascularização restaura a função do músculo papilar, resolvendo a RM. Diferentemente da ruptura (que não se resolve com revascularização), a disfunção melhora.',
+      explI:[{option:'A',explanation:'A raiz aórtica não é diretamente afetada pela isquemia miocárdica.'},{option:'B',explanation:'Os folhetos da valva aórtica não são afetados pelo IAM.'},{option:'C',explanation:'A ruptura septal é uma complicação mecânica (3-5 dias pós-IAM) que requer cirurgia.'},{option:'D',explanation:'A ruptura das cordas tendíneas também é uma complicação mecânica que requer cirurgia.'}]} },
 
     { id:'CMQ-STEP1-CVS-0004', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::shock_hemodynamics', difficulty:'hard',
       vignette:'A 55-year-old man collapses at home with chest pain. BP 80/50, pulse 120/min. Bilateral crackles. S3 audible. ECG: ST elevation in V2-V6.',
@@ -284,7 +323,10 @@
       explI:[{option:'A',explanation:'Decreased CVP/PCWP/CPP = hypovolemic or septic shock.'},{option:'B',explanation:'Decreased PCWP + increased CVP = obstructive shock (PE, tension pneumothorax).'},{option:'C',explanation:'Decreased CVP with increased PCWP is atypical.'},{option:'E',explanation:'Increased coronary perfusion pressure would not occur in shock.'}],
       objective:'Cardiogenic shock: increased PCWP and CVP with decreased coronary perfusion pressure.',
       peer:{A:10,B:10,C:10,D:60,E:8},
-      ptTranslation:{vignette:'Um homem de 55 anos com colapso, dor no peito, PA 80/50, estertores bilaterais, S3, supra ST V2-V6.',q:'Quais mudanças hemodinâmicas estão presentes?',objective:'Choque cardiogênico: aumento de PCWP e CVP com diminuição da pressão de perfusão coronária.'} },
+      ptTranslation:{vignette:'Um homem de 55 anos com colapso, dor no peito, PA 80/50, estertores bilaterais, S3, supra ST V2-V6.',q:'Quais mudanças hemodinâmicas estão presentes?',objective:'Choque cardiogênico: aumento de PCWP e CVP com diminuição da pressão de perfusão coronária.',
+      options:[{label:'A',text:'PCWP diminuída, PVC diminuída, pressão de perfusão coronariana diminuída'},{label:'B',text:'PCWP diminuída, PVC aumentada, pressão de perfusão coronariana diminuída'},{label:'C',text:'PCWP aumentada, PVC diminuída, pressão de perfusão coronariana aumentada'},{label:'D',text:'PCWP aumentada, PVC aumentada, pressão de perfusão coronariana diminuída'},{label:'E',text:'PCWP aumentada, PVC aumentada, pressão de perfusão coronariana aumentada'}],
+      explC:'No IAMCST com choque cardiogênico: a falência do VE aumenta a pressão diastólica final do VE, aumentando a PCWP e causando edema pulmonar. O aumento de pressão prejudica o VD, aumentando a PVC. A queda do débito cardíaco causa hipotensão e diminuição da pressão de perfusão coronariana.',
+      explI:[{option:'A',explanation:'PVC/PCWP/pressão de perfusão coronariana diminuídas = choque hipovolêmico ou séptico.'},{option:'B',explanation:'PCWP diminuída + PVC aumentada = choque obstrutivo (TEP, pneumotórax hipertensivo).'},{option:'C',explanation:'PVC diminuída com PCWP aumentada é atípico.'},{option:'E',explanation:'O aumento da pressão de perfusão coronariana não ocorreria em choque.'}]} },
 
     { id:'CMQ-STEP1-CVS-0005', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::cor_pulmonale', difficulty:'medium',
       vignette:'A 53-year-old smoker (2 packs/day for 35 years) has progressive exertional dyspnea, increased AP diameter, decreased breath sounds, scattered wheezes. Extremities unremarkable. Echo: RV dilation, increased CVP.',
@@ -295,7 +337,10 @@
       explI:[{option:'A',explanation:'Capillary permeability is unchanged in heart failure.'},{option:'B',explanation:'Aldosterone is elevated (not decreased) in HF, promoting sodium retention.'},{option:'C',explanation:'Decreased interstitial pressure would promote edema, not prevent it.'},{option:'D',explanation:'Plasma oncotic pressure is decreased (not increased) in HF due to hemodilution.'}],
       objective:'In chronic heart failure, increased lymphatic drainage initially offsets edema-promoting factors.',
       peer:{A:14,B:23,C:9,D:22,E:30},
-      ptTranslation:{vignette:'Um fumante de 53 anos com DPOC, dilatação de VD e PVC aumentada, mas sem edema periférico.',q:'A ausência de edema é melhor explicada por qual mecanismo?',objective:'Na IC crônica, a drenagem linfática aumentada inicialmente compensa fatores que favorecem edema.'} },
+      ptTranslation:{vignette:'Um fumante de 53 anos com DPOC, dilatação de VD e PVC aumentada, mas sem edema periférico.',q:'A ausência de edema é melhor explicada por qual mecanismo?',objective:'Na IC crônica, a drenagem linfática aumentada inicialmente compensa fatores que favorecem edema.',
+      options:[{label:'A',text:'Diminuição da permeabilidade capilar'},{label:'B',text:'Diminuição dos níveis de aldosterona circulante'},{label:'C',text:'Diminuição da pressão do líquido intersticial'},{label:'D',text:'Aumento da pressão oncótica plasmática'},{label:'E',text:'Aumento da drenagem linfática tecidual'}],
+      explC:'Apesar da PVC elevada e da insuficiência cardíaca direita, ainda não há edema periférico. Na insuficiência cardíaca crônica, o aumento da drenagem linfática inicialmente compensa os fatores que favorecem o edema, retardando temporariamente seu desenvolvimento.',
+      explI:[{option:'A',explanation:'A permeabilidade capilar não se altera na insuficiência cardíaca.'},{option:'B',explanation:'A aldosterona está elevada (não diminuída) na IC, promovendo retenção de sódio.'},{option:'C',explanation:'A diminuição da pressão intersticial favoreceria o edema, não o preveniria.'},{option:'D',explanation:'A pressão oncótica plasmática está diminuída (não aumentada) na IC devido à hemodiluição.'}]} },
 
     { id:'CMQ-STEP1-CVS-0006', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::heart_block', difficulty:'medium',
       vignette:'An 82-year-old man with recent atrial fibrillation (discharged 2 weeks ago on oral meds), hypertension, and severe COPD. He now has syncope and constipation. BP 105/60, pulse 50/min. ECG: new-onset second-degree AV block.',
@@ -306,7 +351,10 @@
       explI:[{option:'A',explanation:'Amlodipine is a dihydropyridine CCB with minimal cardiac conduction effects. Does not cause AV block.'},{option:'C',explanation:'HCTZ is a diuretic for hypertension, not for AF. Does not cause AV block.'},{option:'D',explanation:'Lidocaine is for ventricular arrhythmias, not AF.'},{option:'E',explanation:'Propranolol can cause AV block but is avoided in severe COPD and does not cause constipation.'},{option:'F',explanation:'Terazosin causes orthostatic hypotension, not AV block.'},{option:'G',explanation:'Valsartan does not cause AV block or constipation.'}],
       objective:'Nondihydropyridine CCBs (diltiazem, verapamil) can cause constipation, bradycardia, and AV block.',
       peer:{A:10,B:48,C:1,D:5,E:29,F:1,G:1},
-      ptTranslation:{vignette:'Um homem de 82 anos pós-FA com síncope e constipação. DPOC grave. Pulso 50/min. ECG: BAV 2° grau.',q:'Qual medicamento é a causa mais provável?',objective:'BCC não-dihidropiridínicos (diltiazem, verapamil) podem causar constipação, bradicardia e BAV.'} },
+      ptTranslation:{vignette:'Um homem de 82 anos pós-FA com síncope e constipação. DPOC grave. Pulso 50/min. ECG: BAV 2° grau.',q:'Qual medicamento é a causa mais provável?',objective:'BCC não-dihidropiridínicos (diltiazem, verapamil) podem causar constipação, bradicardia e BAV.',
+      options:[{label:'A',text:'Anlodipino'},{label:'B',text:'Diltiazem'},{label:'C',text:'Hidroclorotiazida'},{label:'D',text:'Lidocaína'},{label:'E',text:'Propranolol'},{label:'F',text:'Terazosina'},{label:'G',text:'Valsartana'}],
+      explC:'Constipação + bloqueio atrioventricular de segundo grau (síncope) = efeitos adversos de bloqueador dos canais de cálcio não di-hidropiridínico (diltiazem/verapamil). Esses fármacos bloqueiam os canais de cálcio tipo L, reduzindo a condução no nó AV. Efeitos cronotrópico e inotrópico negativos. A constipação decorre da redução da contração da musculatura lisa colônica.',
+      explI:[{option:'A',explanation:'O anlodipino é um BCC di-hidropiridínico com efeitos mínimos sobre a condução cardíaca. Não causa BAV.'},{option:'C',explanation:'A hidroclorotiazida é um diurético para hipertensão, não para FA. Não causa BAV.'},{option:'D',explanation:'A lidocaína é usada para arritmias ventriculares, não para FA.'},{option:'E',explanation:'O propranolol pode causar BAV, mas é evitado em DPOC grave e não causa constipação.'},{option:'F',explanation:'A terazosina causa hipotensão ortostática, não BAV.'},{option:'G',explanation:'A valsartana não causa BAV nem constipação.'}]} },
 
     { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::myocardial_infarction', difficulty:'medium',
       vignette:'The cardiac output and venous return curves of a healthy person are shown with solid lines. The dashed lines depict decreased cardiac output with unchanged venous return (unchanged blood volume and TPR).',
@@ -317,7 +365,10 @@
       explI:[{option:'A',explanation:'Excessive hydration shifts venous return curve rightward, not just cardiac output down.'},{option:'B',explanation:'Hemorrhage shifts venous return curve leftward and downward.'},{option:'C',explanation:'Chronic anemia increases cardiac output to meet metabolic demands.'},{option:'E',explanation:'Anaphylaxis causes widespread vasodilation and drops venous return.'}],
       objective:'MI causes decreased cardiac output by loss of contractile function.',
       peer:{A:2,B:13,C:4,D:75,E:3},
-      ptTranslation:{vignette:'Curvas de débito cardíaco e retorno venoso mostram diminuição isolada do débito com retorno venoso inalterado.',q:'Qual é a causa mais provável?',objective:'O IM causa diminuição do débito cardíaco por perda de função contrátil.'} },
+      ptTranslation:{vignette:'Curvas de débito cardíaco e retorno venoso mostram diminuição isolada do débito com retorno venoso inalterado.',q:'Qual é a causa mais provável?',objective:'O IM causa diminuição do débito cardíaco por perda de função contrátil.',
+      options:[{label:'A',text:'Hidratação excessiva'},{label:'B',text:'Hemorragia aguda'},{label:'C',text:'Anemia crônica'},{label:'D',text:'Infarto do miocárdio'},{label:'E',text:'Anafilaxia'}],
+      explC:'A diminuição isolada do débito cardíaco com retorno venoso inalterado indica diminuição da contratilidade por lesão miocárdica. O infarto do miocárdio diminui tanto a inclinação quanto a altura máxima da curva de função cardíaca.',
+      explI:[{option:'A',explanation:'A hidratação excessiva desloca a curva de retorno venoso para a direita, não apenas reduz o débito cardíaco.'},{option:'B',explanation:'A hemorragia desloca a curva de retorno venoso para a esquerda e para baixo.'},{option:'C',explanation:'A anemia crônica aumenta o débito cardíaco para atender às demandas metabólicas.'},{option:'E',explanation:'A anafilaxia causa vasodilatação generalizada e reduz o retorno venoso.'}]} },
 
     { id:'CMQ-STEP1-CVS-0008', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::supraventricular_arrhythmia', difficulty:'easy',
       vignette:'A 24-year-old man with sudden-onset palpitations ("my heart is racing"), similar episode a year ago that resolved spontaneously. BP 126/74, pulse 164/min regular. Rapid IV medication causes instantaneous resolution with short-lived flushing, burning in the chest, and shortness of breath.',
@@ -328,7 +379,10 @@
       explI:[{option:'B',explanation:'Amiodarone has slow onset, not used for acute SVT termination.'},{option:'C',explanation:'Digoxin has slow onset (hours), not for acute SVT.'},{option:'D',explanation:'Ibutilide is for atrial flutter/fibrillation, not SVT.'},{option:'E',explanation:'Lidocaine is for ventricular arrhythmias.'},{option:'F',explanation:'Verapamil can terminate SVT but has slower onset and different side effect profile.'}],
       objective:'Adenosine is a rapid-acting, ultra-short-lived drug for terminating acute SVT.',
       peer:{A:72,B:8,C:4,D:1,E:5,F:6},
-      ptTranslation:{vignette:'Um homem de 24 anos com palpitações súbitas, pulso 164/min. Medicação IV rápida resolve instantaneamente com rubor transitório.',q:'Qual medicamento foi usado?',objective:'Adenosina: ação rápida e ultra-curta para encerrar TVS aguda.'} },
+      ptTranslation:{vignette:'Um homem de 24 anos com palpitações súbitas, pulso 164/min. Medicação IV rápida resolve instantaneamente com rubor transitório.',q:'Qual medicamento foi usado?',objective:'Adenosina: ação rápida e ultra-curta para encerrar TVS aguda.',
+      options:[{label:'A',text:'Adenosina'},{label:'B',text:'Amiodarona'},{label:'C',text:'Digoxina'},{label:'D',text:'Ibutilida'},{label:'E',text:'Lidocaína'},{label:'F',text:'Verapamil'}],
+      explC:'TVS (taquicardia supraventricular) em um homem jovem, encerrada por injeção IV rápida com rubor/dispneia transitórios = adenosina. Ela bloqueia a condução no nó AV com meia-vida ultracurta (~10 segundos), explicando os efeitos colaterais transitórios.',
+      explI:[{option:'B',explanation:'A amiodarona tem início de ação lento, não é usada para o encerramento agudo de TVS.'},{option:'C',explanation:'A digoxina tem início de ação lento (horas), não é usada para TVS aguda.'},{option:'D',explanation:'A ibutilida é usada para flutter/fibrilação atrial, não para TVS.'},{option:'E',explanation:'A lidocaína é usada para arritmias ventriculares.'},{option:'F',explanation:'O verapamil pode encerrar a TVS, mas tem início mais lento e perfil de efeitos colaterais diferente.'}]} },
 
     { id:'CMQ-STEP1-CVS-0009', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::sympathomimetic_agents', difficulty:'hard',
       vignette:'A 44-year-old woman with pyelonephritis and septic shock (BP 80/40, pulse 140/min) receives IV phenylephrine. Her heart rate decreases to 100/min.',
@@ -339,7 +393,10 @@
       explI:[{option:'B',explanation:'Phenylephrine increases (not decreases) IP3 via alpha-1 activation.'},{option:'C',explanation:'Baroreceptor reflex decreases (not increases) sympathetic outflow, so cAMP and SA calcium current decrease.'},{option:'D',explanation:'IP3 does change (increases) and SA calcium current decreases (not increases).'},{option:'E',explanation:'cAMP does change (decreases via baroreceptor reflex) and IP3 increases (not decreases).'}],
       objective:'Phenylephrine raises BP via alpha-1/IP3 → baroreceptor reflex → decreased cardiac cAMP and SA node calcium current → decreased HR.',
       peer:{A:50,B:9,C:18,D:8,E:12},
-      ptTranslation:{vignette:'Uma mulher de 44 anos com pielonefrite e choque séptico recebe fenilefrina IV. FC diminui de 140 para 100/min.',q:'Quais mudanças intracelulares a infusão induziu?',objective:'Fenilefrina causa vasoconstrição via alfa-1/IP3. O reflexo barorreceptor diminui cAMP cardíaco e corrente de cálcio no nó SA.'} },
+      ptTranslation:{vignette:'Uma mulher de 44 anos com pielonefrite e choque séptico recebe fenilefrina IV. FC diminui de 140 para 100/min.',q:'Quais mudanças intracelulares a infusão induziu?',objective:'Fenilefrina causa vasoconstrição via alfa-1/IP3. O reflexo barorreceptor diminui cAMP cardíaco e corrente de cálcio no nó SA.',
+      options:[{label:'A',text:'cAMP diminuído nos miócitos ventriculares, IP3 aumentado no músculo liso vascular, corrente de cálcio diminuída nas células do nó SA'},{label:'B',text:'cAMP diminuído nos miócitos ventriculares, IP3 diminuído no músculo liso vascular, sem alteração na corrente de cálcio do nó SA'},{label:'C',text:'cAMP aumentado nos miócitos ventriculares, IP3 aumentado no músculo liso vascular, corrente de cálcio aumentada no nó SA'},{label:'D',text:'cAMP aumentado nos miócitos ventriculares, sem alteração no IP3, corrente de cálcio aumentada no nó SA'},{label:'E',text:'Sem alteração no cAMP, IP3 diminuído no músculo liso vascular, corrente de cálcio diminuída no nó SA'}],
+      explC:'A fenilefrina (agonista alfa-1) aumenta o IP3 no músculo liso vascular → vasoconstrição → aumento da PA → reflexo barorreceptor → aumento do tônus parassimpático e diminuição do simpático → diminuição do cAMP nos miócitos ventriculares e da corrente de cálcio no nó SA → diminuição da FC.',
+      explI:[{option:'B',explanation:'A fenilefrina aumenta (não diminui) o IP3 via ativação alfa-1.'},{option:'C',explanation:'O reflexo barorreceptor diminui (não aumenta) o tônus simpático, portanto o cAMP e a corrente de cálcio no nó SA diminuem.'},{option:'D',explanation:'O IP3 se altera (aumenta) e a corrente de cálcio do nó SA diminui (não aumenta).'},{option:'E',explanation:'O cAMP se altera (diminui via reflexo barorreceptor) e o IP3 aumenta (não diminui).'}]} },
   ];
 
   /* --- Expor contagem total para sidebar --- */
@@ -535,6 +592,28 @@
   function translateVisibleQuestionTexts(){
     if(!root || !CM) return;
     CM.translateAllVisible(root);
+  }
+  /* ---------- FIX BUG #1: usar ptTranslation fixo (options/explC/explI) quando existir,
+     em vez de depender só da tradução automática via API. Se o idioma ativo for PT e houver
+     tradução fixa para o campo, usa-a diretamente (sem chamada à API, sem re-tradução).
+     Caso contrário, cai no comportamento antigo (qbTransSpan -> API/cache). */
+  function qbField(en, ptVal, cls){
+    if(CM && CM.lang()==='pt' && ptVal){
+      return `<span class="${cls||''}">${esc(String(ptVal))}</span>`;
+    }
+    return qbTransSpan(en, cls);
+  }
+  function ptOptionText(q, label){
+    const arr = q.ptTranslation && q.ptTranslation.options;
+    if(!arr) return null;
+    const f = arr.find(o=>o.label===label);
+    return f ? f.text : null;
+  }
+  function ptExplIText(q, option){
+    const arr = q.ptTranslation && q.ptTranslation.explI;
+    if(!arr) return null;
+    const f = arr.find(e=>e.option===option);
+    return f ? f.explanation : null;
   }
 
   const t = k => T[lang()][k];
@@ -821,7 +900,7 @@
       if(struck)cls+=' struck';
       return `<div class="${cls}" data-act="pick" data-o="${o.label}">
         <button class="qb-strike" data-act="strike" data-o="${o.label}" title="strikethrough">✕</button>
-        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${qbTransSpan(o.text)}</span>
+        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${qbField(o.text, ptOptionText(q,o.label))}</span>
         ${revealed&&o.label===q.correct?'<span class="qb-tick">✓</span>':''}
       </div>`;
     };
@@ -848,8 +927,8 @@
 
         <div class="qb-test-body">
           <div class="qb-vignette">
-            ${q.vignette?`<p>${qbTransSpan(q.vignette)}</p>`:''}
-            <p class="qb-stem">${qbTransSpan(q.q)}</p>
+            ${q.vignette?`<p>${qbField(q.vignette, q.ptTranslation && q.ptTranslation.vignette)}</p>`:''}
+            <p class="qb-stem">${qbField(q.q, q.ptTranslation && q.ptTranslation.q)}</p>
             <div class="qb-opts">${q.options.map(opt).join('')}</div>
             ${!answered?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
             ${revealed?renderExplanation(q,ans):''}
@@ -879,7 +958,7 @@
         <div class="qb-peer-bar"><span style="width:${pct}%"></span></div>
         <span class="qb-peer-pct">${pct}%</span></div>`;
     }).join('');
-    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${qbTransSpan(e.explanation)}</li>`).join('');
+    const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${qbField(e.explanation, ptExplIText(q,e.option))}</li>`).join('');
     return `<div class="qb-expl">
       <div class="qb-expl-head">${badge}
         <div class="qb-expl-actions">
@@ -888,9 +967,9 @@
         </div>
       </div>
       <h3>${esc(t('explanation'))}</h3>
-      <p class="qb-expl-correct">${qbTransSpan(q.explC)}</p>
+      <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
-      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${qbTransSpan(q.objective)}</p></div>
+      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
       <div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>
     </div>`;
   }
