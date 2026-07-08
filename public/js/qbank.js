@@ -129,7 +129,7 @@
     // ═══════════════════════════════════════════════════════════════
     // BATCH 01 — Male Reproductive System (10 questions)
     // ═══════════════════════════════════════════════════════════════
-    { id:'CMQ-STEP1-MRS-0001', system:'male-reproductive-system', discipline:'microbiology', category:'male-reproductive-system::urinary_tract_infection', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0001', system:'male_repro', discipline:'microbiology', category:'male_repro::disorders_male_repro', difficulty:'medium',
       vignette:'A 24-year-old man comes to the office due to 2 days of burning pain with urination. The patient has also had increased urinary frequency over the past few days. He has had no fever, chills, nausea, vomiting, flank pain, or penile discharge. The patient is sexually active with his longtime boyfriend. Vital signs are within normal limits. Physical examination shows mild suprapubic tenderness. There is no costovertebral angle tenderness. The penis is uncircumcised. Laboratory results are as follows:\n\nUrinalysis:\nSpecific gravity: 1.016\npH: 5\nBlood: negative\nLeukocyte esterase: positive\nNitrites: positive',
       q:'Based on the urinalysis results, which of the following organisms is the most likely cause of this patient\'s illness?',
       options:[{label:'A',text:'Candida albicans'},{label:'B',text:'Enterococcus faecalis'},{label:'C',text:'Escherichia coli'},{label:'D',text:'Herpes simplex virus'},{label:'E',text:'Proteus mirabilis'},{label:'F',text:'Staphylococcus saprophyticus'}],
@@ -143,7 +143,7 @@
       explC:'A disúria em homens sexualmente ativos é mais comumente causada por uretrite e, menos comumente, por prostatite, epididimite ou infecção do trato urinário (ITU). Neste caso, a ausência de sintomas sistêmicos, a ausência de secreção peniana e a urinálise positiva são consistentes com ITU. A causa mais comum de ITU é a flora fecal, incluindo bacilos gram-negativos como a Escherichia coli. Achados da urinálise: esterase de leucócitos positiva (marcador de inflamação), nitritos positivos (produzidos por bactérias produtoras de nitrato redutase, como E. coli) e pH ácido (pH = 5, o que torna improvável o Proteus mirabilis, que produz urina alcalina via urease). Esse padrão é mais consistente com ITU por E. coli.',
       explI:[{option:'A',explanation:'ITU por Candida albicans ocorre geralmente apenas em pacientes idosos, hospitalizados ou imunocomprometidos. O exame seria positivo para esterase de leucócitos, mas negativo para nitritos.'},{option:'B',explanation:'Enterococcus faecalis não produz nitrato redutase, o que é inconsistente com os nitritos urinários positivos deste paciente.'},{option:'D',explanation:'O herpes simples genital geralmente se apresenta com vesículas em cacho que podem causar disúria. A esterase de leucócitos pode estar presente, mas os nitritos não.'},{option:'E',explanation:'Proteus mirabilis produz urease, que gera urina alcalina (pH >8). O pH ácido (5) deste paciente torna P. mirabilis improvável.'},{option:'F',explanation:'Staphylococcus saprophyticus não produz nitrato redutase, o que é inconsistente com nitritos urinários positivos.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0002', system:'male-reproductive-system', discipline:'pharmacology', category:'male-reproductive-system::benign_prostatic_hyperplasia', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0002', system:'male_repro', discipline:'pharmacology', category:'male_repro::disorders_male_repro', difficulty:'medium',
       vignette:'A 65-year-old man with benign prostatic hyperplasia has moderately severe symptoms and is started on finasteride. After six months of treatment with finasteride, his symptoms improve markedly and his prostate has regressed in size.',
       q:'Which of the following histological patterns was most likely present at the time of initiation of treatment?',
       options:[{label:'A',text:'Hyperplasia of prostate with predominance of epithelial components'},{label:'B',text:'Hyperplasia of prostate with predominance of muscular element'},{label:'C',text:'Hyperplasia of prostate with predominance of collagen'},{label:'D',text:'Hyperplasia of prostate with predominance of both collagen and smooth muscles'}],
@@ -157,7 +157,7 @@
       explC:'A finasterida é um inibidor da 5-alfa redutase que inibe a conversão de testosterona em di-hidrotestosterona. Ela atua nos componentes epiteliais da próstata, produzindo melhora dos sintomas e redução do tamanho da glândula. Pacientes com predomínio epitelial respondem melhor ao tratamento com finasterida.',
       explI:[{option:'B',explanation:'Os bloqueadores alfa-1 melhoram os sintomas da HPB por atuarem no músculo liso da próstata e da base da bexiga. Pacientes com predomínio de músculo liso respondem aos bloqueadores alfa-1, não à finasterida.'},{option:'C',explanation:'Pacientes com predomínio de colágeno não respondem nem à finasterida nem aos bloqueadores alfa-1.'},{option:'D',explanation:'Pacientes com predomínio de colágeno e músculo liso não respondem nem à finasterida nem aos bloqueadores alfa-1.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0003', system:'male-reproductive-system', discipline:'pathophysiology', category:'male-reproductive-system::testicular_torsion', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0003', system:'male_repro', discipline:'pathophysiology', category:'male_repro::disorders_male_repro', difficulty:'medium',
       vignette:'A 19-year-old man comes to the emergency department due to intense scrotal pain over the past 6 hours. The pain started shortly after participating in a soccer game; he does not recall any specific trauma and took ibuprofen at home with minimal relief. He is sexually active and has been treated twice in the past for Neisseria gonorrhoeae. Temperature is 36.9 C (98.5 F), blood pressure is 110/86 mm Hg, and pulse is 92/min. On examination, there is no inguinal lymphadenopathy or palpable mass. There is significant discomfort with scrotal examination primarily on the right where a high-riding swollen mass is palpable within the hemiscrotum; the left testicle is palpated lower in the scrotum.',
       q:'Which of the following additional physical examination findings is most likely present in this patient?',
       options:[{label:'A',text:'Absent elevation of the mass with stroking of the ipsilateral thigh'},{label:'B',text:'Enlargement of the mass when the patient coughs or bears down'},{label:'C',text:'Increase in the size of the mass when standing relative to laying'},{label:'D',text:'Reduction in pain with manual elevation of the mass'},{label:'E',text:'Transillumination of the mass when a flashlight is placed behind the scrotum'}],
@@ -171,7 +171,7 @@
       explC:'Este paciente apresenta dor escrotal aguda, intensa e progressiva, unilateral, com massa escrotal elevada — achados preocupantes para torção testicular. A ausência do reflexo cremastérico (elevação testicular ao estimular a face interna da coxa ipsilateral) é altamente sugestiva de torção testicular.',
       explI:[{option:'B',explanation:'O aumento da massa com tosse/Valsalva sugere hérnia inguinal, não torção testicular.'},{option:'C',explanation:'O varicocele aumenta de tamanho em pé e causa dor surda, não dor aguda e intensa.'},{option:'D',explanation:'O alívio da dor com elevação (sinal de Prehn positivo) sugere epididimite, não torção.'},{option:'E',explanation:'A transiluminação sugere hidrocele, uma coleção de líquido que causa aumento de volume, mas não dor aguda.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0004', system:'male-reproductive-system', discipline:'genetics', category:'male-reproductive-system::klinefelter_syndrome', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0004', system:'male_repro', discipline:'genetics', category:'male_repro::disorders_male_repro', difficulty:'medium',
       vignette:'A 16-year-old boy is brought to the office for a well-child visit. The parents report that his teacher has expressed concerns about the patient\'s reading and writing skills. Height is at the 98th percentile and weight is at the 75th percentile. He has bilateral gynecomastia and Tanner stage 1 genitalia.',
       q:'Which of the following is the most likely underlying mechanism responsible for this patient\'s condition?',
       options:[{label:'A',text:'FBN1 gene mutation on chromosome 15'},{label:'B',text:'Loss of paternally derived genes on chromosome 15'},{label:'C',text:'Meiotic nondisjunction of chromosome X'},{label:'D',text:'Meiotic nondisjunction of chromosome Y'},{label:'E',text:'Trinucleotide repeat expansion on chromosome X'}],
@@ -185,7 +185,7 @@
       explC:'Este paciente com dificuldades de aprendizagem, estatura elevada, testículos pequenos e ginecomastia provavelmente tem síndrome de Klinefelter (47,XXY), a causa mais comum de hipogonadismo primário em homens. A patogênese envolve não disjunção meiótica do cromossomo X.',
       explI:[{option:'A',explanation:'A mutação do FBN1 causa síndrome de Marfan. Há estatura elevada, mas sem hipogonadismo ou ginecomastia.'},{option:'B',explanation:'A perda de genes paternos no cromossomo 15 causa síndrome de Prader-Willi: estatura baixa e obesidade, não observadas aqui.'},{option:'D',explanation:'A não disjunção do Y resulta em síndrome XYY (47,XYY): estatura elevada e dificuldades de aprendizagem, mas sem hipogonadismo.'},{option:'E',explanation:'A repetição trinucleotídica no X causa síndrome do X frágil: macro-orquidismo (não Tanner 1), face alongada, orelhas grandes.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0005', system:'male-reproductive-system', discipline:'behavioral_science', category:'male-reproductive-system::male_sexual_dysfunction', difficulty:'easy',
+    { id:'CMQ-STEP1-MRS-0005', system:'male_repro', discipline:'behavioral_science', category:'male_repro::disorders_male_repro', difficulty:'easy',
       vignette:'A 78-year-old man comes to the office for a regularly scheduled review. He has hypertension, CAD, and type 2 DM, taking metformin, atorvastatin, lisinopril, and nitroglycerin PRN. He hesitates, laughs nervously, and says, "I can\'t get an erection anymore, and my wife says I have to ask you about getting the blue pill."',
       q:'Which of the following is the most appropriate response to this patient\'s concern?',
       options:[{label:'A',text:'"I can see that you feel uncomfortable talking about this. It can be a sensitive subject for some men."'},{label:'B',text:'"I can understand your concern, but at your age, we hesitate to start too many medications."'},{label:'C',text:'"Medications for erectile dysfunction have significant side effects. I would not pursue them unless you feel it is important."'},{label:'D',text:'"This is a very common problem for men as they age. It is good that you mentioned it."'},{label:'E',text:'"We can try medication for erectile dysfunction, but it may not be effective at your age."'}],
@@ -199,7 +199,7 @@
       explC:'Ao aconselhar sobre sexualidade, o primeiro objetivo é deixar o paciente confortável. Tranquilizar que a disfunção sexual é comum e apropriada para discussão. A alternativa D normaliza a preocupação e valida o paciente por trazer o assunto.',
       explI:[{option:'A',explanation:'Reitera e chama atenção para sua ansiedade, podendo reforçar o constrangimento.'},{option:'B',explanation:'A idade não é uma contraindicação. No entanto, o uso de nitrato sim contraindica inibidores da PDE5.'},{option:'C',explanation:'Isso pode fazer o paciente sentir que precisa justificar a preocupação.'},{option:'E',explanation:'A idade não determina a eficácia. Essa resposta é desdenhosa.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0006', system:'male-reproductive-system', discipline:'histology', category:'male-reproductive-system::blood_testis_barrier', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0006', system:'male_repro', discipline:'histology', category:'male_repro::normal_male_repro', difficulty:'medium',
       vignette:'A 34-year-old man is found to have low sperm count during an infertility evaluation. He has a history of testicular trauma from a motorcycle accident several years ago. Further evaluation reveals antisperm antibodies.',
       q:'This patient\'s testicular trauma most likely damaged an anatomic barrier formed from which of the following components?',
       options:[{label:'A',text:'Leydig cells'},{label:'B',text:'Primary spermatocytes'},{label:'C',text:'Secondary spermatocytes'},{label:'D',text:'Sertoli cells'},{label:'E',text:'Tunica albuginea'}],
@@ -213,7 +213,7 @@
       explC:'A barreira hematotesticular é formada por junções firmes entre as células de Sertoli nos túbulos seminíferos. Sua disrupção pode levar à formação de anticorpos antiesperma e prejudicar a fertilidade.',
       explI:[{option:'A',explanation:'As células de Leydig produzem testosterona fora dos túbulos. Não formam a barreira hematotesticular.'},{option:'B',explanation:'Os espermatócitos primários migram dentro da barreira, mas não a formam.'},{option:'C',explanation:'Os espermatócitos secundários estão dentro da barreira, mas não a formam.'},{option:'E',explanation:'A túnica albugínea é a cápsula externa do testículo, não a barreira hematotesticular.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0007', system:'male-reproductive-system', discipline:'anatomy', category:'male-reproductive-system::vasectomy', difficulty:'easy',
+    { id:'CMQ-STEP1-MRS-0007', system:'male_repro', discipline:'anatomy', category:'male_repro::normal_male_repro', difficulty:'easy',
       vignette:'A 42-year-old man with 6 children elects to undergo a vasectomy after appropriate discussion regarding contraceptive options. On examination, normal circumcised penis with no abnormalities.',
       q:'The patient should be advised to expect which of the following side effects during the first few months following the procedure?',
       options:[{label:'A',text:'Decreased interest in sexual activity'},{label:'B',text:'Difficulty in maintaining an erection'},{label:'C',text:'Large reduction in the volume of ejaculate'},{label:'D',text:'Reduced testosterone production'},{label:'E',text:'Viable sperm in the ejaculate'}],
@@ -227,7 +227,7 @@
       explC:'A vasectomia secciona o ducto deferente. Espermatozoides podem persistir no ejaculado por meses até serem eliminados da porção proximal à secção. É necessário método contraceptivo alternativo até duas análises seminais confirmarem azoospermia.',
       explI:[{option:'A',explanation:'A vasectomia não afeta a libido; a produção de testosterona continua normalmente.'},{option:'B',explanation:'A função erétil não é afetada pela vasectomia.'},{option:'C',explanation:'O volume do ejaculado é determinado pelas vesículas seminais e pela próstata, que não são afetadas.'},{option:'D',explanation:'A produção de testosterona não é afetada; os testículos e o suprimento sanguíneo permanecem intactos.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0008', system:'male-reproductive-system', discipline:'genetics', category:'male-reproductive-system::androgen_insensitivity', difficulty:'hard',
+    { id:'CMQ-STEP1-MRS-0008', system:'male_repro', discipline:'genetics', category:'male_repro::disorders_male_repro', difficulty:'hard',
       vignette:'An autopsy on a stillborn fetus at 20 weeks gestation reveals a 46,XY karyotype with a loss of function mutation of the androgen receptor gene on the X chromosome, resulting in complete androgen insensitivity.',
       q:'Which of the following phenotypes is most likely to be present in this fetus?',
       options:[{label:'A',text:'Absent internal genital ducts, Female external genitalia'},{label:'B',text:'Absent internal genital ducts, Male external genitalia'},{label:'C',text:'Uterus and fallopian tubes, Ambiguous external genitalia'},{label:'D',text:'Uterus and fallopian tubes, Male external genitalia'},{label:'E',text:'Vas deferens and epididymis, Female external genitalia'}],
@@ -241,7 +241,7 @@
       explC:'Na síndrome de insensibilidade androgênica completa (CAIS), os testículos produzem AMH (regressão mülleriana) e testosterona, mas o receptor androgênico é não funcional. Resultado: os ductos müllerianos regridem (sem útero/tubas), os ductos wolffianos também regridem (sem ducto deferente), e a genitália externa é feminina (sem resposta à DHT).',
       explI:[{option:'B',explanation:'A genitália externa masculina requer DHT via receptor androgênico funcional, ausente na CAIS.'},{option:'C',explanation:'O AMH é produzido normalmente, portanto as estruturas müllerianas (útero, tubas) regridem.'},{option:'D',explanation:'As estruturas müllerianas e a genitália masculina não podem coexistir na CAIS.'},{option:'E',explanation:'O desenvolvimento do ducto wolffiano requer receptor androgênico funcional, ausente na CAIS.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0009', system:'male-reproductive-system', discipline:'anatomy', category:'male-reproductive-system::urethral_injury', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0009', system:'male_repro', discipline:'anatomy', category:'male_repro::disorders_male_repro', difficulty:'medium',
       vignette:'A 45-year-old man is brought to the ED after a high-speed motor vehicle collision. He has lower abdominal pain, sensation of bladder fullness, but has been unable to urinate since the collision. CT reveals rib fractures and a pelvic fracture.',
       q:'Which of the following portions of the urogenital tract is most likely injured in this patient?',
       options:[{label:'A',text:'Anterior bladder wall'},{label:'B',text:'Prostatic urethra'},{label:'C',text:'Membranous urethra (bulbomembranous junction)'},{label:'D',text:'Bulbar urethra'},{label:'E',text:'Penile urethra'}],
@@ -255,7 +255,7 @@
       explC:'A fratura pélvica causa mais comumente lesão da uretra posterior na junção bulbomembranosa. A uretra posterior é fixa aos ossos pélvicos. A fratura traumática causa deslocamento superior e ruptura. Achados clínicos: sangue no meato, próstata elevada ("high-riding"), incapacidade de urinar.',
       explI:[{option:'A',explanation:'A lesão da parede da bexiga se apresenta com extravasamento extraperitoneal de urina. A incapacidade de urinar sugere lesão uretral, não vesical.'},{option:'B',explanation:'A uretra prostática é sustentada pelo tecido prostático e é menos propensa a ser lesada.'},{option:'D',explanation:'A uretra bulbar (anterior) é móvel e protegida de forças indiretas; é lesada por trauma direto (straddle injury).'},{option:'E',explanation:'A uretra peniana é anterior e móvel; é lesada por trauma direto, não por fratura pélvica.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0010', system:'male-reproductive-system', discipline:'pathology', category:'male-reproductive-system::testicular_cancer', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0010', system:'male_repro', discipline:'pathology', category:'male_repro::disorders_male_repro', difficulty:'medium',
       vignette:'A 28-year-old man comes to the office due to a bump on his right testicle. He is otherwise asymptomatic and healthy. A solid mass is palpated. Scrotal ultrasound reveals a suspicious, partially necrotic mass. Serum LDH and AFP are markedly elevated. He undergoes right radical inguinal orchiectomy.',
       q:'Which of the following is the most likely histologic diagnosis?',
       options:[{label:'A',text:'Leydig cell tumor'},{label:'B',text:'Nonseminomatous germ cell tumor'},{label:'C',text:'Sertoli cell tumor'},{label:'D',text:'Teratoma'},{label:'E',text:'Testicular lymphoma'}],
@@ -272,7 +272,7 @@
     // ═══════════════════════════════════════════════════════════════
     // BATCH 02 — Cardiovascular System (9 questions)
     // ═══════════════════════════════════════════════════════════════
-    { id:'CMQ-STEP1-CVS-0001', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::lipid_lowering_therapy', difficulty:'medium',
+    { id:'CMQ-STEP1-CVS-0001', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiovascular_drugs', difficulty:'medium',
       vignette:'A 53-year-old man comes for follow-up after acute myocardial infarction. Medications include metoprolol and low-dose aspirin. He quit smoking after his MI. He is obese (100 kg, 178 cm). Total cholesterol 155 mg/dL, HDL 27 mg/dL, triglycerides 92 mg/dL.',
       q:'Which of the following lipid-lowering agents would be most effective for preventing future cardiovascular events?',
       options:[{label:'A',text:'Absorption inhibitor'},{label:'B',text:'Cationic exchange resin'},{label:'C',text:'Enzyme inhibitor'},{label:'D',text:'Essential fatty acids'},{label:'E',text:'Pharmacologic vitamin'},{label:'F',text:'Transcription factor ligand'}],
@@ -314,7 +314,7 @@
       explC:'A isquemia do músculo papilar induzida pelo IAM causa disfunção e regurgitação mitral. A revascularização restaura a função do músculo papilar, resolvendo a RM. Diferentemente da ruptura (que não se resolve com revascularização), a disfunção melhora.',
       explI:[{option:'A',explanation:'A raiz aórtica não é diretamente afetada pela isquemia miocárdica.'},{option:'B',explanation:'Os folhetos da valva aórtica não são afetados pelo IAM.'},{option:'C',explanation:'A ruptura septal é uma complicação mecânica (3-5 dias pós-IAM) que requer cirurgia.'},{option:'D',explanation:'A ruptura das cordas tendíneas também é uma complicação mecânica que requer cirurgia.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0004', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::shock_hemodynamics', difficulty:'hard',
+    { id:'CMQ-STEP1-CVS-0004', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::heart_failure_shock', difficulty:'hard',
       vignette:'A 55-year-old man collapses at home with chest pain. BP 80/50, pulse 120/min. Bilateral crackles. S3 audible. ECG: ST elevation in V2-V6.',
       q:'Which of the following hemodynamic changes are most likely present?',
       options:[{label:'A',text:'Decreased PCWP, Decreased CVP, Decreased coronary perfusion pressure'},{label:'B',text:'Decreased PCWP, Increased CVP, Decreased coronary perfusion pressure'},{label:'C',text:'Increased PCWP, Decreased CVP, Increased coronary perfusion pressure'},{label:'D',text:'Increased PCWP, Increased CVP, Decreased coronary perfusion pressure'},{label:'E',text:'Increased PCWP, Increased CVP, Increased coronary perfusion pressure'}],
@@ -328,7 +328,7 @@
       explC:'No IAMCST com choque cardiogênico: a falência do VE aumenta a pressão diastólica final do VE, aumentando a PCWP e causando edema pulmonar. O aumento de pressão prejudica o VD, aumentando a PVC. A queda do débito cardíaco causa hipotensão e diminuição da pressão de perfusão coronariana.',
       explI:[{option:'A',explanation:'PVC/PCWP/pressão de perfusão coronariana diminuídas = choque hipovolêmico ou séptico.'},{option:'B',explanation:'PCWP diminuída + PVC aumentada = choque obstrutivo (TEP, pneumotórax hipertensivo).'},{option:'C',explanation:'PVC diminuída com PCWP aumentada é atípico.'},{option:'E',explanation:'O aumento da pressão de perfusão coronariana não ocorreria em choque.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0005', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::cor_pulmonale', difficulty:'medium',
+    { id:'CMQ-STEP1-CVS-0005', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::heart_failure_shock', difficulty:'medium',
       vignette:'A 53-year-old smoker (2 packs/day for 35 years) has progressive exertional dyspnea, increased AP diameter, decreased breath sounds, scattered wheezes. Extremities unremarkable. Echo: RV dilation, increased CVP.',
       q:'The absence of peripheral edema in this patient is best explained by which of the following compensatory mechanisms?',
       options:[{label:'A',text:'Decreased capillary permeability'},{label:'B',text:'Decreased circulating aldosterone levels'},{label:'C',text:'Decreased interstitial fluid pressure'},{label:'D',text:'Increased plasma oncotic pressure'},{label:'E',text:'Increased tissue lymphatic drainage'}],
@@ -342,7 +342,7 @@
       explC:'Apesar da PVC elevada e da insuficiência cardíaca direita, ainda não há edema periférico. Na insuficiência cardíaca crônica, o aumento da drenagem linfática inicialmente compensa os fatores que favorecem o edema, retardando temporariamente seu desenvolvimento.',
       explI:[{option:'A',explanation:'A permeabilidade capilar não se altera na insuficiência cardíaca.'},{option:'B',explanation:'A aldosterona está elevada (não diminuída) na IC, promovendo retenção de sódio.'},{option:'C',explanation:'A diminuição da pressão intersticial favoreceria o edema, não o preveniria.'},{option:'D',explanation:'A pressão oncótica plasmática está diminuída (não aumentada) na IC devido à hemodiluição.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0006', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::heart_block', difficulty:'medium',
+    { id:'CMQ-STEP1-CVS-0006', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiac_arrhythmias', difficulty:'medium',
       vignette:'An 82-year-old man with recent atrial fibrillation (discharged 2 weeks ago on oral meds), hypertension, and severe COPD. He now has syncope and constipation. BP 105/60, pulse 50/min. ECG: new-onset second-degree AV block.',
       q:'Which of the following drugs is the most likely cause of his current condition?',
       options:[{label:'A',text:'Amlodipine'},{label:'B',text:'Diltiazem'},{label:'C',text:'Hydrochlorothiazide'},{label:'D',text:'Lidocaine'},{label:'E',text:'Propranolol'},{label:'F',text:'Terazosin'},{label:'G',text:'Valsartan'}],
@@ -356,7 +356,7 @@
       explC:'Constipação + bloqueio atrioventricular de segundo grau (síncope) = efeitos adversos de bloqueador dos canais de cálcio não di-hidropiridínico (diltiazem/verapamil). Esses fármacos bloqueiam os canais de cálcio tipo L, reduzindo a condução no nó AV. Efeitos cronotrópico e inotrópico negativos. A constipação decorre da redução da contração da musculatura lisa colônica.',
       explI:[{option:'A',explanation:'O anlodipino é um BCC di-hidropiridínico com efeitos mínimos sobre a condução cardíaca. Não causa BAV.'},{option:'C',explanation:'A hidroclorotiazida é um diurético para hipertensão, não para FA. Não causa BAV.'},{option:'D',explanation:'A lidocaína é usada para arritmias ventriculares, não para FA.'},{option:'E',explanation:'O propranolol pode causar BAV, mas é evitado em DPOC grave e não causa constipação.'},{option:'F',explanation:'A terazosina causa hipotensão ortostática, não BAV.'},{option:'G',explanation:'A valsartana não causa BAV nem constipação.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::myocardial_infarction', difficulty:'medium',
+    { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::coronary_heart_disease', difficulty:'medium',
       vignette:'The cardiac output and venous return curves of a healthy person are shown with solid lines. The dashed lines depict decreased cardiac output with unchanged venous return (unchanged blood volume and TPR).',
       q:'Which of the following is the most likely cause of the change depicted by the dashed lines?',
       options:[{label:'A',text:'Excessive hydration'},{label:'B',text:'Acute hemorrhage'},{label:'C',text:'Chronic anemia'},{label:'D',text:'Myocardial infarction'},{label:'E',text:'Anaphylaxis'}],
@@ -370,7 +370,7 @@
       explC:'A diminuição isolada do débito cardíaco com retorno venoso inalterado indica diminuição da contratilidade por lesão miocárdica. O infarto do miocárdio diminui tanto a inclinação quanto a altura máxima da curva de função cardíaca.',
       explI:[{option:'A',explanation:'A hidratação excessiva desloca a curva de retorno venoso para a direita, não apenas reduz o débito cardíaco.'},{option:'B',explanation:'A hemorragia desloca a curva de retorno venoso para a esquerda e para baixo.'},{option:'C',explanation:'A anemia crônica aumenta o débito cardíaco para atender às demandas metabólicas.'},{option:'E',explanation:'A anafilaxia causa vasodilatação generalizada e reduz o retorno venoso.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0008', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::supraventricular_arrhythmia', difficulty:'easy',
+    { id:'CMQ-STEP1-CVS-0008', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiac_arrhythmias', difficulty:'easy',
       vignette:'A 24-year-old man with sudden-onset palpitations ("my heart is racing"), similar episode a year ago that resolved spontaneously. BP 126/74, pulse 164/min regular. Rapid IV medication causes instantaneous resolution with short-lived flushing, burning in the chest, and shortness of breath.',
       q:'Which of the following medications was used to treat this patient\'s condition?',
       options:[{label:'A',text:'Adenosine'},{label:'B',text:'Amiodarone'},{label:'C',text:'Digoxin'},{label:'D',text:'Ibutilide'},{label:'E',text:'Lidocaine'},{label:'F',text:'Verapamil'}],
@@ -384,7 +384,7 @@
       explC:'TVS (taquicardia supraventricular) em um homem jovem, encerrada por injeção IV rápida com rubor/dispneia transitórios = adenosina. Ela bloqueia a condução no nó AV com meia-vida ultracurta (~10 segundos), explicando os efeitos colaterais transitórios.',
       explI:[{option:'B',explanation:'A amiodarona tem início de ação lento, não é usada para o encerramento agudo de TVS.'},{option:'C',explanation:'A digoxina tem início de ação lento (horas), não é usada para TVS aguda.'},{option:'D',explanation:'A ibutilida é usada para flutter/fibrilação atrial, não para TVS.'},{option:'E',explanation:'A lidocaína é usada para arritmias ventriculares.'},{option:'F',explanation:'O verapamil pode encerrar a TVS, mas tem início mais lento e perfil de efeitos colaterais diferente.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0009', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::sympathomimetic_agents', difficulty:'hard',
+    { id:'CMQ-STEP1-CVS-0009', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::cardiovascular_drugs', difficulty:'hard',
       vignette:'A 44-year-old woman with pyelonephritis and septic shock (BP 80/40, pulse 140/min) receives IV phenylephrine. Her heart rate decreases to 100/min.',
       q:'The infusion most likely induced which of the following intracellular changes?',
       options:[{label:'A',text:'Decreased cAMP in ventricular myocytes, Increased IP3 in vascular smooth muscle, Decreased inward calcium current in SA nodal cells'},{label:'B',text:'Decreased cAMP in ventricular myocytes, Decreased IP3 in vascular smooth muscle, No change in SA nodal calcium current'},{label:'C',text:'Increased cAMP in ventricular myocytes, Increased IP3 in vascular smooth muscle, Increased SA nodal calcium current'},{label:'D',text:'Increased cAMP in ventricular myocytes, No change in IP3, Increased SA nodal calcium current'},{label:'E',text:'No change in cAMP, Decreased IP3 in vascular smooth muscle, Decreased SA nodal calcium current'}],
@@ -397,6 +397,414 @@
       options:[{label:'A',text:'cAMP diminuído nos miócitos ventriculares, IP3 aumentado no músculo liso vascular, corrente de cálcio diminuída nas células do nó SA'},{label:'B',text:'cAMP diminuído nos miócitos ventriculares, IP3 diminuído no músculo liso vascular, sem alteração na corrente de cálcio do nó SA'},{label:'C',text:'cAMP aumentado nos miócitos ventriculares, IP3 aumentado no músculo liso vascular, corrente de cálcio aumentada no nó SA'},{label:'D',text:'cAMP aumentado nos miócitos ventriculares, sem alteração no IP3, corrente de cálcio aumentada no nó SA'},{label:'E',text:'Sem alteração no cAMP, IP3 diminuído no músculo liso vascular, corrente de cálcio diminuída no nó SA'}],
       explC:'A fenilefrina (agonista alfa-1) aumenta o IP3 no músculo liso vascular → vasoconstrição → aumento da PA → reflexo barorreceptor → aumento do tônus parassimpático e diminuição do simpático → diminuição do cAMP nos miócitos ventriculares e da corrente de cálcio no nó SA → diminuição da FC.',
       explI:[{option:'B',explanation:'A fenilefrina aumenta (não diminui) o IP3 via ativação alfa-1.'},{option:'C',explanation:'O reflexo barorreceptor diminui (não aumenta) o tônus simpático, portanto o cAMP e a corrente de cálcio no nó SA diminuem.'},{option:'D',explanation:'O IP3 se altera (aumenta) e a corrente de cálcio do nó SA diminui (não aumenta).'},{option:'E',explanation:'O cAMP se altera (diminui via reflexo barorreceptor) e o IP3 aumenta (não diminui).'}]} },
+
+    // ═══════════════════════════════════════════════════════════════
+    // BATCH TEST 001 — Deploy test package generated by ChatGPT
+    // ═══════════════════════════════════════════════════════════════
+    {
+            "id": "CMQ-TEST-001",
+            "system": "renal_urinary",
+            "discipline": "histology",
+            "category": "renal_urinary::glomerular_diseases",
+            "difficulty": "medium",
+            "vignette": "An 8-year-old boy is brought to the office due to acute facial puffiness. His mother reports that for the preceding 24 hours he has been easily fatigued and has had dark urine. The patient was treated for a skin infection 3 weeks ago but has no chronic medical conditions. Temperature is 36.1 C (97 F) and blood pressure is 140/94 mm Hg. Physical examination shows periorbital edema and mild pitting edema along the ankles. The remainder of the examination shows no abnormalities. A representative renal biopsy sample is shown in the image below:",
+            "q": "The fluorescent areas on the slide most likely indicate the presence of which of the following substances?",
+            "options": [
+                {
+                    "label": "A",
+                    "text": "Albumin"
+                },
+                {
+                    "label": "B",
+                    "text": "C1q"
+                },
+                {
+                    "label": "C",
+                    "text": "C3"
+                },
+                {
+                    "label": "D",
+                    "text": "Fibrin"
+                },
+                {
+                    "label": "E",
+                    "text": "IgE"
+                },
+                {
+                    "label": "F",
+                    "text": "M protein"
+                }
+            ],
+            "correct": "C",
+            "explC": "This pediatric patient with nephritic syndrome (eg, periorbital edema, hematuria, hypertension) following a recent skin infection most likely has poststreptococcal glomerulonephritis (PSGN), the most common cause of pediatric nephritic syndrome. This typically occurs after exposure to strains of group A Streptococcus that produce nephritogenic antigens that can activate the alternate complement pathway. These combine with antibodies to form immune complexes, which deposit on the glomerular basement membrane (GBM) and induce complement activation and inflammation.\n\nThese immune complexes are visible on immunofluorescence microscopy as granular deposits of IgG, IgM, and C3 on the GBM and mesangium. Because these particular immune complexes tend to activate complement via the alternate pathway, the deposits rarely contain C1q or C4 (classic complement pathway components).",
+            "explI": [
+                {
+                    "option": "A",
+                    "explanation": "Disruption of the GBM in PSGN causes increased filtration of proteins such as albumin, which are lost in urine and do not deposit in the GBM. The loss of albumin results in decreased plasma oncotic pressure and subsequent peripheral edema."
+                },
+                {
+                    "option": "B",
+                    "explanation": "C1q is a classic complement pathway component. In PSGN, the immune complexes tend to activate complement via the alternate pathway; therefore, the deposits rarely contain C1q or C4."
+                },
+                {
+                    "option": "D",
+                    "explanation": "Fibrin deposits in the Bowman space of the glomerulus are found in the crescents of rapidly progressive glomerulonephritis."
+                },
+                {
+                    "option": "E",
+                    "explanation": "IgE deposits are sometimes seen in lupus nephritis and are confined to the capillary wall. They are associated with a poorer prognosis."
+                },
+                {
+                    "option": "F",
+                    "explanation": "M protein is a component of the streptococcal cell wall that acts as an antiphagocytic virulence factor and stimulates antibody formation. The cross-reactivity of these antibodies to myosin within myocardial cells is likely responsible for rheumatic heart disease. However, M protein has not been isolated in the immune complexes in PSGN."
+                }
+            ],
+            "objective": "Poststreptococcal glomerulonephritis occurs after exposure to strains of group A Streptococcus that produce nephritogenic antigens; antigen-antibody complexes deposit on the glomerular basement membrane and activate the alternate complement pathway. Immunofluorescence microscopy shows granular deposits of IgG, IgM, and C3 in the basement membranes and mesangium.",
+            "peer": {
+                "A": 2,
+                "B": 4,
+                "C": 71,
+                "D": 2,
+                "E": 5,
+                "F": 14
+            },
+            "img": "assets/qbank/CMQ-TEST-001_renal_biopsy_if.png"
+        },
+        {
+            "id": "CMQ-TEST-002",
+            "system": "female_repro_breast",
+            "discipline": "histology",
+            "category": "female_repro_breast::breast_disorders",
+            "difficulty": "medium",
+            "vignette": "A 34-year-old woman comes to the office with bleeding from the right nipple. The patient has noticed blood staining her bra on several occasions over the past week but has no fever or breast pain. She has no chronic medical conditions and does not take any medications. Breast examination shows no palpable masses or skin changes. A thin, blood-tinged discharge can be expressed from the right nipple. There are no enlarged axillary lymph nodes.",
+            "q": "Which of the following is the most likely histopathologic finding in this patient's right breast?",
+            "options": [
+                {
+                    "label": "A",
+                    "text": "Atypical cells infiltrating the nipple skin"
+                },
+                {
+                    "label": "B",
+                    "text": "Cysts lined by metaplastic apocrine cells"
+                },
+                {
+                    "label": "C",
+                    "text": "Epithelial cells lining fibrovascular cores"
+                },
+                {
+                    "label": "D",
+                    "text": "Necrotic adipocytes with inflammation"
+                },
+                {
+                    "label": "E",
+                    "text": "Stromal proliferation compressing the ducts to slits"
+                }
+            ],
+            "correct": "C",
+            "explC": "Nipple discharge can be physiologic (ie, bilateral, nonbloody or milky, without masses or skin changes) or pathologic (ie, bloody or serosanguineous and unilateral with or without palpable masses and skin changes).\n\nThe most common cause of pathologic nipple discharge is an intraductal papilloma, which classically presents as a unilateral, bloody nipple discharge with no associated breast masses, skin changes, or axillary lymphadenopathy. Although most cases of intraductal papilloma are benign, all patients with pathologic nipple discharge require evaluation with imaging (eg, mammogram or ultrasound, depending upon age) and possibly with biopsy. On microscopy, intraductal papilloma shows epithelial and myoepithelial cells lining fibrovascular cores forming papillae within a duct or cyst wall. The bloody discharge results from twisting of the vascular stalk of the papilloma in the duct.",
+            "explI": [
+                {
+                    "option": "A",
+                    "explanation": "Paget disease of the breast occurs due to the ductal spread of atypical malignant cells to the nipple epidermis. Although patients may have bloody nipple discharge, they also have a unilateral erythematous, intensely pruritic, ulcerative lesion over the nipple and areola, which is not seen in this patient."
+                },
+                {
+                    "option": "B",
+                    "explanation": "Fibrocystic changes of the breast may show cysts with or without metaplasia and areas of fibrosis. Patients with fibrocystic changes typically have cyclic breast pain, not nipple discharge."
+                },
+                {
+                    "option": "D",
+                    "explanation": "Fat necrosis typically presents as an irregular breast mass with no associated nipple discharge after localized trauma or biopsy. Microscopy may show adipocytes undergoing necrosis with inflammation, including macrophages and giant cells."
+                },
+                {
+                    "option": "E",
+                    "explanation": "Fibroadenomas are small, firm, and mobile breast masses that occur due to proliferation of breast stroma and ducts. Fibroadenomas do not typically cause bloody nipple discharge. Microscopic examination shows stromal proliferation compressing the ducts to slits."
+                }
+            ],
+            "objective": "Intraductal papilloma is characterized by epithelial and myoepithelial cells lining fibrovascular cores in a cyst wall or duct. It is the most common cause of bloody nipple discharge and typically presents without breast masses or skin changes.",
+            "peer": {
+                "A": 14,
+                "B": 10,
+                "C": 45,
+                "D": 7,
+                "E": 22
+            },
+            "img": "assets/qbank/CMQ-TEST-002_intraductal_papilloma_histology.png"
+        },
+        {
+            "id": "CMQ-TEST-003",
+            "system": "female_repro_breast",
+            "discipline": "histology",
+            "category": "female_repro_breast::menstrual_disorders_contraception",
+            "difficulty": "medium",
+            "vignette": "A 42-year-old woman, gravida 4 para 4, comes to the office due to heavy and painful menstrual bleeding over the past 3 months. The patient's last menstrual period was 3 weeks ago. Menarche was at age 10, and menstrual periods last for 3-5 days and occur every 30 days. She is sexually active with her husband and does not have pain with intercourse. The patient had a bilateral tubal ligation 3 years ago after the birth of her last child. She takes no medications and has no allergies. BMI is 24 kg/m². Vital signs are normal. On bimanual examination, the uterus is uniformly enlarged and tender. Urine β-hCG is negative.",
+            "q": "Which of the following is the most likely cause of this patient's symptoms?",
+            "options": [
+                {
+                    "label": "A",
+                    "text": "Benign myometrial smooth muscle cell proliferation"
+                },
+                {
+                    "label": "B",
+                    "text": "Blastocyst implantation in the fallopian tube"
+                },
+                {
+                    "label": "C",
+                    "text": "Endometrial glands and stroma within the myometrium"
+                },
+                {
+                    "label": "D",
+                    "text": "Localized overgrowth of endometrium into the uterine cavity"
+                },
+                {
+                    "label": "E",
+                    "text": "Unregulated endometrial proliferation with increased gland-to-stroma ratio"
+                }
+            ],
+            "correct": "C",
+            "explC": "This patient has adenomyosis, a disorder caused by an abnormal collection of endometrial glands and stroma within the uterine myometrium. Adenomyosis is common in multiparous women, and prior uterine surgery (eg, cesarean delivery) is a risk factor.\n\nAlthough the exact pathogenesis is unclear, adenomyosis may occur due to endometrial invagination into the myometrium during periods of myometrial weakening or changes in vascularity at the endomyometrial interface (eg, pregnancy, uterine surgery). The clinical features of adenomyosis reflect its pathophysiology: endometrial gland proliferation and cyclic bleeding within the myometrium leads to dysmenorrhea and uterine tenderness; abnormal myometrial hyperplasia and hypertrophy results in a concentric, uniformly enlarged uterus; uterine enlargement and subsequently increased endometrial surface area causes regular, heavy menstrual bleeding. Definitive therapy is with hysterectomy, which allows for histologic diagnosis.",
+            "explI": [
+                {
+                    "option": "A",
+                    "explanation": "Leiomyomas (ie, uterine fibroids) are benign myometrial smooth muscle cell tumors. Although fibroids can cause regular, heavy menses (also due to increased endometrial surface area), the uterus is typically nontender and irregularly enlarged rather than tender and uniformly enlarged."
+                },
+                {
+                    "option": "B",
+                    "explanation": "An ectopic pregnancy most commonly occurs due to abnormal blastocyst implantation in the fallopian tube. Although prior tubal surgery (eg, bilateral tubal ligation) is a risk factor, ectopic pregnancy is unlikely in this patient with a negative urine β-hCG. In addition, uterine enlargement would not be seen."
+                },
+                {
+                    "option": "D",
+                    "explanation": "Endometrial polyps are benign, intracavitary, focal hyperplastic growths of endometrial tissue. In contrast to adenomyosis, endometrial polyps cause painless intermenstrual bleeding rather than painful, cyclic, heavy menses. There is also no associated uterine tenderness or enlargement."
+                },
+                {
+                    "option": "E",
+                    "explanation": "Patients with endometrial hyperplasia have unregulated endometrial gland proliferation with increased gland-to-stroma ratio; the thickened endometrial lining may slightly increase uterine size and cause heavy menses. However, endometrial hyperplasia does not typically cause dysmenorrhea or uterine tenderness. In addition, the most common risk factor is unopposed estrogen from chronic anovulation and/or obesity; this patient has regular menses and a normal BMI."
+                }
+            ],
+            "objective": "Adenomyosis is the abnormal presence of endometrial glands and stroma within the uterine myometrium. Affected patients are typically multiparous women with dysmenorrhea, heavy menses, and a uniformly enlarged uterus.",
+            "peer": {
+                "A": 20,
+                "B": 1,
+                "C": 46,
+                "D": 10,
+                "E": 20
+            },
+            "img": "assets/qbank/CMQ-TEST-003_adenomyosis_diagram.png"
+        },
+        {
+            "id": "CMQ-TEST-004",
+            "system": "renal_urinary",
+            "discipline": "histology",
+            "category": "renal_urinary::glomerular_diseases",
+            "difficulty": "medium",
+            "vignette": "A 9-year-old girl is brought to the office due to 2 days of face and eye puffiness. The patient was treated for a rash on her leg with an antibiotic about 3 weeks ago. Temperature is 37.2 C (99 F) and blood pressure is 150/90 mm Hg. On physical examination, there is generalized edema but no rash. Urinalysis reveals proteinuria and hematuria. An electron microscopy image representative of this patient's disease process is shown below:",
+            "q": "The area marked by the arrow most likely represents which of the following?",
+            "options": [
+                {
+                    "label": "A",
+                    "text": "Albumin buildup"
+                },
+                {
+                    "label": "B",
+                    "text": "Eosinophil enzymes"
+                },
+                {
+                    "label": "C",
+                    "text": "Fibrin deposition"
+                },
+                {
+                    "label": "D",
+                    "text": "Hyaline accumulation"
+                },
+                {
+                    "label": "E",
+                    "text": "Immune complex deposits"
+                },
+                {
+                    "label": "F",
+                    "text": "Lipid droplet"
+                },
+                {
+                    "label": "G",
+                    "text": "Neutrophil enzymes"
+                }
+            ],
+            "correct": "E",
+            "explC": "This pediatric patient with hypertension, hematuria, proteinuria, and edema has a nephritic syndrome. The timeline (3 weeks after a skin infection) of symptoms suggests the most likely cause is poststreptococcal glomerulonephritis (PSGN), an immune complex-mediated disease that occurs after exposure to nephritogenic strains of group A Streptococcus. Laboratory evaluation reveals classic signs of nephritic syndrome (eg, hematuria, red blood cell [RBC] casts, mild proteinuria).\n\nThe immune complexes in PSGN are deposited along the glomerular basement membrane (GBM) and are visible on electron microscopy as large, dome-shaped, subepithelial, electron-dense deposits (\"humps\"). These can also be visualized on immunofluorescence as granular deposits of IgG, IgM, and C3 along the GBM and glomerular mesangium (\"lumpy-bumpy\" appearance). Because the immune complexes trigger an inflammatory reaction, light microscopy shows large glomeruli that are hypercellular due to leukocyte infiltration and proliferation of glomerular cells (a response to injury).",
+            "explI": [
+                {
+                    "option": "A",
+                    "explanation": "Proteins such as albumin may be lost in the urine due to increased permeability of the glomerular capillary wall in PSGN. However, albumin does not deposit within the glomerulus or renal tubules."
+                },
+                {
+                    "option": "B",
+                    "explanation": "Many antibiotics (eg, penicillins, cephalosporins) can cause acute interstitial nephritis (AIN), which often manifests as peritubular T-lymphocyte, macrophage, and eosinophilic infiltration. However, edema, significant hematuria, and proteinuria are uncommon, and AIN usually resolves when the offending agent is discontinued."
+                },
+                {
+                    "option": "C",
+                    "explanation": "Prominent fibrin deposition is characteristic of rapidly progressive (crescentic) glomerulonephritis."
+                },
+                {
+                    "option": "D",
+                    "explanation": "Hyaline (acellular, homogeneous, proteinaceous material) can accumulate within the glomerular capillary and arteriolar walls in diabetic nephropathy due to extravasation of plasma proteins."
+                },
+                {
+                    "option": "F",
+                    "explanation": "Lipid droplets in renal tubules may be seen in conditions causing nephrotic syndrome, which leads to heavy proteinuria and edema; however, gross hematuria and RBC casts are unexpected. In addition, lipid droplets do not deposit on the basement membrane."
+                },
+                {
+                    "option": "G",
+                    "explanation": "Neutrophils and monocytes infiltrate the glomeruli in PSGN, contributing to the hypercellular appearance on light microscopy. Enzymes released from these cells would not typically form extracellular aggregates."
+                }
+            ],
+            "objective": "Poststreptococcal glomerulonephritis is an immune complex-mediated disease that occurs 2-4 weeks after group A Streptococcus skin infections. Immune complexes composed of IgG, IgM, and C3 are deposited along the glomerular basement membrane and are visible on electron microscopy as large, dome-shaped, subepithelial, electron-dense deposits.",
+            "peer": {
+                "A": 3,
+                "B": 2,
+                "C": 4,
+                "D": 5,
+                "E": 79,
+                "F": 4,
+                "G": 1
+            },
+            "img": "assets/qbank/CMQ-TEST-004_psgn_em_hump.png"
+        },
+        {
+            "id": "CMQ-TEST-005",
+            "system": "pulmonary_critical_care",
+            "discipline": "histology",
+            "category": "pulmonary_critical_care::obstructive_lung",
+            "difficulty": "medium",
+            "vignette": "A 64-year-old man is brought to the emergency department due to worsening shortness of breath. The patient is able to speak in short sentences only and becomes hypoxemic with minimal exertion. His medical history includes hypertension and dyslipidemia. He smoked a pack of cigarettes a day for 40 years and worked for 25 years as a nickel miner. His father died of chronic respiratory failure. While in the emergency department, he rapidly develops respiratory failure and is intubated. Despite appropriate treatment, he dies several days later in the intensive care unit. Autopsy is performed, and examination of the bronchi reveals thickened bronchial walls, inflammatory infiltrates, mucous gland enlargement, and patchy squamous metaplasia of the bronchial mucosa.",
+            "q": "Which of the following factors was likely the greatest contributor to this patient's pathological findings?",
+            "options": [
+                {
+                    "label": "A",
+                    "text": "Allergic"
+                },
+                {
+                    "label": "B",
+                    "text": "Behavioral"
+                },
+                {
+                    "label": "C",
+                    "text": "Genetic"
+                },
+                {
+                    "label": "D",
+                    "text": "Infectious"
+                },
+                {
+                    "label": "E",
+                    "text": "Neoplastic"
+                },
+                {
+                    "label": "F",
+                    "text": "Occupational"
+                }
+            ],
+            "correct": "B",
+            "explC": "This patient with respiratory failure, hypoxemia, and thickened bronchial walls with inflammatory infiltrates and mucous gland enlargement likely had chronic bronchitis. Chronic bronchitis is characterized by chronic, productive cough with airflow limitation and is part of the spectrum of chronic obstructive pulmonary disease. It is most commonly caused by tobacco smoking. Chronic irritation by other inhaled environmental substances, such as air pollutants and grain, cotton, or silica dusts, can also contribute to its development. Biopsy typically shows thickened bronchial walls with predominantly lymphocytic infiltrates, mucous gland enlargement with increased numbers of goblet cells (increasing mucus production), and patchy squamous metaplasia of the bronchial mucosa.",
+            "explI": [
+                {
+                    "option": "A",
+                    "explanation": "Patients with allergic asthma can develop pathologic remodeling of the bronchial wall, which includes thickening of the bronchial epithelium, basement membrane, and bronchial smooth muscle as well as edema, inflammatory infiltrates, and submucosal mucous gland enlargement. However, the infiltrates consist predominantly of eosinophils and mast cells. In addition, although asthma is a risk factor for chronic bronchitis, smoking is a much more common cause."
+                },
+                {
+                    "option": "C",
+                    "explanation": "Genetic factors are not known to strongly predispose to chronic bronchitis. Genetic mutation causing alpha-1 antitrypsin deficiency can lead to panacinar emphysema; however, chronic bronchitis is not a significant component of the disease."
+                },
+                {
+                    "option": "D",
+                    "explanation": "Repeated bronchial/bronchiolar bacterial and viral infections can contribute to the development of chronic bronchitis, although less significantly than can smoking. Tobacco smoke predisposes to infection by impairing ciliary clearance and directly damaging the respiratory epithelium."
+                },
+                {
+                    "option": "E",
+                    "explanation": "Nickel is a carcinogen, and occupational exposure is associated with nasal and lung cancers. However, neoplastic transformation itself does not contribute to the development of chronic bronchitis."
+                },
+                {
+                    "option": "F",
+                    "explanation": "Although this patient's history of nickel mining is also suggestive of silica dust exposure, smoking is the most important risk factor for chronic bronchitis."
+                }
+            ],
+            "objective": "Thickened bronchial walls, lymphocytic infiltration, mucous gland enlargement, and patchy squamous metaplasia of the bronchial mucosa are features of chronic bronchitis. Tobacco smoking is the leading cause of chronic bronchitis.",
+            "peer": {
+                "A": 2,
+                "B": 58,
+                "C": 2,
+                "D": 1,
+                "E": 5,
+                "F": 29
+            }
+        },
+        {
+            "id": "CMQ-TEST-006",
+            "system": "nervous_system",
+            "discipline": "histology",
+            "category": "nervous_system::normal_nervous",
+            "difficulty": "medium",
+            "vignette": "A 20-year-old woman comes to the office due to blisters around her mouth associated with a mild burning sensation. She reports that she has been having frequent recurrence of these lesions, which resolve spontaneously within a few days. She has no medical problems and does not take any medications. Physical examination findings are shown in the image below.\n\nIt is determined that the causative organism of this patient's condition remains in a latent state in the neuronal cell bodies of sensory ganglia. Upon reactivation, the virus is transported through the nerve axon to the skin.",
+            "q": "Which of the following proteins is most likely involved in the transport process leading to disease recurrence?",
+            "options": [
+                {
+                    "label": "A",
+                    "text": "Dynein"
+                },
+                {
+                    "label": "B",
+                    "text": "Kinesin"
+                },
+                {
+                    "label": "C",
+                    "text": "Lamin"
+                },
+                {
+                    "label": "D",
+                    "text": "Selectin"
+                },
+                {
+                    "label": "E",
+                    "text": "Spectrin"
+                },
+                {
+                    "label": "F",
+                    "text": "Vimentin"
+                }
+            ],
+            "correct": "B",
+            "explC": "This patient is suffering from recurrent bouts of herpes labialis (\"cold sores\"), which is most commonly caused by herpes simplex virus 1 (HSV-1). Primary infection occurs following contact with an affected individual's saliva. Although it is often asymptomatic, infection can result in painful blister formation on the oral mucosa and surrounding skin of the mouth and lips. After resolution of the initial infection, the virus enters a latent phase where viral particles lay dormant in neural sensory ganglia (most commonly the trigeminal).\n\nReactivation of the virus occurs during times of stress or illness, resulting in recurrence of the characteristic perioral vesicular lesions. During reactivation, HSV particles rely on anterograde axonal transport to reach the skin and oral mucosa. Anterograde axonal transport is mediated by kinesin, a motor protein that moves intracellular cargo (eg, organelles, viral particles) away from the nucleus, down the axon, and toward the nerve terminal. Kinesin-mediated movement is powered by ATP hydrolysis and guided by microtubule filaments, which function as an intracellular \"track\" system.",
+            "explI": [
+                {
+                    "option": "A",
+                    "explanation": "Dynein is a microtubular motor protein that participates in retrograde axonal transport (ie, moving organelles toward the nucleus). Dynein is important in establishing the latent phase following primary HSV infection by transporting viral particles to the neural sensory ganglia. However, it is not responsible for disease recurrence."
+                },
+                {
+                    "option": "C",
+                    "explanation": "Lamins are proteins that help form the fibrillar network that lines the inside of the nuclear envelope. In addition to providing structural support, they also help to organize the genome and regulate gene transcription."
+                },
+                {
+                    "option": "D",
+                    "explanation": "Selectins are a group of cell adhesion molecules that are expressed on endothelial cells during the inflammatory response. They function to bind leukocytes, allowing them to exit blood vessels at the site of inflammation."
+                },
+                {
+                    "option": "E",
+                    "explanation": "Spectrin is a cytoskeletal protein located intracellularly along the plasma membrane. It is responsible for maintaining the distinct shape of red blood cells. Protein defects may result in hereditary elliptocytosis and spherocytosis."
+                },
+                {
+                    "option": "F",
+                    "explanation": "Vimentin is a type of intermediate filament expressed in mesenchymal cells. It is responsible for securing organelles inside the cytosol and provides resistance to mechanical stress."
+                }
+            ],
+            "objective": "Kinesin is a microtubule-associated motor protein that functions in the anterograde transport of materials and organelles within cells. Reactivation of latent herpes simplex virus requires anterograde transport of viral particles from neuronal cell bodies in the sensory ganglia to the skin and oral mucosa.",
+            "peer": {
+                "A": 28,
+                "B": 59,
+                "C": 2,
+                "D": 2,
+                "E": 2,
+                "F": 4
+            },
+            "img": "assets/qbank/CMQ-TEST-006_herpes_labialis.png"
+        },
   ];
 
   /* --- Expor contagem total para sidebar --- */
@@ -724,10 +1132,7 @@
   /* ===================== SELEÇÃO POR FILTROS (Parte 2) ===================== */
   function filterPool(f){
     return SEED.filter(q=>{
-      const m=metaFor(q);
-      if(f.systems && f.systems.length && !f.systems.includes(m.systemId)) return false;
-      if(f.disciplines && f.disciplines.length && !f.disciplines.includes(m.subjectId)) return false;
-      if(f.subjects && f.subjects.length && !f.subjects.includes(m.topicId)) return false;
+      if(f.subjects && f.subjects.length && !f.subjects.includes(q.category)) return false;
       if(f.difficulty!=='all' && q.difficulty!==f.difficulty) return false;
       // status
       const st = store.statusOf(q.id);
@@ -750,9 +1155,6 @@
   // disponibilidade ignorando a seleção de subtópicos (para contadores do accordion)
   function availablePool(f){
     return SEED.filter(q=>{
-      const m=metaFor(q);
-      if(f.systems && f.systems.length && !f.systems.includes(m.systemId)) return false;
-      if(f.disciplines && f.disciplines.length && !f.disciplines.includes(m.subjectId)) return false;
       if(f.difficulty!=='all' && q.difficulty!==f.difficulty) return false;
       const st = store.statusOf(q.id);
       if(f.status!=='all'){
@@ -863,7 +1265,7 @@
     view.collapsed = view.collapsed || {};
     const avail = availablePool(f);
     const countBy = {};                      // subjectId -> nº disponível
-    avail.forEach(q=>{ const tid=metaFor(q).topicId; countBy[tid]=(countBy[tid]||0)+1; });
+    avail.forEach(q=>{ countBy[q.category]=(countBy[q.category]||0)+1; });
 
     const seg = (act,val,opts)=>opts.map(o=>`<button class="qb-seg ${val===o.v?'on':''}" data-act="${act}" data-v="${o.v}">${esc(o.l)}</button>`).join('');
 
@@ -917,30 +1319,6 @@
           <div class="qb-field"><label>${esc(t('ctMode'))}</label><div class="qb-segs">${seg('mode',f.mode,[
             {v:'tutor',l:t('tutor')},{v:'timed',l:t('timed')}])}</div>
             ${f.mode==='timed'?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
-          </div>
-        </div>
-
-        <div class="qb-field qb-meta-filter"><label>${esc(t('ctSystemFilter'))}</label>
-          <small>${esc(t('ctSystemHint'))}</small>
-          <div class="qb-meta-checks">
-            <label class="qb-meta-check ${f.systems.length?'':'on'}"><input type="checkbox" data-act="tog-system-all" ${f.systems.length?'':'checked'}><span>${esc(t('ctAllSystems'))}</span></label>
-            ${allSystems().map(d=>`<label class="qb-meta-check ${f.systems.includes(d.id)?'on':''}"><input type="checkbox" data-act="tog-system" data-v="${d.id}" ${f.systems.includes(d.id)?'checked':''}><span>${esc(d.name)}</span></label>`).join('')}
-          </div>
-        </div>
-
-        <div class="qb-field qb-meta-filter"><label>${esc(t('ctSubjects'))}</label>
-          <small>${esc(t('ctSubjectsHint'))}</small>
-          <div class="qb-meta-checks">
-            <label class="qb-meta-check ${f.disciplines.length?'':'on'}"><input type="checkbox" data-act="tog-disc-all" ${f.disciplines.length?'':'checked'}><span>${esc(t('ctAllSubjects'))}</span></label>
-            ${allDisciplines().map(d=>`<label class="qb-meta-check ${f.disciplines.includes(d.id)?'on':''}"><input type="checkbox" data-act="tog-disc" data-v="${d.id}" ${f.disciplines.includes(d.id)?'checked':''}><span>${esc(d.name)}</span></label>`).join('')}
-          </div>
-        </div>
-
-        <div class="qb-field qb-meta-filter"><label>${esc(t('ctTopicFilter'))}</label>
-          <small>${esc(t('ctTopicHint'))}</small>
-          <div class="qb-meta-checks">
-            <label class="qb-meta-check ${f.subjects.length?'':'on'}"><input type="checkbox" data-act="tog-topic-all" ${f.subjects.length?'':'checked'}><span>${esc(t('ctAllTopics'))}</span></label>
-            ${allTopics().map(d=>`<label class="qb-meta-check ${f.subjects.includes(d.id)?'on':''}"><input type="checkbox" data-act="tog-topic" data-v="${d.id}" ${f.subjects.includes(d.id)?'checked':''}><span>${esc(d.name)}</span></label>`).join('')}
           </div>
         </div>
 
@@ -1018,6 +1396,7 @@
         <div class="qb-test-body">
           <div class="qb-vignette">
             ${q.vignette?`<p>${qbField(q.vignette, q.ptTranslation && q.ptTranslation.vignette)}</p>`:''}
+            ${renderQImage(q)}
             <p class="qb-stem">${qbField(q.q, q.ptTranslation && q.ptTranslation.q)}</p>
             <div class="qb-opts">${q.options.map(opt).join('')}</div>
             ${!answered?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
@@ -1033,6 +1412,13 @@
       </div>`;
     wire();
     startTimer(q.id);
+  }
+
+
+  function renderQImage(q){
+    if(!q || !q.img) return '';
+    const imgs = Array.isArray(q.img) ? q.img : [q.img];
+    return imgs.filter(Boolean).map(src => `<figure class="qb-question-image"><img src="${esc(src)}" alt="Question image" loading="lazy" /></figure>`).join('');
   }
 
   function renderExplanation(q,ans){
@@ -1329,8 +1715,13 @@
       case 'meta-filter': {
         const kind=el.dataset.kind, val=el.dataset.v;
         const nf={systems:[],disciplines:[],subjects:[],status:'all',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:10};
-        if(kind==='system') nf.systems=[val];
-        if(kind==='subject') nf.disciplines=[val];
+        if(kind==='system'){
+          const sys=TAXONOMY.find(x=>x.id===val);
+          nf.subjects = sys ? sys.subs.map(([slug])=>subjId(sys.id,slug)).filter(id=>SEED.some(q=>q.category===id)) : [];
+        }
+        if(kind==='subject'){
+          nf.subjects = [...new Set(SEED.filter(q=>metaFor(q).subjectId===val).map(q=>q.category))];
+        }
         if(kind==='topic') nf.subjects=[val];
         go({name:'create',f:nf}); break;
       }
