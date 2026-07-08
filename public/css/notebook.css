@@ -200,3 +200,106 @@ body.light .nb-pen.nb-on{border-color:#fff}
   .nb-toolbar{border-radius:10px}
   .nb-drawbar input[type=range]{width:90px}
 }
+
+/* ====================================================================
+   v2 — My Workspace aprimorado (favoritos, multi-página, ferramentas,
+   modo leitura, referências, checklist). Prefixo .nb- mantido.
+   ==================================================================== */
+
+/* --- estrela de favorito nas listas --- */
+.nb-note-row{align-items:center}
+.nb-note-star{flex:none;border:0;background:transparent;color:var(--nb-muted);font-size:19px;line-height:1;cursor:pointer;padding:4px 6px;border-radius:8px;align-self:flex-start}
+.nb-note-star:hover{background:var(--nb-chip);color:#f5b301}
+.nb-note-star.nb-on{color:#f5b301}
+.nb-fav-dot{color:#f5b301}
+.nb-note-pagecount{color:var(--nb-muted);font-size:10.5px;white-space:nowrap}
+
+/* --- barra de ferramentas de lista (sort/filtro/view) --- */
+.nb-note-tools{align-items:center}
+.nb-note-tools .nb-tb-select{min-width:110px}
+.nb-viewtoggle{display:inline-flex;border:1px solid var(--nb-line);border-radius:9px;overflow:hidden}
+.nb-viewtoggle button{border:0;background:var(--nb-card2);color:var(--nb-muted);width:38px;height:38px;font-size:15px;cursor:pointer}
+.nb-viewtoggle button.nb-on{background:var(--nb-blue);color:#fff}
+
+/* --- grade de notas --- */
+.nb-note-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.nb-note-card{position:relative;border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:12px;padding:16px 14px 12px;text-align:left;cursor:pointer;min-height:130px;display:flex;flex-direction:column;gap:8px;transition:transform .14s,border-color .14s,box-shadow .14s}
+.nb-note-card:hover{transform:translateY(-2px);border-color:rgba(120,168,255,.4);box-shadow:0 14px 32px rgba(0,0,0,.24)}
+.nb-note-card strong{font-size:13.5px;font-weight:700;line-height:1.3;word-break:break-word;padding-right:22px}
+.nb-note-card-prev{color:var(--nb-muted);font-size:11.5px;line-height:1.45;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.nb-note-card-foot{color:var(--nb-muted);font-size:10.5px;display:flex;gap:6px;align-items:center;margin-top:auto}
+.nb-note-card .nb-note-star{position:absolute;top:8px;right:8px;padding:2px 4px}
+
+/* --- botões de ícone no header do editor --- */
+.nb-icon-btn{border:1px solid var(--nb-line);background:var(--nb-card2);color:var(--nb-muted);border-radius:9px;min-width:38px;height:38px;font-size:17px;cursor:pointer;display:inline-grid;place-items:center}
+.nb-icon-btn:hover{border-color:rgba(120,168,255,.45);color:var(--nb-text)}
+.nb-icon-btn.nb-on{color:#f5b301;border-color:rgba(245,179,1,.5)}
+
+/* --- menu "mais" do editor --- */
+.nb-menu-wrap{position:relative}
+.nb-menu-pop{position:absolute;top:calc(100% + 6px);right:0;z-index:30;min-width:210px;background:var(--nb-card);border:1px solid var(--nb-line);border-radius:12px;padding:6px;box-shadow:0 18px 44px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:2px}
+.nb-menu-pop[hidden]{display:none!important}
+.nb-menu-pop button{border:0;background:transparent;color:var(--nb-text);text-align:left;padding:9px 12px;font-size:12.5px;border-radius:8px;cursor:pointer;display:flex;gap:9px;align-items:center}
+.nb-menu-pop button:hover{background:var(--nb-chip)}
+.nb-menu-pop .nb-menu-danger{color:var(--nb-danger)}
+
+/* --- linha de referências --- */
+.nb-refs-line{display:flex;gap:8px;flex-wrap:wrap;margin:0 4px 12px}
+.nb-ref-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--nb-line);background:var(--nb-card2);color:var(--nb-text);border-radius:999px;padding:5px 10px 5px 8px;font-size:11.5px;text-decoration:none;cursor:pointer}
+.nb-ref-chip:hover{border-color:rgba(120,168,255,.45)}
+.nb-ref-kind{background:var(--nb-blue);color:#fff;border-radius:999px;padding:1px 8px;font-size:9.5px;font-weight:700;letter-spacing:.03em}
+.nb-ref-x{color:var(--nb-muted);font-size:11px;padding-left:2px}
+.nb-ref-x:hover{color:var(--nb-danger)}
+.nb-ref-hint{font-size:11px;color:var(--nb-muted);margin:2px 0 0;line-height:1.5}
+
+/* --- paginação --- */
+.nb-pager{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:6px 8px;border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:10px}
+.nb-pager-info{font-size:12px;font-weight:600;color:var(--nb-muted);min-width:120px;text-align:center}
+.nb-pager-nav{min-width:40px;font-size:18px;line-height:1;padding:6px 10px}
+
+/* --- toolbar de desenho v2 --- */
+.nb-tool-group,.nb-width-group{display:inline-flex;align-items:center;gap:3px}
+.nb-tool{border:1px solid transparent;background:transparent;color:var(--nb-text);border-radius:8px;width:36px;height:36px;font-size:16px;cursor:pointer;display:grid;place-items:center}
+.nb-tool:hover{background:var(--nb-chip)}
+.nb-tool.nb-on{background:var(--nb-blue);color:#fff}
+.nb-pen-colors{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;max-width:340px}
+.nb-wbtn{border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:8px;width:34px;height:32px;cursor:pointer;display:grid;place-items:center;padding:0}
+.nb-wbtn span{display:block;background:var(--nb-text);border-radius:99px}
+.nb-wbtn.nb-on{border-color:var(--nb-blue);background:rgba(61,132,255,.14)}
+
+/* --- checklist / citação / código no editor --- */
+.nb-page-text ul.nb-checklist{list-style:none;padding-left:4px}
+.nb-page-text ul.nb-checklist li.nb-check-item{position:relative;padding-left:28px;margin:3px 0;cursor:default}
+.nb-page-text ul.nb-checklist li.nb-check-item::before{content:'';position:absolute;left:2px;top:3px;width:16px;height:16px;border:2px solid var(--nb-ink);opacity:.55;border-radius:4px;cursor:pointer}
+.nb-page-text ul.nb-checklist li.nb-checked::before{content:'✓';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;background:var(--nb-blue,#2768ff);border-color:var(--nb-blue,#2768ff);opacity:1}
+.nb-page-text ul.nb-checklist li.nb-checked{text-decoration:line-through;opacity:.65}
+.nb-page-text blockquote{border-left:3px solid var(--nb-blue);margin:10px 0;padding:4px 14px;opacity:.9}
+.nb-page-text pre{background:rgba(120,140,180,.14);padding:12px 14px;border-radius:8px;overflow:auto;font-family:'Courier New',monospace;font-size:13px}
+
+/* --- modo leitura --- */
+.nb-read-title{font-size:22px;font-weight:600;margin:0}
+.nb-reading{display:flex;flex-direction:column;align-items:center;gap:22px;margin-top:16px}
+.nb-read-page{position:relative;width:100%;max-width:860px;aspect-ratio:1/1.35;border-radius:6px;box-shadow:0 18px 48px rgba(0,0,0,.35);border:1px solid rgba(0,0,0,.14);overflow:hidden;background-color:#fff}
+.nb-read-page.nb-o-landscape{aspect-ratio:1.35/1;max-width:1100px}
+.nb-read-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.nb-read-body{position:absolute;inset:0;overflow-y:auto;padding:34px 38px;color:var(--nb-ink);font-size:15px;line-height:1.65;font-family:'Helvetica Neue',Arial,sans-serif}
+.nb-read-body img{max-width:100%;height:auto;border-radius:6px;display:block;margin:8px 0}
+.nb-read-body h1{font-size:26px;font-weight:700;margin:14px 0 8px}
+.nb-read-body h2{font-size:21px;font-weight:700;margin:12px 0 7px}
+.nb-read-body h3{font-size:17px;font-weight:700;margin:10px 0 6px}
+.nb-read-body ul.nb-checklist{list-style:none;padding-left:4px}
+.nb-read-body ul.nb-checklist li{position:relative;padding-left:26px}
+.nb-read-body ul.nb-checklist li::before{content:'☐';position:absolute;left:0}
+.nb-read-body ul.nb-checklist li.nb-checked::before{content:'☑'}
+.nb-read-body ul.nb-checklist li.nb-checked{text-decoration:line-through;opacity:.65}
+.nb-read-body blockquote{border-left:3px solid var(--nb-blue);margin:10px 0;padding:4px 14px;opacity:.9}
+.nb-read-body pre{background:rgba(120,140,180,.14);padding:12px 14px;border-radius:8px;overflow:auto;font-family:'Courier New',monospace;font-size:13px}
+
+/* --- responsivo v2 --- */
+@media(max-width:640px){
+  .nb-note-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .nb-note-tools .nb-tb-select{min-width:0;flex:1}
+  .nb-ed-head{flex-wrap:wrap}
+  .nb-pen-colors{max-width:100%}
+  .nb-read-body{padding:20px 16px;font-size:14px}
+}

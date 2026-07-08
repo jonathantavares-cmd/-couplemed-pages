@@ -1017,6 +1017,7 @@
       // notebook
       nbTitle:'Add to Notebook', nbPh:'Write a note about this question…', nbSave:'Save note', nbSaved:'✓ Saved to Notebook.',
       labTitle:'Common reference ranges', close:'Close',
+      labHint:'Hover over each label to see its full name.',
       resume:'Resume', empty:'No questions here yet.', flaggedEmpty:'You have not flagged any questions yet.' },
     pt:{ home:'Banco de Questões 1', createTest:'Criar Teste', reviewFlagged:'Revisar marcadas',
       perfTitle:'Seu desempenho', used:'Usadas', correct:'Acertos', incorrect:'Erros', omitted:'Omitidas', unused:'Não usadas', overall:'Nota geral',
@@ -1043,6 +1044,7 @@
       scTitle:'Criar Flashcard', scFront:'Frente (escreva a pergunta para recordar ativamente)', scBack:'Verso (resposta — pré-preenchida, editável)', scHint:'Dica: uma ideia por card. A frente é obrigatória para recall ativo.', scSave:'Salvar flashcard', scSaved:'✓ Flashcard adicionado ao seu deck (QBank SmartCards).', scCancel:'Cancelar', scDeck:'QBank SmartCards',
       nbTitle:'Adicionar ao Caderno', nbPh:'Escreva uma nota sobre esta questão…', nbSave:'Salvar nota', nbSaved:'✓ Salvo no Caderno.',
       labTitle:'Faixas de referência comuns', close:'Fechar',
+      labHint:'Passe o cursor sobre cada sigla para ver o nome completo.',
       resume:'Retomar', empty:'Nenhuma questão aqui ainda.', flaggedEmpty:'Você ainda não marcou nenhuma questão.' }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
@@ -1667,9 +1669,35 @@
     m.querySelector('#nbTa').focus();
   }
   function openLabs(){
-    const rows=[['Na⁺','136–145 mEq/L'],['K⁺','3.5–5.0 mEq/L'],['Cl⁻','98–106 mEq/L'],['HCO₃⁻','22–28 mEq/L'],['BUN','7–20 mg/dL'],['Creatinine','0.6–1.2 mg/dL'],['Glucose (fasting)','70–100 mg/dL'],['Ca²⁺','8.4–10.2 mg/dL'],['Hemoglobin','13.5–17.5 g/dL (M)'],['Leukocytes','4,500–11,000/mm³'],['Platelets','150–400 ×10³/mm³'],['TSH','0.4–4.0 µU/mL']];
-    const html=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
-    const m=modal(`<h3>${esc(t('labTitle'))}</h3><table class="qb-labtable"><tbody>${html}</tbody></table><div class="qb-modal-actions"><button class="qb-btn primary" data-x="close">${esc(t('close'))}</button></div>`);
+    // Cada linha: sigla, faixa (EN), faixa (PT), significado (EN), significado (PT)
+    // Autorizado por John (v38) apenas para o popup de VR — sem alterar questões/schema.
+    const rows=[
+      ['Na⁺','136–145 mEq/L','136–145 mEq/L','Sodium','Sódio'],
+      ['K⁺','3.5–5.0 mEq/L','3.5–5.0 mEq/L','Potassium','Potássio'],
+      ['Cl⁻','98–106 mEq/L','98–106 mEq/L','Chloride','Cloro'],
+      ['HCO₃⁻','22–28 mEq/L','22–28 mEq/L','Bicarbonate','Bicarbonato'],
+      ['BUN','7–20 mg/dL','7–20 mg/dL','Blood urea nitrogen','Nitrogênio ureico sanguíneo'],
+      ['Creatinine','0.6–1.2 mg/dL','0,6–1,2 mg/dL','Creatinine','Creatinina'],
+      ['Glucose (fasting)','70–100 mg/dL','70–100 mg/dL','Fasting blood glucose','Glicemia de jejum'],
+      ['Ca²⁺','8.4–10.2 mg/dL','8,4–10,2 mg/dL','Calcium','Cálcio'],
+      ['Hemoglobin','13.5–17.5 g/dL (M)','13,5–17,5 g/dL (H)','Hemoglobin','Hemoglobina'],
+      ['Leukocytes','4,500–11,000/mm³','4.500–11.000/mm³','White blood cells','Leucócitos (glóbulos brancos)'],
+      ['Platelets','150–400 ×10³/mm³','150–400 ×10³/mm³','Platelets','Plaquetas'],
+      ['TSH','0.4–4.0 µU/mL','0,4–4,0 µU/mL','Thyroid-stimulating hormone','Hormônio tireoestimulante']
+    ];
+    const isPt = lang()==='pt';
+    const html=rows.map(r=>{
+      const range = isPt ? r[2] : r[1];
+      const meaning = isPt ? r[4] : r[3];
+      return `<tr>
+        <td><span class="qb-lab-term" tabindex="0" data-tip="${esc(meaning)}">${r[0]}<span class="qb-lab-tip">${esc(meaning)}</span></span></td>
+        <td>${esc(range)}</td>
+      </tr>`;
+    }).join('');
+    const m=modal(`<h3>${esc(t('labTitle'))}</h3>
+      <p class="qb-modal-sub qb-lab-hint">${esc(t('labHint'))}</p>
+      <table class="qb-labtable qb-labtable-tips"><tbody>${html}</tbody></table>
+      <div class="qb-modal-actions"><button class="qb-btn primary" data-x="close">${esc(t('close'))}</button></div>`);
     m.querySelector('[data-x="close"]').addEventListener('click',()=>m.remove());
   }
   function toast(msg){ const el=document.createElement('div'); el.className='qb-toast'; el.textContent=msg; document.body.appendChild(el); setTimeout(()=>el.classList.add('show'),10); setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),300);},2600); }
