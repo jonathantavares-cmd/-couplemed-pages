@@ -1088,12 +1088,15 @@
   const RT_TEXT_COLORS = ['#0b1930','#334155','#64748b','#dc2626','#ea580c','#d97706','#ca8a04','#65a30d','#16a34a','#059669','#0891b2','#0284c7','#2563eb','#4f46e5','#7c3aed','#9333ea','#c026d3','#db2777','#e11d48','#ffffff'];
   const RT_HL_COLORS = ['#fff59d','#c5f2a4','#a7f3d0','#a5f3fc','#bae6fd','#c7d2fe','#ddd6fe','#f5d0fe','#fbcfe8','#fecdd3','#fed7aa','#fde68a','#fecaca','#e2e8f0','#facc15','#4ade80','#22d3ee','#f472b6','#fb923c','#94a3b8'];
   function rtColorPanel(side){
-    const txt = RT_TEXT_COLORS.map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="forecolor" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
-    const hl = RT_HL_COLORS.map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="hilite" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    const PREVIEW_COUNT = 8;
+    const txtPreview = RT_TEXT_COLORS.slice(0,PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="forecolor" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    const txtRest = RT_TEXT_COLORS.slice(PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="forecolor" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    const hlPreview = RT_HL_COLORS.slice(0,PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="hilite" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    const hlRest = RT_HL_COLORS.slice(PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="hilite" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
     return `<div class="fc-rt-colorpanel" id="fcRtColors_${side}" hidden>
       <button type="button" class="fc-rt-removecolor" data-rt="removecolor" data-side="${side}"><span class="fc-rt-nocolor"></span> ${t('rtRemoveColor')}</button>
-      <div class="fc-rt-swgroup-lbl">${t('rtTextColors')}</div><div class="fc-rt-swgrid">${txt}</div>
-      <div class="fc-rt-swgroup-lbl">${t('rtHighlights')}</div><div class="fc-rt-swgrid">${hl}</div>
+      <div class="fc-rt-swgroup-lbl">${t('rtTextColors')}</div><div class="fc-rt-swgrid">${txtPreview}<button type="button" class="fc-rt-swatch fc-rt-expand" data-expand="fcTxtMore_${side}" title="+">+</button></div><div class="fc-rt-swgrid fc-rt-more" id="fcTxtMore_${side}" hidden>${txtRest}</div>
+      <div class="fc-rt-swgroup-lbl">${t('rtHighlights')}</div><div class="fc-rt-swgrid">${hlPreview}<button type="button" class="fc-rt-swatch fc-rt-expand" data-expand="fcHlMore_${side}" title="+">+</button></div><div class="fc-rt-swgrid fc-rt-more" id="fcHlMore_${side}" hidden>${hlRest}</div>
     </div>`;
   }
   function rtToolbar(side){
@@ -1316,6 +1319,10 @@
       } else if(cmd!=='format' && cmd!=='fontsize'){
         el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd, el.dataset.rtVal); });
       }
+    });
+    // expand color palette sections
+    modal.querySelectorAll('.fc-rt-expand').forEach(btn=>{
+      btn.addEventListener('click', e=>{e.preventDefault(); const tgt=document.getElementById(btn.dataset.expand); if(tgt){tgt.hidden=!tgt.hidden; btn.textContent=tgt.hidden?'+':'−';}});
     });
     // input de imagem oculto compartilhado pelos dois editores
     let fi = root.querySelector('#fcRtImageUpload');
