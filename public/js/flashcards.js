@@ -63,7 +63,7 @@
   /* Tradução PT dos rótulos de taxonomia (mesmo dicionário do QBank) */
   const FC_TAX_PT = {
     'Biochemistry':'Bioquímica','Genetics':'Genética','Microbiology':'Microbiologia','Pathology':'Patologia','Pharmacology':'Farmacologia','Biostatistics & Epidemiology':'Bioestatística & Epidemiologia','Poisoning & Environmental Exposure':'Intoxicação & Exposição Ambiental','Allergy & Immunology':'Alergia & Imunologia','Cardiovascular System':'Sistema Cardiovascular','Dermatology':'Dermatologia','Ear, Nose & Throat (ENT)':'Otorrinolaringologia (ENT)','Endocrine, Diabetes & Metabolism':'Endócrino, Diabetes & Metabolismo','Female Reproductive System & Breast':'Sistema Reprodutor Feminino & Mama','Gastrointestinal & Nutrition':'Gastrointestinal & Nutrição','Hematology & Oncology':'Hematologia & Oncologia','Infectious Diseases':'Doenças Infecciosas','Male Reproductive System':'Sistema Reprodutor Masculino','Nervous System':'Sistema Nervoso','Ophthalmology':'Oftalmologia','Pregnancy, Childbirth & Puerperium':'Gravidez, Parto & Puerpério','Psychiatric/Behavioral & Substance Use Disorder':'Psiquiátrico/Comportamental & Uso de Substâncias','Pulmonary & Critical Care':'Pneumologia & Terapia Intensiva','Renal, Urinary Systems & Electrolytes':'Renal, Sistema Urinário & Eletrólitos','Rheumatology/Orthopedics & Sports':'Reumatologia/Ortopedia & Esportes','Social Sciences (Ethics/Legal/Professional)':'Ciências Sociais (Ética/Legal/Profissional)','Miscellaneous (Multisystem)':'Diversos (Multissistêmico)',
-    'Amino acids, proteins, and enzymes':'Aminoácidos, proteínas e enzimas','Bioenergetics and carbohydrate metabolism':'Bioenergética e metabolismo de carboidratos','Cell and molecular biology':'Biologia celular e molecular','Lipid metabolism':'Metabolismo lipídico','Others':'Outros','Clinical genetics':'Genética clínica','DNA structure, replication, and repair':'Estrutura, replicação e reparo do DNA','Gene expression and regulation':'Expressão e regulação gênica','Protein synthesis':'Síntese proteica','RNA structure, synthesis, and processing':'Estrutura, síntese e processamento do RNA','Bacteriology':'Bacteriologia','Mycology':'Micologia','Parasitology':'Parasitologia','Virology':'Virologia','Cellular pathology':'Patologia celular','Inflammation and repair':'Inflamação e reparo','Neoplasia':'Neoplasia','Drug metabolism and toxicity':'Metabolismo e toxicidade de fármacos','Drug receptors and pharmacodynamics':'Receptores e farmacodinâmica','Pharmacokinetics':'Farmacocinética','Epidemiology and population health':'Epidemiologia e saúde populacional','Measures and distribution of data':'Medidas e distribuição de dados','Probability and principles of testing':'Probabilidade e princípios de testes','Study design and interpretation':'Desenho e interpretação de estudos','Environmental exposure':'Exposição ambiental','Toxicology':'Toxicologia','Anaphylaxis and allergic reactions':'Anafilaxia e reações alérgicas','Autoimmune diseases':'Doenças autoimunes','Immune deficiencies':'Imunodeficiências','Transplant medicine':'Medicina de transplantes','Principles of immunology':'Princípios de imunologia','Normal structure and function of the cardiovascular system':'Estrutura e função normais do sistema cardiovascular','Aortic and peripheral artery diseases':'Doenças da aorta e artérias periféricas','Cardiac arrhythmias':'Arritmias cardíacas','Congenital heart disease':'Cardiopatia congênita','Coronary heart disease':'Doença coronariana','Heart failure and shock':'Insuficiência cardíaca e choque','Hypertension':'Hipertensão','Myopericardial diseases':'Doenças miopericárdicas','Valvular heart diseases':'Valvopatias','Cardiovascular drugs':'Fármacos cardiovasculares','Normal structure and function of skin':'Estrutura e função normais da pele','Disorders of epidermal appendages':'Distúrbios dos anexos epidérmicos','Inflammatory dermatoses and bullous diseases':'Dermatoses inflamatórias e doenças bolhosas','Skin and soft tissue infections':'Infecções de pele e partes moles','Skin tumors and tumor-like lesions':'Tumores cutâneos e lesões tumorais','Disorders of the ear, nose, and throat':'Distúrbios do ouvido, nariz e garganta','Normal structure and function of endocrine glands':'Estrutura e função normais das glândulas endócrinas','Congenital and developmental anomalies':'Anomalias congênitas e do desenvolvimento','Adrenal disorders':'Distúrbios adrenais','Diabetes mellitus':'Diabetes mellitus','Endocrine tumors':'Tumores endócrinos','Hypothalamus and pituitary disorders':'Distúrbios do hipotálamo e hipófise','Obesity and dyslipidemia':'Obesidade e dislipidemia','Reproductive endocrinology':'Endocrinologia reprodutiva','Thyroid disorders':'Distúrbios da tireoide','Normal structure and function of the female reproductive system and breast':'Estrutura e função normais do sistema reprodutor feminino e mama','Breast disorders':'Distúrbios mamários','Genital tract tumors and tumor-like lesions':'Tumores do trato genital e lesões tumorais','Genitourinary tract infections':'Infecções do trato geniturinário','Menstrual disorders and contraception':'Distúrbios menstruais e contracepção','Normal structure and function of the GI tract':'Estrutura e função normais do trato GI','Biliary tract disorders':'Distúrbios das vias biliares','Disorders of nutrition':'Distúrbios nutricionais','Gastroesophageal disorders':'Distúrbios gastroesofágicos','Hepatic disorders':'Distúrbios hepáticos','Intestinal and colorectal disorders':'Distúrbios intestinais e colorretais','Pancreatic disorders':'Distúrbios pancreáticos','Tumors of the GI tract':'Tumores do trato GI','Normal hematologic structure and function':'Estrutura e função hematológicas normais','Hemostasis and thrombosis':'Hemostasia e trombose','Plasma cell disorders':'Distúrbios de plasmócitos','Platelet disorders':'Distúrbios plaquetários','Red blood cell disorders':'Distúrbios das hemácias','Transfusion medicine':'Medicina transfusional','White blood cell disorders':'Distúrbios dos leucócitos','Principles of oncology':'Princípios de oncologia','Antimicrobial drugs':'Fármacos antimicrobianos','Bacterial infections':'Infecções bacterianas','Fungal infections':'Infecções fúngicas','HIV and sexually transmitted infections':'HIV e infecções sexualmente transmissíveis','Infection control':'Controle de infecção','Parasitic and helminthic infections':'Infecções parasitárias e helmínticas','Viral infections':'Infecções virais','Normal structure and function of the male reproductive system':'Estrutura e função normais do sistema reprodutor masculino','Disorders of the male reproductive system':'Distúrbios do sistema reprodutor masculino','Normal structure and function of the nervous system':'Estrutura e função normais do sistema nervoso','Cerebrovascular disease':'Doença cerebrovascular','CNS infections':'Infecções do SNC','Demyelinating diseases':'Doenças desmielinizantes','Disorders of peripheral nerves and muscles':'Distúrbios dos nervos periféricos e músculos','Headache':'Cefaleia','Neurodegenerative disorders and dementias':'Distúrbios neurodegenerativos e demências','Seizures and epilepsy':'Convulsões e epilepsia','Spinal cord disorders':'Distúrbios da medula espinhal','Traumatic brain injuries':'Traumatismos cranioencefálicos','Tumors of the nervous system':'Tumores do sistema nervoso','Hydrocephalus':'Hidrocefalia','Anesthesia':'Anestesia','Sleep disorders':'Distúrbios do sono','Normal structure and function of the eye and associated structures':'Estrutura e função normais do olho e estruturas associadas','Disorders of the eye and associated structures':'Distúrbios do olho e estruturas associadas','Normal pregnancy, childbirth, and puerperium':'Gravidez, parto e puerpério normais','Disorders of pregnancy, childbirth, and puerperium':'Distúrbios da gravidez, parto e puerpério','Normal behavior and development':'Comportamento e desenvolvimento normais','Anxiety and trauma-related disorders':'Transtornos de ansiedade e relacionados a trauma','Mood disorders':'Transtornos do humor','Neurodevelopmental disorders':'Transtornos do neurodesenvolvimento','Personality disorders':'Transtornos de personalidade','Psychotic disorders':'Transtornos psicóticos','Substance use disorders':'Transtornos por uso de substâncias','Eating disorders':'Transtornos alimentares','Somatoform disorders':'Transtornos somatoformes','Normal pulmonary structure and function':'Estrutura e função pulmonares normais','Critical care medicine':'Medicina intensiva','Interstitial lung disease':'Doença pulmonar intersticial','Lung cancer':'Câncer de pulmão','Obstructive lung disease':'Doença pulmonar obstrutiva','Pulmonary infections':'Infecções pulmonares','Pulmonary vascular disease':'Doença vascular pulmonar','Normal structure and function of the kidneys and urinary system':'Estrutura e função normais dos rins e sistema urinário','Acute kidney injury':'Injúria renal aguda','Bone metabolism':'Metabolismo ósseo','Chronic kidney disease':'Doença renal crônica','Cystic kidney diseases':'Doenças renais císticas','Fluid, electrolytes, and acid-base':'Fluidos, eletrólitos e ácido-base','Glomerular diseases':'Doenças glomerulares','Neoplasms of the kidneys and urinary tract':'Neoplasias dos rins e trato urinário','Nephrolithiasis and urinary tract obstruction':'Nefrolitíase e obstrução do trato urinário','Diabetes insipidus':'Diabetes insípido','Urinary incontinence':'Incontinência urinária','Normal structure and function of the musculoskeletal system':'Estrutura e função normais do sistema musculoesquelético','Arthritis and spondyloarthropathies':'Artrite e espondiloartropatias','Autoimmune disorders and vasculitides':'Distúrbios autoimunes e vasculites','Bone/joint injuries and infections':'Lesões e infecções ósseas/articulares','Bone tumors and tumor-like lesions':'Tumores ósseos e lesões tumorais','Spinal disorders and back pain':'Distúrbios da coluna e dor lombar','Metabolic bone disorders':'Distúrbios ósseos metabólicos','Communication and interpersonal skills':'Comunicação e habilidades interpessoais','Healthcare policy and economics':'Política e economia da saúde','Medical ethics and jurisprudence':'Ética médica e jurisprudência','Patient safety':'Segurança do paciente','System based-practice and quality improvement':'Prática baseada no sistema e melhoria da qualidade'
+    'Amino acids, proteins, and enzymes':'Aminoácidos, proteínas e enzimas','Bioenergetics and carbohydrate metabolism':'Bioenergética e metabolismo de carboidratos','Cell and molecular biology':'Biologia celular e molecular','Lipid metabolism':'Metabolismo lipídico','Miscellaneous':'Outros','Others':'Outros','Clinical genetics':'Genética clínica','DNA structure, replication, and repair':'Estrutura, replicação e reparo do DNA','Gene expression and regulation':'Expressão e regulação gênica','Protein synthesis':'Síntese proteica','RNA structure, synthesis, and processing':'Estrutura, síntese e processamento do RNA','Bacteriology':'Bacteriologia','Mycology':'Micologia','Parasitology':'Parasitologia','Virology':'Virologia','Cellular pathology':'Patologia celular','Inflammation and repair':'Inflamação e reparo','Neoplasia':'Neoplasia','Drug metabolism and toxicity':'Metabolismo e toxicidade de fármacos','Drug receptors and pharmacodynamics':'Receptores e farmacodinâmica','Pharmacokinetics':'Farmacocinética','Epidemiology and population health':'Epidemiologia e saúde populacional','Measures and distribution of data':'Medidas e distribuição de dados','Probability and principles of testing':'Probabilidade e princípios de testes','Study design and interpretation':'Desenho e interpretação de estudos','Environmental exposure':'Exposição ambiental','Toxicology':'Toxicologia','Anaphylaxis and allergic reactions':'Anafilaxia e reações alérgicas','Autoimmune diseases':'Doenças autoimunes','Immune deficiencies':'Imunodeficiências','Transplant medicine':'Medicina de transplantes','Principles of immunology':'Princípios de imunologia','Normal structure and function of the cardiovascular system':'Estrutura e função normais do sistema cardiovascular','Aortic and peripheral artery diseases':'Doenças da aorta e artérias periféricas','Cardiac arrhythmias':'Arritmias cardíacas','Congenital heart disease':'Cardiopatia congênita','Coronary heart disease':'Doença coronariana','Heart failure and shock':'Insuficiência cardíaca e choque','Hypertension':'Hipertensão','Myopericardial diseases':'Doenças miopericárdicas','Valvular heart diseases':'Valvopatias','Cardiovascular drugs':'Fármacos cardiovasculares','Normal structure and function of skin':'Estrutura e função normais da pele','Disorders of epidermal appendages':'Distúrbios dos anexos epidérmicos','Inflammatory dermatoses and bullous diseases':'Dermatoses inflamatórias e doenças bolhosas','Skin and soft tissue infections':'Infecções de pele e partes moles','Skin tumors and tumor-like lesions':'Tumores cutâneos e lesões tumorais','Disorders of the ear, nose, and throat':'Distúrbios do ouvido, nariz e garganta','Normal structure and function of endocrine glands':'Estrutura e função normais das glândulas endócrinas','Congenital and developmental anomalies':'Anomalias congênitas e do desenvolvimento','Adrenal disorders':'Distúrbios adrenais','Diabetes mellitus':'Diabetes mellitus','Endocrine tumors':'Tumores endócrinos','Hypothalamus and pituitary disorders':'Distúrbios do hipotálamo e hipófise','Obesity and dyslipidemia':'Obesidade e dislipidemia','Reproductive endocrinology':'Endocrinologia reprodutiva','Thyroid disorders':'Distúrbios da tireoide','Normal structure and function of the female reproductive system and breast':'Estrutura e função normais do sistema reprodutor feminino e mama','Breast disorders':'Distúrbios mamários','Genital tract tumors and tumor-like lesions':'Tumores do trato genital e lesões tumorais','Genitourinary tract infections':'Infecções do trato geniturinário','Menstrual disorders and contraception':'Distúrbios menstruais e contracepção','Normal structure and function of the GI tract':'Estrutura e função normais do trato GI','Biliary tract disorders':'Distúrbios das vias biliares','Disorders of nutrition':'Distúrbios nutricionais','Gastroesophageal disorders':'Distúrbios gastroesofágicos','Hepatic disorders':'Distúrbios hepáticos','Intestinal and colorectal disorders':'Distúrbios intestinais e colorretais','Pancreatic disorders':'Distúrbios pancreáticos','Tumors of the GI tract':'Tumores do trato GI','Normal hematologic structure and function':'Estrutura e função hematológicas normais','Hemostasis and thrombosis':'Hemostasia e trombose','Plasma cell disorders':'Distúrbios de plasmócitos','Platelet disorders':'Distúrbios plaquetários','Red blood cell disorders':'Distúrbios das hemácias','Transfusion medicine':'Medicina transfusional','White blood cell disorders':'Distúrbios dos leucócitos','Principles of oncology':'Princípios de oncologia','Antimicrobial drugs':'Fármacos antimicrobianos','Bacterial infections':'Infecções bacterianas','Fungal infections':'Infecções fúngicas','HIV and sexually transmitted infections':'HIV e infecções sexualmente transmissíveis','Infection control':'Controle de infecção','Parasitic and helminthic infections':'Infecções parasitárias e helmínticas','Viral infections':'Infecções virais','Normal structure and function of the male reproductive system':'Estrutura e função normais do sistema reprodutor masculino','Disorders of the male reproductive system':'Distúrbios do sistema reprodutor masculino','Normal structure and function of the nervous system':'Estrutura e função normais do sistema nervoso','Cerebrovascular disease':'Doença cerebrovascular','CNS infections':'Infecções do SNC','Demyelinating diseases':'Doenças desmielinizantes','Disorders of peripheral nerves and muscles':'Distúrbios dos nervos periféricos e músculos','Headache':'Cefaleia','Neurodegenerative disorders and dementias':'Distúrbios neurodegenerativos e demências','Seizures and epilepsy':'Convulsões e epilepsia','Spinal cord disorders':'Distúrbios da medula espinhal','Traumatic brain injuries':'Traumatismos cranioencefálicos','Tumors of the nervous system':'Tumores do sistema nervoso','Hydrocephalus':'Hidrocefalia','Anesthesia':'Anestesia','Sleep disorders':'Distúrbios do sono','Normal structure and function of the eye and associated structures':'Estrutura e função normais do olho e estruturas associadas','Disorders of the eye and associated structures':'Distúrbios do olho e estruturas associadas','Normal pregnancy, childbirth, and puerperium':'Gravidez, parto e puerpério normais','Disorders of pregnancy, childbirth, and puerperium':'Distúrbios da gravidez, parto e puerpério','Normal behavior and development':'Comportamento e desenvolvimento normais','Anxiety and trauma-related disorders':'Transtornos de ansiedade e relacionados a trauma','Mood disorders':'Transtornos do humor','Neurodevelopmental disorders':'Transtornos do neurodesenvolvimento','Personality disorders':'Transtornos de personalidade','Psychotic disorders':'Transtornos psicóticos','Substance use disorders':'Transtornos por uso de substâncias','Eating disorders':'Transtornos alimentares','Somatoform disorders':'Transtornos somatoformes','Normal pulmonary structure and function':'Estrutura e função pulmonares normais','Critical care medicine':'Medicina intensiva','Interstitial lung disease':'Doença pulmonar intersticial','Lung cancer':'Câncer de pulmão','Obstructive lung disease':'Doença pulmonar obstrutiva','Pulmonary infections':'Infecções pulmonares','Pulmonary vascular disease':'Doença vascular pulmonar','Normal structure and function of the kidneys and urinary system':'Estrutura e função normais dos rins e sistema urinário','Acute kidney injury':'Injúria renal aguda','Bone metabolism':'Metabolismo ósseo','Chronic kidney disease':'Doença renal crônica','Cystic kidney diseases':'Doenças renais císticas','Fluid, electrolytes, and acid-base':'Fluidos, eletrólitos e ácido-base','Glomerular diseases':'Doenças glomerulares','Neoplasms of the kidneys and urinary tract':'Neoplasias dos rins e trato urinário','Nephrolithiasis and urinary tract obstruction':'Nefrolitíase e obstrução do trato urinário','Diabetes insipidus':'Diabetes insípido','Urinary incontinence':'Incontinência urinária','Normal structure and function of the musculoskeletal system':'Estrutura e função normais do sistema musculoesquelético','Arthritis and spondyloarthropathies':'Artrite e espondiloartropatias','Autoimmune disorders and vasculitides':'Distúrbios autoimunes e vasculites','Bone/joint injuries and infections':'Lesões e infecções ósseas/articulares','Bone tumors and tumor-like lesions':'Tumores ósseos e lesões tumorais','Spinal disorders and back pain':'Distúrbios da coluna e dor lombar','Metabolic bone disorders':'Distúrbios ósseos metabólicos','Communication and interpersonal skills':'Comunicação e habilidades interpessoais','Healthcare policy and economics':'Política e economia da saúde','Medical ethics and jurisprudence':'Ética médica e jurisprudência','Patient safety':'Segurança do paciente','System based-practice and quality improvement':'Prática baseada no sistema e melhoria da qualidade'
   };
   /* Mapeia nome de sistema da taxonomia -> nome de sistema em LIBRARY1_STRUCTURE
      (para puxar os Topics do 3º nível a partir da Medical Library > Library 1). */
@@ -785,83 +785,10 @@
       return `<div class="fc-active-filter"><span class="fc-active-filter-label">⚙ ${t('activeFilters')}:</span> <span class="fc-active-filter-val">${parts.join(' › ')||'—'}</span><button class="fc-btn fc-sm fc-active-filter-clear" data-act="clear-meta">✕ ${t('clearFilter')}</button></div>`;
     })() : '';
 
-    /* --- Painel de filtro embutido (inline) na página Navegar --- */
-    const ff = ensureFilterState();
-    const {bySubj, bySys} = fcCountsBySubject();
-    const fq = (ff.q||'').toLowerCase();
-    const matchTxt = name => !fq || fcTxLabel(name).toLowerCase().includes(fq) || name.toLowerCase().includes(fq);
-    const browseFilterOpen = !!view.browseFilterOpen;
-
-    const groupHTML = sys => {
-      const subIds = sys.subs.map(([slug])=>FC_SUBJ_ID(sys.id,slug));
-      const selCount = subIds.filter(id=>ff.subjects.includes(id)).length;
-      const sysChecked = selCount>0 && selCount===subIds.length;
-      const sysPartial = selCount>0 && selCount<subIds.length;
-      const sysCount = bySys[sys.id]||0;
-      const collapsed = !!ff.collapsed[sys.id];
-      const subMatches = sys.subs.filter(([slug,name])=>matchTxt(name));
-      if(fq && !matchTxt(sys.name) && !subMatches.length) return '';
-      const subsToShow = (fq && !matchTxt(sys.name)) ? subMatches : sys.subs;
-      const rowsHtml = subsToShow.map(([slug,name])=>{
-        const id = FC_SUBJ_ID(sys.id,slug); const on = ff.subjects.includes(id); const c = bySubj[id]||0;
-        return `<label class="qb-tax-sub ${on?'on':''}">
-          <input type="checkbox" data-act="fc-browse-tog-sub" data-v="${id}" ${on?'checked':''}>
-          <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(fcTxLabel(name))}</span><span class="qb-tax-count">${c}</span>
-        </label>`;
-      }).join('');
-      return `<div class="qb-tax-group">
-        <div class="qb-tax-head">
-          <label class="qb-tax-sys ${sysChecked?'on':''} ${sysPartial?'partial':''}">
-            <input type="checkbox" data-act="fc-browse-tog-sys" data-v="${sys.id}" ${sysChecked?'checked':''}>
-            <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(fcTxLabel(sys.name))}</span><span class="qb-tax-count">${sysCount}</span>
-          </label>
-          <button class="qb-tax-toggle" data-act="fc-browse-collapse" data-v="${sys.id}" aria-label="toggle">${collapsed?'＋':'—'}</button>
-        </div>
-        ${collapsed?'':`<div class="qb-tax-subs">${rowsHtml}</div>`}
-      </div>`;
-    };
-    const groups = FC_TAXONOMY.map(groupHTML).join('');
-
-    const selSysIds = (() => {
-      const set = new Set();
-      ff.subjects.forEach(id=>{ set.add(id.split('::')[0]); });
-      return set.size ? [...set] : FC_TAXONOMY.map(s=>s.id);
-    })();
-    const topicSet = new Set();
-    selSysIds.forEach(sid => fcTopicsForSystem(sid).forEach(tp => topicSet.add(tp)));
-    const topics = [...topicSet].sort((a,b)=>a.localeCompare(b));
-    const topicOpts = `<option value="">${t('selectTopic')}</option>` +
-      topics.map(tp=>`<option value="${esc(tp)}" ${ff.topic===tp?'selected':''}>${esc(tp)}</option>`).join('');
-
-    const filterPanelHTML = `<div class="fc-browse-filter-panel ${browseFilterOpen?'fc-open':''}" id="fcBrowseFilterPanel">
-      <div class="fc-browse-filter-header" data-act="fc-browse-toggle-filter">
-        <span>⚙ ${t('filterTitle')} — Systems / Subjects / Topics</span>
-        <span class="fc-browse-filter-arrow">${browseFilterOpen?'▲':'▼'}</span>
-      </div>
-      <div class="fc-browse-filter-body" ${browseFilterOpen?'':'hidden'}>
-        <div class="fc-filter-search"><input id="fcBrowseFilterSearch" placeholder="${t('filterSearchPh')}" value="${esc(ff.q||'')}"/></div>
-        <div class="fc-filter-topic">
-          <label>${t('topicLbl')}</label>
-          <select id="fcBrowseFilterTopic">${topicOpts}</select>
-        </div>
-        <div class="qb-tax-bar">
-          <label class="qb-tax-sys master ${ff.subjects.length?'partial':''}">
-            <input type="checkbox" data-act="fc-browse-tog-all" ${ff.subjects.length?'checked':''}>
-            <span class="qb-tax-box"></span><span class="qb-tax-name">${t('systemsLbl')}</span>
-          </label>
-          <button class="qb-link" data-act="fc-browse-collapse-all">${Object.keys(ff.collapsed).length && FC_TAXONOMY.every(s=>ff.collapsed[s.id]) ? t('expandAll') : t('collapseAll')}</button>
-        </div>
-        <div class="qb-tax fc-tax">${groups || `<p class="fc-empty">${t('noResults')}</p>`}</div>
-        <div class="fc-browse-filter-actions">
-          <button class="fc-btn" data-act="fc-browse-clear-filter">${t('clearFilter')}</button>
-          <button class="fc-btn fc-primary" data-act="fc-browse-apply-filter">▶ ${t('applyFilter')} (${rowsData.length})</button>
-        </div>
-      </div>
-    </div>`;
-
     root.innerHTML = `<button class="fc-btn fc-back" data-act="back">${t('back')}</button>
       <div class="fc-head"><div><h1 class="fc-title">${t('browse')}</h1><p class="fc-bread">${t('bread')} › ${t('browse')}</p></div>
       <div class="fc-actions">${suspCount?`<button class="fc-btn" data-act="release-filtered">${t('releaseAll')(suspCount)}</button>`:''}
+      <button class="fc-btn fc-filter-btn" data-act="filter">⚙ ${t('filter')}</button>
       <button class="fc-btn fc-primary" data-act="create">${t('create')}</button></div></div>
       ${activeChip}
       <div class="fc-browse-bar">
@@ -872,26 +799,23 @@
           ${[['new','stNew'],['learn','stLearn'],['review','stReview'],['relearn','stRelearn'],['suspended','stSuspended']]
             .map(([v,k])=>`<option value="${v}" ${f.state===v?'selected':''}>${t(k)}</option>`).join('')}</select>
       </div>
-      ${filterPanelHTML}
       <div class="fc-list">${rows}</div><div id="fcModal" class="fc-modal" hidden></div>`;
     root.querySelector('#fcSearch').addEventListener('input', e => { f.q = e.target.value; renderBrowse(); });
     const si = root.querySelector('#fcSearch'); si.focus(); si.setSelectionRange(si.value.length, si.value.length);
     root.querySelector('#fcDeckFilter').addEventListener('change', e => { f.deck = e.target.value; renderBrowse(); });
     root.querySelector('#fcStateFilter').addEventListener('change', e => { f.state = e.target.value; renderBrowse(); });
-    /* wiring do filtro inline */
-    const fsi = root.querySelector('#fcBrowseFilterSearch');
-    if(fsi) fsi.addEventListener('input', e => { ff.q = e.target.value; renderBrowse(); });
-    const ftp = root.querySelector('#fcBrowseFilterTopic');
-    if(ftp) ftp.addEventListener('change', e => { ff.topic = e.target.value; applyBrowseMetaFilter(); renderBrowse(); });
     view.lastFiltered = rowsData;
     wire();
   }
 
   /* ---------- FILTRO por System / Subject / Topic (estilo QBank) ---------- */
   function ensureFilterState(){
-    if(!view.ff) view.ff = { subjects:[], collapsed:{}, q:'', topic:'' };
+    if(!view.ff) {
+      const dc = {}; FC_TAXONOMY.forEach(s => dc[s.id] = true);
+      view.ff = { subjects:[], collapsed:dc, q:'', topic:'' };
+    }
     if(!view.ff.subjects) view.ff.subjects = [];
-    if(!view.ff.collapsed) view.ff.collapsed = {};
+    if(!view.ff.collapsed) { const dc={}; FC_TAXONOMY.forEach(s=>dc[s.id]=true); view.ff.collapsed=dc; }
     return view.ff;
   }
   function applyBrowseMetaFilter(){
@@ -946,17 +870,9 @@
     };
     const groups = FC_TAXONOMY.map(groupHTML).join('');
 
-    // topic dropdown: baseado nos sistemas atualmente selecionados (ou todos)
-    const selSysIds = (() => {
-      const set = new Set();
-      ff.subjects.forEach(id=>{ set.add(id.split('::')[0]); });
-      return set.size ? [...set] : FC_TAXONOMY.map(s=>s.id);
-    })();
-    const topicSet = new Set();
-    selSysIds.forEach(sid => fcTopicsForSystem(sid).forEach(tp => topicSet.add(tp)));
-    const topics = [...topicSet].sort((a,b)=>a.localeCompare(b));
-    const topicOpts = `<option value="">${t('selectTopic')}</option>` +
-      topics.map(tp=>`<option value="${esc(tp)}" ${ff.topic===tp?'selected':''}>${esc(tp)}</option>`).join('');
+    // system dropdown: selecionar um sistema para expandir e ver seus subjects
+    const sysDropOpts = `<option value="">${t('chooseSystem')}</option>` +
+      FC_TAXONOMY.map(s=>`<option value="${s.id}">${esc(fcTxLabel(s.name))}</option>`).join('');
 
     // pré-visualização de contagem de cards que casam com o filtro atual
     const preview = {
@@ -974,8 +890,8 @@
       </div></div>
       <div class="fc-filter-search"><input id="fcFilterSearch" placeholder="${t('filterSearchPh')}" value="${esc(ff.q||'')}"/></div>
       <div class="fc-filter-topic">
-        <label>${t('topicLbl')}</label>
-        <select id="fcFilterTopic">${topicOpts}</select>
+        <label>${t('systemsLbl')}</label>
+        <select id="fcFilterSysDrop">${sysDropOpts}</select>
       </div>
       <div class="qb-tax-bar">
         <label class="qb-tax-sys master ${ff.subjects.length?'partial':''}">
@@ -990,7 +906,12 @@
     const si = root.querySelector('#fcFilterSearch');
     si.addEventListener('input', e => { ff.q = e.target.value; renderFilter(); });
     si.focus(); si.setSelectionRange(si.value.length, si.value.length);
-    root.querySelector('#fcFilterTopic').addEventListener('change', e => { ff.topic = e.target.value; renderFilter(); });
+    const sysDrop = root.querySelector('#fcFilterSysDrop');
+    if(sysDrop) sysDrop.addEventListener('change', e => {
+      const sysId = e.target.value;
+      if(sysId){ ff.collapsed[sysId] = false; }
+      renderFilter();
+    });
     wire();
   }
 
@@ -1167,25 +1088,25 @@
   const RT_TEXT_COLORS = ['#0b1930','#334155','#64748b','#dc2626','#ea580c','#d97706','#ca8a04','#65a30d','#16a34a','#059669','#0891b2','#0284c7','#2563eb','#4f46e5','#7c3aed','#9333ea','#c026d3','#db2777','#e11d48','#ffffff'];
   const RT_HL_COLORS = ['#fff59d','#c5f2a4','#a7f3d0','#a5f3fc','#bae6fd','#c7d2fe','#ddd6fe','#f5d0fe','#fbcfe8','#fecdd3','#fed7aa','#fde68a','#fecaca','#e2e8f0','#facc15','#4ade80','#22d3ee','#f472b6','#fb923c','#94a3b8'];
   function rtColorPanel(side){
-    const PREVIEW_COUNT = 8;
-    const txtPreview = RT_TEXT_COLORS.slice(0,PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="forecolor" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
-    const txtRest = RT_TEXT_COLORS.slice(PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="forecolor" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
-    const hlPreview = RT_HL_COLORS.slice(0,PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="hilite" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
-    const hlRest = RT_HL_COLORS.slice(PREVIEW_COUNT).map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="hilite" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    const txt = RT_TEXT_COLORS.map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="forecolor" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    const hl = RT_HL_COLORS.map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="hilite" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
     return `<div class="fc-rt-colorpanel" id="fcRtColors_${side}" hidden>
       <button type="button" class="fc-rt-removecolor" data-rt="removecolor" data-side="${side}"><span class="fc-rt-nocolor"></span> ${t('rtRemoveColor')}</button>
-      <div class="fc-rt-swgroup-lbl">${t('rtTextColors')}</div><div class="fc-rt-swgrid">${txtPreview}<button type="button" class="fc-rt-swatch fc-rt-expand" data-expand="fcTxtMore_${side}" title="+">+</button></div><div class="fc-rt-swgrid fc-rt-more" id="fcTxtMore_${side}" hidden>${txtRest}</div>
-      <div class="fc-rt-swgroup-lbl">${t('rtHighlights')}</div><div class="fc-rt-swgrid">${hlPreview}<button type="button" class="fc-rt-swatch fc-rt-expand" data-expand="fcHlMore_${side}" title="+">+</button></div><div class="fc-rt-swgrid fc-rt-more" id="fcHlMore_${side}" hidden>${hlRest}</div>
+      <div class="fc-rt-swgroup-lbl">${t('rtTextColors')}</div><div class="fc-rt-swgrid">${txt}</div>
+      <div class="fc-rt-swgroup-lbl">${t('rtHighlights')}</div><div class="fc-rt-swgrid">${hl}</div>
     </div>`;
   }
   function rtToolbar(side){
     return `<div class="fc-rt-toolbar" data-side="${side}">
       <select class="fc-rt-sel fc-rt-format" data-rt="format" data-side="${side}" title="${t('rtFormat')}">
-        <option value="P">${t('rtNormal')}</option><option value="H1">${t('rtH1')}</option><option value="H2">${t('rtH2')}</option>
+        <option value="P">${t('rtNormal')}</option><option value="H2">${t('rtH2')}</option><option value="H3">Subtitle</option><option value="BLOCKQUOTE">Quote</option>
       </select>
       <select class="fc-rt-sel fc-rt-size" data-rt="fontsize" data-side="${side}" title="${t('rtSize')}">
-        <option value="2">${t('rtSize')}</option><option value="1">S</option><option value="3">M</option><option value="4">L</option><option value="5">XL</option><option value="6">XXL</option>
+        <option value="3">${t('rtSize')}</option><option value="1">10</option><option value="2">12</option><option value="3">14</option><option value="4">16</option><option value="5">20</option><option value="6">24</option><option value="7">32</option>
       </select>
+      <span class="fc-rt-div"></span>
+      <button type="button" class="fc-rt-btn" data-rt="undo" data-side="${side}" title="${t('rtUndo')}">↶</button>
+      <button type="button" class="fc-rt-btn" data-rt="redo" data-side="${side}" title="${t('rtRedo')}">↷</button>
       <span class="fc-rt-div"></span>
       <button type="button" class="fc-rt-btn" data-rt="bold" data-side="${side}" title="${t('rtBold')}"><b>B</b></button>
       <button type="button" class="fc-rt-btn" data-rt="italic" data-side="${side}" title="${t('rtItalic')}"><i>I</i></button>
@@ -1194,26 +1115,37 @@
       <button type="button" class="fc-rt-btn" data-rt="clear" data-side="${side}" title="${t('rtClear')}">T<sub>x</sub></button>
       <span class="fc-rt-div"></span>
       <div class="fc-rt-colorwrap">
-        <button type="button" class="fc-rt-btn fc-rt-colorbtn" data-rt="colortoggle" data-side="${side}" title="${t('rtColor')}"><span class="fc-rt-a">A</span> ▾</button>
+        <button type="button" class="fc-rt-btn fc-rt-colorbtn" data-rt="colortoggle" data-side="${side}" title="${t('rtColor')}"><span class="fc-rt-a">A</span>▾</button>
         ${rtColorPanel(side)}
       </div>
       <span class="fc-rt-div"></span>
+      <div class="fc-rt-popwrap">
+        <button type="button" class="fc-rt-btn" data-rt="aligntoggle" data-side="${side}" title="${t('rtLeft')}">≡</button>
+        <div class="fc-rt-popup fc-rt-popup-up" data-popup="align_${side}" hidden>
+          <button type="button" class="fc-rt-btn" data-rt="justifyLeft" data-side="${side}" title="${t('rtLeft')}">≡</button>
+          <button type="button" class="fc-rt-btn" data-rt="justifyCenter" data-side="${side}" title="${t('rtCenter')}">≣</button>
+          <button type="button" class="fc-rt-btn" data-rt="justifyRight" data-side="${side}" title="${t('rtRight')}">≢</button>
+          <button type="button" class="fc-rt-btn" data-rt="justifyFull" data-side="${side}" title="${t('rtJustify')}">☰</button>
+        </div>
+      </div>
       <button type="button" class="fc-rt-btn" data-rt="insertTable" data-side="${side}" title="${t('rtTable')}">▦</button>
-      <button type="button" class="fc-rt-btn" data-rt="insertOrderedList" data-side="${side}" title="${t('rtOL')}">1.</button>
-      <button type="button" class="fc-rt-btn" data-rt="insertUnorderedList" data-side="${side}" title="${t('rtUL')}">•</button>
+      <div class="fc-rt-popwrap">
+        <button type="button" class="fc-rt-btn" data-rt="listtoggle" data-side="${side}" title="${t('rtOL')}">☰</button>
+        <div class="fc-rt-popup fc-rt-popup-up" data-popup="list_${side}" hidden>
+          <button type="button" class="fc-rt-btn" data-rt="insertOrderedList" data-side="${side}" title="${t('rtOL')}">1.</button>
+          <button type="button" class="fc-rt-btn" data-rt="insertUnorderedList" data-side="${side}" title="${t('rtUL')}">•</button>
+        </div>
+      </div>
       <button type="button" class="fc-rt-btn" data-rt="outdent" data-side="${side}" title="${t('rtIndentMinus')}">⇤</button>
       <button type="button" class="fc-rt-btn" data-rt="indent" data-side="${side}" title="${t('rtIndentPlus')}">⇥</button>
       <span class="fc-rt-div"></span>
-      <button type="button" class="fc-rt-btn" data-rt="undo" data-side="${side}" title="${t('rtUndo')}">↶</button>
-      <button type="button" class="fc-rt-btn" data-rt="redo" data-side="${side}" title="${t('rtRedo')}">↷</button>
-      <span class="fc-rt-div"></span>
-      <button type="button" class="fc-rt-btn" data-rt="justifyLeft" data-side="${side}" title="${t('rtLeft')}">≡</button>
-      <button type="button" class="fc-rt-btn" data-rt="justifyCenter" data-side="${side}" title="${t('rtCenter')}">≣</button>
-      <button type="button" class="fc-rt-btn" data-rt="justifyRight" data-side="${side}" title="${t('rtRight')}">≢</button>
-      <button type="button" class="fc-rt-btn" data-rt="justifyFull" data-side="${side}" title="${t('rtJustify')}">☰</button>
-      <span class="fc-rt-div"></span>
-      <button type="button" class="fc-rt-btn" data-rt="image" data-side="${side}" title="${t('rtImage')}">🖼️</button>
-      <button type="button" class="fc-rt-btn" data-rt="pasteimg" data-side="${side}" title="${t('rtPaste')}">📋</button>
+      <div class="fc-rt-popwrap">
+        <button type="button" class="fc-rt-btn fc-rt-imgbtn" data-rt="imgtoggle" data-side="${side}" title="${t('rtImage')}">⊕</button>
+        <div class="fc-rt-popup fc-rt-popup-up" data-popup="img_${side}" hidden>
+          <button type="button" class="fc-rt-btn fc-rt-popbtn-wide" data-rt="image" data-side="${side}">📎 Upload</button>
+          <button type="button" class="fc-rt-btn fc-rt-popbtn-wide" data-rt="pasteimg" data-side="${side}">📋 Paste</button>
+        </div>
+      </div>
     </div>`;
   }
   // aplica um comando de rich text no editor do lado (side): 'front' | 'back'
@@ -1252,18 +1184,13 @@
     if(!DB.decks.length) sel.value = '__new__';
     sel.addEventListener('change', upd); upd();
   }
-  const shareCheckbox = checked => `<label class="fc-share-box ${checked?'on':''}" id="fcShareBox">
-      <span class="fc-toggle-switch ${checked?'on':''}"><input type="checkbox" id="fcShare" ${checked?'checked':''}/><span class="fc-toggle-knob"></span></span>
-      <div class="fc-share-body">
-        <strong class="fc-share-title">⇄ ${t('shareTitle')}</strong>
-        <small class="fc-share-sub">${t('shareLbl')}</small>
-      </div>
+  const shareCheckbox = checked => `<label class="fc-toggle-row" id="fcShareBox">
+      <span class="fc-toggle-text">⇄ ${lang()==='pt'?'Compartilhar com todos usuários':'Share with all users'}</span>
+      <span class="fc-pill-switch ${checked?'on':''}"><input type="checkbox" id="fcShare" ${checked?'checked':''}/><span class="fc-pill-knob"></span></span>
     </label>`;
-  const reversedToggle = () => `<label class="fc-share-box" id="fcRevBox">
-      <span class="fc-toggle-switch"><input type="checkbox" id="fcReversed"/><span class="fc-toggle-knob"></span></span>
-      <div class="fc-share-body">
-        <strong class="fc-share-title">🔁 ${t('reversedLbl')}</strong>
-      </div>
+  const reversedToggle = () => `<label class="fc-toggle-row" id="fcRevBox">
+      <span class="fc-toggle-text">🔁 ${t('reversedLbl')}</span>
+      <span class="fc-pill-switch"><input type="checkbox" id="fcReversed"/><span class="fc-pill-knob"></span></span>
     </label>`;
   // seletor System > Subject > Topic (mesma taxonomia do filtro)
   function systemsPicker(c){
@@ -1304,6 +1231,8 @@
     window.fcActiveSide = 'front';
     openModal(`<div class="fc-create-head"><h2>${card?t('edit'):t('create').replace('+ ','')}</h2></div>
       ${deckPicker(c.deckId)}
+      ${systemsPicker(c)}
+      <label>${t('tags')}</label><input id="fcTags" class="fc-input-sm" value="${esc((c.tags||[]).join(', '))}"/>
       <div class="fc-editor-zone">
         <div class="fc-editor-col" data-side="front">
           <div class="fc-editor-toplabel"><span>${t('front')}</span>
@@ -1319,8 +1248,6 @@
         </div>
       </div>
       <div class="fc-cloze-hint"><span class="fc-cloze-hint-ico">💡</span><span>${t('clozeHint')}</span></div>
-      ${systemsPicker(c)}
-      <label>${t('tags')}</label><input id="fcTags" value="${esc((c.tags||[]).join(', '))}"/>
       ${card?'':reversedToggle()}
       ${shareCheckbox(c.shared)}
       <p id="fcMsg" class="fc-msg"></p>
@@ -1353,6 +1280,14 @@
     if(front) front.hidden = side!=='front';
     if(back) back.hidden = side!=='back';
   }
+  // fecha todos os popups da toolbar exceto o indicado
+  function closeRtPopups(side, except){
+    const modal = root.querySelector('#fcModal'); if(!modal) return;
+    if(except!=='color'){ const cp=modal.querySelector('#fcRtColors_'+side); if(cp) cp.hidden=true; }
+    if(except!=='align'){ const ap=modal.querySelector('[data-popup="align_'+side+'"]'); if(ap) ap.hidden=true; }
+    if(except!=='list'){ const lp=modal.querySelector('[data-popup="list_'+side+'"]'); if(lp) lp.hidden=true; }
+    if(except!=='img'){ const ip=modal.querySelector('[data-popup="img_'+side+'"]'); if(ip) ip.hidden=true; }
+  }
   // conecta os botões da toolbar de rich text
   function wireRichText(){
     const modal = root.querySelector('#fcModal'); if(!modal) return;
@@ -1361,20 +1296,26 @@
       if(el.tagName==='SELECT'){
         el.addEventListener('change', e => { rtExec(side, cmd, e.target.value); });
       } else if(cmd==='colortoggle'){
-        el.addEventListener('click', e => { e.preventDefault(); const p = root.querySelector('#fcRtColors_'+side); if(p) p.hidden = !p.hidden; });
+        el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = root.querySelector('#fcRtColors_'+side); const willShow = p && p.hidden; closeRtPopups(side, 'color'); if(p) p.hidden = !willShow; });
+      } else if(cmd==='aligntoggle'){
+        el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = modal.querySelector('[data-popup="align_'+side+'"]'); const willShow = p && p.hidden; closeRtPopups(side, 'align'); if(p) p.hidden = !willShow; });
+      } else if(cmd==='listtoggle'){
+        el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = modal.querySelector('[data-popup="list_'+side+'"]'); const willShow = p && p.hidden; closeRtPopups(side, 'list'); if(p) p.hidden = !willShow; });
+      } else if(cmd==='imgtoggle'){
+        el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = modal.querySelector('[data-popup="img_'+side+'"]'); const willShow = p && p.hidden; closeRtPopups(side, 'img'); if(p) p.hidden = !willShow; });
       } else if(cmd==='forecolor' || cmd==='hilite' || cmd==='removecolor'){
         el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd, el.dataset.rtVal); const p = root.querySelector('#fcRtColors_'+side); if(p) p.hidden = true; });
+      } else if(cmd==='justifyLeft' || cmd==='justifyCenter' || cmd==='justifyRight' || cmd==='justifyFull'){
+        el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd); closeRtPopups(side); });
+      } else if(cmd==='insertOrderedList' || cmd==='insertUnorderedList'){
+        el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd); closeRtPopups(side); });
       } else if(cmd==='image'){
-        el.addEventListener('click', e => { e.preventDefault(); window.fcImgSide = side; root.querySelector('#fcRtImageUpload').click(); });
+        el.addEventListener('click', e => { e.preventDefault(); window.fcImgSide = side; root.querySelector('#fcRtImageUpload').click(); closeRtPopups(side); });
       } else if(cmd==='pasteimg'){
-        el.addEventListener('click', e => { e.preventDefault(); rtPasteImage(side); });
+        el.addEventListener('click', e => { e.preventDefault(); rtPasteImage(side); closeRtPopups(side); });
       } else if(cmd!=='format' && cmd!=='fontsize'){
         el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd, el.dataset.rtVal); });
       }
-    });
-    // expand color palette sections
-    modal.querySelectorAll('.fc-rt-expand').forEach(btn=>{
-      btn.addEventListener('click', e=>{e.preventDefault(); const tgt=document.getElementById(btn.dataset.expand); if(tgt){tgt.hidden=!tgt.hidden; btn.textContent=tgt.hidden?'+':'−';}});
     });
     // input de imagem oculto compartilhado pelos dois editores
     let fi = root.querySelector('#fcRtImageUpload');

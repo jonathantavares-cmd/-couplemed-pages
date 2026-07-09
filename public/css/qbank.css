@@ -228,7 +228,7 @@ body:not(.light) .qb-rc-opt{--qb-card2:#122844}
 .qb-tax-sub.on>.qb-tax-name{color:var(--qb-text)}
 .qb-tax-count{flex:none;margin-left:auto;min-width:22px;height:20px;padding:0 6px;border:1px solid var(--qb-line);border-radius:999px;font-size:11px;font-weight:700;color:var(--qb-muted);display:inline-flex;align-items:center;justify-content:center}
 .qb-tax-sys.on>.qb-tax-count,.qb-tax-sub.on>.qb-tax-count{border-color:var(--qb-blue);color:var(--qb-blue)}
-.qb-tax-sys.master>.qb-tax-name{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--qb-muted)}
+.qb-tax-sys.master>.qb-tax-name{font-size:15px}
 /* No. of Questions */
 .qb-count-field{margin-top:22px;padding-top:18px;border-top:1px solid var(--qb-line)}
 .qb-count input[type=number]{width:88px;border:1px solid var(--qb-line);background:var(--qb-card2);color:var(--qb-text);border-radius:9px;padding:10px 12px;font:inherit;font-size:15px;font-weight:700;text-align:center}
