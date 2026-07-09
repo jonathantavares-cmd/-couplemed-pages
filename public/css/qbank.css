@@ -260,3 +260,40 @@ body:not(.light) .qb-rc-opt{--qb-card2:#122844}
 .qb-lab-term:hover .qb-lab-tip,.qb-lab-term:focus .qb-lab-tip{opacity:1;visibility:visible;transform:translateY(0)}
 body:not(.light) .qb-lab-tip{background:#1b3a63;border:1px solid rgba(255,255,255,.14)}
 body:not(.light) .qb-lab-tip::after{border-top-color:#1b3a63}
+
+/* -------- QBank question images: controlled rendering -------- */
+.qb-question-image{
+  margin:18px auto 20px;
+  padding:12px;
+  max-width:min(760px,100%);
+  border:1px solid var(--qb-line);
+  border-radius:16px;
+  background:var(--qb-card2);
+  box-shadow:0 10px 28px rgba(0,0,0,.08);
+  text-align:center;
+  overflow:hidden;
+}
+.qb-question-image img{
+  display:block;
+  width:auto;
+  max-width:100%;
+  max-height:420px;
+  margin:0 auto;
+  object-fit:contain;
+  object-position:center center;
+  border-radius:10px;
+  transform:none;
+}
+.qb-question-image figcaption{
+  margin-top:8px;
+  font-size:11px;
+  line-height:1.3;
+  color:var(--qb-muted);
+  opacity:.72;
+}
+.qb-question-image:has(img:hover){border-color:rgba(61,132,255,.35)}
+@media(max-width:640px){
+  .qb-question-image{padding:8px;margin:14px auto;max-width:100%}
+  .qb-question-image img{max-height:300px}
+  .qb-question-image figcaption{display:none}
+}

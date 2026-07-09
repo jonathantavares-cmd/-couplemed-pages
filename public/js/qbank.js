@@ -241,7 +241,7 @@
       explC:'Na síndrome de insensibilidade androgênica completa (CAIS), os testículos produzem AMH (regressão mülleriana) e testosterona, mas o receptor androgênico é não funcional. Resultado: os ductos müllerianos regridem (sem útero/tubas), os ductos wolffianos também regridem (sem ducto deferente), e a genitália externa é feminina (sem resposta à DHT).',
       explI:[{option:'B',explanation:'A genitália externa masculina requer DHT via receptor androgênico funcional, ausente na CAIS.'},{option:'C',explanation:'O AMH é produzido normalmente, portanto as estruturas müllerianas (útero, tubas) regridem.'},{option:'D',explanation:'As estruturas müllerianas e a genitália masculina não podem coexistir na CAIS.'},{option:'E',explanation:'O desenvolvimento do ducto wolffiano requer receptor androgênico funcional, ausente na CAIS.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0009', system:'male_repro', discipline:'anatomy', category:'male_repro::disorders_male_repro', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0009', system:'male_repro', discipline:'anatomy', category:'male_repro::disorders_male_repro', difficulty:'medium', img:['assets/qbank/CMQ-STEP1-MRS-0009_urethral_anatomy_labeled.png'],
       vignette:'A 45-year-old man is brought to the ED after a high-speed motor vehicle collision. He has lower abdominal pain, sensation of bladder fullness, but has been unable to urinate since the collision. CT reveals rib fractures and a pelvic fracture.',
       q:'Which of the following portions of the urogenital tract is most likely injured in this patient?',
       options:[{label:'A',text:'Anterior bladder wall'},{label:'B',text:'Prostatic urethra'},{label:'C',text:'Membranous urethra (bulbomembranous junction)'},{label:'D',text:'Bulbar urethra'},{label:'E',text:'Penile urethra'}],
@@ -356,7 +356,7 @@
       explC:'Constipação + bloqueio atrioventricular de segundo grau (síncope) = efeitos adversos de bloqueador dos canais de cálcio não di-hidropiridínico (diltiazem/verapamil). Esses fármacos bloqueiam os canais de cálcio tipo L, reduzindo a condução no nó AV. Efeitos cronotrópico e inotrópico negativos. A constipação decorre da redução da contração da musculatura lisa colônica.',
       explI:[{option:'A',explanation:'O anlodipino é um BCC di-hidropiridínico com efeitos mínimos sobre a condução cardíaca. Não causa BAV.'},{option:'C',explanation:'A hidroclorotiazida é um diurético para hipertensão, não para FA. Não causa BAV.'},{option:'D',explanation:'A lidocaína é usada para arritmias ventriculares, não para FA.'},{option:'E',explanation:'O propranolol pode causar BAV, mas é evitado em DPOC grave e não causa constipação.'},{option:'F',explanation:'A terazosina causa hipotensão ortostática, não BAV.'},{option:'G',explanation:'A valsartana não causa BAV nem constipação.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::coronary_heart_disease', difficulty:'medium',
+    { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::coronary_heart_disease', difficulty:'medium', img:['assets/qbank/CMQ-STEP1-CVS-0007_cardiac_output_venous_return_curves.png'],
       vignette:'The cardiac output and venous return curves of a healthy person are shown with solid lines. The dashed lines depict decreased cardiac output with unchanged venous return (unchanged blood volume and TPR).',
       q:'Which of the following is the most likely cause of the change depicted by the dashed lines?',
       options:[{label:'A',text:'Excessive hydration'},{label:'B',text:'Acute hemorrhage'},{label:'C',text:'Chronic anemia'},{label:'D',text:'Myocardial infarction'},{label:'E',text:'Anaphylaxis'}],
@@ -460,6 +460,60 @@
                 }
             ],
             "objective": "Poststreptococcal glomerulonephritis occurs after exposure to strains of group A Streptococcus that produce nephritogenic antigens; antigen-antibody complexes deposit on the glomerular basement membrane and activate the alternate complement pathway. Immunofluorescence microscopy shows granular deposits of IgG, IgM, and C3 in the basement membranes and mesangium.",
+            "ptTranslation": {
+            "vignette": "Um menino de 8 anos é levado ao consultório por inchaço facial agudo. A mãe relata que nas últimas 24 horas ele tem apresentado fadiga fácil e urina escura. O paciente foi tratado por uma infecção de pele há 3 semanas e não possui doenças crônicas. A temperatura é 36,1 °C e a pressão arterial é 140/94 mmHg. O exame físico mostra edema periorbitário e leve edema depressível nos tornozelos. O restante do exame não apresenta alterações. Uma amostra representativa de biópsia renal é mostrada na imagem abaixo:",
+            "q": "As áreas fluorescentes na lâmina indicam mais provavelmente a presença de qual das seguintes substâncias?",
+            "options": [
+                        {
+                                    "label": "A",
+                                    "text": "Albumina"
+                        },
+                        {
+                                    "label": "B",
+                                    "text": "C1q"
+                        },
+                        {
+                                    "label": "C",
+                                    "text": "C3"
+                        },
+                        {
+                                    "label": "D",
+                                    "text": "Fibrina"
+                        },
+                        {
+                                    "label": "E",
+                                    "text": "IgE"
+                        },
+                        {
+                                    "label": "F",
+                                    "text": "Proteína M"
+                        }
+            ],
+            "explC": "Este paciente pediátrico com síndrome nefrítica, evidenciada por edema periorbitário, hematúria e hipertensão após infecção cutânea recente, provavelmente tem glomerulonefrite pós-estreptocócica. Essa condição ocorre após exposição a cepas nefritogênicas de Streptococcus do grupo A. Os antígenos nefritogênicos se combinam com anticorpos para formar imunocomplexos, que se depositam na membrana basal glomerular e no mesângio, induzindo inflamação e ativação do complemento. Na imunofluorescência, esses depósitos aparecem em padrão granular, contendo principalmente IgG, IgM e C3. Como a ativação ocorre predominantemente pela via alternativa, os depósitos raramente contêm C1q ou C4.",
+            "explI": [
+                        {
+                                    "option": "A",
+                                    "explanation": "A albumina pode ser perdida na urina devido ao aumento da permeabilidade glomerular, contribuindo para edema, mas não é o principal depósito fluorescente na membrana basal glomerular."
+                        },
+                        {
+                                    "option": "B",
+                                    "explanation": "C1q é componente da via clássica do complemento. Na glomerulonefrite pós-estreptocócica, a ativação é principalmente pela via alternativa, portanto C1q costuma estar ausente ou pouco representado."
+                        },
+                        {
+                                    "option": "D",
+                                    "explanation": "Depósitos proeminentes de fibrina são mais característicos de glomerulonefrite rapidamente progressiva com crescentes."
+                        },
+                        {
+                                    "option": "E",
+                                    "explanation": "IgE está relacionada a reações alérgicas e parasitoses; não é o principal componente dos depósitos granulares nessa síndrome nefrítica."
+                        },
+                        {
+                                    "option": "F",
+                                    "explanation": "Proteína M sugere gamopatia monoclonal, como mieloma múltiplo, e não explica o quadro nefrítico pós-infeccioso pediátrico."
+                        }
+            ],
+            "objective": "Reconhecer a glomerulonefrite pós-estreptocócica como síndrome nefrítica pós-infecção associada a depósitos granulares de IgG, IgM e C3."
+},
             "peer": {
                 "A": 2,
                 "B": 4,
@@ -521,6 +575,52 @@
                 }
             ],
             "objective": "Intraductal papilloma is characterized by epithelial and myoepithelial cells lining fibrovascular cores in a cyst wall or duct. It is the most common cause of bloody nipple discharge and typically presents without breast masses or skin changes.",
+            "ptTranslation": {
+            "vignette": "Uma mulher de 34 anos procura atendimento por sangramento pelo mamilo direito. Ela percebeu manchas de sangue no sutiã em várias ocasiões durante a última semana, mas não tem febre nem dor mamária. Não possui doenças crônicas e não usa medicamentos. O exame das mamas não mostra massas palpáveis nem alterações cutâneas. Uma secreção fina e sanguinolenta pode ser expressa pelo mamilo direito. Não há linfonodos axilares aumentados.",
+            "q": "Qual é o diagnóstico mais provável?",
+            "options": [
+                        {
+                                    "label": "A",
+                                    "text": "Ectasia ductal"
+                        },
+                        {
+                                    "label": "B",
+                                    "text": "Fibroadenoma"
+                        },
+                        {
+                                    "label": "C",
+                                    "text": "Papiloma intraductal"
+                        },
+                        {
+                                    "label": "D",
+                                    "text": "Mastite"
+                        },
+                        {
+                                    "label": "E",
+                                    "text": "Doença de Paget da mama"
+                        }
+            ],
+            "explC": "O quadro é mais compatível com papiloma intraductal, uma lesão benigna que cresce dentro dos ductos mamários maiores, geralmente próxima ao mamilo. A apresentação clássica é secreção unilateral espontânea, serosa ou sanguinolenta, frequentemente sem massa palpável. Histologicamente, há projeções papilares fibrovasculares revestidas por células epiteliais e mioepiteliais.",
+            "explI": [
+                        {
+                                    "option": "A",
+                                    "explanation": "A ectasia ductal costuma ocorrer em mulheres peri ou pós-menopáusicas e causa secreção espessa, pegajosa e frequentemente esverdeada ou multicolorida, com possível retração mamilar."
+                        },
+                        {
+                                    "option": "B",
+                                    "explanation": "Fibroadenoma é uma massa mamária benigna, bem delimitada, móvel e indolor em mulheres jovens. Normalmente não causa secreção mamilar sanguinolenta."
+                        },
+                        {
+                                    "option": "D",
+                                    "explanation": "Mastite geralmente ocorre durante a lactação e cursa com dor, eritema, calor local e febre. Esses achados inflamatórios estão ausentes."
+                        },
+                        {
+                                    "option": "E",
+                                    "explanation": "A doença de Paget da mama causa lesão eczematosa, eritematosa e descamativa do mamilo/aréola, frequentemente associada a carcinoma ductal subjacente."
+                        }
+            ],
+            "objective": "Associar secreção mamilar unilateral sanguinolenta, sem massa palpável, a papiloma intraductal."
+},
             "peer": {
                 "A": 14,
                 "B": 10,
@@ -581,6 +681,52 @@
                 }
             ],
             "objective": "Adenomyosis is the abnormal presence of endometrial glands and stroma within the uterine myometrium. Affected patients are typically multiparous women with dysmenorrhea, heavy menses, and a uniformly enlarged uterus.",
+            "ptTranslation": {
+            "vignette": "Uma mulher de 44 anos procura atendimento por cólicas menstruais intensas e sangramento menstrual aumentado há vários meses. Ela tem dois filhos e não usa contraceptivos. O exame pélvico mostra útero aumentado de forma difusa, macio e doloroso. A imagem mostra a alteração uterina esperada.",
+            "q": "Qual achado histológico é esperado nessa condição?",
+            "options": [
+                        {
+                                    "label": "A",
+                                    "text": "Glândulas e estroma endometriais dentro do miométrio"
+                        },
+                        {
+                                    "label": "B",
+                                    "text": "Glândulas endometriais atípicas confinadas ao endométrio"
+                        },
+                        {
+                                    "label": "C",
+                                    "text": "Cistos ovarianos de conteúdo escuro"
+                        },
+                        {
+                                    "label": "D",
+                                    "text": "Tumor benigno de músculo liso bem delimitado"
+                        },
+                        {
+                                    "label": "E",
+                                    "text": "Tecido endometrial fora do útero, com fibrose e aderências"
+                        }
+            ],
+            "explC": "Adenomiose é a presença de glândulas e estroma endometriais dentro do miométrio. Essa invasão causa hipertrofia do músculo liso adjacente, levando a útero aumentado de forma difusa, globoso e doloroso. O quadro clínico típico inclui dismenorreia, menorragia e dor pélvica em mulheres de meia-idade, especialmente multíparas.",
+            "explI": [
+                        {
+                                    "option": "B",
+                                    "explanation": "Glândulas endometriais atípicas confinadas ao endométrio sugerem hiperplasia endometrial ou carcinoma endometrial inicial, não adenomiose."
+                        },
+                        {
+                                    "option": "C",
+                                    "explanation": "Cistos ovarianos com conteúdo escuro são endometriomas, associados à endometriose ovariana."
+                        },
+                        {
+                                    "option": "D",
+                                    "explanation": "Tumor benigno de músculo liso bem delimitado corresponde a leiomioma, que forma massas firmes circunscritas."
+                        },
+                        {
+                                    "option": "E",
+                                    "explanation": "Tecido endometrial fora do útero com fibrose e aderências caracteriza endometriose; na adenomiose, o tecido endometrial está dentro do miométrio."
+                        }
+            ],
+            "objective": "Distinguir adenomiose, definida por glândulas e estroma endometriais dentro do miométrio, de endometriose e leiomiomas."
+},
             "peer": {
                 "A": 20,
                 "B": 1,
@@ -657,6 +803,52 @@
                 }
             ],
             "objective": "Poststreptococcal glomerulonephritis is an immune complex-mediated disease that occurs 2-4 weeks after group A Streptococcus skin infections. Immune complexes composed of IgG, IgM, and C3 are deposited along the glomerular basement membrane and are visible on electron microscopy as large, dome-shaped, subepithelial, electron-dense deposits.",
+            "ptTranslation": {
+            "vignette": "Um menino apresenta edema periorbitário, hipertensão e urina escura algumas semanas após uma infecção estreptocócica. A biópsia renal mostra a alteração representativa na microscopia eletrônica.",
+            "q": "Qual achado de microscopia eletrônica é mais característico dessa condição?",
+            "options": [
+                        {
+                                    "label": "A",
+                                    "text": "Depósitos subepiteliais em forma de corcova"
+                        },
+                        {
+                                    "label": "B",
+                                    "text": "Espessamento difuso da membrana basal glomerular com espículas"
+                        },
+                        {
+                                    "label": "C",
+                                    "text": "Apagamento difuso dos pedicelos"
+                        },
+                        {
+                                    "label": "D",
+                                    "text": "Depósitos mesangiais de IgA"
+                        },
+                        {
+                                    "label": "E",
+                                    "text": "Depósitos lineares de IgG na membrana basal"
+                        }
+            ],
+            "explC": "A glomerulonefrite pós-estreptocócica é uma síndrome nefrítica causada por deposição de imunocomplexos após infecção por cepas nefritogênicas de Streptococcus do grupo A. Na microscopia eletrônica, o achado clássico são depósitos subepiteliais grandes em forma de corcova. A imunofluorescência mostra padrão granular de IgG, IgM e C3.",
+            "explI": [
+                        {
+                                    "option": "B",
+                                    "explanation": "Espessamento difuso da membrana basal com espículas sugere nefropatia membranosa, uma causa de síndrome nefrótica."
+                        },
+                        {
+                                    "option": "C",
+                                    "explanation": "Apagamento difuso dos pedicelos é típico da doença de lesões mínimas, que causa síndrome nefrótica em crianças."
+                        },
+                        {
+                                    "option": "D",
+                                    "explanation": "Depósitos mesangiais de IgA caracterizam nefropatia por IgA, que geralmente causa hematúria logo após infecção respiratória."
+                        },
+                        {
+                                    "option": "E",
+                                    "explanation": "Deposição linear de IgG na membrana basal é típica da síndrome anti-MBG/Goodpasture."
+                        }
+            ],
+            "objective": "Reconhecer depósitos subepiteliais em forma de corcova na microscopia eletrônica como achado clássico da glomerulonefrite pós-estreptocócica."
+},
             "peer": {
                 "A": 3,
                 "B": 2,
@@ -727,6 +919,52 @@
                 }
             ],
             "objective": "Thickened bronchial walls, lymphocytic infiltration, mucous gland enlargement, and patchy squamous metaplasia of the bronchial mucosa are features of chronic bronchitis. Tobacco smoking is the leading cause of chronic bronchitis.",
+            "ptTranslation": {
+            "vignette": "Um paciente apresenta quadro compatível com bronquite crônica, com tosse produtiva crônica, limitação ao fluxo aéreo e alterações histológicas de parede brônquica espessada, aumento de glândulas mucosas e infiltrado inflamatório.",
+            "q": "Qual fator é a causa mais importante para o desenvolvimento dessa condição?",
+            "options": [
+                        {
+                                    "label": "A",
+                                    "text": "Asma alérgica"
+                        },
+                        {
+                                    "label": "B",
+                                    "text": "Predisposição genética"
+                        },
+                        {
+                                    "label": "C",
+                                    "text": "Infecções respiratórias recorrentes"
+                        },
+                        {
+                                    "label": "D",
+                                    "text": "Transformação neoplásica"
+                        },
+                        {
+                                    "label": "E",
+                                    "text": "Tabagismo"
+                        }
+            ],
+            "explC": "Bronquite crônica é definida clinicamente por tosse produtiva por pelo menos 3 meses em 2 anos consecutivos e faz parte do espectro da doença pulmonar obstrutiva crônica. O tabagismo é o principal fator de risco. A irritação crônica da fumaça lesiona o epitélio respiratório, prejudica a depuração mucociliar, promove inflamação crônica e causa hiperplasia de glândulas mucosas e aumento de células caliciformes.",
+            "explI": [
+                        {
+                                    "option": "A",
+                                    "explanation": "A asma alérgica causa inflamação eosinofílica e remodelamento das vias aéreas, mas não é a principal causa da bronquite crônica."
+                        },
+                        {
+                                    "option": "B",
+                                    "explanation": "Fatores genéticos não são a principal causa de bronquite crônica. Deficiência de alfa-1 antitripsina se associa principalmente a enfisema panacinar."
+                        },
+                        {
+                                    "option": "C",
+                                    "explanation": "Infecções respiratórias recorrentes podem agravar ou contribuir para bronquite crônica, mas têm papel menor que o tabagismo."
+                        },
+                        {
+                                    "option": "D",
+                                    "explanation": "Transformação neoplásica não causa bronquite crônica."
+                        }
+            ],
+            "objective": "Identificar o tabagismo como o principal fator de risco para bronquite crônica."
+},
             "peer": {
                 "A": 2,
                 "B": 58,
@@ -795,6 +1033,60 @@
                 }
             ],
             "objective": "Kinesin is a microtubule-associated motor protein that functions in the anterograde transport of materials and organelles within cells. Reactivation of latent herpes simplex virus requires anterograde transport of viral particles from neuronal cell bodies in the sensory ganglia to the skin and oral mucosa.",
+            "ptTranslation": {
+            "vignette": "Uma mulher apresenta episódios recorrentes de vesículas dolorosas ao redor dos lábios, desencadeadas por estresse ou doença. A infecção primária ocorreu por contato com saliva contaminada, e o vírus permanece latente em gânglios sensitivos. A imagem mostra a lesão característica.",
+            "q": "Durante a recorrência da doença, qual proteína motora é responsável pelo transporte das partículas virais até a pele e mucosa oral?",
+            "options": [
+                        {
+                                    "label": "A",
+                                    "text": "Dineína"
+                        },
+                        {
+                                    "label": "B",
+                                    "text": "Cinesina"
+                        },
+                        {
+                                    "label": "C",
+                                    "text": "Laminas"
+                        },
+                        {
+                                    "label": "D",
+                                    "text": "Selectinas"
+                        },
+                        {
+                                    "label": "E",
+                                    "text": "Espectrina"
+                        },
+                        {
+                                    "label": "F",
+                                    "text": "Vimentina"
+                        }
+            ],
+            "explC": "O quadro representa herpes labial recorrente, mais frequentemente causado pelo vírus herpes simples tipo 1. Após a infecção primária, o vírus permanece latente em gânglios sensitivos, especialmente o trigeminal. Na reativação, as partículas virais precisam se deslocar do corpo neuronal em direção à pele e à mucosa oral. Esse transporte anterógrado ao longo do axônio é mediado pela cinesina, proteína motora que move cargas intracelulares para longe do núcleo e em direção ao terminal axonal, utilizando microtúbulos como trilhos e energia da hidrólise de ATP.",
+            "explI": [
+                        {
+                                    "option": "A",
+                                    "explanation": "A dineína participa do transporte axonal retrógrado, levando cargas em direção ao corpo celular. Ela ajuda a estabelecer latência, mas não leva o vírus à pele na recorrência."
+                        },
+                        {
+                                    "option": "C",
+                                    "explanation": "Laminas são proteínas da lâmina nuclear, envolvidas na sustentação do envelope nuclear e organização do genoma."
+                        },
+                        {
+                                    "option": "D",
+                                    "explanation": "Selectinas são moléculas de adesão expressas no endotélio durante a inflamação; não transportam partículas virais no axônio."
+                        },
+                        {
+                                    "option": "E",
+                                    "explanation": "Espectrina é proteína do citoesqueleto associada à membrana plasmática, importante para manter a forma das hemácias."
+                        },
+                        {
+                                    "option": "F",
+                                    "explanation": "Vimentina é filamento intermediário de células mesenquimais; não é a proteína motora responsável pelo transporte anterógrado."
+                        }
+            ],
+            "objective": "Diferenciar transporte axonal anterógrado por cinesina, usado na reativação do HSV, do transporte retrógrado por dineína, usado para estabelecer latência."
+},
             "peer": {
                 "A": 28,
                 "B": 59,
@@ -1008,7 +1300,7 @@
       rcTitle:'Why did you miss this?', rcSub:'One tap — this powers your Directed Pass and analytics.', rcSkip:'Skip',
       // results
       resTitle:'Block results', score:'Score', bySystem:'By system', reviewQ:'Review questions', surgical:'⚑ Generate Surgical Review', surgicalSub:n=>`Builds a focused test from your most frequent error cause (${n} questions).`,
-      backHome:'Back to QBank', reviewAll:'Review all answers',
+      backHome:'Back to QBank', reviewAll:'Review all answers', imageHint:'Click to enlarge image',
       // analytics
       analytics:'Analytics', anOverview:'Overview', anBySystem:'Performance by system', anByPass:'Pass comparison', anRootCause:'Error causes', anEmpty:'Answer some questions to unlock analytics.',
       disclaimer:'Correlation with real exam scores is orientative only and not a guarantee of performance.',
@@ -1038,7 +1330,7 @@
       addFlash:'+ Criar Flashcard', addNote:'+ Caderno', explanation:'Explicação',
       rcTitle:'Por que você errou?', rcSub:'Um toque — isso alimenta sua Passada Dirigida e as análises.', rcSkip:'Pular',
       resTitle:'Resultado do bloco', score:'Nota', bySystem:'Por sistema', reviewQ:'Revisar questões', surgical:'⚑ Gerar Revisão Cirúrgica', surgicalSub:n=>`Monta um teste focado na sua causa de erro mais frequente (${n} questões).`,
-      backHome:'Voltar ao Banco', reviewAll:'Revisar todas as respostas',
+      backHome:'Voltar ao Banco', reviewAll:'Revisar todas as respostas', imageHint:'Clique para ampliar a imagem',
       analytics:'Análises', anOverview:'Visão geral', anBySystem:'Desempenho por sistema', anByPass:'Comparação por passada', anRootCause:'Causas de erro', anEmpty:'Responda algumas questões para liberar as análises.',
       disclaimer:'A correlação com notas reais do exame é apenas orientativa e não garante desempenho.',
       scTitle:'Criar Flashcard', scFront:'Frente (escreva a pergunta para recordar ativamente)', scBack:'Verso (resposta — pré-preenchida, editável)', scHint:'Dica: uma ideia por card. A frente é obrigatória para recall ativo.', scSave:'Salvar flashcard', scSaved:'✓ Flashcard adicionado ao seu deck (QBank SmartCards).', scCancel:'Cancelar', scDeck:'QBank SmartCards',
@@ -1420,7 +1712,7 @@
   function renderQImage(q){
     if(!q || !q.img) return '';
     const imgs = Array.isArray(q.img) ? q.img : [q.img];
-    return imgs.filter(Boolean).map(src => `<figure class="qb-question-image"><img src="${esc(src)}" alt="Question image" loading="lazy" /></figure>`).join('');
+    return imgs.filter(Boolean).map(src => `<figure class="qb-question-image"><img src="${esc(src)}" alt="Question image" loading="lazy" decoding="async" /><figcaption>${esc(t('imageHint'))}</figcaption></figure>`).join('');
   }
 
   function renderExplanation(q,ans){
@@ -1789,6 +2081,11 @@
       qids:set.map(q=>q.id),idx:0,answers:{},strikes:{},times:{},started_at:new Date().toISOString()};
     store.saveTest(test); go({name:'test',test,showAns:false,qStart:Date.now()});
   }
+
+  window.addEventListener('couplemed:langchange', ()=>{
+    if(!root) return;
+    render();
+  });
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 })();

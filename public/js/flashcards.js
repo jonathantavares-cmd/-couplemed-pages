@@ -20,6 +20,73 @@
   const MIN = 60000, DAY = 86400000;
   const FLAGS = [null,'red','orange','green','blue'];
 
+  /* ==========================================================================
+     TAXONOMIA DE SISTEMAS / SUBJECTS / TOPICS (compartilhada com o filtro)
+     - Espelha a mesma estrutura do QBank (Systems > Subjects) para consistência
+       visual e de dados em toda a plataforma.
+     - Os Topics do 3º nível são derivados de window.LIBRARY1_STRUCTURE (Medical
+       Library > Library 1) quando o nome do sistema casa, garantindo que a
+       seleção no card direcione ao filtro correto.
+     Esta taxonomia é apenas para os Flashcards; NÃO altera o QBank.
+     ========================================================================== */
+  const FC_TAXONOMY = [
+    {id:'biochemistry', name:'Biochemistry (General Principles)', subs:[['amino_acids_proteins_enzymes','Amino acids, proteins, and enzymes'],['bioenergetics_carb_metabolism','Bioenergetics and carbohydrate metabolism'],['cell_molecular_biology','Cell and molecular biology'],['lipid_metabolism','Lipid metabolism'],['misc','Miscellaneous']]},
+    {id:'genetics', name:'Genetics (General Principles)', subs:[['clinical_genetics','Clinical genetics'],['dna_structure_replication_repair','DNA structure, replication, and repair'],['gene_expression_regulation','Gene expression and regulation'],['protein_synthesis','Protein synthesis'],['rna_structure_synthesis_processing','RNA structure, synthesis, and processing'],['misc','Miscellaneous']]},
+    {id:'microbiology', name:'Microbiology (General Principles)', subs:[['bacteriology','Bacteriology'],['mycology','Mycology'],['parasitology','Parasitology'],['virology','Virology'],['misc','Miscellaneous']]},
+    {id:'pathology', name:'Pathology (General Principles)', subs:[['cellular_pathology','Cellular pathology'],['inflammation_repair','Inflammation and repair'],['neoplasia','Neoplasia']]},
+    {id:'pharmacology', name:'Pharmacology (General Principles)', subs:[['drug_metabolism_toxicity','Drug metabolism and toxicity'],['drug_receptors_pharmacodynamics','Drug receptors and pharmacodynamics'],['pharmacokinetics','Pharmacokinetics'],['misc','Miscellaneous']]},
+    {id:'biostatistics_epidemiology', name:'Biostatistics & Epidemiology', subs:[['epidemiology_population_health','Epidemiology and population health'],['measures_distribution_data','Measures and distribution of data'],['probability_principles_testing','Probability and principles of testing'],['study_design_interpretation','Study design and interpretation'],['misc','Miscellaneous']]},
+    {id:'poisoning_environmental', name:'Poisoning & Environmental Exposure', subs:[['environmental_exposure','Environmental exposure'],['toxicology','Toxicology']]},
+    {id:'allergy_immunology', name:'Allergy & Immunology', subs:[['anaphylaxis_allergic_reactions','Anaphylaxis and allergic reactions'],['autoimmune_diseases','Autoimmune diseases'],['immune_deficiencies','Immune deficiencies'],['transplant_medicine','Transplant medicine'],['principles_immunology','Principles of immunology'],['misc','Miscellaneous']]},
+    {id:'cardiovascular', name:'Cardiovascular System', subs:[['normal_cv','Normal structure and function of the cardiovascular system'],['aortic_peripheral_artery','Aortic and peripheral artery diseases'],['cardiac_arrhythmias','Cardiac arrhythmias'],['congenital_heart_disease','Congenital heart disease'],['coronary_heart_disease','Coronary heart disease'],['heart_failure_shock','Heart failure and shock'],['hypertension','Hypertension'],['myopericardial_diseases','Myopericardial diseases'],['valvular_heart_diseases','Valvular heart diseases'],['cardiovascular_drugs','Cardiovascular drugs'],['misc','Miscellaneous']]},
+    {id:'dermatology', name:'Dermatology', subs:[['normal_skin','Normal structure and function of skin'],['disorders_epidermal_appendages','Disorders of epidermal appendages'],['inflammatory_dermatoses_bullous','Inflammatory dermatoses and bullous diseases'],['skin_soft_tissue_infections','Skin and soft tissue infections'],['skin_tumors','Skin tumors and tumor-like lesions'],['misc','Miscellaneous']]},
+    {id:'ent', name:'Ear, Nose & Throat (ENT)', subs:[['disorders_ent','Disorders of the ear, nose, and throat']]},
+    {id:'endocrine', name:'Endocrine, Diabetes & Metabolism', subs:[['normal_endocrine','Normal structure and function of endocrine glands'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['adrenal_disorders','Adrenal disorders'],['diabetes_mellitus','Diabetes mellitus'],['endocrine_tumors','Endocrine tumors'],['hypothalamus_pituitary','Hypothalamus and pituitary disorders'],['obesity_dyslipidemia','Obesity and dyslipidemia'],['reproductive_endocrinology','Reproductive endocrinology'],['thyroid_disorders','Thyroid disorders'],['misc','Miscellaneous']]},
+    {id:'female_repro_breast', name:'Female Reproductive System & Breast', subs:[['normal_female_repro','Normal structure and function of the female reproductive system and breast'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['breast_disorders','Breast disorders'],['genital_tract_tumors','Genital tract tumors and tumor-like lesions'],['genitourinary_infections','Genitourinary tract infections'],['menstrual_disorders_contraception','Menstrual disorders and contraception'],['misc','Miscellaneous']]},
+    {id:'gi_nutrition', name:'Gastrointestinal & Nutrition', subs:[['normal_gi','Normal structure and function of the GI tract'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['biliary_tract','Biliary tract disorders'],['disorders_nutrition','Disorders of nutrition'],['gastroesophageal','Gastroesophageal disorders'],['hepatic','Hepatic disorders'],['intestinal_colorectal','Intestinal and colorectal disorders'],['pancreatic','Pancreatic disorders'],['tumors_gi','Tumors of the GI tract'],['misc','Miscellaneous']]},
+    {id:'heme_onc', name:'Hematology & Oncology', subs:[['normal_heme','Normal hematologic structure and function'],['hemostasis_thrombosis','Hemostasis and thrombosis'],['plasma_cell','Plasma cell disorders'],['platelet_disorders','Platelet disorders'],['rbc_disorders','Red blood cell disorders'],['transfusion_medicine','Transfusion medicine'],['wbc_disorders','White blood cell disorders'],['principles_oncology','Principles of oncology'],['misc','Miscellaneous']]},
+    {id:'infectious_diseases', name:'Infectious Diseases', subs:[['antimicrobial_drugs','Antimicrobial drugs'],['bacterial_infections','Bacterial infections'],['fungal_infections','Fungal infections'],['hiv_sti','HIV and sexually transmitted infections'],['infection_control','Infection control'],['parasitic_helminthic','Parasitic and helminthic infections'],['viral_infections','Viral infections'],['misc','Miscellaneous']]},
+    {id:'male_repro', name:'Male Reproductive System', subs:[['normal_male_repro','Normal structure and function of the male reproductive system'],['disorders_male_repro','Disorders of the male reproductive system']]},
+    {id:'nervous_system', name:'Nervous System', subs:[['normal_nervous','Normal structure and function of the nervous system'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['cerebrovascular_disease','Cerebrovascular disease'],['cns_infections','CNS infections'],['demyelinating_diseases','Demyelinating diseases'],['peripheral_nerves_muscles','Disorders of peripheral nerves and muscles'],['headache','Headache'],['neurodegenerative_dementias','Neurodegenerative disorders and dementias'],['seizures_epilepsy','Seizures and epilepsy'],['spinal_cord_disorders','Spinal cord disorders'],['traumatic_brain_injuries','Traumatic brain injuries'],['tumors_nervous','Tumors of the nervous system'],['hydrocephalus','Hydrocephalus'],['anesthesia','Anesthesia'],['sleep_disorders','Sleep disorders'],['misc','Miscellaneous']]},
+    {id:'ophthalmology', name:'Ophthalmology', subs:[['normal_eye','Normal structure and function of the eye and associated structures'],['disorders_eye','Disorders of the eye and associated structures']]},
+    {id:'pregnancy_childbirth', name:'Pregnancy, Childbirth & Puerperium', subs:[['normal_pregnancy','Normal pregnancy, childbirth, and puerperium'],['disorders_pregnancy','Disorders of pregnancy, childbirth, and puerperium']]},
+    {id:'psychiatric_behavioral', name:'Psychiatric/Behavioral & Substance Use Disorder', subs:[['normal_behavior_development','Normal behavior and development'],['anxiety_trauma','Anxiety and trauma-related disorders'],['mood_disorders','Mood disorders'],['neurodevelopmental_disorders','Neurodevelopmental disorders'],['personality_disorders','Personality disorders'],['psychotic_disorders','Psychotic disorders'],['substance_use_disorders','Substance use disorders'],['eating_disorders','Eating disorders'],['somatoform_disorders','Somatoform disorders'],['misc','Miscellaneous']]},
+    {id:'pulmonary_critical_care', name:'Pulmonary & Critical Care', subs:[['normal_pulmonary','Normal pulmonary structure and function'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['critical_care','Critical care medicine'],['interstitial_lung','Interstitial lung disease'],['lung_cancer','Lung cancer'],['obstructive_lung','Obstructive lung disease'],['pulmonary_infections','Pulmonary infections'],['pulmonary_vascular','Pulmonary vascular disease'],['sleep_disorders','Sleep disorders'],['misc','Miscellaneous']]},
+    {id:'renal_urinary', name:'Renal, Urinary Systems & Electrolytes', subs:[['normal_renal','Normal structure and function of the kidneys and urinary system'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['acute_kidney_injury','Acute kidney injury'],['bone_metabolism','Bone metabolism'],['chronic_kidney_disease','Chronic kidney disease'],['cystic_kidney','Cystic kidney diseases'],['fluid_electrolytes_acidbase','Fluid, electrolytes, and acid-base'],['glomerular_diseases','Glomerular diseases'],['neoplasms_kidney_urinary','Neoplasms of the kidneys and urinary tract'],['nephrolithiasis_obstruction','Nephrolithiasis and urinary tract obstruction'],['diabetes_insipidus','Diabetes insipidus'],['urinary_incontinence','Urinary incontinence'],['misc','Miscellaneous']]},
+    {id:'rheum_ortho', name:'Rheumatology/Orthopedics & Sports', subs:[['normal_msk','Normal structure and function of the musculoskeletal system'],['congenital_dev_anomalies','Congenital and developmental anomalies'],['arthritis_spondylo','Arthritis and spondyloarthropathies'],['autoimmune_vasculitides','Autoimmune disorders and vasculitides'],['bone_joint_injuries_infections','Bone/joint injuries and infections'],['bone_tumors','Bone tumors and tumor-like lesions'],['spinal_disorders_back_pain','Spinal disorders and back pain'],['metabolic_bone','Metabolic bone disorders'],['misc','Miscellaneous']]},
+    {id:'social_sciences', name:'Social Sciences (Ethics/Legal/Professional)', subs:[['communication_interpersonal','Communication and interpersonal skills'],['healthcare_policy_economics','Healthcare policy and economics'],['medical_ethics_jurisprudence','Medical ethics and jurisprudence'],['patient_safety','Patient safety'],['system_based_practice_qi','System based-practice and quality improvement'],['misc','Miscellaneous']]},
+    {id:'multisystem', name:'Miscellaneous (Multisystem)', subs:[['misc','Miscellaneous']]}
+  ];
+  const FC_SUBJ_ID = (sysId,slug)=>`${sysId}::${slug}`;
+  const FC_SYS_NAMES={}, FC_SUBJ_NAMES={};
+  FC_TAXONOMY.forEach(s=>{ FC_SYS_NAMES[s.id]=s.name; s.subs.forEach(([slug,name])=>{ FC_SUBJ_NAMES[FC_SUBJ_ID(s.id,slug)]=name; }); });
+  /* Tradução PT dos rótulos de taxonomia (mesmo dicionário do QBank) */
+  const FC_TAX_PT = {
+    'Biochemistry (General Principles)':'Bioquímica (Princípios Gerais)','Genetics (General Principles)':'Genética (Princípios Gerais)','Microbiology (General Principles)':'Microbiologia (Princípios Gerais)','Pathology (General Principles)':'Patologia (Princípios Gerais)','Pharmacology (General Principles)':'Farmacologia (Princípios Gerais)','Biostatistics & Epidemiology':'Bioestatística & Epidemiologia','Poisoning & Environmental Exposure':'Intoxicação & Exposição Ambiental','Allergy & Immunology':'Alergia & Imunologia','Cardiovascular System':'Sistema Cardiovascular','Dermatology':'Dermatologia','Ear, Nose & Throat (ENT)':'Otorrinolaringologia (ENT)','Endocrine, Diabetes & Metabolism':'Endócrino, Diabetes & Metabolismo','Female Reproductive System & Breast':'Sistema Reprodutor Feminino & Mama','Gastrointestinal & Nutrition':'Gastrointestinal & Nutrição','Hematology & Oncology':'Hematologia & Oncologia','Infectious Diseases':'Doenças Infecciosas','Male Reproductive System':'Sistema Reprodutor Masculino','Nervous System':'Sistema Nervoso','Ophthalmology':'Oftalmologia','Pregnancy, Childbirth & Puerperium':'Gravidez, Parto & Puerpério','Psychiatric/Behavioral & Substance Use Disorder':'Psiquiátrico/Comportamental & Uso de Substâncias','Pulmonary & Critical Care':'Pneumologia & Terapia Intensiva','Renal, Urinary Systems & Electrolytes':'Renal, Sistema Urinário & Eletrólitos','Rheumatology/Orthopedics & Sports':'Reumatologia/Ortopedia & Esportes','Social Sciences (Ethics/Legal/Professional)':'Ciências Sociais (Ética/Legal/Profissional)','Miscellaneous (Multisystem)':'Diversos (Multissistêmico)',
+    'Amino acids, proteins, and enzymes':'Aminoácidos, proteínas e enzimas','Bioenergetics and carbohydrate metabolism':'Bioenergética e metabolismo de carboidratos','Cell and molecular biology':'Biologia celular e molecular','Lipid metabolism':'Metabolismo lipídico','Miscellaneous':'Diversos','Clinical genetics':'Genética clínica','DNA structure, replication, and repair':'Estrutura, replicação e reparo do DNA','Gene expression and regulation':'Expressão e regulação gênica','Protein synthesis':'Síntese proteica','RNA structure, synthesis, and processing':'Estrutura, síntese e processamento do RNA','Bacteriology':'Bacteriologia','Mycology':'Micologia','Parasitology':'Parasitologia','Virology':'Virologia','Cellular pathology':'Patologia celular','Inflammation and repair':'Inflamação e reparo','Neoplasia':'Neoplasia','Drug metabolism and toxicity':'Metabolismo e toxicidade de fármacos','Drug receptors and pharmacodynamics':'Receptores e farmacodinâmica','Pharmacokinetics':'Farmacocinética','Epidemiology and population health':'Epidemiologia e saúde populacional','Measures and distribution of data':'Medidas e distribuição de dados','Probability and principles of testing':'Probabilidade e princípios de testes','Study design and interpretation':'Desenho e interpretação de estudos','Environmental exposure':'Exposição ambiental','Toxicology':'Toxicologia','Anaphylaxis and allergic reactions':'Anafilaxia e reações alérgicas','Autoimmune diseases':'Doenças autoimunes','Immune deficiencies':'Imunodeficiências','Transplant medicine':'Medicina de transplantes','Principles of immunology':'Princípios de imunologia','Normal structure and function of the cardiovascular system':'Estrutura e função normais do sistema cardiovascular','Aortic and peripheral artery diseases':'Doenças da aorta e artérias periféricas','Cardiac arrhythmias':'Arritmias cardíacas','Congenital heart disease':'Cardiopatia congênita','Coronary heart disease':'Doença coronariana','Heart failure and shock':'Insuficiência cardíaca e choque','Hypertension':'Hipertensão','Myopericardial diseases':'Doenças miopericárdicas','Valvular heart diseases':'Valvopatias','Cardiovascular drugs':'Fármacos cardiovasculares','Normal structure and function of skin':'Estrutura e função normais da pele','Disorders of epidermal appendages':'Distúrbios dos anexos epidérmicos','Inflammatory dermatoses and bullous diseases':'Dermatoses inflamatórias e doenças bolhosas','Skin and soft tissue infections':'Infecções de pele e partes moles','Skin tumors and tumor-like lesions':'Tumores cutâneos e lesões tumorais','Disorders of the ear, nose, and throat':'Distúrbios do ouvido, nariz e garganta','Normal structure and function of endocrine glands':'Estrutura e função normais das glândulas endócrinas','Congenital and developmental anomalies':'Anomalias congênitas e do desenvolvimento','Adrenal disorders':'Distúrbios adrenais','Diabetes mellitus':'Diabetes mellitus','Endocrine tumors':'Tumores endócrinos','Hypothalamus and pituitary disorders':'Distúrbios do hipotálamo e hipófise','Obesity and dyslipidemia':'Obesidade e dislipidemia','Reproductive endocrinology':'Endocrinologia reprodutiva','Thyroid disorders':'Distúrbios da tireoide','Normal structure and function of the female reproductive system and breast':'Estrutura e função normais do sistema reprodutor feminino e mama','Breast disorders':'Distúrbios mamários','Genital tract tumors and tumor-like lesions':'Tumores do trato genital e lesões tumorais','Genitourinary tract infections':'Infecções do trato geniturinário','Menstrual disorders and contraception':'Distúrbios menstruais e contracepção','Normal structure and function of the GI tract':'Estrutura e função normais do trato GI','Biliary tract disorders':'Distúrbios das vias biliares','Disorders of nutrition':'Distúrbios nutricionais','Gastroesophageal disorders':'Distúrbios gastroesofágicos','Hepatic disorders':'Distúrbios hepáticos','Intestinal and colorectal disorders':'Distúrbios intestinais e colorretais','Pancreatic disorders':'Distúrbios pancreáticos','Tumors of the GI tract':'Tumores do trato GI','Normal hematologic structure and function':'Estrutura e função hematológicas normais','Hemostasis and thrombosis':'Hemostasia e trombose','Plasma cell disorders':'Distúrbios de plasmócitos','Platelet disorders':'Distúrbios plaquetários','Red blood cell disorders':'Distúrbios das hemácias','Transfusion medicine':'Medicina transfusional','White blood cell disorders':'Distúrbios dos leucócitos','Principles of oncology':'Princípios de oncologia','Antimicrobial drugs':'Fármacos antimicrobianos','Bacterial infections':'Infecções bacterianas','Fungal infections':'Infecções fúngicas','HIV and sexually transmitted infections':'HIV e infecções sexualmente transmissíveis','Infection control':'Controle de infecção','Parasitic and helminthic infections':'Infecções parasitárias e helmínticas','Viral infections':'Infecções virais','Normal structure and function of the male reproductive system':'Estrutura e função normais do sistema reprodutor masculino','Disorders of the male reproductive system':'Distúrbios do sistema reprodutor masculino','Normal structure and function of the nervous system':'Estrutura e função normais do sistema nervoso','Cerebrovascular disease':'Doença cerebrovascular','CNS infections':'Infecções do SNC','Demyelinating diseases':'Doenças desmielinizantes','Disorders of peripheral nerves and muscles':'Distúrbios dos nervos periféricos e músculos','Headache':'Cefaleia','Neurodegenerative disorders and dementias':'Distúrbios neurodegenerativos e demências','Seizures and epilepsy':'Convulsões e epilepsia','Spinal cord disorders':'Distúrbios da medula espinhal','Traumatic brain injuries':'Traumatismos cranioencefálicos','Tumors of the nervous system':'Tumores do sistema nervoso','Hydrocephalus':'Hidrocefalia','Anesthesia':'Anestesia','Sleep disorders':'Distúrbios do sono','Normal structure and function of the eye and associated structures':'Estrutura e função normais do olho e estruturas associadas','Disorders of the eye and associated structures':'Distúrbios do olho e estruturas associadas','Normal pregnancy, childbirth, and puerperium':'Gravidez, parto e puerpério normais','Disorders of pregnancy, childbirth, and puerperium':'Distúrbios da gravidez, parto e puerpério','Normal behavior and development':'Comportamento e desenvolvimento normais','Anxiety and trauma-related disorders':'Transtornos de ansiedade e relacionados a trauma','Mood disorders':'Transtornos do humor','Neurodevelopmental disorders':'Transtornos do neurodesenvolvimento','Personality disorders':'Transtornos de personalidade','Psychotic disorders':'Transtornos psicóticos','Substance use disorders':'Transtornos por uso de substâncias','Eating disorders':'Transtornos alimentares','Somatoform disorders':'Transtornos somatoformes','Normal pulmonary structure and function':'Estrutura e função pulmonares normais','Critical care medicine':'Medicina intensiva','Interstitial lung disease':'Doença pulmonar intersticial','Lung cancer':'Câncer de pulmão','Obstructive lung disease':'Doença pulmonar obstrutiva','Pulmonary infections':'Infecções pulmonares','Pulmonary vascular disease':'Doença vascular pulmonar','Normal structure and function of the kidneys and urinary system':'Estrutura e função normais dos rins e sistema urinário','Acute kidney injury':'Injúria renal aguda','Bone metabolism':'Metabolismo ósseo','Chronic kidney disease':'Doença renal crônica','Cystic kidney diseases':'Doenças renais císticas','Fluid, electrolytes, and acid-base':'Fluidos, eletrólitos e ácido-base','Glomerular diseases':'Doenças glomerulares','Neoplasms of the kidneys and urinary tract':'Neoplasias dos rins e trato urinário','Nephrolithiasis and urinary tract obstruction':'Nefrolitíase e obstrução do trato urinário','Diabetes insipidus':'Diabetes insípido','Urinary incontinence':'Incontinência urinária','Normal structure and function of the musculoskeletal system':'Estrutura e função normais do sistema musculoesquelético','Arthritis and spondyloarthropathies':'Artrite e espondiloartropatias','Autoimmune disorders and vasculitides':'Distúrbios autoimunes e vasculites','Bone/joint injuries and infections':'Lesões e infecções ósseas/articulares','Bone tumors and tumor-like lesions':'Tumores ósseos e lesões tumorais','Spinal disorders and back pain':'Distúrbios da coluna e dor lombar','Metabolic bone disorders':'Distúrbios ósseos metabólicos','Communication and interpersonal skills':'Comunicação e habilidades interpessoais','Healthcare policy and economics':'Política e economia da saúde','Medical ethics and jurisprudence':'Ética médica e jurisprudência','Patient safety':'Segurança do paciente','System based-practice and quality improvement':'Prática baseada no sistema e melhoria da qualidade'
+  };
+  /* Mapeia nome de sistema da taxonomia -> nome de sistema em LIBRARY1_STRUCTURE
+     (para puxar os Topics do 3º nível a partir da Medical Library > Library 1). */
+  const FC_SYS_TO_LIB = {
+    biochemistry:'Cell Bio, Biochem, Genetics', genetics:'Cell Bio, Biochem, Genetics',
+    microbiology:'Infectious Diseases', pathology:'Preclinical/Basic sciences',
+    pharmacology:'Pharmacology', biostatistics_epidemiology:'Social Sciences',
+    poisoning_environmental:'Toxicology', allergy_immunology:'Allergy & Immunology',
+    cardiovascular:'Cardiology', dermatology:'Dermatology', ent:'Ear, Nose & Throat (ENT)',
+    endocrine:'Endocrinology', female_repro_breast:'Gynecology', gi_nutrition:'Gastroenterology',
+    heme_onc:'Hematology & Oncology', infectious_diseases:'Infectious Diseases',
+    male_repro:'Male Reproductive System', nervous_system:'Neurology', ophthalmology:'Ophthalmology',
+    pregnancy_childbirth:'Obstetrics', psychiatric_behavioral:'Psychiatry',
+    pulmonary_critical_care:'Pulmonary & Critical Care', renal_urinary:'Nephrology',
+    rheum_ortho:'Rheumatology/Orthopedics', social_sciences:'Social Sciences', multisystem:'Preclinical/Basic sciences'
+  };
+  function fcTopicsForSystem(sysId){
+    const libName = FC_SYS_TO_LIB[sysId];
+    const lib = (window.LIBRARY1_STRUCTURE||[]).find(s=>s.name===libName);
+    return (lib && lib.items) ? lib.items : [];
+  }
+  const fcTxLabel = en => (lang()==='pt' ? (FC_TAX_PT[en]||en) : en);
+
   /* ---------- FONTE ÚNICA DO GUIA (atualizar aqui a cada mudança) ---------- */
   const QUICKSTART = {
     en: ['Study a topic, then create or import its cards.',
@@ -111,7 +178,20 @@
       postponed:n=>`${n} reviews postponed.`, daysSuffix:'day(s)',
       dow:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
       required:'Front and back are required.', deckRequired:'Select or create a deck.',
-      days:d=>d===1?'1d':`${d}d`, mins:m=>`${m}m`, imported:n=>`${n} cards imported.`
+      days:d=>d===1?'1d':`${d}d`, mins:m=>`${m}m`, imported:n=>`${n} cards imported.`,
+      filter:'Filter', filterTitle:'Filter flashcards', systemsLbl:'Systems', topicLbl:'Topic', subjectLbl:'Subject',
+      filterSearchPh:'Search systems, subjects, or topics…', collapseAll:'Collapse all', expandAll:'Expand all',
+      applyFilter:'Apply filter', clearFilter:'Clear', noneTopic:'— No topic —', selectTopic:'Select a topic (optional)',
+      filterResults:n=>`${n} card(s) match the filter.`, activeFilters:'Active filters',
+      systemPick:'System / Subject / Topic', systemPickSub:'Link this card to a system so it appears in the correct filter.',
+      chooseSystem:'Choose a system…', chooseSubject:'Choose a subject…',
+      rtFormat:'Format', rtSize:'Size', rtNormal:'Normal', rtH1:'Heading 1', rtH2:'Heading 2',
+      rtBold:'Bold', rtItalic:'Italic', rtUnderline:'Underline', rtStrike:'Strikethrough', rtClear:'Clear formatting',
+      rtColor:'Text color / Highlight', rtTable:'Insert table', rtOL:'Numbered list', rtUL:'Bullet list',
+      rtIndentMinus:'Decrease indent', rtIndentPlus:'Increase indent', rtUndo:'Undo', rtRedo:'Redo',
+      rtLeft:'Align left', rtCenter:'Align center', rtRight:'Align right', rtJustify:'Justify',
+      rtImage:'Insert image', rtPaste:'Paste image', rtRemoveColor:'Remove color', rtTextColors:'Text', rtHighlights:'Highlight',
+      flipToBack:'Flip to Back →', flipToFront:'← Flip to Front', frontSide:'Front', backSideShort:'Back'
     },
     pt: {
       title:'Flashcards', bread:'Home › Estudos › Flashcards',
@@ -162,7 +242,20 @@
       postponed:n=>`${n} revisões adiadas.`, daysSuffix:'dia(s)',
       dow:['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
       required:'Frente e verso são obrigatórios.', deckRequired:'Selecione ou crie um deck.',
-      days:d=>d===1?'1d':`${d}d`, mins:m=>`${m}m`, imported:n=>`${n} cards importados.`
+      days:d=>d===1?'1d':`${d}d`, mins:m=>`${m}m`, imported:n=>`${n} cards importados.`,
+      filter:'Filtrar', filterTitle:'Filtrar flashcards', systemsLbl:'Sistemas', topicLbl:'Topic', subjectLbl:'Subject',
+      filterSearchPh:'Buscar sistemas, subjects ou topics…', collapseAll:'Recolher tudo', expandAll:'Expandir tudo',
+      applyFilter:'Aplicar filtro', clearFilter:'Limpar', noneTopic:'— Sem topic —', selectTopic:'Selecione um topic (opcional)',
+      filterResults:n=>`${n} card(s) correspondem ao filtro.`, activeFilters:'Filtros ativos',
+      systemPick:'System / Subject / Topic', systemPickSub:'Vincule este card a um sistema para ele aparecer no filtro correto.',
+      chooseSystem:'Escolha um sistema…', chooseSubject:'Escolha um subject…',
+      rtFormat:'Formato', rtSize:'Tamanho', rtNormal:'Normal', rtH1:'Título 1', rtH2:'Título 2',
+      rtBold:'Negrito', rtItalic:'Itálico', rtUnderline:'Sublinhado', rtStrike:'Tachado', rtClear:'Limpar formatação',
+      rtColor:'Cor do texto / Marca-texto', rtTable:'Inserir tabela', rtOL:'Lista numerada', rtUL:'Lista com marcadores',
+      rtIndentMinus:'Diminuir recuo', rtIndentPlus:'Aumentar recuo', rtUndo:'Desfazer', rtRedo:'Refazer',
+      rtLeft:'Alinhar à esquerda', rtCenter:'Centralizar', rtRight:'Alinhar à direita', rtJustify:'Justificar',
+      rtImage:'Inserir imagem', rtPaste:'Colar imagem', rtRemoveColor:'Remover cor', rtTextColors:'Texto', rtHighlights:'Marca-texto',
+      flipToBack:'Virar para o Verso →', flipToFront:'← Virar para a Frente', frontSide:'Frente', backSideShort:'Verso'
     }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
@@ -183,6 +276,9 @@
   function migrateCard(c){
     if(c.flag === undefined) c.flag = null;
     if(c.buriedUntil === undefined) c.buriedUntil = 0;
+    if(c.sys === undefined) c.sys = null;      // id do sistema (ex.: 'cardiovascular')
+    if(c.subj === undefined) c.subj = null;    // id do subject (ex.: 'cardiovascular::valvular_heart_diseases')
+    if(c.topic === undefined) c.topic = null;  // nome do topic (texto livre da Medical Library)
     if(c.state) return c;
     c.ease = c.ease || CFG.startEase;
     c.lapses = c.lapses || 0;
@@ -234,11 +330,13 @@
     DB.decks.forEach(d=>{
       items.push({ label: d.name, snippetSource: '', href: `app.html?page=flashcards&u=${USER}`, cat: 'Flashcards · Decks' });
     });
+    const stripHtml = s => String(s||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
     DB.cards.forEach(c=>{
       if(!c.front && !c.back) return;
+      const fTxt = stripHtml(c.front), bTxt = stripHtml(c.back);
       items.push({
-        label: (c.front||'').replace(/\{\{c\d+::(.*?)(::.*?)?\}\}/g,'$1').slice(0,80) || '(sem frente)',
-        snippetSource: [c.front, c.back].filter(Boolean).join(' — '),
+        label: (fTxt||'').replace(/\{\{c\d+::(.*?)(::.*?)?\}\}/g,'$1').slice(0,80) || '(sem frente)',
+        snippetSource: [fTxt, bTxt].filter(Boolean).join(' — '),
         href: `app.html?page=flashcards&u=${USER}`,
         cat: 'Flashcards · ' + (deckName(c.deckId) || 'Sem deck')
       });
@@ -364,6 +462,16 @@
   const isCloze = txt => /\{\{c\d+::(.+?)\}\}/.test(txt);
   const clozeFront = txt => esc(txt).replace(/\{\{c\d+::(.+?)\}\}/g, '<span class="fc-cloze">[...]</span>');
   const clozeBack = txt => esc(txt).replace(/\{\{c\d+::(.+?)\}\}/g, '<span class="fc-cloze fc-cloze-open">$1</span>');
+  // detecta se o conteúdo é HTML rico (rich text) — nesse caso renderizamos direto (sem escapar/traduzir)
+  const fcHasHtml = s => /<[a-z][\s\S]*>/i.test(String(s||''));
+  // sanitização leve: remove scripts/handlers on* de conteúdo rico armazenado
+  function fcSanitize(html){
+    return String(html||'')
+      .replace(/<\s*script[^>]*>[\s\S]*?<\/\s*script\s*>/gi,'')
+      .replace(/\son\w+\s*=\s*"[^"]*"/gi,'')
+      .replace(/\son\w+\s*=\s*'[^']*'/gi,'')
+      .replace(/javascript:/gi,'');
+  }
 
   /* ---------- imagens ---------- */
   function imgToBase64(file){
@@ -437,6 +545,25 @@
     render();
     new MutationObserver(render).observe(document.documentElement, {attributes:true, attributeFilter:['lang']});
     document.addEventListener('keydown', onKey);
+    /* prefill from URL param (e.g. from selection bubble on another page) */
+    const prefill = params.get('prefill');
+    if(prefill){
+      setTimeout(()=>{
+        if(view.name==='home'){ view={name:'dash'}; render(); }
+        cardForm(null, '');
+        const ed = root.querySelector('#fcEditor_front');
+        if(ed) ed.innerHTML = '<p>' + prefill.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>';
+      }, 200);
+    }
+    /* listen for quick-flashcard event from selection bubble */
+    window.addEventListener('cm-quick-flashcard', e=>{
+      const text = e.detail && e.detail.text;
+      if(!text) return;
+      if(view.name==='home'){ view={name:'dash'}; render(); }
+      cardForm(null, '');
+      const ed = root.querySelector('#fcEditor_front');
+      if(ed) ed.innerHTML = '<p>' + text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>';
+    });
   }
   function onKey(e){
     if(view.name !== 'review' || !view.queue || !view.queue.length) return;
@@ -453,6 +580,7 @@
     if(view.name === 'home') renderHome();
     else if(view.name === 'dash') renderDash();
     else if(view.name === 'browse') renderBrowse();
+    else if(view.name === 'filter') renderFilter();
     else if(view.name === 'review') renderReview();
     else if(view.name === 'stats') renderStats();
     translateVisibleCardTexts();
@@ -544,6 +672,7 @@
       <div class="fc-head"><div><h1 class="fc-title">${t('title')}</h1><p class="fc-bread">${t('bread')}</p></div>
       <div class="fc-actions">
         <button class="fc-btn fc-primary" data-act="create">${t('create')}</button>
+        <button class="fc-btn fc-filter-btn" data-act="filter">⚙ ${t('filter')}</button>
         <button class="fc-btn" data-act="import">${t('imp')}</button>
         <button class="fc-btn" data-act="browse">${t('browse')}</button>
         <button class="fc-btn" data-act="stats">${t('stats')}</button>
@@ -599,11 +728,20 @@
     });
     return f;
   }
+  function cardMatchesMeta(c, mf){
+    if(!mf) return true;
+    if(mf.subjects && mf.subjects.length && !(c.subj && mf.subjects.includes(c.subj))) return false;
+    else if((!mf.subjects || !mf.subjects.length) && mf.systems && mf.systems.length && !(c.sys && mf.systems.includes(c.sys))) return false;
+    if(mf.topic && (c.topic||'').toLowerCase() !== mf.topic.toLowerCase()) return false;
+    return true;
+  }
   function renderBrowse(){
     const f = view.filter || (view.filter = {q:'', deck: view.deckId || '', state:''});
+    const mf = view.metaFilter || null;
     const pq = parseQuery(f.q);
     const rowsData = allItems('all').filter(it => {
       const c = it.card, s = stateOf(it);
+      if(!cardMatchesMeta(c, mf)) return false;
       if(f.deck && !(it.kind==='own' && c.deckId === f.deck)) return false;
       if(f.state === 'suspended'){ if(!s.suspended) return false; }
       else if(f.state && (s.state !== f.state || s.suspended)) return false;
@@ -611,7 +749,7 @@
         if(!d || !d.name.toLowerCase().includes(pq.deck)) return false; }
       if(pq.tags.length && !pq.tags.every(tg => (c.tags||[]).some(x => x.toLowerCase().includes(tg)))) return false;
       if(pq.flag && s.flag !== pq.flag) return false;
-      if(pq.text.length){ const hay = (c.front + ' ' + c.back + ' ' + (c.tags||[]).join(' ')).toLowerCase();
+      if(pq.text.length){ const hay = (String(c.front).replace(/<[^>]*>/g,' ') + ' ' + String(c.back).replace(/<[^>]*>/g,' ') + ' ' + (c.tags||[]).join(' ')).toLowerCase();
         if(!pq.text.every(w => hay.includes(w))) return false; }
       return true;
     });
@@ -620,12 +758,14 @@
     const rows = rowsData.length ? rowsData.map(it => {
       const c = it.card, s = stateOf(it), own = it.kind === 'own';
       const cid = own ? c.id : c.id;
-      const cloze = isCloze(c.front);
+      const cloze = isCloze(c.front) && !fcHasHtml(c.front);
+      const frontDisp = fcHasHtml(c.front) ? `<span class="fc-rich">${fcSanitize(c.front)}</span>` : (cloze?clozeBack(c.front):transSpan(c.front));
+      const backDisp = fcHasHtml(c.back) ? `<span class="fc-rich">${fcSanitize(c.back)}</span>` : (cloze?esc(c.back):transSpan(c.back));
       return `<div class="fc-row">
-        <div class="fc-row-txt"><strong>${flagDot(s)}${cloze?clozeBack(c.front):transSpan(c.front)}
+        <div class="fc-row-txt"><strong>${flagDot(s)}${frontDisp}
           ${stBadge(s)} ${isBuried(s)?'<i class="fc-st fc-st-susp">💤</i>':''} ${own && c.shared?`<i class="fc-badge">⇄ ${t('sharedBadge')}</i>`:''}
           ${!own?`<i class="fc-owner">${t('byOwner')(ownerName(c.owner))}</i>`:''}</strong>
-        <span>${cloze?esc(c.back):transSpan(c.back)}</span>
+        <span>${backDisp}</span>
         ${(c.tags||[]).length?`<em>${c.tags.map(esc).join(' · ')}</em>`:''}</div>
         <div class="fc-row-meta">${s.state==='review' ? t('days')(s.interval)+' · '+new Date(s.due).toISOString().slice(0,10) : ''}</div>
         <div class="fc-row-actions">
@@ -637,10 +777,93 @@
           <button class="fc-btn fc-sm fc-danger" data-act="del-card" data-card="${cid}">✕</button>`:''}
         </div></div>`;
     }).join('') : `<p class="fc-empty">${t('noResults')}</p>`;
+    const activeChip = mf ? (() => {
+      const parts = [];
+      if(mf.topic) parts.push(esc(mf.topic));
+      if(mf.subjects && mf.subjects.length) parts.push(mf.subjects.length===1 ? esc(fcTxLabel(FC_SUBJ_NAMES[mf.subjects[0]]||'')) : mf.subjects.length+' subjects');
+      else if(mf.systems && mf.systems.length) parts.push(mf.systems.length===1 ? esc(fcTxLabel(FC_SYS_NAMES[mf.systems[0]]||'')) : mf.systems.length+' systems');
+      return `<div class="fc-active-filter"><span class="fc-active-filter-label">⚙ ${t('activeFilters')}:</span> <span class="fc-active-filter-val">${parts.join(' › ')||'—'}</span><button class="fc-btn fc-sm fc-active-filter-clear" data-act="clear-meta">✕ ${t('clearFilter')}</button></div>`;
+    })() : '';
+
+    /* --- Painel de filtro embutido (inline) na página Navegar --- */
+    const ff = ensureFilterState();
+    const {bySubj, bySys} = fcCountsBySubject();
+    const fq = (ff.q||'').toLowerCase();
+    const matchTxt = name => !fq || fcTxLabel(name).toLowerCase().includes(fq) || name.toLowerCase().includes(fq);
+    const browseFilterOpen = !!view.browseFilterOpen;
+
+    const groupHTML = sys => {
+      const subIds = sys.subs.map(([slug])=>FC_SUBJ_ID(sys.id,slug));
+      const selCount = subIds.filter(id=>ff.subjects.includes(id)).length;
+      const sysChecked = selCount>0 && selCount===subIds.length;
+      const sysPartial = selCount>0 && selCount<subIds.length;
+      const sysCount = bySys[sys.id]||0;
+      const collapsed = !!ff.collapsed[sys.id];
+      const subMatches = sys.subs.filter(([slug,name])=>matchTxt(name));
+      if(fq && !matchTxt(sys.name) && !subMatches.length) return '';
+      const subsToShow = (fq && !matchTxt(sys.name)) ? subMatches : sys.subs;
+      const rowsHtml = subsToShow.map(([slug,name])=>{
+        const id = FC_SUBJ_ID(sys.id,slug); const on = ff.subjects.includes(id); const c = bySubj[id]||0;
+        return `<label class="qb-tax-sub ${on?'on':''}">
+          <input type="checkbox" data-act="fc-browse-tog-sub" data-v="${id}" ${on?'checked':''}>
+          <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(fcTxLabel(name))}</span><span class="qb-tax-count">${c}</span>
+        </label>`;
+      }).join('');
+      return `<div class="qb-tax-group">
+        <div class="qb-tax-head">
+          <label class="qb-tax-sys ${sysChecked?'on':''} ${sysPartial?'partial':''}">
+            <input type="checkbox" data-act="fc-browse-tog-sys" data-v="${sys.id}" ${sysChecked?'checked':''}>
+            <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(fcTxLabel(sys.name))}</span><span class="qb-tax-count">${sysCount}</span>
+          </label>
+          <button class="qb-tax-toggle" data-act="fc-browse-collapse" data-v="${sys.id}" aria-label="toggle">${collapsed?'＋':'—'}</button>
+        </div>
+        ${collapsed?'':`<div class="qb-tax-subs">${rowsHtml}</div>`}
+      </div>`;
+    };
+    const groups = FC_TAXONOMY.map(groupHTML).join('');
+
+    const selSysIds = (() => {
+      const set = new Set();
+      ff.subjects.forEach(id=>{ set.add(id.split('::')[0]); });
+      return set.size ? [...set] : FC_TAXONOMY.map(s=>s.id);
+    })();
+    const topicSet = new Set();
+    selSysIds.forEach(sid => fcTopicsForSystem(sid).forEach(tp => topicSet.add(tp)));
+    const topics = [...topicSet].sort((a,b)=>a.localeCompare(b));
+    const topicOpts = `<option value="">${t('selectTopic')}</option>` +
+      topics.map(tp=>`<option value="${esc(tp)}" ${ff.topic===tp?'selected':''}>${esc(tp)}</option>`).join('');
+
+    const filterPanelHTML = `<div class="fc-browse-filter-panel ${browseFilterOpen?'fc-open':''}" id="fcBrowseFilterPanel">
+      <div class="fc-browse-filter-header" data-act="fc-browse-toggle-filter">
+        <span>⚙ ${t('filterTitle')} — Systems / Subjects / Topics</span>
+        <span class="fc-browse-filter-arrow">${browseFilterOpen?'▲':'▼'}</span>
+      </div>
+      <div class="fc-browse-filter-body" ${browseFilterOpen?'':'hidden'}>
+        <div class="fc-filter-search"><input id="fcBrowseFilterSearch" placeholder="${t('filterSearchPh')}" value="${esc(ff.q||'')}"/></div>
+        <div class="fc-filter-topic">
+          <label>${t('topicLbl')}</label>
+          <select id="fcBrowseFilterTopic">${topicOpts}</select>
+        </div>
+        <div class="qb-tax-bar">
+          <label class="qb-tax-sys master ${ff.subjects.length?'partial':''}">
+            <input type="checkbox" data-act="fc-browse-tog-all" ${ff.subjects.length?'checked':''}>
+            <span class="qb-tax-box"></span><span class="qb-tax-name">${t('systemsLbl')}</span>
+          </label>
+          <button class="qb-link" data-act="fc-browse-collapse-all">${Object.keys(ff.collapsed).length && FC_TAXONOMY.every(s=>ff.collapsed[s.id]) ? t('expandAll') : t('collapseAll')}</button>
+        </div>
+        <div class="qb-tax fc-tax">${groups || `<p class="fc-empty">${t('noResults')}</p>`}</div>
+        <div class="fc-browse-filter-actions">
+          <button class="fc-btn" data-act="fc-browse-clear-filter">${t('clearFilter')}</button>
+          <button class="fc-btn fc-primary" data-act="fc-browse-apply-filter">▶ ${t('applyFilter')} (${rowsData.length})</button>
+        </div>
+      </div>
+    </div>`;
+
     root.innerHTML = `<button class="fc-btn fc-back" data-act="back">${t('back')}</button>
       <div class="fc-head"><div><h1 class="fc-title">${t('browse')}</h1><p class="fc-bread">${t('bread')} › ${t('browse')}</p></div>
       <div class="fc-actions">${suspCount?`<button class="fc-btn" data-act="release-filtered">${t('releaseAll')(suspCount)}</button>`:''}
       <button class="fc-btn fc-primary" data-act="create">${t('create')}</button></div></div>
+      ${activeChip}
       <div class="fc-browse-bar">
         <input id="fcSearch" placeholder="${t('searchPh')}" value="${esc(f.q)}"/>
         <select id="fcDeckFilter"><option value="">${t('allDecks')}</option>
@@ -649,12 +872,125 @@
           ${[['new','stNew'],['learn','stLearn'],['review','stReview'],['relearn','stRelearn'],['suspended','stSuspended']]
             .map(([v,k])=>`<option value="${v}" ${f.state===v?'selected':''}>${t(k)}</option>`).join('')}</select>
       </div>
+      ${filterPanelHTML}
       <div class="fc-list">${rows}</div><div id="fcModal" class="fc-modal" hidden></div>`;
     root.querySelector('#fcSearch').addEventListener('input', e => { f.q = e.target.value; renderBrowse(); });
     const si = root.querySelector('#fcSearch'); si.focus(); si.setSelectionRange(si.value.length, si.value.length);
     root.querySelector('#fcDeckFilter').addEventListener('change', e => { f.deck = e.target.value; renderBrowse(); });
     root.querySelector('#fcStateFilter').addEventListener('change', e => { f.state = e.target.value; renderBrowse(); });
+    /* wiring do filtro inline */
+    const fsi = root.querySelector('#fcBrowseFilterSearch');
+    if(fsi) fsi.addEventListener('input', e => { ff.q = e.target.value; renderBrowse(); });
+    const ftp = root.querySelector('#fcBrowseFilterTopic');
+    if(ftp) ftp.addEventListener('change', e => { ff.topic = e.target.value; applyBrowseMetaFilter(); renderBrowse(); });
     view.lastFiltered = rowsData;
+    wire();
+  }
+
+  /* ---------- FILTRO por System / Subject / Topic (estilo QBank) ---------- */
+  function ensureFilterState(){
+    if(!view.ff) view.ff = { subjects:[], collapsed:{}, q:'', topic:'' };
+    if(!view.ff.subjects) view.ff.subjects = [];
+    if(!view.ff.collapsed) view.ff.collapsed = {};
+    return view.ff;
+  }
+  function applyBrowseMetaFilter(){
+    const ff = ensureFilterState();
+    if(!ff.subjects.length && !ff.topic){ view.metaFilter = null; return; }
+    view.metaFilter = { systems:[...new Set(ff.subjects.map(id=>id.split('::')[0]))], subjects:ff.subjects.slice(), topic:ff.topic||null };
+  }
+  function fcCountsBySubject(){
+    // conta cards (próprios + compartilhados) por subject e por system
+    const bySubj = {}, bySys = {};
+    allItems('all').forEach(it => {
+      const c = it.card;
+      if(c.subj){ bySubj[c.subj] = (bySubj[c.subj]||0)+1; }
+      if(c.sys){ bySys[c.sys] = (bySys[c.sys]||0)+1; }
+    });
+    return {bySubj, bySys};
+  }
+  function renderFilter(){
+    const ff = ensureFilterState();
+    const {bySubj, bySys} = fcCountsBySubject();
+    const q = (ff.q||'').toLowerCase();
+    const matchTxt = name => !q || fcTxLabel(name).toLowerCase().includes(q) || name.toLowerCase().includes(q);
+
+    const groupHTML = sys => {
+      const subIds = sys.subs.map(([slug])=>FC_SUBJ_ID(sys.id,slug));
+      const selCount = subIds.filter(id=>ff.subjects.includes(id)).length;
+      const sysChecked = selCount>0 && selCount===subIds.length;
+      const sysPartial = selCount>0 && selCount<subIds.length;
+      const sysCount = bySys[sys.id]||0;
+      const collapsed = !!ff.collapsed[sys.id];
+      // filtra por busca: mantém o sistema se o nome do sistema casa OU algum subject casa
+      const subMatches = sys.subs.filter(([slug,name])=>matchTxt(name));
+      if(q && !matchTxt(sys.name) && !subMatches.length) return '';
+      const subsToShow = (q && !matchTxt(sys.name)) ? subMatches : sys.subs;
+      const rows = subsToShow.map(([slug,name])=>{
+        const id = FC_SUBJ_ID(sys.id,slug); const on = ff.subjects.includes(id); const c = bySubj[id]||0;
+        return `<label class="qb-tax-sub ${on?'on':''}">
+          <input type="checkbox" data-act="fc-tog-sub" data-v="${id}" ${on?'checked':''}>
+          <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(fcTxLabel(name))}</span><span class="qb-tax-count">${c}</span>
+        </label>`;
+      }).join('');
+      return `<div class="qb-tax-group">
+        <div class="qb-tax-head">
+          <label class="qb-tax-sys ${sysChecked?'on':''} ${sysPartial?'partial':''}">
+            <input type="checkbox" data-act="fc-tog-sys" data-v="${sys.id}" ${sysChecked?'checked':''}>
+            <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(fcTxLabel(sys.name))}</span><span class="qb-tax-count">${sysCount}</span>
+          </label>
+          <button class="qb-tax-toggle" data-act="fc-collapse" data-v="${sys.id}" aria-label="toggle">${collapsed?'＋':'—'}</button>
+        </div>
+        ${collapsed?'':`<div class="qb-tax-subs">${rows}</div>`}
+      </div>`;
+    };
+    const groups = FC_TAXONOMY.map(groupHTML).join('');
+
+    // topic dropdown: baseado nos sistemas atualmente selecionados (ou todos)
+    const selSysIds = (() => {
+      const set = new Set();
+      ff.subjects.forEach(id=>{ set.add(id.split('::')[0]); });
+      return set.size ? [...set] : FC_TAXONOMY.map(s=>s.id);
+    })();
+    const topicSet = new Set();
+    selSysIds.forEach(sid => fcTopicsForSystem(sid).forEach(tp => topicSet.add(tp)));
+    const topics = [...topicSet].sort((a,b)=>a.localeCompare(b));
+    const topicOpts = `<option value="">${t('selectTopic')}</option>` +
+      topics.map(tp=>`<option value="${esc(tp)}" ${ff.topic===tp?'selected':''}>${esc(tp)}</option>`).join('');
+
+    // pré-visualização de contagem de cards que casam com o filtro atual
+    const preview = {
+      systems: [...new Set(ff.subjects.map(id=>id.split('::')[0]))],
+      subjects: ff.subjects.slice(),
+      topic: ff.topic || null
+    };
+    const matchCount = allItems('all').filter(it => cardMatchesMeta(it.card, preview)).length;
+
+    root.innerHTML = `<button class="fc-btn fc-back" data-act="back">${t('back')}</button>
+      <div class="fc-head"><div><h1 class="fc-title">${t('filterTitle')}</h1><p class="fc-bread">${t('bread')} › ${t('filter')}</p></div>
+      <div class="fc-actions">
+        <button class="fc-btn" data-act="fc-clear-filter">${t('clearFilter')}</button>
+        <button class="fc-btn fc-primary" data-act="fc-apply-filter">▶ ${t('applyFilter')} (${matchCount})</button>
+      </div></div>
+      <div class="fc-filter-search"><input id="fcFilterSearch" placeholder="${t('filterSearchPh')}" value="${esc(ff.q||'')}"/></div>
+      <div class="fc-filter-topic">
+        <label>${t('topicLbl')}</label>
+        <select id="fcFilterTopic">${topicOpts}</select>
+      </div>
+      <div class="qb-tax-bar">
+        <label class="qb-tax-sys master ${ff.subjects.length?'partial':''}">
+          <input type="checkbox" data-act="fc-tog-all" ${ff.subjects.length?'checked':''}>
+          <span class="qb-tax-box"></span><span class="qb-tax-name">${t('systemsLbl')}</span>
+        </label>
+        <button class="qb-link" data-act="fc-collapse-all">${Object.keys(ff.collapsed).length && FC_TAXONOMY.every(s=>ff.collapsed[s.id]) ? t('expandAll') : t('collapseAll')}</button>
+      </div>
+      <div class="qb-tax fc-tax">${groups || `<p class="fc-empty">${t('noResults')}</p>`}</div>
+      <div id="fcModal" class="fc-modal" hidden></div>`;
+
+    const si = root.querySelector('#fcFilterSearch');
+    si.addEventListener('input', e => { ff.q = e.target.value; renderFilter(); });
+    si.focus(); si.setSelectionRange(si.value.length, si.value.length);
+    root.querySelector('#fcFilterTopic').addEventListener('change', e => { ff.topic = e.target.value; renderFilter(); });
     wire();
   }
 
@@ -680,10 +1016,10 @@
     const ratings = ['again','hard','good','easy'].map((r,i) =>
       `<button class="fc-btn fc-rate fc-rate-${r}" data-act="rate" data-rate="${r}"><small>${i+1}</small>${t(r)}<small>${nextIvPreview(s, r)}</small></button>`).join('');
     const ownerTag = item.kind === 'shared' ? `<p class="fc-owner-tag">⇄ ${t('byOwner')(ownerName(c.owner))} · ${esc(c.deckName)}</p>` : '';
-    const cloze = isCloze(c.front);
+    const cloze = isCloze(c.front) && !fcHasHtml(c.front);
     const transSpan = (text, cls) => `<span class="${cls||''}" data-fc-i18n-text data-fc-original="${esc(text)}">${esc(text)}</span>`;
-    const frontHtml = cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(c.front);
-    const backHtml = view.showBack && (!cloze || c.back) ? `<hr class="fc-sep"/><div class="fc-card-back">${cloze?esc(c.back):transSpan(c.back)}</div>` : '';
+    const frontHtml = fcHasHtml(c.front) ? `<div class="fc-rich">${fcSanitize(c.front)}</div>` : (cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(c.front));
+    const backHtml = view.showBack && (!cloze || c.back) ? `<hr class="fc-sep"/><div class="fc-card-back">${fcHasHtml(c.back) ? `<div class="fc-rich">${fcSanitize(c.back)}</div>` : (cloze?esc(c.back):transSpan(c.back))}</div>` : '';
     const imgHtml = c.image64 ? `<div class="fc-card-image"><img src="${c.image64}" style="max-width:100%;max-height:200px;border-radius:8px;margin:10px 0"/></div>` : '';
     root.innerHTML = `<div class="fc-review-wrap">
       <div class="fc-counts"><b class="fc-c-new">${counts.n}</b> + <b class="fc-c-learn">${counts.l}</b> + <b class="fc-c-rev">${counts.r}</b> ${flagDot(s)}</div>
@@ -822,9 +1158,87 @@
   }
 
   /* ---------- modais ---------- */
-  function openModal(html){ const m = root.querySelector('#fcModal'); if(!m) return; m.innerHTML = `<div class="fc-modal-box">${html}</div>`; m.hidden = false;
+  function openModal(html, wide){ const m = root.querySelector('#fcModal'); if(!m) return; m.innerHTML = `<div class="fc-modal-box ${wide?'fc-modal-wide':''}">${html}</div>`; m.hidden = false;
     m.querySelectorAll('[data-act]').forEach(el => el.addEventListener('click', onAct)); }
   function closeModal(){ const m = root.querySelector('#fcModal'); if(m){ m.hidden = true; m.innerHTML=''; } window.currentImageB64 = null; }
+
+  /* ---------- Editor de texto rico (rich text) para Frente e Verso ---------- */
+  // paleta ampla de cores de texto + marca-texto
+  const RT_TEXT_COLORS = ['#0b1930','#334155','#64748b','#dc2626','#ea580c','#d97706','#ca8a04','#65a30d','#16a34a','#059669','#0891b2','#0284c7','#2563eb','#4f46e5','#7c3aed','#9333ea','#c026d3','#db2777','#e11d48','#ffffff'];
+  const RT_HL_COLORS = ['#fff59d','#c5f2a4','#a7f3d0','#a5f3fc','#bae6fd','#c7d2fe','#ddd6fe','#f5d0fe','#fbcfe8','#fecdd3','#fed7aa','#fde68a','#fecaca','#e2e8f0','#facc15','#4ade80','#22d3ee','#f472b6','#fb923c','#94a3b8'];
+  function rtColorPanel(side){
+    const txt = RT_TEXT_COLORS.map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="forecolor" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    const hl = RT_HL_COLORS.map(c=>`<button type="button" class="fc-rt-swatch" style="background:${c}" data-rt="hilite" data-rt-val="${c}" data-side="${side}" title="${c}"></button>`).join('');
+    return `<div class="fc-rt-colorpanel" id="fcRtColors_${side}" hidden>
+      <button type="button" class="fc-rt-removecolor" data-rt="removecolor" data-side="${side}"><span class="fc-rt-nocolor"></span> ${t('rtRemoveColor')}</button>
+      <div class="fc-rt-swgroup-lbl">${t('rtTextColors')}</div><div class="fc-rt-swgrid">${txt}</div>
+      <div class="fc-rt-swgroup-lbl">${t('rtHighlights')}</div><div class="fc-rt-swgrid">${hl}</div>
+    </div>`;
+  }
+  function rtToolbar(side){
+    return `<div class="fc-rt-toolbar" data-side="${side}">
+      <select class="fc-rt-sel fc-rt-format" data-rt="format" data-side="${side}" title="${t('rtFormat')}">
+        <option value="P">${t('rtNormal')}</option><option value="H1">${t('rtH1')}</option><option value="H2">${t('rtH2')}</option>
+      </select>
+      <select class="fc-rt-sel fc-rt-size" data-rt="fontsize" data-side="${side}" title="${t('rtSize')}">
+        <option value="2">${t('rtSize')}</option><option value="1">S</option><option value="3">M</option><option value="4">L</option><option value="5">XL</option><option value="6">XXL</option>
+      </select>
+      <span class="fc-rt-div"></span>
+      <button type="button" class="fc-rt-btn" data-rt="bold" data-side="${side}" title="${t('rtBold')}"><b>B</b></button>
+      <button type="button" class="fc-rt-btn" data-rt="italic" data-side="${side}" title="${t('rtItalic')}"><i>I</i></button>
+      <button type="button" class="fc-rt-btn" data-rt="underline" data-side="${side}" title="${t('rtUnderline')}"><u>U</u></button>
+      <button type="button" class="fc-rt-btn" data-rt="strikeThrough" data-side="${side}" title="${t('rtStrike')}"><s>S</s></button>
+      <button type="button" class="fc-rt-btn" data-rt="clear" data-side="${side}" title="${t('rtClear')}">T<sub>x</sub></button>
+      <span class="fc-rt-div"></span>
+      <div class="fc-rt-colorwrap">
+        <button type="button" class="fc-rt-btn fc-rt-colorbtn" data-rt="colortoggle" data-side="${side}" title="${t('rtColor')}"><span class="fc-rt-a">A</span> ▾</button>
+        ${rtColorPanel(side)}
+      </div>
+      <span class="fc-rt-div"></span>
+      <button type="button" class="fc-rt-btn" data-rt="insertTable" data-side="${side}" title="${t('rtTable')}">▦</button>
+      <button type="button" class="fc-rt-btn" data-rt="insertOrderedList" data-side="${side}" title="${t('rtOL')}">1.</button>
+      <button type="button" class="fc-rt-btn" data-rt="insertUnorderedList" data-side="${side}" title="${t('rtUL')}">•</button>
+      <button type="button" class="fc-rt-btn" data-rt="outdent" data-side="${side}" title="${t('rtIndentMinus')}">⇤</button>
+      <button type="button" class="fc-rt-btn" data-rt="indent" data-side="${side}" title="${t('rtIndentPlus')}">⇥</button>
+      <span class="fc-rt-div"></span>
+      <button type="button" class="fc-rt-btn" data-rt="undo" data-side="${side}" title="${t('rtUndo')}">↶</button>
+      <button type="button" class="fc-rt-btn" data-rt="redo" data-side="${side}" title="${t('rtRedo')}">↷</button>
+      <span class="fc-rt-div"></span>
+      <button type="button" class="fc-rt-btn" data-rt="justifyLeft" data-side="${side}" title="${t('rtLeft')}">≡</button>
+      <button type="button" class="fc-rt-btn" data-rt="justifyCenter" data-side="${side}" title="${t('rtCenter')}">≣</button>
+      <button type="button" class="fc-rt-btn" data-rt="justifyRight" data-side="${side}" title="${t('rtRight')}">≢</button>
+      <button type="button" class="fc-rt-btn" data-rt="justifyFull" data-side="${side}" title="${t('rtJustify')}">☰</button>
+      <span class="fc-rt-div"></span>
+      <button type="button" class="fc-rt-btn" data-rt="image" data-side="${side}" title="${t('rtImage')}">🖼️</button>
+      <button type="button" class="fc-rt-btn" data-rt="pasteimg" data-side="${side}" title="${t('rtPaste')}">📋</button>
+    </div>`;
+  }
+  // aplica um comando de rich text no editor do lado (side): 'front' | 'back'
+  function rtExec(side, cmd, val){
+    const ed = root.querySelector('#fcEditor_'+side);
+    if(!ed) return;
+    ed.focus();
+    try{
+      if(cmd==='format'){ document.execCommand('formatBlock', false, val); }
+      else if(cmd==='fontsize'){ document.execCommand('fontSize', false, val); }
+      else if(cmd==='clear'){ document.execCommand('removeFormat'); document.execCommand('formatBlock', false, 'P'); }
+      else if(cmd==='forecolor'){ document.execCommand('foreColor', false, val); }
+      else if(cmd==='hilite'){ if(!document.execCommand('hiliteColor', false, val)) document.execCommand('backColor', false, val); }
+      else if(cmd==='removecolor'){ document.execCommand('foreColor', false, '#000000'); if(!document.execCommand('hiliteColor', false, 'transparent')) document.execCommand('backColor', false, 'transparent'); }
+      else if(cmd==='insertTable'){ document.execCommand('insertHTML', false, '<table class="fc-rt-table"><tbody><tr><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td></tr></tbody></table><p><br></p>'); }
+      else { document.execCommand(cmd, false, val||null); }
+    }catch(err){}
+  }
+  function rtInsertImage(side, b64){
+    const ed = root.querySelector('#fcEditor_'+side); if(!ed) return;
+    ed.focus();
+    document.execCommand('insertHTML', false, `<img src="${b64}" class="fc-rt-img"/>`);
+  }
+  async function rtPasteImage(side){
+    try{ const items = await navigator.clipboard.read();
+      for(const item of items){ const type = item.types.find(t=>t.startsWith('image/')); if(type){ const blob = await item.getType(type); const b64 = await imgToBase64(blob); rtInsertImage(side, b64); return; } }
+    }catch(e){}
+  }
   const deckOptions = sel => DB.decks.map(d=>`<option value="${d.id}" ${d.id===sel?'selected':''}>${esc(d.name)}</option>`).join('')
       + `<option value="__new__">${t('newDeck')}</option>`;
   const deckPicker = preset => `<label>${t('deck')}</label><select id="fcDeckSel">${deckOptions(preset||'')}</select>
@@ -836,36 +1250,130 @@
     sel.addEventListener('change', upd); upd();
   }
   const shareCheckbox = checked => `<label class="fc-share-box ${checked?'on':''}" id="fcShareBox">
-      <input type="checkbox" id="fcShare" ${checked?'checked':''}/>
+      <span class="fc-toggle-switch ${checked?'on':''}"><input type="checkbox" id="fcShare" ${checked?'checked':''}/><span class="fc-toggle-knob"></span></span>
       <div class="fc-share-body">
         <strong class="fc-share-title">⇄ ${t('shareTitle')}</strong>
         <small class="fc-share-sub">${t('shareLbl')}</small>
       </div>
     </label>`;
+  const reversedToggle = () => `<label class="fc-share-box" id="fcRevBox">
+      <span class="fc-toggle-switch"><input type="checkbox" id="fcReversed"/><span class="fc-toggle-knob"></span></span>
+      <div class="fc-share-body">
+        <strong class="fc-share-title">🔁 ${t('reversedLbl')}</strong>
+      </div>
+    </label>`;
+  // seletor System > Subject > Topic (mesma taxonomia do filtro)
+  function systemsPicker(c){
+    const sysOpts = `<option value="">${t('chooseSystem')}</option>` +
+      FC_TAXONOMY.map(s=>`<option value="${s.id}" ${c.sys===s.id?'selected':''}>${esc(fcTxLabel(s.name))}</option>`).join('');
+    return `<div class="fc-syspick">
+      <div class="fc-syspick-head"><strong>🗂️ ${t('systemPick')}</strong><small>${t('systemPickSub')}</small></div>
+      <div class="fc-syspick-grid">
+        <div><label>${t('systemsLbl')}</label><select id="fcCardSys">${sysOpts}</select></div>
+        <div><label>${t('subjectLbl')}</label><select id="fcCardSubj"></select></div>
+        <div><label>${t('topicLbl')}</label><select id="fcCardTopic"></select></div>
+      </div>
+    </div>`;
+  }
+  function wireSystemsPicker(c){
+    const sysSel = root.querySelector('#fcCardSys'), subjSel = root.querySelector('#fcCardSubj'), topSel = root.querySelector('#fcCardTopic');
+    if(!sysSel) return;
+    const fillSubjects = (sysId, selSubj) => {
+      const sys = FC_TAXONOMY.find(s=>s.id===sysId);
+      subjSel.innerHTML = `<option value="">${t('chooseSubject')}</option>` +
+        (sys ? sys.subs.map(([slug,name])=>{ const id=FC_SUBJ_ID(sys.id,slug); return `<option value="${id}" ${selSubj===id?'selected':''}>${esc(fcTxLabel(name))}</option>`; }).join('') : '');
+    };
+    const fillTopics = (sysId, selTopic) => {
+      const topics = sysId ? fcTopicsForSystem(sysId) : [];
+      topSel.innerHTML = `<option value="">${t('noneTopic')}</option>` +
+        topics.map(tp=>`<option value="${esc(tp)}" ${selTopic===tp?'selected':''}>${esc(tp)}</option>`).join('');
+    };
+    fillSubjects(c.sys||'', c.subj||'');
+    fillTopics(c.sys||'', c.topic||'');
+    sysSel.addEventListener('change', e => { fillSubjects(e.target.value,''); fillTopics(e.target.value,''); });
+  }
 
   function cardForm(card, presetDeck){
-    const c = card || {front:'',back:'',tags:[],deckId:presetDeck||'',shared:false,image64:null};
-    window.currentImageB64 = c.image64 || null;
-    openModal(`<h2>${card?t('edit'):t('create').replace('+ ','')}</h2>
+    const c = card || {front:'',back:'',tags:[],deckId:presetDeck||'',shared:false,image64:null,sys:null,subj:null,topic:null};
+    // migração visual: cards antigos com image64 são embutidos como <img> na frente ao abrir o editor
+    const frontHtml = c.front || '';
+    const backHtml = c.back || '';
+    window.fcActiveSide = 'front';
+    openModal(`<div class="fc-create-head"><h2>${card?t('edit'):t('create').replace('+ ','')}</h2></div>
       ${deckPicker(c.deckId)}
-      <label>${t('front')}</label><textarea id="fcFront" rows="2">${esc(c.front)}</textarea>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0">
-        <button class="fc-btn fc-sm" data-act="upload-image">📁 Upload</button>
-        <button class="fc-btn fc-sm" data-act="paste-image">📋 Paste</button>
+      <div class="fc-editor-zone">
+        <div class="fc-editor-col" data-side="front">
+          <div class="fc-editor-toplabel"><span>${t('front')}</span>
+            <button type="button" class="fc-flip-btn" data-act="fc-flip" data-to="back">${t('flipToBack')}</button></div>
+          ${rtToolbar('front')}
+          <div class="fc-editor" id="fcEditor_front" contenteditable="true" data-side="front">${frontHtml}</div>
+        </div>
+        <div class="fc-editor-col fc-editor-back" data-side="back" hidden>
+          <div class="fc-editor-toplabel"><span>${t('backSide')}</span>
+            <button type="button" class="fc-flip-btn" data-act="fc-flip" data-to="front">${t('flipToFront')}</button></div>
+          ${rtToolbar('back')}
+          <div class="fc-editor" id="fcEditor_back" contenteditable="true" data-side="back">${backHtml}</div>
+        </div>
       </div>
-      <div id="fcImagePreview" style="margin:10px 0">${c.image64?`<img src="${c.image64}" style="max-width:100%;max-height:120px;border-radius:8px"/><button class="fc-btn fc-sm" data-act="remove-image" style="margin-top:6px">✕</button>`:''}</div>
-      <label>${t('backSide')}</label><textarea id="fcBack" rows="3">${esc(c.back)}</textarea>
-      <p class="fc-hint">${t('clozeHint')}</p>
+      <div class="fc-cloze-hint"><span class="fc-cloze-hint-ico">💡</span><span>${t('clozeHint')}</span></div>
+      ${systemsPicker(c)}
       <label>${t('tags')}</label><input id="fcTags" value="${esc((c.tags||[]).join(', '))}"/>
-      ${card?'':`<label class="fc-check"><input type="checkbox" id="fcReversed"/> 🔁 ${t('reversedLbl')}</label>`}
+      ${card?'':reversedToggle()}
       ${shareCheckbox(c.shared)}
       <p id="fcMsg" class="fc-msg"></p>
       <div class="fc-modal-actions"><button class="fc-btn" data-act="close">${t('cancel')}</button>
-      <button class="fc-btn fc-primary" data-act="save-card" data-card="${card?card.id:''}">${t('save')}</button></div>`);
+      <button class="fc-btn fc-primary" data-act="save-card" data-card="${card?card.id:''}">${t('save')}</button></div>`, true);
     wireDeckPicker();
-    const fileInput = document.createElement('input'); fileInput.type='file'; fileInput.accept='image/*'; fileInput.id='fcImageUpload'; fileInput.style.display='none';
-    root.querySelector('#fcModal').appendChild(fileInput);
-    fileInput.addEventListener('change', async e => { if(e.target.files[0]) { try{ const b64 = await imgToBase64(e.target.files[0]); displayImagePreview(b64); }catch(err){ root.querySelector('#fcMsg').textContent = err; } } });
+    wireSystemsPicker(c);
+    wireRichText();
+    // se o modal ficar estreito (mobile / tela pequena), mostramos só a frente com botão de flip;
+    // em telas largas, mostramos frente e verso lado a lado.
+    applyEditorLayout();
+  }
+  // decide layout lado-a-lado x flip conforme largura disponível
+  function applyEditorLayout(){
+    const zone = root.querySelector('.fc-editor-zone'); if(!zone) return;
+    const box = root.querySelector('.fc-modal-box');
+    const wide = box && box.getBoundingClientRect().width >= 720;
+    zone.classList.toggle('fc-editor-sidebyside', wide);
+    const back = root.querySelector('.fc-editor-back');
+    const flips = root.querySelectorAll('.fc-flip-btn');
+    if(wide){ if(back) back.hidden = false; flips.forEach(f=>f.style.display='none'); }
+    else { flips.forEach(f=>f.style.display=''); showEditorSide(window.fcActiveSide||'front'); }
+  }
+  function showEditorSide(side){
+    window.fcActiveSide = side;
+    const front = root.querySelector('.fc-editor-col[data-side="front"]');
+    const back = root.querySelector('.fc-editor-back');
+    const zone = root.querySelector('.fc-editor-zone');
+    if(zone && zone.classList.contains('fc-editor-sidebyside')) return; // side-by-side ignora flip
+    if(front) front.hidden = side!=='front';
+    if(back) back.hidden = side!=='back';
+  }
+  // conecta os botões da toolbar de rich text
+  function wireRichText(){
+    const modal = root.querySelector('#fcModal'); if(!modal) return;
+    modal.querySelectorAll('[data-rt]').forEach(el => {
+      const cmd = el.dataset.rt, side = el.dataset.side;
+      if(el.tagName==='SELECT'){
+        el.addEventListener('change', e => { rtExec(side, cmd, e.target.value); });
+      } else if(cmd==='colortoggle'){
+        el.addEventListener('click', e => { e.preventDefault(); const p = root.querySelector('#fcRtColors_'+side); if(p) p.hidden = !p.hidden; });
+      } else if(cmd==='forecolor' || cmd==='hilite' || cmd==='removecolor'){
+        el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd, el.dataset.rtVal); const p = root.querySelector('#fcRtColors_'+side); if(p) p.hidden = true; });
+      } else if(cmd==='image'){
+        el.addEventListener('click', e => { e.preventDefault(); window.fcImgSide = side; root.querySelector('#fcRtImageUpload').click(); });
+      } else if(cmd==='pasteimg'){
+        el.addEventListener('click', e => { e.preventDefault(); rtPasteImage(side); });
+      } else if(cmd!=='format' && cmd!=='fontsize'){
+        el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd, el.dataset.rtVal); });
+      }
+    });
+    // input de imagem oculto compartilhado pelos dois editores
+    let fi = root.querySelector('#fcRtImageUpload');
+    if(!fi){ fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.id='fcRtImageUpload'; fi.style.display='none'; modal.appendChild(fi);
+      fi.addEventListener('change', async e => { if(e.target.files[0]){ try{ const b64 = await imgToBase64(e.target.files[0]); rtInsertImage(window.fcImgSide||'front', b64); }catch(err){} e.target.value=''; } }); }
+    window.addEventListener('resize', applyEditorLayout);
   }
   function importForm(){
     openModal(`<h2>${t('imp')}</h2>${deckPicker('')}
@@ -910,15 +1418,17 @@
     if(existing) return existing.id;
     const d = {id: uid('dk'), name}; DB.decks.push(d); return d.id;
   }
-  const newCard = (deckId, front, back, tags, shared, image64, suspended) => ({id: uid('fc'), deckId, front, back,
+  const newCard = (deckId, front, back, tags, shared, image64, suspended, meta) => ({id: uid('fc'), deckId, front, back,
     image64: image64||null, tags: tags||[], type: isCloze(front)?'cloze':'basic', source:'manual', shared: !!shared,
+    sys:(meta&&meta.sys)||null, subj:(meta&&meta.subj)||null, topic:(meta&&meta.topic)||null,
     createdAt: todayStr(), state:'new', stepIdx:0, due: Date.now(), interval:0,
     ease:CFG.startEase, reps:0, lapses:0, suspended: !!suspended, flag:null, buriedUntil:0});
 
   function exportDeck(deckId){
     const d = DB.decks.find(x=>x.id===deckId); if(!d) return;
+    const plain = s => String(s||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
     const txt = DB.cards.filter(c=>c.deckId===deckId)
-      .map(c=>`${c.front} :: ${c.back}${(c.tags||[]).length?' :: '+c.tags.join(', '):''}`).join('\n');
+      .map(c=>`${plain(c.front)} :: ${plain(c.back)}${(c.tags||[]).length?' :: '+c.tags.join(', '):''}`).join('\n');
     const blob = new Blob([txt], {type:'text/plain'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -930,7 +1440,10 @@
     : DB.cards.find(x=>x.id===id);
 
   /* ---------- eventos ---------- */
-  function wire(){ root.querySelectorAll('[data-act]').forEach(el => el.addEventListener('click', onAct)); }
+  function wire(){ root.querySelectorAll('[data-act]').forEach(el => {
+    if(el.tagName==='INPUT' && el.type==='checkbox') el.addEventListener('change', onAct);
+    else el.addEventListener('click', onAct);
+  }); }
   function onAct(e){
     const el = e.currentTarget, act = el.dataset.act;
     if(act==='open-app'){ view={name:'dash'}; render(); }
@@ -944,8 +1457,27 @@
     else if(act==='close') closeModal();
     else if(act==='back'){ view={name:'dash'}; undoBuf = null; render(); }
     else if(act==='src'){ DB.prefs.source = el.dataset.src; save(); render(); }
-    else if(act==='browse'){ view={name:'browse'}; render(); }
+    else if(act==='browse'){ view={name:'browse', metaFilter: view.metaFilter||null}; render(); }
     else if(act==='browse-deck'){ view={name:'browse', deckId: el.dataset.deck}; render(); }
+    else if(act==='filter'){ view={name:'filter', ff: view.ff||null}; render(); }
+    else if(act==='fc-tog-sub'){ const id=el.dataset.v; const ff=ensureFilterState(); const i=ff.subjects.indexOf(id); i>=0?ff.subjects.splice(i,1):ff.subjects.push(id); ff.topic=''; renderFilter(); }
+    else if(act==='fc-tog-sys'){ const sys=FC_TAXONOMY.find(s=>s.id===el.dataset.v); const ff=ensureFilterState(); const ids=sys.subs.map(([slug])=>FC_SUBJ_ID(sys.id,slug)); const allOn=ids.every(id=>ff.subjects.includes(id)); if(allOn){ ff.subjects=ff.subjects.filter(id=>!ids.includes(id)); } else { ids.forEach(id=>{ if(!ff.subjects.includes(id)) ff.subjects.push(id); }); } ff.topic=''; renderFilter(); }
+    else if(act==='fc-tog-all'){ const ff=ensureFilterState(); if(ff.subjects.length){ ff.subjects=[]; } else { const all=[]; FC_TAXONOMY.forEach(s=>s.subs.forEach(([slug])=>all.push(FC_SUBJ_ID(s.id,slug)))); ff.subjects=all; } ff.topic=''; renderFilter(); }
+    else if(act==='fc-collapse'){ const ff=ensureFilterState(); const id=el.dataset.v; ff.collapsed[id]=!ff.collapsed[id]; renderFilter(); }
+    else if(act==='fc-collapse-all'){ const ff=ensureFilterState(); const allCollapsed=FC_TAXONOMY.every(s=>ff.collapsed[s.id]); if(allCollapsed){ ff.collapsed={}; } else { FC_TAXONOMY.forEach(s=>ff.collapsed[s.id]=true); } renderFilter(); }
+    else if(act==='fc-clear-filter'){ view.ff={subjects:[],collapsed:{},q:'',topic:''}; renderFilter(); }
+    else if(act==='fc-apply-filter'){ const ff=ensureFilterState(); const mf={ systems:[...new Set(ff.subjects.map(id=>id.split('::')[0]))], subjects:ff.subjects.slice(), topic:ff.topic||null }; view={name:'browse', metaFilter:mf, ff:ff}; render(); }
+    else if(act==='clear-meta'){ view.metaFilter=null; view.ff={subjects:[],collapsed:{},q:'',topic:''}; render(); }
+    /* browse-inline filter actions */
+    else if(act==='fc-browse-toggle-filter'){ view.browseFilterOpen = !view.browseFilterOpen; renderBrowse(); }
+    else if(act==='fc-browse-tog-sub'){ const id=el.dataset.v; const ff=ensureFilterState(); const i=ff.subjects.indexOf(id); i>=0?ff.subjects.splice(i,1):ff.subjects.push(id); ff.topic=''; applyBrowseMetaFilter(); renderBrowse(); }
+    else if(act==='fc-browse-tog-sys'){ const sys=FC_TAXONOMY.find(s=>s.id===el.dataset.v); const ff=ensureFilterState(); const ids=sys.subs.map(([slug])=>FC_SUBJ_ID(sys.id,slug)); const allOn=ids.every(id=>ff.subjects.includes(id)); if(allOn){ ff.subjects=ff.subjects.filter(id=>!ids.includes(id)); } else { ids.forEach(id=>{ if(!ff.subjects.includes(id)) ff.subjects.push(id); }); } ff.topic=''; applyBrowseMetaFilter(); renderBrowse(); }
+    else if(act==='fc-browse-tog-all'){ const ff=ensureFilterState(); if(ff.subjects.length){ ff.subjects=[]; } else { const all=[]; FC_TAXONOMY.forEach(s=>s.subs.forEach(([slug])=>all.push(FC_SUBJ_ID(s.id,slug)))); ff.subjects=all; } ff.topic=''; applyBrowseMetaFilter(); renderBrowse(); }
+    else if(act==='fc-browse-collapse'){ const ff=ensureFilterState(); const id=el.dataset.v; ff.collapsed[id]=!ff.collapsed[id]; renderBrowse(); }
+    else if(act==='fc-browse-collapse-all'){ const ff=ensureFilterState(); const allCollapsed=FC_TAXONOMY.every(s=>ff.collapsed[s.id]); if(allCollapsed){ ff.collapsed={}; } else { FC_TAXONOMY.forEach(s=>ff.collapsed[s.id]=true); } renderBrowse(); }
+    else if(act==='fc-browse-clear-filter'){ view.ff={subjects:[],collapsed:{},q:'',topic:''}; view.metaFilter=null; renderBrowse(); }
+    else if(act==='fc-browse-apply-filter'){ applyBrowseMetaFilter(); view.browseFilterOpen=false; renderBrowse(); }
+    else if(act==='fc-flip'){ showEditorSide(el.dataset.to); }
     else if(act==='stats'){ view={name:'stats', statsRange: view.statsRange||'7d'}; render(); }
     else if(act==='stats-range'){ view.statsRange = el.dataset.range; render(); }
     else if(act==='export-deck') exportDeck(el.dataset.deck);
@@ -996,22 +1528,30 @@
     }
     else if(act==='edit-card'){ cardForm(DB.cards.find(c=>c.id===el.dataset.card)); }
     else if(act==='save-card'){
-      const front = root.querySelector('#fcFront').value.trim(), back = root.querySelector('#fcBack').value.trim();
+      const frontEl = root.querySelector('#fcEditor_front'), backEl = root.querySelector('#fcEditor_back');
+      const front = (frontEl ? frontEl.innerHTML : '').trim();
+      const back = (backEl ? backEl.innerHTML : '').trim();
+      const frontTxt = (frontEl ? frontEl.textContent : '').trim();
+      const backTxt = (backEl ? backEl.textContent : '').trim();
       const msg = root.querySelector('#fcMsg');
-      if(!front || (!back && !isCloze(front))){ msg.textContent = t('required'); return; }
+      const frontEmpty = !frontTxt && !/<img|<table/i.test(front);
+      const backEmpty = !backTxt && !/<img|<table/i.test(back);
+      if(frontEmpty || (backEmpty && !isCloze(frontTxt))){ msg.textContent = t('required'); return; }
       const deckId = resolveDeck();
       if(!deckId){ msg.textContent = t('deckRequired'); return; }
       const tags = root.querySelector('#fcTags').value.split(',').map(s=>s.trim()).filter(Boolean);
       const shared = root.querySelector('#fcShare').checked;
+      const sysSel = root.querySelector('#fcCardSys'), subjSel = root.querySelector('#fcCardSubj'), topSel = root.querySelector('#fcCardTopic');
+      const meta = { sys: sysSel && sysSel.value ? sysSel.value : null, subj: subjSel && subjSel.value ? subjSel.value : null, topic: topSel && topSel.value ? topSel.value : null };
       const id = el.dataset.card;
       let card;
-      if(id){ card = DB.cards.find(x=>x.id===id); Object.assign(card,{front,back,tags,deckId,shared,type:isCloze(front)?'cloze':'basic',image64:window.currentImageB64||null}); }
+      if(id){ card = DB.cards.find(x=>x.id===id); Object.assign(card,{front,back,tags,deckId,shared,type:isCloze(frontTxt)?'cloze':'basic',sys:meta.sys,subj:meta.subj,topic:meta.topic}); }
       else {
-        card = newCard(deckId, front, back, tags, shared, window.currentImageB64);
+        card = newCard(deckId, front, back, tags, shared, null, false, meta);
         DB.cards.push(card);
         const rev = root.querySelector('#fcReversed');
         if(rev && rev.checked && back){
-          const rc = newCard(deckId, back, front, tags, shared, window.currentImageB64);
+          const rc = newCard(deckId, back, front, tags, shared, null, false, meta);
           DB.cards.push(rc); syncShare(rc);
         }
       }

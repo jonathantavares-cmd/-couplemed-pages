@@ -161,8 +161,8 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank 1 - Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'QBank 1',qbank2Title:'QBank 2',library1FolderTitle:'QBank 1',qbank1Pass1:'1 Pass',qbank1Pass2:'2 Pass',qbank1Pass3:'3 Pass',qbank1Pass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',qbank1QuestionsAnswered:'Questions Answered',qbank1OnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet'},
-    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank 1 - Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'Banco de Questões 1',qbank2Title:'Banco de Questões 2',library1FolderTitle:'Banco de Questões 1',qbank1Pass1:'1ª Passada',qbank1Pass2:'2ª Passada',qbank1Pass3:'3ª Passada',qbank1Pass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',qbank1QuestionsAnswered:'Questões Respondidas',qbank1OnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages / English',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank 1 - Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'QBank 1',qbank2Title:'QBank 2',library1FolderTitle:'QBank 1',qbank1Pass1:'1 Pass',qbank1Pass2:'2 Pass',qbank1Pass3:'3 Pass',qbank1Pass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',qbank1QuestionsAnswered:'Questions Answered',qbank1OnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet',settingsShowPass:'Show',settingsHidePass:'Hide'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas / Inglês',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank 1 - Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'Banco de Questões 1',qbank2Title:'Banco de Questões 2',library1FolderTitle:'Banco de Questões 1',qbank1Pass1:'1ª Passada',qbank1Pass2:'2ª Passada',qbank1Pass3:'3ª Passada',qbank1Pass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',qbank1QuestionsAnswered:'Questões Respondidas',qbank1OnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda',settingsShowPass:'Mostrar',settingsHidePass:'Ocultar'}
   };
   const PAGE_TITLE_KEYS = {'notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-1':'library1Title','library-2':'library2Title','library-3':'library3Title','qbank-1':'qbank1Title','qbank-2':'qbank2Title','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
@@ -332,12 +332,29 @@
     if(isAdmin){
       /* ======= ADMIN VIEW ======= */
       const me=USER_META[u];
+      const meCustom=getUserCustom(u);
+      const meName=meCustom&&meCustom.displayName?meCustom.displayName:me.displayName;
+      const meLogin=meCustom&&meCustom.login?meCustom.login:me.originalLogin;
+      const mePass=meCustom&&meCustom.password?meCustom.password:me.originalPass;
       let html=`<h1 id="internalTitle">${t.settings}</h1>`;
-      html+=`<div class="stg-admin-card stg-admin-self">
+      html+=`<div class="stg-admin-card stg-admin-self" data-uid="${u}">
         <div class="stg-admin-badge">${t.settingsAdmin}</div>
-        <div class="stg-info-row"><span class="stg-label">${t.settingsUser}:</span> <span class="stg-value">${me.displayName}</span></div>
-        <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${me.originalLogin}</span></div>
-        <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass">${me.originalPass}</span></div>
+        <div class="stg-view-block" id="stgSelfView">
+          <div class="stg-info-row"><span class="stg-label">${t.settingsUser}:</span> <span class="stg-value">${meName}</span></div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${meLogin}</span></div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass stg-pass-masked" data-pass="${String(mePass).replace(/"/g,'&quot;')}">${'•'.repeat(mePass.length)}</span> <button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
+          <button class="stg-btn stg-btn-edit" data-action="edit-self">${t.settingsChangeData}</button>
+        </div>
+        <div class="stg-edit-form" id="stgSelfEdit" hidden>
+          <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgSelfName" value="${String(meName).replace(/"/g,'&quot;')}" /></div>
+          <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgSelfLogin" value="${String(meLogin).replace(/"/g,'&quot;')}" /></div>
+          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgSelfPass" value="${String(mePass).replace(/"/g,'&quot;')}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgSelfPass">${t.settingsShowPass}</button></div></div>
+          <div class="stg-edit-actions">
+            <button class="stg-btn stg-btn-save" data-action="save-self">${t.settingsSave}</button>
+            <button class="stg-btn stg-btn-cancel" data-action="cancel-self">${t.settingsCancel}</button>
+          </div>
+          <div class="stg-msg" id="stgSelfMsg" hidden></div>
+        </div>
       </div>`;
       html+=`<h2 class="stg-section-title">${t.settingsUsers}</h2>`;
       Object.keys(USER_META).forEach(uid=>{
@@ -346,11 +363,14 @@
         const custom=getUserCustom(uid);
         const blocked=isUserBlocked(uid);
         const displayName=getUserDisplay(uid);
+        const curLogin=custom&&custom.login?custom.login:m.originalLogin;
+        const curPass=custom&&custom.password?custom.password:m.originalPass;
         html+=`<div class="stg-admin-card stg-user-card" data-uid="${uid}">
           <div class="stg-user-header">
             <div class="stg-user-name">${displayName}</div>
             <div class="stg-user-actions">
               <button class="stg-btn stg-btn-perf" data-action="perf" data-uid="${uid}">${t.settingsPerformance}</button>
+              <button class="stg-btn stg-btn-edit stg-btn-edit-inline" data-action="edit-user" data-uid="${uid}">${t.settingsChangeData}</button>
               <div class="stg-toggle-wrap">
                 <button class="stg-toggle ${blocked?'stg-toggle-off':'stg-toggle-on'}" data-action="toggle" data-uid="${uid}">
                   <span class="stg-toggle-knob"></span>
@@ -360,14 +380,24 @@
               <button class="stg-btn stg-btn-reset" data-action="reset" data-uid="${uid}">${t.settingsReset}</button>
             </div>
           </div>
-          <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${m.originalLogin}</span></div>
-          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass">${m.originalPass}</span></div>
-          ${custom?`<div class="stg-custom-note">
-            <span class="stg-custom-badge">Custom</span>
-            ${custom.displayName?`<div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}:</span> <span class="stg-value">${custom.displayName}</span></div>`:''}
-            ${custom.login?`<div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${custom.login}</span></div>`:''}
-            ${custom.password?`<div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass">${custom.password}</span></div>`:''}
-          </div>`:''}
+          <div class="stg-view-block" id="stgUserView_${uid}">
+            <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${curLogin}</span></div>
+            <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass stg-pass-masked" data-pass="${String(curPass).replace(/"/g,'&quot;')}">${'•'.repeat(curPass.length)}</span> <button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
+            ${custom?`<div class="stg-custom-note">
+              <span class="stg-custom-badge">Custom</span>
+              ${custom.displayName?`<div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}:</span> <span class="stg-value">${custom.displayName}</span></div>`:''}
+            </div>`:''}
+          </div>
+          <div class="stg-edit-form" id="stgUserEdit_${uid}" hidden>
+            <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgUName_${uid}" value="${String(displayName).replace(/"/g,'&quot;')}" /></div>
+            <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgULogin_${uid}" value="${String(curLogin).replace(/"/g,'&quot;')}" /></div>
+            <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgUPass_${uid}" value="${String(curPass).replace(/"/g,'&quot;')}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgUPass_${uid}">${t.settingsShowPass}</button></div></div>
+            <div class="stg-edit-actions">
+              <button class="stg-btn stg-btn-save" data-action="save-user" data-uid="${uid}">${t.settingsSave}</button>
+              <button class="stg-btn stg-btn-cancel" data-action="cancel-user" data-uid="${uid}">${t.settingsCancel}</button>
+            </div>
+            <div class="stg-msg" id="stgUMsg_${uid}" hidden></div>
+          </div>
           <div class="stg-perf-container" id="stgPerf_${uid}" hidden></div>
         </div>`;
       });
@@ -397,6 +427,38 @@
         btn.addEventListener('click',()=>resetUserPlatform(btn.dataset.uid,lang));
       });
 
+      /* Editar dados do próprio admin (John) */
+      const selfEditBtn=rp.querySelector('[data-action="edit-self"]');
+      if(selfEditBtn) selfEditBtn.addEventListener('click',()=>{ $('#stgSelfView').hidden=true; $('#stgSelfEdit').hidden=false; });
+      const selfCancelBtn=rp.querySelector('[data-action="cancel-self"]');
+      if(selfCancelBtn) selfCancelBtn.addEventListener('click',()=>{ $('#stgSelfEdit').hidden=true; $('#stgSelfView').hidden=false; });
+      const selfSaveBtn=rp.querySelector('[data-action="save-self"]');
+      if(selfSaveBtn) selfSaveBtn.addEventListener('click',()=>{
+        const nm=$('#stgSelfName').value.trim(), lg=$('#stgSelfLogin').value.trim(), pw=$('#stgSelfPass').value.trim();
+        if(!nm||!lg||!pw)return;
+        setUserCustom(u,{displayName:nm,login:lg,password:pw});
+        const msg=$('#stgSelfMsg'); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
+        setTimeout(()=>renderSettings(lang),1100);
+      });
+
+      /* Editar dados de qualquer usuário (admin) */
+      rp.querySelectorAll('[data-action="edit-user"]').forEach(btn=>{
+        btn.addEventListener('click',()=>{ const uid=btn.dataset.uid; $('#stgUserView_'+uid).hidden=true; $('#stgUserEdit_'+uid).hidden=false; });
+      });
+      rp.querySelectorAll('[data-action="cancel-user"]').forEach(btn=>{
+        btn.addEventListener('click',()=>{ const uid=btn.dataset.uid; $('#stgUserEdit_'+uid).hidden=true; $('#stgUserView_'+uid).hidden=false; });
+      });
+      rp.querySelectorAll('[data-action="save-user"]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const uid=btn.dataset.uid;
+          const nm=$('#stgUName_'+uid).value.trim(), lg=$('#stgULogin_'+uid).value.trim(), pw=$('#stgUPass_'+uid).value.trim();
+          if(!nm||!lg||!pw)return;
+          setUserCustom(uid,{displayName:nm,login:lg,password:pw});
+          const msg=$('#stgUMsg_'+uid); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
+          setTimeout(()=>renderSettings(lang),1100);
+        });
+      });
+
     } else {
       /* ======= REGULAR USER VIEW ======= */
       const m=USER_META[u];
@@ -410,13 +472,13 @@
       html+=`<div class="stg-user-self-card" id="stgUserView">
         <div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}:</span> <span class="stg-value" id="stgShowName">${currentName}</span></div>
         <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value" id="stgShowLogin">${currentLogin}</span></div>
-        <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass" id="stgShowPass">${currentPass}</span></div>
+        <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass stg-pass-masked" data-pass="${currentPass}" id="stgShowPass">${'•'.repeat(currentPass.length)}</span> <button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
         <button class="stg-btn stg-btn-edit" id="stgEditBtn">${t.settingsChangeData}</button>
       </div>
       <div class="stg-user-self-card stg-edit-form" id="stgUserEdit" hidden>
         <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgEditName" value="${currentName.replace(/"/g,'&quot;')}" /></div>
         <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgEditLogin" value="${currentLogin.replace(/"/g,'&quot;')}" /></div>
-        <div class="stg-field"><label>${t.settingsPassword}</label><input type="text" id="stgEditPass" value="${currentPass.replace(/"/g,'&quot;')}" /></div>
+        <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgEditPass" value="${currentPass.replace(/"/g,'&quot;')}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgEditPass">${t.settingsShowPass}</button></div></div>
         <div class="stg-edit-actions">
           <button class="stg-btn stg-btn-save" id="stgSaveBtn">${t.settingsSave}</button>
           <button class="stg-btn stg-btn-cancel" id="stgCancelBtn">${t.settingsCancel}</button>
@@ -446,6 +508,24 @@
         setTimeout(()=>renderSettings(lang),1200);
       });
     }
+    /* Wire password show/hide toggles (common for admin and regular views) */
+    rp.querySelectorAll('[data-action="toggle-pass"]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const span=btn.previousElementSibling;
+        if(!span) return;
+        const masked=span.classList.contains('stg-pass-masked');
+        if(masked){ span.textContent=span.dataset.pass; span.classList.remove('stg-pass-masked'); btn.textContent=t.settingsHidePass; }
+        else { span.textContent='•'.repeat((span.dataset.pass||'').length); span.classList.add('stg-pass-masked'); btn.textContent=t.settingsShowPass; }
+      });
+    });
+    rp.querySelectorAll('[data-action="toggle-pass-input"]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const inp=$('#'+btn.dataset.target);
+        if(!inp) return;
+        if(inp.type==='password'){ inp.type='text'; btn.textContent=t.settingsHidePass; }
+        else { inp.type='password'; btn.textContent=t.settingsShowPass; }
+      });
+    });
   }
 
   function buildBooks(){}
@@ -473,7 +553,7 @@
     const title=$('#internalTitle');
     if(title){const key=PAGE_TITLE_KEYS[p]; title.textContent=(key&&I18N[lang][key])?I18N[lang][key]:p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
   }
-  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); updateDynamicContent(lang);}
+  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); updateDynamicContent(lang); window.dispatchEvent(new CustomEvent('couplemed:langchange',{detail:{lang}}));}
   function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
     const isQBank=QBANK_PAGES.includes(p);
     const isCS=COMING_SOON_PAGES.includes(p);
