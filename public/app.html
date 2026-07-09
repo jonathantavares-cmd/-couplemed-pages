@@ -8,7 +8,7 @@
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <meta name="theme-color" content="#081324" />
-  <link rel="stylesheet" href="css/styles.css?v=40" />
+  <link rel="stylesheet" href="css/styles.css?v=39" />
   <link rel="stylesheet" href="css/ai-tutor-widget.css?v=24" />
   <link rel="stylesheet" href="css/qbank.css?v=30" />
   <link rel="stylesheet" href="css/notebook.css?v=2" />
@@ -25,7 +25,6 @@
       </div>
     </a>
     <nav class="menu">
-      <div class="sidebar-user-name" id="sidebarUserName"></div>
       <a class="menu-row active" href="app.html" data-page-link="home"><span class="mi">⌂</span><span data-i18n="home">Home</span></a>
 
       <h2>STUDY</h2>
@@ -51,6 +50,7 @@
       <h2>USMLE</h2>
       <button class="menu-row has-sub" data-toggle="step1"><span class="mi">≡</span><span>Step 1</span></button>
       <div id="step1" class="submenu">
+        <a href="app.html?page=step1-instructions" data-page-link="step1-instructions" data-i18n="instructionsTitle">Instructions</a>
         <a href="app.html?page=qbank-1" data-page-link="qbank-1">QBank 1</a>
         <a href="app.html?page=qbank-2" data-page-link="qbank-2">QBank 2</a>
         <a href="app.html?page=flashcards" data-page-link="flashcards" data-i18n="flashcardsLabel">Flashcards</a>
@@ -93,7 +93,7 @@
     <section id="homeDashboard" class="dashboard-strip" aria-label="Platform quick dashboard">
       <div class="mini-card streak"><div class="check"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><span data-i18n-html="studyStreak">STUDY<br/>STREAK</span><strong data-i18n="oneDay">1 Day</strong><small data-i18n="keepGoing">Keep it going!</small></div></div>
       <div class="mini-card progress-card"><h3 data-i18n="qbankProgress">QBank 1 - Progress</h3><div class="bar-line"><div class="bar-body"><div class="bar-top"><span class="bar-pass" data-i18n="pass1">1 Pass</span><span class="bar-count">0 / XXXX</span></div><div class="bar-bottom"><div class="bar-progress"><div class="bar-fill" style="width:0%"></div></div><span class="bar-pct">0%</span></div></div><button class="bar-btn" data-i18n="continueBtn">Continue</button></div><div class="bar-line"><div class="bar-body"><div class="bar-top"><span class="bar-pass" data-i18n="pass2">2 Pass</span><span class="bar-count">0 / XXXX</span></div><div class="bar-bottom"><div class="bar-progress"><div class="bar-fill" style="width:0%"></div></div><span class="bar-pct">0%</span></div></div><button class="bar-btn" data-i18n="continueBtn">Continue</button></div><div class="bar-line"><div class="bar-body"><div class="bar-top"><span class="bar-pass" data-i18n="pass3">3 Pass</span><span class="bar-count">0 / XXXX</span></div><div class="bar-bottom"><div class="bar-progress"><div class="bar-fill" style="width:0%"></div></div><span class="bar-pct">0%</span></div></div><button class="bar-btn" data-i18n="continueBtn">Continue</button></div></div>
-      <div class="mini-card action qbank-action-card"><a href="app.html?page=qbank-1"><span class="action-ico ico-qbank"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><strong data-i18n="questionBank">QBank</strong></a><div class="qbank-sub-links"><a href="app.html?page=qbank-1" class="qbank-sub qbank-sub-1">QBank 1</a><a href="app.html?page=qbank-2" class="qbank-sub qbank-sub-2">QBank 2</a></div></div>
+      <div class="mini-card action action-qbank-card"><div class="action-qbank-header"><span class="action-ico ico-qbank"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><strong data-i18n="questionBank">QBank</strong></div><div class="action-qbank-links"><a href="app.html?page=qbank-1" data-page-link="qbank-1">QBank 1</a><a href="app.html?page=qbank-2" data-page-link="qbank-2">QBank 2</a></div></div>
       <a class="mini-card action" href="app.html?page=flashcards"><span class="action-ico ico-flash"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="14" height="13" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 4.5h10.5A2.5 2.5 0 0121 7v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><strong data-i18n="flashcardsLabel">Flashcards</strong></a>
       <a class="mini-card action" href="app.html?page=performance"><span class="action-ico ico-perf"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16l4-5 4 3 4-6 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><strong data-i18n="performanceAnalytics">Performance Analytics</strong></a>
       <a class="mini-card action" href="app.html?page=ai-tutor"><span class="action-ico ico-ai"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c3 0 5 2 5 4.5 0 1.3-.6 2.3-1.4 3 .9.7 1.4 1.7 1.4 3C17 16 15 18 12 18s-5-2-5-4.5c0-1.3.5-2.3 1.4-3C7.6 9.8 7 8.8 7 7.5 7 5 9 3 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 18v3M10 21h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><strong data-i18n="aiTutorLabel">AI Tutor</strong></a>
@@ -110,8 +110,8 @@
   </main>
   <script src="js/library1-structure.js?v=2"></script>
   <script src="js/i18n-content.js?v=1"></script>
-  <script src="js/site.js?v=45"></script>
-  <script src="js/flashcards.js?v=28"></script>
+  <script src="js/site.js?v=44"></script>
+  <script src="js/flashcards.js?v=27"></script>
   <script src="js/qbank.js?v=39"></script>
   <script src="js/notebook.js?v=2"></script>
   <script src="js/ai-tutor-widget.js?v=25"></script>

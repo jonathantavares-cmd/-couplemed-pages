@@ -554,7 +554,7 @@
     if(title){const key=PAGE_TITLE_KEYS[p]; title.textContent=(key&&I18N[lang][key])?I18N[lang][key]:p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
   }
   function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); updateDynamicContent(lang); window.dispatchEvent(new CustomEvent('couplemed:langchange',{detail:{lang}}));}
-  function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
+  function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); (function injectSidebarUser(){const b=$('.brand');if(!b)return;const u=user();const name=getUserDisplay(u);if(!name)return;let el=document.querySelector('.sidebar-user');if(!el){el=document.createElement('div');el.className='sidebar-user';b.parentNode.insertBefore(el,b.nextSibling);}el.textContent=name;})(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
     const isQBank=QBANK_PAGES.includes(p);
     const isCS=COMING_SOON_PAGES.includes(p);
     const isModule=p==='flashcards'||p==='ai-tutor'||isQBank;
@@ -571,8 +571,6 @@
     // regra fica disponível caso algum item futuro combine link + toggle.)
     $$('[data-toggle][data-page-link]').forEach(btn=>{ if(btn.dataset.pageLink===p){ const el=$('#'+btn.dataset.toggle); if(el)el.classList.add('open'); } });
     $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en');
-    /* user name in sidebar */
-    const sidebarUserEl=$('#sidebarUserName'); if(sidebarUserEl){ sidebarUserEl.textContent=getUserDisplay(user()); }
     const applyTheme=t=>document.body.classList.toggle('light',t!=='dark'); applyTheme(p==='home'?'dark':'light'); const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>applyTheme(document.body.classList.contains('light')?'dark':'light'));
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',()=>sessionStorage.removeItem('couplemed_active_user'));
