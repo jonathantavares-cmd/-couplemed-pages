@@ -161,8 +161,8 @@
     '“Que o Senhor abençoe, guarde e conceda paz.” — Números 6:24-26'
   ];
   const I18N = {
-    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank 1 - Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'QBank 1',qbank2Title:'QBank 2',library1FolderTitle:'QBank 1',qbank1Pass1:'1 Pass',qbank1Pass2:'2 Pass',qbank1Pass3:'3 Pass',qbank1Pass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',qbank1QuestionsAnswered:'Questions Answered',qbank1OnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet',settingsShowPass:'Show',settingsHidePass:'Hide',wsSubtitle:'Everything you need to organize your studies, in one place.',wsNotebooksDesc:'Structured notebooks for each subject and system.',wsNotesDesc:'Quick notes and annotations you capture while studying.',wsPlannerDesc:'Plan your passes, set targets and track your schedule.',wsLinksDesc:'Your saved references, resources and external tools.'},
-    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank 1 - Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'Banco de Questões 1',qbank2Title:'Banco de Questões 2',library1FolderTitle:'Banco de Questões 1',qbank1Pass1:'1ª Passada',qbank1Pass2:'2ª Passada',qbank1Pass3:'3ª Passada',qbank1Pass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',qbank1QuestionsAnswered:'Questões Respondidas',qbank1OnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda',settingsShowPass:'Mostrar',settingsHidePass:'Ocultar',wsSubtitle:'Tudo o que você precisa para organizar seus estudos, em um só lugar.',wsNotebooksDesc:'Cadernos estruturados para cada matéria e sistema.',wsNotesDesc:'Anotações rápidas que você captura durante o estudo.',wsPlannerDesc:'Planeje suas passadas, defina metas e acompanhe seu cronograma.',wsLinksDesc:'Suas referências, recursos e ferramentas externas salvas.'}
+    en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank 1 - Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'QBank 1',qbank2Title:'QBank 2',library1FolderTitle:'QBank 1',qbank1Pass1:'1 Pass',qbank1Pass2:'2 Pass',qbank1Pass3:'3 Pass',qbank1Pass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',qbank1QuestionsAnswered:'Questions Answered',qbank1OnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet',settingsShowPass:'Show',settingsHidePass:'Hide',streakRecord:'Record',streakQuestions:'Questions',streakFlash:'Flashcards',streakRisk:'Study today to keep it!',streakRestart:'Start again today!',streakStart:'Start today!',dayOne:'Day',dayMany:'Days',weekLetters:'M,T,W,T,F,S,S',wsSubtitle:'Everything you need to organize your studies, in one place.',wsNotebooksDesc:'Structured notebooks for each subject and system.',wsNotesDesc:'Quick notes and annotations you capture while studying.',wsPlannerDesc:'Plan your passes, set targets and track your schedule.',wsLinksDesc:'Your saved references, resources and external tools.'},
+    pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank 1 - Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'Banco de Questões 1',qbank2Title:'Banco de Questões 2',library1FolderTitle:'Banco de Questões 1',qbank1Pass1:'1ª Passada',qbank1Pass2:'2ª Passada',qbank1Pass3:'3ª Passada',qbank1Pass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',qbank1QuestionsAnswered:'Questões Respondidas',qbank1OnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda',settingsShowPass:'Mostrar',settingsHidePass:'Ocultar',streakRecord:'Recorde',streakQuestions:'Questões',streakFlash:'Flashcards',streakRisk:'Estude hoje para manter!',streakRestart:'Recomece hoje!',streakStart:'Comece hoje!',dayOne:'Dia',dayMany:'Dias',weekLetters:'S,T,Q,Q,S,S,D',wsSubtitle:'Tudo o que você precisa para organizar seus estudos, em um só lugar.',wsNotebooksDesc:'Cadernos estruturados para cada matéria e sistema.',wsNotesDesc:'Anotações rápidas que você captura durante o estudo.',wsPlannerDesc:'Planeje suas passadas, defina metas e acompanhe seu cronograma.',wsLinksDesc:'Suas referências, recursos e ferramentas externas salvas.'}
   };
   const PAGE_TITLE_KEYS = {'my-workspace':'myWorkspace','notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-1':'library1Title','library-2':'library2Title','library-3':'library3Title','qbank-1':'qbank1Title','qbank-2':'qbank2Title','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
@@ -289,7 +289,7 @@
     const msg2=t.settingsResetConfirm2+' '+name+'?\n\n'+t.settingsResetConfirm2b;
     if(!confirm(msg2))return;
     /* Remove all user-scoped localStorage keys */
-    const prefixes=['couplemed_qb_'+uid,'couplemed_fc_'+uid,'couplemed_lang_current_'+uid,'couplemed_transition_deck_'+uid,'couplemed_user_custom_'+uid];
+    const prefixes=['couplemed_qb_'+uid,'couplemed_fc_'+uid,'couplemed_streak_'+uid,'couplemed_lang_current_'+uid,'couplemed_transition_deck_'+uid,'couplemed_user_custom_'+uid];
     const toRemove=[];
     for(let i=0;i<localStorage.length;i++){
       const k=localStorage.key(i);
@@ -577,6 +577,85 @@
     if(title){const key=PAGE_TITLE_KEYS[p]; title.textContent=(key&&I18N[lang][key])?I18N[lang][key]:p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
   }
   function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); updateDynamicContent(lang); window.dispatchEvent(new CustomEvent('couplemed:langchange',{detail:{lang}}));}
+  /* ============================== STUDY STREAK (v49) ==============================
+     Sequencia de estudos 100% derivada de dados reais do usuario logado:
+     - QBank: dias com >=1 attempt (couplemed_qb_<uid>.attempts[].created_at)
+     - Flashcards: dias com >=1 revisao (couplemed_fc_<uid>.days[data].total)
+     Estados do card:
+       st-active  = estudou hoje (verde, "Continue assim!")
+       st-risk    = sequencia viva, mas ainda nao estudou hoje (ambar, urgencia positiva)
+       st-restart = sequencia quebrada ou primeiro acesso (neutro, convite a recomecar
+                    mostrando o recorde — nunca vermelho punitivo)
+     Persistencia: couplemed_streak_<uid> = { days:[...], best:n } — merge aditivo,
+     o recorde nunca regride mesmo se dados antigos forem podados. */
+  function cmLocalDay(d){const x=new Date(d);return new Date(x.getTime()-x.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+  function cmPrevDay(iso){const d=new Date(iso+'T12:00:00');d.setDate(d.getDate()-1);return cmLocalDay(d)}
+  function cmStreakCompute(){
+    const u=user();
+    const set=new Set(); let questions=0, fcReviews=0;
+    try{
+      const qb=JSON.parse(localStorage.getItem('couplemed_qb_'+u)||'{}');
+      const at=Array.isArray(qb.attempts)?qb.attempts:[];
+      questions=at.length;
+      at.forEach(a=>{if(a&&a.created_at)set.add(cmLocalDay(a.created_at))});
+    }catch(e){}
+    try{
+      const fc=JSON.parse(localStorage.getItem('couplemed_fc_'+u)||'{}');
+      const days=(fc&&fc.days)?fc.days:{};
+      Object.keys(days).forEach(k=>{if(days[k]&&(days[k].total||0)>0)set.add(k)});
+      if(fc&&fc.stats&&typeof fc.stats.reviews==='number'&&fc.stats.reviews>0)fcReviews=fc.stats.reviews;
+      else Object.keys(days).forEach(k=>{fcReviews+=((days[k]&&days[k].total)||0)});
+    }catch(e){}
+    let saved={};try{saved=JSON.parse(localStorage.getItem('couplemed_streak_'+u))||{}}catch(e){}
+    (Array.isArray(saved.days)?saved.days:[]).forEach(d=>{if(/^\d{4}-\d{2}-\d{2}$/.test(d))set.add(d)});
+    const all=[...set].sort();
+    let best=Number(saved.best)||0, run=0, prev=null;
+    all.forEach(d=>{run=(prev&&cmPrevDay(d)===prev)?run+1:1;if(run>best)best=run;prev=d});
+    const today=cmLocalDay(new Date()), yest=cmPrevDay(today);
+    const anchor=set.has(today)?today:(set.has(yest)?yest:null);
+    let current=0;if(anchor){let d=anchor;while(set.has(d)){current++;d=cmPrevDay(d)}}
+    if(current>best)best=current;
+    const state=set.has(today)?'active':(anchor?'risk':'restart');
+    try{localStorage.setItem('couplemed_streak_'+u,JSON.stringify({days:all.slice(-120),best}))}catch(e){}
+    return {set,current,best,state,today,questions,fcReviews};
+  }
+  function renderStreak(lang){
+    const card=document.getElementById('streakCard'); if(!card)return;
+    const t=I18N[lang]||I18N.en;
+    const d=cmStreakCompute();
+    card.classList.remove('st-active','st-risk','st-restart'); card.classList.add('st-'+d.state);
+    const icons={
+      active:'<path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>',
+      risk:'<circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="2"/><path d="M12 7.8V12l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+      restart:'<path d="M5.5 12a6.5 6.5 0 1 1 1.9 4.6M5.5 12V7.8M5.5 12H9.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+    };
+    const ic=card.querySelector('.check');
+    if(ic)ic.innerHTML='<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">'+icons[d.state]+'</svg>';
+    const n=d.state==='restart'?0:d.current;
+    const strongEl=document.getElementById('streakDays');
+    if(strongEl)strongEl.textContent=n+' '+(n===1?t.dayOne:t.dayMany);
+    const msg=d.state==='active'?t.keepGoing:(d.state==='risk'?t.streakRisk:(d.best>0?t.streakRestart:t.streakStart));
+    const msgEl=document.getElementById('streakMsg'); if(msgEl)msgEl.textContent=msg;
+    const wk=document.getElementById('streakWeek');
+    if(wk){
+      const letters=(t.weekLetters||'M,T,W,T,F,S,S').split(',');
+      const now=new Date(); const dow=(now.getDay()+6)%7; /* 0 = segunda-feira */
+      let html='';
+      for(let i=0;i<7;i++){
+        const dt=new Date(now); dt.setDate(now.getDate()-dow+i);
+        const iso=cmLocalDay(dt);
+        const cls=((d.set.has(iso)?'on ':'')+(iso===d.today?'today':'')).trim();
+        html+='<i'+(cls?' class="'+cls+'"':'')+'><b></b><em>'+letters[i]+'</em></i>';
+      }
+      wk.innerHTML=html;
+    }
+    const loc=lang==='pt'?'pt-BR':'en-US';
+    const be=document.getElementById('streakBest'); if(be)be.textContent=d.best.toLocaleString(loc);
+    const qe=document.getElementById('streakQ'); if(qe)qe.textContent=d.questions.toLocaleString(loc);
+    const fe=document.getElementById('streakFC'); if(fe)fe.textContent=d.fcReviews.toLocaleString(loc);
+  }
+  window.addEventListener('couplemed:langchange',e=>{if(page()==='home')renderStreak(e.detail.lang)});
+
   function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
     const isQBank=QBANK_PAGES.includes(p);
     const isCS=COMING_SOON_PAGES.includes(p);
@@ -601,6 +680,7 @@
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',()=>sessionStorage.removeItem('couplemed_active_user'));
     initSiteSearch();
+    if(p==='home')renderStreak(sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en');
     /* — QBank sidebar: atualiza "0 / XXXX" com SEED.length real —
        Retry porque qbank.js pode carregar depois de site.js */
     (function fillQBankTotal(tries){
