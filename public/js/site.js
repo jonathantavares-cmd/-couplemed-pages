@@ -571,6 +571,8 @@
     // regra fica disponível caso algum item futuro combine link + toggle.)
     $$('[data-toggle][data-page-link]').forEach(btn=>{ if(btn.dataset.pageLink===p){ const el=$('#'+btn.dataset.toggle); if(el)el.classList.add('open'); } });
     $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en');
+    /* user name in sidebar */
+    const sidebarUserEl=$('#sidebarUserName'); if(sidebarUserEl){ sidebarUserEl.textContent=getUserDisplay(user()); }
     const applyTheme=t=>document.body.classList.toggle('light',t!=='dark'); applyTheme(p==='home'?'dark':'light'); const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>applyTheme(document.body.classList.contains('light')?'dark':'light'));
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',()=>sessionStorage.removeItem('couplemed_active_user'));
