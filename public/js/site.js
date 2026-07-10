@@ -32,6 +32,35 @@
   };
   function getUserCustom(uid){try{return JSON.parse(localStorage.getItem('couplemed_user_custom_'+uid))||null}catch(e){return null}}
   function setUserCustom(uid,data){localStorage.setItem('couplemed_user_custom_'+uid,JSON.stringify(data))}
+
+  /* ===== PREFERÊNCIAS DO USUÁRIO (v51) — couplemed_prefs_<uid> =====
+     Apenas o ESTADO INICIAL do site para aquele usuário. Nenhum controle existente
+     é removido: o botão de tema e as bandeiras no topo continuam funcionando, e o
+     Create Test / revisão de flashcards seguem livres para alterar a qualquer momento.
+     Formato: { theme:'dark'|'light', lang:'en'|'pt',
+                qbank:{ mode:'tutor'|'timed', count:n, peer:bool },
+                flashcards:{ order:'due'|'random'|'sequential', reversed:bool } } */
+  const PREFS_DEFAULT={theme:'',lang:'',qbank:{mode:'tutor',count:10,peer:true},flashcards:{order:'due',reversed:false}};
+  function getPrefs(uid){
+    let p={};
+    try{ p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid))||{}; }catch(e){ p={}; }
+    return {
+      theme: p.theme==='dark'||p.theme==='light' ? p.theme : '',
+      lang:  p.lang==='pt'||p.lang==='en' ? p.lang : '',
+      qbank:{
+        mode:  (p.qbank&&p.qbank.mode==='timed')?'timed':'tutor',
+        count: Math.max(1,Math.min(40,parseInt(p.qbank&&p.qbank.count,10)||10)),
+        peer:  !(p.qbank&&p.qbank.peer===false)
+      },
+      flashcards:{
+        order: (p.flashcards&&['due','random','sequential'].includes(p.flashcards.order))?p.flashcards.order:'due',
+        reversed: !!(p.flashcards&&p.flashcards.reversed)
+      }
+    };
+  }
+  function setPrefs(uid,data){localStorage.setItem('couplemed_prefs_'+uid,JSON.stringify(data))}
+  function touchLastAccess(uid){try{localStorage.setItem('couplemed_last_access_'+uid,new Date().toISOString())}catch(e){}}
+  function getLastAccess(uid){try{return localStorage.getItem('couplemed_last_access_'+uid)||''}catch(e){return ''}}
   function isUserBlocked(uid){return localStorage.getItem('couplemed_user_blocked_'+uid)==='true'}
   function setUserBlocked(uid,blocked){if(blocked)localStorage.setItem('couplemed_user_blocked_'+uid,'true');else localStorage.removeItem('couplemed_user_blocked_'+uid)}
   function getUserDisplay(uid){const c=getUserCustom(uid);return(c&&c.displayName)?c.displayName:(USER_META[uid]?USER_META[uid].displayName:uid)}
@@ -164,6 +193,70 @@
     en: {home:'Home',myWorkspace:'My Workspace',notebooks:'Notebooks',notes:'Notes',studyPlanner:'Study Planner',studyMaterials:'Study Materials',medicalLibrary:'Medical Library',languages:'Languages',settings:'Settings',logout:'Logout',videoLectures:'Video Lectures',audioLessons:'Audio Lessons',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'STUDY<br>STREAK',oneDay:'1 Day',keepGoing:'Keep it going!',qbankProgress:'QBank 1 - Progress',pass1:'1 Pass',pass2:'2 Pass',pass3:'3 Pass',continueBtn:'Continue',questionBank:'QBank',flashcardsLabel:'Flashcards',performanceAnalytics:'Performance Analytics',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'QBank 1',qbank2Title:'QBank 2',library1FolderTitle:'QBank 1',qbank1Pass1:'1 Pass',qbank1Pass2:'2 Pass',qbank1Pass3:'3 Pass',qbank1Pass4:'4 Pass',pass1Name:'Learning',pass2Name:'Consolidation',pass3Name:'Refinement',pass4Name:'Total Mastery',qbank1QuestionsAnswered:'Questions Answered',qbank1OnlyMissed:'Only questions you keep missing',instructionsTitle:'Instructions',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrator',settingsUsers:'Users',settingsLogin:'Login',settingsPassword:'Password',settingsUser:'User',settingsPerformance:'Performance',settingsEnabled:'Enabled',settingsBlocked:'Blocked',settingsReset:'Reset',settingsResetConfirm1:'Do you confirm the reset of the platform for user',settingsResetConfirm2:'Are you sure you confirm the reset of the platform for user',settingsResetConfirm2b:'This is the last warning. All saved information will be lost and the platform will be restarted from scratch.',settingsResetDone:'Platform reset successfully for user',settingsChangeData:'Change Data',settingsSave:'Save',settingsCancel:'Cancel',settingsDisplayName:'Username',settingsDataSaved:'Data saved successfully!',settingsQuestionsAnswered:'Questions answered',settingsCorrectRate:'Correct rate',settingsCardsTotal:'Total cards',settingsReviewsDone:'Reviews done',settingsNoData:'No data yet',settingsShowPass:'Show',settingsHidePass:'Hide',timeToday:'Today',timeWeek:'7 days',timeTotal:'Total',streakRecord:'Record',streakQuestions:'Questions',streakFlash:'Flashcards',streakRisk:'Study today to keep it!',streakRestart:'Start again today!',streakStart:'Start today!',dayOne:'Day',dayMany:'Days',weekLetters:'M,T,W,T,F,S,S',wsSubtitle:'Everything you need to organize your studies, in one place.',wsNotebooksDesc:'Structured notebooks for each subject and system.',wsNotesDesc:'Quick notes and annotations you capture while studying.',wsPlannerDesc:'Plan your passes, set targets and track your schedule.',wsLinksDesc:'Your saved references, resources and external tools.'},
     pt: {home:'Home',myWorkspace:'Meu Espaço de Trabalho',notebooks:'Cadernos',notes:'Anotações',studyPlanner:'Planejador de Estudos',studyMaterials:'Materiais de Estudo',medicalLibrary:'Biblioteca Médica',languages:'Idiomas',settings:'Configurações',logout:'Sair',videoLectures:'Aulas em Vídeo',audioLessons:'Aulas em Áudio',aiTutorLabel:'AI Tutor',observership:'Observership',residencyMatch:'Residency Match',linksLabel:'Links',studyStreak:'SEQUÊNCIA<br>DE ESTUDOS',oneDay:'1 Dia',keepGoing:'Continue assim!',qbankProgress:'QBank 1 - Progresso',pass1:'1ª Passada',pass2:'2ª Passada',pass3:'3ª Passada',continueBtn:'Continuar',questionBank:'Banco de Questões',flashcardsLabel:'Flashcards',performanceAnalytics:'Análise de Desempenho',library1Title:'Library 1',library2Title:'Library 2',library3Title:'Library 3',qbank1Title:'Banco de Questões 1',qbank2Title:'Banco de Questões 2',library1FolderTitle:'Banco de Questões 1',qbank1Pass1:'1ª Passada',qbank1Pass2:'2ª Passada',qbank1Pass3:'3ª Passada',qbank1Pass4:'4ª Passada',pass1Name:'Aprendizado',pass2Name:'Consolidação',pass3Name:'Refinamento',pass4Name:'Domínio Total',qbank1QuestionsAnswered:'Questões Respondidas',qbank1OnlyMissed:'Somente questões que você continua errando',instructionsTitle:'Instruções',step1Qbank1:'QBank 1',step1Qbank2:'QBank 2',settingsAdmin:'Administrador',settingsUsers:'Usuários',settingsLogin:'Login',settingsPassword:'Senha',settingsUser:'Usuário',settingsPerformance:'Desempenho',settingsEnabled:'Liberado',settingsBlocked:'Bloqueado',settingsReset:'Reset',settingsResetConfirm1:'Você confirma o reset da plataforma do usuário',settingsResetConfirm2:'Tem certeza que confirma o reset da plataforma do usuário',settingsResetConfirm2b:'Este é o último aviso. Todas as informações salvas pelo usuário serão perdidas e a plataforma do usuário será reiniciada do início.',settingsResetDone:'Plataforma resetada com sucesso para o usuário',settingsChangeData:'Alterar Dados',settingsSave:'Salvar',settingsCancel:'Cancelar',settingsDisplayName:'Nome de Usuário',settingsDataSaved:'Dados salvos com sucesso!',settingsQuestionsAnswered:'Questões respondidas',settingsCorrectRate:'Taxa de acerto',settingsCardsTotal:'Total de cards',settingsReviewsDone:'Revisões feitas',settingsNoData:'Sem dados ainda',settingsShowPass:'Mostrar',settingsHidePass:'Ocultar',timeToday:'Hoje',timeWeek:'7 dias',timeTotal:'Total',streakRecord:'Recorde',streakQuestions:'Questões',streakFlash:'Flashcards',streakRisk:'Estude hoje para manter!',streakRestart:'Recomece hoje!',streakStart:'Comece hoje!',dayOne:'Dia',dayMany:'Dias',weekLetters:'S,T,Q,Q,S,S,D',wsSubtitle:'Tudo o que você precisa para organizar seus estudos, em um só lugar.',wsNotebooksDesc:'Cadernos estruturados para cada matéria e sistema.',wsNotesDesc:'Anotações rápidas que você captura durante o estudo.',wsPlannerDesc:'Planeje suas passadas, defina metas e acompanhe seu cronograma.',wsLinksDesc:'Suas referências, recursos e ferramentas externas salvas.'}
   };
+  /* ===== v51 — novas chaves i18n (merge para manter os objetos acima legíveis) ===== */
+  Object.assign(I18N.en, {
+    qbReview:'Review', qbStart:'Start',
+    /* Settings — seções e navegação */
+    stgSecProfile:'Profile', stgSecAppearance:'Appearance', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
+    stgSecData:'My Data', stgSecDanger:'Danger Zone', stgSecUsers:'User Management', stgSecUnlock:'Pass Unlock',
+    stgSecSystem:'System Info',
+    stgProfileDesc:'Your display name and login credentials.',
+    stgAvatar:'Avatar',
+    stgThemeLabel:'Default theme', stgThemeDark:'Dark', stgThemeLight:'Light',
+    stgLangLabel:'Default language', stgLangEN:'English', stgLangPT:'Português',
+    stgApprDesc:'How the platform opens for you. You can still switch theme and language anytime from the top bar.',
+    stgQbMode:'Default test mode', stgQbTutor:'Tutor', stgQbTimed:'Timed',
+    stgQbCount:'Default number of questions', stgQbPeer:'Show peer answer stats during tests',
+    stgQbDesc:'These only set the starting values in Create Test — you can always change them per test.',
+    stgFcOrder:'Review order', stgFcOrderDue:'Due first (spaced repetition)', stgFcOrderRandom:'Random', stgFcOrderSeq:'Sequential',
+    stgFcReversed:'Show cards reversed (back first) by default',
+    stgFcDesc:'Defaults for your flashcard review sessions.',
+    stgDataDesc:'All your progress lives in this browser. Export a backup regularly so you never lose it.',
+    stgExport:'Export backup', stgImport:'Import backup', stgImportDone:'Backup imported successfully!',
+    stgImportErr:'Could not read this backup file.', stgImportConfirm:'Importing will overwrite your current progress in this browser. Continue?',
+    stgExportHint:'Downloads a .json file with your QBank, flashcards, notes, streak and preferences.',
+    stgDangerDesc:'Irreversible actions. Please be careful.',
+    stgResetMine:'Reset my progress', stgResetMineC1:'This will erase ALL your progress (QBank, flashcards, notes, streak) in this browser. Continue?',
+    stgResetMineC2:'Last warning — this cannot be undone. Really reset everything?', stgResetMineDone:'Your progress has been reset.',
+    stgSaved:'Preferences saved',
+    stgUnlockDesc:'Manually unlock the next pass for a user who asks. Pass 1 is always open.',
+    stgUnlockState:'Current', stgUnlockLevel:'Unlocked up to', stgUnlockPass:'Pass', stgUnlockDirected:'Directed',
+    stgUnlockSave:'Apply', stgUnlockAuto:'Automatic (sequential)',
+    stgSysVersion:'Platform version', stgSysQuestions:'Questions in bank', stgSysFlash:'Flashcards (yours)', stgSysUser:'Signed in as',
+    stgLastAccess:'Last access', stgNever:'Never', stgStreakCur:'Streak', stgTimeTotal:'Total time',
+    stgPassCol:'Passes', stgUserStatus:'Status'
+  });
+  Object.assign(I18N.pt, {
+    qbReview:'Revisar', qbStart:'Iniciar',
+    stgSecProfile:'Perfil', stgSecAppearance:'Aparência', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
+    stgSecData:'Meus Dados', stgSecDanger:'Zona de Perigo', stgSecUsers:'Gestão de Usuários', stgSecUnlock:'Desbloqueio de Passadas',
+    stgSecSystem:'Informações do Sistema',
+    stgProfileDesc:'Seu nome de exibição e credenciais de acesso.',
+    stgAvatar:'Avatar',
+    stgThemeLabel:'Tema padrão', stgThemeDark:'Escuro', stgThemeLight:'Claro',
+    stgLangLabel:'Idioma padrão', stgLangEN:'English', stgLangPT:'Português',
+    stgApprDesc:'Como a plataforma abre para você. Você ainda pode trocar tema e idioma quando quiser na barra superior.',
+    stgQbMode:'Modo de teste padrão', stgQbTutor:'Tutor', stgQbTimed:'Cronometrado',
+    stgQbCount:'Número de questões padrão', stgQbPeer:'Mostrar estatística dos colegas durante os testes',
+    stgQbDesc:'Isto apenas define os valores iniciais do Criar Teste — você sempre pode alterá-los em cada teste.',
+    stgFcOrder:'Ordem de revisão', stgFcOrderDue:'Vencidos primeiro (repetição espaçada)', stgFcOrderRandom:'Aleatória', stgFcOrderSeq:'Sequencial',
+    stgFcReversed:'Mostrar cards invertidos (verso primeiro) por padrão',
+    stgFcDesc:'Padrões para suas sessões de revisão de flashcards.',
+    stgDataDesc:'Todo o seu progresso fica neste navegador. Exporte um backup com frequência para nunca perdê-lo.',
+    stgExport:'Exportar backup', stgImport:'Importar backup', stgImportDone:'Backup importado com sucesso!',
+    stgImportErr:'Não foi possível ler este arquivo de backup.', stgImportConfirm:'Importar irá sobrescrever seu progresso atual neste navegador. Continuar?',
+    stgExportHint:'Baixa um arquivo .json com seu QBank, flashcards, notas, sequência e preferências.',
+    stgDangerDesc:'Ações irreversíveis. Tenha cuidado.',
+    stgResetMine:'Resetar meu progresso', stgResetMineC1:'Isto apagará TODO o seu progresso (QBank, flashcards, notas, sequência) neste navegador. Continuar?',
+    stgResetMineC2:'Último aviso — isto não pode ser desfeito. Deseja realmente resetar tudo?', stgResetMineDone:'Seu progresso foi resetado.',
+    stgSaved:'Preferências salvas',
+    stgUnlockDesc:'Desbloqueie manualmente a próxima passada de um usuário que solicitar. A Passada 1 está sempre aberta.',
+    stgUnlockState:'Atual', stgUnlockLevel:'Liberado até', stgUnlockPass:'Passada', stgUnlockDirected:'Dirigida',
+    stgUnlockSave:'Aplicar', stgUnlockAuto:'Automático (sequencial)',
+    stgSysVersion:'Versão da plataforma', stgSysQuestions:'Questões no banco', stgSysFlash:'Flashcards (seus)', stgSysUser:'Logado como',
+    stgLastAccess:'Último acesso', stgNever:'Nunca', stgStreakCur:'Sequência', stgTimeTotal:'Tempo total',
+    stgPassCol:'Passadas', stgUserStatus:'Status'
+  });
   const PAGE_TITLE_KEYS = {'my-workspace':'myWorkspace','notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-1':'library1Title','library-2':'library2Title','library-3':'library3Title','qbank-1':'qbank1Title','qbank-2':'qbank2Title','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
   const $ = (s,root=document)=>root.querySelector(s); const $$=(s,root=document)=>[...root.querySelectorAll(s)];
   function params(){return new URLSearchParams(location.search)}
@@ -289,7 +382,8 @@
     const msg2=t.settingsResetConfirm2+' '+name+'?\n\n'+t.settingsResetConfirm2b;
     if(!confirm(msg2))return;
     /* Remove all user-scoped localStorage keys */
-    const prefixes=['couplemed_qb_'+uid,'couplemed_fc_'+uid,'couplemed_streak_'+uid,'couplemed_time_'+uid,'couplemed_lang_current_'+uid,'couplemed_transition_deck_'+uid,'couplemed_user_custom_'+uid];
+    const prefixes=['couplemed_qb_'+uid,'couplemed_fc_'+uid,'couplemed_streak_'+uid,'couplemed_time_'+uid,'couplemed_lang_current_'+uid,'couplemed_transition_deck_'+uid,'couplemed_user_custom_'+uid,
+      /* v51 */ 'couplemed_prefs_'+uid,'couplemed_qb_unlock_'+uid,'couplemed_last_access_'+uid];
     const toRemove=[];
     for(let i=0;i<localStorage.length;i++){
       const k=localStorage.key(i);
@@ -316,209 +410,483 @@
     </div>`;
   }
 
+  /* ============================== SETTINGS v51 ==============================
+     Página reconstruída como painel com abas. Seções de todos os usuários:
+     Perfil, Aparência, QBank, Flashcards, Meus Dados, Zona de Perigo.
+     Seções exclusivas do admin: Gestão de Usuários, Desbloqueio de Passadas,
+     Informações do Sistema.
+     Regra de ouro: preferências definem apenas o ESTADO INICIAL do site — nenhum
+     controle existente (tema, bandeiras, Create Test) é removido ou movido. */
+  const STG_VERSION='v51';
+  let stgTab=null;
+
+  function stgEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function stgAvatarColor(uid){
+    const palette=['#3d84ff','#7c5cff','#00b5ad','#f2994a','#eb5757','#27ae60'];
+    let h=0; for(let i=0;i<uid.length;i++) h=(h*31+uid.charCodeAt(i))>>>0;
+    return palette[h%palette.length];
+  }
+  function stgAvatar(uid,size){
+    const name=getUserDisplay(uid)||uid;
+    const initial=(name.trim()[0]||'?').toUpperCase();
+    return `<span class="stg-avatar" style="--av:${stgAvatarColor(uid)};--avs:${size||44}px">${stgEsc(initial)}</span>`;
+  }
+  function stgFmtDate(iso,lang){
+    if(!iso) return null;
+    try{ const d=new Date(iso); return d.toLocaleDateString(lang==='pt'?'pt-BR':'en-US',{day:'2-digit',month:'short',year:'numeric'})+' · '+d.toLocaleTimeString(lang==='pt'?'pt-BR':'en-US',{hour:'2-digit',minute:'2-digit'}); }
+    catch(e){ return null; }
+  }
+  function stgFmtSecs(sec){
+    sec=Math.max(0,Math.round(sec||0));
+    const h=Math.floor(sec/3600), m=Math.round((sec%3600)/60);
+    return h? `${h}h ${m}m` : `${m}m`;
+  }
+  /* leituras somente-leitura de outros módulos (nunca escrevem) */
+  function stgTotalTime(uid){
+    let total=0;
+    try{ const db=JSON.parse(localStorage.getItem('couplemed_time_'+uid))||{};
+      Object.keys(db).forEach(day=>{ const mods=db[day]||{}; Object.keys(mods).forEach(k=>{ total+=(+mods[k]||0); }); });
+    }catch(e){}
+    return total;
+  }
+  function stgStreakBest(uid){
+    try{ const s=JSON.parse(localStorage.getItem('couplemed_streak_'+uid))||{}; return +s.best||0; }catch(e){ return 0; }
+  }
+  function stgFlashCount(uid){
+    let n=0;
+    try{ const fc=JSON.parse(localStorage.getItem('couplemed_fc_'+uid))||{};
+      if(Array.isArray(fc.cards)) n=fc.cards.length;
+      else (fc.decks||[]).forEach(d=>{ n+=((d.cards||[]).length); });
+    }catch(e){}
+    return n;
+  }
+  /* percentual de cada passada de um usuário (mesmo modelo do qbank.js, somente leitura) */
+  function stgPassSummary(uid,lang){
+    const total=window.QBANK_TOTAL||0;
+    if(!total) return '—';
+    const map=qbAttemptsByQ(uid);
+    return [1,2,3].map(pn=>{
+      const p=qbPassProgress(map,total,pn);
+      const st=qbPassState(uid,map,total,pn);
+      const icon = st==='completed'?'✓' : st==='locked'?'🔒' : '';
+      return `<span class="stg-pass-chip stg-pass-${st}">${pn}ª <b>${p.pct}%</b> ${icon}</span>`;
+    }).join('');
+  }
+
+  /* ---------- backup: exportar / importar ---------- */
+  function stgUserKeys(uid){
+    const prefixes=['couplemed_qb_'+uid,'couplemed_fc_'+uid,'couplemed_streak_'+uid,'couplemed_time_'+uid,
+      'couplemed_prefs_'+uid,'couplemed_user_custom_'+uid,'couplemed_lang_current_'+uid,
+      'couplemed_notebook_'+uid,'couplemed_notes_'+uid,'couplemed_qb_unlock_'+uid,'couplemed_last_access_'+uid];
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(prefixes.some(p=>k===p||k.startsWith(p+'_'))) keys.push(k);
+    }
+    return keys;
+  }
+  function stgExportBackup(uid){
+    const payload={_couplemed:'backup',_version:STG_VERSION,_user:uid,_exported_at:new Date().toISOString(),data:{}};
+    stgUserKeys(uid).forEach(k=>{ payload.data[k]=localStorage.getItem(k); });
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=`couplemed_backup_${uid}_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }
+  function stgImportBackup(uid,file,lang,onDone){
+    const t=I18N[lang]||I18N.en;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      let payload;
+      try{ payload=JSON.parse(reader.result); }catch(e){ alert(t.stgImportErr); return; }
+      if(!payload||payload._couplemed!=='backup'||!payload.data){ alert(t.stgImportErr); return; }
+      if(!confirm(t.stgImportConfirm)) return;
+      /* remove as chaves atuais do usuário e reescreve as do backup, remapeando o uid */
+      stgUserKeys(uid).forEach(k=>localStorage.removeItem(k));
+      const srcUid=payload._user||uid;
+      Object.keys(payload.data).forEach(k=>{
+        const nk = srcUid===uid ? k : k.split(srcUid).join(uid);
+        try{ localStorage.setItem(nk,payload.data[k]); }catch(e){}
+      });
+      alert(t.stgImportDone);
+      onDone&&onDone();
+    };
+    reader.onerror=()=>alert(t.stgImportErr);
+    reader.readAsText(file);
+  }
+  function stgResetSelf(uid,lang,onDone){
+    const t=I18N[lang]||I18N.en;
+    if(!confirm(t.stgResetMineC1)) return;
+    if(!confirm(t.stgResetMineC2)) return;
+    /* preserva credenciais customizadas do próprio usuário — só o progresso é apagado */
+    const keep=localStorage.getItem('couplemed_user_custom_'+uid);
+    const keepPrefs=localStorage.getItem('couplemed_prefs_'+uid);
+    stgUserKeys(uid).forEach(k=>localStorage.removeItem(k));
+    if(keep) localStorage.setItem('couplemed_user_custom_'+uid,keep);
+    if(keepPrefs) localStorage.setItem('couplemed_prefs_'+uid,keepPrefs);
+    alert(t.stgResetMineDone);
+    onDone&&onDone();
+  }
+
+  /* ---------- blocos de UI reutilizáveis ---------- */
+  function stgToggle(id,checked,label){
+    return `<label class="stg-switch"><input type="checkbox" id="${id}" ${checked?'checked':''} /><span class="stg-switch-track"><span class="stg-switch-knob"></span></span><span class="stg-switch-lbl">${label}</span></label>`;
+  }
+  function stgSeg(name,value,options){
+    return `<div class="stg-seg">${options.map(o=>`<button type="button" class="stg-seg-btn ${o.v===value?'on':''}" data-seg="${name}" data-v="${o.v}">${stgEsc(o.l)}</button>`).join('')}</div>`;
+  }
+
   function renderSettings(lang){
     const rp=$('#regularPage'); if(!rp)return;
-    const t=I18N[lang];
+    const t=I18N[lang]||I18N.en;
     const u=user();
-    const isAdmin=USER_META[u]&&USER_META[u].role==='admin';
+    const m=USER_META[u];
+    if(!m){rp.innerHTML=`<h1 id="internalTitle">${t.settings}</h1>`;return}
+    const isAdmin=m.role==='admin';
 
+    const tabs=[
+      {id:'profile',   label:t.stgSecProfile,    ico:'👤'},
+      {id:'appearance',label:t.stgSecAppearance, ico:'🎨'},
+      {id:'qbank',     label:t.stgSecQbank,      ico:'📋'},
+      {id:'flash',     label:t.stgSecFlash,      ico:'🗂'},
+      {id:'data',      label:t.stgSecData,       ico:'💾'},
+      {id:'danger',    label:t.stgSecDanger,     ico:'⚠️'}
+    ];
     if(isAdmin){
-      /* ======= ADMIN VIEW ======= */
-      const me=USER_META[u];
-      const meCustom=getUserCustom(u);
-      const meName=meCustom&&meCustom.displayName?meCustom.displayName:me.displayName;
-      const meLogin=meCustom&&meCustom.login?meCustom.login:me.originalLogin;
-      const mePass=meCustom&&meCustom.password?meCustom.password:me.originalPass;
-      let html=`<h1 id="internalTitle">${t.settings}</h1>`;
-      html+=`<div class="stg-admin-card stg-admin-self" data-uid="${u}">
-        <div class="stg-admin-badge">${t.settingsAdmin}</div>
-        <div class="stg-view-block" id="stgSelfView">
-          <div class="stg-info-row"><span class="stg-label">${t.settingsUser}:</span> <span class="stg-value">${meName}</span></div>
-          <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${meLogin}</span></div>
-          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass stg-pass-masked" data-pass="${String(mePass).replace(/"/g,'&quot;')}">${'•'.repeat(mePass.length)}</span> <button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
-          <button class="stg-btn stg-btn-edit" data-action="edit-self">${t.settingsChangeData}</button>
-        </div>
-        <div class="stg-edit-form" id="stgSelfEdit" hidden>
-          <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgSelfName" value="${String(meName).replace(/"/g,'&quot;')}" /></div>
-          <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgSelfLogin" value="${String(meLogin).replace(/"/g,'&quot;')}" /></div>
-          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgSelfPass" value="${String(mePass).replace(/"/g,'&quot;')}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgSelfPass">${t.settingsShowPass}</button></div></div>
-          <div class="stg-edit-actions">
-            <button class="stg-btn stg-btn-save" data-action="save-self">${t.settingsSave}</button>
-            <button class="stg-btn stg-btn-cancel" data-action="cancel-self">${t.settingsCancel}</button>
-          </div>
-          <div class="stg-msg" id="stgSelfMsg" hidden></div>
-        </div>
-      </div>`;
-      html+=`<h2 class="stg-section-title">${t.settingsUsers}</h2>`;
-      Object.keys(USER_META).forEach(uid=>{
-        if(uid===u)return; /* skip self */
-        const m=USER_META[uid];
-        const custom=getUserCustom(uid);
-        const blocked=isUserBlocked(uid);
-        const displayName=getUserDisplay(uid);
-        const curLogin=custom&&custom.login?custom.login:m.originalLogin;
-        const curPass=custom&&custom.password?custom.password:m.originalPass;
-        html+=`<div class="stg-admin-card stg-user-card" data-uid="${uid}">
-          <div class="stg-user-header">
-            <div class="stg-user-name">${displayName}</div>
-            <div class="stg-user-actions">
-              <button class="stg-btn stg-btn-perf" data-action="perf" data-uid="${uid}">${t.settingsPerformance}</button>
-              <button class="stg-btn stg-btn-edit stg-btn-edit-inline" data-action="edit-user" data-uid="${uid}">${t.settingsChangeData}</button>
-              <div class="stg-toggle-wrap">
-                <button class="stg-toggle ${blocked?'stg-toggle-off':'stg-toggle-on'}" data-action="toggle" data-uid="${uid}">
-                  <span class="stg-toggle-knob"></span>
-                  <span class="stg-toggle-label">${blocked?t.settingsBlocked:t.settingsEnabled}</span>
-                </button>
-              </div>
-              <button class="stg-btn stg-btn-reset" data-action="reset" data-uid="${uid}">${t.settingsReset}</button>
-            </div>
-          </div>
-          <div class="stg-view-block" id="stgUserView_${uid}">
-            <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value">${curLogin}</span></div>
-            <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass stg-pass-masked" data-pass="${String(curPass).replace(/"/g,'&quot;')}">${'•'.repeat(curPass.length)}</span> <button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
-            ${custom?`<div class="stg-custom-note">
-              <span class="stg-custom-badge">Custom</span>
-              ${custom.displayName?`<div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}:</span> <span class="stg-value">${custom.displayName}</span></div>`:''}
-            </div>`:''}
-          </div>
-          <div class="stg-edit-form" id="stgUserEdit_${uid}" hidden>
-            <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgUName_${uid}" value="${String(displayName).replace(/"/g,'&quot;')}" /></div>
-            <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgULogin_${uid}" value="${String(curLogin).replace(/"/g,'&quot;')}" /></div>
-            <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgUPass_${uid}" value="${String(curPass).replace(/"/g,'&quot;')}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgUPass_${uid}">${t.settingsShowPass}</button></div></div>
-            <div class="stg-edit-actions">
-              <button class="stg-btn stg-btn-save" data-action="save-user" data-uid="${uid}">${t.settingsSave}</button>
-              <button class="stg-btn stg-btn-cancel" data-action="cancel-user" data-uid="${uid}">${t.settingsCancel}</button>
-            </div>
-            <div class="stg-msg" id="stgUMsg_${uid}" hidden></div>
-          </div>
-          <div class="stg-perf-container" id="stgPerf_${uid}" hidden></div>
-        </div>`;
-      });
-      rp.innerHTML=html;
-
-      /* Wire admin buttons */
-      rp.querySelectorAll('[data-action="perf"]').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const uid=btn.dataset.uid;
-          const panel=$('#stgPerf_'+uid);
-          if(!panel)return;
-          if(!panel.hidden){panel.hidden=true;btn.classList.remove('active');return}
-          panel.innerHTML=renderPerformancePanel(uid,lang);
-          panel.hidden=false;
-          btn.classList.add('active');
-        });
-      });
-      rp.querySelectorAll('[data-action="toggle"]').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const uid=btn.dataset.uid;
-          const nowBlocked=isUserBlocked(uid);
-          setUserBlocked(uid,!nowBlocked);
-          renderSettings(lang);
-        });
-      });
-      rp.querySelectorAll('[data-action="reset"]').forEach(btn=>{
-        btn.addEventListener('click',()=>resetUserPlatform(btn.dataset.uid,lang));
-      });
-
-      /* Editar dados do próprio admin (John) */
-      const selfEditBtn=rp.querySelector('[data-action="edit-self"]');
-      if(selfEditBtn) selfEditBtn.addEventListener('click',()=>{ $('#stgSelfView').hidden=true; $('#stgSelfEdit').hidden=false; });
-      const selfCancelBtn=rp.querySelector('[data-action="cancel-self"]');
-      if(selfCancelBtn) selfCancelBtn.addEventListener('click',()=>{ $('#stgSelfEdit').hidden=true; $('#stgSelfView').hidden=false; });
-      const selfSaveBtn=rp.querySelector('[data-action="save-self"]');
-      if(selfSaveBtn) selfSaveBtn.addEventListener('click',()=>{
-        const nm=$('#stgSelfName').value.trim(), lg=$('#stgSelfLogin').value.trim(), pw=$('#stgSelfPass').value.trim();
-        if(!nm||!lg||!pw)return;
-        setUserCustom(u,{displayName:nm,login:lg,password:pw});
-        const msg=$('#stgSelfMsg'); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
-        setTimeout(()=>renderSettings(lang),1100);
-      });
-
-      /* Editar dados de qualquer usuário (admin) */
-      rp.querySelectorAll('[data-action="edit-user"]').forEach(btn=>{
-        btn.addEventListener('click',()=>{ const uid=btn.dataset.uid; $('#stgUserView_'+uid).hidden=true; $('#stgUserEdit_'+uid).hidden=false; });
-      });
-      rp.querySelectorAll('[data-action="cancel-user"]').forEach(btn=>{
-        btn.addEventListener('click',()=>{ const uid=btn.dataset.uid; $('#stgUserEdit_'+uid).hidden=true; $('#stgUserView_'+uid).hidden=false; });
-      });
-      rp.querySelectorAll('[data-action="save-user"]').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const uid=btn.dataset.uid;
-          const nm=$('#stgUName_'+uid).value.trim(), lg=$('#stgULogin_'+uid).value.trim(), pw=$('#stgUPass_'+uid).value.trim();
-          if(!nm||!lg||!pw)return;
-          setUserCustom(uid,{displayName:nm,login:lg,password:pw});
-          const msg=$('#stgUMsg_'+uid); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
-          setTimeout(()=>renderSettings(lang),1100);
-        });
-      });
-
-    } else {
-      /* ======= REGULAR USER VIEW ======= */
-      const m=USER_META[u];
-      if(!m){rp.innerHTML=`<h1 id="internalTitle">${t.settings}</h1>`;return}
-      const custom=getUserCustom(u);
-      const currentName=custom&&custom.displayName?custom.displayName:m.displayName;
-      const currentLogin=custom&&custom.login?custom.login:m.originalLogin;
-      const currentPass=custom&&custom.password?custom.password:m.originalPass;
-
-      let html=`<h1 id="internalTitle">${t.settings}</h1>`;
-      html+=`<div class="stg-user-self-card" id="stgUserView">
-        <div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}:</span> <span class="stg-value" id="stgShowName">${currentName}</span></div>
-        <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}:</span> <span class="stg-value" id="stgShowLogin">${currentLogin}</span></div>
-        <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}:</span> <span class="stg-value stg-pass stg-pass-masked" data-pass="${currentPass}" id="stgShowPass">${'•'.repeat(currentPass.length)}</span> <button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
-        <button class="stg-btn stg-btn-edit" id="stgEditBtn">${t.settingsChangeData}</button>
-      </div>
-      <div class="stg-user-self-card stg-edit-form" id="stgUserEdit" hidden>
-        <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgEditName" value="${currentName.replace(/"/g,'&quot;')}" /></div>
-        <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgEditLogin" value="${currentLogin.replace(/"/g,'&quot;')}" /></div>
-        <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgEditPass" value="${currentPass.replace(/"/g,'&quot;')}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgEditPass">${t.settingsShowPass}</button></div></div>
-        <div class="stg-edit-actions">
-          <button class="stg-btn stg-btn-save" id="stgSaveBtn">${t.settingsSave}</button>
-          <button class="stg-btn stg-btn-cancel" id="stgCancelBtn">${t.settingsCancel}</button>
-        </div>
-        <div class="stg-msg" id="stgMsg" hidden></div>
-      </div>`;
-      rp.innerHTML=html;
-
-      $('#stgEditBtn').addEventListener('click',()=>{
-        $('#stgUserView').hidden=true;
-        $('#stgUserEdit').hidden=false;
-      });
-      $('#stgCancelBtn').addEventListener('click',()=>{
-        $('#stgUserEdit').hidden=true;
-        $('#stgUserView').hidden=false;
-      });
-      $('#stgSaveBtn').addEventListener('click',()=>{
-        const newName=$('#stgEditName').value.trim();
-        const newLogin=$('#stgEditLogin').value.trim();
-        const newPass=$('#stgEditPass').value.trim();
-        if(!newName||!newLogin||!newPass){return}
-        setUserCustom(u,{displayName:newName,login:newLogin,password:newPass});
-        const msg=$('#stgMsg');
-        msg.textContent=t.settingsDataSaved;
-        msg.hidden=false;
-        msg.classList.add('stg-msg-success');
-        setTimeout(()=>renderSettings(lang),1200);
-      });
+      tabs.push({id:'users', label:t.stgSecUsers,  ico:'👥', admin:true});
+      tabs.push({id:'unlock',label:t.stgSecUnlock, ico:'🔓', admin:true});
+      tabs.push({id:'system',label:t.stgSecSystem, ico:'🛠', admin:true});
     }
-    /* Wire password show/hide toggles (common for admin and regular views) */
-    rp.querySelectorAll('[data-action="toggle-pass"]').forEach(btn=>{
+    if(!stgTab || !tabs.some(x=>x.id===stgTab)) stgTab=tabs[0].id;
+
+    const navHTML=tabs.map(tb=>`<button class="stg-nav-item ${tb.id===stgTab?'on':''} ${tb.admin?'is-admin':''}" data-tab="${tb.id}"><span class="stg-nav-ico">${tb.ico}</span><span>${stgEsc(tb.label)}</span></button>`).join('');
+
+    rp.innerHTML=`
+      <h1 id="internalTitle">${t.settings}</h1>
+      <div class="stg-shell">
+        <aside class="stg-nav">
+          <div class="stg-nav-user">${stgAvatar(u,40)}<div><strong>${stgEsc(getUserDisplay(u))}</strong><small>${isAdmin?stgEsc(t.settingsAdmin):stgEsc(t.settingsUser)}</small></div></div>
+          ${navHTML}
+        </aside>
+        <section class="stg-panel" id="stgPanel"></section>
+      </div>`;
+
+    rp.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{ stgTab=btn.dataset.tab; renderSettings(lang); }));
+    stgRenderPanel(lang);
+  }
+
+  function stgRenderPanel(lang){
+    const panel=$('#stgPanel'); if(!panel)return;
+    const t=I18N[lang]||I18N.en;
+    const u=user();
+    switch(stgTab){
+      case 'profile':    stgProfile(panel,u,lang,t); break;
+      case 'appearance': stgAppearance(panel,u,lang,t); break;
+      case 'qbank':      stgQbank(panel,u,lang,t); break;
+      case 'flash':      stgFlash(panel,u,lang,t); break;
+      case 'data':       stgData(panel,u,lang,t); break;
+      case 'danger':     stgDanger(panel,u,lang,t); break;
+      case 'users':      stgUsers(panel,u,lang,t); break;
+      case 'unlock':     stgUnlock(panel,u,lang,t); break;
+      case 'system':     stgSystem(panel,u,lang,t); break;
+    }
+    stgWirePassEyes(panel,t);
+  }
+
+  function stgWirePassEyes(scope,t){
+    scope.querySelectorAll('[data-action="toggle-pass"]').forEach(btn=>{
       btn.addEventListener('click',()=>{
-        const span=btn.previousElementSibling;
-        if(!span) return;
+        const span=btn.previousElementSibling; if(!span)return;
         const masked=span.classList.contains('stg-pass-masked');
         if(masked){ span.textContent=span.dataset.pass; span.classList.remove('stg-pass-masked'); btn.textContent=t.settingsHidePass; }
         else { span.textContent='•'.repeat((span.dataset.pass||'').length); span.classList.add('stg-pass-masked'); btn.textContent=t.settingsShowPass; }
       });
     });
-    rp.querySelectorAll('[data-action="toggle-pass-input"]').forEach(btn=>{
+    scope.querySelectorAll('[data-action="toggle-pass-input"]').forEach(btn=>{
       btn.addEventListener('click',()=>{
-        const inp=$('#'+btn.dataset.target);
-        if(!inp) return;
+        const inp=$('#'+btn.dataset.target); if(!inp)return;
         if(inp.type==='password'){ inp.type='text'; btn.textContent=t.settingsHidePass; }
         else { inp.type='password'; btn.textContent=t.settingsShowPass; }
       });
     });
+  }
+  function stgFlashSaved(el,t){
+    if(!el)return; el.textContent=t.stgSaved; el.hidden=false; el.classList.add('stg-msg-success');
+    setTimeout(()=>{ el.hidden=true; },1600);
+  }
+
+  /* ---------------- Perfil ---------------- */
+  function stgProfile(panel,u,lang,t){
+    const meta=USER_META[u];
+    const custom=getUserCustom(u);
+    const name=custom&&custom.displayName?custom.displayName:meta.displayName;
+    const login=custom&&custom.login?custom.login:meta.originalLogin;
+    const pass=custom&&custom.password?custom.password:meta.originalPass;
+    panel.innerHTML=`
+      <div class="stg-card">
+        <div class="stg-card-head"><h2>${stgEsc(t.stgSecProfile)}</h2><p>${stgEsc(t.stgProfileDesc)}</p></div>
+        <div class="stg-profile-top">${stgAvatar(u,64)}<div class="stg-profile-id"><strong>${stgEsc(name)}</strong><small>${stgEsc(login)}</small></div></div>
+        <div class="stg-view-block" id="stgSelfView">
+          <div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}</span><span class="stg-value">${stgEsc(name)}</span></div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}</span><span class="stg-value">${stgEsc(login)}</span></div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value stg-pass stg-pass-masked" data-pass="${stgEsc(pass)}">${'•'.repeat(pass.length)}</span><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
+          <button class="stg-btn stg-btn-edit" id="stgEditBtn">${t.settingsChangeData}</button>
+        </div>
+        <div class="stg-edit-form" id="stgSelfEdit" hidden>
+          <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgEditName" value="${stgEsc(name)}" /></div>
+          <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgEditLogin" value="${stgEsc(login)}" /></div>
+          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgEditPass" value="${stgEsc(pass)}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgEditPass">${t.settingsShowPass}</button></div></div>
+          <div class="stg-edit-actions">
+            <button class="stg-btn stg-btn-save" id="stgSaveBtn">${t.settingsSave}</button>
+            <button class="stg-btn stg-btn-cancel" id="stgCancelBtn">${t.settingsCancel}</button>
+          </div>
+          <div class="stg-msg" id="stgMsg" hidden></div>
+        </div>
+      </div>`;
+    $('#stgEditBtn').addEventListener('click',()=>{ $('#stgSelfView').hidden=true; $('#stgSelfEdit').hidden=false; });
+    $('#stgCancelBtn').addEventListener('click',()=>{ $('#stgSelfEdit').hidden=true; $('#stgSelfView').hidden=false; });
+    $('#stgSaveBtn').addEventListener('click',()=>{
+      const nm=$('#stgEditName').value.trim(), lg=$('#stgEditLogin').value.trim(), pw=$('#stgEditPass').value.trim();
+      if(!nm||!lg||!pw)return;
+      setUserCustom(u,{displayName:nm,login:lg,password:pw});
+      const msg=$('#stgMsg'); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
+      const side=$('#sidebarUserName'); if(side)side.textContent=nm;
+      setTimeout(()=>renderSettings(lang),1100);
+    });
+  }
+
+  /* ---------------- Aparência ---------------- */
+  function stgAppearance(panel,u,lang,t){
+    const p=getPrefs(u);
+    panel.innerHTML=`
+      <div class="stg-card">
+        <div class="stg-card-head"><h2>${stgEsc(t.stgSecAppearance)}</h2><p>${stgEsc(t.stgApprDesc)}</p></div>
+        <div class="stg-field"><label>${t.stgThemeLabel}</label>
+          ${stgSeg('theme',p.theme||'auto',[{v:'auto',l:t.stgUnlockAuto},{v:'dark',l:t.stgThemeDark},{v:'light',l:t.stgThemeLight}])}</div>
+        <div class="stg-field"><label>${t.stgLangLabel}</label>
+          ${stgSeg('lang',p.lang||'en',[{v:'en',l:t.stgLangEN},{v:'pt',l:t.stgLangPT}])}</div>
+        <div class="stg-msg" id="stgApprMsg" hidden></div>
+      </div>`;
+    panel.querySelectorAll('[data-seg]').forEach(btn=>btn.addEventListener('click',()=>{
+      const grp=btn.dataset.seg, v=btn.dataset.v;
+      btn.parentElement.querySelectorAll('.stg-seg-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      const cur=getPrefs(u);
+      if(grp==='theme') cur.theme = v==='auto'?'':v;
+      if(grp==='lang') cur.lang = v;
+      /* grava ANTES de aplicar: setLang() dispara um re-render da página */
+      setPrefs(u,cur);
+      if(grp==='theme' && v!=='auto') document.body.classList.toggle('light',v==='light');
+      if(grp==='lang' && v!==lang){ setLang(v); return; } /* setLang re-renderiza a página inteira */
+      stgFlashSaved($('#stgApprMsg'),t);
+    }));
+  }
+
+  /* ---------------- Preferências do QBank ---------------- */
+  function stgQbank(panel,u,lang,t){
+    const p=getPrefs(u);
+    panel.innerHTML=`
+      <div class="stg-card">
+        <div class="stg-card-head"><h2>${stgEsc(t.stgSecQbank)}</h2><p>${stgEsc(t.stgQbDesc)}</p></div>
+        <div class="stg-field"><label>${t.stgQbMode}</label>
+          ${stgSeg('qbmode',p.qbank.mode,[{v:'tutor',l:t.stgQbTutor},{v:'timed',l:t.stgQbTimed}])}</div>
+        <div class="stg-field"><label>${t.stgQbCount}</label>
+          <input type="number" id="stgQbCount" min="1" max="40" value="${p.qbank.count}" class="stg-num" /></div>
+        <div class="stg-field">${stgToggle('stgQbPeer',p.qbank.peer,stgEsc(t.stgQbPeer))}</div>
+        <div class="stg-msg" id="stgQbMsg" hidden></div>
+      </div>`;
+    panel.querySelectorAll('[data-seg="qbmode"]').forEach(btn=>btn.addEventListener('click',()=>{
+      btn.parentElement.querySelectorAll('.stg-seg-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      const cur=getPrefs(u); cur.qbank.mode=btn.dataset.v; setPrefs(u,cur); stgFlashSaved($('#stgQbMsg'),t);
+    }));
+    $('#stgQbCount').addEventListener('change',e=>{
+      const cur=getPrefs(u); cur.qbank.count=Math.max(1,Math.min(40,parseInt(e.target.value,10)||10));
+      e.target.value=cur.qbank.count; setPrefs(u,cur); stgFlashSaved($('#stgQbMsg'),t);
+    });
+    $('#stgQbPeer').addEventListener('change',e=>{
+      const cur=getPrefs(u); cur.qbank.peer=e.target.checked; setPrefs(u,cur); stgFlashSaved($('#stgQbMsg'),t);
+    });
+  }
+
+  /* ---------------- Preferências de Flashcards ---------------- */
+  function stgFlash(panel,u,lang,t){
+    const p=getPrefs(u);
+    panel.innerHTML=`
+      <div class="stg-card">
+        <div class="stg-card-head"><h2>${stgEsc(t.stgSecFlash)}</h2><p>${stgEsc(t.stgFcDesc)}</p></div>
+        <div class="stg-field"><label>${t.stgFcOrder}</label>
+          ${stgSeg('fcorder',p.flashcards.order,[{v:'due',l:t.stgFcOrderDue},{v:'random',l:t.stgFcOrderRandom},{v:'sequential',l:t.stgFcOrderSeq}])}</div>
+        <div class="stg-field">${stgToggle('stgFcRev',p.flashcards.reversed,stgEsc(t.stgFcReversed))}</div>
+        <div class="stg-msg" id="stgFcMsg" hidden></div>
+      </div>`;
+    panel.querySelectorAll('[data-seg="fcorder"]').forEach(btn=>btn.addEventListener('click',()=>{
+      btn.parentElement.querySelectorAll('.stg-seg-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      const cur=getPrefs(u); cur.flashcards.order=btn.dataset.v; setPrefs(u,cur); stgFlashSaved($('#stgFcMsg'),t);
+    }));
+    $('#stgFcRev').addEventListener('change',e=>{
+      const cur=getPrefs(u); cur.flashcards.reversed=e.target.checked; setPrefs(u,cur); stgFlashSaved($('#stgFcMsg'),t);
+    });
+  }
+
+  /* ---------------- Meus Dados (backup) ---------------- */
+  function stgData(panel,u,lang,t){
+    const keys=stgUserKeys(u);
+    let bytes=0; keys.forEach(k=>{ bytes+=(localStorage.getItem(k)||'').length; });
+    const kb=(bytes/1024).toFixed(1);
+    panel.innerHTML=`
+      <div class="stg-card">
+        <div class="stg-card-head"><h2>${stgEsc(t.stgSecData)}</h2><p>${stgEsc(t.stgDataDesc)}</p></div>
+        <div class="stg-data-stats">
+          <div class="stg-kpi"><b>${window.QBANK_TOTAL||0}</b><i>${stgEsc(t.stgSysQuestions)}</i></div>
+          <div class="stg-kpi"><b>${stgFlashCount(u)}</b><i>${stgEsc(t.stgSysFlash)}</i></div>
+          <div class="stg-kpi"><b>${kb} KB</b><i>${stgEsc(t.stgSecData)}</i></div>
+        </div>
+        <div class="stg-data-actions">
+          <button class="stg-btn stg-btn-primary" id="stgExportBtn">⬇ ${stgEsc(t.stgExport)}</button>
+          <button class="stg-btn" id="stgImportBtn">⬆ ${stgEsc(t.stgImport)}</button>
+          <input type="file" id="stgImportFile" accept="application/json,.json" hidden />
+        </div>
+        <p class="stg-hint">${stgEsc(t.stgExportHint)}</p>
+      </div>`;
+    $('#stgExportBtn').addEventListener('click',()=>stgExportBackup(u));
+    $('#stgImportBtn').addEventListener('click',()=>$('#stgImportFile').click());
+    $('#stgImportFile').addEventListener('change',e=>{
+      const f=e.target.files&&e.target.files[0]; if(!f)return;
+      stgImportBackup(u,f,lang,()=>location.reload());
+    });
+  }
+
+  /* ---------------- Zona de Perigo ---------------- */
+  function stgDanger(panel,u,lang,t){
+    panel.innerHTML=`
+      <div class="stg-card stg-card-danger">
+        <div class="stg-card-head"><h2>${stgEsc(t.stgSecDanger)}</h2><p>${stgEsc(t.stgDangerDesc)}</p></div>
+        <button class="stg-btn stg-btn-reset" id="stgResetMine">${stgEsc(t.stgResetMine)}</button>
+      </div>`;
+    $('#stgResetMine').addEventListener('click',()=>stgResetSelf(u,lang,()=>location.reload()));
+  }
+
+  /* ---------------- Admin: gestão de usuários ---------------- */
+  function stgUsers(panel,u,lang,t){
+    let html=`<div class="stg-card"><div class="stg-card-head"><h2>${stgEsc(t.stgSecUsers)}</h2></div>`;
+    Object.keys(USER_META).forEach(uid=>{
+      if(uid===u)return;
+      const meta=USER_META[uid];
+      const custom=getUserCustom(uid);
+      const blocked=isUserBlocked(uid);
+      const displayName=getUserDisplay(uid);
+      const curLogin=custom&&custom.login?custom.login:meta.originalLogin;
+      const curPass=custom&&custom.password?custom.password:meta.originalPass;
+      const last=stgFmtDate(getLastAccess(uid),lang)||t.stgNever;
+      html+=`<div class="stg-user-card" data-uid="${uid}">
+        <div class="stg-user-header">
+          ${stgAvatar(uid,44)}
+          <div class="stg-user-id">
+            <strong>${stgEsc(displayName)}</strong>
+            <small>${stgEsc(curLogin)}</small>
+          </div>
+          <div class="stg-user-actions">
+            <button class="stg-btn stg-btn-edit stg-btn-edit-inline" data-action="edit-user" data-uid="${uid}">${t.settingsChangeData}</button>
+            <button class="stg-toggle ${blocked?'stg-toggle-off':'stg-toggle-on'}" data-action="toggle" data-uid="${uid}">
+              <span class="stg-toggle-knob"></span>
+              <span class="stg-toggle-label">${blocked?t.settingsBlocked:t.settingsEnabled}</span>
+            </button>
+            <button class="stg-btn stg-btn-reset" data-action="reset" data-uid="${uid}">${t.settingsReset}</button>
+          </div>
+        </div>
+        <div class="stg-user-metrics">
+          <div><i>${stgEsc(t.stgLastAccess)}</i><b>${stgEsc(last)}</b></div>
+          <div><i>${stgEsc(t.stgStreakCur)}</i><b>${stgStreakBest(uid)}</b></div>
+          <div><i>${stgEsc(t.stgTimeTotal)}</i><b>${stgFmtSecs(stgTotalTime(uid))}</b></div>
+          <div><i>${stgEsc(t.settingsCardsTotal)}</i><b>${stgFlashCount(uid)}</b></div>
+        </div>
+        <div class="stg-user-passes"><i>${stgEsc(t.stgPassCol)}</i><div class="stg-pass-chips">${stgPassSummary(uid,lang)}</div></div>
+        <div class="stg-view-block" id="stgUserView_${uid}">
+          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value stg-pass stg-pass-masked" data-pass="${stgEsc(curPass)}">${'•'.repeat(curPass.length)}</span><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
+        </div>
+        <div class="stg-edit-form" id="stgUserEdit_${uid}" hidden>
+          <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgUName_${uid}" value="${stgEsc(displayName)}" /></div>
+          <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgULogin_${uid}" value="${stgEsc(curLogin)}" /></div>
+          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgUPass_${uid}" value="${stgEsc(curPass)}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgUPass_${uid}">${t.settingsShowPass}</button></div></div>
+          <div class="stg-edit-actions">
+            <button class="stg-btn stg-btn-save" data-action="save-user" data-uid="${uid}">${t.settingsSave}</button>
+            <button class="stg-btn stg-btn-cancel" data-action="cancel-user" data-uid="${uid}">${t.settingsCancel}</button>
+          </div>
+          <div class="stg-msg" id="stgUMsg_${uid}" hidden></div>
+        </div>
+      </div>`;
+    });
+    html+=`</div>`;
+    panel.innerHTML=html;
+
+    panel.querySelectorAll('[data-action="toggle"]').forEach(btn=>btn.addEventListener('click',()=>{
+      setUserBlocked(btn.dataset.uid,!isUserBlocked(btn.dataset.uid)); stgRenderPanel(lang);
+    }));
+    panel.querySelectorAll('[data-action="reset"]').forEach(btn=>btn.addEventListener('click',()=>resetUserPlatform(btn.dataset.uid,lang)));
+    panel.querySelectorAll('[data-action="edit-user"]').forEach(btn=>btn.addEventListener('click',()=>{
+      const uid=btn.dataset.uid; $('#stgUserView_'+uid).hidden=true; $('#stgUserEdit_'+uid).hidden=false;
+    }));
+    panel.querySelectorAll('[data-action="cancel-user"]').forEach(btn=>btn.addEventListener('click',()=>{
+      const uid=btn.dataset.uid; $('#stgUserEdit_'+uid).hidden=true; $('#stgUserView_'+uid).hidden=false;
+    }));
+    panel.querySelectorAll('[data-action="save-user"]').forEach(btn=>btn.addEventListener('click',()=>{
+      const uid=btn.dataset.uid;
+      const nm=$('#stgUName_'+uid).value.trim(), lg=$('#stgULogin_'+uid).value.trim(), pw=$('#stgUPass_'+uid).value.trim();
+      if(!nm||!lg||!pw)return;
+      setUserCustom(uid,{displayName:nm,login:lg,password:pw});
+      const msg=$('#stgUMsg_'+uid); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
+      setTimeout(()=>stgRenderPanel(lang),1100);
+    }));
+  }
+
+  /* ---------------- Admin: desbloqueio de passadas ---------------- */
+  function stgUnlock(panel,u,lang,t){
+    const total=window.QBANK_TOTAL||0;
+    let html=`<div class="stg-card"><div class="stg-card-head"><h2>${stgEsc(t.stgSecUnlock)}</h2><p>${stgEsc(t.stgUnlockDesc)}</p></div>`;
+    Object.keys(USER_META).forEach(uid=>{
+      if(uid===u)return;
+      const ceiling=qbUnlockCeiling(uid);
+      html+=`<div class="stg-unlock-row">
+        <div class="stg-unlock-user">${stgAvatar(uid,36)}<strong>${stgEsc(getUserDisplay(uid))}</strong></div>
+        <div class="stg-pass-chips">${stgPassSummary(uid,lang)}</div>
+        <div class="stg-unlock-ctl">
+          <label>${stgEsc(t.stgUnlockLevel)}</label>
+          <select data-unlock="${uid}">
+            <option value="1" ${ceiling===1?'selected':''}>${stgEsc(t.stgUnlockAuto)}</option>
+            <option value="2" ${ceiling===2?'selected':''}>${stgEsc(t.stgUnlockPass)} 2</option>
+            <option value="3" ${ceiling===3?'selected':''}>${stgEsc(t.stgUnlockPass)} 3</option>
+            <option value="99" ${ceiling===99?'selected':''}>${stgEsc(t.stgUnlockDirected)}</option>
+          </select>
+        </div>
+      </div>`;
+    });
+    html+=`<div class="stg-msg" id="stgUnlockMsg" hidden></div></div>`;
+    panel.innerHTML=html;
+    panel.querySelectorAll('[data-unlock]').forEach(sel=>sel.addEventListener('change',()=>{
+      const uid=sel.dataset.unlock, v=sel.value;
+      if(v==='1') localStorage.removeItem('couplemed_qb_unlock_'+uid);
+      else localStorage.setItem('couplemed_qb_unlock_'+uid,v);
+      stgFlashSaved($('#stgUnlockMsg'),t);
+      setTimeout(()=>stgRenderPanel(lang),700);
+    }));
+  }
+
+  /* ---------------- Admin: informações do sistema ---------------- */
+  function stgSystem(panel,u,lang,t){
+    panel.innerHTML=`
+      <div class="stg-card">
+        <div class="stg-card-head"><h2>${stgEsc(t.stgSecSystem)}</h2></div>
+        <div class="stg-sys-grid">
+          <div class="stg-kpi"><b>${STG_VERSION}</b><i>${stgEsc(t.stgSysVersion)}</i></div>
+          <div class="stg-kpi"><b>${window.QBANK_TOTAL||0}</b><i>${stgEsc(t.stgSysQuestions)}</i></div>
+          <div class="stg-kpi"><b>${stgFlashCount(u)}</b><i>${stgEsc(t.stgSysFlash)}</i></div>
+          <div class="stg-kpi"><b>${stgEsc(getUserDisplay(u))}</b><i>${stgEsc(t.stgSysUser)}</i></div>
+        </div>
+      </div>`;
   }
 
   function buildBooks(){}
@@ -656,6 +1024,69 @@
   }
   window.addEventListener('couplemed:langchange',e=>{if(page()==='home')renderStreak(e.detail.lang)});
 
+  /* ===== QBank progress no dashboard (v51) — passadas discretas e sequenciais =====
+     Espelha, em modo somente-leitura, o modelo do qbank.js: a questão pertence à
+     passada N quando já tem >= N attempts; a passada N conclui quando TODAS as
+     questões têm >= N attempts. Não altera nenhum dado. */
+  function qbAttemptsByQ(uid){
+    const map={};
+    try{ const db=JSON.parse(localStorage.getItem('couplemed_qb_'+uid)||'{}');
+      (db.attempts||[]).forEach(a=>{ (map[a.question_id]=map[a.question_id]||[]).push(a); });
+    }catch(e){}
+    return map;
+  }
+  function qbUnlockCeiling(uid){ try{ const v=parseInt(localStorage.getItem('couplemed_qb_unlock_'+uid)||'1',10); return isNaN(v)?1:v; }catch(e){ return 1; } }
+  function qbPassProgress(map,total,pn){
+    let answered=0; for(const qid in map){ if(map[qid].length>=pn) answered++; }
+    const pct=total?Math.round(100*answered/total):0;
+    return { total, answered, pct, done: total>0 && answered===total };
+  }
+  function qbPassState(uid,map,total,pn){
+    if(pn===1) return qbPassProgress(map,total,1).done?'completed':'active';
+    if(qbPassProgress(map,total,pn).done) return 'completed';
+    if(qbPassProgress(map,total,pn-1).done) return 'active';
+    if(uid==='john' || qbUnlockCeiling(uid)>=pn) return 'active';
+    return 'locked';
+  }
+  function renderQBankProgress(lang){
+    const body=document.getElementById('qbankProgressBody'); if(!body)return;
+    const t=I18N[lang]||I18N.en;
+    const uid=user();
+    const total=window.QBANK_TOTAL||0;
+    const map=qbAttemptsByQ(uid);
+    const passLabels={1:t.pass1,2:t.pass2,3:t.pass3};
+    let html='';
+    [1,2,3].forEach(pn=>{
+      const prog=qbPassProgress(map,total,pn);
+      const state=qbPassState(uid,map,total,pn);
+      const locked=state==='locked';
+      const done=state==='completed';
+      const count = total? (prog.answered+' / '+total) : '0 / 0';
+      const btnLabel = done ? (t.qbReview||'Review') : (prog.answered>0 ? t.continueBtn : (t.qbStart||'Start'));
+      html+=`<div class="bar-line${locked?' bar-locked':''}${done?' bar-done':''}">
+        <div class="bar-body">
+          <div class="bar-top">
+            <span class="bar-pass">${passLabels[pn]||('Pass '+pn)}${locked?' 🔒':''}${done?' ✓':''}</span>
+            <span class="bar-count">${count}</span>
+          </div>
+          <div class="bar-bottom">
+            <div class="bar-progress"><div class="bar-fill" style="width:${prog.pct}%"></div></div>
+            <span class="bar-pct">${prog.pct}%</span>
+          </div>
+        </div>
+        <button class="bar-btn" data-qb-pass="${pn}" ${locked?'disabled':''}>${btnLabel}</button>
+      </div>`;
+    });
+    body.innerHTML=html;
+    body.querySelectorAll('[data-qb-pass]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const pn=btn.dataset.qbPass;
+        location.href='app.html?page=qbank-1&u='+encodeURIComponent(uid)+'&pass='+pn;
+      });
+    });
+  }
+  window.addEventListener('couplemed:langchange',e=>{if(page()==='home')renderQBankProgress(e.detail.lang)});
+
   /* ============================== STUDY TIME (v50) ==============================
      Tempo ativo de estudo na plataforma, por usuario e por dia, com detalhe por modulo.
      REGRAS DO HEARTBEAT (nao alterar sem autorizacao explicita):
@@ -744,14 +1175,22 @@
     // só cobre os links FILHOS do submenu, não o pai que os contém. (Step 1 é toggle puro; esta
     // regra fica disponível caso algum item futuro combine link + toggle.)
     $$('[data-toggle][data-page-link]').forEach(btn=>{ if(btn.dataset.pageLink===p){ const el=$('#'+btn.dataset.toggle); if(el)el.classList.add('open'); } });
-    $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en');
+    /* v51 — idioma inicial: sessão > preferência do usuário > inglês (padrão do site) */
+    const prefs=getPrefs(user()); touchLastAccess(user());
+    const sessLang=sessionStorage.getItem(`couplemed_lang_current_${user()}`);
+    const bootLang = sessLang==='pt'||sessLang==='en' ? sessLang : (prefs.lang||'en');
+    $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(bootLang);
     const sidebarUserEl=$('#sidebarUserName'); if(sidebarUserEl){ sidebarUserEl.textContent=getUserDisplay(user()); }
-    const applyTheme=t=>document.body.classList.toggle('light',t!=='dark'); applyTheme(p==='home'?'dark':'light'); const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>applyTheme(document.body.classList.contains('light')?'dark':'light'));
+    /* v51 — tema inicial: preferência do usuário; sem preferência, mantém o comportamento
+       original (home escuro, páginas internas claras). O botão do topo continua livre. */
+    const applyTheme=t=>document.body.classList.toggle('light',t!=='dark');
+    applyTheme(prefs.theme || (p==='home'?'dark':'light'));
+    const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>applyTheme(document.body.classList.contains('light')?'dark':'light'));
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',()=>sessionStorage.removeItem('couplemed_active_user'));
     initSiteSearch();
     cmStartTimeTracking();
-    if(p==='home'){renderStreak(sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en');renderStudyTime();}
+    if(p==='home'){const hl=sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en';renderStreak(hl);renderStudyTime();(function qbProg(tries){ if(window.QBANK_TOTAL){ renderQBankProgress(hl); return; } if(tries<40) setTimeout(()=>qbProg(tries+1),100); })(0);}
     /* — QBank sidebar: atualiza "0 / XXXX" com SEED.length real —
        Retry porque qbank.js pode carregar depois de site.js */
     (function fillQBankTotal(tries){

@@ -916,8 +916,32 @@
   }
 
   /* ---------- revisão ---------- */
+  /* v51 — preferências definidas em Settings (couplemed_prefs_<uid>).
+     Apenas o PADRÃO da sessão: o motor SM-2 e o agendamento não mudam.
+     order: 'due' (padrão, vencidos primeiro) | 'random' | 'sequential'
+     reversed: mostra o verso primeiro (ignorado em cards cloze). */
+  function fcPrefs(){
+    let p={};
+    try{ p = JSON.parse(localStorage.getItem('couplemed_prefs_'+USER))||{}; }catch(e){}
+    const f = p.flashcards||{};
+    return {
+      order: ['due','random','sequential'].includes(f.order) ? f.order : 'due',
+      reversed: !!f.reversed
+    };
+  }
   function buildSession(src, deckId){
     const q = queues(src, deckId);
+    const pref = fcPrefs();
+    if(pref.order === 'random'){
+      const all = q.learn.concat(q.review, q.fresh);
+      all.sort(() => Math.random() - .5);
+      return all;
+    }
+    if(pref.order === 'sequential'){
+      // mantém a ordem natural de criação, sem embaralhar
+      return q.learn.concat(q.review, q.fresh);
+    }
+    // 'due' — comportamento original (padrão)
     const rest = q.review.concat(q.fresh);
     rest.sort(() => Math.random() - .5);
     return q.learn.concat(rest);
@@ -939,8 +963,13 @@
     const ownerTag = item.kind === 'shared' ? `<p class="fc-owner-tag">⇄ ${t('byOwner')(ownerName(c.owner))} · ${esc(c.deckName)}</p>` : '';
     const cloze = isCloze(c.front) && !fcHasHtml(c.front);
     const transSpan = (text, cls) => `<span class="${cls||''}" data-fc-i18n-text data-fc-original="${esc(text)}">${esc(text)}</span>`;
-    const frontHtml = fcHasHtml(c.front) ? `<div class="fc-rich">${fcSanitize(c.front)}</div>` : (cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(c.front));
-    const backHtml = view.showBack && (!cloze || c.back) ? `<hr class="fc-sep"/><div class="fc-card-back">${fcHasHtml(c.back) ? `<div class="fc-rich">${fcSanitize(c.back)}</div>` : (cloze?esc(c.back):transSpan(c.back))}</div>` : '';
+    /* v51 — "verso primeiro": inverte apenas a EXIBIÇÃO. Nunca em cloze (a lacuna
+       vive na frente) nem quando o verso está vazio. O agendamento não é afetado. */
+    const rev = fcPrefs().reversed && !cloze && !!c.back;
+    const sideA = rev ? c.back : c.front;
+    const sideB = rev ? c.front : c.back;
+    const frontHtml = fcHasHtml(sideA) ? `<div class="fc-rich">${fcSanitize(sideA)}</div>` : (cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(sideA));
+    const backHtml = view.showBack && (!cloze || sideB) ? `<hr class="fc-sep"/><div class="fc-card-back">${fcHasHtml(sideB) ? `<div class="fc-rich">${fcSanitize(sideB)}</div>` : (cloze?esc(sideB):transSpan(sideB))}</div>` : '';
     const imgHtml = c.image64 ? `<div class="fc-card-image"><img src="${c.image64}" style="max-width:100%;max-height:200px;border-radius:8px;margin:10px 0"/></div>` : '';
     root.innerHTML = `<div class="fc-review-wrap">
       <div class="fc-counts"><b class="fc-c-new">${counts.n}</b> + <b class="fc-c-learn">${counts.l}</b> + <b class="fc-c-rev">${counts.r}</b> ${flagDot(s)}</div>

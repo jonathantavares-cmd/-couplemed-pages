@@ -21,6 +21,20 @@
   const USER = params.get('u') || 'guest1';
   const KEY = `couplemed_qb_${USER}`;
   const FC_KEY = `couplemed_fc_${USER}`;
+  const PREF_KEY = `couplemed_prefs_${USER}`;
+
+  /* preferências do usuário definidas em Settings (v51). Apenas o PADRÃO inicial
+     do Create Test — os controles na tela continuam livres para alterar. */
+  function qbPrefDefaults(){
+    let p={};
+    try{ p = JSON.parse(localStorage.getItem(PREF_KEY))||{}; }catch(e){}
+    const qb = p.qbank||{};
+    return {
+      mode:  qb.mode==='timed' ? 'timed' : 'tutor',
+      count: Math.max(1, Math.min(40, parseInt(qb.count,10)||10)),
+      peer:  qb.peer===false ? false : true
+    };
+  }
 
   /* ======================= SEED (questões originais) =======================
      Substituível pelo pipeline de importação (Parte 16) ou pela API D1.
@@ -1281,6 +1295,15 @@
       perfTitle:'Your performance', used:'Used', correct:'Correct', incorrect:'Incorrect', omitted:'Omitted', unused:'Unused', overall:'Overall score',
       passes:'Passes', pass:'Pass', dirigido:'Directed Pass', questions:'questions', continue:'Continue', start:'Start',
       passName:{1:'Learning',2:'Consolidation',3:'Refinement',99:'Total Mastery'},
+      youAreHere:'You are here', passDone:'Completed', passProgress:'Pass progress',
+      passProgressLine:(a,b)=>`${a} of ${b} questions answered in this pass`,
+      passSeqHint:'Complete 100% of this pass to unlock the next one.',
+      passCompleteHint:pn=>pn>=3?'All passes complete. Outstanding work!':'Pass complete — the next pass is now unlocked.',
+      lockedHint:pn=>`Complete Pass ${pn-1} to unlock`,
+      lockedBody:pn=> pn===99 ? 'Finish Pass 1 to unlock your Directed Pass.' : `Finish the previous pass (100%) to unlock this one. You can only start it once the pass before is complete.`,
+      lockedToast:'This pass is locked. Finish the previous one first.',
+      directedDesc:'A focused pass built only from questions you keep missing or flagged.',
+      directedPending:'questions waiting for review',
       // create test
       ctTitle:'Create Test', ctSystems:'Systems', ctDisciplines:'Disciplines', ctStatus:'Question status', ctPass:'Pass', ctDifficulty:'Difficulty', ctMode:'Mode', ctCount:'Number of questions', ctSystemFilter:'System', ctSystemHint:'Filter by organ system', ctAllSystems:'All systems', ctSubjects:'Subject', ctSubjectsHint:'Filter by discipline/subject', ctAllSubjects:'All subjects', ctTopicFilter:'Topic', ctTopicHint:'Filter by Library 1 topic / question topic', ctAllTopics:'All topics', metaTitle:'Question metadata', metaSubject:'Subject', metaSystem:'System', metaTopic:'Topic', collapseAll:'Collapse all', expandAll:'Expand all', maxPerBlock:'Max allowed',
       stAll:'All', stUnused:'Unused', stCorrect:'Correct', stIncorrect:'Incorrect', stMarked:'Marked', stOmitted:'Omitted',
@@ -1315,6 +1338,15 @@
       perfTitle:'Seu desempenho', used:'Usadas', correct:'Acertos', incorrect:'Erros', omitted:'Omitidas', unused:'Não usadas', overall:'Nota geral',
       passes:'Passadas', pass:'Passada', dirigido:'Passada Dirigida', questions:'questões', continue:'Continuar', start:'Iniciar',
       passName:{1:'Aprendizado',2:'Consolidação',3:'Refinamento',99:'Domínio Total'},
+      youAreHere:'Você está aqui', passDone:'Concluída', passProgress:'Progresso da passada',
+      passProgressLine:(a,b)=>`${a} de ${b} questões respondidas nesta passada`,
+      passSeqHint:'Conclua 100% desta passada para desbloquear a próxima.',
+      passCompleteHint:pn=>pn>=3?'Todas as passadas concluídas. Excelente trabalho!':'Passada concluída — a próxima passada foi desbloqueada.',
+      lockedHint:pn=>`Conclua a Passada ${pn-1} para desbloquear`,
+      lockedBody:pn=> pn===99 ? 'Conclua a Passada 1 para desbloquear a Passada Dirigida.' : `Conclua a passada anterior (100%) para desbloquear esta. Você só pode iniciá-la quando a passada anterior estiver completa.`,
+      lockedToast:'Esta passada está bloqueada. Conclua a anterior primeiro.',
+      directedDesc:'Uma passada focada, feita apenas das questões que você continua errando ou marcou.',
+      directedPending:'questões aguardando revisão',
       ctTitle:'Criar Teste', ctSystems:'Sistemas', ctDisciplines:'Disciplinas', ctStatus:'Status da questão', ctPass:'Passada', ctDifficulty:'Dificuldade', ctMode:'Modo', ctCount:'Número de questões', ctSystemFilter:'System', ctSystemHint:'Filtrar por sistema', ctAllSystems:'Todos os systems', ctSubjects:'Subject', ctSubjectsHint:'Filtrar por disciplina/subject', ctAllSubjects:'Todos os subjects', ctTopicFilter:'Topic', ctTopicHint:'Filtrar por tópico da Library 1 / tópico da questão', ctAllTopics:'Todos os topics', metaTitle:'Metadados da questão', metaSubject:'Subject', metaSystem:'System', metaTopic:'Topic', collapseAll:'Recolher tudo', expandAll:'Expandir tudo', maxPerBlock:'Máx. permitido',
       stAll:'Todas', stUnused:'Não usadas', stCorrect:'Acertadas', stIncorrect:'Erradas', stMarked:'Marcadas', stOmitted:'Omitidas',
       passAll:'Todas', pass1:'Primeira', pass2:'Segunda', pass3:'Terceira', pass99:'Dirigida',
@@ -1420,6 +1452,57 @@
         const last2=a.slice(-2); const twoRight = last2.length===2 && last2.every(x=>x.is_correct===1);
         if(twoRight) return false; const last=a[a.length-1];
         return last.status==='incorrect' || this.isFlagged(q.id); }); },
+
+      /* ===== Parte 4.4 — PASSADAS DISCRETAS E SEQUENCIAIS (v51) =====
+         Cada questão "pertence" à passada N quando já foi respondida N-1 vezes
+         (ou seja, o número de attempts >= N). A passada N está concluída quando
+         TODAS as questões do banco têm pelo menos N attempts. A passada dirigida
+         (99) é dinâmica. Nada aqui altera o formato dos attempts — apenas os lê. */
+      passProgress(pn){
+        const total = SEED.length;
+        if(pn===99){
+          const pool = this.directedPool();
+          return { total: pool.length, answered: 0, pct: 0, remaining: pool.length, done: false };
+        }
+        let answered = 0;
+        SEED.forEach(q=>{ if(this.attemptsFor(q.id).length >= pn) answered++; });
+        const pct = total ? Math.round(100*answered/total) : 0;
+        return { total, answered, pct, remaining: total-answered, done: total>0 && answered===total };
+      },
+      // estatística agregada da passada pn (usa o attempt de índice pn-1 de cada questão)
+      passStat(pn){
+        let used=0,c=0,i=0,o=0;
+        SEED.forEach(q=>{ const a=this.attemptsFor(q.id); if(a.length>=pn){ used++; const at=a[pn-1];
+          if(at.status==='correct')c++; else if(at.status==='incorrect')i++; else o++; } });
+        const answered=c+i; const overall=answered?Math.round(100*c/answered):0;
+        return { used, correct:c, incorrect:i, omitted:o, unused:SEED.length-used, overall };
+      },
+      // limite manual de desbloqueio: chave couplemed_qb_unlock_<uid> = 1|2|3|99 (maior passada liberada)
+      unlockCeiling(){
+        try{ const v=parseInt(localStorage.getItem(`couplemed_qb_unlock_${USER}`)||'1',10); return isNaN(v)?1:v; }
+        catch(e){ return 1; }
+      },
+      isAdmin(){ return USER==='john'; },
+      // estado de uma passada: 'completed' | 'active' | 'locked'
+      passState(pn){
+        if(pn===99){
+          const prevDone = this.passProgress(1).done;
+          if(!prevDone && !this.isAdmin() && this.unlockCeiling()<99) return 'locked';
+          return 'active';
+        }
+        if(pn===1) return this.passProgress(1).done ? 'completed' : 'active';
+        if(this.passProgress(pn).done) return 'completed';
+        const prevDone = this.passProgress(pn-1).done;
+        if(prevDone) return 'active';
+        if(this.isAdmin() || this.unlockCeiling()>=pn) return 'active';
+        return 'locked';
+      },
+      // passada ativa "corrente": a menor passada desbloqueada e ainda não concluída
+      currentPass(){
+        for(const pn of [1,2,3]){ if(this.passState(pn)==='active') return pn; }
+        if(this.passState(99)==='active') return 99;
+        return 3;
+      },
       raw:db, save };
   })();
 
@@ -1479,6 +1562,12 @@
     root = host;
     // pass folders abrem direto no Create Test pré-filtrado
     if(passFromPage[PAGE]) view = {name:'create', preset:{pass:passFromPage[PAGE]}};
+    else {
+      // home: pode receber ?pass=N (vindo do dashboard "Continue") para pré-selecionar a passada
+      const pp = params.get('pass');
+      const sel = pp==='99'||pp==='1'||pp==='2'||pp==='3' ? (pp==='99'?99:+pp) : store.currentPass();
+      view = { name:'home', sel };
+    }
     render();
     new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   }
@@ -1495,55 +1584,139 @@
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
 
-  /* ============================== HOME ============================== */
+  /* ============================== HOME ==============================
+     v51 — Pass Navigator: cada passada é um espaço individual. O topo mostra
+     um stepper premium (1 → 2 → 3 → Dirigida) com estado (ativa / concluída /
+     bloqueada). O corpo abaixo mostra o dashboard SOMENTE da passada selecionada. */
   function renderHome(){
-    const total=SEED.length;
-    const att=store.allAttempts();
-    const seen=new Set(att.map(a=>a.question_id));
-    const used=seen.size;
-    let c=0,i=0,o=0;
-    seen.forEach(qid=>{ const st=store.statusOf(qid); if(st==='correct')c++;else if(st==='incorrect')i++;else if(st==='omitted')o++; });
-    const answered=c+i;
-    const overall = answered? Math.round(100*c/answered):0;
-    const passCard = (pn,pageLink)=>{
-      const pool = pn===99? store.directedPool() : SEED.filter(q=>store.passNumber(q.id)===pn);
-      const done = pn===99? 0 : att.filter(a=>a.pass_number===pn).length;
-      const pctBase = pn===99? pool.length : total;
-      const pct = pctBase? Math.round(100*Math.min(done,pctBase)/pctBase):0;
-      const label = pn===99? t('dirigido') : `${pn}ª ${t('pass')}`;
-      return `<button class="qb-pass" data-act="pass-card" data-pn="${pn}">
-        <div class="qb-pass-head"><span class="qb-pass-n">${pn===99?'★':pn}</span>
-          <div><strong>${esc(label)}</strong><small>${esc(t('passName')[pn])}</small></div></div>
-        <div class="qb-pass-bar"><span style="width:${pct}%"></span></div>
-        <div class="qb-pass-meta">${pool.length} ${t('questions')} · ${pct}%</div>
-      </button>`;
-    };
+    if(view.sel==null) view.sel = store.currentPass();
+    // se a passada selecionada estiver bloqueada (e o usuário não for admin), cai para a corrente
+    if(store.passState(view.sel)==='locked' && !store.isAdmin()) view.sel = store.currentPass();
+    const sel = view.sel;
+
+    const passMeta = pn => ({
+      label: pn===99 ? t('dirigido') : `${pn}ª ${t('pass')}`,
+      name:  t('passName')[pn],
+      n:     pn===99 ? '★' : pn
+    });
+
+    // ---- stepper ----
+    const stepHTML = [1,2,3,99].map((pn,idx)=>{
+      const st = store.passState(pn);
+      const prog = store.passProgress(pn);
+      const meta = passMeta(pn);
+      const isSel = pn===sel;
+      const pct = pn===99 ? (prog.total?100:0) : prog.pct;
+      let cls = 'qb-step qb-step-'+st + (isSel?' qb-step-sel':'');
+      const badge = st==='completed' ? '<span class="qb-step-check">✓</span>'
+        : st==='locked' ? '<span class="qb-step-lock">🔒</span>'
+        : `<span class="qb-step-n">${meta.n}</span>`;
+      const clickable = st!=='locked' || store.isAdmin();
+      const lockTip = pn===99 ? t('lockedBody')(99) : t('lockedHint')(pn);
+      const subtitle = pn===99
+        ? `${prog.total} ${t('questions')}`
+        : `${prog.answered}/${prog.total} · ${pct}%`;
+      const youAreHere = (pn===store.currentPass() && st==='active')
+        ? `<span class="qb-step-here">${esc(t('youAreHere'))}</span>` : '';
+      const connector = idx<3 ? '<span class="qb-step-conn"></span>' : '';
+      return `<button class="${cls}" data-act="sel-pass" data-pn="${pn}" ${clickable?'':'disabled aria-disabled="true"'} title="${esc(st==='locked'?lockTip:meta.label)}">
+          <span class="qb-step-badge">${badge}</span>
+          <span class="qb-step-info">
+            <strong>${esc(meta.label)}</strong>
+            <small>${esc(meta.name)}</small>
+            <span class="qb-step-sub">${esc(subtitle)}</span>
+          </span>
+          ${youAreHere}
+        </button>${connector}`;
+    }).join('');
+
+    // ---- dashboard da passada selecionada ----
+    const selState = store.passState(sel);
+    const selProg  = store.passProgress(sel);
+    const s = sel===99
+      ? (function(){ const pool=store.directedPool(); let c=0,i=0; pool.forEach(q=>{const a=store.lastAttempt(q.id); if(a){ if(a.status==='incorrect')i++; }}); return {used:pool.length,correct:0,incorrect:pool.length,omitted:0,unused:0,overall:0}; })()
+      : store.passStat(sel);
+    const selMeta = passMeta(sel);
+
+    let body;
+    if(selState==='locked'){
+      body = `<div class="qb-pass-locked">
+        <div class="qb-locked-ico">🔒</div>
+        <h3>${esc(selMeta.label)} — ${esc(selMeta.name)}</h3>
+        <p>${esc(t('lockedBody')(sel))}</p>
+      </div>`;
+    } else if(sel===99){
+      const pool=store.directedPool();
+      body = `
+        <div class="qb-pass-panel">
+          <div class="qb-panel-head">
+            <div>
+              <span class="qb-panel-kicker">${esc(t('dirigido'))}</span>
+              <h2 class="qb-panel-title">${esc(selMeta.name)}</h2>
+              <p class="qb-panel-desc">${esc(t('directedDesc'))}</p>
+            </div>
+            <div class="qb-panel-actions">
+              <button class="qb-btn ghost" data-act="analytics">${esc(t('analytics'))}</button>
+              <button class="qb-btn primary" data-act="pass-card" data-pn="99" ${pool.length?'':'disabled'}>＋ ${esc(t('createTest'))}</button>
+            </div>
+          </div>
+          <div class="qb-directed-count">
+            <div class="qb-dir-num">${pool.length}</div>
+            <div class="qb-dir-lbl">${esc(t('directedPending'))}</div>
+          </div>
+        </div>`;
+    } else {
+      const done = selProg.done;
+      const primaryLabel = selProg.answered>0 && !done ? t('continue') : t('start');
+      body = `
+        <div class="qb-pass-panel">
+          <div class="qb-panel-head">
+            <div>
+              <span class="qb-panel-kicker">${esc(selMeta.label)}${done?` · ${esc(t('passDone'))}`:''}</span>
+              <h2 class="qb-panel-title">${esc(selMeta.name)}</h2>
+              <p class="qb-panel-desc">${esc(t('passProgressLine')(selProg.answered,selProg.total))}</p>
+            </div>
+            <div class="qb-panel-actions">
+              <button class="qb-btn ghost" data-act="analytics">${esc(t('analytics'))}</button>
+              <button class="qb-btn ghost" data-act="flagged">⚑ ${esc(t('reviewFlagged'))}</button>
+              <button class="qb-btn primary" data-act="pass-card" data-pn="${sel}" ${done?'disabled':''}>＋ ${esc(t('createTest'))}</button>
+            </div>
+          </div>
+
+          <div class="qb-perf">
+            <div class="qb-donut" style="--pct:${s.overall}">
+              <div class="qb-donut-c"><strong>${s.overall}%</strong><small>${esc(t('overall'))}</small></div>
+            </div>
+            <div class="qb-perf-grid">
+              <div class="qb-stat"><span class="qb-dot used"></span><b>${s.used}</b><small>${esc(t('used'))}</small></div>
+              <div class="qb-stat"><span class="qb-dot ok"></span><b>${s.correct}</b><small>${esc(t('correct'))}</small></div>
+              <div class="qb-stat"><span class="qb-dot bad"></span><b>${s.incorrect}</b><small>${esc(t('incorrect'))}</small></div>
+              <div class="qb-stat"><span class="qb-dot om"></span><b>${s.omitted}</b><small>${esc(t('omitted'))}</small></div>
+              <div class="qb-stat"><span class="qb-dot un"></span><b>${s.unused}</b><small>${esc(t('unused'))}</small></div>
+            </div>
+          </div>
+
+          <div class="qb-pass-progress">
+            <div class="qb-pass-progress-top">
+              <span>${esc(t('passProgress'))}</span>
+              <span>${selProg.answered} / ${selProg.total} · ${selProg.pct}%</span>
+            </div>
+            <div class="qb-progress-track"><span style="width:${selProg.pct}%"></span></div>
+            ${done ? `<p class="qb-pass-hint qb-pass-hint-ok">✓ ${esc(t('passCompleteHint')(sel))}</p>`
+                   : `<p class="qb-pass-hint">${esc(t('passSeqHint'))}</p>`}
+          </div>
+        </div>`;
+    }
+
     root.innerHTML = `
       <div class="qb">
         <div class="qb-top">
           <h1>${esc(t('home'))}</h1>
-          <div class="qb-top-actions">
-            <button class="qb-btn ghost" data-act="analytics">${esc(t('analytics'))}</button>
-            <button class="qb-btn ghost" data-act="flagged">⚑ ${esc(t('reviewFlagged'))}</button>
-            <button class="qb-btn primary" data-act="create">＋ ${esc(t('createTest'))}</button>
-          </div>
         </div>
 
-        <div class="qb-perf">
-          <div class="qb-donut" style="--pct:${overall}">
-            <div class="qb-donut-c"><strong>${overall}%</strong><small>${esc(t('overall'))}</small></div>
-          </div>
-          <div class="qb-perf-grid">
-            <div class="qb-stat"><span class="qb-dot used"></span><b>${used}</b><small>${esc(t('used'))}</small></div>
-            <div class="qb-stat"><span class="qb-dot ok"></span><b>${c}</b><small>${esc(t('correct'))}</small></div>
-            <div class="qb-stat"><span class="qb-dot bad"></span><b>${i}</b><small>${esc(t('incorrect'))}</small></div>
-            <div class="qb-stat"><span class="qb-dot om"></span><b>${o}</b><small>${esc(t('omitted'))}</small></div>
-            <div class="qb-stat"><span class="qb-dot un"></span><b>${total-used}</b><small>${esc(t('unused'))}</small></div>
-          </div>
-        </div>
+        <div class="qb-stepper">${stepHTML}</div>
 
-        <h2 class="qb-h2">${esc(t('passes'))}</h2>
-        <div class="qb-passes">${[1,2,3,99].map(pn=>passCard(pn)).join('')}</div>
+        ${body}
       </div>`;
     wire();
   }
@@ -1551,7 +1724,8 @@
   /* =========================== CREATE TEST =========================== */
   function renderCreate(){
     const preset = view.preset || {};
-    view.f = view.f || { systems:[], disciplines:[], subjects:[], status:'all', pass:preset.pass||'all', difficulty:'all', mode:'tutor', secs:90, count:10 };
+    const pref = qbPrefDefaults();
+    view.f = view.f || { systems:[], disciplines:[], subjects:[], status:'all', pass:preset.pass||'all', difficulty:'all', mode:pref.mode, secs:90, count:pref.count };
     const f = view.f;
     if(!f.systems) f.systems=[];
     if(!f.disciplines) f.disciplines=[];
@@ -1740,7 +1914,7 @@
       <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
       <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
-      <div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>
+      ${qbPrefDefaults().peer ? `<div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>` : ''}
       ${renderQuestionMeta(q)}
     </div>`;
   }
@@ -2016,7 +2190,8 @@
       case 'analytics': go({name:'analytics'}); break;
       case 'create': go({name:'create'}); break;
       case 'flagged': { view.f={systems:[],disciplines:[],subjects:[],status:'marked',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:Math.max(1,Object.keys(store.raw.flags).length)}; if(!filterPool(view.f).length){toast(t('flaggedEmpty'));break;} go({name:'create',f:view.f}); break; }
-      case 'pass-card': { const pn=el.dataset.pn; view.f={systems:[],disciplines:[],subjects:[],status:'all',pass:pn,difficulty:'all',mode:'tutor',secs:90,count:10}; go({name:'create',f:view.f,preset:{pass:pn}}); break; }
+      case 'sel-pass': { const pn=el.dataset.pn==='99'?99:+el.dataset.pn; if(store.passState(pn)==='locked' && !store.isAdmin()){ toast(t('lockedToast')); break; } view.sel=pn; render(); break; }
+      case 'pass-card': { const pn=el.dataset.pn; if(store.passState(pn==='99'?99:+pn)==='locked' && !store.isAdmin()){ toast(t('lockedToast')); break; } const defMode=qbPrefDefaults().mode, defCount=qbPrefDefaults().count; view.f={systems:[],disciplines:[],subjects:[],status:'all',pass:pn,difficulty:'all',mode:defMode,secs:90,count:defCount}; go({name:'create',f:view.f,preset:{pass:pn}}); break; }
       case 'tog-sys': { const sys=TAXONOMY.find(s=>s.id===el.dataset.v); const ids=sys.subs.map(([slug])=>subjId(sys.id,slug)); const allOn=ids.every(id=>view.f.subjects.includes(id)); if(allOn){ view.f.subjects=view.f.subjects.filter(id=>!ids.includes(id)); } else { ids.forEach(id=>{ if(!view.f.subjects.includes(id)) view.f.subjects.push(id); }); } render(); break; }
       case 'tog-sub': { const id=el.dataset.v; const i=view.f.subjects.indexOf(id); i>=0?view.f.subjects.splice(i,1):view.f.subjects.push(id); render(); break; }
       case 'tog-system': { const id=el.dataset.v; const i=view.f.systems.indexOf(id); i>=0?view.f.systems.splice(i,1):view.f.systems.push(id); render(); break; }
