@@ -130,7 +130,7 @@
       objective:'Recognize von Gierke disease (G6Pase deficiency) by fasting hypoglycemia unresponsive to glucagon with lactic acidosis, hyperuricemia, and hepatomegaly.',
       peer:{A:49,B:14,C:20,D:9,E:8} },
 
-    { id:'q_bioepi_null_mrsa', system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::hypothesis_testing', difficulty:'medium',
+Ago    { id:'q_bioepi_null_mrsa', system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::hypothesis_testing', difficulty:'medium',
       vignette:'A group of researchers wants to identify factors related to hospital-acquired bacteremia caused by methicillin-resistant Staphylococcus aureus (MRSA). A total of 40 patients admitted to the ICU after developing MRSA bacteremia confirmed by blood cultures over the same time period were enrolled. During the same period, 80 control patients admitted to the ICU who did not develop bacteremia were randomly selected. The frequency of factors such as central venous catheter use, urinary catheter placement, and surgical site infections in the days prior to the diagnosis of bacteremia were compared between the 2 groups.',
       q:'Which of the following is the most appropriate null hypothesis for this study?',
       options:[{label:'A',text:'Hazard ratio is equal to 1'},{label:'B',text:'Hazard ratio is not equal to 1'},{label:'C',text:'Odds ratio is equal to 1'},{label:'D',text:'Odds ratio is not equal to 1'},{label:'E',text:'Relative risk is not equal to 1'}],
