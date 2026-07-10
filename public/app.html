@@ -109,13 +109,27 @@
       </div>
     </section>
   </main>
+  <!-- Não leem estado do usuário: podem carregar direto. -->
   <script src="js/library1-structure.js?v=2"></script>
   <script src="js/i18n-content.js?v=1"></script>
-  <script src="js/site.js?v=47"></script>
-  <script src="js/flashcards.js?v=28"></script>
-  <script src="js/qbank.js?v=40"></script>
-  <script src="js/notebook.js?v=2"></script>
-  <script src="js/ai-tutor-widget.js?v=25"></script>
-  <script src="js/select-translate.js?v=1"></script>
+
+  <!--
+    Ordem de boot da v52.
+    Os scripts abaixo leem localStorage no momento em que são avaliados. Se
+    carregassem antes da sincronização, renderizariam o estado velho do aparelho.
+    Por isso cm-sync.js puxa o servidor primeiro e só então os injeta, na ordem.
+    Se o servidor estiver fora, ele os injeta do mesmo jeito (modo local).
+  -->
+  <script>
+    window.CM_APP_SCRIPTS = [
+      'js/site.js?v=47',
+      'js/flashcards.js?v=28',
+      'js/qbank.js?v=40',
+      'js/notebook.js?v=2',
+      'js/ai-tutor-widget.js?v=25',
+      'js/select-translate.js?v=1'
+    ];
+  </script>
+  <script src="js/cm-sync.js?v=1"></script>
 </body>
 </html>

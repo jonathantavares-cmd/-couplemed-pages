@@ -99,6 +99,11 @@ export default {
       }
     }
 
+    /* ---------- rota de SINCRONIZAÇÃO entre aparelhos (D1) ---------- */
+    if (url.pathname.startsWith('/api/state')) {
+      return handleState(request, env, url);
+    }
+
     /* ---------- rotas QBank (D1) ---------- */
     if (url.pathname.startsWith('/api/qbank')) {
       return handleQBank(request, env, url);
@@ -113,6 +118,122 @@ export default {
     return env.ASSETS.fetch(request);
   }
 };
+
+/**
+ * Sincronização de estado entre aparelhos (tabela user_state em D1).
+ *
+ *   GET  /api/state?user=<uid>&shared=1
+ *        → { state: [ {bucket, k, v, deleted, updated_at}, ... ] }
+ *
+ *   POST /api/state
+ *        body: { user, updates: [ {bucket, k, v, deleted, updated_at}, ... ] }
+ *        → { ok:true, applied:<n> }
+ *
+ * Resolução de conflito: last-write-wins por chave, arbitrado por updated_at
+ * (epoch em ms, gerado pelo cliente). Uma gravação mais ANTIGA nunca sobrescreve
+ * uma mais NOVA — é isso que impede um aparelho que ficou horas offline de
+ * ressuscitar dados velhos por cima do progresso recente.
+ *
+ * Sem D1 vinculado → 503 { dbReady:false }. O frontend cai em modo local e o
+ * site continua funcionando exatamente como na v51.
+ *
+ * ⚠️ SEM AUTENTICAÇÃO. Quem souber a URL consegue ler e escrever o estado de
+ *    qualquer usuário da allowlist. Ver a seção de segurança no handoff.
+ */
+/* Precisa espelhar USERS/USER_META de public/js/site.js.
+   Um usuário que exista no site e falte aqui recebe 400, cai em "Modo local"
+   e volta a ter progresso isolado por aparelho — sem nenhum erro visível.
+   AO CRIAR UM USUÁRIO NOVO NO site.js, ADICIONE-O AQUI TAMBÉM. */
+const STATE_USERS = [
+  'john', 'alysson',
+  'guest1', 'guest2', 'guest3', 'guest4',
+  '_shared'
+];
+
+async function handleState(request, env, url) {
+  const cors = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  };
+  if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+
+  const reply = (obj, status = 200) => new Response(JSON.stringify(obj), {
+    status,
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...cors }
+  });
+
+  const db = env.QBANK_DB;
+  if (!db) {
+    return reply({ error: 'D1 not bound', dbReady: false, mode: 'localStorage-fallback' }, 503);
+  }
+
+  const ok = (u) => typeof u === 'string' && STATE_USERS.includes(u);
+
+  try {
+    /* ---------------- PULL ---------------- */
+    if (request.method === 'GET') {
+      const user = url.searchParams.get('user');
+      if (!ok(user)) return reply({ error: 'unknown user' }, 400);
+
+      const buckets = url.searchParams.get('shared') === '1' ? [user, '_shared'] : [user];
+      const marks = buckets.map(() => '?').join(',');
+      const { results } = await db.prepare(
+        `SELECT user_id AS bucket, k, v, deleted, updated_at
+           FROM user_state WHERE user_id IN (${marks})`
+      ).bind(...buckets).all();
+
+      return reply({ ok: true, dbReady: true, state: results || [] });
+    }
+
+    /* ---------------- PUSH ---------------- */
+    if (request.method === 'POST') {
+      let body;
+      try { body = await request.json(); } catch { return reply({ error: 'JSON inválido' }, 400); }
+
+      const user = body && body.user;
+      if (!ok(user)) return reply({ error: 'unknown user' }, 400);
+
+      const updates = Array.isArray(body.updates) ? body.updates : [];
+      if (!updates.length) return reply({ ok: true, applied: 0 });
+      if (updates.length > 64) return reply({ error: 'lote grande demais' }, 413);
+
+      const stmts = [];
+      for (const u of updates) {
+        // Um usuário só escreve no próprio balde ou no balde compartilhado.
+        if (u.bucket !== user && u.bucket !== '_shared') continue;
+        if (typeof u.k !== 'string' || !/^[a-z0-9_]{1,40}$/.test(u.k)) continue;
+
+        const ts = Number(u.updated_at);
+        if (!Number.isFinite(ts) || ts <= 0) continue;
+
+        const del = u.deleted ? 1 : 0;
+        const val = del ? null : String(u.v ?? '');
+        if (val !== null && val.length > 2_000_000) {
+          return reply({ error: `chave '${u.k}' excede 2MB` }, 413);
+        }
+
+        // Upsert com guarda de recência: só sobrescreve se for mais novo.
+        stmts.push(db.prepare(
+          `INSERT INTO user_state (user_id, k, v, updated_at, deleted)
+           VALUES (?, ?, ?, ?, ?)
+           ON CONFLICT(user_id, k) DO UPDATE SET
+             v          = excluded.v,
+             updated_at = excluded.updated_at,
+             deleted    = excluded.deleted
+           WHERE excluded.updated_at > user_state.updated_at`
+        ).bind(u.bucket, u.k, val, ts, del));
+      }
+
+      if (stmts.length) await db.batch(stmts);
+      return reply({ ok: true, applied: stmts.length });
+    }
+
+    return reply({ error: 'Method Not Allowed' }, 405);
+  } catch (err) {
+    return reply({ error: 'D1 error', detail: String(err) }, 500);
+  }
+}
 
 /**
  * Router do QBank sobre Cloudflare D1 (binding esperado: env.QBANK_DB).
