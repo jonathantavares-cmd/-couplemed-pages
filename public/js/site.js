@@ -14,24 +14,65 @@
      - Ver js/i18n-content.js para a implementação e mais detalhes.
 */
 (function(){
-  const USERS = {
-    'jonathan.tavares@hotmail.com': { pass:'Ja@120622', user:'john' },
-    'alyssonaranha@gmail.com':      { pass:'Aj@120622', user:'alysson' },
-    'guest1': { pass:'Gjesus@17', user:'guest1' },
-    'guest2': { pass:'Gjesus@27', user:'guest2' },
-    'guest3': { pass:'Gjesus@37', user:'guest3' },
-    'guest4': { pass:'Gjesus@47', user:'guest4' }
-  };
+  /* v53 — As senhas saíram daqui.
+     Até a v52 a constante USERS trazia as seis senhas em texto puro, e
+     qualquer pessoa lia o arquivo abrindo couplemed.com/js/site.js. Agora a
+     conferência acontece no servidor (POST /api/login) contra um hash PBKDF2
+     na tabela `users` do D1. Este arquivo não conhece senha nenhuma.
+
+     USER_META guarda só o que é cosmético e serve de fallback se o servidor
+     ainda não respondeu: nome exibido, papel e o login original. */
   const USER_META = {
-    john:    { displayName:'John',    role:'admin', originalLogin:'jonathan.tavares@hotmail.com', originalPass:'Ja@120622' },
-    alysson: { displayName:'Alysson', role:'user',  originalLogin:'alyssonaranha@gmail.com',      originalPass:'Aj@120622' },
-    guest1:  { displayName:'Guest 1', role:'user',  originalLogin:'guest1',                       originalPass:'Gjesus@17' },
-    guest2:  { displayName:'Guest 2', role:'user',  originalLogin:'guest2',                       originalPass:'Gjesus@27' },
-    guest3:  { displayName:'Guest 3', role:'user',  originalLogin:'guest3',                       originalPass:'Gjesus@37' },
-    guest4:  { displayName:'Guest 4', role:'user',  originalLogin:'guest4',                       originalPass:'Gjesus@47' }
+    john:    { displayName:'John',    role:'admin', originalLogin:'jonathan.tavares@hotmail.com' },
+    alysson: { displayName:'Alysson', role:'user',  originalLogin:'alyssonaranha@gmail.com' },
+    guest1:  { displayName:'Guest 1', role:'user',  originalLogin:'guest1' },
+    guest2:  { displayName:'Guest 2', role:'user',  originalLogin:'guest2' },
+    guest3:  { displayName:'Guest 3', role:'user',  originalLogin:'guest3' },
+    guest4:  { displayName:'Guest 4', role:'user',  originalLogin:'guest4' }
   };
-  function getUserCustom(uid){try{return JSON.parse(localStorage.getItem('couplemed_user_custom_'+uid))||null}catch(e){return null}}
-  function setUserCustom(uid,data){localStorage.setItem('couplemed_user_custom_'+uid,JSON.stringify(data))}
+  /* Cache local dos usuários vindos do servidor (/api/me e /api/users).
+     Existe para que todo o código síncrono já escrito continue funcionando sem
+     virar async. Não é fonte de verdade: é uma fotografia do D1. */
+  const USERS_CACHE_KEY = 'couplemed_users_cache';
+  function usersCache(){try{return JSON.parse(localStorage.getItem(USERS_CACHE_KEY))||{}}catch(e){return {}}}
+  function setUsersCache(o){try{localStorage.setItem(USERS_CACHE_KEY,JSON.stringify(o))}catch(e){}}
+  function cacheUser(u){const c=usersCache();c[u.uid]={displayName:u.displayName||u.display_name,login:u.login,role:u.role,blocked:!!u.blocked};setUsersCache(c);}
+  function getUserCustom(uid){const c=usersCache()[uid];return c?{displayName:c.displayName,login:c.login}:null}
+
+  /* ---- ponte com a API de usuários (v53) ---- */
+  async function cmSaveUser({uid,displayName,login,newPassword}){
+    try{
+      const r=await fetch('/api/users/update',{method:'POST',credentials:'same-origin',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({uid,displayName,login,newPassword:newPassword||''})});
+      if(r.ok){ const c=usersCache(); c[uid]={...(c[uid]||{}),displayName,login}; setUsersCache(c); return {ok:true}; }
+      let e='unknown'; try{ e=(await r.json()).error||e; }catch(_){}
+      return {ok:false,error:e};
+    }catch(err){ return {ok:false,error:'network'}; }
+  }
+
+  function cmUserErr(code){
+    return ({
+      login_taken:        'Este login já pertence a outro usuário.',
+      password_too_short: 'A senha precisa ter ao menos 6 caracteres.',
+      forbidden:          'Você não tem permissão para isso.',
+      unauthenticated:    'Sessão expirada. Faça login novamente.',
+      network:            'Erro de conexão. Tente de novo.'
+    })[code] || 'Não foi possível salvar.';
+  }
+
+  /* Recarrega a lista de usuários do servidor para o cache local.
+     Só o admin recebe 200 aqui; para os demais o 403 é esperado e ignorado. */
+  async function cmRefreshUsers(){
+    try{
+      const r=await fetch('/api/users',{credentials:'same-origin'});
+      if(!r.ok)return false;
+      const {users}=await r.json();
+      const c={}; (users||[]).forEach(u=>{c[u.uid]={displayName:u.display_name,login:u.login,role:u.role,blocked:!!u.blocked}});
+      setUsersCache(c); return true;
+    }catch(e){ return false; }
+  }
+  window.cmRefreshUsers = cmRefreshUsers;
 
   /* ===== PREFERÊNCIAS DO USUÁRIO (v51) — couplemed_prefs_<uid> =====
      Apenas o ESTADO INICIAL do site para aquele usuário. Nenhum controle existente
@@ -61,19 +102,16 @@
   function setPrefs(uid,data){localStorage.setItem('couplemed_prefs_'+uid,JSON.stringify(data))}
   function touchLastAccess(uid){try{localStorage.setItem('couplemed_last_access_'+uid,new Date().toISOString())}catch(e){}}
   function getLastAccess(uid){try{return localStorage.getItem('couplemed_last_access_'+uid)||''}catch(e){return ''}}
-  function isUserBlocked(uid){return localStorage.getItem('couplemed_user_blocked_'+uid)==='true'}
-  function setUserBlocked(uid,blocked){if(blocked)localStorage.setItem('couplemed_user_blocked_'+uid,'true');else localStorage.removeItem('couplemed_user_blocked_'+uid)}
-  function getUserDisplay(uid){const c=getUserCustom(uid);return(c&&c.displayName)?c.displayName:(USER_META[uid]?USER_META[uid].displayName:uid)}
-  function findUserByCredentials(login,pass){
-    /* 1. check original hardcoded credentials */
-    const orig=USERS[login]; if(orig&&orig.pass===pass)return orig.user;
-    /* 2. check custom credentials in localStorage */
-    for(const uid of Object.keys(USER_META)){
-      const c=getUserCustom(uid); if(!c)continue;
-      if(c.login&&c.login.toLowerCase()===login&&c.password===pass)return uid;
-    }
-    return null;
+  function isUserBlocked(uid){const c=usersCache()[uid];return !!(c&&c.blocked)}
+  async function setUserBlocked(uid,blocked){
+    const r=await fetch('/api/users/blocked',{method:'POST',credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify({uid,blocked})});
+    if(!r.ok)throw new Error('blocked_failed');
+    const c=usersCache(); if(c[uid]){c[uid].blocked=!!blocked; setUsersCache(c);}
   }
+  function getUserDisplay(uid){const c=getUserCustom(uid);return(c&&c.displayName)?c.displayName:(USER_META[uid]?USER_META[uid].displayName:uid)}
+  /* findUserByCredentials() foi removida. A comparação de senha agora é feita
+     pelo servidor — ver initLogin(). O navegador nunca vê a senha correta. */
 
   const quotes = [
     '“Todos os seus sonhos podem se tornar realidade se você tiver coragem para persegui-los.”',
@@ -265,7 +303,36 @@
   function preserveUserLinks(){const u=user(); $$('a[href^="app.html"]').forEach(a=>{const url=new URL(a.getAttribute('href'),location.href); url.searchParams.set('u',u); a.href=url.pathname.split('/').pop()+url.search;});}
   function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
   function draw(key,arr){let deck;try{deck=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){deck=[]}if(!Array.isArray(deck)||!deck.length)deck=shuffle([...arr.keys()]);const idx=deck.shift();localStorage.setItem(key,JSON.stringify(deck));return arr[idx]||arr[0]}
-  function initLogin(){const form=$('#loginForm'); if(!form)return; form.addEventListener('submit',e=>{e.preventDefault(); const login=$('#login').value.trim().toLowerCase(); const pass=$('#password').value.trim(); const msg=$('#loginMessage'); const u=findUserByCredentials(login,pass); if(!u){msg.textContent='Invalid login or password.';return} if(isUserBlocked(u)){msg.textContent='Your access has been blocked. Contact the administrator.';return} sessionStorage.setItem('couplemed_active_user',u); $('.access-submit').classList.add('loading'); document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22'; setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);});}
+  function initLogin(){
+    const form=$('#loginForm'); if(!form)return;
+    form.addEventListener('submit',async e=>{
+      e.preventDefault();
+      const login=$('#login').value.trim().toLowerCase();
+      const pass=$('#password').value.trim();
+      const msg=$('#loginMessage');
+      const btn=$('.access-submit');
+      if(!login||!pass){msg.textContent='Invalid login or password.';return}
+      msg.textContent=''; btn.classList.add('loading');
+      let res;
+      try{
+        res=await fetch('/api/login',{method:'POST',credentials:'same-origin',
+          headers:{'Content-Type':'application/json'},body:JSON.stringify({login,password:pass})});
+      }catch(err){
+        btn.classList.remove('loading');
+        msg.textContent='Connection error. Please try again.';
+        return;
+      }
+      if(res.status===403){btn.classList.remove('loading');msg.textContent='Your access has been blocked. Contact the administrator.';return}
+      if(res.status===503){btn.classList.remove('loading');msg.textContent='Server not configured. Contact the administrator.';return}
+      if(!res.ok){btn.classList.remove('loading');msg.textContent='Invalid login or password.';return}
+      const data=await res.json();
+      const u=data.uid;
+      cacheUser({uid:u,displayName:data.displayName,login,role:data.role,blocked:0});
+      sessionStorage.setItem('couplemed_active_user',u);
+      document.body.style.transition='opacity .45s ease'; document.body.style.opacity='.22';
+      setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);
+    });
+  }
   function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),6450); setTimeout(()=>location.href=`app.html?u=${u}`,7000);}
   const LIB_TITLE_KEY = {'library-1':'library1Title','library-2':'library2Title'};
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
@@ -596,14 +663,9 @@
   }
 
   function stgWirePassEyes(scope,t){
-    scope.querySelectorAll('[data-action="toggle-pass"]').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const span=btn.previousElementSibling; if(!span)return;
-        const masked=span.classList.contains('stg-pass-masked');
-        if(masked){ span.textContent=span.dataset.pass; span.classList.remove('stg-pass-masked'); btn.textContent=t.settingsHidePass; }
-        else { span.textContent='•'.repeat((span.dataset.pass||'').length); span.classList.add('stg-pass-masked'); btn.textContent=t.settingsShowPass; }
-      });
-    });
+    /* O botão que revelava a senha guardada deixou de existir: não há mais
+       senha guardada para revelar, só um hash. O olho abaixo continua servindo
+       para conferir o que VOCÊ acabou de digitar. */
     scope.querySelectorAll('[data-action="toggle-pass-input"]').forEach(btn=>{
       btn.addEventListener('click',()=>{
         const inp=$('#'+btn.dataset.target); if(!inp)return;
@@ -623,7 +685,8 @@
     const custom=getUserCustom(u);
     const name=custom&&custom.displayName?custom.displayName:meta.displayName;
     const login=custom&&custom.login?custom.login:meta.originalLogin;
-    const pass=custom&&custom.password?custom.password:meta.originalPass;
+    /* A senha atual não é mais recuperável: só existe como hash no servidor.
+       O admin pode DEFINIR uma nova, nunca LER a existente. */
     panel.innerHTML=`
       <div class="stg-card">
         <div class="stg-card-head"><h2>${stgEsc(t.stgSecProfile)}</h2><p>${stgEsc(t.stgProfileDesc)}</p></div>
@@ -631,13 +694,13 @@
         <div class="stg-view-block" id="stgSelfView">
           <div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}</span><span class="stg-value">${stgEsc(name)}</span></div>
           <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}</span><span class="stg-value">${stgEsc(login)}</span></div>
-          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value stg-pass stg-pass-masked" data-pass="${stgEsc(pass)}">${'•'.repeat(pass.length)}</span><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value">••••••••</span><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
           <button class="stg-btn stg-btn-edit" id="stgEditBtn">${t.settingsChangeData}</button>
         </div>
         <div class="stg-edit-form" id="stgSelfEdit" hidden>
           <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgEditName" value="${stgEsc(name)}" /></div>
           <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgEditLogin" value="${stgEsc(login)}" /></div>
-          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgEditPass" value="${stgEsc(pass)}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgEditPass">${t.settingsShowPass}</button></div></div>
+          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgEditPass" value="" placeholder="••••••••" autocomplete="new-password" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgEditPass">${t.settingsShowPass}</button></div><small class="stg-hint">${t.stgPassKeepHint||'Deixe em branco para manter a senha atual.'}</small></div>
           <div class="stg-edit-actions">
             <button class="stg-btn stg-btn-save" id="stgSaveBtn">${t.settingsSave}</button>
             <button class="stg-btn stg-btn-cancel" id="stgCancelBtn">${t.settingsCancel}</button>
@@ -647,11 +710,13 @@
       </div>`;
     $('#stgEditBtn').addEventListener('click',()=>{ $('#stgSelfView').hidden=true; $('#stgSelfEdit').hidden=false; });
     $('#stgCancelBtn').addEventListener('click',()=>{ $('#stgSelfEdit').hidden=true; $('#stgSelfView').hidden=false; });
-    $('#stgSaveBtn').addEventListener('click',()=>{
+    $('#stgSaveBtn').addEventListener('click',async ()=>{
       const nm=$('#stgEditName').value.trim(), lg=$('#stgEditLogin').value.trim(), pw=$('#stgEditPass').value.trim();
-      if(!nm||!lg||!pw)return;
-      setUserCustom(u,{displayName:nm,login:lg,password:pw});
-      const msg=$('#stgMsg'); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
+      if(!nm||!lg)return;                       // senha em branco = manter a atual
+      const msg=$('#stgMsg'); msg.hidden=false; msg.classList.remove('stg-msg-success');
+      const r=await cmSaveUser({uid:u,displayName:nm,login:lg,newPassword:pw});
+      if(!r.ok){ msg.textContent=cmUserErr(r.error); return; }
+      msg.textContent=t.settingsDataSaved; msg.classList.add('stg-msg-success');
       const side=$('#sidebarUserName'); if(side)side.textContent=nm;
       setTimeout(()=>renderSettings(lang),1100);
     });
@@ -780,7 +845,7 @@
       const blocked=isUserBlocked(uid);
       const displayName=getUserDisplay(uid);
       const curLogin=custom&&custom.login?custom.login:meta.originalLogin;
-      const curPass=custom&&custom.password?custom.password:meta.originalPass;
+
       const last=stgFmtDate(getLastAccess(uid),lang)||t.stgNever;
       html+=`<div class="stg-user-card" data-uid="${uid}">
         <div class="stg-user-header">
@@ -806,12 +871,12 @@
         </div>
         <div class="stg-user-passes"><i>${stgEsc(t.stgPassCol)}</i><div class="stg-pass-chips">${stgPassSummary(uid,lang)}</div></div>
         <div class="stg-view-block" id="stgUserView_${uid}">
-          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value stg-pass stg-pass-masked" data-pass="${stgEsc(curPass)}">${'•'.repeat(curPass.length)}</span><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
+          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value">••••••••</span></div>
         </div>
         <div class="stg-edit-form" id="stgUserEdit_${uid}" hidden>
           <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgUName_${uid}" value="${stgEsc(displayName)}" /></div>
           <div class="stg-field"><label>${t.settingsLogin}</label><input type="text" id="stgULogin_${uid}" value="${stgEsc(curLogin)}" /></div>
-          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgUPass_${uid}" value="${stgEsc(curPass)}" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgUPass_${uid}">${t.settingsShowPass}</button></div></div>
+          <div class="stg-field"><label>${t.settingsPassword}</label><div class="stg-pass-field"><input type="password" id="stgUPass_${uid}" value="" placeholder="••••••••" autocomplete="new-password" /><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass-input" data-target="stgUPass_${uid}">${t.settingsShowPass}</button></div><small class="stg-hint">${t.stgPassKeepHint||'Deixe em branco para manter a senha atual.'}</small></div>
           <div class="stg-edit-actions">
             <button class="stg-btn stg-btn-save" data-action="save-user" data-uid="${uid}">${t.settingsSave}</button>
             <button class="stg-btn stg-btn-cancel" data-action="cancel-user" data-uid="${uid}">${t.settingsCancel}</button>
@@ -823,8 +888,10 @@
     html+=`</div>`;
     panel.innerHTML=html;
 
-    panel.querySelectorAll('[data-action="toggle"]').forEach(btn=>btn.addEventListener('click',()=>{
-      setUserBlocked(btn.dataset.uid,!isUserBlocked(btn.dataset.uid)); stgRenderPanel(lang);
+    panel.querySelectorAll('[data-action="toggle"]').forEach(btn=>btn.addEventListener('click',async ()=>{
+      try{ await setUserBlocked(btn.dataset.uid,!isUserBlocked(btn.dataset.uid)); }
+      catch(e){ return; }
+      await cmRefreshUsers(); stgRenderPanel(lang);
     }));
     panel.querySelectorAll('[data-action="reset"]').forEach(btn=>btn.addEventListener('click',()=>resetUserPlatform(btn.dataset.uid,lang)));
     panel.querySelectorAll('[data-action="edit-user"]').forEach(btn=>btn.addEventListener('click',()=>{
@@ -833,12 +900,15 @@
     panel.querySelectorAll('[data-action="cancel-user"]').forEach(btn=>btn.addEventListener('click',()=>{
       const uid=btn.dataset.uid; $('#stgUserEdit_'+uid).hidden=true; $('#stgUserView_'+uid).hidden=false;
     }));
-    panel.querySelectorAll('[data-action="save-user"]').forEach(btn=>btn.addEventListener('click',()=>{
+    panel.querySelectorAll('[data-action="save-user"]').forEach(btn=>btn.addEventListener('click',async ()=>{
       const uid=btn.dataset.uid;
       const nm=$('#stgUName_'+uid).value.trim(), lg=$('#stgULogin_'+uid).value.trim(), pw=$('#stgUPass_'+uid).value.trim();
-      if(!nm||!lg||!pw)return;
-      setUserCustom(uid,{displayName:nm,login:lg,password:pw});
-      const msg=$('#stgUMsg_'+uid); msg.textContent=t.settingsDataSaved; msg.hidden=false; msg.classList.add('stg-msg-success');
+      if(!nm||!lg)return;                       // senha em branco = manter a atual
+      const msg=$('#stgUMsg_'+uid); msg.hidden=false; msg.classList.remove('stg-msg-success');
+      const r=await cmSaveUser({uid,displayName:nm,login:lg,newPassword:pw});
+      if(!r.ok){ msg.textContent=cmUserErr(r.error); return; }
+      msg.textContent=t.settingsDataSaved; msg.classList.add('stg-msg-success');
+      await cmRefreshUsers();
       setTimeout(()=>stgRenderPanel(lang),1100);
     }));
   }
@@ -1187,7 +1257,13 @@
     applyTheme(prefs.theme || (p==='home'?'dark':'light'));
     const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>applyTheme(document.body.classList.contains('light')?'dark':'light'));
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
-    const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',()=>sessionStorage.removeItem('couplemed_active_user'));
+    const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',async e=>{
+      e.preventDefault();
+      try{ await fetch('/api/logout',{method:'POST',credentials:'same-origin'}); }catch(err){}
+      sessionStorage.removeItem('couplemed_active_user');
+      localStorage.removeItem(USERS_CACHE_KEY);
+      location.href='index.html';
+    });
     initSiteSearch();
     cmStartTimeTracking();
     if(p==='home'){const hl=sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en';renderStreak(hl);renderStudyTime();(function qbProg(tries){ if(window.QBANK_TOTAL){ renderQBankProgress(hl); return; } if(tries<40) setTimeout(()=>qbProg(tries+1),100); })(0);}

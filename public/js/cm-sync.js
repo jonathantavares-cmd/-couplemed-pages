@@ -51,12 +51,47 @@
        couplemed_user_custom_*      credenciais (ver nota no handoff)
        couplemed_user_blocked_*     bloqueio (idem)                          */
 
-  /* ---------- identidade do usuário: mesma regra de site.js/qbank.js ---------- */
-  function uid() {
-    var p = new URLSearchParams(location.search).get('u');
-    return p || sessionStorage.getItem('couplemed_active_user') || 'guest1';
+  /* ---------- identidade do usuário ----------------------------------------
+     v52: vinha do ?u= da URL — ou seja, do próprio cliente.
+     v53: vem de GET /api/me, que lê o cookie de sessão assinado. O ?u= ainda
+     existe para os links internos, mas não decide mais nada. Se ele divergir da
+     sessão, a sessão vence.                                                  */
+  var USER = new URLSearchParams(location.search).get('u')
+          || sessionStorage.getItem('couplemed_active_user') || 'guest1';
+
+  function gotoLogin() { location.replace('index.html'); }
+
+  function fetchMe() {
+    return withTimeout(fetch('/api/me', { credentials: 'same-origin', cache: 'no-store' }), PULL_TIMEOUT_MS)
+      .then(function (r) {
+        if (r.status === 401) { gotoLogin(); throw new Error('unauthenticated'); }
+        if (r.status === 503) throw new Error('server-not-configured');
+        if (!r.ok) throw new Error('http ' + r.status);
+        return r.json();
+      })
+      .then(function (me) {
+        USER = me.uid;                                    // fonte de verdade
+        sessionStorage.setItem('couplemed_active_user', me.uid);
+        var c = {}; try { c = JSON.parse(rawGet('couplemed_users_cache')) || {}; } catch (e) {}
+        c[me.uid] = { displayName: me.displayName, login: me.login, role: me.role, blocked: false };
+        rawSet('couplemed_users_cache', JSON.stringify(c));
+        if (me.role !== 'admin') return me;
+        // admin precisa da lista completa para o painel de usuários
+        return fetch('/api/users', { credentials: 'same-origin', cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            if (d && d.users) {
+              var all = {};
+              d.users.forEach(function (u) {
+                all[u.uid] = { displayName: u.display_name, login: u.login, role: u.role, blocked: !!u.blocked };
+              });
+              rawSet('couplemed_users_cache', JSON.stringify(all));
+            }
+            return me;
+          })
+          .catch(function () { return me; });
+      });
   }
-  var USER = uid();
 
   /* ---------- referências originais, antes de qualquer patch ----------------
      Atenção: NÃO dá para fazer `localStorage.setItem = fn`. O objeto Storage
@@ -169,9 +204,11 @@
   }
 
   function pull() {
-    var url = API + '?user=' + encodeURIComponent(USER) + '&shared=1';
-    return withTimeout(fetch(url, { cache: 'no-store' }), PULL_TIMEOUT_MS)
+    // O ?user= sumiu: o servidor descobre quem somos pelo cookie.
+    return withTimeout(fetch(API + '?shared=1',
+        { credentials: 'same-origin', cache: 'no-store' }), PULL_TIMEOUT_MS)
       .then(function (r) {
+        if (r.status === 401) { gotoLogin(); throw new Error('unauthenticated'); }
         if (r.status === 503) throw new Error('d1-off');
         if (!r.ok) throw new Error('http ' + r.status);
         return r.json();
@@ -185,9 +222,11 @@
 
     return withTimeout(fetch(API, {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user: USER, updates: items })
+      body: JSON.stringify({ updates: items })
     }), PULL_TIMEOUT_MS).then(function (r) {
+      if (r.status === 401) { gotoLogin(); throw new Error('unauthenticated'); }
       if (!r.ok) throw new Error('http ' + r.status);
       return r.json();
     }).then(function (res) {
@@ -300,8 +339,6 @@
   }
 
   /* ============================ BOOT ============================ */
-  cleanOnce();
-
   var booted = false;
   function boot(mode) {
     if (booted) return;
@@ -312,9 +349,14 @@
     loadAppScripts().catch(function (e) { console.error('[cm-sync]', e); });
   }
 
-  // 1) empurra o que ficou pendente  2) puxa a verdade do servidor  3) sobe o app
-  push()
-    .catch(function () { /* offline: segue com o cache local */ })
+  // 1) quem sou eu (cookie)  2) limpeza única  3) pendências  4) pull  5) app
+  fetchMe()
+    .then(function () { cleanOnce(); })
+    .then(push)
+    .catch(function (e) {
+      if (e && e.message === 'unauthenticated') throw e;   // já redirecionou
+      /* offline / servidor fora: segue com o cache local */
+    })
     .then(pull)
     .then(function (data) {
       applyServerState(data.state || []);
@@ -322,9 +364,11 @@
       boot('sync');
     })
     .catch(function (err) {
+      if (err && err.message === 'unauthenticated') return;   // indo para o login
       // Servidor fora, D1 não ligado, ou sem rede: o site funciona igual à v51,
       // só que sem sincronizar. Nada quebra, nada se perde.
       console.warn('[cm-sync] modo local —', err && err.message);
+      cleanOnce();
       boot('local');
       say('Modo local — sem sincronização', { ms: 3000 });
     });
