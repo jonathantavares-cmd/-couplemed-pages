@@ -40,7 +40,7 @@
      Substituível pelo pipeline de importação (Parte 16) ou pela API D1.
      Cada questão: vinheta estilo NBME, 5 alternativas, explicações e peer stats. */
   const SEED = [
-    { id:'q_cv_as', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::valvular_heart_diseases', difficulty:'medium',
+    { id:'q_cv_as', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::valvular_heart_diseases', difficulty:'easy',
       vignette:'A 72-year-old man is evaluated for two episodes of syncope during exertion over the past month. He also reports dyspnea on climbing stairs. On auscultation there is a harsh crescendo-decrescendo systolic murmur best heard at the right upper sternal border, radiating to both carotids. The murmur intensity decreases with handgrip. Peripheral pulses are delayed and diminished (pulsus parvus et tardus).',
       q:'Which of the following is the most likely diagnosis?',
       options:[{label:'A',text:'Aortic stenosis'},{label:'B',text:'Mitral regurgitation'},{label:'C',text:'Hypertrophic obstructive cardiomyopathy'},{label:'D',text:'Aortic regurgitation'},{label:'E',text:'Mitral valve prolapse'}],
@@ -60,7 +60,7 @@
       objective:'Attribute the emphysema ("pink puffer") phenotype to destruction of alveolar walls distal to the terminal bronchiole with loss of elastic recoil.',
       peer:{A:64,B:20,C:4,D:5,E:7} },
 
-    { id:'q_renal_hyperk', system:'renal_urinary', discipline:'physiology', category:'renal_urinary::fluid_electrolytes_acidbase', difficulty:'hard',
+    { id:'q_renal_hyperk', system:'renal_urinary', discipline:'physiology', category:'renal_urinary::fluid_electrolytes_acidbase', difficulty:'medium',
       vignette:'A 59-year-old man with end-stage renal disease missed his last two dialysis sessions. He presents with weakness and palpitations. Serum potassium is 7.2 mEq/L. The ECG shows peaked T waves, a widened QRS, and loss of P waves.',
       q:'Which is the most appropriate immediate next step in management?',
       options:[{label:'A',text:'Intravenous calcium gluconate'},{label:'B',text:'Intravenous regular insulin with dextrose'},{label:'C',text:'Nebulized albuterol'},{label:'D',text:'Oral sodium polystyrene sulfonate'},{label:'E',text:'Urgent hemodialysis'}],
@@ -70,7 +70,7 @@
       objective:'When hyperkalemia produces ECG changes, give IV calcium first to stabilize the myocardium before shifting or removing potassium.',
       peer:{A:52,B:31,C:2,D:4,E:11} },
 
-    { id:'q_id_gc', system:'infectious_diseases', discipline:'microbiology', category:'infectious_diseases::hiv_sti', difficulty:'medium',
+    { id:'q_id_gc', system:'infectious_diseases', discipline:'microbiology', category:'infectious_diseases::hiv_sti', difficulty:'easy',
       vignette:'A 24-year-old sexually active man presents with dysuria and a purulent urethral discharge for three days. Gram stain of the discharge shows numerous neutrophils containing gram-negative diplococci.',
       q:'Which organism is the most likely cause?',
       options:[{label:'A',text:'Neisseria gonorrhoeae'},{label:'B',text:'Chlamydia trachomatis'},{label:'C',text:'Treponema pallidum'},{label:'D',text:'Trichomonas vaginalis'},{label:'E',text:'Haemophilus ducreyi'}],
@@ -90,7 +90,7 @@
       objective:'Recognize that thyroid ophthalmopathy is specific to Graves disease among the causes of thyrotoxicosis.',
       peer:{A:58,B:6,C:22,D:6,E:8} },
 
-    { id:'q_neuro_levodopa', system:'nervous_system', discipline:'pharmacology', category:'nervous_system::neurodegenerative_dementias', difficulty:'hard',
+    { id:'q_neuro_levodopa', system:'nervous_system', discipline:'pharmacology', category:'nervous_system::neurodegenerative_dementias', difficulty:'medium',
       vignette:'A 68-year-old man has a resting pill-rolling tremor, cogwheel rigidity, bradykinesia, and a shuffling gait. He is started on a medication that is combined with carbidopa.',
       q:'What is the purpose of adding carbidopa to this therapy?',
       options:[{label:'A',text:'It inhibits peripheral DOPA decarboxylase, reducing peripheral side effects and increasing central levodopa delivery'},{label:'B',text:'It directly stimulates central dopamine receptors'},{label:'C',text:'It inhibits catechol-O-methyltransferase in the brain'},{label:'D',text:'It blocks central muscarinic receptors to reduce tremor'},{label:'E',text:'It crosses the blood-brain barrier to be converted to dopamine'}],
@@ -100,7 +100,7 @@
       objective:'Explain that carbidopa blocks peripheral DOPA decarboxylase to reduce peripheral side effects and boost central levodopa availability.',
       peer:{A:61,B:8,C:18,D:6,E:7} },
 
-    { id:'q_heme_ida', system:'heme_onc', discipline:'pathology', category:'heme_onc::rbc_disorders', difficulty:'medium',
+    { id:'q_heme_ida', system:'heme_onc', discipline:'pathology', category:'heme_onc::rbc_disorders', difficulty:'easy',
       vignette:'A 41-year-old woman with heavy menstrual bleeding reports fatigue and pica (craving ice). Labs show hemoglobin 9.1 g/dL, MCV 74 fL, low serum ferritin, elevated total iron-binding capacity, and low transferrin saturation.',
       q:'Which is the most likely diagnosis?',
       options:[{label:'A',text:'Iron deficiency anemia'},{label:'B',text:'Anemia of chronic disease'},{label:'C',text:'Beta-thalassemia minor'},{label:'D',text:'Sideroblastic anemia'},{label:'E',text:'Vitamin B12 deficiency'}],
@@ -130,7 +130,7 @@
       objective:'Recognize von Gierke disease (G6Pase deficiency) by fasting hypoglycemia unresponsive to glucagon with lactic acidosis, hyperuricemia, and hepatomegaly.',
       peer:{A:49,B:14,C:20,D:9,E:8} },
 
-    { id:'q_bioepi_null_mrsa', system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::hypothesis_testing', difficulty:'medium',
+    { id:'q_bioepi_null_mrsa', system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::hypothesis_testing', difficulty:'easy',
       vignette:'A group of researchers wants to identify factors related to hospital-acquired bacteremia caused by methicillin-resistant Staphylococcus aureus (MRSA). A total of 40 patients admitted to the ICU after developing MRSA bacteremia confirmed by blood cultures over the same time period were enrolled. During the same period, 80 control patients admitted to the ICU who did not develop bacteremia were randomly selected. The frequency of factors such as central venous catheter use, urinary catheter placement, and surgical site infections in the days prior to the diagnosis of bacteremia were compared between the 2 groups.',
       q:'Which of the following is the most appropriate null hypothesis for this study?',
       options:[{label:'A',text:'Hazard ratio is equal to 1'},{label:'B',text:'Hazard ratio is not equal to 1'},{label:'C',text:'Odds ratio is equal to 1'},{label:'D',text:'Odds ratio is not equal to 1'},{label:'E',text:'Relative risk is not equal to 1'}],
@@ -144,7 +144,7 @@
       explC:'Uma hipótese estatística é uma suposição inicial (que pode ou não ser verdadeira) sobre os parâmetros populacionais em um estudo. A hipótese nula (H₀) é uma afirmação de ausência de diferença ou associação. A hipótese alternativa (H₁) é uma afirmação de diferença ou associação. Neste estudo, pacientes com e sem bacteremia por MRSA são identificados com base nos resultados das hemoculturas e rastreados retrospectivamente para identificar exposições anteriores — caracterizando um estudo caso-controle. A medida de associação utilizada em estudos caso-controle é a razão de chances (RC ou OR). RC = 1 indica que as chances de exposição são iguais entre casos e controles, ou seja, a exposição NÃO está associada à doença. RC > 1 ou < 1 indica que as chances de exposição diferem entre casos e controles, sugerindo associação com a doença. Como H₀ é uma afirmação de ausência de associação, a hipótese nula mais adequada é que a razão de chances é igual a 1 (Alternativa C).',
       explI:[{option:'A',explanation:'A razão de risco (hazard ratio) é utilizada em análises de sobrevivência (p. ex., estudos de coorte com desfechos tempo-até-evento). Embora "razão de risco = 1" seja uma hipótese nula válida nesse contexto, este estudo é um caso-controle que utiliza a razão de chances como medida de associação, não a razão de risco.'},{option:'B',explanation:'Isso representa a hipótese alternativa (H₁) em uma análise de sobrevivência — uma afirmação de que a razão de risco difere de 1. Além disso, a razão de risco não é a medida de associação adequada para estudos caso-controle.'},{option:'D',explanation:'RC ≠ 1 representa a hipótese alternativa (H₁): afirma que as chances de exposição diferem entre casos e controles, sugerindo associação com a doença. H₁ não é a hipótese nula.'},{option:'E',explanation:'O risco relativo é a medida de associação adequada para estudos de coorte (prospectivos), não para estudos caso-controle. Além disso, RR ≠ 1 representa a hipótese alternativa, não a hipótese nula.'}]} },
 
-    { id:'q_psych_mdd', system:'psychiatric_behavioral', discipline:'behavioral_science', category:'psychiatric_behavioral::mood_disorders', difficulty:'medium',
+    { id:'q_psych_mdd', system:'psychiatric_behavioral', discipline:'behavioral_science', category:'psychiatric_behavioral::mood_disorders', difficulty:'easy',
       vignette:'A 29-year-old woman reports six weeks of depressed mood and loss of interest in activities she used to enjoy. She also describes insomnia, poor concentration, low energy, feelings of worthlessness, and a 4-kg unintentional weight loss. She denies manic episodes, substance use, and has a normal physical exam and TSH.',
       q:'Which is the most likely diagnosis?',
       options:[{label:'A',text:'Major depressive disorder'},{label:'B',text:'Persistent depressive disorder (dysthymia)'},{label:'C',text:'Adjustment disorder with depressed mood'},{label:'D',text:'Bipolar II disorder'},{label:'E',text:'Normal grief'}],
@@ -157,7 +157,7 @@
     // ═══════════════════════════════════════════════════════════════
     // BATCH 01 — Male Reproductive System (10 questions)
     // ═══════════════════════════════════════════════════════════════
-    { id:'CMQ-STEP1-MRS-0001', system:'male_repro', discipline:'microbiology', category:'male_repro::disorders_male_repro', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0001', system:'male_repro', discipline:'microbiology', category:'male_repro::disorders_male_repro', difficulty:'easy',
       vignette:'A 24-year-old man comes to the office due to 2 days of burning pain with urination. The patient has also had increased urinary frequency over the past few days. He has had no fever, chills, nausea, vomiting, flank pain, or penile discharge. The patient is sexually active with his longtime boyfriend. Vital signs are within normal limits. Physical examination shows mild suprapubic tenderness. There is no costovertebral angle tenderness. The penis is uncircumcised. Laboratory results are as follows:\n\nUrinalysis:\nSpecific gravity: 1.016\npH: 5\nBlood: negative\nLeukocyte esterase: positive\nNitrites: positive',
       q:'Based on the urinalysis results, which of the following organisms is the most likely cause of this patient\'s illness?',
       options:[{label:'A',text:'Candida albicans'},{label:'B',text:'Enterococcus faecalis'},{label:'C',text:'Escherichia coli'},{label:'D',text:'Herpes simplex virus'},{label:'E',text:'Proteus mirabilis'},{label:'F',text:'Staphylococcus saprophyticus'}],
@@ -171,7 +171,7 @@
       explC:'A disúria em homens sexualmente ativos é mais comumente causada por uretrite e, menos comumente, por prostatite, epididimite ou infecção do trato urinário (ITU). Neste caso, a ausência de sintomas sistêmicos, a ausência de secreção peniana e a urinálise positiva são consistentes com ITU. A causa mais comum de ITU é a flora fecal, incluindo bacilos gram-negativos como a Escherichia coli. Achados da urinálise: esterase de leucócitos positiva (marcador de inflamação), nitritos positivos (produzidos por bactérias produtoras de nitrato redutase, como E. coli) e pH ácido (pH = 5, o que torna improvável o Proteus mirabilis, que produz urina alcalina via urease). Esse padrão é mais consistente com ITU por E. coli.',
       explI:[{option:'A',explanation:'ITU por Candida albicans ocorre geralmente apenas em pacientes idosos, hospitalizados ou imunocomprometidos. O exame seria positivo para esterase de leucócitos, mas negativo para nitritos.'},{option:'B',explanation:'Enterococcus faecalis não produz nitrato redutase, o que é inconsistente com os nitritos urinários positivos deste paciente.'},{option:'D',explanation:'O herpes simples genital geralmente se apresenta com vesículas em cacho que podem causar disúria. A esterase de leucócitos pode estar presente, mas os nitritos não.'},{option:'E',explanation:'Proteus mirabilis produz urease, que gera urina alcalina (pH >8). O pH ácido (5) deste paciente torna P. mirabilis improvável.'},{option:'F',explanation:'Staphylococcus saprophyticus não produz nitrato redutase, o que é inconsistente com nitritos urinários positivos.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0002', system:'male_repro', discipline:'pharmacology', category:'male_repro::disorders_male_repro', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0002', system:'male_repro', discipline:'pharmacology', category:'male_repro::disorders_male_repro', difficulty:'hard',
       vignette:'A 65-year-old man with benign prostatic hyperplasia has moderately severe symptoms and is started on finasteride. After six months of treatment with finasteride, his symptoms improve markedly and his prostate has regressed in size.',
       q:'Which of the following histological patterns was most likely present at the time of initiation of treatment?',
       options:[{label:'A',text:'Hyperplasia of prostate with predominance of epithelial components'},{label:'B',text:'Hyperplasia of prostate with predominance of muscular element'},{label:'C',text:'Hyperplasia of prostate with predominance of collagen'},{label:'D',text:'Hyperplasia of prostate with predominance of both collagen and smooth muscles'}],
@@ -213,7 +213,7 @@
       explC:'Este paciente com dificuldades de aprendizagem, estatura elevada, testículos pequenos e ginecomastia provavelmente tem síndrome de Klinefelter (47,XXY), a causa mais comum de hipogonadismo primário em homens. A patogênese envolve não disjunção meiótica do cromossomo X.',
       explI:[{option:'A',explanation:'A mutação do FBN1 causa síndrome de Marfan. Há estatura elevada, mas sem hipogonadismo ou ginecomastia.'},{option:'B',explanation:'A perda de genes paternos no cromossomo 15 causa síndrome de Prader-Willi: estatura baixa e obesidade, não observadas aqui.'},{option:'D',explanation:'A não disjunção do Y resulta em síndrome XYY (47,XYY): estatura elevada e dificuldades de aprendizagem, mas sem hipogonadismo.'},{option:'E',explanation:'A repetição trinucleotídica no X causa síndrome do X frágil: macro-orquidismo (não Tanner 1), face alongada, orelhas grandes.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0005', system:'male_repro', discipline:'behavioral_science', category:'male_repro::disorders_male_repro', difficulty:'easy',
+    { id:'CMQ-STEP1-MRS-0005', system:'male_repro', discipline:'behavioral_science', category:'male_repro::disorders_male_repro', difficulty:'medium',
       vignette:'A 78-year-old man comes to the office for a regularly scheduled review. He has hypertension, CAD, and type 2 DM, taking metformin, atorvastatin, lisinopril, and nitroglycerin PRN. He hesitates, laughs nervously, and says, "I can\'t get an erection anymore, and my wife says I have to ask you about getting the blue pill."',
       q:'Which of the following is the most appropriate response to this patient\'s concern?',
       options:[{label:'A',text:'"I can see that you feel uncomfortable talking about this. It can be a sensitive subject for some men."'},{label:'B',text:'"I can understand your concern, but at your age, we hesitate to start too many medications."'},{label:'C',text:'"Medications for erectile dysfunction have significant side effects. I would not pursue them unless you feel it is important."'},{label:'D',text:'"This is a very common problem for men as they age. It is good that you mentioned it."'},{label:'E',text:'"We can try medication for erectile dysfunction, but it may not be effective at your age."'}],
@@ -241,7 +241,7 @@
       explC:'A barreira hematotesticular é formada por junções firmes entre as células de Sertoli nos túbulos seminíferos. Sua disrupção pode levar à formação de anticorpos antiesperma e prejudicar a fertilidade.',
       explI:[{option:'A',explanation:'As células de Leydig produzem testosterona fora dos túbulos. Não formam a barreira hematotesticular.'},{option:'B',explanation:'Os espermatócitos primários migram dentro da barreira, mas não a formam.'},{option:'C',explanation:'Os espermatócitos secundários estão dentro da barreira, mas não a formam.'},{option:'E',explanation:'A túnica albugínea é a cápsula externa do testículo, não a barreira hematotesticular.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0007', system:'male_repro', discipline:'anatomy', category:'male_repro::normal_male_repro', difficulty:'easy',
+    { id:'CMQ-STEP1-MRS-0007', system:'male_repro', discipline:'anatomy', category:'male_repro::normal_male_repro', difficulty:'medium',
       vignette:'A 42-year-old man with 6 children elects to undergo a vasectomy after appropriate discussion regarding contraceptive options. On examination, normal circumcised penis with no abnormalities.',
       q:'The patient should be advised to expect which of the following side effects during the first few months following the procedure?',
       options:[{label:'A',text:'Decreased interest in sexual activity'},{label:'B',text:'Difficulty in maintaining an erection'},{label:'C',text:'Large reduction in the volume of ejaculate'},{label:'D',text:'Reduced testosterone production'},{label:'E',text:'Viable sperm in the ejaculate'}],
@@ -283,7 +283,7 @@
       explC:'A fratura pélvica causa mais comumente lesão da uretra posterior na junção bulbomembranosa. A uretra posterior é fixa aos ossos pélvicos. A fratura traumática causa deslocamento superior e ruptura. Achados clínicos: sangue no meato, próstata elevada ("high-riding"), incapacidade de urinar.',
       explI:[{option:'A',explanation:'A lesão da parede da bexiga se apresenta com extravasamento extraperitoneal de urina. A incapacidade de urinar sugere lesão uretral, não vesical.'},{option:'B',explanation:'A uretra prostática é sustentada pelo tecido prostático e é menos propensa a ser lesada.'},{option:'D',explanation:'A uretra bulbar (anterior) é móvel e protegida de forças indiretas; é lesada por trauma direto (straddle injury).'},{option:'E',explanation:'A uretra peniana é anterior e móvel; é lesada por trauma direto, não por fratura pélvica.'}]} },
 
-    { id:'CMQ-STEP1-MRS-0010', system:'male_repro', discipline:'pathology', category:'male_repro::disorders_male_repro', difficulty:'medium',
+    { id:'CMQ-STEP1-MRS-0010', system:'male_repro', discipline:'pathology', category:'male_repro::disorders_male_repro', difficulty:'easy',
       vignette:'A 28-year-old man comes to the office due to a bump on his right testicle. He is otherwise asymptomatic and healthy. A solid mass is palpated. Scrotal ultrasound reveals a suspicious, partially necrotic mass. Serum LDH and AFP are markedly elevated. He undergoes right radical inguinal orchiectomy.',
       q:'Which of the following is the most likely histologic diagnosis?',
       options:[{label:'A',text:'Leydig cell tumor'},{label:'B',text:'Nonseminomatous germ cell tumor'},{label:'C',text:'Sertoli cell tumor'},{label:'D',text:'Teratoma'},{label:'E',text:'Testicular lymphoma'}],
@@ -342,7 +342,7 @@
       explC:'A isquemia do músculo papilar induzida pelo IAM causa disfunção e regurgitação mitral. A revascularização restaura a função do músculo papilar, resolvendo a RM. Diferentemente da ruptura (que não se resolve com revascularização), a disfunção melhora.',
       explI:[{option:'A',explanation:'A raiz aórtica não é diretamente afetada pela isquemia miocárdica.'},{option:'B',explanation:'Os folhetos da valva aórtica não são afetados pelo IAM.'},{option:'C',explanation:'A ruptura septal é uma complicação mecânica (3-5 dias pós-IAM) que requer cirurgia.'},{option:'D',explanation:'A ruptura das cordas tendíneas também é uma complicação mecânica que requer cirurgia.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0004', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::heart_failure_shock', difficulty:'hard',
+    { id:'CMQ-STEP1-CVS-0004', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::heart_failure_shock', difficulty:'medium',
       vignette:'A 55-year-old man collapses at home with chest pain. BP 80/50, pulse 120/min. Bilateral crackles. S3 audible. ECG: ST elevation in V2-V6.',
       q:'Which of the following hemodynamic changes are most likely present?',
       options:[{label:'A',text:'Decreased PCWP, Decreased CVP, Decreased coronary perfusion pressure'},{label:'B',text:'Decreased PCWP, Increased CVP, Decreased coronary perfusion pressure'},{label:'C',text:'Increased PCWP, Decreased CVP, Increased coronary perfusion pressure'},{label:'D',text:'Increased PCWP, Increased CVP, Decreased coronary perfusion pressure'},{label:'E',text:'Increased PCWP, Increased CVP, Increased coronary perfusion pressure'}],
@@ -356,7 +356,7 @@
       explC:'No IAMCST com choque cardiogênico: a falência do VE aumenta a pressão diastólica final do VE, aumentando a PCWP e causando edema pulmonar. O aumento de pressão prejudica o VD, aumentando a PVC. A queda do débito cardíaco causa hipotensão e diminuição da pressão de perfusão coronariana.',
       explI:[{option:'A',explanation:'PVC/PCWP/pressão de perfusão coronariana diminuídas = choque hipovolêmico ou séptico.'},{option:'B',explanation:'PCWP diminuída + PVC aumentada = choque obstrutivo (TEP, pneumotórax hipertensivo).'},{option:'C',explanation:'PVC diminuída com PCWP aumentada é atípico.'},{option:'E',explanation:'O aumento da pressão de perfusão coronariana não ocorreria em choque.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0005', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::heart_failure_shock', difficulty:'medium',
+    { id:'CMQ-STEP1-CVS-0005', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::heart_failure_shock', difficulty:'hard',
       vignette:'A 53-year-old smoker (2 packs/day for 35 years) has progressive exertional dyspnea, increased AP diameter, decreased breath sounds, scattered wheezes. Extremities unremarkable. Echo: RV dilation, increased CVP.',
       q:'The absence of peripheral edema in this patient is best explained by which of the following compensatory mechanisms?',
       options:[{label:'A',text:'Decreased capillary permeability'},{label:'B',text:'Decreased circulating aldosterone levels'},{label:'C',text:'Decreased interstitial fluid pressure'},{label:'D',text:'Increased plasma oncotic pressure'},{label:'E',text:'Increased tissue lymphatic drainage'}],
@@ -370,7 +370,7 @@
       explC:'Apesar da PVC elevada e da insuficiência cardíaca direita, ainda não há edema periférico. Na insuficiência cardíaca crônica, o aumento da drenagem linfática inicialmente compensa os fatores que favorecem o edema, retardando temporariamente seu desenvolvimento.',
       explI:[{option:'A',explanation:'A permeabilidade capilar não se altera na insuficiência cardíaca.'},{option:'B',explanation:'A aldosterona está elevada (não diminuída) na IC, promovendo retenção de sódio.'},{option:'C',explanation:'A diminuição da pressão intersticial favoreceria o edema, não o preveniria.'},{option:'D',explanation:'A pressão oncótica plasmática está diminuída (não aumentada) na IC devido à hemodiluição.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0006', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiac_arrhythmias', difficulty:'medium',
+    { id:'CMQ-STEP1-CVS-0006', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiac_arrhythmias', difficulty:'hard',
       vignette:'An 82-year-old man with recent atrial fibrillation (discharged 2 weeks ago on oral meds), hypertension, and severe COPD. He now has syncope and constipation. BP 105/60, pulse 50/min. ECG: new-onset second-degree AV block.',
       q:'Which of the following drugs is the most likely cause of his current condition?',
       options:[{label:'A',text:'Amlodipine'},{label:'B',text:'Diltiazem'},{label:'C',text:'Hydrochlorothiazide'},{label:'D',text:'Lidocaine'},{label:'E',text:'Propranolol'},{label:'F',text:'Terazosin'},{label:'G',text:'Valsartan'}],
@@ -384,7 +384,7 @@
       explC:'Constipação + bloqueio atrioventricular de segundo grau (síncope) = efeitos adversos de bloqueador dos canais de cálcio não di-hidropiridínico (diltiazem/verapamil). Esses fármacos bloqueiam os canais de cálcio tipo L, reduzindo a condução no nó AV. Efeitos cronotrópico e inotrópico negativos. A constipação decorre da redução da contração da musculatura lisa colônica.',
       explI:[{option:'A',explanation:'O anlodipino é um BCC di-hidropiridínico com efeitos mínimos sobre a condução cardíaca. Não causa BAV.'},{option:'C',explanation:'A hidroclorotiazida é um diurético para hipertensão, não para FA. Não causa BAV.'},{option:'D',explanation:'A lidocaína é usada para arritmias ventriculares, não para FA.'},{option:'E',explanation:'O propranolol pode causar BAV, mas é evitado em DPOC grave e não causa constipação.'},{option:'F',explanation:'A terazosina causa hipotensão ortostática, não BAV.'},{option:'G',explanation:'A valsartana não causa BAV nem constipação.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::coronary_heart_disease', difficulty:'medium', img:['assets/qbank/CMQ-STEP1-CVS-0007_cardiac_output_venous_return_curves.png'],
+    { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::coronary_heart_disease', difficulty:'easy', img:['assets/qbank/CMQ-STEP1-CVS-0007_cardiac_output_venous_return_curves.png'],
       vignette:'The cardiac output and venous return curves of a healthy person are shown with solid lines. The dashed lines depict decreased cardiac output with unchanged venous return (unchanged blood volume and TPR).',
       q:'Which of the following is the most likely cause of the change depicted by the dashed lines?',
       options:[{label:'A',text:'Excessive hydration'},{label:'B',text:'Acute hemorrhage'},{label:'C',text:'Chronic anemia'},{label:'D',text:'Myocardial infarction'},{label:'E',text:'Anaphylaxis'}],
@@ -412,7 +412,7 @@
       explC:'TVS (taquicardia supraventricular) em um homem jovem, encerrada por injeção IV rápida com rubor/dispneia transitórios = adenosina. Ela bloqueia a condução no nó AV com meia-vida ultracurta (~10 segundos), explicando os efeitos colaterais transitórios.',
       explI:[{option:'B',explanation:'A amiodarona tem início de ação lento, não é usada para o encerramento agudo de TVS.'},{option:'C',explanation:'A digoxina tem início de ação lento (horas), não é usada para TVS aguda.'},{option:'D',explanation:'A ibutilida é usada para flutter/fibrilação atrial, não para TVS.'},{option:'E',explanation:'A lidocaína é usada para arritmias ventriculares.'},{option:'F',explanation:'O verapamil pode encerrar a TVS, mas tem início mais lento e perfil de efeitos colaterais diferente.'}]} },
 
-    { id:'CMQ-STEP1-CVS-0009', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::cardiovascular_drugs', difficulty:'hard',
+    { id:'CMQ-STEP1-CVS-0009', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::cardiovascular_drugs', difficulty:'medium',
       vignette:'A 44-year-old woman with pyelonephritis and septic shock (BP 80/40, pulse 140/min) receives IV phenylephrine. Her heart rate decreases to 100/min.',
       q:'The infusion most likely induced which of the following intracellular changes?',
       options:[{label:'A',text:'Decreased cAMP in ventricular myocytes, Increased IP3 in vascular smooth muscle, Decreased inward calcium current in SA nodal cells'},{label:'B',text:'Decreased cAMP in ventricular myocytes, Decreased IP3 in vascular smooth muscle, No change in SA nodal calcium current'},{label:'C',text:'Increased cAMP in ventricular myocytes, Increased IP3 in vascular smooth muscle, Increased SA nodal calcium current'},{label:'D',text:'Increased cAMP in ventricular myocytes, No change in IP3, Increased SA nodal calcium current'},{label:'E',text:'No change in cAMP, Decreased IP3 in vascular smooth muscle, Decreased SA nodal calcium current'}],
@@ -434,7 +434,7 @@
             "system": "renal_urinary",
             "discipline": "histology",
             "category": "renal_urinary::glomerular_diseases",
-            "difficulty": "medium",
+            "difficulty": "easy",
             "vignette": "An 8-year-old boy is brought to the office due to acute facial puffiness. His mother reports that for the preceding 24 hours he has been easily fatigued and has had dark urine. The patient was treated for a skin infection 3 weeks ago but has no chronic medical conditions. Temperature is 36.1 C (97 F) and blood pressure is 140/94 mm Hg. Physical examination shows periorbital edema and mild pitting edema along the ankles. The remainder of the examination shows no abnormalities. A representative renal biopsy sample is shown in the image below:",
             "q": "The fluorescent areas on the slide most likely indicate the presence of which of the following substances?",
             "options": [
@@ -557,7 +557,7 @@
             "system": "female_repro_breast",
             "discipline": "histology",
             "category": "female_repro_breast::breast_disorders",
-            "difficulty": "medium",
+            "difficulty": "hard",
             "vignette": "A 34-year-old woman comes to the office with bleeding from the right nipple. The patient has noticed blood staining her bra on several occasions over the past week but has no fever or breast pain. She has no chronic medical conditions and does not take any medications. Breast examination shows no palpable masses or skin changes. A thin, blood-tinged discharge can be expressed from the right nipple. There are no enlarged axillary lymph nodes.",
             "q": "Which of the following is the most likely histopathologic finding in this patient's right breast?",
             "options": [
@@ -663,7 +663,7 @@
             "system": "female_repro_breast",
             "discipline": "histology",
             "category": "female_repro_breast::menstrual_disorders_contraception",
-            "difficulty": "medium",
+            "difficulty": "hard",
             "vignette": "A 42-year-old woman, gravida 4 para 4, comes to the office due to heavy and painful menstrual bleeding over the past 3 months. The patient's last menstrual period was 3 weeks ago. Menarche was at age 10, and menstrual periods last for 3-5 days and occur every 30 days. She is sexually active with her husband and does not have pain with intercourse. The patient had a bilateral tubal ligation 3 years ago after the birth of her last child. She takes no medications and has no allergies. BMI is 24 kg/m². Vital signs are normal. On bimanual examination, the uterus is uniformly enlarged and tender. Urine β-hCG is negative.",
             "q": "Which of the following is the most likely cause of this patient's symptoms?",
             "options": [
@@ -769,7 +769,7 @@
             "system": "renal_urinary",
             "discipline": "histology",
             "category": "renal_urinary::glomerular_diseases",
-            "difficulty": "medium",
+            "difficulty": "easy",
             "vignette": "A 9-year-old girl is brought to the office due to 2 days of face and eye puffiness. The patient was treated for a rash on her leg with an antibiotic about 3 weeks ago. Temperature is 37.2 C (99 F) and blood pressure is 150/90 mm Hg. On physical examination, there is generalized edema but no rash. Urinalysis reveals proteinuria and hematuria. An electron microscopy image representative of this patient's disease process is shown below:",
             "q": "The area marked by the arrow most likely represents which of the following?",
             "options": [
@@ -1280,6 +1280,7 @@
     const slug = topicSlug(q);
     const topic = sys && sys.subs ? sys.subs.find(([s])=>s===slug) : null;
     const subjectId = q.discipline || 'misc';
+    const libraryNum = [1,2,3].includes(q.library) ? q.library : 1; // default: Library 1 (QBank 1); set q.library:2/3 to route to a future library
     return {
       subjectId,
       subject: DISCIPLINE_LABELS[subjectId] || titleFromSlug(subjectId),
@@ -1287,7 +1288,8 @@
       system: sys ? txLabel(sys.name) : titleFromSlug(systemId),
       topicId: subjId(systemId, slug),
       topic: topic ? txLabel(topic[1]) : titleFromSlug(slug),
-      libraryPath: `Medical Library > Library 1 > ${sys ? txLabel(sys.name) : titleFromSlug(systemId)} > ${topic ? txLabel(topic[1]) : titleFromSlug(slug)}`
+      libraryNum,
+      libraryPath: `Medical Library > Library ${libraryNum} > ${sys ? txLabel(sys.name) : titleFromSlug(systemId)} > ${topic ? txLabel(topic[1]) : titleFromSlug(slug)}`
     };
   }
   function allDisciplines(){
@@ -1333,6 +1335,9 @@
       correctBadge:'Correct', incorrectBadge:'Incorrect', omittedBadge:'Omitted',
       eduObjective:'Educational objective', peerTitle:'Peer answer choices', chosePct:p=>`${p}% chose this`, avgClass:'class average',
       addFlash:'+ Add to Flashcards', addNote:'+ Notebook', explanation:'Explanation',
+      // preview mode (staging review before commit)
+      previewBanner:n=>`🔍 PREVIEW MODE — ${n} newly added question${n===1?'':'s'}, shown in order. This is read-only: answers are disabled and nothing is saved to your progress/analytics.`,
+      previewMissing:ids=>`⚠ ID(s) not found in the bank: ${ids.join(', ')}`,
       // root cause
       rcTitle:'Why did you miss this?', rcSub:'One tap — this powers your Directed Pass and analytics.', rcSkip:'Skip',
       // results
@@ -1374,6 +1379,8 @@
       correctBadge:'Correta', incorrectBadge:'Incorreta', omittedBadge:'Omitida',
       eduObjective:'Objetivo educacional', peerTitle:'Escolhas dos colegas', chosePct:p=>`${p}% escolheram`, avgClass:'média da turma',
       addFlash:'+ Criar Flashcard', addNote:'+ Caderno', explanation:'Explicação',
+      previewBanner:n=>`🔍 MODO PREVIEW — ${n} questão${n===1?'':'ões'} recém-adicionada${n===1?'':'s'}, na ordem enviada. Somente leitura: respostas ficam desabilitadas e nada é salvo no seu progresso/análises.`,
+      previewMissing:ids=>`⚠ ID(s) não encontrado(s) no banco: ${ids.join(', ')}`,
       rcTitle:'Por que você errou?', rcSub:'Um toque — isso alimenta sua Passada Dirigida e as análises.', rcSkip:'Pular',
       resTitle:'Resultado do bloco', score:'Nota', bySystem:'Por sistema', reviewQ:'Revisar questões', surgical:'⚑ Gerar Revisão Cirúrgica', surgicalSub:n=>`Monta um teste focado na sua causa de erro mais frequente (${n} questões).`,
       backHome:'Voltar ao Banco', reviewAll:'Revisar todas as respostas', imageHint:'Clique para ampliar a imagem',
@@ -1574,6 +1581,20 @@
     host.classList.add('qb-host');
     document.querySelector('#internalContent').classList.add('qb-wide');
     root = host;
+    // ?previewIds=ID1,ID2,... — modo de revisão isolada pré-commit (só leitura, não grava attempt/pass/sync)
+    const previewIds = params.get('previewIds');
+    if(previewIds){
+      const ids = previewIds.split(',').map(s=>s.trim()).filter(Boolean);
+      const found = ids.map(id=>SEED.find(q=>q.id===id)).filter(Boolean);
+      const missing = ids.filter(id=>!SEED.some(q=>q.id===id));
+      const test = { id:'preview', user_id:USER, test_type:'preview', filters:{}, mode:'tutor', secs:0,
+        status:'preview', qids:found.map(q=>q.id), idx:0, answers:{}, strikes:{}, times:{},
+        started_at:new Date().toISOString(), preview:true, previewMissing:missing };
+      view = found.length ? { name:'test', test, showAns:true, qStart:Date.now() } : { name:'home', sel:store.currentPass() };
+      render();
+      new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+      return;
+    }
     // pass folders abrem direto no Create Test pré-filtrado
     if(passFromPage[PAGE]) view = {name:'create', preset:{pass:passFromPage[PAGE]}};
     else {
@@ -1864,14 +1885,15 @@
 
     root.innerHTML = `
       <div class="qb qb-test">
+        ${T0.preview?`<div class="qb-preview-banner">${esc(t('previewBanner')(T0.qids.length))}${(T0.previewMissing&&T0.previewMissing.length)?`<br>${esc(t('previewMissing')(T0.previewMissing))}`:''}</div>`:''}
         <div class="qb-test-head">
           <span class="qb-qnum">${esc(t('qOf')(T0.idx+1,T0.qids.length))}</span>
           <div class="qb-head-tools">
             <button class="qb-tool ${flagged?'on':''}" data-act="flag">⚑ ${esc(flagged?t('unflag'):t('flag'))}</button>
             <button class="qb-tool" data-act="labs">🧪 ${esc(t('labValues'))}</button>
             <span class="qb-timer" id="qbTimer">00:00</span>
-            <button class="qb-tool warn" data-act="suspend">${esc(t('suspend'))}</button>
-            <button class="qb-tool danger" data-act="end">${esc(t('endBlock'))}</button>
+            ${T0.preview?'':`<button class="qb-tool warn" data-act="suspend">${esc(t('suspend'))}</button>
+            <button class="qb-tool danger" data-act="end">${esc(t('endBlock'))}</button>`}
           </div>
         </div>
 
@@ -1881,8 +1903,8 @@
             ${renderQImage(q)}
             <p class="qb-stem">${qbField(q.q, q.ptTranslation && q.ptTranslation.q)}</p>
             <div class="qb-opts">${q.options.map(opt).join('')}</div>
-            ${!answered?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
-            ${revealed?renderExplanation(q,ans):''}
+            ${(!answered && !T0.preview)?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
+            ${revealed?renderExplanation(q,ans,T0.preview):''}
           </div>
         </div>
 
@@ -1903,9 +1925,10 @@
     return imgs.filter(Boolean).map(src => `<figure class="qb-question-image"><img src="${esc(src)}" alt="Question image" loading="lazy" decoding="async" /><figcaption>${esc(t('imageHint'))}</figcaption></figure>`).join('');
   }
 
-  function renderExplanation(q,ans){
+  function renderExplanation(q,ans,preview){
     const correct = ans===q.correct;
-    const badge = ans==null? `<span class="qb-badge om">${esc(t('omittedBadge'))}</span>`
+    const badge = preview? `<span class="qb-badge ok">${esc(t('correctBadge'))}</span>`
+      : ans==null? `<span class="qb-badge om">${esc(t('omittedBadge'))}</span>`
       : correct? `<span class="qb-badge ok">${esc(t('correctBadge'))}</span>`
       : `<span class="qb-badge bad">${esc(t('incorrectBadge'))}</span>`;
     const links = store.linksFor(q.id).length;
@@ -1965,7 +1988,9 @@
   }
 
   function submitAnswer(auto){
-    const T0=view.test, q=store.question(T0.qids[T0.idx]);
+    const T0=view.test;
+    if(T0.preview) return; // preview mode: read-only, never records attempts/saves state
+    const q=store.question(T0.qids[T0.idx]);
     const ans = auto? null : T0.pending;
     const time=Math.round((Date.now()-(view.qStart||Date.now()))/1000);
     T0.answers[q.id]= ans==null? (T0.answers[q.id]??null) : ans;
@@ -1996,6 +2021,7 @@
 
   function endBlock(){
     const T0=view.test;
+    if(T0.preview) return; // preview mode: never records attempts/saves state
     // registra omitidas restantes
     if(!T0._recorded)T0._recorded={};
     T0.qids.forEach(qid=>{ if(!T0._recorded[qid]){ const q=store.question(qid);
@@ -2241,11 +2267,11 @@
       case 'submit': submitAnswer(false); break;
       case 'flag': store.toggleFlag(currentQ().id); render(); break;
       case 'labs': openLabs(); break;
-      case 'suspend': if(confirm(t('confirmSuspend'))){ const s=serializeTest(view.test); s.status='suspended'; store.saveTest(s); if(timerH)clearInterval(timerH); go({name:'home'});} break;
-      case 'end': if(confirm(t('confirmEnd'))) endBlock(); break;
-      case 'prev': if(view.test.idx>0){view.test.idx--; view.showAns=false; view.test.pending=null; render();} break;
-      case 'next': if(view.test.idx<view.test.qids.length-1){view.test.idx++; view.showAns=false; view.test.pending=null; render();} break;
-      case 'goto': { view.test.idx=+el.dataset.n; view.showAns=false; view.test.pending=null; render(); break; }
+      case 'suspend': if(view.test.preview){ go({name:'home'}); break; } if(confirm(t('confirmSuspend'))){ const s=serializeTest(view.test); s.status='suspended'; store.saveTest(s); if(timerH)clearInterval(timerH); go({name:'home'});} break;
+      case 'end': if(view.test.preview){ go({name:'home'}); break; } if(confirm(t('confirmEnd'))) endBlock(); break;
+      case 'prev': if(view.test.idx>0){view.test.idx--; view.showAns=!!view.test.preview; view.test.pending=null; render();} break;
+      case 'next': if(view.test.idx<view.test.qids.length-1){view.test.idx++; view.showAns=!!view.test.preview; view.test.pending=null; render();} break;
+      case 'goto': { view.test.idx=+el.dataset.n; view.showAns=!!view.test.preview; view.test.pending=null; render(); break; }
       case 'flash': openFlashcard(currentQ(), view.test.answers[currentQ().id]); break;
       case 'note': openNote(currentQ()); break;
       // resultados

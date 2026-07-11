@@ -1,6 +1,58 @@
 # CoupleMed QBank — Documentação Completa
 
-> Referência definitiva do módulo QBank: como adicionar questões, como todos os sistemas funcionam, e como cada funcionalidade se conecta.
+> Referência definitiva do módulo QBank: como adicionar questões, como todos os sistemas funcionam, e como cada funcionalidade se conecta com o resto do site.
+> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "incluir questões" (ou variações), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão. Última auditoria completa contra o código real: 2026-07-11.
+
+---
+
+## 0. PROCEDIMENTO PADRÃO — o que fazer quando o usuário disser "incluir questões"
+
+1. **Pedir o material** (se ainda não enviado): foto/print/texto das questões. Confirmar se é sistema/disciplina conhecidos ou se você deve identificar pelo conteúdo.
+2. **Aplicar a Regra de Fidelidade (Seção 0.1)** — transcrição verbatim, sem exceções, pois todo o material é conteúdo próprio do usuário.
+3. Para cada questão:
+   a. Definir `id` seguindo a Seção 3 e checar duplicidade: `grep -n "'CMQ-STEP1-{SIGLA}-" public/js/qbank.js`.
+   b. Definir `system` / `discipline` / `category` usando a Seção 5 (TAXONOMY). Se o subtópico não existir, registrar antes na Seção 6.
+   c. Transcrever vignette/q/options/correct/explC/explI/objective/peer **exatamente como enviado** (Seção 0.1).
+   c2. Calcular `difficulty` a partir do `peer` da alternativa correta (Seção 0.2) — nunca estimar "no olho".
+   d. Escrever `ptTranslation` completo no mesmo passo (Seção 17) — nunca deixar para depois.
+   e. Se houver imagem: processar segundo a Seção 19 (crop/resize/nome/local) **antes** de referenciar no campo `img`.
+   f. Inserir o objeto dentro do `// BATCH` correspondente em `SEED` (`public/js/qbank.js`), preservando a organização por sistema. Criar novo `// BATCH` só se não existir um para aquele sistema.
+   g. Deixar `library` omitido (= Library 1) a menos que o usuário tenha dito explicitamente que a leva é para Library 2/3 (ver Seção 4b — hoje isso só muda o rótulo exibido, pois Library 2/3 não têm QBank funcional ainda).
+4. Depois de inserir **todas** as questões da leva, rodar `node --check public/js/qbank.js` para garantir que não há erro de sintaxe.
+5. Gerar o link de preview isolado (Seção 20) com os IDs da leva, na ordem, e abrir no navegador para o usuário revisar — **nunca pular esta etapa e nunca commitar sem aprovação explícita dele**.
+6. Só depois da aprovação: `git add`/`git commit` (nunca `push` sem pedido explícito). Rodar o Checklist da Seção 23 antes de comitar.
+
+---
+
+## 0.1 REGRA DE FIDELIDADE — leia antes de transcrever qualquer questão
+
+**Todo o material de questões enviado pelo usuário é conteúdo próprio/original dele.** Este é o site e material de estudos pessoal do usuário — ele não pode ter nenhuma questão errada.
+
+Ao transcrever uma questão a partir do material enviado (foto, print, texto):
+- Transcreva **exatamente como enviado, verbatim** — vinheta, enunciado, todas as alternativas, gabarito (resposta correta) e comentários/explicações. Não parafraseie, não resuma, não "melhore" a redação.
+- **Nunca invente** gabarito, explicação ou percentual de `peer` que não esteja no material enviado. O material do usuário já inclui a resposta correta e o percentual de acerto/escolha por alternativa — transcreva esses números exatamente como fornecidos (garantindo que a soma dê 100; se a soma do material não bater 100 exatamente, avise o usuário antes de ajustar). Se algum dado estiver faltando, pergunte ao usuário em vez de supor ou gerar um valor plausível.
+- Sempre revise a questão renderizada via preview isolado (Seção 20) antes de comitar.
+
+Não existe modo "reescrever" para essas questões — isso só se aplicaria se o usuário explicitamente avisasse que uma leva veio de um banco comercial (UWorld/AMBOSS/etc.), o que não é o caso deste site.
+
+---
+
+## 0.2 REGRA DE DIFICULDADE — como calcular o campo `difficulty`
+
+**A dificuldade nunca é escolhida "no olho" — é sempre calculada a partir do `peer` da alternativa correta** (o `%` de colegas que acertaram, campo `peer[correct]`, transcrito verbatim do material do usuário conforme Seção 0.1).
+
+| Dificuldade | % de acerto da alternativa correta (`peer[correct]`) |
+|---|---|
+| `easy` | ≥ 70% |
+| `medium` | 50% a 69% |
+| `hard` | < 50% |
+| `medium` | quando a questão **não tem** `peer` (default) |
+
+**Como aplicar:**
+1. Depois de transcrever `peer` (Seção 0.1) e confirmar `correct`, pegar `peer[correct]` (ex.: `correct:'A'` e `peer:{A:71,...}` → 71%).
+2. Classificar pela tabela acima e preencher `difficulty` com o valor resultante.
+3. Se a questão não vier com `peer` no material (raro, mas pode acontecer), usar `difficulty:'medium'` como default — nunca deixar em branco nem inventar um `peer` só para calcular a dificuldade (isso violaria a Seção 0.1).
+4. Essa regra vale para **toda questão nova**, sem exceção — inclusive ao editar/corrigir uma questão já existente, se o `peer` dela mudar.
 
 ---
 
@@ -10,23 +62,30 @@
 public/js/qbank.js
 ```
 
-Todo o QBank (dados + lógica + UI) vive neste único arquivo. Estrutura interna:
+Todo o QBank (dados + lógica + UI) vive neste único arquivo (~2290 linhas). Estrutura interna:
 
 | Seção | Linhas aprox. | O que é |
 |---|---|---|
 | `const SEED = [...]` | ~42–1128 | Array com todas as questões |
+| `window.CMSearchProviders.qbank` | ~1140 | Provider da busca global (Seção 18) |
 | `ROOT_CAUSES` | ~1172 | 5 causas-raiz de erro disponíveis |
 | `const TAXONOMY` | ~1183 | Hierarquia de sistemas e subtópicos |
 | `SYSTEM_ALIASES` | ~1257 | Aliases de IDs de sistemas |
 | `DISCIPLINE_LABELS` | ~1267 | Mapa discipline → label exibido |
-| `const store` | ~1431 | Camada de dados (lê/grava localStorage) |
-| `filterPool` | ~1524 | Filtragem de questões para Create Test |
-| `renderHome` | ~1605 | Pass Navigator (tela inicial) |
-| `renderCreate` | ~1738 | Create Test (filtros) |
-| `renderTest` | (após renderCreate) | Tela de resolução das questões |
-| `renderResults` | ~2011 | Tela de resultados do bloco |
-| `renderAnalytics` | ~2056 | Analytics (desempenho, causas-raiz) |
-| Modais | ~2086 | Root Cause, Flashcard, Notebook, Lab Values |
+| `metaFor(q)` | ~1277 | Deriva Subject/System/Topic/Library de uma questão |
+| `const T` (i18n de interface) | ~1309 | Strings EN/PT dos botões/labels |
+| `const store` | ~1438 | Camada de dados (lê/grava localStorage) |
+| `filterPool` / `availablePool` | ~1526 | Filtragem de questões para Create Test |
+| `boot()` | ~1578 | Entrada do módulo — inclui o modo preview (Seção 20) |
+| `renderHome` | ~1611 | Pass Navigator (tela inicial) |
+| `renderCreate` | ~1745 | Create Test (filtros) |
+| `startTest` / `renderTest` | ~1835/1861 | Início e tela de resolução das questões |
+| `submitAnswer` / `endBlock` | ~1990/2022 | Gravação de attempts (Seção 10) |
+| `renderResults` | ~2035 | Tela de resultados do bloco |
+| `renderAnalytics` | ~2075 | Analytics (Seção 13) |
+| Modais | ~2118 | Root Cause, Flashcard, Notebook, Lab Values |
+
+Outros arquivos que **leem ou escrevem dados do QBank** (mapa completo na Seção 21): `public/js/site.js` (menu, busca, sidebar), `public/js/cm-sync.js` (sincronização multi-aparelho), `public/js/notebook.js` (referências), `public/js/flashcards.js` (taxonomia espelhada, não lê SEED), `public/css/qbank.css` (estilos, inclusive das imagens).
 
 ---
 
@@ -39,7 +98,8 @@ Todo o QBank (dados + lógica + UI) vive neste único arquivo. Estrutura interna
   system:'cardiovascular',
   discipline:'pathophysiology',
   category:'cardiovascular::valvular_heart_diseases',
-  difficulty:'medium',           // 'easy' | 'medium' | 'hard'
+  difficulty:'medium',           // 'easy' | 'medium' | 'hard' — calculado a partir de peer[correct], ver Seção 0.2
+  library:1,                     // OPCIONAL — 1|2|3. Default 1 se omitido. Ver Seção 4b.
 
   // conteúdo
   vignette:'Texto da vinheta clínica...',
@@ -63,13 +123,13 @@ Todo o QBank (dados + lógica + UI) vive neste único arquivo. Estrutura interna
   ],
   objective:'Frase única com o ponto de aprendizado principal.',
 
-  // peer stats — % de escolha por alternativa (deve somar 100)
+  // peer stats — % de escolha por alternativa (deve somar 100) — vem do material do usuário, nunca inventar (Seção 0.1)
   peer:{A:71, B:9, C:12, D:5, E:3},
 
-  // OPCIONAL: imagem exibida na vinheta
+  // OPCIONAL: imagem exibida na vinheta — string ou array de strings. Ver Seção 19 antes de gerar o arquivo.
   img:'assets/qbank/CMQ-STEP1-CVS-0001_nome_imagem.png',
 
-  // OPCIONAL mas recomendado: tradução PT-BR completa
+  // OPCIONAL mas recomendado: tradução PT-BR completa (não existe tradução separada para img — ver Seção 19)
   ptTranslation:{
     vignette:'Vinheta em português...',
     q:'Pergunta em português?',
@@ -94,7 +154,7 @@ Todo o QBank (dados + lógica + UI) vive neste único arquivo. Estrutura interna
 
 ### Questões com 6 alternativas
 
-Apenas acrescentar mais uma opção em `options` (label `F`) e adicionar `F` em `peer` e `explI`. O sistema detecta automaticamente.
+Apenas acrescentar mais uma opção em `options` (label `F`) e adicionar `F` em `peer` e `explI`. O sistema detecta automaticamente (não há limite de alternativas verificado no código, mas 5–6 é o padrão do banco).
 
 ---
 
@@ -128,6 +188,8 @@ Apenas acrescentar mais uma opção em `options` (label `F`) e adicionar `F` em 
 | Dermatology | DER |
 | Allergy & Immunology | IMM |
 
+Antes de usar um ID, sempre confirmar que não existe: `grep -n "id:'CMQ-STEP1-CVS-0007'" public/js/qbank.js` (ou o ID exato que for usar).
+
 ---
 
 ## 4. Sistema de classificação (system / category / discipline)
@@ -136,7 +198,9 @@ Estes três campos controlam:
 - **Onde a questão aparece** nos filtros do Create Test
 - **Quais chips (tags) aparecem** no final da explicação (Subject / System / Topic)
 
-### Como as tags são geradas automaticamente
+### 4a. Como as tags são geradas automaticamente
+
+Tudo é derivado por `metaFor(q)` (`public/js/qbank.js` ~linha 1277) — **não existe passo manual de tagging**.
 
 | Chip exibido | Campo da questão | Exemplo |
 |---|---|---|
@@ -145,6 +209,15 @@ Estes três campos controlam:
 | **Topic** | parte após `::` em `category` | `hypothesis_testing` → "Hypothesis testing" |
 
 > Se um slug de topic não existir no TAXONOMY, o sistema gera o label via `titleFromSlug` (converte `snake_case` → "Title Case"). Para label exato (ex: "Hypothesis testing" em vez de "Hypothesis Testing"), registrar no TAXONOMY — ver Seção 6.
+
+### 4b. Library (1/2/3) — para qual biblioteca a questão é roteada
+
+Cada questão carrega um campo opcional `library` (`1`, `2` ou `3`) que define o prefixo exibido no rodapé da explicação: `Medical Library > Library {N} > {System} > {Topic}` (função `metaFor()`, `public/js/qbank.js` ~linha 1277, campo implementado em 2026-07-11).
+
+- **Default: `library:1`** — se o campo não for informado (caso de todas as ~700 questões existentes), a questão é tratada como Library 1.
+- **Hoje só existe conteúdo/UI para QBank 1 (Library 1).** `Library 2` e `Library 3` já aparecem no menu de navegação (`public/js/site.js`) e `Library 2` já tem sua lista de pastas temáticas (`LIB_FOLDERS['library-2']`, estilo Step 2 CK: Biochemistry, Immunology, Microbiology, Pathology, General Pharmacology, Biostatistics, Public Health Science, Cardiovascular, Endocrinology, GI, Heme/Onc, MSK/Skin/CT, Neurology, Psychiatry, Nephrology, Reproductive, Pulmonology), mas **não existe ainda nenhum array de questões tipo `SEED` nem tela de resolução para QBank 2/3** — `qbank-2` está em `COMING_SOON_PAGES` (`public/js/site.js`).
+- Setar `library:2` ou `library:3` numa questão nova hoje só afeta a tag/rótulo exibido (`libraryPath`) — **não** move a questão pra uma tela diferente, pois essa tela ainda não existe.
+- Enquanto o usuário não pedir para construir o QBank 2/3 completo (nova tela, novo SEED, filtros, passadas — tarefa grande, separada), toda questão nova entra em `library:1` (ou omite o campo, que é o mesmo). Só usar 2/3 se o usuário disser explicitamente que a leva é destinada a outra library.
 
 ### Tabela de Disciplinas (`discipline`)
 
@@ -166,6 +239,8 @@ Estes três campos controlam:
 | `biostatistics` | Biostatistics |
 | `ethics` | Ethics |
 | `social_sciences` | Social Sciences |
+
+Um `discipline` fora dessa lista ainda funciona (vira Title Case automático via `titleFromSlug`), só não terá o label "bonito" da tabela.
 
 ---
 
@@ -400,6 +475,8 @@ Se o subtópico ainda não existe, localizar o sistema no TAXONOMY (~linha 1183)
 ]},
 ```
 
+Se quiser tradução PT correta desse label (senão cai automaticamente no inglês), adicionar também em `TAX_PT` (~linha 1241, dicionário `{'English label':'Rótulo em português'}`).
+
 ---
 
 ## 7. Sistema de Passadas (Pass Navigator)
@@ -420,8 +497,10 @@ O QBank usa passadas sequenciais — o usuário faz o banco inteiro múltiplas v
   - 1 attempt → passada 2
   - 2 attempts → passada 3
   - 3+ attempts → passada dirigida (99)
-- `passProgress(pn)` retorna `{total, answered, pct, done}`
+- `passProgress(pn)` retorna `{total, answered, pct, done}`, onde **`total` = `SEED.length` no momento do cálculo**
 - A passada N está **concluída** quando TODAS as questões têm ≥ N attempts
+
+> ⚠ **Efeito colateral de adicionar questões:** como `total` é sempre `SEED.length` (o banco inteiro), toda vez que uma leva de questões novas é comitada, o denominador de `passProgress` aumenta imediatamente para todos os usuários — inclusive quem já tinha uma passada em 100% pode ver a % cair, e uma passada antes "completed" pode voltar a `active` até ele responder as novas questões daquela passada. Isso é esperado/correto (mais questões = mais para estudar), mas **avise o usuário** ao comitar uma leva grande, para ele não estranhar o dashboard.
 
 **Passada Dirigida (99):**
 - Pool dinâmico: questões com último attempt `incorrect` OU com flag ativo
@@ -431,7 +510,7 @@ O QBank usa passadas sequenciais — o usuário faz o banco inteiro múltiplas v
 ```js
 localStorage.setItem('couplemed_qb_unlock_john', '3'); // desbloqueia até passada 3
 ```
-O usuário `john` (USER = 'john') é admin e bypassa os locks.
+O usuário `john` (USER exatamente igual a `'john'`) é o único tratado como admin no código (`isAdmin(){ return USER==='john'; }`) e bypassa os locks automaticamente. `alysson` **não** é admin nesse módulo, mesmo sendo um dos dois usuários "premium" do site — para ele, o desbloqueio manual acima (com `couplemed_qb_unlock_alysson`) é necessário se for preciso pular locks.
 
 ---
 
@@ -470,6 +549,8 @@ O usuário `john` (USER = 'john') é admin e bypassa os locks.
 - Botões Anterior / Próxima — navega sem submeter
 - Grid de questões no rodapé — clique direto em qualquer número
 
+> No **modo preview** (Seção 20) esta tela é reaproveitada, mas Submit/Suspend/End Block ficam ocultos e a explicação já aparece revelada desde o início — é só leitura, nada aqui é gravado.
+
 ---
 
 ## 10. Persistência — localStorage
@@ -506,7 +587,7 @@ db = {
 }
 ```
 
-> **Importante:** attempts são INSERT-only. O sistema NUNCA modifica um attempt já gravado. O `pass_number` é calculado no momento da gravação com base nos attempts anteriores daquela questão.
+> **Importante:** attempts são INSERT-only. O sistema NUNCA modifica um attempt já gravado. O `pass_number` é calculado no momento da gravação com base nos attempts anteriores daquela questão. O modo preview (Seção 20) nunca chama `addAttempt`/`saveTest` — é a única forma segura de "abrir" uma questão sem gerar histórico permanente.
 
 ---
 
@@ -555,12 +636,13 @@ Acesso: botão "Análises" na tela Home.
 - Omitidas são excluídas do cálculo de % de acerto
 - Cada attempt conta independentemente (usuário pode ter múltiplas tentativas da mesma questão)
 - Analytics só aparece quando `store.allAttempts().length > 0`
+- Uma questão nova só aparece nos painéis depois que o usuário a responder pelo menos uma vez fora do modo preview
 
 ---
 
 ## 14. SmartCards — Integração com Flashcards
 
-Botão "**+ Add to Flashcards**" disponível na explicação de cada questão.
+Botão "**+ Add to Flashcards**" disponível na explicação de cada questão (inclusive no modo preview).
 
 **O que acontece:**
 1. Abre modal com campo "Front" (usuário escreve) e "Back" (pré-preenchido com `explC` + `objective`)
@@ -579,27 +661,28 @@ Botão "**+ Add to Flashcards**" disponível na explicação de cada questão.
 }
 ```
 
-O deck criado se chama **"QBank SmartCards"** (ou "QBank SmartCards" em PT) e aparece normalmente no módulo de Flashcards.
+O deck criado se chama **"QBank SmartCards"** (mesmo nome em PT) e aparece normalmente no módulo de Flashcards. O módulo Flashcards (`public/js/flashcards.js`) espelha a mesma taxonomia (Systems > Subjects) do QBank só para fins de filtro — ele **não lê o SEED diretamente**, só os cards já criados.
 
 ---
 
 ## 15. Caderno (Notebook)
 
-Botão "**+ Caderno**" disponível na explicação de cada questão.
+Botão "**+ Caderno**" disponível na explicação de cada questão (inclusive no modo preview).
 
 - Abre modal com textarea livre
 - Nota salva em `db.notebook[]` com `{id, question_id, content, created_at}`
 - Notas aparecem indexadas na **busca global do site** (categoria "QBank · Notebook")
+- O módulo Notebook (`public/js/notebook.js`) também permite, de dentro de uma nota qualquer, **linkar** para uma questão do QBank colando o ID — isso só cria um link de referência (`app.html?page=qbank-1&u=USER&q=ID`), nunca modifica a questão. Hoje esse `?q=` não é interpretado por `qbank.js` para abrir a questão diretamente (não há handler no `boot()`) — é só um rótulo/link para o QBank em geral, então não depender dele para abrir uma questão específica.
 
 ---
 
 ## 16. Lab Values — Popup de referência
 
-Botão "**Valores Lab**" durante a resolução de questões.
+Botão "**Valores Lab**" durante a resolução de questões (inclusive no modo preview).
 
-Valores disponíveis no popup (bilíngue EN/PT):
+Valores disponíveis no popup — **fixos e globais, os mesmos para toda questão** (não são por questão), bilíngue EN/PT:
 
-| Sigla | Faixa | 
+| Sigla | Faixa |
 |---|---|
 | Na⁺ | 136–145 mEq/L |
 | K⁺ | 3.5–5.0 mEq/L |
@@ -614,42 +697,77 @@ Valores disponíveis no popup (bilíngue EN/PT):
 | Platelets | 150–400 ×10³/mm³ |
 | TSH | 0.4–4.0 µU/mL |
 
-> Para adicionar um novo valor de laboratório, editar o array `rows` dentro da função `openLabs()` (~linha 2154).
+> Para adicionar um novo valor de laboratório, editar o array `rows` dentro da função `openLabs()` (~linha 2177). Isso é uma mudança de código, não algo que se faz por questão.
 
 ---
 
-## 17. i18n — Internacionalização
+## 17. i18n — Internacionalização (tradução)
 
 O QBank tem dois sistemas de tradução separados:
 
 ### Interface (botões, labels)
-- Objeto `T` com sub-objetos `en` e `pt`
+- Objeto `T` com sub-objetos `en` e `pt` (~linha 1309)
 - Seleciona automaticamente com base em `document.documentElement.lang`
 - Função `t(key)` retorna o label no idioma ativo
 
-### Conteúdo das questões (vinheta, opções, explicações)
-- Se `ptTranslation` existir na questão, usa diretamente quando o idioma é PT-BR
-- Se não existir, tenta tradução automática via `window.CMI18N` (motor compartilhado com Library e Flashcards)
+### Conteúdo das questões (vinheta, opções, explicações) — critério obrigatório para questões novas
+- Se `ptTranslation` existir na questão, usa diretamente quando o idioma é PT-BR (função `qbField(en, ptVal)`)
+- Se não existir, tenta tradução automática via `window.CMI18N` (motor compartilhado com Library e Flashcards, mais lento e menos preciso)
 - O original em inglês **nunca é sobrescrito** — apenas a exibição muda
-- Função `qbField(en, ptVal)` — usa ptVal se idioma PT e ptVal existe, senão usa CMI18N
-
-> **Melhor prática:** sempre incluir `ptTranslation` completo nas questões novas para evitar depender da API de tradução automática.
+- **Toda questão nova precisa do `ptTranslation` completo** no mesmo commit (nunca deixar para depois): `vignette`, `q`, `objective`, `options` (todas as letras), `explC`, `explI` (todas as incorretas). Ver estrutura completa na Seção 2.
+- A tradução deve preservar exatamente o sentido/conteúdo do original verbatim (Seção 0.1) — é uma versão fiel em PT-BR da mesma questão, não uma paráfrase nem uma "melhoria" em nenhum dos dois idiomas.
+- **Não existe campo de imagem por idioma.** O campo `img` (Seção 19) é único e compartilhado entre EN e PT — não há `ptTranslation.img` nem equivalente no código atual. Se uma imagem tiver texto/rótulos em inglês que atrapalhem o estudo em PT, isso precisa ser resolvido na própria imagem (Seção 19), não via campo de tradução.
 
 ---
 
 ## 18. Busca Global
 
-O QBank registra um provider em `window.CMSearchProviders.qbank` que indexa:
-- Vinheta, stem, alternativas, explicação e objetivo de cada questão
+O QBank registra um provider em `window.CMSearchProviders.qbank` (~linha 1140) que indexa:
+- Vinheta, stem, alternativas, explicação e objetivo de cada questão (só em inglês — o índice de busca usa os campos originais, não o `ptTranslation`)
 - Notas do Caderno do usuário
 
-Isso acontece **independente de estar na página do QBank** — o provider é registrado ao carregar o JS, permitindo que a busca global do site encontre questões mesmo em outras páginas.
+Isso acontece **independente de estar na página do QBank** — o provider é registrado assim que `qbank.js` carrega em qualquer página do site (o registro fica ANTES do guard de página), permitindo que a busca global encontre questões mesmo fora do QBank. Toda questão nova em `SEED` entra automaticamente nesse índice, sem passo manual.
 
 ---
 
-## 19. Questões com imagem
+## 19. Imagens — workflow completo (posicionamento, recorte, redimensionamento)
 
-Para questões com imagem na vinheta, adicionar o campo `img`:
+### 19.1 O que o CSS faz — e o que ele NÃO faz
+
+A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linha 313):
+- Container: `max-width: min(760px, 100%)`, com padding e borda.
+- `<img>`: `max-width:100%`, `max-height:420px` (desktop) / `300px` (mobile ≤640px), `object-fit:contain`.
+
+**`object-fit:contain` só encolhe a imagem para caber na caixa, preservando a proporção original — ele nunca corta nem reposiciona nada.** Isso significa que **todo o recorte e enquadramento precisam ser feitos por você (Claude) antes de salvar o arquivo**, não pelo CSS. Uma imagem com margem sobrando, texto de gabarito colado, ou watermark do material original vai aparecer exatamente assim no site — pequena e com espaço desperdiçado — se não for tratada antes.
+
+> **Nota factual:** a legenda abaixo da imagem diz "Clique para ampliar" (`t('imageHint')`), mas **não existe nenhum listener de clique/zoom implementado no código atual** — a imagem não é clicável hoje. Não prometer esse comportamento ao usuário; se ele quiser um lightbox de verdade, é uma feature nova a implementar, não algo que já funciona.
+
+### 19.2 Ferramentas disponíveis neste ambiente (verificado 2026-07-11)
+
+- **Python + Pillow** — instalado nesta sessão via `python3 -m pip install --user pillow` (já presente; reinstalar só se o ambiente for outro). Uso: recorte por retângulo exato, redimensionamento com boa qualidade (`LANCZOS`), conversão de formato.
+- **`sips`** (nativo do macOS, sempre disponível) — bom para redimensionar rápido ou converter formato, mas seu crop (`--cropToHeightWidth`) é sempre centralizado; não serve para recortar uma região arbitrária (ex: tirar uma legenda em um canto). Use Pillow quando o recorte precisar ser assimétrico.
+
+### 19.3 Processo obrigatório por imagem
+
+1. **Receber a imagem original** (screenshot/foto do material do usuário) e salvar temporariamente no scratchpad.
+2. **Recortar (crop)** removendo tudo que não faz parte da figura em si: margens de página, número da questão, texto de gabarito/explicação que porventura esteja colado na mesma imagem, watermarks. Só a figura clínica/diagrama relevante deve sobrar. Exemplo com Pillow:
+   ```python
+   from PIL import Image
+   im = Image.open('original.png')
+   im.crop((left, top, right, bottom)).save('cropped.png')  # coordenadas em pixels
+   ```
+3. **Redimensionar** para um tamanho eficiente e nítido dentro do container real do site — como a caixa tem no máximo 760px de largura exibida, mas telas retina mostram 2x, o ideal é salvar a imagem com **~1200–1600px de largura** (ou a largura nativa se for menor) mantendo a proporção original, sem forçar um aspect ratio diferente do da imagem-fonte. Nunca estique/distorça.
+   ```python
+   im.thumbnail((1600, 1600))  # mantém proporção, não amplia além do original
+   im.save('final.png', optimize=True)
+   ```
+4. **Formato:** PNG para diagramas/ilustrações/linhas (texto nítido, sem artefato de compressão); JPG (qualidade ~85) para fotos clínicas/histologia reais, para manter o arquivo leve.
+5. **Nome do arquivo:** `{ID}_descricao_curta.png` (ou `.jpg`), ex: `CMQ-STEP1-CVS-0007_cardiac_output_venous_return_curves.png` — sempre em inglês, snake_case ou kebab-case, descrevendo o conteúdo da imagem.
+6. **Local:** salvar em `public/assets/qbank/`.
+7. **Múltiplas imagens na mesma questão:** usar array no campo `img: ['assets/qbank/ID_parte1.png', 'assets/qbank/ID_parte2.png']` — todas empilhadas verticalmente na vinheta, cada uma respeitando os mesmos limites de tamanho.
+8. **Revisar sempre no preview (Seção 20)** antes de aprovar — é a única forma de ver exatamente como a imagem vai renderizar (tamanho final, corte, nitidez) dentro do layout real do site.
+
+### 19.4 Campo no objeto da questão
 
 ```js
 { id:'CMQ-STEP1-CVS-0001', ...,
@@ -658,27 +776,51 @@ Para questões com imagem na vinheta, adicionar o campo `img`:
 }
 ```
 
-- Imagens ficam em `public/assets/qbank/`
-- Convenção de nome: `{ID}_descricao_curta.png`
-- Clicável para ampliar (toast "Clique para ampliar a imagem")
+Não existe campo de imagem separado para a explicação (`explImg` não existe no código) nem campo de imagem por idioma (`ptTranslation.img` não existe) — só o único campo `img`, compartilhado, renderizado sempre logo após a vinheta e antes do enunciado (`q`).
 
 ---
 
-## 20. Testar localmente
+## 20. Testar localmente e revisar antes de aprovar
 
-**Opção rápida** (sem login, funciona para QBank):
+### 20.1 Opção rápida — sem servidor, sem login (funciona para QBank)
 ```bash
 open public/app.html
 # No navegador: app.html?page=qbank-1&u=guest1
 ```
+Ou servir a pasta (evita qualquer restrição de `file://`, recomendado ao usar o preview):
+```bash
+cd public && python3 -m http.server 8791
+# http://localhost:8791/app.html?page=qbank-1&u=guest1
+```
 
-**Com worker completo** (login + D1):
+### 20.2 Com worker completo (login real + sincronização D1)
 ```bash
 npx wrangler dev
 # Acesse: http://localhost:8787
 ```
+> ⚠ Só ao usar o worker completo com um usuário real (`john`/`alysson`) é que `cm-sync.js` sincroniza o estado com o banco D1 remoto. No modo estático (`open` ou `http.server`), tudo fica só no localStorage local do navegador — não há risco de sincronizar dado de teste para a nuvem por engano, **exceto** se o próprio usuário estiver rodando o worker completo enquanto você testa.
 
-**URLs de acesso direto por passada:**
+### 20.3 `previewIds` — revisão isolada das questões novas (implementado e testado em 2026-07-11)
+
+```
+app.html?page=qbank-1&u=USER&previewIds=ID1,ID2,ID3
+```
+
+- Abre **só** as questões listadas em `previewIds` (IDs separados por vírgula), **na ordem exata em que foram passadas**, sem embaralhar e sem misturar com o resto do banco.
+- A explicação de cada questão já aparece **revelada automaticamente** (gabarito, explicação, peer stats, imagem) — não é preciso clicar em nada para ver o resultado final.
+- Um banner amarelo no topo confirma "PREVIEW MODE — N questões" e lista qualquer ID que não tenha sido encontrado no banco (erro de digitação, questão ainda não inserida etc.).
+- **100% somente-leitura, verificado no código e por teste automatizado (Playwright) nesta sessão:** os botões Submit, Suspend e End Block ficam ocultos; clicar numa alternativa não faz nada; `submitAnswer()` e `endBlock()` têm um retorno antecipado quando `T0.preview` é verdadeiro. Nenhum `attempt`, `test` ou dado de passada é gravado — `localStorage['couplemed_qb_USER']` fica exatamente como estava antes de abrir o preview. Isso significa que abrir o preview **nunca** afeta % de passada, Analytics, ou (se estiver rodando com o worker completo) a sincronização D1 do usuário real.
+- **Botões que continuam ativos no preview** (intencional): Flag, "+ Add to Flashcards" e "+ Notebook" — são ações aditivas que o usuário pode querer fazer já durante a revisão, e não geram attempt nem afetam passada/analytics.
+- Navegação: Prev/Next/clique no grid mantêm a explicação sempre revelada (não precisa clicar de novo a cada questão).
+- Implementado em `boot()` (~linha 1580, branch `previewIds`) e em pontos pontuais de `renderTest`/`submitAnswer`/`endBlock`/switch de ações (buscar `T0.preview` ou `view.test.preview` no arquivo para ver todos os pontos).
+
+**Fluxo recomendado ao terminar uma leva de questões:**
+1. Montar a URL com os IDs da leva, na ordem em que foram adicionadas.
+2. Servir/abrir localmente (20.1) e navegar até a URL de preview.
+3. Mostrar/descrever ao usuário (ou abrir com `open` diretamente para ele) e aguardar aprovação explícita de cada questão.
+4. Só depois disso, commitar.
+
+### 20.4 URLs de acesso direto por passada
 ```
 app.html?page=qbank-1         → QBank Home (Pass Navigator)
 app.html?page=qbank1-pass-1   → Create Test pré-filtrado: Passada 1
@@ -687,22 +829,87 @@ app.html?page=qbank1-pass-3   → Create Test pré-filtrado: Passada 3
 app.html?page=qbank1-pass-4   → Create Test pré-filtrado: Passada Dirigida
 ```
 
-**Parâmetros de URL:**
+### 20.5 Parâmetros de URL úteis
 ```
 ?u=john        → abre como usuário john (admin, sem locks)
+?u=alysson     → abre como usuário alysson (não é admin — ver Seção 7)
+?u=guest1      → usuário de teste, sem tocar em dados reais de ninguém (default se ?u= for omitido)
 ?pass=2        → abre Home com Passada 2 selecionada
+?previewIds=ID1,ID2 → modo preview isolado (Seção 20.3)
 ```
+
+**Recomendação:** para qualquer teste que não seja o preview isolado (ex: navegar o Create Test normal para conferir se a questão aparece no filtro certo), usar sempre `u=guest1` (ou outro usuário de teste) — nunca `u=john`/`u=alysson` — para não gerar attempts reais nas contas do casal por engano.
 
 ---
 
-## 21. Checklist antes de commitar
+## 21. Como o QBank se conecta com o resto do site (mapa de integração)
+
+Lista de todo ponto de contato encontrado no código entre o QBank e outros módulos — relevante porque adicionar uma questão nova automaticamente "aparece" em todos esses lugares, sem passo manual extra:
+
+| Módulo/arquivo | Conexão com o QBank |
+|---|---|
+| `public/js/site.js` | Menu lateral (QBank 1/2, Library 1/2/3), título de página (`PAGE_TITLE_KEYS`), índice de busca global consome `window.CMSearchProviders.qbank` |
+| `public/js/cm-sync.js` | Sincroniza a chave `qb` (todo o blob de `couplemed_qb_{USER}`) entre aparelhos via `/api/state`, só quando rodando com o worker completo (Seção 20.2) e usuário logado. Resolução de conflito é "last write wins" por `updated_at` |
+| `public/js/notebook.js` | Permite criar um link de referência para uma questão do QBank a partir de uma nota (não modifica a questão; ver Seção 15) |
+| `public/js/flashcards.js` | Espelha a mesma taxonomia (Systems > Subjects) do QBank só para os filtros de Flashcards — não lê `SEED`. A ligação real de dados acontece via SmartCards (Seção 14), que grava direto no banco de Flashcards |
+| `public/css/qbank.css` | Todo o estilo visual, inclusive as regras de imagem (Seção 19.1) |
+| `window.CMI18N` (`public/js/i18n-content.js`) | Motor de tradução automática compartilhado — usado como fallback quando uma questão não tem `ptTranslation` (Seção 17) |
+
+**Não existe** hoje: handler de `?q=ID` para abrir uma questão específica direto por URL (só um link "de fachada" existe em `notebook.js`, sem contraparte em `qbank.js`); lightbox/zoom de imagem (Seção 19.1); QBank 2/Library 2/3 funcionais (Seção 4b).
+
+---
+
+## 22. Breakpoints responsivos do site (espelhado de `RESPONSIVE_BREAKPOINTS.md`)
+
+> Fonte fixa/canônica: `RESPONSIVE_BREAKPOINTS.md` na raiz do projeto. Este conteúdo é uma cópia mantida em sincronia aqui para que a leitura de **apenas este arquivo** já seja suficiente — se um dia os dois divergirem, `RESPONSIVE_BREAKPOINTS.md` é quem vale, e esta seção deve ser atualizada para bater com ele. Relevante para QBank sempre que uma questão tiver imagem (Seção 19) ou se o usuário pedir ajuste visual na tela do QBank.
+
+### 22.1 Os 3 breakpoints estruturais (desktop → iPad → mobile)
+
+| Breakpoint | Alvo | O que muda estruturalmente |
+|---|---|---|
+| `max-width:1180px` | iPad landscape / laptop pequeno | `--sidebar` encolhe para `214px`; `.dashboard-strip` vira 4 colunas; 2 últimos `.action` do dashboard somem; `.brand strong` reduz para 15px |
+| `max-width:820px` | iPad portrait / tablet | **O mais importante do site**: aparece `.mobile-menu-button` (hambúrguer fixo); `.sidebar` sai da tela e só volta com `.sidebar.open`; `.sidebar-scrim.open` cobre a tela; `.dashboard-strip` vira 1 coluna; `.progress-card` some |
+| `max-width:520px` | Celular | `.platform-main` remove padding lateral; `.internal-card` perde borda lateral/arredondamento (cards full-width); `.brand` reduz margem |
+
+### 22.2 Breakpoint específico do QBank (`public/css/qbank.css`)
+
+| Linha | Breakpoint | O que acontece |
+|---|---|---|
+| 20 | `max-width:640px` | `#internalContent.qb-wide .internal-card` reduz padding |
+| 82 | `max-width:900px` | `.qb-stepper` (navegador de passadas) quebra linha; `.qb-step` ~44% cada; conector some |
+| 83 | `max-width:560px` | Cada `.qb-step` ocupa 100% |
+| 118 | `max-width:720px` | `.qb-row` (grid 2 colunas do Create Test) vira 1 coluna |
+| 246 | `max-width:640px` | Tela de resultados/resolução empilha em coluna (`.qb-perf`, `.qb-res-top`, `.qb-nav`, `.qb-head-tools`) |
+| 259 | `max-width:820px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna |
+| 344 | `max-width:640px` | Imagem da questão: reduz padding/margem, `max-height` cai para 300px, legenda some — **ver Seção 19.1, é o valor usado no workflow de imagem** |
+
+### 22.3 Demais módulos (referência rápida — tabela completa por linha está em `RESPONSIVE_BREAKPOINTS.md`)
+
+| Módulo/arquivo | Breakpoints | Resumo |
+|---|---|---|
+| `styles.css` — Flashcards | 820px, 900px, 560px, 640px | Stats/decks/taxonomia/performance reorganizam em menos colunas |
+| `styles.css` — Settings | 768px, 900px, 560px | Navegação vira horizontal rolável, painéis viram 1 coluna |
+| `styles.css` — My Workspace | 720px | Grid de cards vira 1 coluna, título reduz para 26px |
+| `notebook.css` | 1024px, 640px | Grid de notas, cabeçalho e editor adaptam |
+| `ai-tutor-widget.css` | 480px | Widget reposiciona mais perto da borda |
+
+**640px é o valor mais reaproveitado entre módulos** ("virou mobile" daquele componente); **820px é o breakpoint crítico global** (hambúrguer) — qualquer elemento fixo/flutuante precisa considerar essa faixa para não sobrepor o botão do menu.
+
+---
+
+## 23. Checklist antes de commitar
 
 - [ ] `id` único (grep para confirmar que não existe)
-- [ ] `system` e `category` válidos (consultar Seção 5)
-- [ ] `peer` soma exatamente 100
+- [ ] `system`, `category` e `discipline` válidos (consultar Seções 4 e 5) — ou subtópico novo registrado no TAXONOMY (Seção 6)
+- [ ] Vignette/q/options/correct/explC/explI/objective transcritos **verbatim** do material do usuário (Seção 0.1)
+- [ ] `peer` veio do material do usuário e soma exatamente 100 (Seção 0.1) — nunca inventado
 - [ ] `correct` é uma das letras em `options`
+- [ ] `difficulty` calculado a partir de `peer[correct]` pela tabela da Seção 0.2 (não escolhido no olho)
 - [ ] `explI` cobre TODAS as alternativas incorretas
-- [ ] `ptTranslation` incluída com todos os campos
-- [ ] Se tiver imagem: arquivo em `public/assets/qbank/` com nome correto
-- [ ] Testado localmente: questão aparece no filtro correto do Create Test
-- [ ] Testado localmente: responder a questão gera attempt e aparece em Analytics
+- [ ] `ptTranslation` incluída com todos os campos, fiel ao original (Seção 17)
+- [ ] Se tiver imagem: processada segundo a Seção 19 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`)
+- [ ] `library` omitido (ou explicitamente `1`) a menos que o usuário tenha pedido Library 2/3 (Seção 4b)
+- [ ] `node --check public/js/qbank.js` sem erro de sintaxe
+- [ ] Leva inteira revisada via `previewIds` (Seção 20.3) e **aprovada explicitamente pelo usuário**
+- [ ] Se a leva for grande, avisar o usuário sobre o efeito no % de passadas (Seção 7)
+- [ ] Só depois de tudo isso: commit (nunca push sem pedido explícito)

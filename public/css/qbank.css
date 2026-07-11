@@ -134,6 +134,7 @@ body.light .qb{
 .qb-nomatch{margin-top:12px;color:var(--qb-om);font-size:13px}
 
 /* -------- TESTE / RESOLUÇÃO -------- */
+.qb-preview-banner{background:rgba(249,182,74,.14);border:1px solid var(--qb-om);color:var(--qb-text);font-size:13px;font-weight:700;line-height:1.5;padding:12px 16px;border-radius:10px;margin-bottom:16px}
 .qb-test-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--qb-line);margin-bottom:18px}
 .qb-qnum{font-size:14px;font-weight:700;color:var(--qb-text)}
 .qb-head-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
