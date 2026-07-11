@@ -88,6 +88,8 @@ Todo o QBank (dados + lógica + UI) vive neste único arquivo (~2290 linhas). Es
 
 Outros arquivos que **leem ou escrevem dados do QBank** (mapa completo na Seção 21): `public/js/site.js` (menu, busca, sidebar), `public/js/cm-sync.js` (sincronização multi-aparelho), `public/js/notebook.js` (referências), `public/js/flashcards.js` (taxonomia espelhada, não lê SEED), `public/css/qbank.css` (estilos, inclusive das imagens).
 
+**`SEED` é global — não é armazenado por usuário.** É um array fixo, compilado dentro do próprio `qbank.js` e servido igual para todo mundo; `store.questions()`/`store.question(id)` (~linha 1896) apenas retornam esse array. Isso significa que toda questão nova commitada (Seção 0) fica automaticamente disponível para **todas as contas** do site — hoje 6, verificado em `seed_users.sql` e em `USER_META` (`public/js/site.js` ~linha 25): `john`, `alysson`, `guest1`, `guest2`, `guest3`, `guest4`. Não existe limite de contas em `worker.js`: qualquer `uid` inserido na tabela `users` do D1 ganha automaticamente seu próprio balde de progresso (Seção 10), sem precisar mudar nada no código do QBank. Ver Seção 10 para o que É armazenado por usuário (nunca o conteúdo da questão em si, só o progresso).
+
 ---
 
 ## 2. Estrutura de uma questão (SEED)
@@ -610,6 +612,16 @@ db = {
 ```
 
 > **Importante:** attempts são INSERT-only. O sistema NUNCA modifica um attempt já gravado. O `pass_number` é calculado no momento da gravação com base nos attempts anteriores daquela questão. O modo preview (Seção 20) nunca chama `addAttempt`/`saveTest` — é a única forma segura de "abrir" uma questão sem gerar histórico permanente.
+
+### 10.1 Arquitetura multi-usuário (contas reais, não é só john/alysson)
+
+Confirmado por auditoria em 2026-07-11: o site já está preparado para **6 contas reais**, não só as 2 do casal.
+
+- **Contas hoje:** `john`, `alysson`, `guest1`, `guest2`, `guest3`, `guest4` — todas cadastradas na tabela `users` do D1 (`seed_users.sql`), cada uma com hash de senha PBKDF2 próprio (login real, não é um `?u=` livre). `USER_META` em `public/js/site.js` (~linha 25) espelha essas 6 para exibir nome/avatar.
+- **Sem limite de contas no backend:** `worker.js` não tem nenhuma checagem de "só 2 usuários" — login é só `SELECT ... FROM users WHERE login=?` (`worker.js:257`). Qualquer linha nova na tabela `users` já funciona para login e sincronização, sem mudar código. Para criar uma conta nova hoje é preciso inserir direto no D1 via `wrangler d1 execute` (não existe endpoint de "criar usuário" na UI) — depois disso, opcionalmente adicionar a entrada em `USER_META` (`site.js`) só para aparecer bonito no painel admin de Usuários; sem isso a conta funciona igual, só aparece com o `uid` cru em vez do nome de exibição.
+- **`isAdmin()` é o único ponto realmente hardcoded a um único usuário:** `qbank.js` (~linha 1952) checa `USER==='john'` literalmente (bypassa os locks de passada) — `alysson` **não** é admin nesse módulo, mesmo sendo conta "premium". Se um dia quiser um segundo admin, é aqui que mexe.
+- **Cada `uid` tem seu balde de progresso isolado automaticamente** (`user_state` no D1, bucket = `uid`) — não precisa de migração ao adicionar conta nova. O que é global (SEED, questões) x por usuário (attempts/tests/flags/notebook) está descrito na Seção 1 e no topo desta seção.
+- **⚠️ Nota de segurança:** `seed_users.sql` tem o comentário `-- NAO COMMITAR` no topo, mas está commitado no repositório com os hashes de senha reais das 6 contas. Ciente disso desde 2026-07-11 — decisão consciente de não mexer por ora (não remover/alterar por iniciativa própria); reabrir esse ponto se o repositório mudar de privado para público ou ganhar colaboradores externos.
 
 ---
 
