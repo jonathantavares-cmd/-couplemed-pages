@@ -124,6 +124,18 @@ Outros arquivos que **leem ou escrevem dados do QBank** (mapa completo na Seçã
   ],
   objective:'Frase única com o ponto de aprendizado principal.',
 
+  // Quando o material original explica 2+ alternativas incorretas juntas com o MESMO texto
+  // (padrão "(Choices B and C)" ou "(Choices A, B, D, E, and F)" do UWorld), NÃO duplicar o texto
+  // em uma entrada por letra — isso faz o mesmo parágrafo se repetir várias vezes na tela (bug já
+  // corrigido em BCH-0010, feedback do usuário em 2026-07-11). Em vez disso, usar UMA única entrada
+  // em explI com `option` contendo todas as letras juntas, exatamente como agrupadas no material:
+  //   {option:'B, D, and E', explanation:'texto único que vale para B, D e E...'}
+  // O renderer (renderExplanation, ~linha 2396) apenas concatena "${e.option}." + a explicação, então
+  // qualquer string funciona como label — não precisa ser uma letra isolada. Se o material agrupar
+  // as 5 alternativas incorretas em um único parágrafo, o array explI dessa questão terá 1 item só.
+  // A mesma regra vale para ptTranslation.explI (mesma string em `option` nos dois idiomas, pois a
+  // busca de tradução em ptExplIText faz comparação exata por `option`).
+
   // peer stats — % de escolha por alternativa (deve somar 100) — vem do material do usuário, nunca inventar (Seção 0.1)
   peer:{A:71, B:9, C:12, D:5, E:3},
 
