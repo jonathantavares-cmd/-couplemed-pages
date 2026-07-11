@@ -302,6 +302,9 @@ body:not(.light) .qb-rc-opt{--qb-card2:#122844}
 /* Lab Values premium tooltips — merged from Claude v39 */
 .qb-lab-hint{margin:2px 0 12px!important;font-size:12px;font-style:italic}
 .qb-labtable-tips td:first-child{overflow:visible}
+.qb-labtable-relevant{background:rgba(59,130,246,.08);border-radius:10px;margin-bottom:14px}
+.qb-labtable-relevant td{border-bottom-color:rgba(59,130,246,.18)}
+.qb-labtable-relevant td:first-child{color:var(--qb-text,#132235)}
 .qb-lab-term{position:relative;display:inline-flex;align-items:center;gap:5px;cursor:help;border-bottom:1px dotted currentColor;outline:none}
 .qb-lab-term::after{content:'?';font-size:9px;font-weight:700;width:13px;height:13px;border-radius:50%;border:1px solid currentColor;display:inline-flex;align-items:center;justify-content:center;opacity:.55}
 .qb-lab-tip{position:absolute;left:0;bottom:calc(100% + 8px);z-index:10;white-space:nowrap;background:#0b1930;color:#fff;font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .15s,transform .15s,visibility .15s;pointer-events:none}

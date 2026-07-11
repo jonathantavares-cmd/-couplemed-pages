@@ -14,6 +14,7 @@
    b. Definir `system` / `discipline` / `category` usando a Seção 5 (TAXONOMY). Se o subtópico não existir, registrar antes na Seção 6.
    c. Transcrever vignette/q/options/correct/explC/explI/objective/peer **exatamente como enviado** (Seção 0.1).
    c2. Calcular `difficulty` a partir do `peer` da alternativa correta (Seção 0.2) — nunca estimar "no olho".
+   c3. Se a questão mencionar/depender de algum exame laboratorial clinicamente relevante, escolher (com autonomia total, sem aprovação do usuário) quais exames incluir e pesquisar (WebSearch) a faixa de referência apropriada ao paciente daquela questão específica (idade/sexo/gravidez/condição), preenchendo o campo opcional `labs` (Seção 16b) — **única exceção tanto à Regra de Fidelidade (Seção 0.1) quanto à exigência geral de aprovação**: aqui, e só aqui, você pesquisa/decide sozinho, sem checar com o usuário antes ou depois. Todo o resto da questão continua proibido de ser inventado/alterado e a leva inteira ainda passa pelo preview (passo 5) para aprovação geral.
    d. Escrever `ptTranslation` completo no mesmo passo (Seção 17) — nunca deixar para depois.
    e. Se houver imagem: processar segundo a Seção 19 (crop/resize/nome/local) **antes** de referenciar no campo `img`.
    f. Inserir o objeto dentro do `// BATCH` correspondente em `SEED` (`public/js/qbank.js`), preservando a organização por sistema. Criar novo `// BATCH` só se não existir um para aquele sistema.
@@ -128,6 +129,15 @@ Outros arquivos que **leem ou escrevem dados do QBank** (mapa completo na Seçã
 
   // OPCIONAL: imagem exibida na vinheta — string ou array de strings. Ver Seção 19 antes de gerar o arquivo.
   img:'assets/qbank/CMQ-STEP1-CVS-0001_nome_imagem.png',
+
+  // OPCIONAL: valores de referência laboratoriais pertinentes a ESTA questão. Exames e faixas escolhidos
+  // com autonomia total por você (Claude) — sem aprovação do usuário para essa escolha — de acordo com o
+  // caso clínico, sinais/sintomas, sexo, idade, gravidez e histórico descritos na vinheta. Única exceção
+  // tanto à Regra de Fidelidade (Seção 0.1) quanto à exigência geral de aprovação. Ver Seção 16b completa.
+  labs:[
+    ['Ammonia (venous)', '15–45 µg/dL (≈9–26 µmol/L)', '15–45 µg/dL (≈9–26 µmol/L)',
+     'Elevated in urea cycle disorders', 'Elevada nos distúrbios do ciclo da ureia'],
+  ],
 
   // OPCIONAL mas recomendado: tradução PT-BR completa (não existe tradução separada para img — ver Seção 19)
   ptTranslation:{
@@ -678,9 +688,11 @@ Botão "**+ Caderno**" disponível na explicação de cada questão (inclusive n
 
 ## 16. Lab Values — Popup de referência
 
-Botão "**Valores Lab**" durante a resolução de questões (inclusive no modo preview).
+Botão "**Valores Lab**" durante a resolução de questões (inclusive no modo preview). Implementado em `openLabs(q)` (`public/js/qbank.js`, ~linha 2387), chamado como `openLabs(currentQ())` no switch de ações (`case 'labs'`).
 
-Valores disponíveis no popup — **fixos e globais, os mesmos para toda questão** (não são por questão), bilíngue EN/PT:
+### 16a. Lista fixa e global (sempre visível, todas as questões)
+
+Bilíngue EN/PT, igual para toda questão — editar o array `rows` dentro de `openLabs()` para mudar (mudança de código, não por questão):
 
 | Sigla | Faixa |
 |---|---|
@@ -697,7 +709,38 @@ Valores disponíveis no popup — **fixos e globais, os mesmos para toda questã
 | Platelets | 150–400 ×10³/mm³ |
 | TSH | 0.4–4.0 µU/mL |
 
-> Para adicionar um novo valor de laboratório, editar o array `rows` dentro da função `openLabs()` (~linha 2177). Isso é uma mudança de código, não algo que se faz por questão.
+### 16b. Valores pertinentes por questão (campo opcional `labs`, implementado em 2026-07-11)
+
+Além da lista fixa acima, cada questão pode ter um campo opcional `labs` — um array de exames/valores **especificamente relevantes àquela questão** (ex.: amônia numa questão de ciclo da ureia, vitamina C numa questão de escorbuto). Quando presente, esses valores aparecem em destaque (fundo azul claro) no **topo** do popup, acima da lista fixa, sob o rótulo "Relevant to this question" / "Relevante para esta questão".
+
+**Formato** (mesma convenção da lista fixa — array de tuplas `[termo, faixa_EN, faixa_PT, significado_EN, significado_PT]`):
+```js
+labs:[
+  ['Ammonia (venous)', '15–45 µg/dL (≈9–26 µmol/L)', '15–45 µg/dL (≈9–26 µmol/L)',
+   'Elevated in urea cycle disorders (eg, OTC deficiency) due to impaired ammonia clearance',
+   'Elevada nos distúrbios do ciclo da ureia (ex.: deficiência de OTC) por depuração prejudicada de amônia'],
+],
+```
+
+**⚠️ ÚNICA EXCEÇÃO à Regra de Fidelidade (Seção 0.1) — E ÚNICA PARTE DO PROCESSO SEM APROVAÇÃO DO USUÁRIO (definido por ele em 2026-07-11):**
+
+- O material do usuário (UWorld/prints) **não traz** valores de referência laboratoriais. Ele pediu explicitamente que você (Claude) **pesquise e preencha** esse campo por conta própria, e delegou **total autonomia** a você sobre: (1) quais exames incluir em cada questão, e (2) quais valores de referência usar para cada um. **Você não precisa da aprovação dele para essas duas escolhas** — nem exame por exame, nem faixa por faixa. Isso é diferente do resto do processo: vignette/options/peer/explicações continuam exigindo transcrição verbatim (Seção 0.1) e a leva inteira ainda passa pelo preview para aprovação geral antes de comitar (Seção 0, passo 5) — mas dentro desse preview, o conteúdo específico do campo `labs` não precisa de validação individual do usuário; ele confia no seu critério clínico para essa parte.
+
+- **Como decidir quais exames incluir em cada questão** — analise a questão como um todo (vinheta + achados clínicos + o que está sendo perguntado + `objective`/objetivo de aprendizado) e pergunte-se: *"que exame(s) um médico pediria nesse caso, e qual resultado ajudaria o usuário a fixar o conceito sendo testado?"*. Considere especificamente, sempre que estiverem presentes na vinheta:
+  - O **caso clínico e a anamnese** descritos — sintomas, queixa principal, história da doença atual.
+  - **Sinais clínicos e achados de exame físico** mencionados.
+  - **Sexo do paciente** (homem/mulher) — várias faixas de referência mudam por sexo (ex.: hemoglobina, creatinina, ácido orótico urinário).
+  - **Faixa etária** — recém-nascido, criança, adulto, idoso — várias faixas mudam com a idade (ex.: amônia neonatal é mais alta que a do adulto; função renal e hormônios mudam com a idade).
+  - **Gravidez**, quando aplicável — várias faixas mudam nesse estado fisiológico (ex.: fosfatase alcalina, D-dímero, hemoglobina, TSH).
+  - **Histórico pessoal e familiar de doenças** mencionado na vinheta.
+  - **O diagnóstico/mecanismo que a questão está de fato ensinando** (`objective`) — o exame escolhido deve reforçar diretamente esse aprendizado, não ser genérico ou decorativo.
+  - Nem toda questão precisa de `labs` — só inclua quando a vinheta de fato menciona ou depende de achado(s) laboratorial(is) relevante(s) ao raciocínio clínico. Não force um exame artificial numa questão puramente mecanística/bioquímica sem nenhum dado clínico laboratorial no enunciado.
+
+- **Faixas de referência NÃO são padronizadas — atenção redobrada ao pesquisar:** diferente da lista fixa global (Seção 16a, que usa faixas genéricas de "adulto saudável"), a faixa escolhida em `labs` deve refletir **o perfil do paciente daquela questão específica** sempre que idade/sexo/gravidez/condição afetarem significativamente o valor normal — não aplique cegamente uma faixa-padrão de adulto a uma criança, idoso, gestante etc. Pesquise (WebSearch) a faixa mais apropriada para aquele perfil. Quando não houver um valor único amplamente aceito (comum em exames menos padronizados, ex.: ácido orótico urinário), é preferível indicar isso ("varia por laboratório/método") a inventar uma precisão falsa.
+
+- **Mencionar a alteração esperada no INÍCIO do campo de significado** (campos 4 e 5 da tupla — `meaning_EN`/`meaning_PT`): antes de explicar o que o exame mede, diga primeiro se ele está esperado alto, baixo, ou alterado de que forma **naquele diagnóstico/questão específica** — ex.: começar com "Elevated in…" / "Decreased in…" / "Elevada em…" / "Diminuída em…". Assim, ao abrir o popup durante o estudo, o usuário vê de imediato qual é a alteração esperada para aquele caso, não só a faixa normal isolada.
+
+- **Não duplicar** um exame que já está na lista fixa (Seção 16a) a menos que a faixa específica da questão (por idade/sexo/condição) seja diferente da faixa genérica já exibida.
 
 ---
 
@@ -906,6 +949,7 @@ Lista de todo ponto de contato encontrado no código entre o QBank e outros mód
 - [ ] `correct` é uma das letras em `options`
 - [ ] `difficulty` calculado a partir de `peer[correct]` pela tabela da Seção 0.2 (não escolhido no olho)
 - [ ] `explI` cobre TODAS as alternativas incorretas
+- [ ] Se a questão menciona/depende de exame laboratorial relevante: campo `labs` preenchido, exame/faixa escolhidos com autonomia por você — Claude, sem necessidade de aprovação do usuário para essa escolha (Seção 16b, única exceção à Seção 0.1 e à exigência geral de aprovação)
 - [ ] `ptTranslation` incluída com todos os campos, fiel ao original (Seção 17)
 - [ ] Se tiver imagem: processada segundo a Seção 19 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`)
 - [ ] `library` omitido (ou explicitamente `1`) a menos que o usuário tenha pedido Library 2/3 (Seção 4b)
