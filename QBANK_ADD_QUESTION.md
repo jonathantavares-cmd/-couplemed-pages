@@ -14,14 +14,14 @@
    b. Definir `system` / `discipline` / `category` usando a Seção 5 (TAXONOMY). Se o subtópico não existir, registrar antes na Seção 6.
    c. Transcrever vignette/q/options/correct/explC/explI/objective/peer **exatamente como enviado** (Seção 0.1).
    c2. Calcular `difficulty` a partir do `peer` da alternativa correta (Seção 0.2) — nunca estimar "no olho".
-   c3. Se a questão mencionar/depender de algum exame laboratorial clinicamente relevante, escolher (com autonomia total, sem aprovação do usuário) quais exames incluir e pesquisar (WebSearch) a faixa de referência apropriada ao paciente daquela questão específica (idade/sexo/gravidez/condição), preenchendo o campo opcional `labs` (Seção 16b) — **única exceção tanto à Regra de Fidelidade (Seção 0.1) quanto à exigência geral de aprovação**: aqui, e só aqui, você pesquisa/decide sozinho, sem checar com o usuário antes ou depois. Todo o resto da questão continua proibido de ser inventado/alterado e a leva inteira ainda passa pelo preview (passo 5) para aprovação geral.
+   c3. Se a questão mencionar/depender de algum exame laboratorial clinicamente relevante, escolher (com autonomia total, sem aprovação do usuário) quais exames incluir e pesquisar (WebSearch) a faixa de referência apropriada ao paciente daquela questão específica (idade/sexo/gravidez/condição), preenchendo o campo opcional `labs` (Seção 16b) — **única exceção à Regra de Fidelidade (Seção 0.1)**: aqui, e só aqui, você pesquisa/decide sozinho, sem checar com o usuário antes ou depois. Todo o resto da questão continua proibido de ser inventado/alterado (transcrição verbatim).
    d. Escrever `ptTranslation` completo no mesmo passo (Seção 17) — nunca deixar para depois.
    e. Se houver imagem: processar segundo a Seção 19 (crop/resize/nome/local) **antes** de referenciar no campo `img`.
    f. Inserir o objeto dentro do `// BATCH` correspondente em `SEED` (`public/js/qbank.js`), preservando a organização por sistema. Criar novo `// BATCH` só se não existir um para aquele sistema.
    g. Deixar `library` omitido (= Library 1) a menos que o usuário tenha dito explicitamente que a leva é para Library 2/3 (ver Seção 4b — hoje isso só muda o rótulo exibido, pois Library 2/3 não têm QBank funcional ainda).
 4. Depois de inserir **todas** as questões da leva, rodar `node --check public/js/qbank.js` para garantir que não há erro de sintaxe.
-5. Gerar o link de preview isolado (Seção 20) com os IDs da leva, na ordem, e abrir no navegador para o usuário revisar — **nunca pular esta etapa e nunca commitar sem aprovação explícita dele**.
-6. Só depois da aprovação: `git add`/`git commit` (nunca `push` sem pedido explícito). Rodar o Checklist da Seção 23 antes de comitar.
+5. *(Opcional, só para conferência própria)* Gerar o link de preview isolado (Seção 20) com os IDs da leva — desde 2026-07-13 (mudança de política, ver Seção 0.3) **não é mais necessário abrir/enviar isso ao usuário nem aguardar aprovação antes de commitar**. Ele confere as questões depois direto no site publicado, localizando a leva pela seção/taxonomia (Seções 4/5) em que foi inserida.
+6. Rodar o Checklist da Seção 23 e, em seguida, `git add`/`git commit`/`git push` **automaticamente, sem esperar resposta do usuário e sem pedido explícito por leva** (mudança de política em 2026-07-13, Seção 0.3).
 
 ---
 
@@ -54,6 +54,31 @@ Não existe modo "reescrever" para essas questões — isso só se aplicaria se 
 2. Classificar pela tabela acima e preencher `difficulty` com o valor resultante.
 3. Se a questão não vier com `peer` no material (raro, mas pode acontecer), usar `difficulty:'medium'` como default — nunca deixar em branco nem inventar um `peer` só para calcular a dificuldade (isso violaria a Seção 0.1).
 4. Essa regra vale para **toda questão nova**, sem exceção — inclusive ao editar/corrigir uma questão já existente, se o `peer` dela mudar.
+
+---
+
+## 0.3 GATILHO "incluir questões novas" — varredura automática de pasta e processamento em lote (implementado 2026-07-13)
+
+Quando o usuário disser especificamente **"incluir questões novas"** (em vez de colar/enviar o material direto no chat), o procedimento é diferente do passo 1 da Seção 0:
+
+1. **Localizar a pasta**: `/Users/jonathan/Desktop/Questões novas/`. Varrer **recursivamente** — pode haver múltiplas subpastas dentro dela, com nomes/localizações diferentes a cada leva (por tema, por data, por lote enviado etc.), em qualquer profundidade. Listar todo arquivo de imagem (screenshot/foto de questão) encontrado.
+2. **Processar TODAS as questões encontradas, independente da quantidade** — 50, 100, 200, 300 ou mais. Nunca parar no meio nem perguntar se deve continuar para o próximo lote. Trabalhar em lotes menores (5 questões por vez é o padrão sugerido, mas outro tamanho pode ser usado se ajudar a manter a qualidade da transcrição) e seguir automaticamente lote após lote, aplicando o procedimento completo da Seção 0 (fidelidade 0.1, dificuldade 0.2, labs 16b, tradução 17, imagem 19, taxonomia/dedup de ID Seção 3) em cada questão, até que **a pasta inteira** tenha sido incluída no SEED.
+3. **Exceções que ainda exigem parar e perguntar ao usuário** (não cobertas pela autonomia deste modo): dado realmente ausente no material (Seção 0.1 — nunca inventar), imagem corrompida/ilegível, ou ambiguidade de taxonomia que não seja resolvível sozinho consultando a Seção 5/6.
+4. Rodar `node --check public/js/qbank.js` ao final de cada lote (pega erro de sintaxe cedo) e novamente ao final da pasta inteira.
+5. Depois que **toda a pasta** tiver sido processada: *(opcional)* gerar o(s) link(s) de preview (Seção 20.3) só para conferência própria — não precisa ser aberto/enviado ao usuário.
+6. Seguir para `git add`/`git commit`/`git push` **automaticamente** (Seção 0, passos 5–6 — mudança de política em 2026-07-13: nem commit nem push esperam aprovação ou pedido explícito por leva). O usuário confere depois direto no site publicado, localizando as questões novas pela seção/taxonomia em que foram inseridas.
+
+**Sobre permissões de comando:** desde 2026-07-13, comandos de terminal (Bash/Read/Write) rodam em modo bypass — não pedem mais aprovação individual —, por isso este modo consegue rodar do início ao fim sem interrupção por prompt de permissão. Isso é independente da exigência de fidelidade (Seção 0.1), que continua valendo normalmente: só o gate de *aprovação humana antes do commit* foi removido, não a exigência de transcrever certo.
+
+**Sobre o computador entrar em repouso/pausa durante o processamento:**
+- Se o Mac entrar em sleep físico de verdade (tela apagada + sistema suspenso), o processo é pausado no nível do sistema operacional — nenhum software continua rodando durante o sleep real; isso é limitação de hardware/SO, não do Claude. Ao acordar o Mac, a sessão retoma sozinha de onde parou — nada se perde, porque cada questão já inserida fica salva em disco imediatamente, arquivo por arquivo. Não é preciso reiniciar do zero.
+- Para evitar que o Mac durma no meio de uma leva grande, recomenda-se rodar `caffeinate -dis` num terminal separado antes de pedir "incluir questões novas" (impede sleep de tela e sistema enquanto o comando estiver ativo), ou desativar temporariamente o sleep em Ajustes do Sistema → Bateria/Energia.
+- Se a sessão cair por outro motivo (rede, terminal fechado), é só retomar a conversa — o `qbank.js` já reflete tudo que foi inserido até aquele ponto, então o próximo passo não duplica nada (checagem de duplicidade de ID continua valendo normalmente, Seção 3).
+
+**Sobre atingir o limite de uso/tokens do Claude durante o processamento (regra do usuário, 2026-07-13):**
+- Se o limite de uso do Claude for atingido no meio de uma leva grande **e o usuário não trocar para outra conta** para continuar, a expectativa dele é: aguardar o limite ser liberado de novo e **retomar automaticamente de onde parou**, sem pedir nada a mais e sem reprocessar/pular nenhuma questão.
+- Na prática, para isso funcionar: manter a sessão do Claude Code aberta (não fechar o terminal/app) até o limite renovar — normalmente a mensagem pendente fica na fila e é reenviada automaticamente assim que a janela de uso libera de novo. Se por algum motivo isso não acontecer sozinho (varia por versão/plano), uma simples mensagem do usuário como "continuar" depois que o limite liberar é suficiente — a checagem de duplicidade de ID (Seção 3) garante que o processamento retoma exatamente do próximo arquivo de imagem ainda não incluído no SEED, sem repetir nem pular nada.
+- Isso não exige o computador ligado ativamente processando o tempo todo — só não fechar a sessão do Claude Code enquanto se espera o limite renovar (mesma lógica do sleep do Mac, acima: nada se perde porque cada questão já commitada/pushada fica salva permanentemente a cada leva).
 
 ---
 
@@ -147,7 +172,7 @@ Outros arquivos que **leem ou escrevem dados do QBank** (mapa completo na Seçã
   // OPCIONAL: valores de referência laboratoriais pertinentes a ESTA questão. Exames e faixas escolhidos
   // com autonomia total por você (Claude) — sem aprovação do usuário para essa escolha — de acordo com o
   // caso clínico, sinais/sintomas, sexo, idade, gravidez e histórico descritos na vinheta. Única exceção
-  // tanto à Regra de Fidelidade (Seção 0.1) quanto à exigência geral de aprovação. Ver Seção 16b completa.
+  // à Regra de Fidelidade (Seção 0.1) — o resto da questão continua verbatim. Ver Seção 16b completa.
   labs:[
     ['Ammonia (venous)', '15–45 µg/dL (≈9–26 µmol/L)', '15–45 µg/dL (≈9–26 µmol/L)',
      'Elevated in urea cycle disorders', 'Elevada nos distúrbios do ciclo da ureia'],
@@ -746,9 +771,9 @@ labs:[
 ],
 ```
 
-**⚠️ ÚNICA EXCEÇÃO à Regra de Fidelidade (Seção 0.1) — E ÚNICA PARTE DO PROCESSO SEM APROVAÇÃO DO USUÁRIO (definido por ele em 2026-07-11):**
+**⚠️ ÚNICA EXCEÇÃO à Regra de Fidelidade (Seção 0.1) (definido por ele em 2026-07-11):**
 
-- O material do usuário (UWorld/prints) **não traz** valores de referência laboratoriais. Ele pediu explicitamente que você (Claude) **pesquise e preencha** esse campo por conta própria, e delegou **total autonomia** a você sobre: (1) quais exames incluir em cada questão, e (2) quais valores de referência usar para cada um. **Você não precisa da aprovação dele para essas duas escolhas** — nem exame por exame, nem faixa por faixa. Isso é diferente do resto do processo: vignette/options/peer/explicações continuam exigindo transcrição verbatim (Seção 0.1) e a leva inteira ainda passa pelo preview para aprovação geral antes de comitar (Seção 0, passo 5) — mas dentro desse preview, o conteúdo específico do campo `labs` não precisa de validação individual do usuário; ele confia no seu critério clínico para essa parte.
+- O material do usuário (UWorld/prints) **não traz** valores de referência laboratoriais. Ele pediu explicitamente que você (Claude) **pesquise e preencha** esse campo por conta própria, e delegou **total autonomia** a você sobre: (1) quais exames incluir em cada questão, e (2) quais valores de referência usar para cada um. **Você não precisa da aprovação dele para essas duas escolhas** — nem exame por exame, nem faixa por faixa. Isso é diferente do resto do processo: vignette/options/peer/explicações continuam exigindo transcrição verbatim (Seção 0.1) — a diferença é só essa fidelidade de conteúdo; desde 2026-07-13 não existe mais etapa de aprovação geral do usuário antes de commitar (Seção 0.3), então isso deixou de ser exceção nesse sentido para qualquer campo.
 
 - **Como decidir quais exames incluir em cada questão** — analise a questão como um todo (vinheta + achados clínicos + o que está sendo perguntado + `objective`/objetivo de aprendizado) e pergunte-se: *"que exame(s) um médico pediria nesse caso, e qual resultado ajudaria o usuário a fixar o conceito sendo testado?"*. Considere especificamente, sempre que estiverem presentes na vinheta:
   - O **caso clínico e a anamnese** descritos — sintomas, queixa principal, história da doença atual.
@@ -882,10 +907,8 @@ app.html?page=qbank-1&u=USER&previewIds=ID1,ID2,ID3
 - Implementado em `boot()` (~linha 1580, branch `previewIds`) e em pontos pontuais de `renderTest`/`submitAnswer`/`endBlock`/switch de ações (buscar `T0.preview` ou `view.test.preview` no arquivo para ver todos os pontos).
 
 **Fluxo recomendado ao terminar uma leva de questões:**
-1. Montar a URL com os IDs da leva, na ordem em que foram adicionadas.
-2. Servir/abrir localmente (20.1) e navegar até a URL de preview.
-3. Mostrar/descrever ao usuário (ou abrir com `open` diretamente para ele) e aguardar aprovação explícita de cada questão.
-4. Só depois disso, commitar.
+1. *(Opcional, só para conferência própria)* Montar a URL com os IDs da leva e servir/abrir localmente (20.1) antes de commitar.
+2. `git add`/`git commit`/`git push` automaticamente em seguida — desde 2026-07-13 nenhuma etapa espera aprovação ou pedido explícito do usuário (Seção 0.3). Ele confere depois direto no site publicado, localizando a leva pela seção/taxonomia (Seções 4/5) em que foi inserida.
 
 ### 20.4 URLs de acesso direto por passada
 ```
@@ -973,11 +996,11 @@ Lista de todo ponto de contato encontrado no código entre o QBank e outros mód
 - [ ] `correct` é uma das letras em `options`
 - [ ] `difficulty` calculado a partir de `peer[correct]` pela tabela da Seção 0.2 (não escolhido no olho)
 - [ ] `explI` cobre TODAS as alternativas incorretas
-- [ ] Se a questão menciona/depende de exame laboratorial relevante: campo `labs` preenchido, exame/faixa escolhidos com autonomia por você — Claude, sem necessidade de aprovação do usuário para essa escolha (Seção 16b, única exceção à Seção 0.1 e à exigência geral de aprovação)
+- [ ] Se a questão menciona/depende de exame laboratorial relevante: campo `labs` preenchido, exame/faixa escolhidos com autonomia por você — Claude, sem necessidade de aprovação do usuário para essa escolha (Seção 16b, única exceção à Seção 0.1)
 - [ ] `ptTranslation` incluída com todos os campos, fiel ao original (Seção 17)
 - [ ] Se tiver imagem: processada segundo a Seção 19 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`)
 - [ ] `library` omitido (ou explicitamente `1`) a menos que o usuário tenha pedido Library 2/3 (Seção 4b)
 - [ ] `node --check public/js/qbank.js` sem erro de sintaxe
-- [ ] Leva inteira revisada via `previewIds` (Seção 20.3) e **aprovada explicitamente pelo usuário**
-- [ ] Se a leva for grande, avisar o usuário sobre o efeito no % de passadas (Seção 7)
-- [ ] Só depois de tudo isso: commit (nunca push sem pedido explícito)
+- [ ] *(Opcional)* Leva conferida via `previewIds` (Seção 20.3) só para checagem própria — não precisa ser mostrada/enviada ao usuário nem aguardar aprovação (mudança de política em 2026-07-13, Seção 0.3)
+- [ ] Se a leva for grande, mencionar no resumo final o efeito no % de passadas (Seção 7) — informativo, não bloqueia o commit
+- [ ] Commit e push automáticos, sem aprovação nem pedido explícito por leva (Seção 0.3)
