@@ -82,6 +82,18 @@ Quando o usuário disser **"incluir questões"** ou **"incluir questões novas"*
 - Na prática, para isso funcionar: manter a sessão do Claude Code aberta (não fechar o terminal/app) até o limite renovar — normalmente a mensagem pendente fica na fila e é reenviada automaticamente assim que a janela de uso libera de novo. Se por algum motivo isso não acontecer sozinho (varia por versão/plano), uma simples mensagem do usuário como "continuar" depois que o limite liberar é suficiente — a checagem de duplicidade de ID (Seção 3) garante que o processamento retoma exatamente do próximo arquivo de imagem ainda não incluído no SEED, sem repetir nem pular nada.
 - Isso não exige o computador ligado ativamente processando o tempo todo — só não fechar a sessão do Claude Code enquanto se espera o limite renovar (mesma lógica do sleep do Mac, acima: nada se perde porque cada questão já commitada/pushada fica salva permanentemente a cada leva).
 
+**Comando de retomada automática por hora — não depender só da fila/do usuário digitar "continuar" (regra do usuário, 2026-07-13):** não existe nenhum aviso/notificação de "o limite já liberou" que o Claude receba — a única forma de saber é **tentar de verdade**. Por isso a tentativa é sempre **cega e por hora, sem esperar nenhuma informação de liberação**: tenta, se falhar por limite de uso continua tentando na próxima hora, e assim por diante até uma tentativa dar certo.
+- Ao **iniciar** uma leva grande pela Seção 0.3 (ou assim que perceber que acabou de atingir o limite de uso, se ainda houver uma chamada de ferramenta disponível antes de ficar sem capacidade), armar um job recorrente com a ferramenta `CronCreate`:
+  - `cron`: um horário não-cheio a cada hora, ex. `"7 * * * *"` (evita o minuto `:00`, por causa de carga simultânea de todos os usuários — recomendação da própria ferramenta).
+  - `recurring`: `true`.
+  - `prompt`: instrução objetiva pra retomar exatamente o processamento desta Seção 0.3 de onde parou — ex.: *"Retomar o processamento de /Users/jonathan/Desktop/Questões novas/ (QBANK_ADD_QUESTION.md §0.3) de onde parou. Checar duplicidade de ID (Seção 3) antes de inserir qualquer questão. Se ainda estiver limitado por uso, essa tentativa falha e a próxima (1h depois) tenta de novo, sem precisar do usuário digitar nada."*
+  - Ao terminar de processar **toda a pasta**, apagar o job com `CronDelete` — não deixar rodando à toa depois que não há mais nada para retomar.
+- **Limitações honestas desse mecanismo** (conferidas na própria especificação da ferramenta, não presumidas):
+  - O job é **só desta sessão** — fica em memória, não é salvo em disco; se a sessão/terminal for fechada, o job some junto. Por isso continua valendo o ponto acima: manter a sessão do Claude Code aberta.
+  - Expira sozinho depois de **7 dias**, mesmo que ninguém apague antes.
+  - Só dispara quando a sessão está ociosa (não no meio de uma resposta em andamento) — que é exatamente o estado de espera pelo limite renovar.
+  - Isso só funciona se ainda houver uma chamada de ferramenta disponível para criar o job **antes** de ficar totalmente sem capacidade de resposta — por isso o ideal é armar esse job **no início** de qualquer leva grande (Seção 0.3), como seguro preventivo, e não tentar criar o job correndo contra o próprio limite depois que ele já bateu.
+
 ---
 
 ## 1. Arquivo principal
