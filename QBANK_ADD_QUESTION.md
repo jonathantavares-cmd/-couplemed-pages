@@ -1,13 +1,15 @@
 # CoupleMed QBank — Documentação Completa
 
 > Referência definitiva do módulo QBank: como adicionar questões, como todos os sistemas funcionam, e como cada funcionalidade se conecta com o resto do site.
-> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "incluir questões" (ou variações), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão. Última auditoria completa contra o código real: 2026-07-11.
+> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "incluir questões" (ou variações, incluindo "incluir questões novas"), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 0 passo 1, Seção 0.3), e sem parar pra pedir aprovação de comando ou de conteúdo (permissões em bypass global + commit/push automáticos, Seção 0.3). Última auditoria completa contra o código real: 2026-07-11.
 
 ---
 
 ## 0. PROCEDIMENTO PADRÃO — o que fazer quando o usuário disser "incluir questões"
 
-1. **Pedir o material** (se ainda não enviado): foto/print/texto das questões. Confirmar se é sistema/disciplina conhecidos ou se você deve identificar pelo conteúdo.
+1. **Determinar a origem do material:**
+   - Se o usuário já colou/anexou o material (foto/print/texto) na própria mensagem, usar isso diretamente. Confirmar se é sistema/disciplina conhecidos ou se você deve identificar pelo conteúdo.
+   - Se ele disser apenas **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente), **sem colar/anexar nada na mensagem** — ir direto para a **Seção 0.3** e varrer `/Users/jonathan/Desktop/Questões novas/`. Não pedir o material antes de checar a pasta; só pedir explicitamente se a pasta estiver vazia, não existir, ou já tiver sido totalmente processada (nenhum arquivo novo desde a última leva).
 2. **Aplicar a Regra de Fidelidade (Seção 0.1)** — transcrição verbatim, sem exceções, pois todo o material é conteúdo próprio do usuário.
 3. Para cada questão:
    a. Definir `id` seguindo a Seção 3 e checar duplicidade: `grep -n "'CMQ-STEP1-{SIGLA}-" public/js/qbank.js`.
@@ -57,9 +59,9 @@ Não existe modo "reescrever" para essas questões — isso só se aplicaria se 
 
 ---
 
-## 0.3 GATILHO "incluir questões novas" — varredura automática de pasta e processamento em lote (implementado 2026-07-13)
+## 0.3 GATILHO "incluir questões" / "incluir questões novas" sem material anexado — varredura automática de pasta e processamento em lote (implementado 2026-07-13, ampliado 2026-07-13)
 
-Quando o usuário disser especificamente **"incluir questões novas"** (em vez de colar/enviar o material direto no chat), o procedimento é diferente do passo 1 da Seção 0:
+Quando o usuário disser **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente) **sem colar/anexar o material direto na mensagem**, o procedimento é diferente do passo 1a da Seção 0 (que só se aplica quando o material vem colado na própria mensagem):
 
 1. **Localizar a pasta**: `/Users/jonathan/Desktop/Questões novas/`. Varrer **recursivamente** — pode haver múltiplas subpastas dentro dela, com nomes/localizações diferentes a cada leva (por tema, por data, por lote enviado etc.), em qualquer profundidade. Listar todo arquivo de imagem (screenshot/foto de questão) encontrado.
 2. **Processar TODAS as questões encontradas, independente da quantidade** — 50, 100, 200, 300 ou mais. Nunca parar no meio nem perguntar se deve continuar para o próximo lote. Trabalhar em lotes menores (5 questões por vez é o padrão sugerido, mas outro tamanho pode ser usado se ajudar a manter a qualidade da transcrição) e seguir automaticamente lote após lote, aplicando o procedimento completo da Seção 0 (fidelidade 0.1, dificuldade 0.2, labs 16b, tradução 17, imagem 19, taxonomia/dedup de ID Seção 3) em cada questão, até que **a pasta inteira** tenha sido incluída no SEED.
