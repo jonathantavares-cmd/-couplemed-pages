@@ -3002,6 +3002,144 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BCH-0042', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::lipid_metabolism', difficulty:'hard',
+      vignette:'An 8-year-old boy is brought to the emergency department due to vomiting and lethargy. The patient had been on an overnight hiking trip with his family. During the trip, the family lost their food pack while canoeing and had to hike back to their car. The child became weak and was carried for the last mile. None of the family has eaten for approximately 24 hours. On examination, the patient appears listless. Mild hepatomegaly is noted. Laboratory results are as follows:\nGlucose 22 mg/dL\nAcetoacetate not detected\nAspartate aminotransferase 47 U/L\nAlanine aminotransferase 53 U/L\nThe patient begins seizing shortly after arriving at the emergency department.',
+      q:'Which of the following enzymes is most likely deficient in this patient?',
+      options:[
+        {label:'A', text:'Acetyl-CoA carboxylase'},
+        {label:'B', text:'Acid alpha-glucosidase'},
+        {label:'C', text:'Acyl-CoA dehydrogenase'},
+        {label:'D', text:'Glucose 6-phosphatase'},
+        {label:'E', text:'Glycogen phosphorylase'},
+      ],
+      correct:'C',
+      explC:'This patient developed hypoketotic hypoglycemia after fasting, which is consistent with a defect in fatty acid beta-oxidation in the mitochondria. Beta-oxidation of fatty acids yields FADH2 and NADH for ATP production and generates acetyl-CoA for use in the citric acid cycle or ketone body production. Ketone bodies are an important energy source during periods of fasting; adults generally require more than 1-2 days of fasting before ketone use becomes substantial, whereas children have limited glucose reserves and begin using ketone bodies after as little as 8-10 hours.\n\nImpaired beta-oxidation can be caused by a variety of enzymatic defects, the most common of which is medium chain acyl-CoA dehydrogenase deficiency. Affected individuals may remain asymptomatic for long periods until they experience a significant fast, during which they are unable to oxidize fatty acids to maintain glucose and ketone body production. Classic manifestations include hypoketotic hypoglycemia (eg, undetectable acetoacetate level), mild hepatomegaly, and liver dysfunction. Because the resulting metabolic crisis can have severe consequences (eg, seizures, sudden infant death), fatty acid oxidation disorders are part of standard newborn screening.\n\nTreatment of acyl-CoA dehydrogenase deficiency consists of prevention of fat catabolism. This means avoiding prolonged fasting as well as promptly supplying glucose during periods of illness.',
+      explI:[
+        {option:'A', explanation:'Acetyl-CoA carboxylase is the rate-limiting enzyme that catalyzes the first step in fatty acid synthesis. Acetyl-CoA carboxylase is normally suppressed during prolonged fasting.'},
+        {option:'B, D, and E', explanation:'Acid alpha-glucosidase, glucose 6-phosphatase, and glycogen phosphorylase are involved in glycogenolysis. Deficiency of any of these enzymes can lead to glycogen storage disease. However, patients with glycogen storage disease have normal fatty acid oxidation and produce ketones during periods of fasting.'},
+      ],
+      objective:'Impaired beta-oxidation of fatty acids causes hypoglycemia after prolonged fasting and insufficient levels of ketone bodies. Acyl-CoA dehydrogenase catalyzes the first step in the beta-oxidation pathway and is the most commonly deficient enzyme.',
+      peer:{A:16, B:3, C:31, D:25, E:23},
+      img:'assets/qbank/CMQ-STEP1-BCH-0042_fatty_acid_oxidation_pathway.png',
+      labs:[
+        ['Glucose, plasma (child, fasting)', '70–100 mg/dL', '70–100 mg/dL',
+         'Markedly decreased here (22 mg/dL) during a prolonged fast in a fatty acid oxidation disorder (eg, MCAD/acyl-CoA dehydrogenase deficiency)',
+         'Marcadamente diminuída neste caso (22 mg/dL) durante jejum prolongado em um distúrbio da beta-oxidação de ácidos graxos (ex.: deficiência de MCAD/acil-CoA desidrogenase)'],
+        ['Acetoacetate (ketone body), serum', 'Detectable and rising during prolonged fasting (qualitatively positive)', 'Detectável e crescente durante jejum prolongado (qualitativamente positivo)',
+         'Inappropriately absent/undetectable here despite hypoglycemia and fasting — the hallmark of hypoketotic hypoglycemia in fatty acid oxidation disorders',
+         'Ausente/indetectável de forma inapropriada neste caso, apesar da hipoglicemia e do jejum — a marca registrada da hipoglicemia hipocetótica nos distúrbios da beta-oxidação de ácidos graxos'],
+      ],
+      ptTranslation:{
+        vignette:'Um menino de 8 anos é levado ao pronto-socorro por vômitos e letargia. O paciente estava em uma viagem de trilha durante a noite com sua família. Durante a viagem, a família perdeu o pacote de comida enquanto praticava canoagem e teve que caminhar de volta até o carro. A criança ficou fraca e foi carregada na última milha. Nenhum membro da família comeu por aproximadamente 24 horas. Ao exame, o paciente aparenta estar apático. Hepatomegalia leve é notada. Os resultados laboratoriais são os seguintes:\nGlicose 22 mg/dL\nAcetoacetato não detectado\nAspartato aminotransferase 47 U/L\nAlanina aminotransferase 53 U/L\nO paciente começa a convulsionar pouco depois de chegar ao pronto-socorro.',
+        q:'Qual das seguintes enzimas está mais provavelmente deficiente neste paciente?',
+        objective:'A beta-oxidação prejudicada de ácidos graxos causa hipoglicemia após jejum prolongado e níveis insuficientes de corpos cetônicos. A acil-CoA desidrogenase catalisa a primeira etapa da via de beta-oxidação e é a enzima mais comumente deficiente.',
+        options:[
+          {label:'A', text:'Acetil-CoA carboxilase'},
+          {label:'B', text:'Alfa-glicosidase ácida'},
+          {label:'C', text:'Acil-CoA desidrogenase'},
+          {label:'D', text:'Glicose 6-fosfatase'},
+          {label:'E', text:'Glicogênio fosforilase'},
+        ],
+        explC:'Este paciente desenvolveu hipoglicemia hipocetótica após o jejum, o que é compatível com um defeito na beta-oxidação de ácidos graxos na mitocôndria. A beta-oxidação de ácidos graxos produz FADH2 e NADH para a produção de ATP e gera acetil-CoA para uso no ciclo do ácido cítrico ou na produção de corpos cetônicos. Os corpos cetônicos são uma fonte de energia importante durante períodos de jejum; adultos geralmente precisam de mais de 1-2 dias de jejum antes que o uso de cetonas se torne substancial, enquanto crianças têm reservas limitadas de glicose e começam a usar corpos cetônicos após apenas 8-10 horas.\n\nA beta-oxidação prejudicada pode ser causada por diversos defeitos enzimáticos, sendo o mais comum a deficiência de acil-CoA desidrogenase de cadeia média. Indivíduos afetados podem permanecer assintomáticos por longos períodos até vivenciarem um jejum significativo, durante o qual são incapazes de oxidar ácidos graxos para manter a produção de glicose e corpos cetônicos. As manifestações clássicas incluem hipoglicemia hipocetótica (por exemplo, nível de acetoacetato indetectável), hepatomegalia leve e disfunção hepática. Como a crise metabólica resultante pode ter consequências graves (por exemplo, convulsões, morte súbita), os distúrbios de oxidação de ácidos graxos fazem parte da triagem neonatal padrão.\n\nO tratamento da deficiência de acil-CoA desidrogenase consiste na prevenção do catabolismo de gordura. Isso significa evitar jejum prolongado, além de fornecer glicose prontamente durante períodos de doença.',
+        explI:[
+          {option:'A', explanation:'A acetil-CoA carboxilase é a enzima limitante que catalisa a primeira etapa da síntese de ácidos graxos. A acetil-CoA carboxilase é normalmente suprimida durante o jejum prolongado.'},
+          {option:'B, D, and E', explanation:'A alfa-glicosidase ácida, a glicose 6-fosfatase e a glicogênio fosforilase estão envolvidas na glicogenólise. A deficiência de qualquer uma dessas enzimas pode levar à doença de armazenamento de glicogênio. Entretanto, pacientes com doença de armazenamento de glicogênio têm oxidação normal de ácidos graxos e produzem cetonas durante períodos de jejum.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BCH-0043', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::lipid_metabolism', difficulty:'hard',
+      vignette:'A research scientist studying the metabolic pathways that contribute to obesity feeds experimental animals a high-carbohydrate, high-protein diet for a prolonged period. A sample of liver tissue is then obtained from the animals, and the activity of various enzymes involved in fatty acid metabolism is measured and recorded. It is determined that beta-oxidation of fatty acids is inhibited within these cells as a result of the diet.',
+      q:'An increase in which of the following substances is most likely responsible for the observed effect?',
+      options:[
+        {label:'A', text:'Acetoacetate'},
+        {label:'B', text:'Carnitine'},
+        {label:'C', text:'Citrate'},
+        {label:'D', text:'Malonyl-CoA'},
+        {label:'E', text:'NADPH'},
+      ],
+      correct:'D',
+      explC:'In the well-fed state, the abundance of ATP in hepatocytes inhibits isocitrate dehydrogenase, leading to high levels of citrate in the mitochondria. Citrate is transferred to the cytosol via the citrate shuttle and cleaved by ATP citrate lyase to form acetyl-CoA. High citrate levels (in addition to elevated insulin caused by high carbohydrate intake) causes upregulation of Acetyl-CoA carboxylase. This cytosolic enzyme catalyzes the conversion of acetyl-CoA to malonyl-CoA in the rate-limiting step of de novo fatty acid synthesis. Fatty acid synthase then catalyzes the condensation of malonyl-CoA with acetyl-CoA to create a 4-carbon molecule that will undergo subsequent condensation reactions to form a 16-carbon fatty acid.\n\nBeta-oxidation of fatty acids takes place primarily within the mitochondrial matrix. Mitochondrial membranes are impermeable to fatty acids due to their negative charge, so a specialized membrane carrier (carnitine) must be used to shuttle them into the matrix. Malonyl-CoA inhibits carnitine acyltransferase, preventing the transfer of acyl groups into the mitochondria. This inhibitory action functions to prevent the breakdown of newly synthesized fatty acids.',
+      explI:[
+        {option:'A', explanation:'Ketone bodies (eg, acetoacetate) are a major source of fuel for muscle, brain, and cardiac tissue that are produced during times of starvation or fasting when oxaloacetate is in short supply and acetyl-CoA is in excess.'},
+        {option:'B', explanation:'Carnitine is an amino acid that is essential for the transport of fatty acids through the mitochondrial membrane. It is a necessary component of fatty acid oxidation.'},
+        {option:'C', explanation:'Citrate is an intermediate in the TCA cycle. It can be exported out of the mitochondrial matrix and into the cytosol, where it is broken down into acetyl-CoA for use in de novo fatty acid synthesis.'},
+        {option:'E', explanation:'NADPH is a reducing molecule necessary for the synthesis of fatty acids. In contrast, beta-oxidation of fats produces FADH2 and NADH-reducing equivalents.'},
+      ],
+      objective:'Cytosolic acetyl-CoA carboxylase converts acetyl-CoA to malonyl-CoA during the rate-limiting step of de novo fatty acid synthesis. Malonyl-CoA also inhibits the action of mitochondrial carnitine acyltransferase, thereby inhibiting beta-oxidation of newly formed fatty acids.',
+      peer:{A:10, B:18, C:18, D:39, E:13},
+      ptTranslation:{
+        vignette:'Um cientista pesquisador que estuda as vias metabólicas que contribuem para a obesidade alimenta animais experimentais com uma dieta rica em carboidratos e rica em proteínas por um período prolongado. Uma amostra de tecido hepático é então obtida dos animais, e a atividade de várias enzimas envolvidas no metabolismo de ácidos graxos é medida e registrada. Determina-se que a beta-oxidação de ácidos graxos está inibida nessas células como resultado da dieta.',
+        q:'Um aumento em qual das seguintes substâncias é mais provavelmente responsável pelo efeito observado?',
+        objective:'A acetil-CoA carboxilase citosólica converte acetil-CoA em malonil-CoA durante a etapa limitante da síntese de novo de ácidos graxos. O malonil-CoA também inibe a ação da carnitina aciltransferase mitocondrial, inibindo assim a beta-oxidação de ácidos graxos recém-formados.',
+        options:[
+          {label:'A', text:'Acetoacetato'},
+          {label:'B', text:'Carnitina'},
+          {label:'C', text:'Citrato'},
+          {label:'D', text:'Malonil-CoA'},
+          {label:'E', text:'NADPH'},
+        ],
+        explC:'No estado alimentado, a abundância de ATP nos hepatócitos inibe a isocitrato desidrogenase, levando a altos níveis de citrato na mitocôndria. O citrato é transferido para o citosol via o transportador de citrato e clivado pela ATP citrato liase para formar acetil-CoA. Os altos níveis de citrato (além da insulina elevada causada pela alta ingestão de carboidratos) causam a regulação positiva da acetil-CoA carboxilase. Essa enzima citosólica catalisa a conversão de acetil-CoA em malonil-CoA na etapa limitante da síntese de novo de ácidos graxos. A ácido graxo sintase então catalisa a condensação do malonil-CoA com acetil-CoA para criar uma molécula de 4 carbonos que sofrerá reações de condensação subsequentes para formar um ácido graxo de 16 carbonos.\n\nA beta-oxidação de ácidos graxos ocorre principalmente dentro da matriz mitocondrial. As membranas mitocondriais são impermeáveis a ácidos graxos devido à sua carga negativa, portanto um transportador de membrana especializado (carnitina) deve ser usado para transportá-los até a matriz. O malonil-CoA inibe a carnitina aciltransferase, impedindo a transferência de grupos acila para a mitocôndria. Essa ação inibitória funciona para evitar a degradação de ácidos graxos recém-sintetizados.',
+        explI:[
+          {option:'A', explanation:'Corpos cetônicos (por exemplo, acetoacetato) são uma importante fonte de combustível para o músculo, o cérebro e o tecido cardíaco, sendo produzidos em períodos de inanição ou jejum, quando o oxaloacetato está em falta e o acetil-CoA está em excesso.'},
+          {option:'B', explanation:'A carnitina é um aminoácido essencial para o transporte de ácidos graxos através da membrana mitocondrial. É um componente necessário da oxidação de ácidos graxos.'},
+          {option:'C', explanation:'O citrato é um intermediário do ciclo de Krebs. Ele pode ser exportado da matriz mitocondrial para o citosol, onde é degradado em acetil-CoA para uso na síntese de novo de ácidos graxos.'},
+          {option:'E', explanation:'O NADPH é uma molécula redutora necessária para a síntese de ácidos graxos. Em contraste, a beta-oxidação de gorduras produz equivalentes redutores FADH2 e NADH.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BCH-0044', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::lipid_metabolism', difficulty:'hard',
+      vignette:'A 5-year-old girl is brought to the clinic due to several months of fatigue and difficulty walking. She ambulates normally at first but rapidly becomes weak and tired. The patient has not been ill recently and is usually happy and playful. She has a history of mild motor delays but is otherwise developmentally normal. Vital signs are within normal limits. Examination shows mildly decreased power in all extremities but no ataxia. Cardiac auscultation reveals a 1/6 systolic murmur and an S3 gallop. Laboratory results are as follows:\nSerum chemistry\nGlucose 37 mg/dL\nCreatine kinase 304 U/L\nUrinalysis\nProtein none\nGlucose negative\nKetones negative\nLeukocyte esterase negative\nNitrites negative\nMuscle biopsy shows a very low carnitine content.',
+      q:'This patient most likely has deficient synthesis of which of the following substances?',
+      options:[
+        {label:'A', text:'Acetoacetate'},
+        {label:'B', text:'Arachidonic acid'},
+        {label:'C', text:'Glutathione'},
+        {label:'D', text:'Homocysteine'},
+        {label:'E', text:'Lactate'},
+        {label:'F', text:'Palmitate'},
+      ],
+      correct:'A',
+      explC:'This patient\'s myopathy (eg, elevated creatine kinase, weakness), cardiomyopathy (eg, S3 gallop), and hypoketotic hypoglycemia (eg, absence of ketones in the urine) in the setting of decreased muscle carnitine content is consistent with primary carnitine deficiency. The condition is caused by a defect in the protein responsible for carnitine transport across the mitochondrial membrane. Without sufficient carnitine, fatty acids cannot be transported from the cytoplasm into the mitochondria as acyl-carnitine (carnitine shuttle). The mitochondria therefore cannot beta-oxidize the fatty acids into acetyl CoA, the carbon substrate for the citric acid cycle. As a result, cardiac and skeletal myocytes cannot generate ATP from fatty acids (leading to muscle weakness, cardiomyopathy) and the liver is unable to synthesize ketone bodies (manifests as hypoketotic hypoglycemia).\n\nHypoketotic hypoglycemia is also seen in other fatty acid oxidation disorders (eg, acyl CoA dehydrogenase deficiency).',
+      explI:[
+        {option:'B', explanation:'Arachidonic acid can be ingested or synthesized from phospholipids in the cell membrane. Its eicosanoid derivatives (eg, prostanoids, leukotrienes) are important modulators of inflammation. It is not affected by carnitine levels.'},
+        {option:'C', explanation:'Glutathione is a tripeptide that can be synthesized from amino acids (glutamate, cysteine, and glycine). It is an important antioxidant and plays a role in DNA synthesis and repair.'},
+        {option:'D', explanation:'Homocysteine is an amino acid that is synthesized from methionine. Using vitamin cofactors, it can be converted to cysteine (pyridoxine) or recycled into methionine (cobalamin).'},
+        {option:'E', explanation:'Lactate is produced from pyruvate under anaerobic conditions. Patients with carnitine deficiency synthesize lactate normally but may produce increased lactate during times of catabolic stress due to inability to utilize fatty acids for energy.'},
+        {option:'F', explanation:'Palmitate is a fatty acid that can be ingested or synthesized from carbohydrates. Palmitate synthesis occurs in the cytosol and would not be affected by carnitine deficiency.'},
+      ],
+      objective:'Carnitine deficiency impairs fatty acid transport from the cytoplasm into mitochondria, preventing beta-oxidation of fatty acids into acetyl CoA. This leads to cardiac and skeletal myocyte injury (lack of ATP from citric acid cycle) and impaired ketone body production by the liver during fasting periods.',
+      peer:{A:42, B:4, C:8, D:8, E:9, F:27},
+      img:'assets/qbank/CMQ-STEP1-BCH-0044_fatty_acid_oxidation_pathway.png',
+      labs:[
+        ['Glucose, plasma (child, fasting)', '70–100 mg/dL', '70–100 mg/dL',
+         'Decreased here (37 mg/dL), consistent with hypoketotic hypoglycemia in primary carnitine deficiency',
+         'Diminuída neste caso (37 mg/dL), compatível com hipoglicemia hipocetótica na deficiência primária de carnitina'],
+        ['Creatine kinase, serum (child ≥2 months–15 years)', '≤90 U/L', '≤90 U/L',
+         'Elevated here (304 U/L), reflecting skeletal myopathy from impaired fatty acid beta-oxidation in myocytes',
+         'Elevada neste caso (304 U/L), refletindo miopatia esquelética pela beta-oxidação de ácidos graxos prejudicada nos miócitos'],
+      ],
+      ptTranslation:{
+        vignette:'Uma menina de 5 anos é levada à clínica devido a vários meses de fadiga e dificuldade para caminhar. Ela deambula normalmente no início, mas rapidamente fica fraca e cansada. A paciente não esteve doente recentemente e costuma ser feliz e brincalhona. Ela tem histórico de atrasos motores leves, mas é, fora isso, normal quanto ao desenvolvimento. Os sinais vitais estão dentro dos limites normais. O exame mostra força discretamente diminuída em todas as extremidades, mas sem ataxia. A ausculta cardíaca revela um sopro sistólico 1/6 e uma terceira bulha (galope de B3). Os resultados laboratoriais são os seguintes:\nBioquímica sérica\nGlicose 37 mg/dL\nCreatina cinase 304 U/L\nUrinálise\nProteína ausente\nGlicose negativa\nCetonas negativas\nEsterase leucocitária negativa\nNitritos negativos\nA biópsia muscular mostra um conteúdo de carnitina muito baixo.',
+        q:'Esta paciente provavelmente tem síntese deficiente de qual das seguintes substâncias?',
+        objective:'A deficiência de carnitina prejudica o transporte de ácidos graxos do citoplasma para as mitocôndrias, impedindo a beta-oxidação de ácidos graxos em acetil-CoA. Isso leva à lesão de miócitos cardíacos e esqueléticos (por falta de ATP do ciclo do ácido cítrico) e à produção prejudicada de corpos cetônicos pelo fígado durante períodos de jejum.',
+        options:[
+          {label:'A', text:'Acetoacetato'},
+          {label:'B', text:'Ácido araquidônico'},
+          {label:'C', text:'Glutationa'},
+          {label:'D', text:'Homocisteína'},
+          {label:'E', text:'Lactato'},
+          {label:'F', text:'Palmitato'},
+        ],
+        explC:'A miopatia desta paciente (por exemplo, creatina cinase elevada, fraqueza), a cardiomiopatia (por exemplo, galope de B3) e a hipoglicemia hipocetótica (por exemplo, ausência de cetonas na urina), no contexto de conteúdo muscular de carnitina diminuído, são compatíveis com deficiência primária de carnitina. A condição é causada por um defeito na proteína responsável pelo transporte de carnitina através da membrana mitocondrial. Sem carnitina suficiente, os ácidos graxos não podem ser transportados do citoplasma para a mitocôndria como acil-carnitina (lançadeira da carnitina). A mitocôndria, portanto, não consegue realizar a beta-oxidação dos ácidos graxos em acetil-CoA, o substrato de carbono para o ciclo do ácido cítrico. Como resultado, os miócitos cardíacos e esqueléticos não conseguem gerar ATP a partir de ácidos graxos (levando a fraqueza muscular, cardiomiopatia), e o fígado é incapaz de sintetizar corpos cetônicos (manifestando-se como hipoglicemia hipocetótica).\n\nA hipoglicemia hipocetótica também é observada em outros distúrbios de oxidação de ácidos graxos (por exemplo, deficiência de acil-CoA desidrogenase).',
+        explI:[
+          {option:'B', explanation:'O ácido araquidônico pode ser ingerido ou sintetizado a partir de fosfolipídios da membrana celular. Seus derivados eicosanoides (por exemplo, prostanoides, leucotrienos) são importantes moduladores da inflamação. Ele não é afetado pelos níveis de carnitina.'},
+          {option:'C', explanation:'A glutationa é um tripeptídeo que pode ser sintetizado a partir de aminoácidos (glutamato, cisteína e glicina). É um antioxidante importante e desempenha papel na síntese e reparo do DNA.'},
+          {option:'D', explanation:'A homocisteína é um aminoácido sintetizado a partir da metionina. Com o uso de cofatores vitamínicos, ela pode ser convertida em cisteína (piridoxina) ou reciclada em metionina (cobalamina).'},
+          {option:'E', explanation:'O lactato é produzido a partir do piruvato em condições anaeróbicas. Pacientes com deficiência de carnitina sintetizam lactato normalmente, mas podem produzir lactato aumentado durante períodos de estresse catabólico devido à incapacidade de utilizar ácidos graxos para energia.'},
+          {option:'F', explanation:'O palmitato é um ácido graxo que pode ser ingerido ou sintetizado a partir de carboidratos. A síntese de palmitato ocorre no citosol e não seria afetada pela deficiência de carnitina.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
