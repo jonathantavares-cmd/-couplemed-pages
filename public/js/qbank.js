@@ -5369,6 +5369,162 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0036', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'hard',
+      vignette:"A pharmaceutical researcher develops a novel antibacterial drug that works by inhibiting exonuclease activity during DNA replication.  When actively dividing Escherichia coli is exposed to the drug, enzyme-mediated nucleotide removal in the 5' to 3' direction is impaired, leading to inhibition of bacterial growth.",
+      q:'Which of the following enzymes is the most likely target of this drug?',
+      options:[
+        {label:'A', text:'DNA polymerase I'},
+        {label:'B', text:'DNA polymerase III'},
+        {label:'C', text:'Gyrase'},
+        {label:'D', text:'Helicase'},
+        {label:'E', text:'Ligase'},
+        {label:'F', text:'Primase'},
+      ],
+      correct:'A',
+      explC:"DNA polymerases are the primary enzymes responsible for DNA synthesis, which occurs in the 5' to 3' direction.  Prokaryotes such as Escherichia coli have 3 major DNA polymerases: I, II, and III.  DNA replication requires a high degree of fidelity to preserve the genetic code in daughter cells and prevent potentially lethal mutations.  The first line of defense against DNA replication errors is accomplished by the 3' to 5' proofreading exonuclease activity of all 3 DNA polymerases; upon detecting a replication error, they can reverse direction by one base pair and excise the mismatched base before continuing with DNA polymerization.\n\nDNA polymerase I is unique as it is the only prokaryotic polymerase that also has 5' to 3' exonuclease activity.  This activity functions to remove the RNA primer created by primase and repair damaged DNA sequences.",
+      explI:[
+        {option:'B', explanation:"DNA polymerase III has 3' to 5' exonuclease activity; however, it does not possess 5' to 3' exonuclease activity."},
+        {option:'C', explanation:'The enzyme topoisomerase II, also known as DNA gyrase in prokaryotes, relieves tension created during DNA strand unwinding by introducing negative supercoils into the circular DNA.  Fluoroquinolones (eg, ciprofloxacin) are a class of antibiotics that work by inhibiting DNA gyrase.'},
+        {option:'D', explanation:'Before DNA replication begins, helicase unwinds the DNA double helix, facilitating separation of the 2 DNA strands which are then stabilized by single-stranded DNA-binding proteins.'},
+        {option:'E', explanation:'Okazaki fragments of the lagging strand are bound together by the enzyme ligase.'},
+        {option:'F', explanation:'DNA polymerases cannot begin synthesizing complementary DNA on a single-stranded template without an RNA primer.  Primase is an RNA polymerase that synthesizes this primer, which is made up of short stretches of RNA base paired to the DNA template.'},
+      ],
+      objective:"In prokaryotes, only DNA polymerase I has both 5' to 3' and 3' to 5' exonuclease activities.  The 3' to 5' exonuclease activity allows for a proofreading function during DNA replication, while the 5' to 3' exonuclease activity is involved in removal of RNA primers and repair of damaged DNA sequences.",
+      peer:{A:46, B:32, C:5, D:4, E:5, F:5},
+      ptTranslation:{
+        vignette:'Um pesquisador farmacêutico desenvolve um novo fármaco antibacteriano que atua inibindo a atividade exonucleásica durante a replicação do DNA.  Quando Escherichia coli em divisão ativa é exposta ao fármaco, a remoção de nucleotídeos mediada pela enzima na direção 5\' para 3\' é prejudicada, levando à inibição do crescimento bacteriano.',
+        q:'Qual das seguintes enzimas é o alvo mais provável desse fármaco?',
+        objective:'Em procariotos, apenas a DNA polimerase I tem ambas as atividades exonucleásicas 5\' para 3\' e 3\' para 5\'.  A atividade exonucleásica 3\' para 5\' permite a função de revisão durante a replicação do DNA, enquanto a atividade exonucleásica 5\' para 3\' está envolvida na remoção de primers de RNA e no reparo de sequências de DNA danificadas.',
+        options:[
+          {label:'A', text:'DNA polimerase I'},
+          {label:'B', text:'DNA polimerase III'},
+          {label:'C', text:'Girase'},
+          {label:'D', text:'Helicase'},
+          {label:'E', text:'Ligase'},
+          {label:'F', text:'Primase'},
+        ],
+        explC:'As DNA polimerases são as enzimas primárias responsáveis pela síntese de DNA, que ocorre na direção 5\' para 3\'.  Procariotos como a Escherichia coli têm 3 DNA polimerases principais: I, II e III.  A replicação do DNA exige alto grau de fidelidade para preservar o código genético nas células-filhas e prevenir mutações potencialmente letais.  A primeira linha de defesa contra erros de replicação do DNA é realizada pela atividade exonucleásica de revisão 3\' para 5\' de todas as 3 DNA polimerases; ao detectar um erro de replicação, elas podem reverter a direção em um par de bases e excisar a base incompatível antes de continuar com a polimerização do DNA.\n\nA DNA polimerase I é única, pois é a única polimerase procariótica que também tem atividade exonucleásica 5\' para 3\'.  Essa atividade funciona para remover o primer de RNA criado pela primase e reparar sequências de DNA danificadas.',
+        explI:[
+          {option:'B', explanation:'A DNA polimerase III tem atividade exonucleásica 3\' para 5\'; entretanto, não possui atividade exonucleásica 5\' para 3\'.'},
+          {option:'C', explanation:'A enzima topoisomerase II, também conhecida como DNA girase em procariotos, alivia a tensão criada durante o desenrolamento da fita de DNA introduzindo superenrolamentos negativos no DNA circular.  As fluoroquinolonas (ex.: ciprofloxacino) são uma classe de antibióticos que atuam inibindo a DNA girase.'},
+          {option:'D', explanation:'Antes de a replicação do DNA começar, a helicase desenrola a dupla hélice de DNA, facilitando a separação das 2 fitas de DNA, que são então estabilizadas por proteínas ligadoras de DNA de fita simples.'},
+          {option:'E', explanation:'Os fragmentos de Okazaki da fita tardia são unidos pela enzima ligase.'},
+          {option:'F', explanation:'As DNA polimerases não conseguem começar a sintetizar DNA complementar em um molde de fita simples sem um primer de RNA.  A primase é uma RNA polimerase que sintetiza esse primer, que é composto por pequenos trechos de RNA pareados por bases ao molde de DNA.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0037', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'An 18-year-old woman comes to the office for evaluation of graying hair.  The patient has no other concerns and has otherwise been healthy.  She reports that her mother had similar features at a young age and died of progressive pulmonary fibrosis.  Examination shows diffuse gray hair.  There are white patches on the surface of the tongue.  Cardiopulmonary examination is unremarkable, and the abdomen is soft and nondistended.  Skin examination shows areas of reticular hyperpigmentation on the neck and torso.  The nails of the fingers and toes appear thin.  Genetic testing reveals a loss-of-function mutation affecting the telomerase reverse transcriptase gene.',
+      q:'Which of the following cell types is most likely to be affected by this mutation?',
+      options:[
+        {label:'A', text:'Cardiac myocytes'},
+        {label:'B', text:'CNS neurons'},
+        {label:'C', text:'Compact bone osteocytes'},
+        {label:'D', text:'Hematopoietic stem cells'},
+        {label:'E', text:'Secondary oocytes'},
+        {label:'F', text:'Vascular endothelial cells'},
+      ],
+      correct:'D',
+      explC:'This patient has dyskeratosis congenita; a genetic disorder involving a mutation in the genes related to telomere maintenance (eg, telomerase reverse transcriptase) that results in short telomeres.  Telomeres are a complex of protein (eg, shelterin) and DNA repeats (eg, TTAGGG) at the ends of chromosomes that prevent chromosomal degradation and fusion with neighboring chromosomes.  With each cellular division telomeres progressively shorten, eventually reaching a critical length at which apoptosis or senescence is triggered.\n\nIn cells with a high turnover rate (eg, epithelial cells, lymphocytes, hematopoietic stem cells), telomere length is maintained by telomerase.  This complex, composed of an RNA template and a reverse transcriptase, adds DNA repeats to the end of telomeres as they are lost with cell division.  Without normal telomerase activity, rapidly dividing cells cannot maintain chromosomal integrity, triggering premature cell death.  In patients with short telomere disorders, loss of these cells can cause characteristic mucocutaneous changes (eg, oral leukoplakia, dystrophic nails), bone marrow failure (eg, pancytopenia), and pulmonary fibrosis (due to alveolar epithelial dysfunction).',
+      explI:[
+        {option:'A, B, C, and F', explanation:"Telomerase is inactivated in long-lived, differentiated cells such as cardiac myocytes, CNS neurons, compact bone osteocytes, and vascular endothelial cells; therefore, these cells are not likely to be affected by this patient's mutation.  However, in cancer cells derived from differentiated cells, telomerase is reactivated, allowing continuous cellular division without loss of telomere length."},
+        {option:'E', explanation:"Secondary oocytes are immature ova that form as a result of the division of a primary oocyte during meiosis I.  They do not continue to divide and therefore are also not likely to be affected by this patient's mutation."},
+      ],
+      objective:'Telomeres help maintain chromosomal integrity and are preserved in rapidly dividing cell lines (eg, epithelial cells, lymphocytes, hematopoietic stem cells) by telomerase.  Disorders involving telomerase function (eg, dyskeratosis congenita) result in premature death of cells with high turnover, characteristically causing mucocutaneous changes (eg, oral leukoplakia, dystrophic nails), bone marrow failure, and pulmonary fibrosis.',
+      peer:{A:1, B:6, C:3, D:69, E:3, F:15},
+      ptTranslation:{
+        vignette:'Uma mulher de 18 anos vem ao consultório para avaliação de cabelos grisalhos.  A paciente não tem outras queixas e tem sido saudável no restante.  Ela relata que sua mãe teve características semelhantes em idade jovem e morreu de fibrose pulmonar progressiva.  O exame mostra cabelo grisalho difuso.  Há manchas brancas na superfície da língua.  O exame cardiopulmonar não mostra alterações, e o abdome está mole e não distendido.  O exame da pele mostra áreas de hiperpigmentação reticular no pescoço e no tronco.  As unhas dos dedos das mãos e dos pés parecem finas.  O teste genético revela uma mutação com perda de função afetando o gene da transcriptase reversa da telomerase.',
+        q:'Qual dos seguintes tipos celulares tem maior probabilidade de ser afetado por essa mutação?',
+        objective:'Os telômeros ajudam a manter a integridade cromossômica e são preservados em linhagens celulares de divisão rápida (ex.: células epiteliais, linfócitos, células-tronco hematopoéticas) pela telomerase.  Distúrbios que envolvem a função da telomerase (ex.: disceratose congênita) resultam em morte prematura de células de alta renovação, causando caracteristicamente alterações mucocutâneas (ex.: leucoplasia oral, unhas distróficas), falência da medula óssea e fibrose pulmonar.',
+        options:[
+          {label:'A', text:'Miócitos cardíacos'},
+          {label:'B', text:'Neurônios do SNC'},
+          {label:'C', text:'Osteócitos do osso compacto'},
+          {label:'D', text:'Células-tronco hematopoéticas'},
+          {label:'E', text:'Oócitos secundários'},
+          {label:'F', text:'Células endoteliais vasculares'},
+        ],
+        explC:'Esta paciente tem disceratose congênita; um distúrbio genético envolvendo uma mutação nos genes relacionados à manutenção dos telômeros (ex.: transcriptase reversa da telomerase) que resulta em telômeros curtos.  Os telômeros são um complexo de proteína (ex.: shelterina) e repetições de DNA (ex.: TTAGGG) nas extremidades dos cromossomos, que previnem a degradação cromossômica e a fusão com cromossomos vizinhos.  A cada divisão celular, os telômeros encurtam progressivamente, atingindo por fim um comprimento crítico no qual a apoptose ou a senescência é desencadeada.\n\nEm células com alta taxa de renovação (ex.: células epiteliais, linfócitos, células-tronco hematopoéticas), o comprimento dos telômeros é mantido pela telomerase.  Esse complexo, composto por um molde de RNA e uma transcriptase reversa, adiciona repetições de DNA à extremidade dos telômeros à medida que são perdidas com a divisão celular.  Sem a atividade normal da telomerase, células de divisão rápida não conseguem manter a integridade cromossômica, desencadeando morte celular prematura.  Em pacientes com distúrbios de telômeros curtos, a perda dessas células pode causar alterações mucocutâneas características (ex.: leucoplasia oral, unhas distróficas), falência da medula óssea (ex.: pancitopenia) e fibrose pulmonar (por disfunção do epitélio alveolar).',
+        explI:[
+          {option:'A, B, C, and F', explanation:'A telomerase é inativada em células diferenciadas de vida longa, como miócitos cardíacos, neurônios do SNC, osteócitos do osso compacto e células endoteliais vasculares; portanto, essas células não têm probabilidade de serem afetadas pela mutação desta paciente.  Entretanto, em células cancerígenas derivadas de células diferenciadas, a telomerase é reativada, permitindo divisão celular contínua sem perda de comprimento telomérico.'},
+          {option:'E', explanation:'Oócitos secundários são óvulos imaturos que se formam como resultado da divisão de um oócito primário durante a meiose I.  Eles não continuam a se dividir e, portanto, também não têm probabilidade de serem afetados pela mutação desta paciente.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0038', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'A 65-year-old woman with chronic obstructive pulmonary disease and type 2 diabetes mellitus comes to the emergency department due to profound fever and malaise.  After initial evaluation, she is hospitalized for sepsis.  Blood cultures plated on lactose-containing media grow rapidly dividing gram-negative bacteria.  Replication of these microbial cells requires the synthesis of new bacterial DNA, a process that uses parent DNA strands as templates to produce 2 daughter strands.  DNA synthesis occurs slightly differently between the 2 strands.',
+      q:'The greatest difference most likely involves which of the following processes?',
+      options:[
+        {label:'A', text:'DNA fragment joining by DNA ligase'},
+        {label:'B', text:'Enzymatic function of DNA helicase'},
+        {label:'C', text:'Interaction with single-stranded DNA-binding proteins'},
+        {label:'D', text:'Proofreading orientation by DNA polymerase III'},
+        {label:'E', text:'Supercoil relaxation by DNA gyrase'},
+      ],
+      correct:'A',
+      explC:"DNA polymerases I and III are the main polymerase enzymes involved in prokaryotic DNA replication.  This process involves the following steps:\n\n- Separation of the parent strands: DNA helicase hydrolyzes ATP to separate the parent strands at the origin of replication, creating a replication fork on either side.  Single-stranded DNA-binding proteins bind, stabilize, and protect the now single-stranded parent strands.  DNA gyrase relaxes the supercoiling that forms as the parent strands unwind and the replication fork advances.  Helicases, single-strand DNA-binding proteins, and gyrase act on the parent, not the daughter, strands (Choices B, C, and E).\n- Priming of the template strands: Because DNA polymerase can only extend an existing strand, it requires a primer before DNA synthesis can begin.  Primase, a DNA-dependent RNA polymerase, synthesizes short RNA primers on each of the parent strands that accept the first nucleotide added by DNA polymerase.\n- Synthesis of the daughter strands: This process occurs simultaneously by DNA polymerase III using both parent strands as templates.  However, DNA polymerase can only synthesize DNA in the 5' to 3' direction.  Therefore, only one daughter strand, the leading strand, can be synthesized continuously.  In contrast, the lagging strand is synthesized in short fragments (Okazaki fragments), each requiring its own RNA primer.  These primers are subsequently removed and replaced with DNA (by DNA polymerase I), and then joined together by DNA ligase to form a continuous strand.\n\nBecause of the discontinuous nature of DNA synthesis on the lagging strand, DNA ligase acts many more times on the lagging strand than on the leading strand.",
+      explI:[
+        {option:'D', explanation:"DNA polymerase III proofreads both daughter strands (ie, leading and lagging strands) in the 3' to 5' direction using its 3' to 5' exonuclease activity."},
+      ],
+      objective:"DNA polymerase can synthesize DNA only in the 5' to 3' direction during replication.  Therefore, the leading strand can be synthesized continuously, whereas the lagging strand is synthesized in short fragments that are subsequently joined by DNA ligase to form a continuous strand.",
+      peer:{A:57, B:2, C:11, D:25, E:2},
+      ptTranslation:{
+        vignette:'Uma mulher de 65 anos com doença pulmonar obstrutiva crônica e diabetes mellitus tipo 2 vem ao pronto-socorro por febre intensa e mal-estar.  Após avaliação inicial, ela é internada por sepse.  Hemoculturas plaqueadas em meio contendo lactose desenvolvem bactérias gram-negativas de divisão rápida.  A replicação dessas células microbianas exige a síntese de novo DNA bacteriano, um processo que usa as fitas parentais de DNA como molde para produzir 2 fitas-filhas.  A síntese de DNA ocorre de forma ligeiramente diferente entre as 2 fitas.',
+        q:'A maior diferença mais provavelmente envolve qual dos seguintes processos?',
+        objective:'A DNA polimerase só consegue sintetizar DNA na direção 5\' para 3\' durante a replicação.  Portanto, a fita líder pode ser sintetizada de forma contínua, enquanto a fita tardia é sintetizada em pequenos fragmentos que são subsequentemente unidos pela DNA ligase para formar uma fita contínua.',
+        options:[
+          {label:'A', text:'União de fragmentos de DNA pela DNA ligase'},
+          {label:'B', text:'Função enzimática da DNA helicase'},
+          {label:'C', text:'Interação com proteínas ligadoras de DNA de fita simples'},
+          {label:'D', text:'Orientação de revisão pela DNA polimerase III'},
+          {label:'E', text:'Relaxamento de superenrolamento pela DNA girase'},
+        ],
+        explC:'As DNA polimerases I e III são as principais enzimas polimerase envolvidas na replicação do DNA procariótico.  Esse processo envolve as seguintes etapas:\n\n- Separação das fitas parentais: a DNA helicase hidrolisa ATP para separar as fitas parentais na origem de replicação, criando uma forquilha de replicação de cada lado.  Proteínas ligadoras de DNA de fita simples se ligam, estabilizam e protegem as fitas parentais agora de fita simples.  A DNA girase relaxa o superenrolamento que se forma à medida que as fitas parentais se desenrolam e a forquilha de replicação avança.  Helicases, proteínas ligadoras de DNA de fita simples e girase atuam nas fitas parentais, não nas fitas-filhas (Alternativas B, C e E).\n- Iniciação (priming) das fitas molde: como a DNA polimerase só consegue estender uma fita já existente, ela requer um primer antes de a síntese de DNA começar.  A primase, uma RNA polimerase DNA-dependente, sintetiza pequenos primers de RNA em cada uma das fitas parentais, que aceitam o primeiro nucleotídeo adicionado pela DNA polimerase.\n- Síntese das fitas-filhas: esse processo ocorre simultaneamente pela DNA polimerase III usando ambas as fitas parentais como molde.  Entretanto, a DNA polimerase só consegue sintetizar DNA na direção 5\' para 3\'.  Portanto, apenas uma fita-filha, a fita líder, pode ser sintetizada de forma contínua.  Em contraste, a fita tardia é sintetizada em pequenos fragmentos (fragmentos de Okazaki), cada um exigindo seu próprio primer de RNA.  Esses primers são subsequentemente removidos e substituídos por DNA (pela DNA polimerase I) e então unidos pela DNA ligase para formar uma fita contínua.\n\nDevido à natureza descontínua da síntese de DNA na fita tardia, a DNA ligase atua muito mais vezes na fita tardia do que na fita líder.',
+        explI:[
+          {option:'D', explanation:'A DNA polimerase III revisa ambas as fitas-filhas (isto é, fita líder e fita tardia) na direção 3\' para 5\' usando sua atividade exonucleásica 3\' para 5\'.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0039', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'A 4-year-old boy is brought to the office for evaluation of fatigue and bone pain.  Physical examination shows diffuse lymphadenopathy and purpura over his arms and legs.  Laboratory analysis reveals anemia and thrombocytopenia, and a peripheral blood smear shows lymphoblasts.  After further work-up, acute lymphoblastic leukemia is diagnosed, and the patient begins a chemotherapy regimen that includes doxorubicin.  This agent intercalates between DNA base pairs and inhibits DNA replication, a process that normally occurs at replication forks and produces 2 distinct daughter strands.',
+      q:'Which of the following is unique to the daughter strand that is synthesized in the opposite direction of the growing replication fork?',
+      options:[
+        {label:'A', text:"3'→5' exonuclease activity of DNA polymerase"},
+        {label:'B', text:"3'→5' polymerase activity of DNA polymerase"},
+        {label:'C', text:"5'→3' exonuclease activity of DNA polymerase"},
+        {label:'D', text:'RNA primer synthesis before DNA strand synthesis'},
+        {label:'E', text:'Synthesis of multiple, short DNA fragments'},
+      ],
+      correct:'E',
+      explC:"DNA replication begins at multiple sites—origins of replication—within eukaryotic chromosomes.  At these sites, the parent DNA double helix is separated and unwound in a process facilitated by the helicase enzyme and single-stranded DNA binding proteins.  The locations at which unwound DNA meets the double helix are known as replication forks.  Replication forks travel bidirectionally away from the origin of replication as DNA polymerase synthesizes complementary daughter DNA strands.\n\nSynthesis of the daughter strands occurs simultaneously from both parent strands.  However, because DNA synthesis can occur in only the 5'→3' direction, only 1 daughter strand is synthesized continuously toward the replication fork; this is the leading strand.  The other strand, called the lagging strand, must be synthesized discontinuously in a direction away from the replication fork; more segments are added as the replication fork moves across the DNA double helix.  This results in the formation of Okazaki fragments, short stretches of newly synthesized DNA that are separated by RNA primers.  These primers are then removed and replaced with DNA, and the Okazaki fragments are subsequently joined together by DNA ligase.",
+      explI:[
+        {option:'A', explanation:"DNA polymerases have 3'→5' exonuclease activity (proofreading function) that allows them to reverse direction and remove incorrectly placed bases.  This process occurs on both newly formed daughter strands (not just the lagging strand) to help reduce replication errors."},
+        {option:'B', explanation:"DNA polymerases do not have 3'→5' polymerase activity; all polymerases synthesize in the 5'→3' direction."},
+        {option:'C', explanation:"During the synthesis of the lagging strand, 5'→3' exonuclease activity is needed to remove RNA primers.  However, it is also used to remove primers when joining leading strands from separate origins of replication and is therefore not a unique mechanism in the creation of the lagging strand."},
+        {option:'D', explanation:'Before DNA polymerase can initiate DNA synthesis, RNA primers must first be synthesized by the enzyme primase (DNA-dependent RNA polymerase).  This process is necessary for synthesis of both daughter strands and is therefore not unique to the lagging strand.'},
+      ],
+      objective:"DNA synthesis occurs in the 5'→3' direction only.  During DNA replication, one daughter strand is synthesized continuously toward the replication fork (leading strand), whereas the other daughter strand is synthesized discontinuously away from the replication fork (lagging strand).  The lagging strand is formed from short stretches of newly synthesized DNA separated by RNA primers (Okazaki fragments).",
+      peer:{A:10, B:7, C:10, D:6, E:65},
+      ptTranslation:{
+        vignette:'Um menino de 4 anos é levado ao consultório para avaliação de fadiga e dor óssea.  O exame físico mostra linfadenopatia difusa e púrpura nos braços e nas pernas.  A análise laboratorial revela anemia e trombocitopenia, e o esfregaço de sangue periférico mostra linfoblastos.  Após investigação adicional, é diagnosticada leucemia linfoblástica aguda, e o paciente inicia um regime de quimioterapia que inclui doxorrubicina.  Esse agente se intercala entre os pares de bases do DNA e inibe a replicação do DNA, um processo que normalmente ocorre nas forquilhas de replicação e produz 2 fitas-filhas distintas.',
+        q:'Qual das seguintes é exclusiva da fita-filha que é sintetizada na direção oposta à do avanço da forquilha de replicação?',
+        objective:'A síntese de DNA ocorre apenas na direção 5\'→3\'.  Durante a replicação do DNA, uma fita-filha é sintetizada de forma contínua em direção à forquilha de replicação (fita líder), enquanto a outra fita-filha é sintetizada de forma descontínua na direção oposta à forquilha (fita tardia).  A fita tardia é formada a partir de pequenos trechos de DNA recém-sintetizado separados por primers de RNA (fragmentos de Okazaki).',
+        options:[
+          {label:'A', text:"Atividade exonucleásica 3'→5' da DNA polimerase"},
+          {label:'B', text:"Atividade polimerásica 3'→5' da DNA polimerase"},
+          {label:'C', text:"Atividade exonucleásica 5'→3' da DNA polimerase"},
+          {label:'D', text:'Síntese de primer de RNA antes da síntese da fita de DNA'},
+          {label:'E', text:'Síntese de múltiplos fragmentos curtos de DNA'},
+        ],
+        explC:'A replicação do DNA começa em múltiplos sítios — origens de replicação — dentro dos cromossomos eucarióticos.  Nesses sítios, a dupla hélice parental de DNA é separada e desenrolada em um processo facilitado pela enzima helicase e por proteínas ligadoras de DNA de fita simples.  Os locais onde o DNA desenrolado encontra a dupla hélice são conhecidos como forquilhas de replicação.  As forquilhas de replicação viajam bidirecionalmente para longe da origem de replicação à medida que a DNA polimerase sintetiza as fitas-filhas complementares de DNA.\n\nA síntese das fitas-filhas ocorre simultaneamente a partir de ambas as fitas parentais.  Entretanto, como a síntese de DNA só pode ocorrer na direção 5\'→3\', apenas 1 fita-filha é sintetizada de forma contínua em direção à forquilha de replicação; essa é a fita líder.  A outra fita, chamada de fita tardia, deve ser sintetizada de forma descontínua na direção oposta à forquilha de replicação; mais segmentos são adicionados à medida que a forquilha de replicação se move ao longo da dupla hélice de DNA.  Isso resulta na formação dos fragmentos de Okazaki, pequenos trechos de DNA recém-sintetizado separados por primers de RNA.  Esses primers são então removidos e substituídos por DNA, e os fragmentos de Okazaki são subsequentemente unidos pela DNA ligase.',
+        explI:[
+          {option:'A', explanation:'As DNA polimerases têm atividade exonucleásica 3\'→5\' (função de revisão) que lhes permite reverter a direção e remover bases colocadas incorretamente.  Esse processo ocorre em ambas as fitas-filhas recém-formadas (não apenas na fita tardia) para ajudar a reduzir erros de replicação.'},
+          {option:'B', explanation:'As DNA polimerases não têm atividade polimerásica 3\'→5\'; todas as polimerases sintetizam na direção 5\'→3\'.'},
+          {option:'C', explanation:'Durante a síntese da fita tardia, a atividade exonucleásica 5\'→3\' é necessária para remover os primers de RNA.  Entretanto, ela também é usada para remover primers ao unir fitas líder de origens de replicação separadas e, portanto, não é um mecanismo exclusivo na criação da fita tardia.'},
+          {option:'D', explanation:'Antes de a DNA polimerase poder iniciar a síntese de DNA, os primers de RNA devem primeiro ser sintetizados pela enzima primase (RNA polimerase DNA-dependente).  Esse processo é necessário para a síntese de ambas as fitas-filhas e, portanto, não é exclusivo da fita tardia.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
