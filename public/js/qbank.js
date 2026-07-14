@@ -6326,6 +6326,90 @@
         ]
       }
     },
+    // BATCH GEN 07 — Genetics: Miscellaneous
+    { id:'CMQ-STEP1-GEN-0060', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      img:'CMQ-STEP1-GEN-0060_desc.png',
+      vignette:'A 35-year-old woman, gravida 1 para 0, at 20 weeks gestation comes to the office for a routine prenatal visit and fetal anatomy ultrasound.  The ultrasound reveals several abnormalities.  An amniocentesis is performed and a fetal karyotype analysis is ordered; the results are shown in the image below:',
+      q:'This fetus is at greatest risk for developing which of the following conditions after birth?',
+      options:[
+        {label:'A', text:'Acute lymphoblastic leukemia'},
+        {label:'B', text:'Aplastic anemia'},
+        {label:'C', text:'Chronic myelogenous leukemia'},
+        {label:'D', text:'Germ cell tumor'},
+        {label:'E', text:'Retinoblastoma'},
+        {label:'F', text:'Rhabdomyosarcoma'},
+      ],
+      correct:'A',
+      explC:'This karyotype shows trisomy 21 (47, XY, +21), which is diagnostic for Down syndrome.  This condition usually results from meiotic nondisjunction in the ovum, with advanced maternal age (age ≥35) as a risk factor.  Prenatal diagnosis is often suspected based on associated ultrasound findings, including a thickened nuchal fold, cardiac septal defects, and/or gastrointestinal abnormalities (eg, duodenal atresia).\n\nDown syndrome is the most common genetic cause of intellectual disability.  In addition, Down syndrome significantly increases the risk of childhood hematologic malignancies, including acute lymphoblastic leukemia (most common leukemia in patients with Down syndrome) and acute megakaryoblastic leukemia.  The pathogenesis of the increased leukemia risk is uncertain, but may involve increased chromosome 21 gene expression promoting overall genomic instability.',
+      explI:[
+        {option:'B', explanation:'Patients with Fanconi anemia, not Down syndrome, develop bone marrow failure (aplastic anemia) due to an inherited mutation that causes defective DNA repair.  Karyotype analysis would be normal in this condition.'},
+        {option:'C', explanation:'Chronic myelogenous leukemia is commonly associated with a reciprocal translocation between the long arms of chromosomes 9 and 22 (ie, Philadelphia chromosome).  This translocation fuses the BCR gene on chromosome 22 to the ABL gene on chromosome 9, resulting in formation of the oncogenic BCR-ABL fusion gene.  Unlike this case, karyotype analysis would show elongation of chromosome 9 and shortening of chromosome 22.'},
+        {option:'D', explanation:'Turner syndrome (45, XO) and Klinefelter syndrome (47, XXY) increase the risk of ovarian germ cell tumors and extragonadal germ cell tumors, respectively.  This patient\'s karyotype is inconsistent with these diagnoses, and germ cell tumors are not increased in patients with Down syndrome.'},
+        {option:'E and F', explanation:'Incidence of retinoblastoma, which is associated with a retinoblastoma (RB1) gene mutation, and rhabdomyosarcoma is not increased in patients with Down syndrome.'},
+      ],
+      objective:'Trisomy 21 (which is diagnostic for Down syndrome) is detectable by cytogenetic karyotype analysis.  Patients are at increased risk of developing hematologic malignancies, including acute lymphoblastic leukemia and acute megakaryoblastic leukemia.',
+      peer:{A:79, B:2, C:9, D:2, E:3, F:1},
+      ptTranslation:{
+        vignette:'Uma mulher de 35 anos, gesta 1 para 0, com 20 semanas de gestação vem ao consultório para uma consulta pré-natal de rotina e ultrassonografia de anatomia fetal.  A ultrassonografia revela várias anormalidades.  Uma amniocentese é realizada e uma análise do cariótipo fetal é solicitada; os resultados são mostrados na imagem abaixo:',
+        q:'Este feto tem o maior risco de desenvolver qual das seguintes condições após o nascimento?',
+        objective:'A trissomia do 21 (que é diagnóstica para a síndrome de Down) é detectável pela análise citogenética do cariótipo.  Os pacientes têm risco aumentado de desenvolver neoplasias hematológicas, incluindo leucemia linfoblástica aguda e leucemia megacarioblástica aguda.',
+        options:[
+          {label:'A', text:'Leucemia linfoblástica aguda'},
+          {label:'B', text:'Anemia aplástica'},
+          {label:'C', text:'Leucemia mieloide crônica'},
+          {label:'D', text:'Tumor de células germinativas'},
+          {label:'E', text:'Retinoblastoma'},
+          {label:'F', text:'Rabdomiossarcoma'},
+        ],
+        explC:'Este cariótipo mostra a trissomia do 21 (47, XY, +21), que é diagnóstica para a síndrome de Down.  Essa condição geralmente resulta da não disjunção meiótica no óvulo, tendo a idade materna avançada (idade ≥35) como fator de risco.  O diagnóstico pré-natal é frequentemente suspeitado com base em achados ultrassonográficos associados, incluindo prega nucal espessada, defeitos do septo cardíaco e/ou anormalidades gastrointestinais (ex.: atresia duodenal).\n\nA síndrome de Down é a causa genética mais comum de deficiência intelectual.  Além disso, a síndrome de Down aumenta significativamente o risco de neoplasias hematológicas na infância, incluindo a leucemia linfoblástica aguda (leucemia mais comum em pacientes com síndrome de Down) e a leucemia megacarioblástica aguda.  A patogênese do risco aumentado de leucemia é incerta, mas pode envolver o aumento da expressão gênica do cromossomo 21 promovendo instabilidade genômica geral.',
+        explI:[
+          {option:'B', explanation:'Pacientes com anemia de Fanconi, e não síndrome de Down, desenvolvem falência da medula óssea (anemia aplástica) devido a uma mutação hereditária que causa reparo defeituoso do DNA.  A análise do cariótipo seria normal nessa condição.'},
+          {option:'C', explanation:'A leucemia mieloide crônica está comumente associada a uma translocação recíproca entre os braços longos dos cromossomos 9 e 22 (ie, cromossomo Philadelphia).  Essa translocação funde o gene BCR no cromossomo 22 ao gene ABL no cromossomo 9, resultando na formação do gene de fusão oncogênico BCR-ABL.  Ao contrário deste caso, a análise do cariótipo mostraria alongamento do cromossomo 9 e encurtamento do cromossomo 22.'},
+          {option:'D', explanation:'A síndrome de Turner (45, XO) e a síndrome de Klinefelter (47, XXY) aumentam o risco de tumores de células germinativas ovarianos e de tumores de células germinativas extragonadais, respectivamente.  O cariótipo desta paciente é inconsistente com esses diagnósticos, e os tumores de células germinativas não estão aumentados em pacientes com síndrome de Down.'},
+          {option:'E and F', explanation:'A incidência de retinoblastoma, que está associado a uma mutação do gene do retinoblastoma (RB1), e de rabdomiossarcoma não está aumentada em pacientes com síndrome de Down.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0061', system:'genetics', discipline:'biochemistry', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'Molecular biologists undertake a series of experiments designed to classify proteins involved in various intracellular pathways in neurons.  During one of the experiments, a protein mixture obtained from a cell culture is separated by gel electrophoresis and subsequently transferred to a filter membrane.  Labeled probes consisting of double-strand DNA are then used to detect a specific target of interest in the sample.',
+      q:'This method is most likely to detect which of the following?',
+      options:[
+        {label:'A', text:'Cell surface receptors'},
+        {label:'B', text:'Kinesins'},
+        {label:'C', text:'Ribosomes'},
+        {label:'D', text:'Spliceosomes'},
+        {label:'E', text:'Transcription factors'},
+      ],
+      correct:'E',
+      explC:'The Northern, Southern, and Western blot techniques can be used to identify RNA, DNA, and protein, respectively; the Southwestern blot technique specifically detects DNA-binding proteins.  In all analysis methods, the unknown specimen is separated according to molecular weight and charge by gel electrophoresis.  Once separated, the molecules form bands that are blotted onto a nitrocellulose membrane and incubated with a labeled probe specific to the specimen being analyzed.\n\nIn this experiment, the labeled probe is double-stranded DNA, which is used in the Southwestern blot technique to identify DNA-binding proteins (in contrast to single-strand nucleic acid hybridization probes used in Northern and Southern blots).  The probe attaches to the DNA-binding region of the protein (eg, zinc finger, leucine zipper, Rel homology domain).  Of the options listed, only transcription factors bind DNA and would therefore be detected by double-stranded DNA probes.',
+      explI:[
+        {option:'A', explanation:'Cell surface receptors bind extracellular ligands (eg, neurotransmitters).'},
+        {option:'B', explanation:'Kinesins are proteins involved in transporting intracellular products from the center to the periphery of a cell (eg, axonal transport).  Kinesins have binding sites for microtubules and ATP, not DNA.'},
+        {option:'C', explanation:'Ribosomes are the sites of protein synthesis.  They bind mRNA, not DNA.'},
+        {option:'D', explanation:'Spliceosomes generate mature mRNA by binding pre-mRNA to remove introns.  Spliceosomes do not bind DNA.'},
+      ],
+      objective:'Double-strand DNA probes are used in the Southwestern blot technique to identify DNA-binding proteins, including transcription factors.',
+      peer:{A:8, B:7, C:8, D:10, E:64},
+      ptTranslation:{
+        vignette:'Biólogos moleculares realizam uma série de experimentos destinados a classificar proteínas envolvidas em várias vias intracelulares em neurônios.  Durante um dos experimentos, uma mistura de proteínas obtida de uma cultura de células é separada por eletroforese em gel e subsequentemente transferida para uma membrana de filtro.  Sondas marcadas consistindo de DNA de fita dupla são então usadas para detectar um alvo específico de interesse na amostra.',
+        q:'Este método tem maior probabilidade de detectar qual das seguintes opções?',
+        objective:'Sondas de DNA de fita dupla são usadas na técnica de Southwestern blot para identificar proteínas ligadoras de DNA, incluindo fatores de transcrição.',
+        options:[
+          {label:'A', text:'Receptores de superfície celular'},
+          {label:'B', text:'Cinesinas'},
+          {label:'C', text:'Ribossomos'},
+          {label:'D', text:'Spliceossomos'},
+          {label:'E', text:'Fatores de transcrição'},
+        ],
+        explC:'As técnicas de Northern, Southern e Western blot podem ser usadas para identificar RNA, DNA e proteína, respectivamente; a técnica de Southwestern blot detecta especificamente proteínas ligadoras de DNA.  Em todos os métodos de análise, a amostra desconhecida é separada de acordo com o peso molecular e a carga por eletroforese em gel.  Uma vez separadas, as moléculas formam bandas que são transferidas (blotted) para uma membrana de nitrocelulose e incubadas com uma sonda marcada específica para a amostra que está sendo analisada.\n\nNeste experimento, a sonda marcada é DNA de fita dupla, que é usado na técnica de Southwestern blot para identificar proteínas ligadoras de DNA (em contraste com as sondas de hibridização de ácido nucleico de fita simples usadas nos blots Northern e Southern).  A sonda liga-se à região de ligação ao DNA da proteína (ex.: dedo de zinco, zíper de leucina, domínio de homologia Rel).  Das opções listadas, apenas os fatores de transcrição se ligam ao DNA e, portanto, seriam detectados por sondas de DNA de fita dupla.',
+        explI:[
+          {option:'A', explanation:'Os receptores de superfície celular ligam-se a ligantes extracelulares (ex.: neurotransmissores).'},
+          {option:'B', explanation:'As cinesinas são proteínas envolvidas no transporte de produtos intracelulares do centro para a periferia de uma célula (ex.: transporte axonal).  As cinesinas têm sítios de ligação para microtúbulos e ATP, não para DNA.'},
+          {option:'C', explanation:'Os ribossomos são os sítios de síntese proteica.  Eles ligam-se ao mRNA, não ao DNA.'},
+          {option:'D', explanation:'Os spliceossomos geram o mRNA maduro ao se ligarem ao pré-mRNA para remover íntrons.  Os spliceossomos não se ligam ao DNA.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
