@@ -4014,6 +4014,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0002', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0002_expl_nondisjunction_meiosis.png',
       vignette:'An infant born to a 34-year-old woman has a flat facial profile, prominent epicanthal folds, and a holosystolic murmur heard loudest at the left sternal border.  Karyotype analysis is consistent with trisomy 21.  Maternal and paternal karyotypes are normal.  A restriction fragment length polymorphism (RFLP) analysis is conducted to determine the parental origin of the extra chromosome.  DNA samples from the child, mother, and father are obtained and the DNA is fragmented with a restriction enzyme.  The fragments are then sorted by size using the Southern blot technique.  Labeling is done using a probe that binds to a specific DNA sequence close to the centromere of chromosome 21.  RFLP analysis for the child, mother, and father is shown below.',
       q:'In which of the following meiosis events did the nondisjunction most likely occur?',
       img:'assets/qbank/CMQ-STEP1-GEN-0002_rflp_trisomy21_bands.png',
@@ -4092,6 +4093,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0004', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0004_expl_probability_cf_child.png',
       vignette:'A young couple has undergone a successful in vitro fertilization procedure.  The family pedigree is diagrammed below.  The father (II-4) and the mother\'s sister (II-2) have cystic fibrosis (CF) (indicated by black in the diagram) due to ΔF508 mutations.  The carrier status of the mother (II-3) is unknown.  Before making the decision to conceive, the couple underwent extensive genetic counseling regarding the potential risks of having a child with CF.  The fetus (III-1) is indicated by the red arrow.',
       q:"Which of the following is the probability that the couple's child will have CF?",
       img:'assets/qbank/CMQ-STEP1-GEN-0004_cystic_fibrosis_pedigree.png',
@@ -4133,6 +4135,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0005', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0005_expl_heteroplasmy.png',
       vignette:'A 12-year-old boy is brought to the clinic for evaluation of muscle weakness.  The patient has a history of seizures, and he has recently had several stroke-like episodes that resulted in muscle weakness.  Examination shows decreased strength in the upper and lower extremities on the left compared to the right.  Laboratory evaluation shows increased serum lactate levels both after exercise and at rest.  Further work-up confirms that the patient has a genetic condition that is transmitted exclusively through the maternal line.  His older sister is affected by the same disorder, but she displays very few symptoms.',
       q:'Which of the following is the most likely explanation for the variability in clinical presentation between this patient and his sister?',
       options:[
@@ -4222,6 +4225,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0007', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0007_expl_frameshift_inframe_cftr.png',
       vignette:"A 3-year-old boy is being evaluated for recurrent respiratory infections.  The patient's family immigrated to the United States 5 months after his birth.  Since then, the boy has experienced multiple episodes of pneumonia and bronchitis.  Genetic testing reveals a mutation in exon 4 of the CFTR gene leading to production of an mRNA transcript that is 6,118 nucleotides long.  The wild-type allele produces an mRNA transcript that is 6,128 nucleotides long.",
       q:"Which of the following is most likely responsible for this patient's condition?",
       options:[
@@ -4260,6 +4264,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0008', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0008_expl_hla_inheritance.png',
       vignette:"A 50-year-old previously healthy man is evaluated for progressive fatigue, weakness, and recurrent gingival bleeding.  Laboratory studies reveal normocytic normochromic anemia, thrombocytopenia, and leukocytosis with circulating myeloblasts.  Bone marrow biopsy establishes a diagnosis of acute myeloid leukemia.  Induction chemotherapy followed by allogeneic hematopoietic cell transplantation (HCT) is planned.  Molecular typing of human leukocyte antigen (HLA) -A, -B, -C, -DP, -DQ, and -DR is performed.  The patient's biological sister, with whom he shares both parents, is eligible for stem cell donation and undergoes HLA typing.",
       q:'Which of the following is the most likely probability that the sibling will be an identical HLA match with this patient?',
       options:[
@@ -4294,6 +4299,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0009', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0009_expl_genetic_tests_table.png',
       vignette:'Researchers studying cancer predisposition syndromes evaluate a group of patients who have early-onset solid tumors, including soft tissue sarcomas and brain tumors.  These patients all have loss of function in a protein that plays a major role in regulating cell cycle progression.  The protein is encoded by a gene on chromosome 17, and most patients appear to have point mutations within the gene.  However, the specific site within the gene where they occur varies widely among patients, and many of the causative mutations remain unknown and not well characterized.',
       q:'Which of the following studies is most appropriate in the initial evaluation of patients suspected of having this condition?',
       options:[
@@ -4332,6 +4338,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0010', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0010_expl_fish_bcr_abl1.png',
       vignette:'A 50-year-old man comes to the clinic for evaluation of worsening fatigue.  He reports no fevers or recent illnesses.  The patient has no prior medical conditions and takes no medications.  Examination shows mild pallor and an enlarged spleen.  Laboratory evaluation reveals leukocytosis and anemia.  Peripheral blood smear and bone marrow aspirate both reveal hyperplasia of granulocytic cells at various stages of maturation with no increased blasts.  These findings are consistent with chronic myeloid leukemia.  However, chromosomal analysis from the bone marrow reveals 46,XY in 20 out of 20 cells, with no detectable clones containing the Philadelphia chromosome.',
       q:'Which of the following tests is the best next step to confirm the diagnosis in this patient?',
       options:[
@@ -4372,6 +4379,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0011', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0011_expl_locus_heterogeneity_albinism.png',
       vignette:'A 25-year-old nulligravid woman comes with her husband to the clinic for preconception genetic counseling.  She has oculocutaneous albinism due to a homozygous OCA2 gene mutation within the region of chromosome 15q12-q13.  Examination shows pale hypopigmented skin with blonde hair.  Eye examination shows faint brown irises.  Her husband is 26 years old and has oculocutaneous albinism due to a biallelic TYR gene mutation at position 11q14.3.  Examination of the husband shows complete absence of pigmentation in the skin, hair, and irises.  The couple asks about their chance of having a child with oculocutaneous albinism and are told that the chance is 0%.',
       q:'Which of the following is the best explanation for this?',
       options:[
@@ -4416,6 +4424,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0012', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0012_expl_linkage_disequilibrium.png',
       vignette:'A study is undertaken to map the HLA-DQ loci in a population with a high incidence of celiac sprue.  High-resolution HLA typing of the DQA1 and DQB1 loci is performed using polymerase chain reaction sequencing.  The frequency of the DQA1*0501-DQB1*0201 haplotype, strongly implicated in autoimmunity, is found to be 0.2.  However, in the same population, the frequency of the DQA1*0501 allele is 0.3 and the frequency of the DQB1*0201 allele is 0.2.',
       q:'Which of the following best explains the observed DQA1*0501-DQB1*0201 haplotype frequency in this population?',
       options:[
@@ -4456,6 +4465,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0013', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0013_expl_autosomal_recessive_pedigree.png',
       vignette:'A patient is suspected of having an inherited disorder.  Pedigree analysis shows the following pattern:',
       q:'This patient most likely has which of the following conditions?',
       img:'assets/qbank/CMQ-STEP1-GEN-0013_galactosemia_pedigree.png',
@@ -4502,6 +4512,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0014', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0014_expl_dna_mutations_table.png',
       vignette:'A 5-year-old boy is being evaluated for progressive muscle weakness that has resulted in numerous recent falls.  There is no family history of muscle disorders.  Physical examination reveals bilateral calf enlargement.  When the patient is asked to stand, he uses his hands and arms to help push himself to an upright position.  Serum creatine kinase is 12,600 U/L (normal: 30-170 U/L).  Molecular tests reveal a large muscle protein that is defective due to the loss of 508 amino acid residues.  Genetic analysis reveals a single base substitution within exon 48 of the gene encoding this muscle protein.',
       q:"This patient's gene mutation has most likely resulted in which of the following mRNA codon changes?",
       options:[
@@ -4545,6 +4556,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0015', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0015_expl_autosomal_recessive_punnett.png',
       vignette:'A 26-year-old woman comes to the office with her husband for genetic counseling.  Both of them are healthy with no chronic medical conditions, but their firstborn son has had recurrent episodes of anemia, jaundice, and painful swelling of the hands and feet.  Hemoglobin electrophoresis is performed on the son at alkaline pH to determine the predominant hemoglobin variants present in his red blood cells.  The results are shown below.',
       q:'The parents are considering having another child.  What is the probability they will conceive a child who inherits ≥1 mutated alleles?',
       img:'assets/qbank/CMQ-STEP1-GEN-0015_hemoglobin_electrophoresis_scd.png',
@@ -4576,6 +4588,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0016', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0016_expl_down_syndrome_inheritance_table.png',
       vignette:'A 1-hour-old girl born to a 40-year-old woman is brought to the nursery for evaluation.  The pregnancy and delivery were uncomplicated.  Physical examination shows mid-face hypoplasia with a flat nasal bridge, up-slanting palpebral fissures, a small mouth, and a single palmar crease bilaterally.  Cardiac auscultation reveals a blowing holosystolic murmur heard best along the sternal border.',
       q:'Which of the following abnormalities is most likely to be present in this patient?',
       options:[
@@ -4614,6 +4627,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0017', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0017_expl_autosomal_dominant_punnett.png',
       vignette:'A married couple comes to the office for routine prenatal counseling.  The husband is 120 cm (3 ft 11 in) tall with disproportionately short upper and lower extremities, a large head, and a prominent forehead.  He cannot provide a biological family history because he was adopted.  His spouse is average height with no dysmorphic features, and her family history is insignificant.  They inquire about the likelihood that their offspring will have short stature due to the same condition as the father.',
       q:'Which of the following is the best response to their concerns?',
       options:[
@@ -4652,6 +4666,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0018', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0018_expl_xlinked_recessive_punnett.png',
       vignette:'A 25-year-old man experiences severe intolerance to certain medications.  On 2 occasions, his reactions to various drugs have necessitated hospital admission.  His family pedigree with respect to this condition is shown below, with the red arrow indicating his position within the family.',
       q:'Assuming that the genetic condition demonstrates complete penetrance and is rare in the general population, which of the following inheritance patterns is most likely?',
       img:'assets/qbank/CMQ-STEP1-GEN-0018_g6pd_xlinked_pedigree.png',
@@ -4698,6 +4713,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0019', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0019_expl_anticipation_huntington.png',
       vignette:'A 28-year-old man is evaluated for abnormal movements of the hands and face.  The patient reports that he started experiencing involuntary grimacing a year ago, which has gradually worsened.  He is taking a selective serotonin reuptake inhibitor for major depression but has not taken any antipsychotic medications.  His 52-year-old father was diagnosed with an inherited movement disorder 2 months ago.  Physical examination shows normal strength and normal deep tendon reflexes.  No sensory deficits are noted.',
       q:'Which of the following best explains the difference in disease presentation between this patient and his father?',
       options:[
@@ -4795,6 +4811,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0021', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0021_expl_xlinked_recessive_probability_tree.png',
       vignette:"A 23-year-old primigravid woman at 12 weeks gestation comes to the clinic for evaluation.  She and her male partner are healthy, but her younger brother has an inherited bleeding disorder.  His condition was diagnosed after he developed severe, prolonged bleeding following a tooth extraction.  The brother also has had multiple episodes of painful joint swelling and bleeding into muscles following minimal trauma.  Both of the patient's parents are healthy, but genetic analysis reveals that one parent is a carrier of the disease.  The sex of the patient's fetus is unknown.",
       q:'Which of the following is the best estimate of the probability that the fetus will also develop disease manifestations?',
       options:[
