@@ -5882,6 +5882,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0049', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0049_expl_mrna_trna_stop_codons.png',
       vignette:'Geneticists are studying a malfunctioning protein that causes impaired endothelial cell migration and angiogenesis.  They have noticed that the amino acid length of the protein is truncated compared to normal controls.  The corresponding mRNA strand is isolated, and sequencing reveals a nonsense mutation.  The relevant portion of the mRNA sequence is shown below:\n\n5\'—ACG-CUA-CCA-UUG-UAA-CAA-GUU-AGC-UAG—3\'',
       q:'Which of the following tRNA anticodons is responsible for adding the last amino acid to the truncated protein during translation?',
       options:[
@@ -5920,7 +5921,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0050', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
-      img:'CMQ-STEP1-GEN-0050_desc.png',
+      img:'assets/qbank/CMQ-STEP1-GEN-0050_desc.png',
+      explImg:['assets/qbank/CMQ-STEP1-GEN-0050_expl_termination_of_translation.png','assets/qbank/CMQ-STEP1-GEN-0050_expl_splicing_of_pre_mrna.png'],
       vignette:'A pharmaceutical researcher develops a new drug that affects bacterial protein synthesis.  In an experiment, Escherichia coli is exposed to the drug and then cultured in media containing tagged nucleotides and amino acids.  It is found that the drug inhibits molecules that recognize the highlighted codon in the bacterial mRNA fragment shown in the image below:',
       q:'Which of the following molecules is the most likely target of this drug?',
       options:[
@@ -5963,6 +5965,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0051', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0051_expl_wobble_hypothesis.png',
       vignette:'A researcher develops two mRNA sequences, one with a coding region composed exclusively of CUC trinucleotide repeats and another with a coding region comprised entirely of CUU trinucleotide repeats.  The mRNA sequences are then placed in solutions containing functional ribosomes and appropriately-charged tRNA molecules that all have the same anticodon, which is complementary to only one of the trinucleotide repeat patterns.  After several hours, it is found that both mRNA sequences produce polypeptide chains containing multiple leucine residues.',
       q:'This observed finding is most likely due to which of the following properties of the genetic code?',
       options:[
@@ -6039,7 +6042,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0053', system:'genetics', discipline:'genetics', category:'genetics::protein_synthesis', difficulty:'hard',
-      img:'CMQ-STEP1-GEN-0053_desc.png',
+      img:'assets/qbank/CMQ-STEP1-GEN-0053_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0053_expl_rna_polymerase_table.png',
       vignette:'A 58-year-old man comes to the office with a persistent dry cough.  He also has involuntarily lost 10 kg (22 lb) over the past 3 months.  The patient drinks 2 or 3 beers daily and has a 40-pack-year smoking history.  Physical examination shows dullness to percussion over the right lower lung base.  CT scan of the chest reveals a right-sided pleural effusion and a mass in the lower lobe of the right lung.  Microscopic examination of the mass demonstrates malignant cells with large nuclei that contain prominent, round, basophilic bodies, as shown in the image below:',
       q:'Which of the following enzymes is most likely to function only within this basophilic region of the nucleus?',
       options:[
@@ -6076,7 +6080,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0054', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'medium',
-      img:'CMQ-STEP1-GEN-0054_desc.png',
+      img:'assets/qbank/CMQ-STEP1-GEN-0054_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0054_expl_organelles_em.png',
       vignette:'Molecular biologists are investigating the functional significance of non-coding RNA molecules.  During an experiment, they isolate large complexes containing both protein and RNA from exocrine pancreatic cells.  The complexes are found both freely floating in the cytoplasm and bound to the endoplasmic reticulum.',
       q:'The RNA found within these complexes is primarily synthesized at which of the following intracellular sites?',
       options:[
@@ -6117,6 +6122,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0055', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0055_expl_mrna_processing_steps.png',
       vignette:'In an experiment, cultured fibroblasts are mechanically lysed, and the membrane lipids and cellular proteins are chemically removed to isolate nucleic acids.  The cellular extract containing the purified nucleic acids is incubated along with short sequences of repeated deoxythymidine residues fixed to latex beads.  The solution is washed several times to remove unbound molecules.',
       q:'Which of the following types of nucleic acid is most likely to bind the strongest to the latex beads in this experiment?',
       options:[
@@ -6159,6 +6165,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0056', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0056_expl_trna_secondary_structure.png',
       vignette:'A series of experiments is being conducted to determine the structure and function of different types of bacterial RNA.  Cultures of Staphylococcus aureus are exposed to chemicals that lyse the bacterial cells, and the RNA molecules are then extracted.  A specific RNA consisting of 90 nucleotides is purified for further analysis.  It is found to contain high amounts of chemically modified bases such as dihydrouridine, pseudouridine, and ribothymidine, and its secondary structure arises from base pairing within the chain.',
       q:'Which of the following is the most likely composition of the 3\'-end of this molecule?',
       options:[
@@ -6199,7 +6206,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0057', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'medium',
-      img:'CMQ-STEP1-GEN-0057_desc.png',
+      img:'assets/qbank/CMQ-STEP1-GEN-0057_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0057_expl_rna_interference.png',
       vignette:'A pharmaceutical corporation investigating new therapeutic agents for treatment of Burkitt lymphoma synthesizes a double-stranded RNA molecule that is 21 base pairs in length.  The RNA molecule has a base pair sequence that is complementary to a region of mRNA encoding c-Myc.  Introduction of the RNA molecule into tumor cells results in a significant reduction in cell growth.  Western blot analysis of equivalent numbers of treated and untreated cells is shown below.',
       q:'Which of the following processes was most likely directly interrupted in the cells exposed to the RNA molecule?',
       options:[
@@ -6240,7 +6248,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0058', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'medium',
-      img:'CMQ-STEP1-GEN-0058_desc.png',
+      img:'assets/qbank/CMQ-STEP1-GEN-0058_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0058_expl_trna_secondary_structure_labeled.png',
       vignette:'A geneticist is performing an experiment to alter protein structures by incorporating modified amino acids into their polypeptide sequences.  During the process, she incubates dermal fibroblasts in a medium containing fluorescently labeled lysine residues.  After several hours, she finds that aminoacyl tRNA synthetase in the fibroblasts "loads" lysine residues onto tRNA molecules containing the anticodon UUU.',
       q:'This residue most likely attaches to tRNA at which of the following sites in the image shown below?',
       options:[
@@ -6285,7 +6294,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0059', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'easy',
-      img:'CMQ-STEP1-GEN-0059_desc.png',
+      img:'assets/qbank/CMQ-STEP1-GEN-0059_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0059_expl_eukaryotic_gene_organization.png',
       vignette:'A genetic study performed on a 10-year-old boy reveals a single base substitution mutation impacting the production of a cellular protein.  The affected region of the involved gene is shown in the image below.',
       q:'This mutation is most likely to affect which of the following processes?',
       options:[
@@ -6331,7 +6341,7 @@
     },
     // BATCH GEN 07 — Genetics: Miscellaneous
     { id:'CMQ-STEP1-GEN-0060', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
-      img:'CMQ-STEP1-GEN-0060_desc.png',
+      img:'assets/qbank/CMQ-STEP1-GEN-0060_desc.png',
       vignette:'A 35-year-old woman, gravida 1 para 0, at 20 weeks gestation comes to the office for a routine prenatal visit and fetal anatomy ultrasound.  The ultrasound reveals several abnormalities.  An amniocentesis is performed and a fetal karyotype analysis is ordered; the results are shown in the image below:',
       q:'This fetus is at greatest risk for developing which of the following conditions after birth?',
       options:[
