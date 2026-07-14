@@ -6351,6 +6351,7 @@
     // BATCH GEN 07 — Genetics: Miscellaneous
     { id:'CMQ-STEP1-GEN-0060', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
       img:'assets/qbank/CMQ-STEP1-GEN-0060_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0060_expl_down_syndrome_comorbidities.png',
       vignette:'A 35-year-old woman, gravida 1 para 0, at 20 weeks gestation comes to the office for a routine prenatal visit and fetal anatomy ultrasound.  The ultrasound reveals several abnormalities.  An amniocentesis is performed and a fetal karyotype analysis is ordered; the results are shown in the image below:',
       q:'This fetus is at greatest risk for developing which of the following conditions after birth?',
       options:[
@@ -6393,6 +6394,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0061', system:'genetics', discipline:'biochemistry', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0061_expl_blot_techniques_table.png',
       vignette:'Molecular biologists undertake a series of experiments designed to classify proteins involved in various intracellular pathways in neurons.  During one of the experiments, a protein mixture obtained from a cell culture is separated by gel electrophoresis and subsequently transferred to a filter membrane.  Labeled probes consisting of double-strand DNA are then used to detect a specific target of interest in the sample.',
       q:'This method is most likely to detect which of the following?',
       options:[
