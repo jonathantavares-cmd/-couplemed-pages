@@ -4610,6 +4610,134 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0017', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'A married couple comes to the office for routine prenatal counseling.  The husband is 120 cm (3 ft 11 in) tall with disproportionately short upper and lower extremities, a large head, and a prominent forehead.  He cannot provide a biological family history because he was adopted.  His spouse is average height with no dysmorphic features, and her family history is insignificant.  They inquire about the likelihood that their offspring will have short stature due to the same condition as the father.',
+      q:'Which of the following is the best response to their concerns?',
+      options:[
+        {label:'A', text:'The condition is not hereditary'},
+        {label:'B', text:"The probability depends on the child's biological sex"},
+        {label:'C', text:"The probability depends on the mother's carrier status"},
+        {label:'D', text:'The probability is about 25%'},
+        {label:'E', text:'The probability is about 50%'},
+      ],
+      correct:'E',
+      explC:'This man\'s short stature and morphologic features are suggestive of achondroplasia, the most common form of bone dysplasia.  It is caused by a gain-of-function mutation in the fibroblast growth factor receptor 3 (FGFR3) gene, which encodes a protein that inhibits chondrocyte proliferation and endochondral bone growth.\n\nAchondroplasia occurs as a sporadic mutation in 85% of cases; advanced paternal age is a risk factor due to increased DNA replication errors during spermatogenesis.  However, once a mutation occurs, it can be transmitted as an autosomal dominant trait (responsible for the remaining 15% of cases) with complete penetrance (Choice A).\n\nInheritance of only 1 mutant allele causes the disorder; inheritance of 2 mutant alleles (ie, homozygous achondroplasia) is lethal.  As a result, the man must be heterozygous for the achondroplasia mutation.  A heterozygous parent has a 50% chance of transmitting the mutated allele; therefore, the unborn child has a 50% chance of inheriting achondroplasia.  Because achondroplasia is a rare condition, the probability of having a sporadic mutation does not significantly add to the probability of inheriting the disease.',
+      explI:[
+        {option:'B', explanation:'In sex-linked disorders, the responsible gene is located on a sex chromosome (either X or Y).  Most sex-linked disorders are X-linked recessive; females with 1 copy of the defective gene will not have the disorder (they will be carriers), but all males who inherit the defective gene will be affected.  In X-linked dominant disorders, both males and females are affected following inheritance of the defective gene.'},
+        {option:'C', explanation:'Because inheritance of only 1 mutant allele causes achondroplasia and the disease is completely penetrant, carriers do not exist.  This woman must be homozygous for the normal allele (since she is average height with no features that suggest achondroplasia).'},
+        {option:'D', explanation:'About 25% of children are affected in autosomal recessive disorders if both parents carry 1 copy of the defective gene.  Many recessive disorders are the result of enzymatic deficiencies (eg, phenylketonuria) that require both copies of the gene to be knocked out, as 1 functional copy usually provides sufficient enzymatic activity to prevent occurrence of the disease.'},
+      ],
+      objective:'Achondroplasia is an autosomal dominant (AD) disorder that results in a gain-of-function mutation in the FGFR3 gene.  Most individuals affected by AD disorders are heterozygous and have a 50% chance of transmitting the mutation to their offspring.',
+      peer:{A:7, B:4, C:20, D:7, E:59},
+      ptTranslation:{
+        vignette:'Um casal casado vem ao consultório para aconselhamento pré-natal de rotina.  O marido tem 120 cm (3 pés 11 pol) de altura, com extremidades superiores e inferiores desproporcionalmente curtas, cabeça grande e testa proeminente.  Ele não consegue fornecer histórico familiar biológico porque foi adotado.  Sua esposa tem altura média, sem características dismórficas, e seu histórico familiar não é significativo.  Eles perguntam sobre a probabilidade de a prole ter baixa estatura devido à mesma condição do pai.',
+        q:'Qual das seguintes é a melhor resposta para essa preocupação?',
+        objective:'A acondroplasia é um distúrbio autossômico dominante (AD) que resulta de uma mutação de ganho de função no gene FGFR3.  A maioria dos indivíduos afetados por distúrbios AD é heterozigota e tem 50% de chance de transmitir a mutação para a prole.',
+        options:[
+          {label:'A', text:'A condição não é hereditária'},
+          {label:'B', text:'A probabilidade depende do sexo biológico da criança'},
+          {label:'C', text:'A probabilidade depende do status de portadora da mãe'},
+          {label:'D', text:'A probabilidade é de cerca de 25%'},
+          {label:'E', text:'A probabilidade é de cerca de 50%'},
+        ],
+        explC:'A baixa estatura e as características morfológicas deste homem sugerem acondroplasia, a forma mais comum de displasia óssea.  Ela é causada por uma mutação de ganho de função no gene do receptor 3 do fator de crescimento de fibroblastos (FGFR3), que codifica uma proteína que inibe a proliferação de condrócitos e o crescimento ósseo endocondral.\n\nA acondroplasia ocorre como mutação esporádica em 85% dos casos; idade paterna avançada é fator de risco devido ao aumento de erros de replicação do DNA durante a espermatogênese.  Entretanto, uma vez que a mutação ocorre, ela pode ser transmitida como um traço autossômico dominante (responsável pelos 15% restantes dos casos) com penetrância completa (Alternativa A).\n\nA herança de apenas 1 alelo mutante causa o distúrbio; a herança de 2 alelos mutantes (isto é, acondroplasia homozigota) é letal.  Como resultado, o homem deve ser heterozigoto para a mutação da acondroplasia.  Um genitor heterozigoto tem 50% de chance de transmitir o alelo mutado; portanto, o feto tem 50% de chance de herdar acondroplasia.  Como a acondroplasia é uma condição rara, a probabilidade de haver uma mutação esporádica não aumenta significativamente a probabilidade de herdar a doença.',
+        explI:[
+          {option:'B', explanation:'Em distúrbios ligados ao sexo, o gene responsável está localizado em um cromossomo sexual (X ou Y).  A maioria dos distúrbios ligados ao sexo é recessiva ligada ao X; mulheres com 1 cópia do gene defeituoso não terão o distúrbio (serão portadoras), mas todos os homens que herdarem o gene defeituoso serão afetados.  Em distúrbios dominantes ligados ao X, tanto homens quanto mulheres são afetados após herdar o gene defeituoso.'},
+          {option:'C', explanation:'Como a herança de apenas 1 alelo mutante causa acondroplasia e a doença é completamente penetrante, portadores não existem.  Esta mulher deve ser homozigota para o alelo normal (já que ela tem altura média, sem características que sugiram acondroplasia).'},
+          {option:'D', explanation:'Cerca de 25% dos filhos são afetados em distúrbios autossômicos recessivos se ambos os pais carregarem 1 cópia do gene defeituoso.  Muitos distúrbios recessivos são resultado de deficiências enzimáticas (ex.: fenilcetonúria) que exigem que ambas as cópias do gene sejam inativadas, já que 1 cópia funcional geralmente fornece atividade enzimática suficiente para prevenir a ocorrência da doença.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0018', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      vignette:'A 25-year-old man experiences severe intolerance to certain medications.  On 2 occasions, his reactions to various drugs have necessitated hospital admission.  His family pedigree with respect to this condition is shown below, with the red arrow indicating his position within the family.',
+      q:'Assuming that the genetic condition demonstrates complete penetrance and is rare in the general population, which of the following inheritance patterns is most likely?',
+      img:'assets/qbank/CMQ-STEP1-GEN-0018_g6pd_xlinked_pedigree.png',
+      options:[
+        {label:'A', text:'Autosomal dominant'},
+        {label:'B', text:'Autosomal recessive'},
+        {label:'C', text:'X-linked dominant'},
+        {label:'D', text:'X-linked recessive'},
+        {label:'E', text:'Mitochondrial'},
+      ],
+      correct:'D',
+      explC:'The pedigree shows that only males are affected by the drug intolerance.  Specifically, male offspring of unaffected parents are affected.  There is no evidence of male-to-male transmission.  This pattern is most consistent with X-linked recessive inheritance from an asymptomatic carrier female in the first generation.  In X-linked recessive inheritance:\n\n1. Affected males will always produce unaffected sons and carrier daughters.\n2. Carrier females have a 50% chance of producing an affected son or carrier daughter.\n\nG6PD deficiency, which causes acute hemolytic anemia on exposure to oxidant drugs, follows an X-linked recessive pattern of inheritance.',
+      explI:[
+        {option:'A', explanation:'With autosomal dominant inheritance, affected individuals have at least 1 parent that is also affected.'},
+        {option:'B', explanation:'In autosomal recessive inheritance, both parents must at least be carriers (heterozygous) for the mutation in order to produce affected offspring.  However, the father of the marked individual comes from outside the family and would be unlikely to carry the mutation (the question states the mutation is rare in the general population).'},
+        {option:'C', explanation:'In X-linked dominant inheritance, affected individuals have at least 1 parent (of either sex) that is also affected.  An affected male will always produce affected daughters, but none of his sons will be affected.'},
+        {option:'E', explanation:"Conditions with mitochondrial inheritance are transmitted only by females.  All of an affected female's offspring are likely to show signs of the disease."},
+      ],
+      objective:'In X-linked recessive inheritance 1) affected males will always produce unaffected sons and carrier daughters, and 2) carrier females have a 50% chance of producing affected sons and carrier daughters.  G6PD deficiency follows this inheritance pattern and causes acute hemolytic anemia in response to oxidant drugs.',
+      peer:{A:0, B:19, C:3, D:73, E:2},
+      labs:[
+        ['G6PD enzyme activity (RBC)', '~8.0–11.9 U/g Hb (adult)', '~8,0–11,9 U/g Hb (adulto)',
+         'Markedly reduced in G6PD deficiency, predisposing to acute hemolysis after exposure to oxidant drugs or stressors',
+         'Marcadamente reduzida na deficiência de G6PD, predispondo à hemólise aguda após exposição a fármacos ou estressores oxidantes'],
+      ],
+      ptTranslation:{
+        vignette:'Um homem de 25 anos apresenta intolerância grave a certos medicamentos.  Em 2 ocasiões, suas reações a vários fármacos necessitaram internação hospitalar.  O heredograma familiar em relação a esta condição é mostrado abaixo, com a seta vermelha indicando sua posição dentro da família.',
+        q:'Assumindo que a condição genética demonstra penetrância completa e é rara na população geral, qual dos seguintes padrões de herança é mais provável?',
+        objective:'Na herança recessiva ligada ao X: 1) homens afetados sempre produzirão filhos não afetados e filhas portadoras, e 2) mulheres portadoras têm 50% de chance de produzir filhos afetados e filhas portadoras.  A deficiência de G6PD segue esse padrão de herança e causa anemia hemolítica aguda em resposta a fármacos oxidantes.',
+        options:[
+          {label:'A', text:'Autossômica dominante'},
+          {label:'B', text:'Autossômica recessiva'},
+          {label:'C', text:'Ligada ao X dominante'},
+          {label:'D', text:'Ligada ao X recessiva'},
+          {label:'E', text:'Mitocondrial'},
+        ],
+        explC:'O heredograma mostra que apenas homens são afetados pela intolerância medicamentosa.  Especificamente, filhos homens de pais não afetados são afetados.  Não há evidência de transmissão de homem para homem.  Esse padrão é mais compatível com herança recessiva ligada ao X a partir de uma mulher portadora assintomática na primeira geração.  Na herança recessiva ligada ao X:\n\n1. Homens afetados sempre produzirão filhos homens não afetados e filhas portadoras.\n2. Mulheres portadoras têm 50% de chance de produzir um filho homem afetado ou uma filha portadora.\n\nA deficiência de G6PD, que causa anemia hemolítica aguda à exposição a fármacos oxidantes, segue um padrão de herança recessivo ligado ao X.',
+        explI:[
+          {option:'A', explanation:'Na herança autossômica dominante, indivíduos afetados têm pelo menos 1 dos pais também afetado.'},
+          {option:'B', explanation:'Na herança autossômica recessiva, ambos os pais devem ser pelo menos portadores (heterozigotos) da mutação para produzir prole afetada.  Entretanto, o pai do indivíduo marcado vem de fora da família e seria improvável que carregasse a mutação (a questão afirma que a mutação é rara na população geral).'},
+          {option:'C', explanation:'Na herança dominante ligada ao X, indivíduos afetados têm pelo menos 1 dos pais (de qualquer sexo) também afetado.  Um homem afetado sempre produzirá filhas afetadas, mas nenhum de seus filhos homens será afetado.'},
+          {option:'E', explanation:'Condições com herança mitocondrial são transmitidas apenas por mulheres.  Toda a prole de uma mulher afetada provavelmente mostrará sinais da doença.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0019', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      vignette:'A 28-year-old man is evaluated for abnormal movements of the hands and face.  The patient reports that he started experiencing involuntary grimacing a year ago, which has gradually worsened.  He is taking a selective serotonin reuptake inhibitor for major depression but has not taken any antipsychotic medications.  His 52-year-old father was diagnosed with an inherited movement disorder 2 months ago.  Physical examination shows normal strength and normal deep tendon reflexes.  No sensory deficits are noted.',
+      q:'Which of the following best explains the difference in disease presentation between this patient and his father?',
+      options:[
+        {label:'A', text:'Anticipation'},
+        {label:'B', text:'Genomic imprinting'},
+        {label:'C', text:'Incomplete penetrance'},
+        {label:'D', text:'Microdeletion'},
+        {label:'E', text:'Mosaicism'},
+        {label:'F', text:'Pleiotropy'},
+      ],
+      correct:'A',
+      explC:'This patient presenting with involuntary movements, depression, and a family history of a movement disorder likely has Huntington disease (HD), which typically manifests with the triad of movement disorder (chorea), behavioral abnormalities (aggressiveness, apathy, or depression), and dementia.  HD is caused by an expansion of cytosine-adenine-guanine (CAG) trinucleotide repeats.  Most patients develop symptoms in their 40s or 50s, but an earlier age of onset and more severe symptoms are associated with a larger number of trinucleotide repeats.\n\nDuring spermatogenesis, CAG repeats in the abnormal HTT gene (chromosome 4p) can rapidly increase (much more than during oogenesis).  Therefore, patients who receive an abnormal gene from their fathers tend to develop the disease earlier in life.  The tendency for clinical symptoms to worsen and/or occur earlier in subsequent generations is called anticipation.  Anticipation is common in disorders associated with trinucleotide repeats, as in Fragile X syndrome, myotonic dystrophy, and Friedreich ataxia.',
+      explI:[
+        {option:'B', explanation:'Genomic imprinting is a selective inactivation of the genes of either maternal or paternal origin.  It results in Prader-Willi and Angelman syndromes, which involve deletions of the same region on chromosome 15q but have very different clinical manifestations due to the differential expression of parental genes.  When the chromosome with the deleted region comes from the father, the lack of expression of maternally imprinted genes results in Prader-Willi syndrome.  Likewise, deletions affecting the maternal chromosome result in Angelman syndrome due to absent expression of paternally imprinted genes.'},
+        {option:'C', explanation:'HD is transmitted in an autosomal dominant pattern with complete penetrance, which means that a child who inherits the abnormal gene will inevitably develop Huntington disease.'},
+        {option:'D', explanation:'Microdeletion is the loss of genetic material too small to be visible via light microscopy.  For example, microdeletion of 22q11 is responsible for DiGeorge syndrome.'},
+        {option:'E', explanation:'The presence of 2 populations of cells with different genotypes in one patient resulting in the mixed expression of disease is called mosaicism.  Examples of mosaicism include milder forms of Turner (genotype 46XX/45X0), Klinefelter (46XY/47XXY), and Down syndromes.'},
+        {option:'F', explanation:'Sometimes, one gene mutation leads to multiple, seemingly unrelated phenotypic abnormalities, a genetic phenomenon termed pleiotropy.'},
+      ],
+      objective:'An increased number of trinucleotide repeats on the HTT gene is associated with Huntington disease.  The larger the number of repeats, the earlier the onset of the disease.  Trinucleotide expansion occurs more frequently during paternal transmission, causing a genetic phenomenon called anticipation.',
+      peer:{A:85, B:1, C:7, D:0, E:2, F:3},
+      ptTranslation:{
+        vignette:'Um homem de 28 anos é avaliado por movimentos anormais das mãos e da face.  O paciente relata que começou a apresentar caretas involuntárias há um ano, que gradualmente pioraram.  Ele toma um inibidor seletivo da recaptação de serotonina para depressão maior, mas não usa nenhum antipsicótico.  Seu pai, de 52 anos, foi diagnosticado com um distúrbio de movimento hereditário há 2 meses.  O exame físico mostra força normal e reflexos tendinosos profundos normais.  Não são notados déficits sensoriais.',
+        q:'Qual das seguintes melhor explica a diferença na apresentação da doença entre este paciente e seu pai?',
+        objective:'Um número aumentado de repetições de trinucleotídeos no gene HTT está associado à doença de Huntington.  Quanto maior o número de repetições, mais precoce é o início da doença.  A expansão de trinucleotídeos ocorre com mais frequência na transmissão paterna, causando um fenômeno genético chamado antecipação.',
+        options:[
+          {label:'A', text:'Antecipação'},
+          {label:'B', text:'Imprinting genômico'},
+          {label:'C', text:'Penetrância incompleta'},
+          {label:'D', text:'Microdeleção'},
+          {label:'E', text:'Mosaicismo'},
+          {label:'F', text:'Pleiotropia'},
+        ],
+        explC:'Este paciente, que apresenta movimentos involuntários, depressão e histórico familiar de um distúrbio de movimento, provavelmente tem doença de Huntington (DH), que tipicamente se manifesta com a tríade de distúrbio de movimento (coreia), anormalidades comportamentais (agressividade, apatia ou depressão) e demência.  A DH é causada por uma expansão de repetições de trinucleotídeos citosina-adenina-guanina (CAG).  A maioria dos pacientes desenvolve sintomas na faixa dos 40 ou 50 anos, mas uma idade de início mais precoce e sintomas mais graves estão associados a um número maior de repetições de trinucleotídeos.\n\nDurante a espermatogênese, as repetições CAG no gene HTT anormal (cromossomo 4p) podem aumentar rapidamente (muito mais do que durante a ovogênese).  Portanto, pacientes que recebem um gene anormal de seus pais tendem a desenvolver a doença mais cedo na vida.  A tendência de os sintomas clínicos piorarem e/ou ocorrerem mais cedo em gerações subsequentes é chamada de antecipação.  A antecipação é comum em distúrbios associados a repetições de trinucleotídeos, como na síndrome do X frágil, distrofia miotônica e ataxia de Friedreich.',
+        explI:[
+          {option:'B', explanation:'O imprinting genômico é uma inativação seletiva dos genes de origem materna ou paterna.  Resulta nas síndromes de Prader-Willi e Angelman, que envolvem deleções da mesma região no cromossomo 15q, mas têm manifestações clínicas muito diferentes devido à expressão diferencial dos genes parentais.  Quando o cromossomo com a região deletada vem do pai, a falta de expressão de genes com imprinting materno resulta na síndrome de Prader-Willi.  Da mesma forma, deleções que afetam o cromossomo materno resultam na síndrome de Angelman devido à ausência de expressão de genes com imprinting paterno.'},
+          {option:'C', explanation:'A DH é transmitida em padrão autossômico dominante com penetrância completa, o que significa que um filho que herda o gene anormal inevitavelmente desenvolverá a doença de Huntington.'},
+          {option:'D', explanation:'Microdeleção é a perda de material genético pequeno demais para ser visível por microscopia de luz.  Por exemplo, a microdeleção de 22q11 é responsável pela síndrome de DiGeorge.'},
+          {option:'E', explanation:'A presença de 2 populações de células com genótipos diferentes em um mesmo paciente, resultando em expressão mista da doença, é chamada de mosaicismo.  Exemplos de mosaicismo incluem formas mais leves das síndromes de Turner (genótipo 46XX/45X0), Klinefelter (46XY/47XXY) e Down.'},
+          {option:'F', explanation:'Às vezes, uma mutação em um único gene leva a múltiplas anormalidades fenotípicas aparentemente não relacionadas, um fenômeno genético chamado pleiotropia.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
