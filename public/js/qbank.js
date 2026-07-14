@@ -5251,6 +5251,124 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0033', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'Researchers studying molecular biology observe a eukaryotic cell via electron microscopy.  During interphase of the cell cycle, they notice 10-nm thick chromatin fibers with a "beads on a string" appearance.  These chromatin fibers are extracted and treated with an endonuclease, which preferentially cleaves the "string" portions of the chromatin.  Further evaluation reveals that the "beads" are composed of DNA wrapped around a core of proteins.',
+      q:'Which of the following proteins is most likely found outside this core and promotes chromatin compaction?',
+      options:[
+        {label:'A', text:'Histone H1'},
+        {label:'B', text:'Histone H3'},
+        {label:'C', text:'Histone H4'},
+        {label:'D', text:'Small nuclear ribonucleoprotein'},
+        {label:'E', text:'Type II topoisomerase'},
+        {label:'F', text:'Ubiquitin'},
+      ],
+      correct:'A',
+      explC:'Chromatin is made up of DNA (negatively charged) wrapped twice around an octamer of histone proteins (positively charged).  This core of histones is composed of 2 molecules each of histones H2A, H2B, H3, and H4.  Together, these histone proteins and wrapped DNA are known as a nucleosome.  Nucleosomes are separated by a stretch of DNA, or linker DNA, giving them the appearance of beads on a string.  This loose structure of DNA organization is about 10 nm in diameter and provides a high degree of transcriptional access (euchromatin).\n\nThe degree to which nucleosomes can be compacted is dynamic and changes based on epigenetic modification (eg, histone acetylation) and binding of additional DNA structural proteins.  One such protein is histone H1, which, in contrast to the other histone proteins, is located outside the nucleosome core.  Histone H1 binds to both the nucleosome and adjacent linker DNA, which facilitates packaging of chromatin into a thicker (30-nm), more compact structure (heterochromatin) that limits transcriptional access to the DNA.\n\nDuring cell division, chromatin interacts with additional proteins (eg, nuclear scaffold protein) and undergoes further rounds of coiling, ultimately forming condensed chromosomes.',
+      explI:[
+        {option:'B and C', explanation:'Histones H3 and H4 are components of the nucleosome core.'},
+        {option:'D', explanation:'Small nuclear ribonucleoproteins help splice out introns from pre-mRNA, forming mature mRNA.'},
+        {option:'E', explanation:'During DNA replication, topoisomerase relieves the tension created during DNA strand unwinding by introducing negative supercoils into the DNA.  It does not promote chromatin compaction.'},
+        {option:'F', explanation:'Ubiquitin is a small protein present in the cytoplasm and nucleus of all eukaryotes.  It is typically covalently attached to various intracellular proteins to signal for their degradation by the proteasome (ubiquitin-proteasome pathway).'},
+      ],
+      objective:'Nucleosomes are composed of DNA wrapped around a core of histone proteins.  Histone H1 is unique in that it is located outside this histone core and helps package nucleosomes into more compact structures, limiting transcriptional access to DNA.',
+      peer:{A:67, B:8, C:11, D:4, E:3, F:3},
+      ptTranslation:{
+        vignette:'Pesquisadores estudando biologia molecular observam uma célula eucariótica por microscopia eletrônica.  Durante a interfase do ciclo celular, eles notam fibras de cromatina de 10 nm de espessura com aparência de "colar de contas" ("beads on a string").  Essas fibras de cromatina são extraídas e tratadas com uma endonuclease, que cliva preferencialmente as porções do "fio" da cromatina.  Avaliação adicional revela que as "contas" são compostas por DNA enrolado em torno de um núcleo de proteínas.',
+        q:'Qual das seguintes proteínas é mais provavelmente encontrada fora desse núcleo e promove a compactação da cromatina?',
+        objective:'Nucleossomos são compostos por DNA enrolado em torno de um núcleo de proteínas histonas.  A histona H1 é única por estar localizada fora desse núcleo de histonas e ajudar a empacotar os nucleossomos em estruturas mais compactas, limitando o acesso transcricional ao DNA.',
+        options:[
+          {label:'A', text:'Histona H1'},
+          {label:'B', text:'Histona H3'},
+          {label:'C', text:'Histona H4'},
+          {label:'D', text:'Pequena ribonucleoproteína nuclear'},
+          {label:'E', text:'Topoisomerase tipo II'},
+          {label:'F', text:'Ubiquitina'},
+        ],
+        explC:'A cromatina é composta por DNA (carga negativa) enrolado duas vezes em torno de um octâmero de proteínas histonas (carga positiva).  Esse núcleo de histonas é composto por 2 moléculas de cada uma das histonas H2A, H2B, H3 e H4.  Juntos, essas proteínas histonas e o DNA enrolado são conhecidos como nucleossomo.  Os nucleossomos são separados por um trecho de DNA, ou DNA de ligação (linker), dando-lhes a aparência de um colar de contas.  Essa estrutura frouxa de organização do DNA tem cerca de 10 nm de diâmetro e fornece alto grau de acesso transcricional (eucromatina).\n\nO grau em que os nucleossomos podem ser compactados é dinâmico e muda com base em modificações epigenéticas (ex.: acetilação de histonas) e na ligação de proteínas estruturais adicionais de DNA.  Uma dessas proteínas é a histona H1, que, ao contrário das outras histonas, está localizada fora do núcleo do nucleossomo.  A histona H1 se liga tanto ao nucleossomo quanto ao DNA de ligação adjacente, o que facilita o empacotamento da cromatina em uma estrutura mais espessa (30 nm) e mais compacta (heterocromatina), que limita o acesso transcricional ao DNA.\n\nDurante a divisão celular, a cromatina interage com proteínas adicionais (ex.: proteína de arcabouço nuclear) e sofre novos ciclos de enrolamento, formando por fim cromossomos condensados.',
+        explI:[
+          {option:'B and C', explanation:'As histonas H3 e H4 são componentes do núcleo do nucleossomo.'},
+          {option:'D', explanation:'Pequenas ribonucleoproteínas nucleares ajudam a remover íntrons do pré-mRNA por splicing, formando o mRNA maduro.'},
+          {option:'E', explanation:'Durante a replicação do DNA, a topoisomerase alivia a tensão criada durante o desenrolamento da fita de DNA introduzindo superenrolamentos negativos no DNA.  Ela não promove a compactação da cromatina.'},
+          {option:'F', explanation:'A ubiquitina é uma proteína pequena presente no citoplasma e no núcleo de todos os eucariotos.  Ela é tipicamente ligada covalentemente a várias proteínas intracelulares para sinalizar sua degradação pelo proteassoma (via ubiquitina-proteassoma).'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0034', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'A 6-year-old boy is brought to the office due to a persistent facial ulcer for the past 2 months.  His mother reports that the patient has extreme sensitivity to sunlight and has developed freckles on his face, neck, and limbs since infancy.  On physical examination, the skin in sun-exposed areas is dry and rough with numerous freckles and erythematous macules.  There is an ulcerated plaque on the left face; a biopsy reveals squamous cell carcinoma.  Further testing leads to a diagnosis of xeroderma pigmentosum.',
+      q:"A defect in which of the following enzymes is most likely causing this patient's condition?",
+      options:[
+        {label:'A', text:"3'→5' exonuclease"},
+        {label:'B', text:'DNA ligase'},
+        {label:'C', text:'Endonuclease'},
+        {label:'D', text:'Helicase'},
+        {label:'E', text:'Topoisomerase'},
+      ],
+      correct:'C',
+      explC:'This boy with severe photosensitivity, poikiloderma, hyperpigmentation in sun-exposed areas, and squamous cell carcinoma of the skin has xeroderma pigmentosum, an autosomal recessive disorder characterized by defects in nucleotide excision repair.\n\nDNA can be damaged by ultraviolet rays, leading to formation of thymine dimers between 2 adjacent thymine residues.  These thymine dimers are repaired by UV-specific endonuclease, an enzyme that is frequently deficient in patients with xeroderma pigmentosum.  This enzyme recognizes distortions in the structure of DNA caused by thymine dimers and subsequently excises stretches of single-stranded DNA that contain these defects.  The gap created following this excision is then filled by DNA polymerase, which uses the opposite DNA strand as a template.  The new strand of DNA is then joined on both ends to the existing DNA by the enzyme ligase.',
+      explI:[
+        {option:'A', explanation:"3'→5' exonuclease activity describes the \"proofreading\" ability of DNA polymerase.  This ability allows for the recognition and repair of mismatched bases during DNA replication.  Hereditary nonpolyposis colon cancer is associated with DNA mismatch repair gene mutations."},
+        {option:'B', explanation:"DNA ligase is responsible for creating a phosphodiester linkage between the phosphate group of the 5' end of a DNA fragment and the hydroxyl group of the 3' end.  DNA ligase is particularly active in joining the Okazaki fragments created during discontinuous replication of the lagging strand."},
+        {option:'D', explanation:'Helicases are responsible for unwinding and separating double-stranded DNA into single-stranded DNA in preparation for DNA replication.'},
+        {option:'E', explanation:'Topoisomerase enzymes relieve DNA supercoiling produced during unwinding and separation by helicase.  Prokaryotic topoisomerase II (DNA gyrase) is inhibited by fluoroquinolone antibiotics, whereas eukaryotic topoisomerase II is inhibited by the anticancer drug etoposide.'},
+      ],
+      objective:'Xeroderma pigmentosum is an autosomal recessive disorder characterized by defective nucleotide excision repair often caused by a deficiency in UV-specific endonuclease.  Affected children usually have severe photosensitivity, hyperpigmentation in sun-exposed areas, and a greatly increased risk for skin cancer.',
+      peer:{A:33, B:4, C:57, D:1, E:3},
+      ptTranslation:{
+        vignette:'Um menino de 6 anos é levado ao consultório por uma úlcera facial persistente nos últimos 2 meses.  Sua mãe relata que o paciente tem sensibilidade extrema à luz solar e desenvolveu sardas no rosto, pescoço e membros desde a infância.  Ao exame físico, a pele em áreas expostas ao sol está seca e áspera, com numerosas sardas e máculas eritematosas.  Há uma placa ulcerada no lado esquerdo do rosto; a biópsia revela carcinoma espinocelular.  Investigação adicional leva ao diagnóstico de xeroderma pigmentoso.',
+        q:'Um defeito em qual das seguintes enzimas é mais provavelmente responsável pela condição deste paciente?',
+        objective:'O xeroderma pigmentoso é um distúrbio autossômico recessivo caracterizado por reparo por excisão de nucleotídeo defeituoso, frequentemente causado por deficiência da endonuclease específica de UV.  Crianças afetadas geralmente têm fotossensibilidade grave, hiperpigmentação em áreas expostas ao sol e risco muito aumentado de câncer de pele.',
+        options:[
+          {label:'A', text:"Exonuclease 3'→5'"},
+          {label:'B', text:'DNA ligase'},
+          {label:'C', text:'Endonuclease'},
+          {label:'D', text:'Helicase'},
+          {label:'E', text:'Topoisomerase'},
+        ],
+        explC:'Este menino com fotossensibilidade grave, poiquilodermia, hiperpigmentação em áreas expostas ao sol e carcinoma espinocelular de pele tem xeroderma pigmentoso, um distúrbio autossômico recessivo caracterizado por defeitos no reparo por excisão de nucleotídeo.\n\nO DNA pode ser danificado pelos raios ultravioleta, levando à formação de dímeros de timina entre 2 resíduos de timina adjacentes.  Esses dímeros de timina são reparados pela endonuclease específica de UV, uma enzima que frequentemente é deficiente em pacientes com xeroderma pigmentoso.  Essa enzima reconhece distorções na estrutura do DNA causadas por dímeros de timina e, subsequentemente, excisa trechos de DNA de fita simples que contêm esses defeitos.  A lacuna criada após essa excisão é então preenchida pela DNA polimerase, que usa a fita de DNA oposta como molde.  A nova fita de DNA é então unida em ambas as extremidades ao DNA existente pela enzima ligase.',
+        explI:[
+          {option:'A', explanation:'A atividade exonucleásica 3\'→5\' descreve a capacidade de "revisão" da DNA polimerase.  Essa capacidade permite o reconhecimento e reparo de bases incompatíveis durante a replicação do DNA.  O câncer colorretal hereditário sem polipose está associado a mutações em genes de reparo de incompatibilidade de DNA.'},
+          {option:'B', explanation:'A DNA ligase é responsável por criar uma ligação fosfodiéster entre o grupo fosfato da extremidade 5\' de um fragmento de DNA e o grupo hidroxila da extremidade 3\'.  A DNA ligase é particularmente ativa na união dos fragmentos de Okazaki criados durante a replicação descontínua da fita tardia.'},
+          {option:'D', explanation:'As helicases são responsáveis por desenrolar e separar o DNA de fita dupla em DNA de fita simples em preparação para a replicação do DNA.'},
+          {option:'E', explanation:'As enzimas topoisomerase aliviam o superenrolamento do DNA produzido durante o desenrolamento e a separação pela helicase.  A topoisomerase II procariótica (DNA girase) é inibida por antibióticos fluoroquinolonas, enquanto a topoisomerase II eucariótica é inibida pelo fármaco anticâncer etoposídeo.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0035', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'hard',
+      vignette:'Pharmacologic researchers develop a novel alkylating chemotherapeutic agent against glioblastoma multiforme.  They find that malignant cells with methylation of the promoter region for the O6-methylguanine-DNA methyltransferase (MGMT) gene are more susceptible to this drug than cells without methylation.',
+      q:'Which of the following is the most likely function of the protein encoded by the gene?',
+      options:[
+        {label:'A', text:'Induction of apoptosis'},
+        {label:'B', text:'Reducing major histocompatibility complex expression'},
+        {label:'C', text:'Repairing DNA damage'},
+        {label:'D', text:'Upregulation of telomerase'},
+      ],
+      correct:'C',
+      explC:'Neoplasms develop genetic alterations that promote cellular growth and survival.  Although this is partially mediated by inactivating genetic mutations in tumor suppressor genes (eg, p53), much of oncogenesis is mediated by the altered expression of unmutated genes, as follows:\n\n- Histone modification: Chromatin is organized into nucleosomes, which consist of a segment of DNA wrapped around 8 histone proteins.  Modification of histones via acetylation, phosphorylation, or methylation can alter the availability of DNA for transcription, leading to increased or decreased gene expression.  Histone modification allows tumors to increase prosurvival gene expression and reduce cell cycle arrest/apoptosis gene expression.\n- Transcription factor expression: Transcription factors are activated by cell-surface ligand binding or by phosphorylation.  Activated transcription factors travel to the nucleus and bind to the promoter/enhancer region of a specific gene, which alters RNA polymerase binding and subsequent gene expression.  Tumors overexpress surface receptors (eg, HER2) that generate pro-survival transcription factors and underexpress surface receptors that generate cell cycle arrest/apoptotic signals.\n- CpG modifications: Promoter regions typically contain a section of 200-2000 base pairs that primarily contain a cytosine followed by a guanosine.  Methylation of the CpG region silences the adjacent gene; neoplasms often methylate CpG promoter regions adjacent to genes that slow growth.\n\nAs part of oncogenesis, many glioblastomas methylate the CpG region adjacent to the O6-methylguanine-DNA methyltransferase (MGMT) gene, which generates a protein that repairs damaged DNA (eg, converts O6-methylguanine [a naturally occurring alkylation product] back to guanine).  Although silencing MGMT creates a more permissive environment for DNA mutations to drive cancer growth, it also makes the cell more susceptible to alkylating chemotherapy (eg, temozolomide), since alkylating agents cause DNA damage that cannot be effectively repaired without MGMT.',
+      explI:[
+        {option:'A', explanation:'Mutation of tumor suppressing genes (eg, BAX) that trigger apoptosis or cell cycle arrest promotes oncogenesis.  However, MGMT is not an apoptotic gene.'},
+        {option:'B', explanation:'As part of oncogenesis, tumors often reduce major histocompatibility complex class I expression, lowering the ability of cytotoxic T cells to recognize the abnormal proteins generated by cancerous cells.  This process is not mediated by MGMT.'},
+        {option:'D', explanation:'Increased telomerase activity helps promote cancer cell longevity; telomerase activity is frequently increased in tumors, but it is not mediated by MGMT.'},
+      ],
+      objective:'Cancer cells alter expression of genes controlling survival and replication by histone modification, transcription factor expression, and CpG methylation.  Methylation of the CpG region adjacent to the MGMT gene, which produces an enzyme that repairs DNA, makes tumor cells much more susceptible to alkylating chemotherapy.',
+      peer:{A:21, B:16, C:46, D:15},
+      ptTranslation:{
+        vignette:'Pesquisadores farmacológicos desenvolvem um novo agente quimioterápico alquilante contra o glioblastoma multiforme.  Eles descobrem que células malignas com metilação da região promotora do gene da O6-metilguanina-DNA metiltransferase (MGMT) são mais suscetíveis a esse fármaco do que células sem a metilação.',
+        q:'Qual das seguintes é a função mais provável da proteína codificada por esse gene?',
+        objective:'As células cancerígenas alteram a expressão de genes que controlam a sobrevivência e a replicação por meio de modificação de histonas, expressão de fatores de transcrição e metilação de CpG.  A metilação da região CpG adjacente ao gene MGMT, que produz uma enzima que repara o DNA, torna as células tumorais muito mais suscetíveis à quimioterapia alquilante.',
+        options:[
+          {label:'A', text:'Indução de apoptose'},
+          {label:'B', text:'Redução da expressão do complexo principal de histocompatibilidade'},
+          {label:'C', text:'Reparo de dano ao DNA'},
+          {label:'D', text:'Aumento da telomerase'},
+        ],
+        explC:'As neoplasias desenvolvem alterações genéticas que promovem crescimento e sobrevivência celular.  Embora isso seja parcialmente mediado por mutações genéticas inativadoras em genes supressores de tumor (ex.: p53), grande parte da oncogênese é mediada pela expressão alterada de genes não mutados, da seguinte forma:\n\n- Modificação de histonas: a cromatina é organizada em nucleossomos, que consistem em um segmento de DNA enrolado em torno de 8 proteínas histonas.  A modificação de histonas por acetilação, fosforilação ou metilação pode alterar a disponibilidade do DNA para transcrição, levando a aumento ou diminuição da expressão gênica.  A modificação de histonas permite que tumores aumentem a expressão de genes pró-sobrevivência e reduzam a expressão de genes de parada do ciclo celular/apoptose.\n- Expressão de fatores de transcrição: fatores de transcrição são ativados pela ligação de ligantes de superfície celular ou por fosforilação.  Fatores de transcrição ativados vão ao núcleo e se ligam à região promotora/intensificadora de um gene específico, o que altera a ligação da RNA polimerase e a subsequente expressão gênica.  Tumores superexpressam receptores de superfície (ex.: HER2) que geram fatores de transcrição pró-sobrevivência e subexpressam receptores de superfície que geram sinais de parada do ciclo celular/apoptóticos.\n- Modificações de CpG: regiões promotoras tipicamente contêm uma seção de 200-2000 pares de bases que contêm principalmente uma citosina seguida de uma guanosina.  A metilação da região CpG silencia o gene adjacente; neoplasias frequentemente metilam regiões promotoras CpG adjacentes a genes que retardam o crescimento.\n\nComo parte da oncogênese, muitos glioblastomas metilam a região CpG adjacente ao gene da O6-metilguanina-DNA metiltransferase (MGMT), que gera uma proteína que repara o DNA danificado (ex.: converte a O6-metilguanina [um produto de alquilação de ocorrência natural] de volta a guanina).  Embora o silenciamento do MGMT crie um ambiente mais permissivo para mutações de DNA que impulsionam o crescimento do câncer, também torna a célula mais suscetível à quimioterapia alquilante (ex.: temozolomida), já que agentes alquilantes causam dano ao DNA que não pode ser efetivamente reparado sem o MGMT.',
+        explI:[
+          {option:'A', explanation:'Mutação de genes supressores de tumor (ex.: BAX) que desencadeiam apoptose ou parada do ciclo celular promove a oncogênese.  Entretanto, o MGMT não é um gene apoptótico.'},
+          {option:'B', explanation:'Como parte da oncogênese, tumores frequentemente reduzem a expressão do complexo principal de histocompatibilidade de classe I, diminuindo a capacidade dos linfócitos T citotóxicos de reconhecer as proteínas anormais geradas pelas células cancerígenas.  Esse processo não é mediado pelo MGMT.'},
+          {option:'D', explanation:'O aumento da atividade da telomerase ajuda a promover a longevidade das células cancerígenas; a atividade da telomerase é frequentemente aumentada em tumores, mas não é mediada pelo MGMT.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
