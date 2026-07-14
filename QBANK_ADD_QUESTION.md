@@ -245,6 +245,7 @@ Apenas acrescentar mais uma opção em `options` (label `F`) e adicionar `F` em 
 | Musculoskeletal | MSK |
 | Psychiatry/Behavioral | PSY |
 | Biochemistry | BCH |
+| Genetics | GEN |
 | Pharmacology | PHR |
 | Biostatistics & Epidemiology | BST |
 | Microbiology | MIC |

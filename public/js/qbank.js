@@ -3965,6 +3965,215 @@
         ]
       }
     },
+    // BATCH GEN 01 — Genetics: Clinical genetics (5 questions)
+    { id:'CMQ-STEP1-GEN-0001', system:'genetics', discipline:'biochemistry', category:'genetics::clinical_genetics', difficulty:'easy',
+      vignette:'A 34-year-old man is found to have an LDL level of 310 mg/dL and a normal serum triglyceride level.  His father suffered a myocardial infarction at age 39, and his paternal grandfather died of a heart attack at age 40.  The patient\'s wife has a normal lipid profile.  DNA samples are obtained from several family members for genetic analysis.  Southern blotting of restriction fragments from a region containing the LDL receptor gene shows the following pattern:',
+      q:'Which of the following statements best describes the DNA analysis results?',
+      img:'assets/qbank/CMQ-STEP1-GEN-0001_ldl_southern_blot.png',
+      options:[
+        {label:'A', text:"The disease is transmitted in an X-linked recessive fashion"},
+        {label:'B', text:'The mutation is probably located in the 10 kb band'},
+        {label:'C', text:'The mutation is probably located in the 12 kb band'},
+        {label:'D', text:"The patient's brother most likely inherited the mutation"},
+        {label:'E', text:"The patient's son most likely inherited the mutation"},
+      ],
+      correct:'E',
+      explC:'This patient most likely has heterozygous familial hypercholesterolemia, an autosomal dominant LDL receptor defect that causes high LDL levels and increases the risk of premature atherosclerosis.  Homozygous familial hypercholesterolemia (a rarer and more severe form of the disease due to inheritance of 2 defective LDL receptor alleles) often presents with coronary heart disease in childhood/adolescence.\n\nSouthern blotting is a technique that can be used to detect DNA mutations.  The process involves the following steps:\n\n1. DNA extraction from the individual\'s cells\n2. Restriction endonuclease digestion of the DNA sample into fragments\n3. Gel electrophoresis to separate the various sizes of DNA fragments; larger fragments move slowly and shorter fragments move faster\n4. DNA probe (a single-stranded segment of labeled DNA complementary to the sequence of interest) to identify the target gene\n\nOnce the gene of interest is identified by the DNA probe, various family members\' Southern blots can be compared.  Because both the patient and his father are affected, the common DNA segment between them (8 kb segment) most likely represents the mutated gene.  The patient\'s son also has the 8 kb segment, meaning that he is probably affected as well.',
+      explI:[
+        {option:'A', explanation:'Familial hypercholesterolemia is an autosomal dominant disorder.  X-linked recessive mutations are transmitted from unaffected carrier mothers to their sons.  Father-to-son transmission does not occur.'},
+        {option:'B and D', explanation:"The patient (affected by the disease) does not possess the 10 kb segment, so this segment does not correspond to the mutated gene.  The patient's brother inherited the 10 kb segment from his father (not the 8kb mutated segment), so he would not be affected."},
+        {option:'C', explanation:"The patient and his brother, but not their father, have a 12 kb segment on Southern blot analysis.  Therefore, this segment was likely inherited from the mother and does not carry the mutation."},
+      ],
+      objective:'Southern blotting is a technique used to identify DNA mutations.  It involves restriction endonuclease digestion of sample DNA, gel electrophoresis, and gene identification with a labeled DNA probe.',
+      peer:{A:3, B:1, C:1, D:2, E:89},
+      labs:[
+        ['LDL cholesterol', '<130 mg/dL (optimal <100 mg/dL)', '<130 mg/dL (ótimo <100 mg/dL)',
+         'Markedly elevated (eg, ≥190 mg/dL, as in this patient at 310 mg/dL) in heterozygous familial hypercholesterolemia due to defective LDL receptor-mediated clearance',
+         'Marcadamente elevado (ex.: ≥190 mg/dL, como neste paciente com 310 mg/dL) na hipercolesterolemia familiar heterozigota, por depuração defeituosa mediada pelo receptor de LDL'],
+      ],
+      ptTranslation:{
+        vignette:'Um homem de 34 anos apresenta nível de LDL de 310 mg/dL e triglicerídeos séricos normais.  Seu pai sofreu infarto do miocárdio aos 39 anos, e seu avô paterno morreu de ataque cardíaco aos 40 anos.  A esposa do paciente tem perfil lipídico normal.  Amostras de DNA são obtidas de vários membros da família para análise genética.  O Southern blot de fragmentos de restrição de uma região contendo o gene do receptor de LDL mostra o seguinte padrão:',
+        q:'Qual das seguintes afirmações melhor descreve os resultados da análise de DNA?',
+        objective:'O Southern blot é uma técnica usada para identificar mutações de DNA.  Envolve digestão do DNA da amostra com endonuclease de restrição, eletroforese em gel e identificação do gene com uma sonda de DNA marcada.',
+        options:[
+          {label:'A', text:'A doença é transmitida de forma recessiva ligada ao X'},
+          {label:'B', text:'A mutação provavelmente está localizada na banda de 10 kb'},
+          {label:'C', text:'A mutação provavelmente está localizada na banda de 12 kb'},
+          {label:'D', text:'O irmão do paciente provavelmente herdou a mutação'},
+          {label:'E', text:'O filho do paciente provavelmente herdou a mutação'},
+        ],
+        explC:'Este paciente muito provavelmente tem hipercolesterolemia familiar heterozigota, um defeito autossômico dominante do receptor de LDL que causa níveis elevados de LDL e aumenta o risco de aterosclerose prematura.  A hipercolesterolemia familiar homozigota (uma forma mais rara e mais grave da doença, devido à herança de 2 alelos defeituosos do receptor de LDL) costuma se apresentar com doença coronariana já na infância/adolescência.\n\nO Southern blot é uma técnica que pode ser usada para detectar mutações de DNA.  O processo envolve as seguintes etapas:\n\n1. Extração do DNA das células do indivíduo\n2. Digestão da amostra de DNA com endonuclease de restrição, gerando fragmentos\n3. Eletroforese em gel para separar os fragmentos de DNA por tamanho; fragmentos maiores se movem mais devagar e os menores mais rápido\n4. Sonda de DNA (um segmento de DNA fita simples, marcado, complementar à sequência de interesse) para identificar o gene-alvo\n\nUma vez identificado o gene de interesse pela sonda de DNA, os Southern blots de vários membros da família podem ser comparados.  Como tanto o paciente quanto seu pai são afetados, o segmento de DNA comum entre eles (segmento de 8 kb) provavelmente representa o gene mutado.  O filho do paciente também tem o segmento de 8 kb, o que significa que ele provavelmente também está afetado.',
+        explI:[
+          {option:'A', explanation:'A hipercolesterolemia familiar é uma doença autossômica dominante.  Mutações recessivas ligadas ao X são transmitidas por mães portadoras não afetadas para seus filhos homens.  Não ocorre transmissão de pai para filho.'},
+          {option:'B and D', explanation:'O paciente (afetado pela doença) não possui o segmento de 10 kb, então esse segmento não corresponde ao gene mutado.  O irmão do paciente herdou o segmento de 10 kb do pai (e não o segmento mutado de 8 kb), então ele não deveria ser afetado.'},
+          {option:'C', explanation:'O paciente e seu irmão, mas não o pai deles, têm um segmento de 12 kb na análise por Southern blot.  Portanto, esse segmento provavelmente foi herdado da mãe e não carrega a mutação.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0002', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'An infant born to a 34-year-old woman has a flat facial profile, prominent epicanthal folds, and a holosystolic murmur heard loudest at the left sternal border.  Karyotype analysis is consistent with trisomy 21.  Maternal and paternal karyotypes are normal.  A restriction fragment length polymorphism (RFLP) analysis is conducted to determine the parental origin of the extra chromosome.  DNA samples from the child, mother, and father are obtained and the DNA is fragmented with a restriction enzyme.  The fragments are then sorted by size using the Southern blot technique.  Labeling is done using a probe that binds to a specific DNA sequence close to the centromere of chromosome 21.  RFLP analysis for the child, mother, and father is shown below.',
+      q:'In which of the following meiosis events did the nondisjunction most likely occur?',
+      img:'assets/qbank/CMQ-STEP1-GEN-0002_rflp_trisomy21_bands.png',
+      options:[
+        {label:'A', text:'Maternal meiosis I'},
+        {label:'B', text:'Maternal meiosis II'},
+        {label:'C', text:'Paternal meiosis I'},
+        {label:'D', text:'Paternal meiosis II'},
+      ],
+      correct:'A',
+      explC:'Nondisjunction is the failure of chromosome pairs to separate properly during cell division.  This could be due to a failure of homologous chromosomes to separate in meiosis I or a failure of sister chromatids to separate during meiosis II or mitosis.  In monosomy, a single chromosome is lost.  In trisomy, a single chromosome is gained.  Monosomies or trisomies can result from nondisjunction in meiosis I or II.\n\nRestriction fragment length polymorphism (RFLP) analysis shows that both parents demonstrate 2 bands.  Each parental band represents a homologous chromosome 21.  The child has 3 bands, indicating that he has 3 different versions of chromosome 21 that he obtained from his parents.  He received the lower band from the father and both of the upper bands from the mother.  The fact that he received 2 different bands from the mother indicates that he inherited both of her homologous chromosomes.  Therefore, the problem occurred in the mother during meiosis I, when homologous chromosomes are separated.  In fact, the vast majority of Down syndrome cases arise due to nondisjunction during maternal meiosis I.',
+      explI:[
+        {option:'B', explanation:"If the mother had a failure in meiosis II, the child's RFLP analysis would reveal only two bands.  There would be a single band from the father and a darker, thicker band from the mother.  The darker, thicker band signifies the inheritance of both sister chromatids, which will produce equal-size restriction fragments (but twice the normal amount)."},
+        {option:'C', explanation:"If the father had a failure in meiosis I, the child's RFLP analysis would reveal 3 bands.  In this instance, there would be a single band inherited from the mother with two bands inherited from the father."},
+        {option:'D', explanation:"If the father had a failure in meiosis II, the child's RFLP analysis would reveal two bands.  In this instance, there would be a single band inherited from the mother and a second band from the father.  The father's band would be darker and thicker, signifying the inheritance of both sister chromatids."},
+      ],
+      objective:'Nondisjunction is the failure of chromosome pairs to separate properly during cell division.  This could be due to a failure of homologous chromosomes to separate in meiosis I or a failure of sister chromatids to separate during meiosis II or mitosis.',
+      peer:{A:52, B:37, C:5, D:5},
+      ptTranslation:{
+        vignette:'Um recém-nascido de uma mulher de 34 anos apresenta perfil facial achatado, pregas epicânticas proeminentes e um sopro holossistólico mais audível na borda esternal esquerda.  A análise do cariótipo é compatível com trissomia do 21.  Os cariótipos materno e paterno são normais.  Uma análise de polimorfismo de comprimento de fragmento de restrição (RFLP) é realizada para determinar a origem parental do cromossomo extra.  Amostras de DNA da criança, da mãe e do pai são obtidas e o DNA é fragmentado com uma enzima de restrição.  Os fragmentos são então separados por tamanho pela técnica de Southern blot.  A marcação é feita usando uma sonda que se liga a uma sequência específica de DNA próxima ao centrômero do cromossomo 21.  A análise de RFLP da criança, da mãe e do pai é mostrada abaixo.',
+        q:'Em qual dos seguintes eventos de meiose a não disjunção mais provavelmente ocorreu?',
+        objective:'A não disjunção é a falha na separação adequada dos pares de cromossomos durante a divisão celular.  Isso pode ocorrer por falha na separação dos cromossomos homólogos na meiose I ou por falha na separação das cromátides-irmãs durante a meiose II ou a mitose.',
+        options:[
+          {label:'A', text:'Meiose materna I'},
+          {label:'B', text:'Meiose materna II'},
+          {label:'C', text:'Meiose paterna I'},
+          {label:'D', text:'Meiose paterna II'},
+        ],
+        explC:'A não disjunção é a falha na separação adequada dos pares de cromossomos durante a divisão celular.  Isso pode ocorrer por falha na separação dos cromossomos homólogos na meiose I ou por falha na separação das cromátides-irmãs durante a meiose II ou a mitose.  Na monossomia, um único cromossomo é perdido.  Na trissomia, um cromossomo extra é ganho.  Monossomias ou trissomias podem resultar de não disjunção na meiose I ou II.\n\nA análise de polimorfismo de comprimento de fragmento de restrição (RFLP) mostra que ambos os pais apresentam 2 bandas.  Cada banda parental representa um cromossomo 21 homólogo.  A criança tem 3 bandas, indicando que ela possui 3 versões diferentes do cromossomo 21 obtidas de seus pais.  Ele recebeu a banda inferior do pai e as duas bandas superiores da mãe.  O fato de ele ter recebido 2 bandas diferentes da mãe indica que ele herdou os dois cromossomos homólogos dela.  Portanto, o problema ocorreu na mãe durante a meiose I, quando os cromossomos homólogos são separados.  De fato, a grande maioria dos casos de síndrome de Down surge por não disjunção durante a meiose materna I.',
+        explI:[
+          {option:'B', explanation:'Se a mãe tivesse tido uma falha na meiose II, a análise de RFLP da criança revelaria apenas duas bandas.  Haveria uma única banda do pai e uma banda mais escura e espessa da mãe.  A banda mais escura e espessa significa a herança de ambas as cromátides-irmãs, o que produzirá fragmentos de restrição de tamanho igual (mas em quantidade duas vezes maior que o normal).'},
+          {option:'C', explanation:'Se o pai tivesse tido uma falha na meiose I, a análise de RFLP da criança revelaria 3 bandas.  Nesse caso, haveria uma única banda herdada da mãe e duas bandas herdadas do pai.'},
+          {option:'D', explanation:'Se o pai tivesse tido uma falha na meiose II, a análise de RFLP da criança revelaria duas bandas.  Nesse caso, haveria uma única banda herdada da mãe e uma segunda banda do pai.  A banda do pai seria mais escura e espessa, significando a herança de ambas as cromátides-irmãs.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0003', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      vignette:'A 19-year-old woman is evaluated for new onset generalized tonic-clonic seizures.  For the past several years, she has also been having erratic jerks of her arms and legs, and intermittent muscle weakness.  The girl has multiple family members with similar symptoms.  Neurological examination reveals decreased sensation in the lower extremities and a broad-based gait.  Skeletal muscle biopsy shows ragged, red-appearing muscle fibers.  Further analysis reveals that the patient\'s symptoms are due to a mutation affecting extranuclear DNA.',
+      q:'Which of the following pedigrees is most likely to represent this patient\'s family history? (The arrow points to the patient.)',
+      img:'assets/qbank/CMQ-STEP1-GEN-0003_mtdna_inheritance_pedigrees.png',
+      options:[
+        {label:'A', text:'Pedigree A'},
+        {label:'B', text:'Pedigree B'},
+        {label:'C', text:'Pedigree C'},
+        {label:'D', text:'Pedigree D'},
+        {label:'E', text:'Pedigree E'},
+      ],
+      correct:'E',
+      explC:'This patient most likely has a form of mitochondrial myopathy.  Without properly functioning mitochondria, cells are unable to use oxidative phosphorylation to efficiently produce adequate levels of ATP.  Organ systems such as the brain and skeletal muscle will be affected first due to their high metabolic demand relative to other tissues.  Affected patients often present with myopathy (eg, muscle weakness, myalgia, lactic acidosis due to impaired aerobic glycolysis, and nervous system dysfunction (eg, neuropathy, seizures).  Muscle biopsy classically shows ragged red fibers.\n\nMitochondria are unique organelles because they contain their own DNA, known as mtDNA.  Offspring inherit mtDNA in a maternal fashion with no paternal contribution (maternal inheritance).  Only affected females transmit abnormal mitochondria to offspring; transmission never occurs through males (even if they are affected).',
+      explI:[
+        {option:'A', explanation:'Autosomal dominant disorders affect 50% of all children (males and females) born to one affected parent.  The disease will appear in consecutive generations, and father-to-son transmission can occur.'},
+        {option:'B', explanation:'Autosomal recessive conditions affect about 25% of all children (males and females) with two carrier parents.  Offspring of a single affected parent will be carriers for the disorder.  As a result, the disease can skip generations, but consanguineous families will show increased incidence.'},
+        {option:'C', explanation:'In X-linked dominant disorders, all female children of affected males will have the condition, but both female and male children of an affected female have a 50% chance of being affected.  There is no father-to-son transmission.'},
+        {option:'D', explanation:'In X-linked recessive conditions, male offspring of a carrier female have a 50% chance of being affected, whereas female offspring have a 50% chance of being carriers.  Female children of an affected father are obligate carriers.  The disease can skip generations, and there is no father-to-son transmission.'},
+      ],
+      objective:'Mitochondrial dysfunction frequently presents with myopathy, nervous system dysfunction, lactic acidosis, and ragged red fibers on muscle biopsy.  Mitochondrial myopathies due to mtDNA mutations are inherited solely in a maternal fashion (ie, maternal inheritance).  Therefore, transmission occurs only through affected females and never through males.',
+      peer:{A:6, B:4, C:6, D:5, E:76},
+      ptTranslation:{
+        vignette:'Uma mulher de 19 anos é avaliada por crises tônico-clônicas generalizadas de início recente.  Nos últimos anos, ela também tem apresentado abalos erráticos dos braços e pernas, e fraqueza muscular intermitente.  A paciente tem vários familiares com sintomas semelhantes.  O exame neurológico revela sensibilidade diminuída nos membros inferiores e marcha de base alargada.  A biópsia do músculo esquelético mostra fibras musculares de aspecto irregular e avermelhado ("ragged red fibers").  Uma análise mais aprofundada revela que os sintomas da paciente se devem a uma mutação que afeta o DNA extranuclear.',
+        q:'Qual dos seguintes heredogramas mais provavelmente representa o histórico familiar desta paciente? (A seta indica a paciente.)',
+        objective:'A disfunção mitocondrial frequentemente se apresenta com miopatia, disfunção do sistema nervoso, acidose láctica e fibras vermelhas irregulares ("ragged red fibers") na biópsia muscular.  As miopatias mitocondriais causadas por mutações do mtDNA são herdadas exclusivamente por via materna (isto é, herança materna).  Portanto, a transmissão ocorre apenas por meio de mulheres afetadas e nunca por meio de homens.',
+        options:[
+          {label:'A', text:'Heredograma A'},
+          {label:'B', text:'Heredograma B'},
+          {label:'C', text:'Heredograma C'},
+          {label:'D', text:'Heredograma D'},
+          {label:'E', text:'Heredograma E'},
+        ],
+        explC:'Esta paciente muito provavelmente tem uma forma de miopatia mitocondrial.  Sem mitocôndrias funcionando adequadamente, as células são incapazes de usar a fosforilação oxidativa para produzir níveis adequados de ATP de forma eficiente.  Sistemas orgânicos como o cérebro e o músculo esquelético serão afetados primeiro devido à sua alta demanda metabólica em relação a outros tecidos.  Os pacientes afetados costumam apresentar miopatia (ex.: fraqueza muscular, mialgia), acidose láctica por glicólise aeróbica prejudicada, e disfunção do sistema nervoso (ex.: neuropatia, crises convulsivas).  A biópsia muscular classicamente mostra fibras vermelhas irregulares ("ragged red fibers").\n\nAs mitocôndrias são organelas únicas porque contêm seu próprio DNA, conhecido como mtDNA.  A prole herda o mtDNA de forma materna, sem nenhuma contribuição paterna (herança materna).  Somente as mulheres afetadas transmitem mitocôndrias anormais para a prole; a transmissão nunca ocorre por meio de homens (mesmo que estejam afetados).',
+        explI:[
+          {option:'A', explanation:'Distúrbios autossômicos dominantes afetam 50% de todos os filhos (homens e mulheres) nascidos de um genitor afetado.  A doença aparecerá em gerações consecutivas, e pode ocorrer transmissão de pai para filho.'},
+          {option:'B', explanation:'Condições autossômicas recessivas afetam cerca de 25% de todos os filhos (homens e mulheres) de dois genitores portadores.  A prole de um único genitor afetado será portadora do distúrbio.  Como resultado, a doença pode pular gerações, mas famílias consanguíneas mostrarão incidência aumentada.'},
+          {option:'C', explanation:'Em distúrbios dominantes ligados ao X, todas as filhas de homens afetados terão a condição, mas tanto as filhas quanto os filhos de uma mulher afetada têm 50% de chance de serem afetados.  Não há transmissão de pai para filho.'},
+          {option:'D', explanation:'Em condições recessivas ligadas ao X, os filhos homens de uma mulher portadora têm 50% de chance de serem afetados, enquanto as filhas têm 50% de chance de serem portadoras.  As filhas de um pai afetado são portadoras obrigatórias.  A doença pode pular gerações, e não há transmissão de pai para filho.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0004', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      vignette:'A young couple has undergone a successful in vitro fertilization procedure.  The family pedigree is diagrammed below.  The father (II-4) and the mother\'s sister (II-2) have cystic fibrosis (CF) (indicated by black in the diagram) due to ΔF508 mutations.  The carrier status of the mother (II-3) is unknown.  Before making the decision to conceive, the couple underwent extensive genetic counseling regarding the potential risks of having a child with CF.  The fetus (III-1) is indicated by the red arrow.',
+      q:"Which of the following is the probability that the couple's child will have CF?",
+      img:'assets/qbank/CMQ-STEP1-GEN-0004_cystic_fibrosis_pedigree.png',
+      options:[
+        {label:'A', text:'1/16'},
+        {label:'B', text:'1/8'},
+        {label:'C', text:'1/4'},
+        {label:'D', text:'1/3'},
+        {label:'E', text:'3/4'},
+      ],
+      correct:'D',
+      explC:"Cystic fibrosis (CF) is an autosomal recessive disorder caused by defects in the CFTR gene.  Although most men with CF are infertile due to congenital absence of the vas deferens, they are not sterile and can have children via assisted reproductive technology.\n\nIn order for offspring to be affected by an autosomal recessive disease, they must inherit a mutant allele from each parent.  In this case, the probability of the fetus inheriting a mutant allele from the father (II-4) is 100% because he has the disease (ie, 2 mutant alleles).  Therefore, the probability of the couple having a child with CF is equal to the probability of the mother passing on the mutant allele, as follows:\n\nP(mother having a mutant allele) x P(mother transmitting a mutant allele)\n\n- P(mother having a mutant allele): The mother (II-3) is unaffected but has an affected sibling (II-2).  Because the mother's parents (I-1 and I-2) are healthy, they must be heterozygous carriers for the disorder, which means the mother could have 1 of 4 possible genotypes.  However, because the mother is unaffected, she cannot be homozygous for the mutant allele and must be either homozygous for the normal allele or a heterozygous carrier.  Therefore, the overall probability of the mother being a carrier is 2 in 3.\n- P(mother transmitting a mutant allele): If the mother is a carrier, then the probability of her passing on the mutant allele is 1 in 2.\n\nTherefore, the probability of this couple conceiving a child with CF is 2/3 x 1/2 = 1/3, or 1 in 3.",
+      explI:[
+        {option:'A', explanation:'A 1/16 probability would result from multiplying two independent 1/4 (autosomal recessive) probabilities together, which does not apply here since the father is already known to be affected (ie, his contribution of a mutant allele is certain, not 1/4).'},
+        {option:'B', explanation:"A 1/8 probability would result if the mother's carrier probability were treated as 1/4 x 1/2 instead of correctly accounting for the fact that she is known to be unaffected (2/3 carrier probability, not 1/4)."},
+        {option:'C', explanation:"A 1/4 probability would be the answer if both parents were known carriers of an autosomal recessive condition with no other information; it does not account for the father being affected (certain transmission) and the mother's adjusted 2/3 carrier probability."},
+        {option:'E', explanation:'A 3/4 probability does not correctly reflect the combined probability calculation for this pedigree and overestimates the risk of the child having CF.'},
+      ],
+      objective:'In autosomal recessive disorders, affected offspring must inherit a mutant allele from each parent.  If one of the parents is healthy but has an affected sibling, then the probability of that parent being a carrier is 2 in 3.',
+      peer:{A:2, B:12, C:41, D:34, E:9},
+      ptTranslation:{
+        vignette:'Um casal jovem passou por um procedimento bem-sucedido de fertilização in vitro.  O heredograma familiar está diagramado abaixo.  O pai (II-4) e a irmã da mãe (II-2) têm fibrose cística (FC), indicada em preto no diagrama, devido a mutações ΔF508.  O status de portadora da mãe (II-3) é desconhecido.  Antes de decidir conceber, o casal passou por aconselhamento genético extensivo sobre os riscos potenciais de ter um filho com FC.  O feto (III-1) é indicado pela seta vermelha.',
+        q:'Qual das seguintes é a probabilidade de o filho do casal ter FC?',
+        objective:'Em distúrbios autossômicos recessivos, a prole afetada deve herdar um alelo mutante de cada genitor.  Se um dos genitores é saudável mas tem um irmão afetado, então a probabilidade de esse genitor ser portador é de 2 em 3.',
+        options:[
+          {label:'A', text:'1/16'},
+          {label:'B', text:'1/8'},
+          {label:'C', text:'1/4'},
+          {label:'D', text:'1/3'},
+          {label:'E', text:'3/4'},
+        ],
+        explC:'A fibrose cística (FC) é um distúrbio autossômico recessivo causado por defeitos no gene CFTR.  Embora a maioria dos homens com FC seja infértil devido à ausência congênita dos ductos deferentes, eles não são estéreis e podem ter filhos por meio de tecnologia de reprodução assistida.\n\nPara que a prole seja afetada por uma doença autossômica recessiva, ela deve herdar um alelo mutante de cada genitor.  Neste caso, a probabilidade de o feto herdar um alelo mutante do pai (II-4) é de 100%, porque ele tem a doença (isto é, 2 alelos mutantes).  Portanto, a probabilidade de o casal ter um filho com FC é igual à probabilidade de a mãe transmitir o alelo mutante, da seguinte forma:\n\nP(mãe ter um alelo mutante) x P(mãe transmitir um alelo mutante)\n\n- P(mãe ter um alelo mutante): A mãe (II-3) não é afetada, mas tem uma irmã afetada (II-2).  Como os pais da mãe (I-1 e I-2) são saudáveis, eles devem ser portadores heterozigotos do distúrbio, o que significa que a mãe poderia ter 1 de 4 genótipos possíveis.  Entretanto, como a mãe não é afetada, ela não pode ser homozigota para o alelo mutante e deve ser homozigota para o alelo normal ou portadora heterozigota.  Portanto, a probabilidade geral de a mãe ser portadora é de 2 em 3.\n- P(mãe transmitir um alelo mutante): Se a mãe for portadora, a probabilidade de ela transmitir o alelo mutante é de 1 em 2.\n\nPortanto, a probabilidade de este casal conceber um filho com FC é 2/3 x 1/2 = 1/3, ou 1 em 3.',
+        explI:[
+          {option:'A', explanation:'Uma probabilidade de 1/16 resultaria da multiplicação de duas probabilidades independentes de 1/4 (autossômica recessiva), o que não se aplica aqui, já que o pai já é sabidamente afetado (isto é, sua contribuição de um alelo mutante é certa, não 1/4).'},
+          {option:'B', explanation:'Uma probabilidade de 1/8 resultaria se a probabilidade de a mãe ser portadora fosse tratada como 1/4 x 1/2, em vez de considerar corretamente que ela é sabidamente não afetada (probabilidade de portadora de 2/3, não 1/4).'},
+          {option:'C', explanation:'Uma probabilidade de 1/4 seria a resposta se ambos os genitores fossem portadores conhecidos de uma condição autossômica recessiva sem nenhuma outra informação; isso não leva em conta que o pai é afetado (transmissão certa) e a probabilidade ajustada de 2/3 de a mãe ser portadora.'},
+          {option:'E', explanation:'Uma probabilidade de 3/4 não reflete corretamente o cálculo de probabilidade combinada para este heredograma e superestima o risco de o filho ter FC.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0005', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'A 12-year-old boy is brought to the clinic for evaluation of muscle weakness.  The patient has a history of seizures, and he has recently had several stroke-like episodes that resulted in muscle weakness.  Examination shows decreased strength in the upper and lower extremities on the left compared to the right.  Laboratory evaluation shows increased serum lactate levels both after exercise and at rest.  Further work-up confirms that the patient has a genetic condition that is transmitted exclusively through the maternal line.  His older sister is affected by the same disorder, but she displays very few symptoms.',
+      q:'Which of the following is the most likely explanation for the variability in clinical presentation between this patient and his sister?',
+      options:[
+        {label:'A', text:'Anticipation'},
+        {label:'B', text:'Genetic heterogeneity'},
+        {label:'C', text:'Genetic imprinting'},
+        {label:'D', text:'Heteroplasmy'},
+        {label:'E', text:'Pleiotropy'},
+      ],
+      correct:'D',
+      explC:"This patient has a genetic condition with a maternal inheritance pattern, a finding characteristic of mitochondrial disease.  Unlike nuclear DNA (inherited from both parents), mitochondrial DNA (mtDNA) is inherited almost exclusively through the maternal line.\n\nInheritance of mtDNA mutations affects male and female offspring with equal frequency, but disease often presents with varying severity even in those with the same mtDNA mutation.  This variability is the result of heteroplasmy.  Cells contain thousands of mitochondria, each with several copies of its own genome.  Mitochondria containing more mutant mtDNA copies are less likely to function normally, and random distribution of mitochondria during mitosis/meiosis results in variable amounts of mutant and normal mitochondria among daughter cells.  The relative balance of mutated and normal mtDNA explains the variability in symptom severity between this patient and his sibling, who presumably has less mutant mtDNA.\n\nBecause mitochondrial defects lead to impaired oxidative phosphorylation (ie, decreased ATP production), tissues with the highest energy requirements (eg, brain, skeletal muscle) are most affected, as seen in this child.  This patient likely has mitochondrial encephalopathy, lactic acidosis, and stroke-like episodes (MELAS), one of the most common mitochondrial disorders.",
+      explI:[
+        {option:'A', explanation:'Anticipation is the increasing severity or earlier onset of a genetic disease in subsequent generations.  This phenomenon is often seen in conditions with an increasing number of trinucleotide repeats with each generation (eg, Huntington disease).'},
+        {option:'B', explanation:'Genetic heterogeneity refers to varying genotypes among individuals with the same phenotype, such as sensorineural hearing loss, which can be caused by >100 different mutations.  In contrast, this patient has the same mutation as his sister but a more severe phenotype.'},
+        {option:'C', explanation:'Genetic imprinting refers to selective inactivation of paternal or maternal alleles.  This phenomenon explains the difference in presentation between Prader-Willi and Angelman syndromes.'},
+        {option:'E', explanation:'Pleiotropy refers to the seemingly unrelated phenotypic effects of a single genetic mutation.  This is seen in Marfan syndrome, in which a fibrillin gene mutation affects various organs (eg, heart, eye).  Pleiotropy would not explain variable symptom severity between siblings.'},
+      ],
+      objective:'Mitochondrial DNA (mtDNA) is inherited through the maternal line, and identical mutations can cause varying disease severity due to heteroplasmy.  Mitochondrial heteroplasmy describes cells that contain both mutant and normal mitochondria; the relative amount of each determines disease severity.',
+      peer:{A:4, B:18, C:7, D:57, E:11},
+      labs:[
+        ['Lactate (venous, resting)', '0.5–2.2 mmol/L (4.5–19.8 mg/dL)', '0,5–2,2 mmol/L (4,5–19,8 mg/dL)',
+         'Elevated at rest and after exercise in mitochondrial myopathies (eg, MELAS) due to impaired oxidative phosphorylation and compensatory anaerobic glycolysis',
+         'Elevado em repouso e após exercício nas miopatias mitocondriais (ex.: MELAS), por fosforilação oxidativa prejudicada e glicólise anaeróbica compensatória'],
+      ],
+      ptTranslation:{
+        vignette:'Um menino de 12 anos é levado à clínica para avaliação de fraqueza muscular.  O paciente tem histórico de crises convulsivas e recentemente teve vários episódios do tipo AVC que resultaram em fraqueza muscular.  O exame mostra força diminuída nos membros superiores e inferiores à esquerda em comparação com a direita.  A avaliação laboratorial mostra níveis séricos de lactato aumentados tanto após o exercício quanto em repouso.  Investigação adicional confirma que o paciente tem uma condição genética transmitida exclusivamente por via materna.  Sua irmã mais velha é afetada pelo mesmo distúrbio, mas apresenta pouquíssimos sintomas.',
+        q:'Qual das seguintes é a explicação mais provável para a variabilidade na apresentação clínica entre este paciente e sua irmã?',
+        objective:'O DNA mitocondrial (mtDNA) é herdado por via materna, e mutações idênticas podem causar gravidade variável da doença devido à heteroplasmia.  A heteroplasmia mitocondrial descreve células que contêm tanto mitocôndrias mutantes quanto normais; a quantidade relativa de cada uma determina a gravidade da doença.',
+        options:[
+          {label:'A', text:'Antecipação'},
+          {label:'B', text:'Heterogeneidade genética'},
+          {label:'C', text:'Imprinting genético'},
+          {label:'D', text:'Heteroplasmia'},
+          {label:'E', text:'Pleiotropia'},
+        ],
+        explC:'Este paciente tem uma condição genética com padrão de herança materna, um achado característico de doença mitocondrial.  Diferentemente do DNA nuclear (herdado de ambos os genitores), o DNA mitocondrial (mtDNA) é herdado quase exclusivamente por via materna.\n\nA herança de mutações do mtDNA afeta a prole masculina e feminina com igual frequência, mas a doença frequentemente se apresenta com gravidade variável mesmo entre indivíduos com a mesma mutação do mtDNA.  Essa variabilidade é resultado da heteroplasmia.  As células contêm milhares de mitocôndrias, cada uma com várias cópias de seu próprio genoma.  Mitocôndrias contendo mais cópias mutantes do mtDNA têm menor probabilidade de funcionar normalmente, e a distribuição aleatória das mitocôndrias durante a mitose/meiose resulta em quantidades variáveis de mitocôndrias mutantes e normais entre as células-filhas.  O equilíbrio relativo entre mtDNA mutante e normal explica a variabilidade na gravidade dos sintomas entre este paciente e seu irmão/irmã, que presumivelmente tem menos mtDNA mutante.\n\nComo os defeitos mitocondriais levam à fosforilação oxidativa prejudicada (isto é, produção diminuída de ATP), os tecidos com maiores necessidades energéticas (ex.: cérebro, músculo esquelético) são os mais afetados, como visto nesta criança.  Este paciente provavelmente tem encefalopatia mitocondrial, acidose láctica e episódios do tipo AVC (MELAS), um dos distúrbios mitocondriais mais comuns.',
+        explI:[
+          {option:'A', explanation:'Antecipação é a gravidade crescente ou o início mais precoce de uma doença genética em gerações subsequentes.  Esse fenômeno é frequentemente visto em condições com número crescente de repetições de trinucleotídeos a cada geração (ex.: doença de Huntington).'},
+          {option:'B', explanation:'Heterogeneidade genética se refere a genótipos variados entre indivíduos com o mesmo fenótipo, como a perda auditiva neurossensorial, que pode ser causada por mais de 100 mutações diferentes.  Em contraste, este paciente tem a mesma mutação que sua irmã, mas um fenótipo mais grave.'},
+          {option:'C', explanation:'Imprinting genético se refere à inativação seletiva de alelos paternos ou maternos.  Esse fenômeno explica a diferença de apresentação entre as síndromes de Prader-Willi e de Angelman.'},
+          {option:'E', explanation:'Pleiotropia se refere aos efeitos fenotípicos aparentemente não relacionados de uma única mutação genética.  Isso é visto na síndrome de Marfan, na qual uma mutação do gene da fibrilina afeta vários órgãos (ex.: coração, olho).  A pleiotropia não explicaria a gravidade variável dos sintomas entre irmãos.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
