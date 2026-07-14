@@ -8118,7 +8118,7 @@
       ${renderExplImage(q)}
       <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
-      <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
+      <div class="qb-obj"><div class="qb-obj-head"><span class="qb-obj-lbl">${esc(t('eduObjective'))}</span></div><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
       ${qbPrefDefaults().peer ? `<div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>` : ''}
       ${renderQuestionMeta(q)}
     </div>`;
