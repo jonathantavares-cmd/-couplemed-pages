@@ -5647,6 +5647,83 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0043', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      vignette:'A pharmaceutical researcher is evaluating a nuclear enzyme inhibitor to treat an inherited disorder.  During an experiment, he extracts and purifies nuclear enzymes from skin cells of an affected patient.  One of these enzymes is found to catalyze the methylation of cytosine residues in DNA using S-adenosyl-methionine (SAM) as the methyl donor.',
+      q:'This enzyme most likely plays a crucial role in which of the following genetic processes?',
+      options:[
+        {label:'A', text:'Aneuploidy'},
+        {label:'B', text:'Epistasis'},
+        {label:'C', text:'Imprinting'},
+        {label:'D', text:'Meiotic nondisjunction'},
+        {label:'E', text:'Pleiotropy'},
+      ],
+      correct:'C',
+      explC:'DNA methylation refers to the addition of methyl groups to nucleotide residues (often adenine and cytosine) by DNA methyltransferase, an enzyme that uses S-adenosyl-methionine (SAM) as the methyl donor.  DNA methylation is an epigenetic process by which eukaryotic organisms modify gene expression without altering the genetic code.\n\nMethylation of cytosine-guanine dinucleotide (CpGs) repeats in the promoter region of genes effectively silences transcription of those genes.  Cytosine methylation is used in genomic imprinting, a physiologic phenomenon in which the expression of a small subset of an offspring\'s genes depends on which parent contributed the involved gene.  For instance, a gene inherited from the mother may be inactivated—or imprinted—by methylation so only the gene from the father is expressed.  Disease can occur when a gene that is normally expressed is absent.  This phenomenon is seen in Prader-Willi syndrome, which is caused by the loss of the paternally derived gene and the silencing/imprinting of the maternally derived gene.\n\nDNA methylation is also directly involved in the pathogenesis of fragile X syndrome (unrelated to imprinting).  This X-linked disorder is caused by an increased number of trinucleotide (CGG) repeats on the fragile X messenger ribonucleoprotein 1 (FMR1) gene.  This trinucleotide repeat expansion results in hypermethylation of cytosine residues and FMR1 inactivation.',
+      explI:[
+        {option:'A and D', explanation:'Aneuploidy is an abnormal number of chromosomes (eg, trisomy 21) in a cell and is the result of chromosomal nondisjunction during mitosis or meiosis.'},
+        {option:'B', explanation:'Epistasis occurs when the allele of one gene affects the phenotypic expression of alleles in other genes, as seen in albinism, in which a mutation in melanin biosynthesis masks expression of genes that normally determine skin pigmentation.  Epistasis is not associated with DNA methylation.'},
+        {option:'E', explanation:'Pleiotropy occurs when a single gene influences multiple phenotypic traits (eg, Marfan syndrome).  Methylation is not responsible for pleiotropy.'},
+      ],
+      objective:"DNA methylation is an epigenetic process in which genes can be silenced by attaching methyl groups to cytosine residues.  Genomic imprinting is caused by DNA methylation and refers to the physiologic phenomenon in which an offspring's gene expression depends on which parent contributed the involved gene.",
+      peer:{A:4, B:9, C:68, D:8, E:9},
+      ptTranslation:{
+        vignette:'Um pesquisador farmacêutico está avaliando um inibidor de enzima nuclear para tratar um distúrbio hereditário.  Durante um experimento, ele extrai e purifica enzimas nucleares de células da pele de um paciente afetado.  Uma dessas enzimas catalisa a metilação de resíduos de citosina no DNA usando a S-adenosil-metionina (SAM) como doador de metila.',
+        q:'Essa enzima mais provavelmente desempenha papel crucial em qual dos seguintes processos genéticos?',
+        objective:'A metilação do DNA é um processo epigenético no qual genes podem ser silenciados pela adição de grupos metil a resíduos de citosina.  O imprinting genômico é causado pela metilação do DNA e se refere ao fenômeno fisiológico no qual a expressão gênica de um descendente depende de qual genitor contribuiu com o gene em questão.',
+        options:[
+          {label:'A', text:'Aneuploidia'},
+          {label:'B', text:'Epistasia'},
+          {label:'C', text:'Imprinting'},
+          {label:'D', text:'Não disjunção meiótica'},
+          {label:'E', text:'Pleiotropia'},
+        ],
+        explC:'A metilação do DNA se refere à adição de grupos metil a resíduos de nucleotídeos (frequentemente adenina e citosina) pela DNA metiltransferase, uma enzima que usa a S-adenosil-metionina (SAM) como doador de metila.  A metilação do DNA é um processo epigenético pelo qual organismos eucarióticos modificam a expressão gênica sem alterar o código genético.\n\nA metilação de repetições de dinucleotídeo citosina-guanina (CpGs) na região promotora de genes silencia efetivamente a transcrição desses genes.  A metilação de citosina é usada no imprinting genômico, um fenômeno fisiológico no qual a expressão de um pequeno subconjunto dos genes de um descendente depende de qual genitor contribuiu com o gene em questão.  Por exemplo, um gene herdado da mãe pode ser inativado — ou "imprintado" — por metilação, de modo que apenas o gene do pai seja expresso.  A doença pode ocorrer quando um gene que normalmente é expresso está ausente.  Esse fenômeno é visto na síndrome de Prader-Willi, causada pela perda do gene derivado do pai e pelo silenciamento/imprinting do gene derivado da mãe.\n\nA metilação do DNA também está diretamente envolvida na patogênese da síndrome do X frágil (não relacionada ao imprinting).  Esse distúrbio ligado ao X é causado por um número aumentado de repetições de trinucleotídeos (CGG) no gene FMR1 (fragile X messenger ribonucleoprotein 1).  Essa expansão de repetições de trinucleotídeos resulta em hipermetilação de resíduos de citosina e inativação do FMR1.',
+        explI:[
+          {option:'A and D', explanation:'Aneuploidia é um número anormal de cromossomos (ex.: trissomia 21) em uma célula e é resultado de não disjunção cromossômica durante a mitose ou a meiose.'},
+          {option:'B', explanation:'A epistasia ocorre quando o alelo de um gene afeta a expressão fenotípica de alelos de outros genes, como visto no albinismo, no qual uma mutação na biossíntese de melanina mascara a expressão de genes que normalmente determinam a pigmentação da pele.  A epistasia não está associada à metilação do DNA.'},
+          {option:'E', explanation:'A pleiotropia ocorre quando um único gene influencia múltiplos traços fenotípicos (ex.: síndrome de Marfan).  A metilação não é responsável pela pleiotropia.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0044', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'easy',
+      vignette:'A researcher is studying the expression pattern of a particular gene using the Northern blot technique.  Messenger RNA is isolated from several tissues, subjected to electrophoresis, blotted, and probed with radiolabeled DNA containing sequences from exon 4 of the target gene.  An x-ray film is then placed over the blotting membrane, with the results of the experiment shown below.',
+      q:'The variation in transcript migration distances between the different tissues is most likely due to which of the following?',
+      img:'assets/qbank/CMQ-STEP1-GEN-0044_northern_blot_alt_splicing.png',
+      options:[
+        {label:'A', text:'Alternative RNA splicing'},
+        {label:'B', text:'DNA mutation'},
+        {label:'C', text:'DNA rearrangement'},
+        {label:'D', text:'Enhancer effect'},
+        {label:'E', text:'Transcription factor effect'},
+      ],
+      correct:'A',
+      explC:'This study identifies mRNA transcripts that contain exon 4 of a single gene.  Northern blot analysis shows bands at different migration distances (ie, 2.0 kb, 3.0 kb, 3.5 kb); each corresponds to a differing mRNA length.  This suggests that a variable number of exons (in addition to exon 4) must be present in each mRNA transcript, results indicative of alternative splicing.\n\nAlternative splicing is a posttranscriptional process in which exons of one transcribed gene can be variably included or excluded to create multiple mature mRNA transcripts of different lengths.  In this case, additional mRNA variants that exclude exon 4 may also be produced by alternative splicing but would not be detected in this experiment that uses a radiolabeled DNA sequence specific to that exon.\n\nIn eukaryotes, alternative splicing is a normal process that allows for increased diversity of proteins encoded by the genome because each mature mRNA transcript containing a unique combination of exons is translated into a different protein isoform (eg, membrane-bound or soluble receptors).  The process of alternative splicing is regulated by transcription factors and splice enhancers/silencers, which allows the quantity of specific variants (represented by band thickness) to differ based on the unique needs of a tissue.',
+      explI:[
+        {option:'B', explanation:'Although somatic mutations (changes in DNA sequence) occur sporadically, they affect only a minority of cells, and the majority of DNA throughout the body consists of identical gene coding sequences.  A mutation would not explain the variability of RNA transcript sizes in multiple tissues, as seen in this study.'},
+        {option:'C', explanation:'DNA rearrangement normally only occurs during development of B and T cells (V[D]J gene recombination) in primary lymphoid tissue (ie, bone marrow, thymus) and during gametogenesis (homologous recombination) in the ovaries and testes.'},
+        {option:'D and E', explanation:'Although splice enhancers and transcription factors may affect the quantity of splice variants (ie, band thickness on Northern blot) in a given tissue, the variation in transcript length (ie, migration distance on Northern blot analysis) is due to alternative splicing.'},
+      ],
+      objective:'Alternative splicing is a normal process that allows the exons within a pre-mRNA transcript from a single gene to be combined in multiple ways during posttranscriptional processing.  This allows one pre-mRNA transcript to generate multiple mature mRNA variants and, subsequently, different protein isoforms.',
+      peer:{A:78, B:4, C:2, D:4, E:10},
+      ptTranslation:{
+        vignette:'Um pesquisador está estudando o padrão de expressão de um gene específico usando a técnica de Northern blot.  O RNA mensageiro é isolado de vários tecidos, submetido a eletroforese, transferido (blotted) e sondado com DNA radiomarcado contendo sequências do éxon 4 do gene-alvo.  Um filme de raios X é então colocado sobre a membrana de blotting, com os resultados do experimento mostrados abaixo.',
+        q:'A variação nas distâncias de migração dos transcritos entre os diferentes tecidos é mais provavelmente devida a qual das seguintes?',
+        objective:'O splicing alternativo é um processo normal que permite que os éxons dentro de um transcrito de pré-mRNA de um único gene sejam combinados de múltiplas formas durante o processamento pós-transcricional.  Isso permite que um transcrito de pré-mRNA gere múltiplas variantes de mRNA maduro e, subsequentemente, diferentes isoformas proteicas.',
+        options:[
+          {label:'A', text:'Splicing alternativo de RNA'},
+          {label:'B', text:'Mutação de DNA'},
+          {label:'C', text:'Rearranjo de DNA'},
+          {label:'D', text:'Efeito de enhancer'},
+          {label:'E', text:'Efeito de fator de transcrição'},
+        ],
+        explC:'Este estudo identifica transcritos de mRNA que contêm o éxon 4 de um único gene.  A análise por Northern blot mostra bandas em diferentes distâncias de migração (isto é, 2,0 kb, 3,0 kb, 3,5 kb); cada uma corresponde a um comprimento diferente de mRNA.  Isso sugere que um número variável de éxons (além do éxon 4) deve estar presente em cada transcrito de mRNA, resultados indicativos de splicing alternativo.\n\nO splicing alternativo é um processo pós-transcricional no qual os éxons de um gene transcrito podem ser variavelmente incluídos ou excluídos para criar múltiplos transcritos de mRNA maduro de diferentes comprimentos.  Neste caso, variantes adicionais de mRNA que excluem o éxon 4 também podem ser produzidas por splicing alternativo, mas não seriam detectadas neste experimento, que usa uma sequência de DNA radiomarcada específica para esse éxon.\n\nEm eucariotos, o splicing alternativo é um processo normal que permite maior diversidade de proteínas codificadas pelo genoma, pois cada transcrito de mRNA maduro contendo uma combinação única de éxons é traduzido em uma isoforma proteica diferente (ex.: receptores ligados à membrana ou solúveis).  O processo de splicing alternativo é regulado por fatores de transcrição e por enhancers/silenciadores de splicing, o que permite que a quantidade de variantes específicas (representada pela espessura da banda) varie de acordo com as necessidades específicas de um tecido.',
+        explI:[
+          {option:'B', explanation:'Embora mutações somáticas (alterações na sequência de DNA) ocorram esporadicamente, elas afetam apenas uma minoria das células, e a maior parte do DNA por todo o corpo consiste em sequências codificantes de genes idênticas.  Uma mutação não explicaria a variabilidade dos tamanhos dos transcritos de RNA em múltiplos tecidos, como visto neste estudo.'},
+          {option:'C', explanation:'O rearranjo de DNA normalmente só ocorre durante o desenvolvimento de linfócitos B e T (recombinação gênica V[D]J) em tecido linfoide primário (isto é, medula óssea, timo) e durante a gametogênese (recombinação homóloga) nos ovários e testículos.'},
+          {option:'D and E', explanation:'Embora enhancers de splicing e fatores de transcrição possam afetar a quantidade de variantes de splicing (isto é, a espessura da banda no Northern blot) em um dado tecido, a variação no comprimento do transcrito (isto é, a distância de migração na análise por Northern blot) se deve ao splicing alternativo.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
