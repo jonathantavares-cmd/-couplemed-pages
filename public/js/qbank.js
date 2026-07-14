@@ -5837,6 +5837,128 @@
         ]
       }
     },
+    // BATCH GEN 06 — Genetics: RNA structure, synthesis & processing
+    { id:'CMQ-STEP1-GEN-0048', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      vignette:'A 32-year-old man is recovering from extensive burns.  Fibroblasts near the site of injury actively synthesize precursor mRNA to be used as templates for protein synthesis.  After transcription, extensive processing of the precursor RNA occurs to form the finalized mRNA sequence.  The finalized mRNA then exits the nucleus and undergoes translation by ribosome complexes before being degraded.',
+      q:'Which of the following steps involving the processing and handling of mRNA occurs only within the cytoplasm of cells?',
+      options:[
+        {label:'A', text:'5\'-terminal guanosine triphosphate addition'},
+        {label:'B', text:'Methylation of the 5\'-terminal guanine'},
+        {label:'C', text:'Multiple adenine nucleotide attachment to the 3\'-end'},
+        {label:'D', text:'Interaction with snRNP'},
+        {label:'E', text:'Removal of intervening sequences'},
+        {label:'F', text:'Interaction with P bodies'},
+      ],
+      correct:'F',
+      explC:'After transcription, the preliminary, unprocessed mRNA is known as precursor mRNA, or heterogeneous nuclear RNA (hnRNA).  Eukaryotic pre-mRNA undergoes significant posttranscriptional processing before leaving the nucleus, including 5\'-capping, poly A tail addition, and intron splicing.\n\nOnce mRNA is finalized, it leaves the nucleus bound to specific packaging proteins.  Upon entering the cytoplasm, these mRNA complexes often associate with ribosomes to undergo translation.  However, certain mRNA sequences instead associate with proteins that are found in P bodies.  P bodies are distinct foci found within eukaryotic cells that are involved in mRNA regulation and turnover.  They play a fundamental role in translation repression and mRNA decay, and contain numerous proteins including RNA exonucleases, mRNA decapping enzymes, and constituents involved in mRNA quality control and microRNA-induced mRNA silencing.  P bodies also seem to function as a form of mRNA storage, as certain mRNAs are incorporated into P bodies only to be later released and utilized for protein translation.',
+      explI:[
+        {option:'A and B', explanation:'The 5\' end of all mRNA is capped with a 7-methylguanosine residue by a unique 5\' to 5\' linkage, which occurs in two stages.  The first step is the addition of guanine triphosphate to the 5\' end of mRNA in a reaction catalyzed by guanylyltransferase.  Methylation of the guanosine cap is then catalyzed by guanine-7-methyltransferase.  Capping of the precursor RNA occurs in the nucleus as the RNA is being transcribed.  This methylated cap protects mRNA from degradation by cellular exonucleases, and allows it to exit the nucleus.'},
+        {option:'C', explanation:'mRNA is polyadenylated at the 3\' end by the polyadenylate polymerase complex, which recognizes a specific sequence (AAUAAA), cleaves the pre-mRNA molecule a few residues downstream from this sequence, and then adds a stretch of 20 - 250 adenine residues called the poly A tail.  The addition of the poly A tail occurs before the mRNA exits the nucleus.  In the cytosol, the poly A tail is gradually shortened, eventually leading to mRNA degradation.'},
+        {option:'D and E', explanation:'Since pre-mRNA contains both introns and exons, and only exons code for proteins, introns must be excised before translation through a process known as splicing.  Splicing of pre-mRNA occurs within the nucleus and is facilitated by the interaction of pre-mRNA with small ribonucleoprotein particles called snRNPs (or "snurps" for short).'},
+      ],
+      objective:'When mRNA is first transcribed from DNA, it is in an unprocessed form called pre-mRNA or heterogeneous nuclear RNA (hnRNA).  Several processing steps are required before finalized mRNA molecules can leave the nucleus, including 5\'-capping, poly A tail addition, and intron splicing.  Cytoplasmic P bodies play an important role in mRNA translation regulation and mRNA degradation.',
+      peer:{A:6, B:13, C:11, D:14, E:9, F:44},
+      ptTranslation:{
+        vignette:'Um homem de 32 anos está se recuperando de queimaduras extensas.  Fibroblastos próximos ao local da lesão sintetizam ativamente mRNA precursor para ser usado como molde para a síntese proteica.  Após a transcrição, ocorre um extenso processamento do RNA precursor para formar a sequência final de mRNA.  O mRNA finalizado então sai do núcleo e sofre tradução por complexos ribossômicos antes de ser degradado.',
+        q:'Qual das seguintes etapas envolvendo o processamento e o manuseio do mRNA ocorre apenas dentro do citoplasma das células?',
+        objective:'Quando o mRNA é transcrito pela primeira vez a partir do DNA, ele está em uma forma não processada chamada pré-mRNA ou RNA nuclear heterogêneo (hnRNA).  Várias etapas de processamento são necessárias antes que as moléculas de mRNA finalizadas possam deixar o núcleo, incluindo o capeamento (5\'-cap), a adição da cauda poli A e o splicing de íntrons.  Os corpos P (P bodies) citoplasmáticos desempenham um papel importante na regulação da tradução do mRNA e na degradação do mRNA.',
+        options:[
+          {label:'A', text:'Adição de trifosfato de guanosina 5\'-terminal'},
+          {label:'B', text:'Metilação da guanina 5\'-terminal'},
+          {label:'C', text:'Ligação de múltiplos nucleotídeos de adenina à extremidade 3\''},
+          {label:'D', text:'Interação com snRNP'},
+          {label:'E', text:'Remoção de sequências interpostas'},
+          {label:'F', text:'Interação com corpos P (P bodies)'},
+        ],
+        explC:'Após a transcrição, o mRNA preliminar, não processado, é conhecido como mRNA precursor, ou RNA nuclear heterogêneo (hnRNA).  O pré-mRNA eucariótico sofre significativo processamento pós-transcricional antes de deixar o núcleo, incluindo o capeamento (5\'-cap), a adição da cauda poli A e o splicing de íntrons.\n\nUma vez finalizado, o mRNA deixa o núcleo ligado a proteínas de empacotamento específicas.  Ao entrar no citoplasma, esses complexos de mRNA frequentemente se associam a ribossomos para sofrer tradução.  Entretanto, certas sequências de mRNA associam-se, em vez disso, a proteínas encontradas nos corpos P (P bodies).  Os corpos P são focos distintos encontrados dentro das células eucarióticas que estão envolvidos na regulação e na renovação (turnover) do mRNA.  Eles desempenham um papel fundamental na repressão da tradução e na degradação do mRNA, e contêm numerosas proteínas, incluindo RNA exonucleases, enzimas de descapeamento (decapping) do mRNA e constituintes envolvidos no controle de qualidade do mRNA e no silenciamento do mRNA induzido por microRNA.  Os corpos P também parecem funcionar como uma forma de armazenamento de mRNA, já que certos mRNAs são incorporados aos corpos P apenas para serem posteriormente liberados e utilizados na tradução proteica.',
+        explI:[
+          {option:'A and B', explanation:'A extremidade 5\' de todo mRNA é capeada com um resíduo de 7-metilguanosina por uma ligação única 5\' para 5\', que ocorre em duas etapas.  A primeira etapa é a adição de trifosfato de guanina à extremidade 5\' do mRNA em uma reação catalisada pela guanililtransferase.  A metilação do cap de guanosina é então catalisada pela guanina-7-metiltransferase.  O capeamento do RNA precursor ocorre no núcleo enquanto o RNA está sendo transcrito.  Esse cap metilado protege o mRNA da degradação por exonucleases celulares e permite que ele saia do núcleo.'},
+          {option:'C', explanation:'O mRNA é poliadenilado na extremidade 3\' pelo complexo da polimerase de poliadenilato, que reconhece uma sequência específica (AAUAAA), cliva a molécula de pré-mRNA alguns resíduos a jusante dessa sequência e então adiciona uma sequência de 20 - 250 resíduos de adenina chamada cauda poli A.  A adição da cauda poli A ocorre antes de o mRNA sair do núcleo.  No citosol, a cauda poli A é gradualmente encurtada, levando eventualmente à degradação do mRNA.'},
+          {option:'D and E', explanation:'Como o pré-mRNA contém tanto íntrons quanto éxons, e apenas os éxons codificam proteínas, os íntrons devem ser excisados antes da tradução por meio de um processo conhecido como splicing.  O splicing do pré-mRNA ocorre dentro do núcleo e é facilitado pela interação do pré-mRNA com pequenas partículas de ribonucleoproteína chamadas snRNPs (ou "snurps").'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0049', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      vignette:'Geneticists are studying a malfunctioning protein that causes impaired endothelial cell migration and angiogenesis.  They have noticed that the amino acid length of the protein is truncated compared to normal controls.  The corresponding mRNA strand is isolated, and sequencing reveals a nonsense mutation.  The relevant portion of the mRNA sequence is shown below:\n\n5\'—ACG-CUA-CCA-UUG-UAA-CAA-GUU-AGC-UAG—3\'',
+      q:'Which of the following tRNA anticodons is responsible for adding the last amino acid to the truncated protein during translation?',
+      options:[
+        {label:'A', text:'5\'-AAC-3\''},
+        {label:'B', text:'5\'-AUC-3\''},
+        {label:'C', text:'5\'-CAA-3\''},
+        {label:'D', text:'5\'-GCU-3\''},
+        {label:'E', text:'5\'-UCG-3\''},
+      ],
+      correct:'C',
+      explC:'The malfunctioning protein in this study is found to have a corresponding messenger RNA (mRNA) strand that contains a nonsense mutation.  A nonsense mutation is characterized by a nucleotide base change causing a codon previously translated into an amino acid to now code for a stop codon (UGA, UAA, UAG), which prematurely halts protein synthesis.\n\nIn this case, the sequenced strand (which is translated in the 5\' to 3\' direction) reveals a premature stop codon (UAA) before the normal stop codon (UAG) at the end of the template.  Stop codons do not add amino acids to the peptide chain; therefore, the last amino acid added is determined by the codon just prior to the premature stop codon, or 5\'-UUG-3\' in this case.\n\nDuring translation, the appropriate amino acid is transported by transfer RNA (tRNA):  One end of the tRNA binds amino acids while the opposite end binds the mRNA codon through a complementary nucleic acid sequence (anticodon).  A codon and an anticodon align in antiparallel fashion, meaning the mRNA codon (in 5\' to 3\' orientation) is bound by the tRNA anticodon in the opposite orientation (3\' to 5\').  Therefore, the last amino acid (corresponding to the mRNA codon 5\'-UUG-3\') can be added by a tRNA with the anticodon 3\'-AAC-5\', which can also be described as 5\'-CAA-3\'.',
+      explI:[
+        {option:'A', explanation:'Because complementary sequences align in antiparallel fashion, the 5\'-UUG-3\' mRNA codon will bind the 5\'-CAA-3\' tRNA anticodon, not the 5\'-AAC-3\' anticodon.'},
+        {option:'B and E', explanation:'The 5\'-AUC-3\' and 5\'-UCG-3\' anticodons would bind to 5\'-GAU-3\' and 5\'-CGA-3\' codons, respectively (5\' to 3\' binds 3\' to 5\').  These codons are not present in the mRNA sequence.'},
+        {option:'D', explanation:'The last codon in the mRNA sequence is 5\'-UAG-3\' (a stop codon), with the second-to-last codon being 5\'-AGC-3\'.  Therefore, 5\'-GCU-3\' would be the tRNA anticodon responsible for adding the last amino acid to the normal (nontruncated) protein.  However, this mutated protein has a premature stop codon, making the last codon to be translated 5\'-UUG-3\'.'},
+      ],
+      objective:'Translation of an mRNA template proceeds in the 5\' to 3\' direction, and complementary sequences align in antiparallel fashion (ie, tRNA anticodon binds in 3\' to 5\' direction).  The last amino acid added to a growing polypeptide chain is determined by the codon preceding the stop codon (UGA, UAA, UAG), which can prematurely halt translation in the presence of a nonsense mutation.',
+      peer:{A:8, B:44, C:24, D:13, E:9},
+      ptTranslation:{
+        vignette:'Geneticistas estão estudando uma proteína disfuncional que causa comprometimento da migração de células endoteliais e da angiogênese.  Eles notaram que o comprimento em aminoácidos da proteína está truncado em comparação com controles normais.  A fita de mRNA correspondente é isolada, e o sequenciamento revela uma mutação sem sentido (nonsense).  A porção relevante da sequência de mRNA é mostrada abaixo:\n\n5\'—ACG-CUA-CCA-UUG-UAA-CAA-GUU-AGC-UAG—3\'',
+        q:'Qual dos seguintes anticódons de tRNA é responsável por adicionar o último aminoácido à proteína truncada durante a tradução?',
+        objective:'A tradução de um molde de mRNA ocorre no sentido 5\' para 3\', e as sequências complementares se alinham de forma antiparalela (ou seja, o anticódon de tRNA se liga no sentido 3\' para 5\').  O último aminoácido adicionado a uma cadeia polipeptídica em crescimento é determinado pelo códon que precede o códon de parada (UGA, UAA, UAG), o qual pode interromper prematuramente a tradução na presença de uma mutação nonsense.',
+        options:[
+          {label:'A', text:'5\'-AAC-3\''},
+          {label:'B', text:'5\'-AUC-3\''},
+          {label:'C', text:'5\'-CAA-3\''},
+          {label:'D', text:'5\'-GCU-3\''},
+          {label:'E', text:'5\'-UCG-3\''},
+        ],
+        explC:'A proteína disfuncional neste estudo tem uma fita de RNA mensageiro (mRNA) correspondente que contém uma mutação sem sentido (nonsense).  Uma mutação nonsense é caracterizada por uma mudança de base nucleotídica que faz com que um códon previamente traduzido em um aminoácido passe a codificar um códon de parada (UGA, UAA, UAG), o que interrompe prematuramente a síntese proteica.\n\nNeste caso, a fita sequenciada (que é traduzida no sentido 5\' para 3\') revela um códon de parada prematuro (UAA) antes do códon de parada normal (UAG) no fim do molde.  Códons de parada não adicionam aminoácidos à cadeia peptídica; portanto, o último aminoácido adicionado é determinado pelo códon imediatamente anterior ao códon de parada prematuro, ou seja, 5\'-UUG-3\' neste caso.\n\nDurante a tradução, o aminoácido apropriado é transportado pelo RNA transportador (tRNA):  uma extremidade do tRNA liga-se aos aminoácidos enquanto a extremidade oposta liga-se ao códon do mRNA por meio de uma sequência de ácido nucleico complementar (anticódon).  Um códon e um anticódon alinham-se de forma antiparalela, o que significa que o códon do mRNA (na orientação 5\' para 3\') é ligado pelo anticódon do tRNA na orientação oposta (3\' para 5\').  Portanto, o último aminoácido (correspondente ao códon de mRNA 5\'-UUG-3\') pode ser adicionado por um tRNA com o anticódon 3\'-AAC-5\', que também pode ser descrito como 5\'-CAA-3\'.',
+        explI:[
+          {option:'A', explanation:'Como as sequências complementares se alinham de forma antiparalela, o códon de mRNA 5\'-UUG-3\' se ligará ao anticódon de tRNA 5\'-CAA-3\', e não ao anticódon 5\'-AAC-3\'.'},
+          {option:'B and E', explanation:'Os anticódons 5\'-AUC-3\' e 5\'-UCG-3\' se ligariam aos códons 5\'-GAU-3\' e 5\'-CGA-3\', respectivamente (5\' para 3\' liga-se a 3\' para 5\').  Esses códons não estão presentes na sequência de mRNA.'},
+          {option:'D', explanation:'O último códon na sequência de mRNA é 5\'-UAG-3\' (um códon de parada), sendo o penúltimo códon 5\'-AGC-3\'.  Portanto, 5\'-GCU-3\' seria o anticódon de tRNA responsável por adicionar o último aminoácido à proteína normal (não truncada).  Entretanto, essa proteína mutada tem um códon de parada prematuro, tornando o último códon a ser traduzido 5\'-UUG-3\'.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0050', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      img:'CMQ-STEP1-GEN-0050_desc.png',
+      vignette:'A pharmaceutical researcher develops a new drug that affects bacterial protein synthesis.  In an experiment, Escherichia coli is exposed to the drug and then cultured in media containing tagged nucleotides and amino acids.  It is found that the drug inhibits molecules that recognize the highlighted codon in the bacterial mRNA fragment shown in the image below:',
+      q:'Which of the following molecules is the most likely target of this drug?',
+      options:[
+        {label:'A', text:'Charged transfer RNA'},
+        {label:'B', text:'Elongation factor 2'},
+        {label:'C', text:'Releasing factor 1'},
+        {label:'D', text:'Small nuclear ribonucleoprotein'},
+        {label:'E', text:'Transcription factor IID'},
+        {label:'F', text:'Uncharged transfer RNA'},
+      ],
+      correct:'C',
+      explC:'In this experiment, a drug affects protein synthesis by inhibiting molecules that recognize the codon UAA.  Although most codons code for amino acids that are sequentially added to a growing polypeptide chain during translation, stop codons (ie, UAA, UAG, UGA) signal for the termination of protein synthesis.\n\nDuring translation of a growing peptide chain, a charged transfer RNA (ie, tRNA that is covalently attached to an amino acid) enters the A site of the ribosome, and the tRNA anticodon binds to the corresponding mRNA codon.  A peptide bond forms between the newly added amino acid and the polypeptide strand, and the peptidyl-tRNA moves to the P site as the ribosome translocates to the next codon.\n\nHowever, when a stop codon enters the A site, it is not recognized by a charged tRNA because it does not code for an amino acid (Choice A).  Instead, the stop codon is recognized by releasing factor proteins, which bind the stop codon and hydrolyze the bond between the polypeptide chain and the tRNA in the P site.  The newly formed polypeptide chain is then released, and the ribosome–messenger RNA (mRNA) complex disassembles.',
+      explI:[
+        {option:'B', explanation:'Elongation factors facilitate tRNA binding and the translocation steps of protein synthesis, not translation termination.'},
+        {option:'D', explanation:'Splicing is a posttranscriptional modification in which introns are removed from pre-mRNA in eukaryotes via small nuclear ribonucleoproteins (snRNPs).  This process does not occur in prokaryotes.'},
+        {option:'E', explanation:'Transcription factors bind to the regulatory region of the gene to initiate transcription (eg, transcription factor IID binds to the TATA promoter sequence).  They do not bind stop codons and are not involved in translation termination.'},
+        {option:'F', explanation:'During protein synthesis, uncharged tRNA (ie, tRNA lacking a covalently attached amino acid) does not interact with mRNA and ribosomes.'},
+      ],
+      objective:'Releasing factors recognize stop codons (ie, UAA, UAG, UGA) and terminate protein synthesis.  They facilitate the release of the polypeptide chain from the ribosome and dissolution of the ribosome–messenger RNA complex.',
+      peer:{A:16, B:12, C:43, D:9, E:5, F:12},
+      ptTranslation:{
+        vignette:'Um pesquisador farmacêutico desenvolve um novo fármaco que afeta a síntese proteica bacteriana.  Em um experimento, Escherichia coli é exposta ao fármaco e depois cultivada em meio contendo nucleotídeos e aminoácidos marcados.  Descobre-se que o fármaco inibe moléculas que reconhecem o códon destacado no fragmento de mRNA bacteriano mostrado na imagem abaixo:',
+        q:'Qual das seguintes moléculas é o alvo mais provável desse fármaco?',
+        objective:'Os fatores de liberação (releasing factors) reconhecem os códons de parada (ie, UAA, UAG, UGA) e terminam a síntese proteica.  Eles facilitam a liberação da cadeia polipeptídica do ribossomo e a dissolução do complexo ribossomo–RNA mensageiro.',
+        options:[
+          {label:'A', text:'RNA transportador carregado'},
+          {label:'B', text:'Fator de elongação 2'},
+          {label:'C', text:'Fator de liberação 1 (releasing factor 1)'},
+          {label:'D', text:'Ribonucleoproteína nuclear pequena (snRNP)'},
+          {label:'E', text:'Fator de transcrição IID'},
+          {label:'F', text:'RNA transportador não carregado'},
+        ],
+        explC:'Neste experimento, um fármaco afeta a síntese proteica ao inibir moléculas que reconhecem o códon UAA.  Embora a maioria dos códons codifique aminoácidos que são sequencialmente adicionados a uma cadeia polipeptídica em crescimento durante a tradução, os códons de parada (ie, UAA, UAG, UGA) sinalizam o término da síntese proteica.\n\nDurante a tradução de uma cadeia peptídica em crescimento, um tRNA carregado (ie, tRNA covalentemente ligado a um aminoácido) entra no sítio A do ribossomo, e o anticódon do tRNA liga-se ao códon de mRNA correspondente.  Uma ligação peptídica se forma entre o aminoácido recém-adicionado e a fita polipeptídica, e o peptidil-tRNA move-se para o sítio P à medida que o ribossomo se transloca para o próximo códon.\n\nEntretanto, quando um códon de parada entra no sítio A, ele não é reconhecido por um tRNA carregado porque não codifica um aminoácido (Alternativa A).  Em vez disso, o códon de parada é reconhecido por proteínas fatores de liberação (releasing factors), que se ligam ao códon de parada e hidrolisam a ligação entre a cadeia polipeptídica e o tRNA no sítio P.  A cadeia polipeptídica recém-formada é então liberada, e o complexo ribossomo–RNA mensageiro (mRNA) se desmonta.',
+        explI:[
+          {option:'B', explanation:'Os fatores de elongação facilitam a ligação do tRNA e as etapas de translocação da síntese proteica, não o término da tradução.'},
+          {option:'D', explanation:'O splicing é uma modificação pós-transcricional na qual os íntrons são removidos do pré-mRNA em eucariotos por meio de pequenas ribonucleoproteínas nucleares (snRNPs).  Esse processo não ocorre em procariotos.'},
+          {option:'E', explanation:'Os fatores de transcrição ligam-se à região regulatória do gene para iniciar a transcrição (ex.: o fator de transcrição IID liga-se à sequência promotora TATA).  Eles não se ligam a códons de parada e não estão envolvidos no término da tradução.'},
+          {option:'F', explanation:'Durante a síntese proteica, o tRNA não carregado (ie, tRNA sem um aminoácido covalentemente ligado) não interage com o mRNA e os ribossomos.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
