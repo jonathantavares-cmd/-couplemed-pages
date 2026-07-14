@@ -4947,6 +4947,114 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0025', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'hard',
+      vignette:'A 56-year-old man comes to the office due to difficulty swallowing for the past several months.  He has the most trouble with solid foods and says, "They seem to get stuck in my throat if I don\'t chew a lot."  The patient has no chest pain or heartburn and has lost 4.5 kg (10 lb) in the last 3 months.  He has been an avid hunter for many years and frequently cures the meat he eats with sodium nitrite.  Physical examination is unremarkable.  Endoscopy shows an ulcerated mass in the distal third of the esophagus, and biopsy samples are obtained from the mass and adjacent normal mucosa.  Analysis of the samples shows accelerated cytosine deamination of chromosomal DNA in both normal and malignant epithelial cells.',
+      q:'This damage is most likely to be repaired through which of the following enzymatic sequences?',
+      options:[
+        {label:'A', text:'Endonuclease, polymerase, glycosylase, lyase, ligase'},
+        {label:'B', text:'Endonuclease, polymerase, lyase, glycosylase, ligase'},
+        {label:'C', text:'Glycosylase, endonuclease, lyase, polymerase, ligase'},
+        {label:'D', text:'Glycosylase, ligase, lyase, endonuclease, polymerase'},
+        {label:'E', text:'Lyase, endonuclease, glycosylase, polymerase, ligase'},
+      ],
+      correct:'C',
+      explC:"Excessive consumption of dietary nitrites can promote the deamination of cytosine, adenine, and guanine to form uracil, hypoxanthine, and xanthine, respectively.  If these abnormal bases are not removed and replaced with the correct base, persistent DNA mutations and carcinogenesis may result.\n\nBase excision repair (not to be confused with nucleotide excision or mismatch repair) is responsible for fixing various non-bulky (ie, does not substantially disrupt DNA helix shape) base alterations such as depurination, alkylation, oxidation, and deamination.  This repair mechanism involves the following sequence of events:\n\n- Recognition of abnormal bases by specific glycosylases that cleave the altered DNA bases from the parent DNA molecule, leaving an empty sugar-phosphate site called an apurinic/apyrimidinic site (AP).\n- Next, an AP endonuclease nicks the 5' end of the AP site before a deoxyribose phosphate lyase (or flap endonuclease) enzyme subsequently completes extraction of the remaining sugar-phosphate backbone.\n- DNA polymerase then fills the gap with the correct nucleotide(s), and the final nick is sealed by a ligase enzyme.",
+      explI:[],
+      objective:'Base excision repair is used to correct single-base DNA defects induced spontaneously or by exogenous chemicals.  In this process, glycosylases remove the defective base, and the corresponding empty sugar-phosphate site is cleaved and removed by the action of endonuclease and lyase.  DNA polymerase then replaces the missing nucleotide, and ligase seals the final remaining nick.',
+      peer:{A:16, B:27, C:34, D:2, E:19},
+      ptTranslation:{
+        vignette:'Um homem de 56 anos vem ao consultório por dificuldade para engolir nos últimos meses.  Ele tem mais dificuldade com alimentos sólidos e diz: "Parece que eles ficam entalados na minha garganta se eu não mastigar bastante."  O paciente não tem dor torácica nem azia e perdeu 4,5 kg nos últimos 3 meses.  Ele é caçador assíduo há muitos anos e frequentemente cura a carne que come com nitrito de sódio.  O exame físico não mostra alterações.  A endoscopia mostra uma massa ulcerada no terço distal do esôfago, e amostras de biópsia são obtidas da massa e da mucosa normal adjacente.  A análise das amostras mostra desaminação acelerada de citosina no DNA cromossômico, tanto nas células epiteliais normais quanto nas malignas.',
+        q:'Este dano é mais provavelmente reparado por meio de qual das seguintes sequências enzimáticas?',
+        objective:'O reparo por excisão de base é usado para corrigir defeitos de base única no DNA, induzidos espontaneamente ou por produtos químicos exógenos.  Nesse processo, glicosilases removem a base defeituosa, e o sítio de açúcar-fosfato vazio correspondente é clivado e removido pela ação de endonuclease e liase.  A DNA polimerase então substitui o nucleotídeo ausente, e a ligase sela a quebra final remanescente.',
+        options:[
+          {label:'A', text:'Endonuclease, polimerase, glicosilase, liase, ligase'},
+          {label:'B', text:'Endonuclease, polimerase, liase, glicosilase, ligase'},
+          {label:'C', text:'Glicosilase, endonuclease, liase, polimerase, ligase'},
+          {label:'D', text:'Glicosilase, ligase, liase, endonuclease, polimerase'},
+          {label:'E', text:'Liase, endonuclease, glicosilase, polimerase, ligase'},
+        ],
+        explC:'O consumo excessivo de nitritos na dieta pode promover a desaminação de citosina, adenina e guanina, formando uracila, hipoxantina e xantina, respectivamente.  Se essas bases anormais não forem removidas e substituídas pela base correta, mutações persistentes de DNA e carcinogênese podem resultar.\n\nO reparo por excisão de base (que não deve ser confundido com o reparo por excisão de nucleotídeo ou o reparo de incompatibilidade) é responsável por corrigir várias alterações de base não-volumosas (isto é, que não distorcem substancialmente a forma da hélice de DNA), como depurinação, alquilação, oxidação e desaminação.  Esse mecanismo de reparo envolve a seguinte sequência de eventos:\n\n- Reconhecimento das bases anormais por glicosilases específicas, que clivam as bases de DNA alteradas da molécula de DNA original, deixando um sítio de açúcar-fosfato vazio chamado sítio apurínico/apirimidínico (AP).\n- Em seguida, uma AP endonuclease faz uma incisão na extremidade 5\' do sítio AP, antes que uma enzima desoxirribose-fosfato liase (ou flap endonuclease) complete a extração do restante do arcabouço de açúcar-fosfato.\n- A DNA polimerase então preenche a lacuna com o(s) nucleotídeo(s) correto(s), e a quebra final é selada por uma enzima ligase.',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0026', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'A 34-year-old woman comes to the office due to dysuria.  The patient has a history of recurrent urinary tract infections.  A urine sample is collected and sent for culture.  Gram-negative bacteria isolated from the urine are found to form pink colonies on lactose-containing MacConkey agar.  Several days later, bacterial isolates from a second urine sample are found to form white colonies when plated on the same type of medium.  Genetic analysis shows that the more recent isolates have a single nucleotide deletion within the lac operon DNA sequence.',
+      q:'This genomic change is most consistent with which of the following?',
+      options:[
+        {label:'A', text:'Conservative mutation'},
+        {label:'B', text:'Frameshift mutation'},
+        {label:'C', text:'Missense mutation'},
+        {label:'D', text:'Nonsense mutation'},
+        {label:'E', text:'Silent mutation'},
+      ],
+      correct:'B',
+      explC:'Organisms that ferment lactose appear pink on MacConkey agar whereas lactose non-fermenters form white colonies.  In this case, the single nucleotide deletion within the lac operon DNA sequence of the newer isolates impairs lactose metabolism most likely by preventing the formation of a required enzyme.  Because the mutation is a single base deletion, it will cause a frameshift mutation if it occurs within the coding region (exons) of the gene.\n\nFrameshift mutations are caused by deletion or insertion of any number of nucleotides that are not multiples of 3.  The result is a change in the reading frame during protein translation, which causes the production of an entirely different protein that is often shorter than the original due to formation of a premature stop codon.\n\nThe other mutations listed are all examples of point mutations (ie, single base substitutions) that can lead to a variety of changes in the coded protein.',
+      explI:[
+        {option:'A and C', explanation:'Missense mutations are single base substitutions that result in the placement of an incorrect amino acid in a protein sequence.  These mutations occur within the coding region of a gene and do not alter protein length.  A conservative mutation is a type of missense mutation where an amino acid is replaced with another that has similar biochemical characteristics.  Conservative mutations generally preserve protein function unless the mutation occurs in a critical region (eg, active site of enzyme).'},
+        {option:'D', explanation:'Nonsense mutations introduce a premature stop codon in a coding region, resulting in the production of a truncated protein.  The mutation described is not a nonsense mutation because it was caused by a single base deletion (not a base substitution).'},
+        {option:'E', explanation:'A silent mutation is a single base substitution within a codon that does not change the amino acid (due to codon redundancy).  Silent mutations have no effect on protein formation or function.'},
+      ],
+      objective:'A frameshift mutation occurs with the deletion/addition of a number of bases not divisible by 3 in the coding region of a gene.  Frameshift mutations alter the reading frame of the genetic code, dramatically resulting in the formation of a premature stop codon.',
+      peer:{A:5, B:59, C:21, D:8, E:4},
+      ptTranslation:{
+        vignette:'Uma mulher de 34 anos vem ao consultório por disúria.  A paciente tem histórico de infecções urinárias recorrentes.  Uma amostra de urina é coletada e enviada para cultura.  Bactérias Gram-negativas isoladas da urina formam colônias rosadas em ágar MacConkey contendo lactose.  Alguns dias depois, isolados bacterianos de uma segunda amostra de urina formam colônias brancas quando plaqueados no mesmo tipo de meio.  A análise genética mostra que os isolados mais recentes têm uma deleção de nucleotídeo único dentro da sequência de DNA do operon lac.',
+        q:'Esta alteração genômica é mais compatível com qual das seguintes?',
+        objective:'Uma mutação frameshift ocorre com a deleção/adição de um número de bases não divisível por 3 na região codificante de um gene.  Mutações frameshift alteram a matriz de leitura do código genético, resultando drasticamente na formação de um códon de parada prematuro.',
+        options:[
+          {label:'A', text:'Mutação conservativa'},
+          {label:'B', text:'Mutação frameshift'},
+          {label:'C', text:'Mutação missense'},
+          {label:'D', text:'Mutação nonsense'},
+          {label:'E', text:'Mutação silenciosa'},
+        ],
+        explC:'Organismos que fermentam lactose aparecem rosados em ágar MacConkey, enquanto os não fermentadores de lactose formam colônias brancas.  Neste caso, a deleção de nucleotídeo único dentro da sequência de DNA do operon lac dos isolados mais novos prejudica o metabolismo da lactose, provavelmente por impedir a formação de uma enzima necessária.  Como a mutação é uma deleção de base única, ela causará uma mutação frameshift se ocorrer dentro da região codificante (éxons) do gene.\n\nMutações frameshift são causadas por deleção ou inserção de qualquer número de nucleotídeos que não seja múltiplo de 3.  O resultado é uma mudança na matriz de leitura durante a tradução proteica, o que causa a produção de uma proteína inteiramente diferente, frequentemente mais curta que a original devido à formação de um códon de parada prematuro.\n\nAs demais mutações listadas são todas exemplos de mutações pontuais (isto é, substituições de base única) que podem levar a uma variedade de alterações na proteína codificada.',
+        explI:[
+          {option:'A and C', explanation:'Mutações missense são substituições de base única que resultam na colocação de um aminoácido incorreto em uma sequência proteica.  Essas mutações ocorrem dentro da região codificante de um gene e não alteram o comprimento da proteína.  Uma mutação conservativa é um tipo de mutação missense em que um aminoácido é substituído por outro com características bioquímicas semelhantes.  Mutações conservativas geralmente preservam a função da proteína, a menos que a mutação ocorra em uma região crítica (ex.: sítio ativo de uma enzima).'},
+          {option:'D', explanation:'Mutações nonsense introduzem um códon de parada prematuro em uma região codificante, resultando na produção de uma proteína truncada.  A mutação descrita não é uma mutação nonsense porque foi causada por uma deleção de base única (não uma substituição de base).'},
+          {option:'E', explanation:'Uma mutação silenciosa é uma substituição de base única dentro de um códon que não altera o aminoácido (devido à redundância do código genético).  Mutações silenciosas não têm efeito sobre a formação ou função da proteína.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0027', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'An 18-year-old man comes to the urgent care clinic due to painful erythema affecting his extremities, trunk, and face.  He is vacationing in Florida and spent 5 hours at a Gulf coast beach earlier in the day.  The patient did not apply any sunscreen as it was cloudy.  The physician explains that cloud cover does not afford a high degree of protection against the sun, especially with prolonged exposure in highly reflective environments like the beach.  He is advised to wear protective clothing and apply sunscreen to prevent recurrence.',
+      q:"Which of the following is most likely to happen within the patient's skin cells as a result of his exposure?",
+      options:[
+        {label:'A', text:'Covalent bond formation between adjacent purine bases'},
+        {label:'B', text:'End-joining repair of double-stranded DNA breaks'},
+        {label:'C', text:'Endonuclease nicking of the damaged DNA strand'},
+        {label:'D', text:'Hypermethylation of residues in the undamaged DNA strand'},
+        {label:'E', text:'Removal of deaminated bases by glycosylase'},
+      ],
+      correct:'C',
+      explC:'DNA can be damaged by a number of agents, including chemicals, ultraviolet radiation, and ionizing radiation.  Ultraviolet rays damage DNA primarily through formation of abnormal covalent bonds between adjacent thymine or cytosine residues (pyrimidine dimers).  The presence of pyrimidine dimers interferes with base recognition during transcription and replication, and DNA mutations can result if the damage is not repaired.\n\nPyrimidine dimers are removed by nucleotide excision repair.  In this process, a specific endonuclease complex detects abnormalities in the DNA structure caused by the formation of DNA photoproducts.  The endonuclease complex then nicks the damaged strand on both sides of the pyrimidine dimer, and the defective region is excised.  DNA polymerase synthesizes new DNA in the place of the damaged DNA, and DNA ligase seals the final remaining nick.\n\nMutations that impair the components involved in nucleotide excision repair cause xeroderma pigmentosum, a condition characterized by severe photosensitivity and the development of skin cancers at a young age.',
+      explI:[
+        {option:'A', explanation:'Ultraviolet radiation causes the formation of pyrimidine-pyrimidine dimers, not purine-purine dimers.'},
+        {option:'B', explanation:'Exposure to ionizing radiation (x-rays and gamma rays) causes double-strand DNA breaks.  The fractured ends can be joined by nonhomologous end joining.'},
+        {option:'D', explanation:'Incorrect base substitution occurs during normal DNA replication and can result in mutations if they are not corrected.  DNA mismatch repair in certain prokaryotes is guided by hypermethylation of the parent strand, which helps to identify the non-mutated strand for use as a template.'},
+        {option:'E', explanation:'Deamination of DNA bases (eg, cytosine conversion to uracil, adenine to hypoxanthine) can occur spontaneously or secondary to chemical exposure.  These errors are corrected by base excision repair.  In this process, abnormal bases are recognized and removed by specific glycosylases without disruption of the phosphodiester backbone.  The apurinic and apyrimidinic residues are then removed by specific endonucleases and replaced with the correct base by DNA polymerase.'},
+      ],
+      objective:'Pyrimidine dimers are formed in DNA as a result of ultraviolet light exposure.  They are recognized by a specific endonuclease complex that initiates the process of repair by nicking the damaged strand on both sides of the pyrimidine dimer.  The damaged segment is then excised, and replacement DNA is synthesized by DNA polymerase.',
+      peer:{A:20, B:13, C:57, D:3, E:5},
+      ptTranslation:{
+        vignette:'Um homem de 18 anos vem ao pronto atendimento por eritema doloroso afetando suas extremidades, tronco e face.  Ele está de férias na Flórida e passou 5 horas em uma praia da costa do Golfo mais cedo naquele dia.  O paciente não aplicou protetor solar por estar nublado.  O médico explica que a cobertura de nuvens não oferece grande proteção contra o sol, especialmente com exposição prolongada em ambientes altamente reflexivos como a praia.  Ele é orientado a usar roupas de proteção e aplicar protetor solar para prevenir recorrência.',
+        q:'Qual das seguintes é mais provável de ocorrer nas células da pele deste paciente como resultado de sua exposição?',
+        objective:'Dímeros de pirimidina se formam no DNA como resultado da exposição à luz ultravioleta.  Eles são reconhecidos por um complexo endonuclease específico que inicia o processo de reparo fazendo uma incisão na fita danificada em ambos os lados do dímero de pirimidina.  O segmento danificado é então excisado, e o DNA de substituição é sintetizado pela DNA polimerase.',
+        options:[
+          {label:'A', text:'Formação de ligação covalente entre bases purínicas adjacentes'},
+          {label:'B', text:'Reparo por junção de extremidades de quebras de DNA de fita dupla'},
+          {label:'C', text:'Incisão por endonuclease da fita de DNA danificada'},
+          {label:'D', text:'Hipermetilação de resíduos na fita de DNA não danificada'},
+          {label:'E', text:'Remoção de bases desaminadas por glicosilase'},
+        ],
+        explC:'O DNA pode ser danificado por vários agentes, incluindo produtos químicos, radiação ultravioleta e radiação ionizante.  Os raios ultravioleta danificam o DNA principalmente pela formação de ligações covalentes anormais entre resíduos adjacentes de timina ou citosina (dímeros de pirimidina).  A presença de dímeros de pirimidina interfere no reconhecimento de bases durante a transcrição e a replicação, e mutações de DNA podem resultar se o dano não for reparado.\n\nOs dímeros de pirimidina são removidos pelo reparo por excisão de nucleotídeo.  Nesse processo, um complexo endonuclease específico detecta anormalidades na estrutura do DNA causadas pela formação de fotoprodutos de DNA.  O complexo endonuclease então faz uma incisão na fita danificada em ambos os lados do dímero de pirimidina, e a região defeituosa é excisada.  A DNA polimerase sintetiza novo DNA no lugar do DNA danificado, e a DNA ligase sela a quebra final remanescente.\n\nMutações que prejudicam os componentes envolvidos no reparo por excisão de nucleotídeo causam xeroderma pigmentoso, uma condição caracterizada por fotossensibilidade grave e desenvolvimento de câncer de pele em idade jovem.',
+        explI:[
+          {option:'A', explanation:'A radiação ultravioleta causa a formação de dímeros pirimidina-pirimidina, não dímeros purina-purina.'},
+          {option:'B', explanation:'A exposição à radiação ionizante (raios X e raios gama) causa quebras de DNA de fita dupla.  As extremidades fraturadas podem ser unidas por junção de extremidades não homólogas (NHEJ).'},
+          {option:'D', explanation:'A substituição incorreta de base ocorre durante a replicação normal do DNA e pode resultar em mutações se não forem corrigidas.  O reparo de incompatibilidade de DNA em certos procariotos é guiado pela hipermetilação da fita parental, o que ajuda a identificar a fita não mutada para uso como molde.'},
+          {option:'E', explanation:'A desaminação de bases de DNA (ex.: conversão de citosina em uracila, adenina em hipoxantina) pode ocorrer espontaneamente ou secundária à exposição química.  Esses erros são corrigidos pelo reparo por excisão de base.  Nesse processo, bases anormais são reconhecidas e removidas por glicosilases específicas sem ruptura do arcabouço fosfodiéster.  Os resíduos apurínicos e apirimidínicos são então removidos por endonucleases específicas e substituídos pela base correta pela DNA polimerase.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
