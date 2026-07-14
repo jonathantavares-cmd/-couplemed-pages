@@ -5724,6 +5724,78 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0045', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      vignette:'A 12-year-old boy is evaluated in the clinic due to excessive bleeding following a tooth extraction.  The patient also has experienced large bruises after only minor injuries but has had no major bleeding episodes.  His maternal uncle died from an intracranial hemorrhage.  Laboratory testing shows decreased coagulation factor VIII activity levels.  It is suspected that this patient has decreased factor VIII transcription by RNA polymerase II due to a deletion affecting a gene enhancer sequence.',
+      q:'Which of the following is the most accurate statement regarding this sequence?',
+      options:[
+        {label:'A', text:'It can be located upstream, downstream, or within introns of the gene'},
+        {label:'B', text:'It can function only when located within a few base pairs of the gene'},
+        {label:'C', text:'It directly binds RNA polymerase and general transcription factors'},
+        {label:'D', text:'It does not require protein binding to affect transcription'},
+        {label:'E', text:'It is required to initiate transcription'},
+      ],
+      correct:'A',
+      explC:'This patient has hemophilia A, an X-linked recessive disorder characterized by easy bruising and excessive bleeding due to a deficiency in coagulation factor VIII.  Causes include a variety of different mutations in the factor VIII gene, including deletions in the enhancer sequence.\n\nDuring eukaryotic gene transcription, nuclear RNA polymerase II uses a DNA template to generate complementary mRNA, which is then processed and translated into protein.  Eukaryotic genes have associated promoter and enhancer sequences that facilitate transcription:\n\n- Promoter sequences directly bind general transcription factors and RNA polymerase II upstream from the coding region; this process is necessary for the initiation of transcription.  These sequences include the TATA box (25 bases upstream) and the CAAT box (70-80 bases upstream).\n- Enhancer sequences are not required to initiate transcription but increase transcription via interaction with transcription factors and promoter sequences.  Enhancers may be located upstream or downstream of the promoter (up to thousands of base pairs away), within the gene\'s noncoding regions (introns), or even on a separate chromosome.  In contrast to promoter sequences, enhancer sequences bind activator proteins (eg, specific transcription factors), not RNA polymerase, which leads to remodeling of the chromosomal 3D structure (eg, DNA looping) so that the enhancer is spatially close to its promoter (Choices B, C, D and E).\n\nMutations in enhancer sequences cause limited transcription (ie, reduced gene expression).  Silencers are similar to enhancers, but they decrease transcription rates by binding transcription repressor proteins.',
+      explI:[],
+      objective:'In contrast to promoter sequences, which are required to initiate transcription and located closely upstream to the gene being transcribed, enhancers increase the rate of transcription and have a variable location; they may be located upstream or downstream (up to thousands of base pairs away) or even within introns or on a separate chromosome.',
+      peer:{A:50, B:11, C:21, D:7, E:10},
+      ptTranslation:{
+        vignette:'Um menino de 12 anos é avaliado na clínica por sangramento excessivo após uma extração dentária.  O paciente também teve grandes hematomas após lesões mínimas, mas não teve episódios de sangramento maiores.  Seu tio materno morreu de hemorragia intracraniana.  O teste laboratorial mostra níveis diminuídos de atividade do fator de coagulação VIII.  Suspeita-se que este paciente tenha transcrição diminuída do fator VIII pela RNA polimerase II devido a uma deleção que afeta uma sequência enhancer do gene.',
+        q:'Qual das seguintes é a afirmação mais precisa em relação a essa sequência?',
+        objective:'Em contraste com as sequências promotoras, que são necessárias para iniciar a transcrição e estão localizadas a montante, próximas ao gene transcrito, os enhancers aumentam a taxa de transcrição e têm localização variável; podem estar localizados a montante ou a jusante (até a milhares de pares de bases de distância) ou mesmo dentro de íntrons ou em um cromossomo separado.',
+        options:[
+          {label:'A', text:'Pode estar localizada a montante, a jusante ou dentro de íntrons do gene'},
+          {label:'B', text:'Só pode funcionar quando localizada a poucos pares de bases do gene'},
+          {label:'C', text:'Liga-se diretamente à RNA polimerase e a fatores de transcrição gerais'},
+          {label:'D', text:'Não requer ligação de proteínas para afetar a transcrição'},
+          {label:'E', text:'É necessária para iniciar a transcrição'},
+        ],
+        explC:'Este paciente tem hemofilia A, um distúrbio recessivo ligado ao X caracterizado por formação fácil de hematomas e sangramento excessivo devido a uma deficiência do fator de coagulação VIII.  As causas incluem uma variedade de mutações diferentes no gene do fator VIII, incluindo deleções na sequência enhancer.\n\nDurante a transcrição gênica eucariótica, a RNA polimerase II nuclear usa um molde de DNA para gerar mRNA complementar, que é então processado e traduzido em proteína.  Genes eucarióticos têm sequências promotoras e enhancer associadas que facilitam a transcrição:\n\n- Sequências promotoras ligam diretamente fatores de transcrição gerais e a RNA polimerase II a montante da região codificante; esse processo é necessário para a iniciação da transcrição.  Essas sequências incluem a caixa TATA (25 bases a montante) e a caixa CAAT (70-80 bases a montante).\n- Sequências enhancer não são necessárias para iniciar a transcrição, mas aumentam a transcrição por meio de interação com fatores de transcrição e sequências promotoras.  Enhancers podem estar localizados a montante ou a jusante do promotor (até a milhares de pares de bases de distância), dentro das regiões não codificantes do gene (íntrons) ou até mesmo em um cromossomo separado.  Em contraste com as sequências promotoras, as sequências enhancer ligam proteínas ativadoras (ex.: fatores de transcrição específicos), não a RNA polimerase, o que leva ao remodelamento da estrutura 3D cromossômica (ex.: dobramento do DNA, DNA looping), de modo que o enhancer fique espacialmente próximo de seu promotor (Alternativas B, C, D e E).\n\nMutações em sequências enhancer causam transcrição limitada (isto é, expressão gênica reduzida).  Silenciadores são semelhantes aos enhancers, mas diminuem as taxas de transcrição ao ligar proteínas repressoras da transcrição.',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0046', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      vignette:'A pharmaceutical researcher performs preclinical testing on a novel chemotherapeutic drug.  When rat embryos are exposed to this drug during an early stage of organogenesis, they develop severe skeletal malformations.  Further genetic analysis reveals that the drug causes mutations in numerous homeobox genes containing highly conserved 180 base pair DNA sequences.',
+      q:'The genes directly affected by this drug most likely code for which of the following proteins?',
+      options:[
+        {label:'A', text:'Cell surface receptors'},
+        {label:'B', text:'Cytoplasmic enzymes'},
+        {label:'C', text:'DNA replication enzymes'},
+        {label:'D', text:'Structural proteins'},
+        {label:'E', text:'Transcription regulators'},
+        {label:'F', text:'Transport proteins'},
+      ],
+      correct:'E',
+      explC:'A homeobox is a highly conserved DNA sequence that is about 180 nucleotides in length.  A gene containing a homeobox sequence is called a homeobox or HOX gene.  HOX genes code for DNA-binding transcription factors that regulate (either enhance or repress) the expression of other genes involved in the segmental organization of the embryo.\n\nThe order of HOX genes within a DNA segment reflects the location of gene expression on the body (eg, 3\' genes are expressed more cranially, whereas 5\' genes are expressed more caudally).  Proper morphogenesis ensures that tissues, organs, and structural elements of the body are formed in the correct position along the craniocaudal axis.\n\nHOX gene mutations interrupt this morphogenesis, resulting in severe structural abnormalities such as skeletal malformations and improperly positioned limbs and appendages.  Certain medications, including retinoids (eg, isotretinoin) and thalidomide, are contraindicated in pregnancy due to their ability to alter expression of HOX genes.',
+      explI:[
+        {option:'A', explanation:'Cell surface receptors are located within the plasma membrane and bind to extracellular ligands (eg, growth factors), initiating an intracellular signaling cascade.  HOX genes do not encode cell surface receptors.'},
+        {option:'B', explanation:'Cytoplasmic enzymes have diverse cellular functions, such as metabolism and protein synthesis.  Homeobox genes code for transcription factors, which act in the nucleus.'},
+        {option:'C', explanation:'Although activity of DNA replication enzymes (eg, helicase, primase, DNA polymerase) can fluctuate with homeobox gene mutations due to altered gene expression, HOX genes do not code for these enzymes.'},
+        {option:'D and F', explanation:'HOX genes code for proteins that regulate gene transcription, not proteins involved in cell shape and structure (eg, collagen, keratin) or transport (eg, carrier proteins).'},
+      ],
+      objective:'Homeobox genes encode DNA-binding transcription factors that regulate expression of other genes involved in the segmental organization of the embryo along the craniocaudal axis.',
+      peer:{A:2, B:2, C:9, D:22, E:59, F:3},
+      ptTranslation:{
+        vignette:'Um pesquisador farmacêutico realiza testes pré-clínicos de um novo fármaco quimioterápico.  Quando embriões de rato são expostos a esse fármaco durante um estágio inicial da organogênese, eles desenvolvem malformações esqueléticas graves.  Análise genética adicional revela que o fármaco causa mutações em numerosos genes homeobox contendo sequências de DNA altamente conservadas de 180 pares de bases.',
+        q:'Os genes diretamente afetados por esse fármaco mais provavelmente codificam qual dos seguintes tipos de proteínas?',
+        objective:'Os genes homeobox codificam fatores de transcrição ligadores de DNA que regulam a expressão de outros genes envolvidos na organização segmentar do embrião ao longo do eixo craniocaudal.',
+        options:[
+          {label:'A', text:'Receptores de superfície celular'},
+          {label:'B', text:'Enzimas citoplasmáticas'},
+          {label:'C', text:'Enzimas de replicação do DNA'},
+          {label:'D', text:'Proteínas estruturais'},
+          {label:'E', text:'Reguladores de transcrição'},
+          {label:'F', text:'Proteínas de transporte'},
+        ],
+        explC:'Um homeobox é uma sequência de DNA altamente conservada com cerca de 180 nucleotídeos de comprimento.  Um gene que contém uma sequência homeobox é chamado de gene homeobox ou HOX.  Os genes HOX codificam fatores de transcrição ligadores de DNA que regulam (intensificando ou reprimindo) a expressão de outros genes envolvidos na organização segmentar do embrião.\n\nA ordem dos genes HOX dentro de um segmento de DNA reflete a localização da expressão gênica no corpo (ex.: genes 3\' são expressos mais cranialmente, enquanto genes 5\' são expressos mais caudalmente).  A morfogênese adequada garante que tecidos, órgãos e elementos estruturais do corpo sejam formados na posição correta ao longo do eixo craniocaudal.\n\nMutações em genes HOX interrompem essa morfogênese, resultando em anormalidades estruturais graves, como malformações esqueléticas e membros e apêndices posicionados incorretamente.  Certos medicamentos, incluindo retinoides (ex.: isotretinoína) e talidomida, são contraindicados na gravidez devido à sua capacidade de alterar a expressão de genes HOX.',
+        explI:[
+          {option:'A', explanation:'Receptores de superfície celular estão localizados na membrana plasmática e se ligam a ligantes extracelulares (ex.: fatores de crescimento), iniciando uma cascata de sinalização intracelular.  Os genes HOX não codificam receptores de superfície celular.'},
+          {option:'B', explanation:'Enzimas citoplasmáticas têm diversas funções celulares, como metabolismo e síntese proteica.  Genes homeobox codificam fatores de transcrição, que atuam no núcleo.'},
+          {option:'C', explanation:'Embora a atividade de enzimas de replicação do DNA (ex.: helicase, primase, DNA polimerase) possa variar com mutações em genes homeobox devido à expressão gênica alterada, os genes HOX não codificam essas enzimas.'},
+          {option:'D and F', explanation:'Os genes HOX codificam proteínas que regulam a transcrição gênica, não proteínas envolvidas na forma e na estrutura celular (ex.: colágeno, queratina) ou no transporte (ex.: proteínas carreadoras).'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
