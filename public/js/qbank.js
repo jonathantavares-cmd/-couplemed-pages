@@ -6897,6 +6897,212 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-MIC-0011', system:'microbiology', discipline:'microbiology', category:'microbiology::bacteriology', difficulty:'medium',
+      vignette:'A 22-year-old woman comes to the emergency department due to intermittent fevers and chills over the past few days.  Last week, she underwent routine dental cleaning with no complications.  The patient has a history of mitral valve prolapse.  Temperature is 38.2 C (100.8 F).  Physical examination reveals a non-ejection mid-systolic click followed by a late-systolic murmur best heard at the cardiac apex.  Blood cultures are drawn and grow gram-positive bacteria that synthesize dextrans from sucrose.',
+      q:'Which of the following would be the most likely adherence site for these bacteria?',
+      options:[
+        {label:'A', text:'Circulating heparins'},
+        {label:'B', text:'Endothelial surface glycoproteins'},
+        {label:'C', text:'Fibrin-platelet aggregates'},
+        {label:'D', text:'Subendothelial collagen'},
+        {label:'E', text:'Subendothelial glycosaminoglycans'},
+      ],
+      correct:'C',
+      explC:'This patient with mitral valve prolapse (as suggested by the auscultated systolic click and murmur) now has bacteremia following dental cleaning.  Viridans streptococci are normal inhabitants of the oral cavity and cause transient bacteremia after dental procedures.  These gram-positive organisms are capable of producing extracellular polysaccharides (dextrans) using sucrose as a substrate.\n\nDextrans facilitate streptococcal adherence to fibrin.  Fibrin and platelets are deposited at sites of endothelial trauma, providing a site for bacterial adherence and colonization during bacteremia.  In patients with pre-existing valvular lesions, viridans streptococci can adhere to the affected valve and establish infection leading to endocarditis.  Other factors that facilitate pathogenesis may also be involved.  Staphylococcus aureus is more aggressive and can adhere to intact valves.  The risk of endocarditis following dental procedures is low with mitral valve prolapse, and antibiotic prophylaxis is not recommended; however, cases can still occur.',
+      explI:[
+        {option:'A', explanation:'Circulating heparins prolong the partial thromboplastin time by activating antithrombin III, thereby decreasing thrombin activity and ultimately preventing fibrinogen conversion to fibrin, thereby preventing clot formation.  Circulating heparins would not provide a binding site for bacteria.'},
+        {option:'B', explanation:'Endothelial surface glycoproteins mediate binding of immune cells to endothelium, facilitated by the expression of cell adhesion molecules on the surface of inflamed endothelium.  Neutrophils are then able to bind and migrate between the endothelial cells, followed by monocytes and lymphocytes.'},
+        {option:'D, and E', explanation:'Subendothelial collagen and glycosaminoglycans form the subendothelial fibrous cap over the central core of an atherosclerotic plaque and are potent platelet activators.  When exposed (eg, denuded endothelium in atherosclerotic plaque), they contribute to rapid thrombus formation that can lead to myocardial infarction in a coronary artery.'},
+      ],
+      objective:'Viridans streptococci are normal inhabitants of the oral cavity and are a cause of transient bacteremia after dental procedures in healthy and diseased individuals.  In patients with pre-existing valvular lesions, viridans streptococci can adhere to fibrin-platelet aggregates and establish infection that leads to endocarditis.',
+      peer:{A:0, B:24, C:53, D:10, E:11},
+      ptTranslation:{
+        vignette:'Uma mulher de 22 anos vai ao pronto-socorro devido a febre e calafrios intermitentes nos últimos dias.  Na semana passada, ela foi submetida a uma limpeza dentária de rotina, sem complicações.  A paciente tem histórico de prolapso da valva mitral.  A temperatura é 38,2°C (100,8°F).  O exame físico revela um clique mesossistólico não ejetivo seguido de um sopro sistólico tardio, mais bem audível no ápice cardíaco.  Hemoculturas são coletadas e crescem bactérias Gram-positivas que sintetizam dextranos a partir da sacarose.',
+        q:'Qual das alternativas a seguir seria o sítio de aderência mais provável para essas bactérias?',
+        objective:'Os estreptococos viridans são habitantes normais da cavidade oral e são causa de bacteremia transitória após procedimentos dentários em indivíduos saudáveis e doentes.  Em pacientes com lesões valvares pré-existentes, os estreptococos viridans podem aderir a agregados de fibrina-plaquetas e estabelecer infecção que leva à endocardite.',
+        options:[
+          {label:'A', text:'Heparinas circulantes'},
+          {label:'B', text:'Glicoproteínas da superfície endotelial'},
+          {label:'C', text:'Agregados de fibrina-plaquetas'},
+          {label:'D', text:'Colágeno subendotelial'},
+          {label:'E', text:'Glicosaminoglicanos subendoteliais'},
+        ],
+        explC:'Esta paciente com prolapso da valva mitral (sugerido pelo clique sistólico e sopro auscultados) agora apresenta bacteremia após limpeza dentária.  Os estreptococos viridans são habitantes normais da cavidade oral e causam bacteremia transitória após procedimentos dentários.  Esses organismos Gram-positivos são capazes de produzir polissacarídeos extracelulares (dextranos) usando a sacarose como substrato.\n\nOs dextranos facilitam a aderência estreptocócica à fibrina.  A fibrina e as plaquetas são depositadas em locais de trauma endotelial, fornecendo um sítio para aderência e colonização bacteriana durante a bacteremia.  Em pacientes com lesões valvares pré-existentes, os estreptococos viridans podem aderir à valva afetada e estabelecer infecção, levando à endocardite.  Outros fatores que facilitam a patogênese também podem estar envolvidos.  O Staphylococcus aureus é mais agressivo e consegue aderir a valvas íntegras.  O risco de endocardite após procedimentos dentários é baixo no prolapso da valva mitral, e a profilaxia antibiótica não é recomendada; no entanto, casos ainda podem ocorrer.',
+        explI:[
+          {option:'A', explanation:'As heparinas circulantes prolongam o tempo de tromboplastina parcial ao ativar a antitrombina III, diminuindo assim a atividade da trombina e, em última análise, impedindo a conversão do fibrinogênio em fibrina, prevenindo a formação de coágulos.  As heparinas circulantes não forneceriam um sítio de ligação para bactérias.'},
+          {option:'B', explanation:'As glicoproteínas da superfície endotelial medeiam a ligação de células imunes ao endotélio, facilitada pela expressão de moléculas de adesão celular na superfície do endotélio inflamado.  Os neutrófilos conseguem então se ligar e migrar entre as células endoteliais, seguidos por monócitos e linfócitos.'},
+          {option:'D, and E', explanation:'O colágeno subendotelial e os glicosaminoglicanos formam a capa fibrosa subendotelial sobre o núcleo central de uma placa aterosclerótica e são potentes ativadores plaquetários.  Quando expostos (ex.: endotélio desnudado em placa aterosclerótica), eles contribuem para a formação rápida de trombos, que pode levar a infarto do miocárdio em uma artéria coronária.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0012', system:'microbiology', discipline:'microbiology', category:'microbiology::bacteriology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0012_expl_griffith_transformation.png',
+      vignette:'Microbiology researchers conduct a series of experiments to determine how pathogenicity is transmitted among different strains of Streptococcus pneumoniae.  In the first experiment, they inject nonvirulent strain A into the peritoneal cavity of laboratory mice and observe no ill effects.  In the second experiment, researchers subject virulent strain B to a detergent agent that kills and lyses the bacterial cells.  They then inject the lysate into the peritoneal cavity of a new group of mice and again observe no ill effects.  During a third experiment, they inject live strain A bacteria in combination with the killed strain B lysate, resulting in death of the mice.',
+      q:'Which of the following genetic processes most likely accounts for the observed findings of these experiments?',
+      options:[
+        {label:'A', text:'Direct uptake of extracellular DNA'},
+        {label:'B', text:'Phage-mediated DNA transfer'},
+        {label:'C', text:'Pilus-mediated DNA transfer'},
+        {label:'D', text:'Spontaneous DNA mutation'},
+        {label:'E', text:'Transposon-mediated DNA transfer'},
+      ],
+      correct:'A',
+      explC:'Certain strains of Streptococcus pneumoniae express capsular polysaccharides that inhibit phagocytosis, making it a successful pathogen.  Strains lacking the capsule are not pathogenic; however, S pneumoniae is able to obtain new genetic material from the environment that is released following the death and lysis of neighboring bacterial cells.  This process, known as transformation, allows the bacterium to take up exogenous DNA fragments, integrate the DNA into its genome, and express the encoded proteins.  Through this method, nonvirulent strains of S pneumoniae that do not form a capsule can acquire the genes that code for the capsule and therefore gain virulence.\n\nBacteria that have the innate capacity to undergo transformation are said to be naturally competent and include Haemophilus, Streptococcus, Bacillus, and Neisseria species.',
+      explI:[
+        {option:'B', explanation:'In transduction, a bacteriophage (virus) transfers DNA from one bacterial cell to another.  While replicating within a host bacterium, a bacteriophage may accidentally incorporate host bacterial DNA into the phage particle.  Once released, it can then transfer DNA from the previous host into a newly infected bacterium.  By this mechanism, bacteria can acquire genes for virulence and antibiotic resistance.'},
+        {option:'C', explanation:'Conjugation is a form of one-way DNA transfer performed by bacteria carrying a plasmid with the fertility (F) factor.  The process begins with the donating bacterium producing a sex pilus, which then forms a direct connection with the receiving bacterium.  Next, the donating bacterium transfers a single DNA strand containing the F factor to the recipient organism, after which, complementary DNA strands are synthesized.'},
+        {option:'D', explanation:'Spontaneous or induced mutations change the nucleotide sequence of a gene, potentially altering the amino acid sequence of the protein product.  Through this mechanism, bacteria form novel proteins with potentially useful functions to aid with survival.'},
+        {option:'E', explanation:'Transposons are mobile genetic elements that can mediate DNA transfer from plasmids to a bacterial chromosome, move genetic material from one position to another along a bacterial chromosome, or transfer genes from a bacterial chromosome to a plasmid.  The location of a gene in the genome is important as it determines its proximity to promoter or suppressor regions.'},
+      ],
+      objective:'Streptococcus pneumoniae is able to undergo transformation, which allows the bacterium to take up exogenous DNA fragments and express the encoded proteins.  Through this method, strains of S pneumoniae that do not form a capsule can acquire the genes that code for the capsule and therefore gain virulence.',
+      peer:{A:61, B:16, C:10, D:1, E:9},
+      ptTranslation:{
+        vignette:'Pesquisadores de microbiologia conduzem uma série de experimentos para determinar como a patogenicidade é transmitida entre diferentes cepas de Streptococcus pneumoniae.  No primeiro experimento, eles injetam a cepa A não virulenta na cavidade peritoneal de camundongos de laboratório e não observam efeitos nocivos.  No segundo experimento, os pesquisadores submetem a cepa B virulenta a um agente detergente que mata e lisa as células bacterianas.  Em seguida, injetam o lisado na cavidade peritoneal de um novo grupo de camundongos e novamente não observam efeitos nocivos.  Em um terceiro experimento, eles injetam bactérias vivas da cepa A em combinação com o lisado morto da cepa B, resultando na morte dos camundongos.',
+        q:'Qual dos seguintes processos genéticos mais provavelmente explica os achados observados nesses experimentos?',
+        objective:'O Streptococcus pneumoniae consegue sofrer transformação, o que permite que a bactéria capte fragmentos de DNA exógeno e expresse as proteínas codificadas.  Por meio desse método, cepas de S pneumoniae que não formam cápsula podem adquirir os genes que codificam a cápsula e, portanto, ganhar virulência.',
+        options:[
+          {label:'A', text:'Captação direta de DNA extracelular'},
+          {label:'B', text:'Transferência de DNA mediada por fago'},
+          {label:'C', text:'Transferência de DNA mediada por pilus'},
+          {label:'D', text:'Mutação espontânea do DNA'},
+          {label:'E', text:'Transferência de DNA mediada por transposon'},
+        ],
+        explC:'Certas cepas de Streptococcus pneumoniae expressam polissacarídeos capsulares que inibem a fagocitose, tornando-o um patógeno bem-sucedido.  Cepas que não possuem a cápsula não são patogênicas; no entanto, o S pneumoniae consegue obter novo material genético do ambiente, liberado após a morte e lise de células bacterianas vizinhas.  Esse processo, conhecido como transformação, permite que a bactéria capte fragmentos de DNA exógeno, integre o DNA ao seu genoma e expresse as proteínas codificadas.  Por meio desse método, cepas não virulentas de S pneumoniae que não formam cápsula podem adquirir os genes que codificam a cápsula e, portanto, ganhar virulência.\n\nBactérias que têm a capacidade inata de sofrer transformação são chamadas de naturalmente competentes e incluem espécies de Haemophilus, Streptococcus, Bacillus e Neisseria.',
+        explI:[
+          {option:'B', explanation:'Na transdução, um bacteriófago (vírus) transfere DNA de uma célula bacteriana para outra.  Durante a replicação dentro de uma bactéria hospedeira, um bacteriófago pode incorporar acidentalmente DNA bacteriano do hospedeiro na partícula do fago.  Uma vez liberado, ele pode então transferir o DNA do hospedeiro anterior para uma bactéria recém-infectada.  Por esse mecanismo, as bactérias podem adquirir genes de virulência e resistência a antibióticos.'},
+          {option:'C', explanation:'A conjugação é uma forma de transferência de DNA em uma via, realizada por bactérias que carregam um plasmídeo com o fator de fertilidade (F).  O processo começa com a bactéria doadora produzindo um pilus sexual, que então forma uma conexão direta com a bactéria receptora.  Em seguida, a bactéria doadora transfere uma fita simples de DNA contendo o fator F para o organismo receptor, após o que as fitas complementares de DNA são sintetizadas.'},
+          {option:'D', explanation:'Mutações espontâneas ou induzidas alteram a sequência de nucleotídeos de um gene, podendo alterar a sequência de aminoácidos do produto proteico.  Por esse mecanismo, as bactérias formam novas proteínas com funções potencialmente úteis para auxiliar na sobrevivência.'},
+          {option:'E', explanation:'Transposons são elementos genéticos móveis que podem mediar a transferência de DNA de plasmídeos para um cromossomo bacteriano, mover material genético de uma posição para outra ao longo de um cromossomo bacteriano, ou transferir genes de um cromossomo bacteriano para um plasmídeo.  A localização de um gene no genoma é importante, pois determina sua proximidade a regiões promotoras ou supressoras.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0013', system:'microbiology', discipline:'microbiology', category:'microbiology::bacteriology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0001_expl_ecoli_virulence_factors.png',
+      vignette:'A 32-year-old man comes to the office for a follow-up appointment.  The patient recently returned from a 10-day trip to Honduras.  On the fifth day of his trip, he developed malaise, anorexia, and abdominal cramps, quickly followed by watery diarrhea.  The patient had 5 or 6 stools daily but no fever.  He took no medications and remained hydrated by drinking bottled water and soup.  The patient felt better after 2 days and has had no additional symptoms since.  He has no other medical conditions.  Vital signs are within normal limits and physical examination shows no abnormalities.',
+      q:'Which of the following factors was most likely involved in the pathogenesis of this patient\'s gastrointestinal symptoms?',
+      options:[
+        {label:'A', text:'Bacterial endotoxin'},
+        {label:'B', text:'Cholera-like enterotoxin'},
+        {label:'C', text:'Intestinal biofilm production'},
+        {label:'D', text:'Intestinal mucosal invasion'},
+        {label:'E', text:'Shiga toxin'},
+      ],
+      correct:'B',
+      explC:'This patient had self-limited traveler\'s diarrhea, which is most commonly caused by enterotoxigenic Escherichia coli (ETEC), a gram-negative, motile, enteric rod bacterium.  Patients traveling to resource-limited regions with poor sanitation are at greatest risk.\n\nFollowing ingestion, ETEC colonizes and adheres to small intestine enterocytes (mediated by pili).  The typical manifestations of abdominal cramping, nausea/vomiting, and (occasionally) low-grade fever occur due to the elaboration of plasmid-encoded heat-labile (LT) and/or heat-stable (ST) enterotoxins:\n\n- The LT enterotoxin, which resembles cholera toxin in structure and mode of action, increases cyclic AMP in gut mucosal cells by activating adenylate cyclase.\n- The ST enterotoxin (which is not inactivated by heat likely due to its small molecular size) causes an increase in cyclic GMP by activating guanylate cyclase.\n\nBoth mechanisms result in increased chloride secretion and decreased sodium reabsorption by enterocytes, resulting in watery diarrhea.',
+      explI:[
+        {option:'A', explanation:'Endotoxin is a lipopolysaccharide found in the cell membrane of gram-negative bacteria.  When released into the bloodstream, endotoxin causes a severe inflammatory response (eg, fever, hypotension) mediated by TNF-alpha and IL-1 secreted from activated macrophages.  However, endotoxin is present at high concentrations in the normal gut microbiota and does not cause gastrointestinal illness.'},
+        {option:'C', explanation:'Enteroaggregative E coli is a less common cause of self-limited watery diarrhea in resource-limited regions; adhesion of the organisms to intestinal mucosa in a "stacked-brick" pattern is characteristic.  Biofilm formation can occur but is thought to primarily play a role in cases of persistent (not acute) disease.'},
+        {option:'D', explanation:'Intestinal invasion is characteristic of gastroenteritis caused by Salmonella, Shigella, and Campylobacter jejuni, as well as the protozoan Entamoeba histolytica.  Due to mucosal cell necrosis, invasion frequently leads to bloody diarrhea (not seen here).'},
+        {option:'E', explanation:'Shiga toxin-producing E coli (STEC) and Shigella dysenteriae produce Shiga toxin that inactivates the 60S ribosomal subunit in human cells, thereby inhibiting cell protein production.  Bloody diarrhea due to mucosal cell death is typical.'},
+      ],
+      objective:'Traveler\'s diarrhea is most frequently due to enterotoxigenic Escherichia coli, which produces plasmid-encoded, heat-labile (LT) and heat-stable (ST) enterotoxins.  LT resembles cholera toxin and activates adenylate cyclase, leading to increased intracellular cyclic AMP; ST activates guanylate cyclase, leading to increased intracellular cyclic GMP.  Both can contribute to watery diarrhea due to loss of water and electrolytes.',
+      peer:{A:17, B:67, C:3, D:7, E:4},
+      ptTranslation:{
+        vignette:'Um homem de 32 anos vai ao consultório para uma consulta de retorno.  O paciente retornou recentemente de uma viagem de 10 dias a Honduras.  No quinto dia da viagem, ele desenvolveu mal-estar, anorexia e cólicas abdominais, rapidamente seguidas de diarreia aquosa.  O paciente teve 5 a 6 evacuações por dia, mas sem febre.  Ele não tomou nenhum medicamento e manteve-se hidratado bebendo água engarrafada e sopa.  O paciente sentiu-se melhor após 2 dias e não teve sintomas adicionais desde então.  Ele não tem outras condições médicas.  Os sinais vitais estão dentro dos limites normais, e o exame físico não mostra anormalidades.',
+        q:'Qual dos seguintes fatores provavelmente esteve envolvido na patogênese dos sintomas gastrointestinais deste paciente?',
+        objective:'A diarreia do viajante é mais frequentemente causada pela Escherichia coli enterotoxigênica, que produz enterotoxinas termolábeis (LT) e termoestáveis (ST) codificadas por plasmídeo.  A LT se assemelha à toxina colérica e ativa a adenilato ciclase, levando ao aumento do AMP cíclico intracelular; a ST ativa a guanilato ciclase, levando ao aumento do GMP cíclico intracelular.  Ambas podem contribuir para a diarreia aquosa devido à perda de água e eletrólitos.',
+        options:[
+          {label:'A', text:'Endotoxina bacteriana'},
+          {label:'B', text:'Enterotoxina do tipo colérico'},
+          {label:'C', text:'Produção de biofilme intestinal'},
+          {label:'D', text:'Invasão da mucosa intestinal'},
+          {label:'E', text:'Toxina Shiga'},
+        ],
+        explC:'Este paciente teve diarreia do viajante autolimitada, mais comumente causada pela Escherichia coli enterotoxigênica (ETEC), uma bactéria entérica Gram-negativa e móvel.  Pacientes que viajam para regiões de recursos limitados com saneamento precário apresentam maior risco.\n\nApós a ingestão, a ETEC coloniza e adere aos enterócitos do intestino delgado (mediada por pili).  As manifestações típicas de cólicas abdominais, náuseas/vômitos e (ocasionalmente) febre baixa ocorrem devido à produção de enterotoxinas termolábeis (LT) e/ou termoestáveis (ST) codificadas por plasmídeo:\n\n- A enterotoxina LT, que se assemelha à toxina colérica em estrutura e modo de ação, aumenta o AMP cíclico nas células da mucosa intestinal ao ativar a adenilato ciclase.\n- A enterotoxina ST (que não é inativada pelo calor, provavelmente devido ao seu pequeno tamanho molecular) causa um aumento no GMP cíclico ao ativar a guanilato ciclase.\n\nAmbos os mecanismos resultam em aumento da secreção de cloreto e diminuição da reabsorção de sódio pelos enterócitos, resultando em diarreia aquosa.',
+        explI:[
+          {option:'A', explanation:'A endotoxina é um lipopolissacarídeo encontrado na membrana celular de bactérias Gram-negativas.  Quando liberada na corrente sanguínea, a endotoxina causa uma resposta inflamatória grave (ex.: febre, hipotensão) mediada por TNF-alfa e IL-1 secretados por macrófagos ativados.  No entanto, a endotoxina está presente em altas concentrações na microbiota intestinal normal e não causa doença gastrointestinal.'},
+          {option:'C', explanation:'A E coli enteroagregativa é uma causa menos comum de diarreia aquosa autolimitada em regiões de recursos limitados; é característica a adesão dos organismos à mucosa intestinal em um padrão de "tijolos empilhados".  A formação de biofilme pode ocorrer, mas acredita-se que desempenhe um papel principalmente em casos de doença persistente (não aguda).'},
+          {option:'D', explanation:'A invasão intestinal é característica da gastroenterite causada por Salmonella, Shigella e Campylobacter jejuni, assim como pelo protozoário Entamoeba histolytica.  Devido à necrose das células da mucosa, a invasão frequentemente leva a diarreia sanguinolenta (não observada aqui).'},
+          {option:'E', explanation:'A E coli produtora de toxina Shiga (STEC) e a Shigella dysenteriae produzem toxina Shiga, que inativa a subunidade ribossômica 60S em células humanas, inibindo assim a produção de proteínas celulares.  A diarreia sanguinolenta devido à morte das células da mucosa é típica.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0014', system:'microbiology', discipline:'microbiology', category:'microbiology::bacteriology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0001_expl_ecoli_virulence_factors.png',
+      vignette:'A 34-year-old woman comes to the office due to fever, dysuria, and flank pain.  Temperature is 37.8 C (100 F), blood pressure is 122/78 mm Hg, and pulse is 84/min.  Physical examination elicits suprapubic and costovertebral angle tenderness.  Urine dipstick analysis reveals positive leukocyte esterase and nitrite.  A subsequent urine culture grows colonies of motile gram-negative rods demonstrating a green metallic sheen on eosin methylene blue (EMB) agar and hemolysis on blood agar.',
+      q:'Which of the following virulence factors is most important for the development of this patient\'s condition?',
+      options:[
+        {label:'A', text:'Capsule'},
+        {label:'B', text:'Heat-labile enterotoxin'},
+        {label:'C', text:'Lipid A'},
+        {label:'D', text:'O antigen'},
+        {label:'E', text:'P fimbria'},
+      ],
+      correct:'E',
+      explC:'This patient with fever, dysuria, and flank pain has bacterial growth in the urine, findings diagnostic of a urinary tract infection (UTI).  Escherichia coli, a motile, gram-negative bacillus, is the most common cause of UTI and grows well on blood, MacConkey, and eosin methylene blue (EMB) agar plates.  Due to its ability to ferment lactose, E coli binds to dye in the EMB agar and produces colonies that have a distinct green metallic sheen; most strains of E coli also demonstrate beta-hemolysis on blood agar.\n\nVarying strains of E coli have specific virulence factors that determine disease characteristics; in the case of urinary tract infections, P fimbriae (pyelonephritis-associated pili) are the primary virulence factors due to their ability to adhere to uroepithelium.\n\nNormally, E coli is a commensal bacterium in the intestinal tract; however, it can spread from the perianal region to the periurethral regions (eg, via sexual intercourse or bladder catheterization).  P fimbriae allow uropathogenic E coli to ascend into the bladder, ureters, and kidneys, leading to cystitis and pyelonephritis.',
+      explI:[
+        {option:'A', explanation:'The K1 capsular antigen promotes bloodstream survival of E coli because its sialic acid composition is similar to human cells (ie, molecular mimicry), which helps prevent phagocytosis and facilitates invasive infections.  It is the major virulence factor for E coli strains causing neonatal meningitis (not UTIs).'},
+        {option:'B', explanation:'Enterotoxigenic E coli produces heat-stable (ST) and heat-labile (LT) enterotoxins in the gastrointestinal tract.  ST activates guanylate cyclase, causing an increase in cyclic GMP.  LT activates adenylate cyclase, increasing cyclic AMP levels.  These enterotoxins lead to watery diarrhea, not UTI symptoms.'},
+        {option:'C, and D', explanation:'Lipid A and O antigen are components of lipopolysaccharides, which make up the majority of the outer membrane of gram-negative bacteria.  Lipid A is a virulence factor that activates macrophages, leading to widespread release of inflammatory cytokines (eg, IL-1, IL-6, tumor necrosis factor-alpha), which in turn causes endothelial injury, increased vascular permeability, and septic shock.  The O antigen is on the outer surface and is a variable polysaccharide used to classify gram-negative bacteria.  Neither component is a major virulence factor for uropathogenic E coli.'},
+      ],
+      objective:'Escherichia coli is the most common cause of urinary tract infections.  The primary virulence factor of uropathogenic E coli are P fimbriae (pili) which allow the bacteria to adhere to uroepithelial cells and infect the bladder, ureters, and kidneys.',
+      peer:{A:13, B:6, C:10, D:5, E:62},
+      labs:[
+        ['Urine nitrite', 'Negative (normal)', 'Negativo (normal)', 'Positive here, indicating infection by a nitrate-reducing organism (eg, E coli, Klebsiella, Proteus) — contrast with Enterococcus or S saprophyticus, which cannot reduce nitrate and are nitrite-negative', 'Positivo nesta paciente, indicando infecção por organismo redutor de nitrato (ex.: E coli, Klebsiella, Proteus) — em contraste com Enterococcus ou S saprophyticus, que não reduzem nitrato e são nitrito-negativos'],
+      ],
+      ptTranslation:{
+        vignette:'Uma mulher de 34 anos vai ao consultório devido a febre, disúria e dor em flanco.  A temperatura é 37,8°C (100°F), a pressão arterial é 122/78 mmHg, e o pulso é 84/min.  O exame físico revela dor suprapúbica e à percussão do ângulo costovertebral.  A análise de urina por fita reagente revela esterase leucocitária e nitrito positivos.  Uma urocultura subsequente cresce colônias de bacilos Gram-negativos móveis, demonstrando um brilho metálico esverdeado em ágar eosina-azul de metileno (EMB) e hemólise em ágar-sangue.',
+        q:'Qual dos seguintes fatores de virulência é mais importante para o desenvolvimento da condição desta paciente?',
+        objective:'A Escherichia coli é a causa mais comum de infecções do trato urinário.  O principal fator de virulência da E coli uropatogênica são as fímbrias P (pili), que permitem que a bactéria adira às células uroepiteliais e infecte a bexiga, os ureteres e os rins.',
+        options:[
+          {label:'A', text:'Cápsula'},
+          {label:'B', text:'Enterotoxina termolábil'},
+          {label:'C', text:'Lipídio A'},
+          {label:'D', text:'Antígeno O'},
+          {label:'E', text:'Fímbrias P'},
+        ],
+        explC:'Esta paciente com febre, disúria e dor em flanco apresenta crescimento bacteriano na urina, achados diagnósticos de infecção do trato urinário (ITU).  A Escherichia coli, um bacilo Gram-negativo móvel, é a causa mais comum de ITU e cresce bem em ágar-sangue, MacConkey e eosina-azul de metileno (EMB).  Devido à sua capacidade de fermentar lactose, a E coli liga-se ao corante no ágar EMB e produz colônias com um brilho metálico esverdeado característico; a maioria das cepas de E coli também demonstra beta-hemólise em ágar-sangue.\n\nDiferentes cepas de E coli têm fatores de virulência específicos que determinam as características da doença; no caso das infecções do trato urinário, as fímbrias P (pili associados à pielonefrite) são os principais fatores de virulência devido à sua capacidade de aderir ao uroepitélio.\n\nNormalmente, a E coli é uma bactéria comensal do trato intestinal; no entanto, ela pode se espalhar da região perianal para as regiões periuretrais (ex.: por meio de relação sexual ou cateterização vesical).  As fímbrias P permitem que a E coli uropatogênica ascenda até a bexiga, os ureteres e os rins, levando a cistite e pielonefrite.',
+        explI:[
+          {option:'A', explanation:'O antígeno capsular K1 promove a sobrevivência da E coli na corrente sanguínea porque sua composição de ácido siálico é semelhante à das células humanas (ou seja, mimetismo molecular), o que ajuda a prevenir a fagocitose e facilita infecções invasivas.  É o principal fator de virulência para cepas de E coli causadoras de meningite neonatal (não de ITUs).'},
+          {option:'B', explanation:'A E coli enterotoxigênica produz enterotoxinas termoestáveis (ST) e termolábeis (LT) no trato gastrointestinal.  A ST ativa a guanilato ciclase, causando um aumento no GMP cíclico.  A LT ativa a adenilato ciclase, aumentando os níveis de AMP cíclico.  Essas enterotoxinas levam à diarreia aquosa, não a sintomas de ITU.'},
+          {option:'C, and D', explanation:'O lipídio A e o antígeno O são componentes dos lipopolissacarídeos, que constituem a maior parte da membrana externa das bactérias Gram-negativas.  O lipídio A é um fator de virulência que ativa macrófagos, levando à liberação generalizada de citocinas inflamatórias (ex.: IL-1, IL-6, fator de necrose tumoral alfa), o que por sua vez causa lesão endotelial, aumento da permeabilidade vascular e choque séptico.  O antígeno O está na superfície externa e é um polissacarídeo variável usado para classificar bactérias Gram-negativas.  Nenhum dos dois componentes é um fator de virulência importante para a E coli uropatogênica.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0015', system:'microbiology', discipline:'microbiology', category:'microbiology::bacteriology', difficulty:'easy',
+      vignette:'A 52-year-old man is hospitalized due to 2 weeks of low-grade fever, malaise, anorexia, and fatigue.  The patient has history of bicuspid aortic valve and underwent aortic valve replacement a year ago.  Physical examination reveals a new regurgitation murmur.  Blood cultures repeatedly grow gram-positive cocci in clusters, which are identified as Staphylococcus epidermidis.',
+      q:'This pathogen most likely demonstrates which of the following characteristics?',
+      options:[
+        {label:'A', text:'Alpha hemolysis'},
+        {label:'B', text:'Mannitol fermentation'},
+        {label:'C', text:'Negative catalase test'},
+        {label:'D', text:'Negative coagulase test'},
+        {label:'E', text:'Novobiocin resistance'},
+        {label:'F', text:'Yellow pigment production'},
+      ],
+      correct:'D',
+      explC:'Staphylococcus epidermidis is a low-virulence skin commensal that rarely causes infection in healthy patients.  However, those with prosthetic devices (eg, indwelling catheters, artificial heart valves, artificial joints) are at risk because the pathogen produces adhesion and biofilm proteins that allow it to grow on artificial surfaces.  S epidermidis is one of the most common contaminants of blood cultures, but infection should be suspected when multiple blood cultures grow the bacteria and/or the patient has symptoms of clinical infection such as fever, malaise, and leukocytosis.\n\nStaphylococcus species are gram-positive cocci that grow in grape-like clusters.  They are differentiated from streptococci by the catalase test: streptococci are catalase-negative whereas staphylococci are catalase-positive.  Further speciation of staphylococci leverages the coagulase test (the ability to clot blood plasma), which differentiates S aureus from coagulase-negative staphylococci such as S epidermidis, S haemolyticus, and S saprophyticus.',
+      explI:[
+        {option:'A', explanation:'Alpha hemolysis (partial, green hemolysis when plated on blood agar) is a feature of viridans streptococci, a common cause of infective endocarditis.  Staphylococci species are either beta-hemolytic (complete hemolysis) or gamma-hemolytic (no hemolysis).  S epidermidis is gamma-hemolytic.'},
+        {option:'B', explanation:'S aureus and S haemolyticus can ferment mannitol, but S epidermidis cannot.'},
+        {option:'C', explanation:'Staphylococci, including S epidermidis, are catalase-positive (not negative); this is how they are differentiated from streptococci, which are catalase-negative.'},
+        {option:'E', explanation:'Novobiocin is an antibiotic that can be applied to plated colonies to differentiate S saprophyticus from other coagulase-negative Staphylococcus species: S saprophyticus is novobiocin-resistant whereas others, such as S epidermidis, are novobiocin-sensitive.'},
+        {option:'F', explanation:'S aureus produces a golden-yellow surface pigment, which accounts for its name (aureus means gold in Latin).  S aureus is a common cause of infective endocarditis and osteomyelitis, particularly in intravenous drug users.'},
+      ],
+      objective:'Staphylococcus epidermidis, a gram-positive coccus that grows in clusters, is a skin commensal that is a common cause of infection in patients with prosthetic devices such as artificial joints or heart valves.  Unlike S aureus, S epidermidis is coagulase-negative.  Unlike S saprophyticus (another coagulase-negative staphylococci species), S epidermidis is susceptible to novobiocin.',
+      peer:{A:4, B:2, C:7, D:74, E:9, F:1},
+      ptTranslation:{
+        vignette:'Um homem de 52 anos é hospitalizado devido a 2 semanas de febre baixa, mal-estar, anorexia e fadiga.  O paciente tem histórico de valva aórtica bicúspide e foi submetido a troca da valva aórtica há um ano.  O exame físico revela um novo sopro de regurgitação.  Hemoculturas repetidas crescem cocos Gram-positivos em cachos, identificados como Staphylococcus epidermidis.',
+        q:'Este patógeno provavelmente demonstra qual das seguintes características?',
+        objective:'O Staphylococcus epidermidis, um coco Gram-positivo que cresce em cachos, é um comensal cutâneo que é uma causa comum de infecção em pacientes com dispositivos protéticos, como articulações ou valvas cardíacas artificiais.  Diferentemente do S aureus, o S epidermidis é coagulase-negativo.  Diferentemente do S saprophyticus (outra espécie de estafilococo coagulase-negativo), o S epidermidis é suscetível à novobiocina.',
+        options:[
+          {label:'A', text:'Hemólise alfa'},
+          {label:'B', text:'Fermentação de manitol'},
+          {label:'C', text:'Teste de catalase negativo'},
+          {label:'D', text:'Teste de coagulase negativo'},
+          {label:'E', text:'Resistência à novobiocina'},
+          {label:'F', text:'Produção de pigmento amarelo'},
+        ],
+        explC:'O Staphylococcus epidermidis é um comensal cutâneo de baixa virulência que raramente causa infecção em pacientes saudáveis.  No entanto, aqueles com dispositivos protéticos (ex.: cateteres de demora, valvas cardíacas artificiais, articulações artificiais) estão em risco, pois o patógeno produz proteínas de adesão e biofilme que lhe permitem crescer em superfícies artificiais.  O S epidermidis é um dos contaminantes mais comuns de hemoculturas, mas a infecção deve ser suspeitada quando múltiplas hemoculturas crescem a bactéria e/ou o paciente apresenta sintomas de infecção clínica, como febre, mal-estar e leucocitose.\n\nAs espécies de Staphylococcus são cocos Gram-positivos que crescem em cachos semelhantes a uvas.  Elas são diferenciadas dos estreptococos pelo teste da catalase: os estreptococos são catalase-negativos, enquanto os estafilococos são catalase-positivos.  A especiação adicional dos estafilococos utiliza o teste da coagulase (a capacidade de coagular o plasma sanguíneo), que diferencia o S aureus dos estafilococos coagulase-negativos, como S epidermidis, S haemolyticus e S saprophyticus.',
+        explI:[
+          {option:'A', explanation:'A hemólise alfa (parcial, esverdeada, quando cultivada em ágar-sangue) é uma característica dos estreptococos viridans, uma causa comum de endocardite infecciosa.  As espécies de Staphylococcus são beta-hemolíticas (hemólise completa) ou gama-hemolíticas (sem hemólise).  O S epidermidis é gama-hemolítico.'},
+          {option:'B', explanation:'O S aureus e o S haemolyticus conseguem fermentar manitol, mas o S epidermidis não.'},
+          {option:'C', explanation:'Os estafilococos, incluindo o S epidermidis, são catalase-positivos (não negativos); é assim que eles são diferenciados dos estreptococos, que são catalase-negativos.'},
+          {option:'E', explanation:'A novobiocina é um antibiótico que pode ser aplicado a colônias cultivadas para diferenciar o S saprophyticus de outras espécies de Staphylococcus coagulase-negativas: o S saprophyticus é resistente à novobiocina, enquanto outros, como o S epidermidis, são sensíveis à novobiocina.'},
+          {option:'F', explanation:'O S aureus produz um pigmento amarelo-dourado na superfície, o que explica seu nome (aureus significa ouro em latim).  O S aureus é uma causa comum de endocardite infecciosa e osteomielite, particularmente em usuários de drogas intravenosas.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
