@@ -5796,6 +5796,47 @@
         ]
       }
     },
+    // BATCH GEN 05 — Genetics: Protein synthesis
+    { id:'CMQ-STEP1-GEN-0047', system:'genetics', discipline:'genetics', category:'genetics::protein_synthesis', difficulty:'easy',
+      vignette:'A 43-year-old man is evaluated for progressive neuropsychiatric symptoms.  A year ago, he began feeling depressed and having hallucinations.  Five months later, he developed intermittent paresthesias and progressively worsening choreiform movements, myoclonus, and ataxia.  These symptoms have not improved despite multiple hospitalizations; an extensive workup has been unrevealing.  The patient is a slaughterhouse worker with extensive exposure to bovine offal.  As part of the evaluation for prion disease, a tissue sample lysate is processed via gel electrophoresis and transferred to filter paper.  Antibodies to a specific prion protein are added to the filter.  Next, a marked protein that combines with the antibody-protein complex is used to determine whether the test is positive.',
+      q:'Which of the following best describes this test?',
+      options:[
+        {label:'A', text:'Microarray'},
+        {label:'B', text:'Northern blot'},
+        {label:'C', text:'Southern blot'},
+        {label:'D', text:'Southwestern blot'},
+        {label:'E', text:'Western blot'},
+      ],
+      correct:'E',
+      explC:'Western blotting is used to detect a target polypeptide or protein from within a mixed sample.  Potential target proteins are separated by gel electrophoresis.  The separated proteins are then transferred to a nitrocellulose membrane and probed with a primary antibody specific for the protein of interest.  The membrane is then washed and treated with a (secondary) marked antibody that binds to the primary antibody and can be detected (eg, by colorimetry).\n\nFor example, a serum sample from a patient with suspected HIV infection can be analyzed via Western blot to detect antibodies directed against specific viral proteins.  Following separation of viral proteins by gel electrophoresis and protein transfer to a nitrocellulose membrane, the membrane is treated with the patient\'s serum.  Patients who are HIV positive are likely to have antibodies that react with viral p24, gp41, and gp120/160.  If 2 of these 3 bands are positive, the test is considered positive.\n\nWestern blotting is similar to the enzyme-linked immunosorbent assay (ELISA) technique; however, in ELISA the patient\'s serum is tested directly, whereas in Western blotting the proteins are first separated by electrophoresis.',
+      explI:[
+        {option:'A', explanation:'Microarray analysis is similar to Southern and Northern blotting but involves hybridization of a large number of probes at once.  The genomic DNA or cDNA being analyzed is labeled with a fluorescent tag and placed on a gene chip containing complementary sequences for a large number of genes.  The degree of fluorescence corresponds to the mRNA expressed in the particular sample.'},
+        {option:'B', explanation:'Northern blots analyze mRNA.  A sample containing a large number of mRNA molecules is separated via gel electrophoresis.  Separated bands are then transferred to a membrane and hybridized with a probe containing a nucleotide sequence complementary to the mRNA of interest.'},
+        {option:'C', explanation:'Southern blotting is used to analyze DNA sequences.  DNA that is fragmented using restriction endonucleases is separated by gel electrophoresis and transferred to a nitrocellulose membrane.  A radiolabeled DNA probe containing a sequence complementary to an area of interest is then used for hybridization.  Restriction site mutations can be detected by Southern blotting because they alter DNA fragment lengths, thereby altering electrophoresis migration patterns.'},
+        {option:'D', explanation:'Southwestern blotting is a technique that analyzes DNA-binding proteins using principles of the Southern and Western blot techniques.  DNA-binding proteins are recognized by their ability to bind specific oligonucleotide probes.'},
+      ],
+      objective:'Western blotting is used to identify proteins, Northern blotting identifies specific RNA sequences, and Southern blotting identifies specific DNA sequences in an unknown sample.',
+      peer:{A:7, B:3, C:4, D:7, E:76},
+      ptTranslation:{
+        vignette:'Um homem de 43 anos é avaliado por sintomas neuropsiquiátricos progressivos.  Há um ano, ele começou a se sentir deprimido e a ter alucinações.  Cinco meses depois, desenvolveu parestesias intermitentes e movimentos coreiformes progressivamente piores, mioclonia e ataxia.  Esses sintomas não melhoraram apesar de várias hospitalizações; uma investigação extensa não revelou a causa.  O paciente é trabalhador de matadouro com exposição extensa a vísceras bovinas.  Como parte da avaliação para doença priônica, um lisado de amostra de tecido é processado por eletroforese em gel e transferido para papel de filtro.  Anticorpos contra uma proteína priônica específica são adicionados ao filtro.  Em seguida, uma proteína marcada que se combina com o complexo anticorpo-proteína é usada para determinar se o teste é positivo.',
+        q:'Qual das seguintes melhor descreve esse teste?',
+        objective:'O Western blot é usado para identificar proteínas, o Northern blot identifica sequências específicas de RNA, e o Southern blot identifica sequências específicas de DNA em uma amostra desconhecida.',
+        options:[
+          {label:'A', text:'Microarray'},
+          {label:'B', text:'Northern blot'},
+          {label:'C', text:'Southern blot'},
+          {label:'D', text:'Southwestern blot'},
+          {label:'E', text:'Western blot'},
+        ],
+        explC:'O Western blot é usado para detectar um polipeptídeo ou proteína-alvo dentro de uma amostra mista.  As potenciais proteínas-alvo são separadas por eletroforese em gel.  As proteínas separadas são então transferidas para uma membrana de nitrocelulose e sondadas com um anticorpo primário específico para a proteína de interesse.  A membrana é então lavada e tratada com um anticorpo (secundário) marcado que se liga ao anticorpo primário e pode ser detectado (ex.: por colorimetria).\n\nPor exemplo, uma amostra de soro de um paciente com suspeita de infecção por HIV pode ser analisada por Western blot para detectar anticorpos direcionados contra proteínas virais específicas.  Após a separação das proteínas virais por eletroforese em gel e a transferência das proteínas para uma membrana de nitrocelulose, a membrana é tratada com o soro do paciente.  Pacientes HIV positivos provavelmente têm anticorpos que reagem com as proteínas virais p24, gp41 e gp120/160.  Se 2 dessas 3 bandas forem positivas, o teste é considerado positivo.\n\nO Western blot é semelhante à técnica de ELISA (ensaio de imunoabsorção enzimática); entretanto, no ELISA o soro do paciente é testado diretamente, enquanto no Western blot as proteínas são primeiro separadas por eletroforese.',
+        explI:[
+          {option:'A', explanation:'A análise por microarray é semelhante ao Southern e ao Northern blot, mas envolve a hibridização de um grande número de sondas ao mesmo tempo.  O DNA genômico ou cDNA analisado é marcado com um marcador fluorescente e colocado em um chip gênico contendo sequências complementares para um grande número de genes.  O grau de fluorescência corresponde ao mRNA expresso naquela amostra específica.'},
+          {option:'B', explanation:'Os Northern blots analisam mRNA.  Uma amostra contendo um grande número de moléculas de mRNA é separada por eletroforese em gel.  As bandas separadas são então transferidas para uma membrana e hibridizadas com uma sonda contendo uma sequência de nucleotídeos complementar ao mRNA de interesse.'},
+          {option:'C', explanation:'O Southern blot é usado para analisar sequências de DNA.  O DNA fragmentado com endonucleases de restrição é separado por eletroforese em gel e transferido para uma membrana de nitrocelulose.  Uma sonda de DNA radiomarcada contendo uma sequência complementar a uma área de interesse é então usada para hibridização.  Mutações em sítios de restrição podem ser detectadas por Southern blot porque alteram os comprimentos dos fragmentos de DNA, alterando assim os padrões de migração na eletroforese.'},
+          {option:'D', explanation:'O Southwestern blot é uma técnica que analisa proteínas ligadoras de DNA usando princípios das técnicas de Southern e Western blot.  As proteínas ligadoras de DNA são reconhecidas por sua capacidade de se ligar a sondas oligonucleotídicas específicas.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
