@@ -871,10 +871,10 @@ A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linh
 4. **Formato:** PNG para diagramas/ilustrações/linhas (texto nítido, sem artefato de compressão); JPG (qualidade ~85) para fotos clínicas/histologia reais, para manter o arquivo leve.
 5. **Nome do arquivo:** `{ID}_descricao_curta.png` (ou `.jpg`), ex: `CMQ-STEP1-CVS-0007_cardiac_output_venous_return_curves.png` — sempre em inglês, snake_case ou kebab-case, descrevendo o conteúdo da imagem.
 6. **Local:** salvar em `public/assets/qbank/`.
-7. **Múltiplas imagens na mesma questão:** usar array no campo `img: ['assets/qbank/ID_parte1.png', 'assets/qbank/ID_parte2.png']` — todas empilhadas verticalmente na vinheta, cada uma respeitando os mesmos limites de tamanho.
+7. **Múltiplas imagens na mesma questão:** usar array no campo `img: ['assets/qbank/ID_parte1.png', 'assets/qbank/ID_parte2.png']` — todas empilhadas verticalmente na vinheta, cada uma respeitando os mesmos limites de tamanho. O mesmo vale para `explImg` (ver 19.4b).
 8. **Revisar sempre no preview (Seção 20)** antes de aprovar — é a única forma de ver exatamente como a imagem vai renderizar (tamanho final, corte, nitidez) dentro do layout real do site.
 
-### 19.4 Campo no objeto da questão
+### 19.4 Campo no objeto da questão — imagem do ENUNCIADO
 
 ```js
 { id:'CMQ-STEP1-CVS-0001', ...,
@@ -883,7 +883,33 @@ A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linh
 }
 ```
 
-Não existe campo de imagem separado para a explicação (`explImg` não existe no código) nem campo de imagem por idioma (`ptTranslation.img` não existe) — só o único campo `img`, compartilhado, renderizado sempre logo após a vinheta e antes do enunciado (`q`).
+`img` (string ou array) é renderizado sempre logo após a vinheta e antes do enunciado (`q`), via `renderQImage()` (`public/js/qbank.js`, função declarada perto de `renderExplanation`).
+
+### 19.4b Campo no objeto da questão — imagem da EXPLICAÇÃO (`explImg`)
+
+**Atenção — isto é frequentemente esquecido:** muitas questões do material de origem (UWorld) trazem uma imagem/diagrama/tabela **na aba "Explanation"**, não apenas no enunciado. É comum a explicação ter uma figura própria e diferente da imagem da vinheta (ex.: uma tabela comparativa, um fluxograma de via metabólica, um diagrama anotado com o mecanismo correto) — e às vezes a questão nem tem imagem no enunciado, só na explicação. **Essas imagens de explicação também devem ser recortadas e inseridas**, exatamente como as do enunciado (mesmo processo da Seção 19.3), usando o campo `explImg`:
+
+```js
+{ id:'CMQ-STEP1-CVS-0001', ...,
+  img:'assets/qbank/CMQ-STEP1-CVS-0001_nome_descritivo.png',        // imagem do enunciado (se houver)
+  explImg:'assets/qbank/CMQ-STEP1-CVS-0001_explicacao_nome.png',    // imagem da explicação (se houver)
+  ...
+}
+```
+
+- `explImg` aceita string ou array (`explImg: ['assets/qbank/ID_expl_parte1.png', ...]`), mesma regra do `img`.
+- Renderizado por `renderExplImage()` (`public/js/qbank.js`), chamado dentro de `renderExplanation()` logo abaixo do título "Explicação" (`<h3>`) e antes do texto `explC` — reproduzindo a posição em que a UWorld mostra a figura na aba Explanation.
+- Reutiliza a classe CSS `.qb-question-image` (mais a classe extra `.qb-expl-image`), portanto herda automaticamente os mesmos limites de tamanho/responsividade da Seção 19.1 — não precisa adicionar CSS novo.
+- Implementado em 2026-07-14. Antes dessa data o campo não existia; questões adicionadas antes disso podem ter imagem de explicação pendente de inclusão — ver auditoria abaixo.
+- **Não existe campo de imagem por idioma nem para `img` nem para `explImg`** (não há `ptTranslation.img` nem `ptTranslation.explImg`) — o campo é único e compartilhado entre EN e PT.
+
+### 19.4c Auditoria retroativa — questões que ainda faltam imagem de explicação
+
+Como o suporte a `explImg` só passou a existir em 2026-07-14, **toda questão adicionada antes dessa data precisa ser revisada** para verificar se a explicação original tinha uma imagem que ficou de fora. Ao revisar/adicionar questões (inclusive ao processar qualquer lote novo, e ao reprocessar lotes antigos):
+
+1. Sempre checar a aba "Explanation" do material de origem, não só o enunciado — se houver uma imagem lá (diagrama, tabela, fluxograma, gráfico), ela também deve ser recortada e adicionada via `explImg`, seguindo a Seção 19.3.
+2. Ao reencontrar uma questão já existente no SEED (mesmo ID) cujo material de origem tenha imagem de explicação ainda não capturada, adicionar o `explImg` faltante como parte do trabalho — não é preciso esperar pedido explícito, é correção de lacuna.
+3. Uma pasta com o nome **"QUESTÕES ADICIONADAS"** na área de trabalho do usuário contém o material das questões já processadas anteriormente — usar como fonte para essa varredura retroativa quando acessível.
 
 ---
 
@@ -1013,7 +1039,8 @@ Lista de todo ponto de contato encontrado no código entre o QBank e outros mód
 - [ ] `explI` cobre TODAS as alternativas incorretas
 - [ ] Se a questão menciona/depende de exame laboratorial relevante: campo `labs` preenchido, exame/faixa escolhidos com autonomia por você — Claude, sem necessidade de aprovação do usuário para essa escolha (Seção 16b, única exceção à Seção 0.1)
 - [ ] `ptTranslation` incluída com todos os campos, fiel ao original (Seção 17)
-- [ ] Se tiver imagem: processada segundo a Seção 19 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`)
+- [ ] Se tiver imagem no ENUNCIADO: processada segundo a Seção 19.3/19.4 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`), campo `img`
+- [ ] Checar também a aba "Explanation" do material de origem: se houver imagem/diagrama/tabela lá, processar do mesmo jeito e incluir via campo `explImg` (Seção 19.4b) — não é só o enunciado que pode ter imagem
 - [ ] `library` omitido (ou explicitamente `1`) a menos que o usuário tenha pedido Library 2/3 (Seção 4b)
 - [ ] `node --check public/js/qbank.js` sem erro de sintaxe
 - [ ] *(Opcional)* Leva conferida via `previewIds` (Seção 20.3) só para checagem própria — não precisa ser mostrada/enviada ao usuário nem aguardar aprovação (mudança de política em 2026-07-13, Seção 0.3)

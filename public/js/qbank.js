@@ -29,8 +29,11 @@
     let p={};
     try{ p = JSON.parse(localStorage.getItem(PREF_KEY))||{}; }catch(e){}
     const qb = p.qbank||{};
+    // v52: Tutor e Temporizador viraram switches independentes (antes era um "mode" exclusivo).
+    // migração: se só existir o campo antigo "mode", deriva tutor/timed a partir dele.
     return {
-      mode:  qb.mode==='timed' ? 'timed' : 'tutor',
+      tutor: qb.tutor!=null ? !!qb.tutor : (qb.mode!=='timed'),
+      timed: qb.timed!=null ? !!qb.timed : (qb.mode==='timed'),
       count: Math.max(1, Math.min(40, parseInt(qb.count,10)||10)),
       peer:  qb.peer===false ? false : true
     };
@@ -6611,6 +6614,7 @@
       passAll:'All', pass1:'First', pass2:'Second', pass3:'Third', pass99:'Directed',
       diffAll:'All', easy:'Easy', medium:'Medium', hard:'Hard',
       tutor:'Tutor', timed:'Timed', secsPerQ:'sec / question',
+      modeInfoTip:'Tutor reveals the explanation right after you answer each question. Timed adds a countdown per question. Turn on either, both, or neither.',
       available:'available', generate:'Generate Test', noMatch:'No questions match these filters. Loosen a filter to continue.',
       back:'‹ Back to QBank',
       // solve
@@ -6657,6 +6661,7 @@
       passAll:'Todas', pass1:'Primeira', pass2:'Segunda', pass3:'Terceira', pass99:'Dirigida',
       diffAll:'Todas', easy:'Fácil', medium:'Média', hard:'Difícil',
       tutor:'Tutor', timed:'Cronometrado', secsPerQ:'seg / questão',
+      modeInfoTip:'Tutor revela a explicação assim que você responde cada questão. Temporizador ativa uma contagem regressiva por questão. Ligue um, os dois, ou nenhum.',
       available:'disponíveis', generate:'Gerar Teste', noMatch:'Nenhuma questão corresponde a esses filtros. Afrouxe um filtro para continuar.',
       back:'‹ Voltar ao Banco',
       qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Suspender', endBlock:'Encerrar Bloco', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
@@ -6874,7 +6879,7 @@
       const ids = previewIds.split(',').map(s=>s.trim()).filter(Boolean);
       const found = ids.map(id=>SEED.find(q=>q.id===id)).filter(Boolean);
       const missing = ids.filter(id=>!SEED.some(q=>q.id===id));
-      const test = { id:'preview', user_id:USER, test_type:'preview', filters:{}, mode:'tutor', secs:0,
+      const test = { id:'preview', user_id:USER, test_type:'preview', filters:{}, tutor:true, timed:false, secs:0,
         status:'preview', qids:found.map(q=>q.id), idx:0, answers:{}, strikes:{}, times:{},
         started_at:new Date().toISOString(), preview:true, previewMissing:missing };
       view = found.length ? { name:'test', test, showAns:true, qStart:Date.now() } : { name:'home', sel:store.currentPass() };
@@ -6979,7 +6984,6 @@
             </div>
             <div class="qb-panel-actions">
               <button class="qb-btn ghost" data-act="analytics">${esc(t('analytics'))}</button>
-              <button class="qb-btn primary" data-act="pass-card" data-pn="99" ${pool.length?'':'disabled'}>＋ ${esc(t('createTest'))}</button>
             </div>
           </div>
           <div class="qb-directed-count">
@@ -7001,7 +7005,6 @@
             <div class="qb-panel-actions">
               <button class="qb-btn ghost" data-act="analytics">${esc(t('analytics'))}</button>
               <button class="qb-btn ghost" data-act="flagged">⚑ ${esc(t('reviewFlagged'))}</button>
-              <button class="qb-btn primary" data-act="pass-card" data-pn="${sel}" ${done?'disabled':''}>＋ ${esc(t('createTest'))}</button>
             </div>
           </div>
 
@@ -7030,6 +7033,25 @@
         </div>`;
     }
 
+    // ---- Criar Teste, agora inline logo abaixo do painel da passada (v52) ----
+    // não mostra para passada bloqueada, nem para uma passada normal já 100% concluída
+    // (mantém o mesmo comportamento que antes existia no botão "+ Criar Teste" desabilitado).
+    let createSection = '';
+    const hideCreate = selState==='locked' || (sel!==99 && selProg.done);
+    if(!hideCreate){
+      if(!view.f || String(view.f.pass)!==String(sel)){
+        const pref = qbPrefDefaults();
+        view.f = { systems:[], disciplines:[], subjects:[], status:'all', pass:String(sel), difficulty:'all', tutor:pref.tutor, timed:pref.timed, secs:90, count:pref.count };
+      }
+      if(!view.f.systems) view.f.systems=[];
+      if(!view.f.disciplines) view.f.disciplines=[];
+      if(!view.f.subjects) view.f.subjects=[];
+      if(view.f.tutor==null) view.f.tutor=true;
+      if(view.f.timed==null) view.f.timed=false;
+      if(!view.collapsed){ view.collapsed = {}; TAXONOMY.forEach(s=>view.collapsed[s.id]=true); }
+      createSection = createPanelHTML(view.f, {showPass:false});
+    }
+
     root.innerHTML = `
       <div class="qb">
         <div class="qb-top">
@@ -7039,25 +7061,26 @@
         <div class="qb-stepper">${stepHTML}</div>
 
         ${body}
+        ${createSection}
       </div>`;
     wire();
   }
 
-  /* =========================== CREATE TEST =========================== */
-  function renderCreate(){
-    const preset = view.preset || {};
-    const pref = qbPrefDefaults();
-    view.f = view.f || { systems:[], disciplines:[], subjects:[], status:'all', pass:preset.pass||'all', difficulty:'all', mode:pref.mode, secs:90, count:pref.count };
-    const f = view.f;
-    if(!f.systems) f.systems=[];
-    if(!f.disciplines) f.disciplines=[];
-    if(!f.subjects) f.subjects=[];
-    if(!view.collapsed){ view.collapsed = {}; TAXONOMY.forEach(s=>view.collapsed[s.id]=true); }
+  /* =========================== CREATE TEST ===========================
+     v52: o miolo do Create Test virou uma função compartilhada (createPanelHTML),
+     usada tanto inline na Home (abaixo do painel da passada selecionada) quanto
+     na tela standalone /create (usada por "Revisar marcadas", Surgical Review,
+     as pastas antigas ?page=qbank1-pass-N e o link genérico "+ Criar Teste" dos
+     resultados). opts.showPass controla se o segmento "Passada" aparece — na Home
+     ele some, porque a passada já está definida pelo stepper acima. */
+  function createPanelHTML(f, opts){
+    opts = opts || {};
+    const showPass = !!opts.showPass;
     const avail = availablePool(f);
     const countBy = {};                      // subjectId -> nº disponível
     avail.forEach(q=>{ countBy[q.category]=(countBy[q.category]||0)+1; });
 
-    const seg = (act,val,opts)=>opts.map(o=>`<button class="qb-seg ${val===o.v?'on':''}" data-act="${act}" data-v="${o.v}">${esc(o.l)}</button>`).join('');
+    const seg = (act,val,os)=>os.map(o=>`<button class="qb-seg ${val===o.v?'on':''}" data-act="${act}" data-v="${o.v}">${esc(o.l)}</button>`).join('');
 
     // accordion de um sistema
     const groupHTML = sys=>{
@@ -7090,45 +7113,75 @@
     const count = Math.min(f.count||1, maxN);
     const allCollapsed = TAXONOMY.every(s=>view.collapsed[s.id]);
 
+    const diffField = `<div class="qb-field"><label>${esc(t('ctDifficulty'))}</label><div class="qb-segs">${seg('diff',f.difficulty,[
+            {v:'all',l:t('diffAll')},{v:'easy',l:t('easy')},{v:'medium',l:t('medium')},{v:'hard',l:t('hard')}])}</div></div>`;
+    const passRow = showPass ? `
+        <div class="qb-row">
+          <div class="qb-field"><label>${esc(t('ctPass'))}</label><div class="qb-segs">${seg('pass',f.pass,[
+            {v:'all',l:t('passAll')},{v:'1',l:t('pass1')},{v:'2',l:t('pass2')},{v:'3',l:t('pass3')},{v:'99',l:t('pass99')}])}</div></div>
+          ${diffField}
+        </div>` : diffField;
+
+    return `
+        <div class="qb-pass-panel qb-create-panel">
+          <div class="qb-field"><label>${esc(t('ctStatus'))}</label><div class="qb-segs">${seg('status',f.status,[
+            {v:'all',l:t('stAll')},{v:'unused',l:t('stUnused')},{v:'correct',l:t('stCorrect')},{v:'incorrect',l:t('stIncorrect')},{v:'marked',l:t('stMarked')},{v:'omitted',l:t('stOmitted')}])}</div></div>
+          ${passRow}
+
+          <hr class="qb-divider">
+
+          <div class="qb-mode-block">
+            <div class="qb-mode-title">${esc(t('ctMode'))} <span class="qb-info-ico" title="${esc(t('modeInfoTip'))}">i</span></div>
+            <div class="qb-mode-inline">
+              <label class="qb-mode-item"><span class="qb-switch"><input type="checkbox" data-act="tutor-toggle" ${f.tutor?'checked':''}><span class="qb-switch-track"><span class="qb-switch-knob"></span></span></span><span>${esc(t('tutor'))}</span></label>
+              <label class="qb-mode-item"><span class="qb-switch"><input type="checkbox" data-act="timed-toggle" ${f.timed?'checked':''}><span class="qb-switch-track"><span class="qb-switch-knob"></span></span></span><span>${esc(t('timed'))}</span></label>
+            </div>
+            ${f.timed?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
+          </div>
+
+          <hr class="qb-divider">
+
+          <div class="qb-gen">
+            <div class="qb-gen-left">
+              <div class="qb-field qb-count-field"><label>${esc(t('ctCount'))}</label>
+                <div class="qb-count"><input type="number" min="1" max="${maxN}" value="${count}" data-act="count-num" ${availN?'':'disabled'}></div>
+              </div>
+              <div class="qb-avail"><strong>${availN}</strong> ${esc(t('available'))}</div>
+            </div>
+            <button class="qb-btn primary big" data-act="generate" ${availN?'':'disabled'}>${esc(t('generate'))} →</button>
+          </div>
+          ${availN?'':`<p class="qb-nomatch">${esc(t('noMatch'))}</p>`}
+        </div>
+
+        <div class="qb-pass-panel qb-create-panel">
+          <div class="qb-tax-bar">
+            <label class="qb-tax-sys master ${f.subjects.length?'partial':''}">
+              <input type="checkbox" data-act="tog-all" ${f.subjects.length?'checked':''}>
+              <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(t('ctSystems'))}</span>
+            </label>
+            <button class="qb-link" data-act="collapse-all">${allCollapsed?esc(t('expandAll')):esc(t('collapseAll'))}</button>
+          </div>
+          <div class="qb-tax">${TAXONOMY.map(groupHTML).join('')}</div>
+        </div>`;
+  }
+
+  function renderCreate(){
+    const preset = view.preset || {};
+    const pref = qbPrefDefaults();
+    view.f = view.f || { systems:[], disciplines:[], subjects:[], status:'all', pass:preset.pass||'all', difficulty:'all', tutor:pref.tutor, timed:pref.timed, secs:90, count:pref.count };
+    const f = view.f;
+    if(!f.systems) f.systems=[];
+    if(!f.disciplines) f.disciplines=[];
+    if(!f.subjects) f.subjects=[];
+    if(f.tutor==null) f.tutor=true;
+    if(f.timed==null) f.timed=false;
+    if(!view.collapsed){ view.collapsed = {}; TAXONOMY.forEach(s=>view.collapsed[s.id]=true); }
+
     root.innerHTML = `
       <div class="qb qb-create">
         <button class="qb-link" data-act="home">${esc(t('back'))}</button>
         <h1>${esc(t('ctTitle'))}</h1>
-
-        <div class="qb-row">
-          <div class="qb-field"><label>${esc(t('ctStatus'))}</label><div class="qb-segs">${seg('status',f.status,[
-            {v:'all',l:t('stAll')},{v:'unused',l:t('stUnused')},{v:'correct',l:t('stCorrect')},{v:'incorrect',l:t('stIncorrect')},{v:'marked',l:t('stMarked')},{v:'omitted',l:t('stOmitted')}])}</div></div>
-        </div>
-        <div class="qb-row">
-          <div class="qb-field"><label>${esc(t('ctPass'))}</label><div class="qb-segs">${seg('pass',f.pass,[
-            {v:'all',l:t('passAll')},{v:'1',l:t('pass1')},{v:'2',l:t('pass2')},{v:'3',l:t('pass3')},{v:'99',l:t('pass99')}])}</div></div>
-          <div class="qb-field"><label>${esc(t('ctDifficulty'))}</label><div class="qb-segs">${seg('diff',f.difficulty,[
-            {v:'all',l:t('diffAll')},{v:'easy',l:t('easy')},{v:'medium',l:t('medium')},{v:'hard',l:t('hard')}])}</div></div>
-        </div>
-        <div class="qb-row">
-          <div class="qb-field"><label>${esc(t('ctMode'))}</label><div class="qb-segs">${seg('mode',f.mode,[
-            {v:'tutor',l:t('tutor')},{v:'timed',l:t('timed')}])}</div>
-            ${f.mode==='timed'?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
-          </div>
-        </div>
-
-        <div class="qb-field qb-count-field"><label>${esc(t('ctCount'))}</label>
-          <div class="qb-count"><input type="number" min="1" max="${maxN}" value="${count}" data-act="count-num" ${availN?'':'disabled'}><span class="qb-count-max">${esc(t('maxPerBlock'))} <b>${maxN}</b></span></div>
-        </div>
-        <div class="qb-gen">
-          <div class="qb-avail"><strong>${availN}</strong> ${esc(t('available'))}</div>
-          <button class="qb-btn primary big" data-act="generate" ${availN?'':'disabled'}>${esc(t('generate'))} →</button>
-        </div>
-        ${availN?'':`<p class="qb-nomatch">${esc(t('noMatch'))}</p>`}
-
-        <div class="qb-tax-bar">
-          <label class="qb-tax-sys master ${f.subjects.length?'partial':''}">
-            <input type="checkbox" data-act="tog-all" ${f.subjects.length?'checked':''}>
-            <span class="qb-tax-box"></span><span class="qb-tax-name">${esc(t('ctSystems'))}</span>
-          </label>
-          <button class="qb-link" data-act="collapse-all">${allCollapsed?esc(t('expandAll')):esc(t('collapseAll'))}</button>
-        </div>
-        <div class="qb-tax">${TAXONOMY.map(groupHTML).join('')}</div>
+        ${createPanelHTML(f, {showPass:true})}
       </div>`;
     wire();
   }
@@ -7138,7 +7191,7 @@
     const f=view.f; const pool=filterPool(f);
     const picked = shuffle(pool).slice(0, Math.min(f.count,pool.length));
     const test = { id:uid('test'), user_id:USER, test_type: f.pass==='99'?'surgical_review':'custom',
-      filters:JSON.parse(JSON.stringify(f)), mode:f.mode, secs:f.secs, status:'in_progress',
+      filters:JSON.parse(JSON.stringify(f)), tutor:!!f.tutor, timed:!!f.timed, secs:f.secs, status:'in_progress',
       qids:picked.map(q=>q.id), idx:0, answers:{}, strikes:{}, times:{}, started_at:new Date().toISOString() };
     store.saveTest(test);
     go({name:'test', test, showAns:false, qStart:Date.now()});
@@ -7148,7 +7201,7 @@
   function renderTest(){
     const T0=view.test, q=store.question(T0.qids[T0.idx]);
     const ans=T0.answers[q.id], answered=ans!=null;
-    const revealed = (T0.mode==='tutor' && answered) || view.showAns;
+    const revealed = (T0.tutor && answered) || view.showAns;
     const strikes=T0.strikes[q.id]||{};
     const flagged=store.isFlagged(q.id);
     const opt = o=>{
@@ -7212,6 +7265,15 @@
     return imgs.filter(Boolean).map(src => `<figure class="qb-question-image"><img src="${esc(src)}" alt="Question image" loading="lazy" decoding="async" /><figcaption>${esc(t('imageHint'))}</figcaption></figure>`).join('');
   }
 
+  // Imagem(ns) da EXPLICAÇÃO — diagramas/tabelas que a UWorld mostra no topo da explicação
+  // (ex.: fluxogramas, tabelas comparativas, esquemas). Campo `explImg` (string ou array),
+  // renderizado logo abaixo do título "Explicação", antes do texto explC. Ver Seção 19 do .md.
+  function renderExplImage(q){
+    if(!q || !q.explImg) return '';
+    const imgs = Array.isArray(q.explImg) ? q.explImg : [q.explImg];
+    return imgs.filter(Boolean).map(src => `<figure class="qb-question-image qb-expl-image"><img src="${esc(src)}" alt="Explanation image" loading="lazy" decoding="async" /></figure>`).join('');
+  }
+
   function renderExplanation(q,ans,preview){
     const correct = ans===q.correct;
     const badge = preview? `<span class="qb-badge ok">${esc(t('correctBadge'))}</span>`
@@ -7235,6 +7297,7 @@
         </div>
       </div>
       <h3>${esc(t('explanation'))}</h3>
+      ${renderExplImage(q)}
       <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
       <div class="qb-obj"><span>🎯 ${esc(t('eduObjective'))}</span><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
@@ -7262,7 +7325,7 @@
     if(timerH)clearInterval(timerH);
     const start=Date.now();
     const T0=view.test;
-    const secsLimit = T0.mode==='timed'? T0.secs : 0;
+    const secsLimit = T0.timed? T0.secs : 0;
     const tick=()=>{ const s=Math.floor((Date.now()-start)/1000);
       const m=String(Math.floor(s/60)).padStart(2,'0'), ss=String(s%60).padStart(2,'0');
       el.textContent=`${m}:${ss}`;
@@ -7287,19 +7350,19 @@
       const status = ans==null?'omitted': ans===q.correct?'correct':'incorrect';
       store.addAttempt({ question_id:q.id, test_id:T0.id, selected_option:ans,
         is_correct: ans==null?null:(ans===q.correct?1:0), status, time_spent_seconds:time,
-        mode:T0.mode, flagged:store.isFlagged(q.id), strikethrough_options:Object.keys(T0.strikes[q.id]||{}) });
+        tutor:T0.tutor, timed:T0.timed, flagged:store.isFlagged(q.id), strikethrough_options:Object.keys(T0.strikes[q.id]||{}) });
       T0._recorded[q.id]=true;
       store.saveTest(serializeTest(T0));
     }
     if(timerH)clearInterval(timerH);
     // Parte 5: modal causa-raiz em erro (modo tutor)
-    if(T0.mode==='tutor' && ans!=null && ans!==q.correct){ view.showAns=true; render(); openRootCause(q); return; }
-    view.showAns = (T0.mode==='tutor'); render();
+    if(T0.tutor && ans!=null && ans!==q.correct){ view.showAns=true; render(); openRootCause(q); return; }
+    view.showAns = !!T0.tutor; render();
   }
 
   function serializeTest(T0){ // grava sem campos voláteis
-    const {id,user_id,test_type,filters,mode,secs,status,qids,idx,answers,strikes,started_at}=T0;
-    return {id,user_id,test_type,filters,mode,secs,status,qids,idx,answers,strikes,started_at,
+    const {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at}=T0;
+    return {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at,
       total_count:qids.length,
       correct_count:qids.filter(q=>answers[q]===store.question(q).correct).length,
       incorrect_count:qids.filter(q=>answers[q]!=null&&answers[q]!==store.question(q).correct).length,
@@ -7313,7 +7376,7 @@
     if(!T0._recorded)T0._recorded={};
     T0.qids.forEach(qid=>{ if(!T0._recorded[qid]){ const q=store.question(qid);
       store.addAttempt({question_id:qid,test_id:T0.id,selected_option:null,is_correct:null,status:'omitted',
-        time_spent_seconds:0,mode:T0.mode,flagged:store.isFlagged(qid),strikethrough_options:[]});
+        time_spent_seconds:0,tutor:T0.tutor,timed:T0.timed,flagged:store.isFlagged(qid),strikethrough_options:[]});
       T0._recorded[qid]=true; } });
     const done=serializeTest(T0); done.status='completed'; done.completed_at=new Date().toISOString();
     store.saveTest(done);
@@ -7522,9 +7585,8 @@
       case 'home': go({name:'home'}); break;
       case 'analytics': go({name:'analytics'}); break;
       case 'create': go({name:'create'}); break;
-      case 'flagged': { view.f={systems:[],disciplines:[],subjects:[],status:'marked',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:Math.max(1,Object.keys(store.raw.flags).length)}; if(!filterPool(view.f).length){toast(t('flaggedEmpty'));break;} go({name:'create',f:view.f}); break; }
+      case 'flagged': { view.f={systems:[],disciplines:[],subjects:[],status:'marked',pass:'all',difficulty:'all',tutor:true,timed:false,secs:90,count:Math.max(1,Object.keys(store.raw.flags).length)}; if(!filterPool(view.f).length){toast(t('flaggedEmpty'));break;} go({name:'create',f:view.f}); break; }
       case 'sel-pass': { const pn=el.dataset.pn==='99'?99:+el.dataset.pn; if(store.passState(pn)==='locked' && !store.isAdmin()){ toast(t('lockedToast')); break; } view.sel=pn; render(); break; }
-      case 'pass-card': { const pn=el.dataset.pn; if(store.passState(pn==='99'?99:+pn)==='locked' && !store.isAdmin()){ toast(t('lockedToast')); break; } const defMode=qbPrefDefaults().mode, defCount=qbPrefDefaults().count; view.f={systems:[],disciplines:[],subjects:[],status:'all',pass:pn,difficulty:'all',mode:defMode,secs:90,count:defCount}; go({name:'create',f:view.f,preset:{pass:pn}}); break; }
       case 'tog-sys': { const sys=TAXONOMY.find(s=>s.id===el.dataset.v); const ids=sys.subs.map(([slug])=>subjId(sys.id,slug)); const allOn=ids.every(id=>view.f.subjects.includes(id)); if(allOn){ view.f.subjects=view.f.subjects.filter(id=>!ids.includes(id)); } else { ids.forEach(id=>{ if(!view.f.subjects.includes(id)) view.f.subjects.push(id); }); } render(); break; }
       case 'tog-sub': { const id=el.dataset.v; const i=view.f.subjects.indexOf(id); i>=0?view.f.subjects.splice(i,1):view.f.subjects.push(id); render(); break; }
       case 'tog-system': { const id=el.dataset.v; const i=view.f.systems.indexOf(id); i>=0?view.f.systems.splice(i,1):view.f.systems.push(id); render(); break; }
@@ -7539,10 +7601,11 @@
       case 'status': view.f.status=el.dataset.v; render(); break;
       case 'pass': view.f.pass=el.dataset.v; render(); break;
       case 'diff': view.f.difficulty=el.dataset.v; render(); break;
-      case 'mode': view.f.mode=el.dataset.v; render(); break;
+      case 'tutor-toggle': view.f.tutor=el.checked; render(); break;
+      case 'timed-toggle': view.f.timed=el.checked; render(); break;
       case 'meta-filter': {
         const kind=el.dataset.kind, val=el.dataset.v;
-        const nf={systems:[],disciplines:[],subjects:[],status:'all',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:10};
+        const nf={systems:[],disciplines:[],subjects:[],status:'all',pass:'all',difficulty:'all',tutor:true,timed:false,secs:90,count:10};
         if(kind==='system'){
           const sys=TAXONOMY.find(x=>x.id===val);
           nf.subjects = sys ? sys.subs.map(([slug])=>subjId(sys.id,slug)).filter(id=>SEED.some(q=>q.category===id)) : [];
@@ -7555,7 +7618,7 @@
       }
       case 'generate': startTest(); break;
       // teste
-      case 'pick': { if(view.test.mode==='tutor' && view.test.answers[currentQ().id]!=null) break; if(view.showAns)break; view.test.pending=el.dataset.o; view.test.answers[currentQ().id]=null; markPending(el.dataset.o); break; }
+      case 'pick': { if(view.test.tutor && view.test.answers[currentQ().id]!=null) break; if(view.showAns)break; view.test.pending=el.dataset.o; view.test.answers[currentQ().id]=null; markPending(el.dataset.o); break; }
       case 'strike': { e.stopPropagation(); const q=currentQ(); const s=view.test.strikes[q.id]=view.test.strikes[q.id]||{}; const o=el.dataset.o; s[o]?delete s[o]:s[o]=true; render(); break; }
       case 'submit': submitAnswer(false); break;
       case 'flag': store.toggleFlag(currentQ().id); render(); break;
@@ -7584,8 +7647,8 @@
     const extra = store.directedPool();
     const set=[...new Set([...pool,...extra])].slice(0,15);
     if(!set.length){ toast(t('flaggedEmpty')); return; }
-    view.f={subjects:[],status:'all',pass:'all',difficulty:'all',mode:'tutor',secs:90,count:set.length};
-    const test={id:uid('test'),user_id:USER,test_type:'surgical_review',filters:{},mode:'tutor',secs:90,status:'in_progress',
+    view.f={subjects:[],status:'all',pass:'all',difficulty:'all',tutor:true,timed:false,secs:90,count:set.length};
+    const test={id:uid('test'),user_id:USER,test_type:'surgical_review',filters:{},tutor:true,timed:false,secs:90,status:'in_progress',
       qids:set.map(q=>q.id),idx:0,answers:{},strikes:{},times:{},started_at:new Date().toISOString()};
     store.saveTest(test); go({name:'test',test,showAns:false,qStart:Date.now()});
   }
