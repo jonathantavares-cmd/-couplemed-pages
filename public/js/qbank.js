@@ -3401,6 +3401,7 @@
       ],
       correct:'E',
       img:'assets/qbank/CMQ-STEP1-BCH-0051_diffusion_rate_curves.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0051_expl_diffusion_characteristics.png',
       explC:'The image above illustrates the difference between the rate of transport of solute across the cell membrane in simple diffusion (line 2) and carrier-mediated transport (line 1).\n\nThere are two types of diffusion:\n\n• Simple diffusion – molecules move through a membrane without the help of carrier proteins.\n• Facilitated diffusion – requires carrier proteins.\n\nCarrier proteins are typically transmembrane proteins that possess binding sites for the substrate they transport.  Binding is followed by movement of the substrate across the cell membrane to the intracellular space, where it is released into the cytoplasm.  Because there is a finite number of carrier proteins in the cell membrane, transporter saturation occurs with facilitated diffusion, and can be seen as a flattening of the curve (maximum diffusion speed), even as solute concentration continues to increase.  This maximum rate of transport is referred to as the transport maximum (Tm) and is similar in principle to the Vmax in standard enzyme kinetics.',
       explI:[
         {option:'A, B, C, and D', explanation:'These other factors are important for determining the rate of diffusion (ie, slope of the line), but would not explain the flattening of the curve in line 1 (which is best accounted for by saturation of a protein carrier).  In general, the rate of diffusion increases with:\n\n• Higher concentration gradients across the membrane\n• Lower molecular weight\n• Larger diffusion surface area\n• Thinner membrane thickness\n\nFor molecules that move through the membrane via simple diffusion, the degree of lipophilicity is also important; molecules with a high oil-water partition coefficient are more easily able to cross the membrane and will diffuse faster.'},
@@ -3425,6 +3426,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0052', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0052_expl_integrin_fibronectin.png',
       vignette:'A 68-year-old man comes to the office due to an enlarging mole on his right forearm.  The patient is a retired farmer and received a significant amount of sun exposure over the course of his life.  On examination, he has a black-brown macular lesion on the dorsum of his right forearm measuring approximately 1 cm in diameter with an irregular border.  Excisional biopsy is performed and histopathology reveals malignant melanoma.  Immunohistochemical analysis indicates that the malignant cells have decreased integrin expression.',
       q:'These cells are most likely to exhibit poor adhesion to which of the following components of the extracellular matrix?',
       options:[
@@ -3461,6 +3463,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0053', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0053_expl_protein_targeting.png',
       vignette:'Biologists investigating the morphologic changes associated with reversible cellular injury perform a procedure on anesthetized mice to assess the effects of transient hepatic ischemia.  During the experiment, they clamp the hepatic artery and obtain liver biopsy samples at varying intervals.  The samples are then examined by electron microscopy.  Cells that are exposed to longer ischemic periods are found to have reduced numbers of ribosomes attached to the endoplasmic reticulum.',
       q:'This structural change is most likely to impair which of the following cellular functions?',
       options:[
@@ -3497,6 +3500,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0054', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0054_expl_lysosomal_targeting.png',
       vignette:'A 9-month-old boy is brought to the clinic for a routine follow-up.  His mother is concerned because the patient is not yet able to sit up unsupported.  He was born at term and has had muscle weakness since birth.  Vital signs are normal.  The patient is alert but has diminished tone.  Examination shows a prominent forehead with a depressed nasal bridge.  Eye examination shows epicanthal folds.  Analysis of lysosomal acid hydrolases shows an increased concentration within the serum and a decreased level within the cultured skin fibroblast cells.',
       q:'This patient most likely has a defect in which of the following steps of enzyme production?',
       options:[
@@ -3535,6 +3539,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0055', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0055_expl_ion_equilibration_table.png',
       vignette:'Molecular biologists perform a series of experiments to characterize the electrophysiologic properties of human muscle cells.  The resting membrane potential for an isolated muscle cell is determined to be -70 mV.  The equilibrium potentials for important ions under normal physiologic conditions are as follows:\n\nENa = + 60 mV\nEK = - 90 mV\nECl = - 75 mV\nECa = + 125 mV\nEMg = 0 mV',
       q:'If physiologic conditions are maintained, which of the following ions would most likely flow out of the cell after opening of their respective ion channels?',
       options:[
@@ -3573,6 +3578,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0056', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0056_expl_phosphatidylinositol_system.png',
       vignette:'Molecular biologists studying signal transduction apply an agent to human cells that activates G-protein-dependent phospholipase C.',
       q:'Which of the following intracellular substances is most likely to increase immediately after exposure to this agent?',
       options:[
@@ -3626,6 +3632,7 @@
       ],
       correct:'E',
       img:'assets/qbank/CMQ-STEP1-BCH-0057_zinc_finger_motif.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0057_expl_intracellular_surface_receptors.png',
       explC:'The zinc finger structure represents the most commonly identified DNA-binding domain in humans.  Zinc finger motifs are composed of amino acid chains bound together around a zinc ion via linkages with cysteine (and sometimes histidine) residues.  This forms a stable, finger-shaped structure containing 2 antiparallel beta strands and an alpha helix.  Unique combinations of amino acids as well as the specific histidine and cysteine linkages determine DNA-binding specificity.  Many transcription factors use multiple zinc finger motifs to recognize specific genes and alter their activity.\n\nAlthough most hormones alter transcription regulation to some degree in target cells, only intracellular receptors located in the cytoplasm or nucleus can act directly as transcription factors.  These intracellular receptors typically bind lipid-soluble hormones because the ligand must diffuse across the cell membrane to reach the receptor.  Once bound to their ligand, these receptors bind directly to target DNA sequences via zinc fingers to regulate gene expression.  Examples include receptors for thyroid hormone, steroids (eg, estrogen, aldosterone, cortisol), and fat-soluble vitamins.',
       explI:[
         {option:'A, B, C, and D', explanation:'In contrast to lipid-soluble hormones, non–lipid-soluble hormones interact with transmembrane receptors found on the cell membrane.  These receptors use a signal transduction cascade involving second messengers with subsequent activation of non–receptor-associated transcription factors; they do not contain DNA-binding domains.  Examples include the G protein–coupled receptors that bind ACTH, antidiuretic hormone, and epinephrine as well as receptors with intrinsic tyrosine kinase activity (eg, insulin receptor).'},
@@ -3650,6 +3657,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0058', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0058_expl_glucocorticoid_mechanism.png',
       vignette:'A 69-year-old woman with Alzheimer disease is brought to the emergency department after getting lost while taking a walk in her neighborhood.  Her son has been unable to contact the patient for the last 2 days, and today the police found her wandering in a park.  The patient says that she drank water from a park fountain but has not had anything to eat for over 24 hours.  On physical examination, she is mildly confused with dry mucous membranes.  Laboratory studies show a blood glucose level of 92 mg/dL.',
       q:'Which of the following hormones binds to an intracellular receptor to help maintain this patient\'s laboratory findings within the normal range?',
       options:[
@@ -3690,6 +3698,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0059', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0059_expl_ubiquitin_protein_catabolism.png',
       vignette:'A 42-year-old woman comes to the clinic for follow-up evaluation.  She has a 15-year history of resting tremor, bradykinesia, and cogwheel rigidity consistent with Parkinson disease.  One of her siblings recently started having similar symptoms.  As part of a research study, genetic analysis is performed on the patient and the affected sibling.  The results show a loss-of-function mutation that leads to accumulation of misfolded proteins.',
       q:'Which of the following biochemical processes is most likely defective in this patient?',
       options:[
@@ -3730,6 +3739,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0060', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0060_expl_ras_mapk_pathway.png',
       vignette:'A 54-year-old woman is evaluated for progressive constipation, anorexia, and a 5.4-kg (12-lb) weight loss over the past several months.  Physical examination is unremarkable.  Stool guaiac test is positive, and a colonoscopy is performed.  An exophytic mass is identified in the sigmoid colon.  The patient undergoes a left hemicolectomy, and histopathology of the surgical specimen is positive for adenocarcinoma.  Molecular testing of the cancer cells reveals a mutation in the KRAS gene that results in constitutive activation of the Ras protein.',
       q:'Under normal circumstances, this protein is only active when bound to which of the following substances?',
       options:[
@@ -3768,6 +3778,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0061', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0061_expl_control_protein_expression_table.png',
       vignette:'Researchers are working to identify new targets for drug development to treat idiopathic pulmonary fibrosis.  After obtaining lung tissue samples from affected patients, they conduct a series of experiments to measure the expression and activity of various profibrotic proteins.  The results for one such protein, galectin-3, are as follows:\n\nmRNA concentration — normal\nProtein concentration — increased\nProtein activity — intact',
       q:'Which of the following processes best explains these findings?',
       options:[
@@ -3806,6 +3817,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0062', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0062_expl_calcium_homeostasis.png',
       vignette:'A 14-year-old boy is brought to the emergency department after accidental ingestion of a chicken bone that lodged in his esophagus.  Upper endoscopy is performed and the bone is successfully removed.  However, the patient is incidentally found to have mild hypercalcemia on laboratory testing.  On follow-up with his primary care provider 2 weeks later, he has no symptoms and clinical examination is unremarkable.  Further questioning reveals that several of his family members also have mild hypercalcemia.  Subsequent laboratory studies show a borderline high parathyroid hormone concentration, a very low urinary calcium level, and normal 25-hydroxyvitamin D level.',
       q:'A mutation in which of the following receptors is most likely responsible for this patient\'s laboratory abnormalities?',
       options:[
@@ -3861,6 +3873,7 @@
       ],
       correct:'D',
       img:'assets/qbank/CMQ-STEP1-BCH-0063_pancreatic_acinar_cell_em.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0063_expl_organelles_electron_microscopy.png',
       explC:'Nuclear chromosomes contain most of the DNA found in human cells.  However, mitochondria also contain their own DNA called mitochondrial DNA (mtDNA).  This DNA exists as a small circular chromosome with a slightly different genetic code than that of nuclear DNA, consistent with the endosymbiotic theory that mitochondria originated as prokaryotic cells that were later engulfed by ancient eukaryotes.\n\nOver time, most of the genes coding for mitochondrial proteins have migrated to nuclear DNA.  However, mtDNA still codes for about 13 proteins (some involved in oxidative metabolic pathways) and the ribosomal and transfer RNA needed for mitochondrial protein synthesis.  Each mitochondrion contains 1-10 copies of maternally derived mtDNA.  As a result, diseases arising from mutations in mtDNA are transmitted from the mother to all of her offspring.\n\nMitochondria can be identified on electron microscopy by their characteristic double membrane and wavy cristae.',
       explI:[
         {option:'A', explanation:'The rough endoplasmic reticulum has a stippled appearance secondary to the presence of numerous ribosomes bound to its membranes.  These ribosomes are involved in the synthesis of integral membrane proteins and proteins destined for export or packaging into granules or organelles.'},
@@ -3891,6 +3904,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0064', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0064_expl_intracellular_surface_receptors.png',
       vignette:'Researchers lyse human cells and isolate a specific messenger RNA template using gel electrophoresis.  Reverse transcription polymerase chain reaction is then used to synthesize complementary DNA (cDNA) from the RNA template.  Next, the cDNA is modified into an expression vector containing an optimized bacterial promoter, ribosomal binding site, and terminator sequence.  After insertion of the vector into appropriate bacterial hosts, the transformed bacteria are cultured in a bioreactor and produce large quantities of a protein containing a domain that binds to a specific DNA sequence.',
       q:'This protein is most likely the receptor for which of the following hormones?',
       options:[
@@ -3931,6 +3945,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0065', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0065_expl_transport_classification_table.png',
       vignette:'Biochemists working for a national endocrinology institute are investigating the specifics underlying glucose transport across adipose cell membranes.  One of their experiments shows that, in the presence of insulin, D-glucose transport across the plasma membrane of adipocytes is much faster than L-glucose transport.',
       q:'Which of the following transport processes best describes the mechanism for glucose entry into these cells?',
       options:[
