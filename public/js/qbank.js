@@ -5055,6 +5055,120 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0028', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'A cell biologist is studying the role of ribonucleoproteins in normal cellular function.  He prepares a cell extract using a specific cell type obtained from a 73-year-old man.  Ribonucleoproteins are separated and purified from the cell extract for structural and functional analyses.  These cells are found to express higher amounts of a particular protein in comparison to other cell types.  This protein has reverse transcriptase activity that functions to add TTAGGG repeats to the 3\' end of chromosomes.',
+      q:'Which of the following cell types was most likely studied in this experiment?',
+      options:[
+        {label:'A', text:'Epidermal basal cells'},
+        {label:'B', text:'Erythrocytes'},
+        {label:'C', text:'Myocardial cells'},
+        {label:'D', text:'Neurons'},
+        {label:'E', text:'Pancreatic β cells'},
+      ],
+      correct:'A',
+      explC:'Telomerase is a ribonucleoprotein that adds TTAGGG repeats to the 3\' end of chromosomes (telomere region).  It is similar to other reverse transcriptase enzymes in that it synthesizes single-stranded DNA using single-stranded RNA as a template (RNA-dependent DNA polymerase).  Telomerase is composed of 2 main subunits, the telomerase reverse transcriptase (TERT) subunit and the telomerase RNA component (TERC).  TERC is a "built-in" RNA template that is repeatedly read by the TERT subunit to add TTAGGG DNA sequence repeats to telomeres.\n\nStem cells have very long telomeres due to their high telomerase activity, allowing them to proliferate indefinitely in a controlled manner.  In contrast, most terminally differentiated adult somatic cells (eg, myocardial cells, neurons, pancreatic β cells) have short telomeres as they do not express telomerase and their telomeres shorten with every cell division (Choices C, D, and E).  Critical shortening in telomere length is thought to be a signal for programmed cell death.  In fact, syndromes of premature aging (eg, Bloom syndrome) are associated with shortened telomeres.  In contrast, cancer cells upregulate their telomerase activity, preventing cell death by maintaining their telomere length.\n\nStem cells are undifferentiated cells with the potential to differentiate into other cell types and can be classified as either embryonic or adult stem cells.  Although embryonic stem cells are present in the very early stages of embryogenesis and can give rise to every cell type in adult humans (pluripotent), adult stem cells are present in most tissues and are generally responsible for replacing dead cells.  For example, the epidermis is continuously replaced by stem cells present in the basal cell layers.  Bone marrow stem cells similarly replace peripheral red and white blood cells.',
+      explI:[
+        {option:'B', explanation:'Erythrocytes have no nuclei and therefore have no potential to divide.'},
+      ],
+      objective:'Critical shortening in telomere length can signal for programmed cell death.  Telomerase is a reverse transcriptase (RNA-dependent DNA polymerase) that lengthens telomeres by adding TTAGGG repeats to the 3\' end of chromosomes.  Stem cells have long telomeres due to high telomerase activity, allowing them to proliferate indefinitely in a controlled manner.',
+      peer:{A:66, B:8, C:5, D:13, E:6},
+      ptTranslation:{
+        vignette:'Um biólogo celular está estudando o papel das ribonucleoproteínas na função celular normal.  Ele prepara um extrato celular usando um tipo celular específico obtido de um homem de 73 anos.  Ribonucleoproteínas são separadas e purificadas do extrato celular para análises estruturais e funcionais.  Essas células apresentam quantidades mais altas de uma proteína específica em comparação com outros tipos celulares.  Essa proteína tem atividade de transcriptase reversa que funciona adicionando repetições TTAGGG à extremidade 3\' dos cromossomos.',
+        q:'Qual dos seguintes tipos celulares foi mais provavelmente estudado neste experimento?',
+        objective:'O encurtamento crítico do comprimento telomérico pode sinalizar morte celular programada.  A telomerase é uma transcriptase reversa (DNA polimerase RNA-dependente) que alonga os telômeros adicionando repetições TTAGGG à extremidade 3\' dos cromossomos.  Células-tronco têm telômeros longos devido à alta atividade de telomerase, permitindo que proliferem indefinidamente de forma controlada.',
+        options:[
+          {label:'A', text:'Células basais epidérmicas'},
+          {label:'B', text:'Eritrócitos'},
+          {label:'C', text:'Células miocárdicas'},
+          {label:'D', text:'Neurônios'},
+          {label:'E', text:'Células β pancreáticas'},
+        ],
+        explC:'A telomerase é uma ribonucleoproteína que adiciona repetições TTAGGG à extremidade 3\' dos cromossomos (região do telômero).  É semelhante a outras enzimas transcriptase reversa, pois sintetiza DNA de fita simples usando RNA de fita simples como molde (DNA polimerase RNA-dependente).  A telomerase é composta por 2 subunidades principais, a subunidade transcriptase reversa da telomerase (TERT) e o componente de RNA da telomerase (TERC).  O TERC é um molde de RNA "embutido" que é lido repetidamente pela subunidade TERT para adicionar repetições da sequência de DNA TTAGGG aos telômeros.\n\nCélulas-tronco têm telômeros muito longos devido à sua alta atividade de telomerase, permitindo que proliferem indefinidamente de forma controlada.  Em contraste, a maioria das células somáticas adultas terminalmente diferenciadas (ex.: células miocárdicas, neurônios, células β pancreáticas) tem telômeros curtos, pois não expressam telomerase e seus telômeros encurtam a cada divisão celular (Alternativas C, D e E).  Acredita-se que o encurtamento crítico do comprimento telomérico seja um sinal para morte celular programada.  De fato, síndromes de envelhecimento precoce (ex.: síndrome de Bloom) estão associadas a telômeros encurtados.  Em contraste, células cancerígenas aumentam sua atividade de telomerase, prevenindo a morte celular ao manter o comprimento telomérico.\n\nCélulas-tronco são células indiferenciadas com potencial de se diferenciar em outros tipos celulares e podem ser classificadas como embrionárias ou adultas.  Embora células-tronco embrionárias estejam presentes nos estágios muito iniciais da embriogênese e possam dar origem a todos os tipos celulares em humanos adultos (pluripotentes), células-tronco adultas estão presentes na maioria dos tecidos e geralmente são responsáveis por substituir células mortas.  Por exemplo, a epiderme é continuamente substituída por células-tronco presentes nas camadas basais.  Células-tronco da medula óssea, de forma semelhante, substituem células vermelhas e brancas periféricas do sangue.',
+        explI:[
+          {option:'B', explanation:'Eritrócitos não têm núcleo e, portanto, não têm potencial de se dividir.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0029', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'A 23-year-old previously healthy man comes to the office after noticing a painless, hard mass in the left testis.  Scrotal ultrasound shows a solid testicular mass, and CT scan of the abdomen and pelvis shows left paraaortic lymphadenopathy.  Left orchidectomy is performed and postoperative histopathology reveals seminoma of the testis.  External beam radiotherapy is administered to the paraaortic metastatic area.  Several weeks later, the retroperitoneal nodes are observed to have markedly decreased in size.',
+      q:'Which of the following is the most likely effect of the therapy used on the metastatic cells in this patient?',
+      options:[
+        {label:'A', text:'Demethylation of DNA'},
+        {label:'B', text:'DNA cross-linking'},
+        {label:'C', text:'Double-strand DNA breaks'},
+        {label:'D', text:'Nucleotide mismatches'},
+        {label:'E', text:'Pyrimidine dimers'},
+      ],
+      correct:'C',
+      explC:'Therapeutic ionizing radiation (eg, gamma rays, x-rays), commonly used to treat or palliate several types of cancer, can cause cell death through 2 major mechanisms:\n\n- DNA double-strand breakage: Breakage of both strands is generally required, as single strand breaks are readily repaired by polymerases.\n- Free radical formation: Reactive oxygen species are formed by ionization of water; oxygen free radicals are then able to cause cellular and DNA damage.\n\nThe effect of radiation is most pronounced in malignant cells as they are rapidly dividing and consequently less able to repair DNA damage.  Epithelial surfaces (eg, bowel mucosa, skin) are also severely affected because they are rapidly dividing.\n\nA characteristic cell death curve of exposure to radiation shows a nearly flat line on initial exposure, followed by a steep increase in cell death as the radiation dose increases.  The steep portion is due to a sharp increase in double-stranded DNA strand fractures and oxygen free radicals.',
+      explI:[
+        {option:'A', explanation:'DNA methylation (only cytosine and adenine) typically inhibits gene transcription.  Demethylation or hypomethylation of oncogenes (and hypermethylation of tumor suppressor genes) contributes to the development of some cancers.'},
+        {option:'B', explanation:'DNA cross-linking can be induced by numerous chemical and physical agents, notably alkylating agents used in cancer treatment.'},
+        {option:'D', explanation:'During DNA replication, incorrect base placement can occur, but enzymes scan the newly synthesized DNA strands for mismatched bases, which are then excised and replaced.  This process is guided by the presence of adenine methylation (recognized by the enzymes) in the template strand, as the daughter strand remains unmethylated for some time following DNA replication.'},
+        {option:'E', explanation:'DNA damage from exposure to ultraviolet radiation, a non-ionizing radiation, leads to the formation of pyrimidine-pyrimidine dimers (thymine dimers).  Ionizing radiation has higher energy (enough to remove an electron), leading to more cell damage.'},
+      ],
+      objective:'Exposure to ionizing radiation, including therapeutic and palliative radiation therapy, induces DNA damage through DNA double-strand fractures and the formation of oxygen free radicals.',
+      peer:{A:5, B:10, C:64, D:2, E:16},
+      ptTranslation:{
+        vignette:'Um homem de 23 anos, previamente saudável, vem ao consultório após notar uma massa endurecida e indolor no testículo esquerdo.  O ultrassom escrotal mostra uma massa testicular sólida, e a TC de abdome e pelve mostra linfadenopatia paraórtica esquerda.  É realizada orquiectomia esquerda, e a histopatologia pós-operatória revela seminoma do testículo.  Radioterapia de feixe externo é administrada na área metastática paraórtica.  Várias semanas depois, observa-se que os linfonodos retroperitoneais diminuíram marcadamente de tamanho.',
+        q:'Qual das seguintes é o efeito mais provável da terapia usada sobre as células metastáticas deste paciente?',
+        objective:'A exposição à radiação ionizante, incluindo radioterapia terapêutica e paliativa, induz dano ao DNA por meio de fraturas de fita dupla do DNA e formação de radicais livres de oxigênio.',
+        options:[
+          {label:'A', text:'Desmetilação do DNA'},
+          {label:'B', text:'Ligação cruzada do DNA (cross-linking)'},
+          {label:'C', text:'Quebras de DNA de fita dupla'},
+          {label:'D', text:'Incompatibilidades de nucleotídeos'},
+          {label:'E', text:'Dímeros de pirimidina'},
+        ],
+        explC:'A radiação ionizante terapêutica (ex.: raios gama, raios X), comumente usada para tratar ou paliar vários tipos de câncer, pode causar morte celular por meio de 2 mecanismos principais:\n\n- Quebra de fita dupla do DNA: geralmente é necessária a quebra de ambas as fitas, já que quebras de fita simples são facilmente reparadas por polimerases.\n- Formação de radicais livres: espécies reativas de oxigênio se formam pela ionização da água; os radicais livres de oxigênio conseguem então causar dano celular e ao DNA.\n\nO efeito da radiação é mais pronunciado em células malignas, pois elas se dividem rapidamente e, consequentemente, são menos capazes de reparar o dano ao DNA.  Superfícies epiteliais (ex.: mucosa intestinal, pele) também são severamente afetadas por se dividirem rapidamente.\n\nUma curva característica de morte celular por exposição à radiação mostra uma linha quase plana na exposição inicial, seguida por um aumento acentuado na morte celular à medida que a dose de radiação aumenta.  A parte acentuada se deve a um aumento agudo nas fraturas de fita dupla do DNA e nos radicais livres de oxigênio.',
+        explI:[
+          {option:'A', explanation:'A metilação do DNA (apenas citosina e adenina) tipicamente inibe a transcrição gênica.  A desmetilação ou hipometilação de oncogenes (e a hipermetilação de genes supressores de tumor) contribui para o desenvolvimento de alguns cânceres.'},
+          {option:'B', explanation:'A ligação cruzada (cross-linking) do DNA pode ser induzida por numerosos agentes químicos e físicos, notavelmente agentes alquilantes usados no tratamento do câncer.'},
+          {option:'D', explanation:'Durante a replicação do DNA, pode ocorrer colocação incorreta de bases, mas enzimas varrem as fitas de DNA recém-sintetizadas em busca de bases incompatíveis, que são então excisadas e substituídas.  Esse processo é guiado pela presença de metilação de adenina (reconhecida pelas enzimas) na fita molde, já que a fita-filha permanece não metilada por algum tempo após a replicação do DNA.'},
+          {option:'E', explanation:'O dano ao DNA por exposição à radiação ultravioleta, uma radiação não ionizante, leva à formação de dímeros pirimidina-pirimidina (dímeros de timina).  A radiação ionizante tem energia mais alta (suficiente para remover um elétron), levando a mais dano celular.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0030', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'easy',
+      vignette:"A 24-year-old woman comes to the office for evaluation of a skin lesion.  Physical examination shows a 5-mm, brown, oval macule on her anterior thigh.  Biopsy of the lesion shows normal-appearing nevus cells clustered in the epidermis, consistent with a benign acquired melanocytic nevus.  During histologic analysis, the patient's epithelial cells are found to each contain a condensed body composed of heavily methylated DNA at the periphery of the nucleus.",
+      q:'This region of DNA is most likely associated with which of the following genetic findings?',
+      options:[
+        {label:'A', text:'Extensive double-strand DNA break repair'},
+        {label:'B', text:'Histone acetylation'},
+        {label:'C', text:'Impaired mismatch repair'},
+        {label:'D', text:'Low transcription activity'},
+        {label:'E', text:'Reduced positive supercoiling'},
+      ],
+      correct:'D',
+      explC:"In genotypic females (46,XX), one X chromosome is normally randomly deactivated in each embryonic cell during early development (ie, lyonization).  This process converts the inactive X chromosome into condensed heterochromatin at the periphery of the nucleus (Barr body).  Heterochromatin consists of heavily methylated DNA bases (eg, cytosine converted to methylcytosine) and deacetylated histones, which cause it to have a low level of transcriptional activity.\n\nX-inactivation (ie, lyonization) is maintained across cell division (ie, all of a cell's descendants have the same X chromosome inactivated), resulting in clusters of cells throughout the body that express either the maternal or paternal X chromosome.  This mosaic pattern of X-chromosome expression generally prevents X-linked recessive conditions from manifesting in female carriers.  However, in rare cases, skewed lyonization (ie, uneven inactivation of maternal or paternal X chromosome due to chance alone) may result in women developing an X-linked recessive condition (eg, classic hemophilia).\n\nIn addition, because a small proportion of genes remain transcriptionally active on the inactivated X chromosome, inheritance of an abnormal number of X chromosomes can cause abnormalities due to a gene-dosage effect, as seen with Turner (45,X) and Klinefelter (47,XXY) syndromes.",
+      explI:[
+        {option:'A', explanation:'Double-strand DNA breakage can occur following exposure to ionizing radiation.  Compared to single-strand breaks, double-strand breaks are more likely to result in faulty repair, leading to mutations, malignancy, or cell death.'},
+        {option:'B', explanation:'Histone acetylation facilitates active transcription, as seen with euchromatin.  In contrast, histone deacetylation increases interaction between histones and DNA and contributes to the formation of condensed chromatin (ie, heterochromatin) that is less transcriptionally active.'},
+        {option:'C', explanation:'Repair of mismatched bases occurs throughout the genome during DNA replication.  Impaired mismatch repair is associated with hereditary nonpolyposis colorectal cancer.'},
+        {option:'E', explanation:'DNA supercoiling refers to the amount of twisting in a double-stranded molecule; increased positive supercoiling means the DNA helix becomes more tightly wound, which allows for more compact DNA packaging but also limits access by transcriptional machinery.  Inactive X chromosomes are formed from condensed heterochromatin with a positively supercoiled structure compared to transcriptionally active euchromatin.'},
+      ],
+      objective:'X-chromosome inactivation occurs in genotypic females and results in conversion of the chromosomal DNA into condensed heterochromatin (ie, a Barr body).  Heterochromatin is located at the periphery of the nucleus and composed of heavily methylated DNA and deacetylated histones, causing it to have a low level of transcriptional activity.',
+      peer:{A:6, B:11, C:4, D:75, E:2},
+      ptTranslation:{
+        vignette:'Uma mulher de 24 anos vem ao consultório para avaliação de uma lesão de pele.  O exame físico mostra uma mácula oval, marrom, de 5 mm, na face anterior da coxa.  A biópsia da lesão mostra células névicas de aspecto normal, agrupadas na epiderme, compatível com nevo melanocítico adquirido benigno.  Durante a análise histológica, as células epiteliais da paciente são encontradas contendo, cada uma, um corpúsculo condensado composto por DNA fortemente metilado na periferia do núcleo.',
+        q:'Esta região de DNA está mais provavelmente associada a qual dos seguintes achados genéticos?',
+        objective:'A inativação do cromossomo X ocorre em mulheres geneticamente femininas e resulta na conversão do DNA cromossômico em heterocromatina condensada (isto é, um corpúsculo de Barr).  A heterocromatina está localizada na periferia do núcleo e é composta por DNA fortemente metilado e histonas desacetiladas, o que lhe confere baixo nível de atividade transcricional.',
+        options:[
+          {label:'A', text:'Reparo extenso de quebras de DNA de fita dupla'},
+          {label:'B', text:'Acetilação de histonas'},
+          {label:'C', text:'Reparo de incompatibilidade prejudicado'},
+          {label:'D', text:'Baixa atividade transcricional'},
+          {label:'E', text:'Superenrolamento positivo reduzido'},
+        ],
+        explC:'Em mulheres geneticamente femininas (46,XX), um cromossomo X normalmente é desativado aleatoriamente em cada célula embrionária durante o desenvolvimento inicial (isto é, lionização).  Esse processo converte o cromossomo X inativo em heterocromatina condensada na periferia do núcleo (corpúsculo de Barr).  A heterocromatina consiste em bases de DNA fortemente metiladas (ex.: citosina convertida em metilcitosina) e histonas desacetiladas, o que lhe confere baixo nível de atividade transcricional.\n\nA inativação do X (isto é, lionização) é mantida ao longo da divisão celular (isto é, todos os descendentes de uma célula têm o mesmo cromossomo X inativado), resultando em grupos de células por todo o corpo que expressam o cromossomo X materno ou paterno.  Esse padrão em mosaico de expressão do cromossomo X geralmente impede que condições recessivas ligadas ao X se manifestem em mulheres portadoras.  Entretanto, em casos raros, a lionização enviesada (isto é, inativação desigual do cromossomo X materno ou paterno, por puro acaso) pode resultar em mulheres desenvolvendo uma condição recessiva ligada ao X (ex.: hemofilia clássica).\n\nAlém disso, como uma pequena proporção de genes permanece transcricionalmente ativa no cromossomo X inativado, a herança de um número anormal de cromossomos X pode causar anormalidades devido a um efeito de dosagem gênica, como visto nas síndromes de Turner (45,X) e Klinefelter (47,XXY).',
+        explI:[
+          {option:'A', explanation:'A quebra de DNA de fita dupla pode ocorrer após exposição à radiação ionizante.  Comparadas às quebras de fita simples, as quebras de fita dupla têm mais chance de resultar em reparo defeituoso, levando a mutações, malignidade ou morte celular.'},
+          {option:'B', explanation:'A acetilação de histonas facilita a transcrição ativa, como visto na eucromatina.  Em contraste, a desacetilação de histonas aumenta a interação entre histonas e DNA e contribui para a formação de cromatina condensada (isto é, heterocromatina), que é menos transcricionalmente ativa.'},
+          {option:'C', explanation:'O reparo de bases incompatíveis ocorre por todo o genoma durante a replicação do DNA.  O reparo de incompatibilidade prejudicado está associado ao câncer colorretal hereditário sem polipose.'},
+          {option:'E', explanation:'O superenrolamento do DNA se refere à quantidade de torção em uma molécula de fita dupla; o aumento do superenrolamento positivo significa que a hélice de DNA fica mais compactamente enrolada, o que permite empacotamento de DNA mais compacto, mas também limita o acesso pela maquinaria transcricional.  Cromossomos X inativos são formados por heterocromatina condensada com estrutura positivamente superenrolada, em comparação com a eucromatina transcricionalmente ativa.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
