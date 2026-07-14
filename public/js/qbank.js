@@ -5530,6 +5530,7 @@
     },
     // BATCH GEN 04 — Genetics: Gene expression and regulation
     { id:'CMQ-STEP1-GEN-0040', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0040_expl_alternative_splicing.png',
       vignette:'A researcher is studying the Fas receptor (FasR), a protein widely expressed on cell surfaces.  The signaling cascade of programmed cell death is initiated when FasR binds to its ligand (FasL), which is expressed on cytotoxic T cells.  In an experiment, cancer cells that escaped elimination by the immune system were found to contain soluble Fas proteins that did not promote apoptosis.  The soluble Fas proteins were shorter and lacked the transmembrane domain.  DNA analysis of these cells revealed no FAS gene mutations.',
       q:'Which of the following is the most likely explanation for the formation of altered Fas proteins in these cancer cells?',
       options:[
@@ -5570,6 +5571,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0041', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0041_expl_genetic_anticipation.png',
       vignette:"A 1-day-old boy is evaluated in the neonatal intensive care unit due to severe hypotonia, poor feeding, and respiratory distress.  The patient was born to a 30-year-old woman via vaginal delivery; the pregnancy was complicated by polyhydramnios.  The neonate's mother has a history of recurrent muscle cramps, mostly in her hands; her face is long and narrow and lacks expression.  She is otherwise healthy.  The patient's length, weight, and head circumference are at the 30th percentile.  Examination shows profound hypotonia, truncal and appendicular weakness, and marked hyporeflexia.  Flexion deformities and clubfoot are present bilaterally.",
       q:'Assuming that the patient and his mother have the same inheritable condition, which of the following mechanisms best explains their different phenotypic presentations?',
       options:[
@@ -5610,6 +5612,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0042', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      img:'assets/qbank/CMQ-STEP1-GEN-0042_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0042_expl_eukaryotic_gene_organization.png',
       vignette:'A 6-year-old girl with chronic anemia requiring repeated blood transfusions is undergoing genetic testing.  The patient\'s mother and older sibling have a history of mild anemia.  Her peripheral blood smear shows hypochromic, microcytic red blood cells, and hemoglobin electrophoresis reveals a predominance of hemoglobins F and A2.  Sequencing of the β-globin gene is performed using the patient\'s erythroblast DNA.  A schematic representation of the gene and its transcribed RNA is shown in the image below.',
       q:'The base sequence indicated by the bold red arrow is responsible for which of the following functions?',
       img:'assets/qbank/CMQ-STEP1-GEN-0042_beta_globin_gene_schematic.png',
@@ -5651,6 +5655,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0043', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0043_expl_eukaryotic_dna_methylation.png',
       vignette:'A pharmaceutical researcher is evaluating a nuclear enzyme inhibitor to treat an inherited disorder.  During an experiment, he extracts and purifies nuclear enzymes from skin cells of an affected patient.  One of these enzymes is found to catalyze the methylation of cytosine residues in DNA using S-adenosyl-methionine (SAM) as the methyl donor.',
       q:'This enzyme most likely plays a crucial role in which of the following genetic processes?',
       options:[
@@ -5689,6 +5694,8 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0044', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'easy',
+      img:'assets/qbank/CMQ-STEP1-GEN-0044_desc.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0044_expl_northern_blot_annotated.png',
       vignette:'A researcher is studying the expression pattern of a particular gene using the Northern blot technique.  Messenger RNA is isolated from several tissues, subjected to electrophoresis, blotted, and probed with radiolabeled DNA containing sequences from exon 4 of the target gene.  An x-ray film is then placed over the blotting membrane, with the results of the experiment shown below.',
       q:'The variation in transcript migration distances between the different tissues is most likely due to which of the following?',
       img:'assets/qbank/CMQ-STEP1-GEN-0044_northern_blot_alt_splicing.png',
@@ -5728,6 +5735,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0045', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0045_expl_transcriptional_enhancers.png',
       vignette:'A 12-year-old boy is evaluated in the clinic due to excessive bleeding following a tooth extraction.  The patient also has experienced large bruises after only minor injuries but has had no major bleeding episodes.  His maternal uncle died from an intracranial hemorrhage.  Laboratory testing shows decreased coagulation factor VIII activity levels.  It is suspected that this patient has decreased factor VIII transcription by RNA polymerase II due to a deletion affecting a gene enhancer sequence.',
       q:'Which of the following is the most accurate statement regarding this sequence?',
       options:[
@@ -5758,6 +5766,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0046', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0046_expl_homeobox_hox_genes.png',
       vignette:'A pharmaceutical researcher performs preclinical testing on a novel chemotherapeutic drug.  When rat embryos are exposed to this drug during an early stage of organogenesis, they develop severe skeletal malformations.  Further genetic analysis reveals that the drug causes mutations in numerous homeobox genes containing highly conserved 180 base pair DNA sequences.',
       q:'The genes directly affected by this drug most likely code for which of the following proteins?',
       options:[
