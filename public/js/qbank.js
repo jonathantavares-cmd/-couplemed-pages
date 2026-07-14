@@ -4821,6 +4821,132 @@
         explI:[]
       }
     },
+    // BATCH GEN 03 — Genetics: DNA structure, replication, and repair
+    { id:'CMQ-STEP1-GEN-0022', system:'genetics', discipline:'biochemistry', category:'genetics::dna_structure_replication_repair', difficulty:'hard',
+      vignette:'A 34-year-old woman with a history of recurrent urinary tract infections comes to the office with dysuria and increased urinary frequency.  Her urine culture grows colonies of Gram-negative bacteria.  The bacteria are isolated and placed in a growth-enhancing nutrient solution, where they undergo rapid cellular division.  As they are actively dividing, the bacterial cells are lysed and their DNA is extracted and purified.  Analysis of the partially replicated DNA fragments reveals the presence of uracil.',
+      q:'Which of the following enzymes is most likely responsible for integration of this nucleotide into the DNA fragments?',
+      options:[
+        {label:'A', text:'DNA ligase'},
+        {label:'B', text:'DNA polymerase I'},
+        {label:'C', text:'DNA polymerase III'},
+        {label:'D', text:'Gyrase'},
+        {label:'E', text:'Helicase'},
+        {label:'F', text:'Primase'},
+      ],
+      correct:'F',
+      explC:'The partially replicated DNA fragments of this bacteria contain uracil, a nucleotide base normally found only in RNA.  The only enzyme involved in DNA synthesis that catalyzes the formation of RNA strands is primase, a DNA-dependent RNA polymerase.\n\nDuring DNA replication, primase is responsible for synthesizing a short RNA primer (about 10 nucleotides long) using the separated strands of DNA at the replication fork as templates.  Primase is a crucial enzyme as DNA polymerase cannot initiate DNA synthesis without a preceding short nucleic acid sequence to function as a primer.',
+      explI:[
+        {option:'A', explanation:'DNA ligase repairs single-strand breaks during DNA replication and repair.'},
+        {option:'B and C', explanation:"DNA polymerase III is the main replicative polymerase that extends the leading strand and synthesizes Okazaki fragments on the lagging strand, whereas DNA polymerase I uses its 5'→3' exonuclease activity to remove RNA primers and then replace them with DNA.  Both DNA polymerases also have 3'→5' exonuclease activity (\"proofreading\"), which fixes mismatched nucleotides in the newly formed daughter strands.  However, DNA polymerases do not synthesize RNA and therefore are not responsible for creating nucleic acid fragments that contain uracil."},
+        {option:'D and E', explanation:'Helicase unwinds DNA at the replication fork.  This process results in supercoiling and straining of DNA, which is relieved by the compensatory action of gyrase (type II topoisomerase).  Neither enzyme mediates nucleotide placement.'},
+      ],
+      objective:'Primase is a DNA-dependent RNA polymerase that incorporates short RNA primers into replicating DNA.  A recently replicated DNA fragment containing uracil is most likely the result of a retained RNA primer because DNA (synthesized by DNA polymerases) does not normally contain uracil.',
+      peer:{A:7, B:23, C:27, D:3, E:1, F:35},
+      ptTranslation:{
+        vignette:'Uma mulher de 34 anos com histórico de infecções urinárias recorrentes vem ao consultório com disúria e aumento da frequência urinária.  A urocultura mostra colônias de bactérias Gram-negativas.  As bactérias são isoladas e colocadas em uma solução nutritiva que favorece o crescimento, onde sofrem divisão celular rápida.  Enquanto se dividem ativamente, as células bacterianas são lisadas e seu DNA é extraído e purificado.  A análise dos fragmentos de DNA parcialmente replicados revela a presença de uracila.',
+        q:'Qual das seguintes enzimas é mais provavelmente responsável pela integração deste nucleotídeo nos fragmentos de DNA?',
+        objective:'A primase é uma RNA polimerase DNA-dependente que incorpora pequenos primers de RNA no DNA em replicação.  Um fragmento de DNA recentemente replicado contendo uracila é mais provavelmente resultado de um primer de RNA retido, pois o DNA (sintetizado pelas DNA polimerases) não contém uracila normalmente.',
+        options:[
+          {label:'A', text:'DNA ligase'},
+          {label:'B', text:'DNA polimerase I'},
+          {label:'C', text:'DNA polimerase III'},
+          {label:'D', text:'Girase'},
+          {label:'E', text:'Helicase'},
+          {label:'F', text:'Primase'},
+        ],
+        explC:'Os fragmentos de DNA parcialmente replicados desta bactéria contêm uracila, uma base nucleotídica normalmente encontrada apenas no RNA.  A única enzima envolvida na síntese de DNA que catalisa a formação de fitas de RNA é a primase, uma RNA polimerase DNA-dependente.\n\nDurante a replicação do DNA, a primase é responsável por sintetizar um pequeno primer de RNA (cerca de 10 nucleotídeos) usando as fitas separadas de DNA na forquilha de replicação como molde.  A primase é uma enzima crucial, pois a DNA polimerase não consegue iniciar a síntese de DNA sem uma sequência de ácido nucleico curta precedente que sirva de primer.',
+        explI:[
+          {option:'A', explanation:'A DNA ligase repara quebras de fita simples durante a replicação e o reparo do DNA.'},
+          {option:'B and C', explanation:'A DNA polimerase III é a principal polimerase replicativa, que estende a fita líder e sintetiza os fragmentos de Okazaki na fita tardia, enquanto a DNA polimerase I usa sua atividade exonucleásica 5\'→3\' para remover os primers de RNA e depois substituí-los por DNA.  Ambas as DNA polimerases também têm atividade exonucleásica 3\'→5\' ("revisão"), que corrige nucleotídeos incompatíveis nas fitas-filhas recém-formadas.  Entretanto, as DNA polimerases não sintetizam RNA e, portanto, não são responsáveis por criar fragmentos de ácido nucleico que contenham uracila.'},
+          {option:'D and E', explanation:'A helicase desenrola o DNA na forquilha de replicação.  Esse processo resulta em superenrolamento e tensão do DNA, que é aliviado pela ação compensatória da girase (topoisomerase tipo II).  Nenhuma das duas enzimas medeia a inserção de nucleotídeos.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0023', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'easy',
+      vignette:'A 46-year-old woman is evaluated for a 2-month history of progressive abdominal distension, vague abdominal discomfort, and a bloating sensation.  Physical examination shows moderate ascites.  Laboratory evaluation reveals markedly elevated CA-125 and imaging studies show an ovarian mass.  Molecular analysis of the malignant cells in ascitic fluid is performed, and these cells are found to have high telomerase activity.',
+      q:'This enzyme promotes cell growth and malignancy by directly causing which of the following actions?',
+      options:[
+        {label:'A', text:'Enhancing tissue invasion and metastasis'},
+        {label:'B', text:'Increasing transcription factor expression'},
+        {label:'C', text:'Preventing chromosomal shortening'},
+        {label:'D', text:'Promoting G1/S progression'},
+        {label:'E', text:'Sustaining angiogenesis'},
+      ],
+      correct:'C',
+      explC:'Telomeres lie at the end of linear eukaryotic chromosomes and have tandem repeat DNA sequences, usually GT-rich repeats (eg, TTAGGG).  They protect chromosomes from being recognized as damaged DNA, help to regulate gene expression, and participate in controlling cell replication and entry into senescence.  As DNA polymerase cannot fully replicate the 3\' end of the lagging chromosomal strands, cell division and aging lead to progressive DNA loss and telomere shortening at chromosomal ends.  Once cells reach their maximum limit for proliferation (~50-70 divisions), the shortened telomeres trigger permanent growth arrest.  Cell checkpoint genes (eg, TP53) become activated, and the critically short and dysfunctional telomeres lead to programmed cell death (apoptosis).\n\nTelomerase is an RNA-dependent DNA polymerase that consists of 2 molecules, human telomerase reverse transcriptase (TERT) and telomerase RNA (TR or TERC).  Telomerase synthesizes telomeric DNA sequences that can replace the lost chromosomal ends of the telomeres.  As a result, the telomere can divide without reaching its limit.  Normal human cells have absent telomerase activity except in cells that need to divide regularly (eg, germ cells, certain adult stem cells).  However, >90% of cancer cells contain increased telomerase activity, allowing for continued proliferation without apoptosis.',
+      explI:[
+        {option:'A', explanation:'Matrix metalloproteinases are proteases that degrade extracellular matrix proteins.  They also modulate cell signaling by cleaving cell surface receptors, releasing apoptotic ligands, and inactivating chemokines/cytokines.  These enzymes generally increase cell proliferation and allow for tissue invasion and metastasis.'},
+        {option:'B', explanation:'Proto-oncogenes often encode proteins involved in signal transduction in response to growth factors.  Mutations in these genes can result in constitutive signal activation and increased transcription factor expression, stimulating cellular proliferation.'},
+        {option:'D', explanation:'Cyclin D is a protein that is synthesized during the G1 phase of the cell cycle and helps promote the G1/S phase transition.  Increased expression of cyclin D can result in unchecked cellular proliferation.'},
+        {option:'E', explanation:'Vascular endothelial growth factor (VEGF) is a signal protein that helps create new blood vessels after injury.  Cancer cells can overexpress VEGF to promote angiogenesis and allow for increased growth and metastasis.'},
+      ],
+      objective:'Telomerase is an RNA-dependent DNA polymerase that synthesizes telomeric DNA sequences that can replace the lost chromosomal ends of the telomeres.  Cancer cells typically contain increased telomerase activity to allow for continued proliferation.',
+      peer:{A:1, B:3, C:91, D:4, E:0},
+      labs:[
+        ['CA-125 (serum)', '0–35 U/mL', '0–35 U/mL',
+         'Markedly elevated in epithelial ovarian cancer, though also nonspecifically elevated in endometriosis, fibroids, and other conditions',
+         'Marcadamente elevado no câncer epitelial de ovário, embora também se eleve de forma inespecífica na endometriose, em miomas e outras condições'],
+      ],
+      ptTranslation:{
+        vignette:'Uma mulher de 46 anos é avaliada por um histórico de 2 meses de distensão abdominal progressiva, desconforto abdominal vago e sensação de inchaço.  O exame físico mostra ascite moderada.  A avaliação laboratorial revela CA-125 marcadamente elevado, e exames de imagem mostram uma massa ovariana.  É realizada análise molecular das células malignas no líquido ascítico, e essas células são encontradas com alta atividade de telomerase.',
+        q:'Esta enzima promove crescimento celular e malignidade ao causar diretamente qual das seguintes ações?',
+        objective:'A telomerase é uma DNA polimerase RNA-dependente que sintetiza sequências de DNA telomérico, capazes de substituir as extremidades cromossômicas perdidas dos telômeros.  As células cancerígenas tipicamente contêm atividade aumentada de telomerase, permitindo proliferação contínua.',
+        options:[
+          {label:'A', text:'Aumentar a invasão tecidual e metástase'},
+          {label:'B', text:'Aumentar a expressão de fatores de transcrição'},
+          {label:'C', text:'Prevenir o encurtamento cromossômico'},
+          {label:'D', text:'Promover a progressão G1/S'},
+          {label:'E', text:'Sustentar a angiogênese'},
+        ],
+        explC:'Os telômeros ficam nas extremidades dos cromossomos eucarióticos lineares e têm sequências de DNA repetidas em tandem, geralmente repetições ricas em GT (ex.: TTAGGG).  Eles protegem os cromossomos de serem reconhecidos como DNA danificado, ajudam a regular a expressão gênica e participam do controle da replicação celular e da entrada em senescência.  Como a DNA polimerase não consegue replicar completamente a extremidade 3\' das fitas cromossômicas tardias, a divisão celular e o envelhecimento levam à perda progressiva de DNA e ao encurtamento telomérico nas extremidades cromossômicas.  Quando as células atingem seu limite máximo de proliferação (~50-70 divisões), os telômeros encurtados desencadeiam parada permanente do crescimento.  Genes de checkpoint celular (ex.: TP53) são ativados, e os telômeros criticamente curtos e disfuncionais levam à morte celular programada (apoptose).\n\nA telomerase é uma DNA polimerase RNA-dependente composta por 2 moléculas, a transcriptase reversa da telomerase humana (TERT) e o RNA da telomerase (TR ou TERC).  A telomerase sintetiza sequências de DNA telomérico que podem substituir as extremidades cromossômicas perdidas dos telômeros.  Como resultado, o telômero pode se dividir sem atingir seu limite.  Células humanas normais têm atividade de telomerase ausente, exceto em células que precisam se dividir regularmente (ex.: células germinativas, certas células-tronco adultas).  Entretanto, >90% das células cancerígenas contêm atividade aumentada de telomerase, permitindo proliferação contínua sem apoptose.',
+        explI:[
+          {option:'A', explanation:'As metaloproteinases de matriz são proteases que degradam proteínas da matriz extracelular.  Também modulam a sinalização celular ao clivar receptores de superfície celular, liberar ligantes apoptóticos e inativar quimiocinas/citocinas.  Essas enzimas geralmente aumentam a proliferação celular e permitem invasão tecidual e metástase.'},
+          {option:'B', explanation:'Proto-oncogenes frequentemente codificam proteínas envolvidas na transdução de sinal em resposta a fatores de crescimento.  Mutações nesses genes podem resultar em ativação constitutiva do sinal e aumento da expressão de fatores de transcrição, estimulando a proliferação celular.'},
+          {option:'D', explanation:'A ciclina D é uma proteína sintetizada durante a fase G1 do ciclo celular e ajuda a promover a transição da fase G1 para S.  O aumento da expressão de ciclina D pode resultar em proliferação celular descontrolada.'},
+          {option:'E', explanation:'O fator de crescimento endotelial vascular (VEGF) é uma proteína de sinalização que ajuda a criar novos vasos sanguíneos após uma lesão.  Células cancerígenas podem superexpressar VEGF para promover angiogênese e permitir maior crescimento e metástase.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0024', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'easy',
+      vignette:'A genetic researcher is comparing the DNA replication process of prokaryotic and eukaryotic cells.  In an experiment, Escherichia coli and human cells are cultured in separate media containing tagged nucleotides and their rates of DNA replication are determined.  Although the eukaryotic genome is significantly larger and more complex than that of the prokaryote, eukaryotic DNA replication still occurs in a timely manner.',
+      q:'Which of the following features of eukaryotic replication best explains this observation?',
+      options:[
+        {label:'A', text:'Continuous synthesis of the lagging strand'},
+        {label:'B', text:'Energy-independent DNA unwinding'},
+        {label:'C', text:'Multiple origins of replication'},
+        {label:'D', text:'No proofreading of daughter strands'},
+        {label:'E', text:'No requirement for RNA primers'},
+      ],
+      correct:'C',
+      explC:'The key steps of DNA replication are similar in eukaryotes and prokaryotes (eg, Escherichia coli) and are as follows:\n\n1. Unwinding of double-stranded DNA by helicase to produce single-stranded DNA\n2. Formation of a replication fork\n3. Synthesis of RNA primers by the enzyme primase\n4. Synthesis and concurrent proofreading of daughter DNA strands by DNA polymerases\n5. Removal and replacement of RNA primers with DNA\n6. Ligation of Okazaki fragments on lagging strands by the enzyme ligase\n\nDespite the similarities of prokaryotic and eukaryotic DNA replication, there are important differences between these processes.  Prokaryotes possess 3 major DNA polymerases (I, II, and III), whereas eukaryotes have 5 major DNA polymerases (α, β, γ, δ, and ε).  The eukaryotic genome is also much larger and more complex than the prokaryotic genome, which can be partly explained by the abundance of noncoding DNA regions (introns) located between coding regions (exons).  In addition, prokaryotes typically have circular DNA with a single origin of replication, whereas eukaryotes have linear DNA with multiple origins of replication.  This feature allows the eukaryotic genome to be copied in a quick and effective manner despite its large size.',
+      explI:[
+        {option:'A', explanation:"Eukaryotic and prokaryotic DNA polymerases synthesize daughter strand DNA in the 5' to 3' direction.  The leading strand is formed continuously, whereas the lagging strand is formed discontinuously, creating Okazaki fragments."},
+        {option:'B', explanation:'DNA unwinding is an energy-dependent process performed by the enzyme helicase in both prokaryotes and eukaryotes.'},
+        {option:'D', explanation:"Proofreading of daughter strands during DNA replication is necessary to preserve the genetic code and prevent potentially lethal mutations.  All 3 prokaryotic DNA polymerases and most eukaryotic DNA polymerases (eg, γ, δ, ε) possess 3' to 5' exonuclease (\"proofreading\") activity."},
+        {option:'E', explanation:'Prokaryotic and eukaryotic DNA polymerases require an RNA primer before they can initiate synthesis of complementary DNA on a single-stranded template.  Primase (prokaryotes) and DNA polymerase α (eukaryotes) are the enzymes responsible for synthesizing this primer.'},
+      ],
+      objective:'Multiple origins of replication make eukaryotic DNA replication quick and effective despite the large size and complexity of the genome compared to that of prokaryotic organisms.',
+      peer:{A:5, B:3, C:87, D:1, E:2},
+      ptTranslation:{
+        vignette:'Um pesquisador genético está comparando o processo de replicação de DNA de células procarióticas e eucarióticas.  Em um experimento, Escherichia coli e células humanas são cultivadas em meios separados contendo nucleotídeos marcados, e suas taxas de replicação de DNA são determinadas.  Embora o genoma eucariótico seja significativamente maior e mais complexo que o do procarioto, a replicação do DNA eucariótico ainda ocorre em tempo hábil.',
+        q:'Qual das seguintes características da replicação eucariótica melhor explica esta observação?',
+        objective:'Múltiplas origens de replicação tornam a replicação do DNA eucariótico rápida e eficaz, apesar do grande tamanho e complexidade do genoma em comparação ao dos organismos procarióticos.',
+        options:[
+          {label:'A', text:'Síntese contínua da fita tardia'},
+          {label:'B', text:'Desenrolamento do DNA independente de energia'},
+          {label:'C', text:'Múltiplas origens de replicação'},
+          {label:'D', text:'Ausência de revisão das fitas-filhas'},
+          {label:'E', text:'Ausência de necessidade de primers de RNA'},
+        ],
+        explC:'As etapas-chave da replicação do DNA são semelhantes em eucariotos e procariotos (ex.: Escherichia coli) e são as seguintes:\n\n1. Desenrolamento do DNA de fita dupla pela helicase, produzindo DNA de fita simples\n2. Formação de uma forquilha de replicação\n3. Síntese de primers de RNA pela enzima primase\n4. Síntese e revisão simultânea das fitas-filhas de DNA pelas DNA polimerases\n5. Remoção e substituição dos primers de RNA por DNA\n6. Ligação dos fragmentos de Okazaki nas fitas tardias pela enzima ligase\n\nApesar das semelhanças entre a replicação de DNA procariótica e eucariótica, há diferenças importantes entre esses processos.  Procariotos possuem 3 DNA polimerases principais (I, II e III), enquanto eucariotos têm 5 DNA polimerases principais (α, β, γ, δ e ε).  O genoma eucariótico também é muito maior e mais complexo que o genoma procariótico, o que pode ser parcialmente explicado pela abundância de regiões de DNA não codificantes (íntrons) localizadas entre as regiões codificantes (éxons).  Além disso, procariotos tipicamente têm DNA circular com uma única origem de replicação, enquanto eucariotos têm DNA linear com múltiplas origens de replicação.  Essa característica permite que o genoma eucariótico seja copiado de forma rápida e eficaz, apesar de seu grande tamanho.',
+        explI:[
+          {option:'A', explanation:'As DNA polimerases eucarióticas e procarióticas sintetizam a fita-filha de DNA na direção 5\' para 3\'.  A fita líder é formada de maneira contínua, enquanto a fita tardia é formada de maneira descontínua, criando fragmentos de Okazaki.'},
+          {option:'B', explanation:'O desenrolamento do DNA é um processo dependente de energia, realizado pela enzima helicase tanto em procariotos quanto em eucariotos.'},
+          {option:'D', explanation:'A revisão das fitas-filhas durante a replicação do DNA é necessária para preservar o código genético e prevenir mutações potencialmente letais.  Todas as 3 DNA polimerases procarióticas e a maioria das DNA polimerases eucarióticas (ex.: γ, δ, ε) possuem atividade exonucleásica 3\' para 5\' ("revisão").'},
+          {option:'E', explanation:'As DNA polimerases procarióticas e eucarióticas exigem um primer de RNA antes de poderem iniciar a síntese de DNA complementar em um molde de fita simples.  A primase (procariotos) e a DNA polimerase α (eucariotos) são as enzimas responsáveis por sintetizar esse primer.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
