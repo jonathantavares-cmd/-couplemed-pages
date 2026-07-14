@@ -6195,6 +6195,137 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0057', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'medium',
+      img:'CMQ-STEP1-GEN-0057_desc.png',
+      vignette:'A pharmaceutical corporation investigating new therapeutic agents for treatment of Burkitt lymphoma synthesizes a double-stranded RNA molecule that is 21 base pairs in length.  The RNA molecule has a base pair sequence that is complementary to a region of mRNA encoding c-Myc.  Introduction of the RNA molecule into tumor cells results in a significant reduction in cell growth.  Western blot analysis of equivalent numbers of treated and untreated cells is shown below.',
+      q:'Which of the following processes was most likely directly interrupted in the cells exposed to the RNA molecule?',
+      options:[
+        {label:'A', text:'DNA replication'},
+        {label:'B', text:'DNA transcription'},
+        {label:'C', text:'mRNA translation'},
+        {label:'D', text:'Proteasome activity'},
+        {label:'E', text:'Splicing'},
+      ],
+      correct:'C',
+      explC:'The results of the western blot show that the treated cell line produces less c-myc protein.  This is most likely due to RNA interference, a mechanism by which short (20-30 base pair) double-stranded RNA sequences induce posttranscriptional gene silencing.\n\nSilencing RNA includes both small interfering RNA (siRNA) and microRNA (miRNA).  The human genome encodes over 1000 miRNA genes, each one capable of repressing hundreds of target genes; altered expression of miRNA genes are involved in the development of many diseases, including hematologic and solid malignancies.  In addition, synthetic siRNA sequences can be introduced into cells to silence specific pathogenic genes (eg, c-Myc oncogene) and are being explored as possible therapeutic agents.\n\nAfter being transcribed, miRNA undergoes processing in the nucleus to form a double-stranded precursor that is then exported into the cytoplasm.  There, the precursor is cleaved into a short RNA helix by a ribonuclease protein called dicer.  The individual strands are then separated and incorporated into RNA-induced silencing complex (RISC).  This multiprotein complex uses its associated miRNA as a template to bind to complementary sequences found on target mRNAs.  An exact match generally results in mRNA degradation, but a partial match also causes translational repression by preventing ribosome and translation factor binding.',
+      explI:[
+        {option:'A', explanation:'DNA polymerase requires a short nucleic acid sequence primer for initiation of DNA synthesis.  During DNA replication, these primers are formed from RNA bases by the enzyme DNA primase.'},
+        {option:'B', explanation:'DNA transcription is the process in which RNA is transcribed from a DNA template by an RNA polymerase enzyme.  Although certain miRNA sequences can cause transcriptional inhibition, posttranscriptional silencing is the predominant means of RNA interference.'},
+        {option:'D', explanation:'Degradation of proteins and polypeptides occurs in proteasomes and lysosomes.  Proteasomes mainly degrade nuclear and cytoplasmic proteins; lysosomes degrade cellular organelles and extracellular proteins.'},
+        {option:'E', explanation:'Small nuclear RNA (snRNA) molecules bind to specific proteins to form small nuclear ribonucleoproteins (snRNPs).  These snRNPs associate with pre-mRNA to form spliceosomes, which function to remove introns from pre-mRNA during processing within the nucleus.'},
+      ],
+      objective:'Short non-coding RNA sequences (eg, microRNA and small interfering RNA) induce posttranscriptional gene silencing by base-pairing with complementary sequences within target mRNA molecules.',
+      peer:{A:9, B:18, C:61, D:4, E:6},
+      ptTranslation:{
+        vignette:'Uma corporação farmacêutica que investiga novos agentes terapêuticos para o tratamento do linfoma de Burkitt sintetiza uma molécula de RNA de fita dupla com 21 pares de bases de comprimento.  A molécula de RNA tem uma sequência de pares de bases complementar a uma região do mRNA que codifica o c-Myc.  A introdução da molécula de RNA em células tumorais resulta em uma redução significativa do crescimento celular.  A análise por western blot de números equivalentes de células tratadas e não tratadas é mostrada abaixo.',
+        q:'Qual dos seguintes processos foi mais provavelmente interrompido diretamente nas células expostas à molécula de RNA?',
+        objective:'Sequências curtas de RNA não codificante (ex.: microRNA e RNA de interferência pequeno) induzem o silenciamento gênico pós-transcricional por meio do pareamento de bases com sequências complementares dentro das moléculas de mRNA-alvo.',
+        options:[
+          {label:'A', text:'Replicação do DNA'},
+          {label:'B', text:'Transcrição do DNA'},
+          {label:'C', text:'Tradução do mRNA'},
+          {label:'D', text:'Atividade do proteassomo'},
+          {label:'E', text:'Splicing'},
+        ],
+        explC:'Os resultados do western blot mostram que a linhagem celular tratada produz menos proteína c-myc.  Isso se deve, muito provavelmente, à interferência por RNA (RNA interference), um mecanismo pelo qual sequências curtas de RNA de fita dupla (20-30 pares de bases) induzem o silenciamento gênico pós-transcricional.\n\nO RNA silenciador inclui tanto o RNA de interferência pequeno (siRNA) quanto o microRNA (miRNA).  O genoma humano codifica mais de 1000 genes de miRNA, cada um capaz de reprimir centenas de genes-alvo; a expressão alterada dos genes de miRNA está envolvida no desenvolvimento de muitas doenças, incluindo neoplasias hematológicas e sólidas.  Além disso, sequências sintéticas de siRNA podem ser introduzidas nas células para silenciar genes patogênicos específicos (ex.: o oncogene c-Myc) e estão sendo exploradas como possíveis agentes terapêuticos.\n\nApós ser transcrito, o miRNA sofre processamento no núcleo para formar um precursor de fita dupla que é então exportado para o citoplasma.  Ali, o precursor é clivado em uma curta hélice de RNA por uma proteína ribonuclease chamada dicer.  As fitas individuais são então separadas e incorporadas ao complexo de silenciamento induzido por RNA (RISC).  Esse complexo multiproteico usa seu miRNA associado como molde para se ligar a sequências complementares encontradas nos mRNAs-alvo.  Uma correspondência exata geralmente resulta na degradação do mRNA, mas uma correspondência parcial também causa a repressão da tradução ao impedir a ligação do ribossomo e dos fatores de tradução.',
+        explI:[
+          {option:'A', explanation:'A DNA polimerase requer um primer de sequência curta de ácido nucleico para o início da síntese de DNA.  Durante a replicação do DNA, esses primers são formados a partir de bases de RNA pela enzima DNA primase.'},
+          {option:'B', explanation:'A transcrição do DNA é o processo no qual o RNA é transcrito a partir de um molde de DNA por uma enzima RNA polimerase.  Embora certas sequências de miRNA possam causar inibição transcricional, o silenciamento pós-transcricional é o meio predominante de interferência por RNA.'},
+          {option:'D', explanation:'A degradação de proteínas e polipeptídeos ocorre nos proteassomos e lisossomos.  Os proteassomos degradam principalmente proteínas nucleares e citoplasmáticas; os lisossomos degradam organelas celulares e proteínas extracelulares.'},
+          {option:'E', explanation:'As moléculas de RNA nuclear pequeno (snRNA) ligam-se a proteínas específicas para formar pequenas ribonucleoproteínas nucleares (snRNPs).  Essas snRNPs associam-se ao pré-mRNA para formar os spliceossomos, que funcionam para remover íntrons do pré-mRNA durante o processamento dentro do núcleo.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0058', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'medium',
+      img:'CMQ-STEP1-GEN-0058_desc.png',
+      vignette:'A geneticist is performing an experiment to alter protein structures by incorporating modified amino acids into their polypeptide sequences.  During the process, she incubates dermal fibroblasts in a medium containing fluorescently labeled lysine residues.  After several hours, she finds that aminoacyl tRNA synthetase in the fibroblasts "loads" lysine residues onto tRNA molecules containing the anticodon UUU.',
+      q:'This residue most likely attaches to tRNA at which of the following sites in the image shown below?',
+      options:[
+        {label:'A', text:'A'},
+        {label:'B', text:'B'},
+        {label:'C', text:'C'},
+        {label:'D', text:'D'},
+        {label:'E', text:'E'},
+        {label:'F', text:'F'},
+      ],
+      correct:'A',
+      explC:'The image above shows the "cloverleaf" secondary structure of transfer RNA (tRNA), a small, noncoding subtype of RNA that is responsible for transporting amino acids to the site of protein synthesis and introducing them into the growing polypeptide chain at the correct locations.\n\nThe acceptor stem of tRNA is created through the base pairing of the 5\'-terminal nucleotides with the 3\'-terminal nucleotides.  It contains the CCA tail, which is added to the 3\' end of tRNA as a post-transcriptional modification and serves as the amino acid binding site.  Aminoacyl tRNA synthetase is the enzyme responsible for "loading" the appropriate amino acid to the 3\' terminal hydroxyl group of the CCA tail.  The acceptor stem helps mediate correct tRNA recognition by the proper aminoacyl tRNA synthetase.',
+      explI:[
+        {option:'B', explanation:'The T loop contains the TΨC sequence, which is necessary for the binding of tRNA to ribosomes.  The TΨC sequence refers to the presence of the chemically modified bases ribothymidine and pseudouridine, and cytidine.'},
+        {option:'C', explanation:'The variable loop contains a variable number of bases that lie between the T and anticodon loops.  The variable loop is not present in all tRNAs.'},
+        {option:'D', explanation:'The anticodon loop contains sequences that are complementary to the mRNA codon.  During translation, the tRNA anticodon binds to the mRNA codon and assures placement of the proper amino acid in the growing polypeptide chain.'},
+        {option:'E', explanation:'The D loop contains numerous dihydrouridine residues, which are modified bases often present in tRNA.  The D loop (along with the acceptor stem and anticodon loop) facilitates correct tRNA recognition by the proper aminoacyl tRNA synthetase.'},
+        {option:'F', explanation:'The 5\' end of tRNA contains a terminal phosphate group that does not participate in amino acid or mRNA binding.'},
+      ],
+      objective:'The 3\' CCA tail of tRNA serves as the amino acid binding site.  Aminoacyl tRNA synthetase is the enzyme responsible for "loading" the appropriate amino acid to the 3\' terminal hydroxyl group of the CCA tail.',
+      peer:{A:65, B:2, C:2, D:18, E:2, F:9},
+      ptTranslation:{
+        vignette:'Uma geneticista está realizando um experimento para alterar estruturas proteicas incorporando aminoácidos modificados em suas sequências polipeptídicas.  Durante o processo, ela incuba fibroblastos dérmicos em um meio contendo resíduos de lisina marcados por fluorescência.  Após várias horas, ela descobre que a aminoacil-tRNA sintetase nos fibroblastos "carrega" resíduos de lisina em moléculas de tRNA contendo o anticódon UUU.',
+        q:'Esse resíduo mais provavelmente se liga ao tRNA em qual dos seguintes sítios na imagem mostrada abaixo?',
+        objective:'A cauda CCA 3\' do tRNA serve como o sítio de ligação do aminoácido.  A aminoacil-tRNA sintetase é a enzima responsável por "carregar" o aminoácido apropriado no grupo hidroxila terminal 3\' da cauda CCA.',
+        options:[
+          {label:'A', text:'A'},
+          {label:'B', text:'B'},
+          {label:'C', text:'C'},
+          {label:'D', text:'D'},
+          {label:'E', text:'E'},
+          {label:'F', text:'F'},
+        ],
+        explC:'A imagem acima mostra a estrutura secundária em "folha de trevo" do RNA transportador (tRNA), um subtipo pequeno e não codificante de RNA que é responsável por transportar aminoácidos para o sítio de síntese proteica e introduzi-los na cadeia polipeptídica em crescimento nos locais corretos.\n\nA haste aceptora (acceptor stem) do tRNA é criada por meio do pareamento de bases dos nucleotídeos 5\'-terminais com os nucleotídeos 3\'-terminais.  Ela contém a cauda CCA, que é adicionada à extremidade 3\' do tRNA como uma modificação pós-transcricional e serve como o sítio de ligação do aminoácido.  A aminoacil-tRNA sintetase é a enzima responsável por "carregar" o aminoácido apropriado no grupo hidroxila terminal 3\' da cauda CCA.  A haste aceptora ajuda a mediar o reconhecimento correto do tRNA pela aminoacil-tRNA sintetase apropriada.',
+        explI:[
+          {option:'B', explanation:'A alça T contém a sequência TΨC, que é necessária para a ligação do tRNA aos ribossomos.  A sequência TΨC refere-se à presença das bases quimicamente modificadas ribotimidina e pseudouridina, e citidina.'},
+          {option:'C', explanation:'A alça variável contém um número variável de bases que se situam entre as alças T e do anticódon.  A alça variável não está presente em todos os tRNAs.'},
+          {option:'D', explanation:'A alça do anticódon contém sequências que são complementares ao códon do mRNA.  Durante a tradução, o anticódon do tRNA liga-se ao códon do mRNA e assegura a colocação do aminoácido apropriado na cadeia polipeptídica em crescimento.'},
+          {option:'E', explanation:'A alça D contém numerosos resíduos de di-hidrouridina, que são bases modificadas frequentemente presentes no tRNA.  A alça D (juntamente com a haste aceptora e a alça do anticódon) facilita o reconhecimento correto do tRNA pela aminoacil-tRNA sintetase apropriada.'},
+          {option:'F', explanation:'A extremidade 5\' do tRNA contém um grupo fosfato terminal que não participa da ligação do aminoácido ou do mRNA.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0059', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'easy',
+      img:'CMQ-STEP1-GEN-0059_desc.png',
+      vignette:'A genetic study performed on a 10-year-old boy reveals a single base substitution mutation impacting the production of a cellular protein.  The affected region of the involved gene is shown in the image below.',
+      q:'This mutation is most likely to affect which of the following processes?',
+      options:[
+        {label:'A', text:'DNA methylation'},
+        {label:'B', text:'Polypeptide folding following translation'},
+        {label:'C', text:'Posttranscriptional RNA splicing'},
+        {label:'D', text:'RNA elongation'},
+        {label:'E', text:'Transcription initiation'},
+        {label:'F', text:'Translation initiation'},
+      ],
+      correct:'E',
+      explC:'Most eukaryotic gene sequences consist of exons, noncoding introns, and the following 2 promoter regions:\n\n•  TATA box (25 bases upstream of the beginning [5\' end] of the coding region)\n\n•  CAAT box (70-80 bases upstream)\n\nNormally, transcription factors bind to the promoter regions and then recruit RNA polymerase II to initiate transcription.  In this case, the patient has a base substitution affecting the TATA box, as determined by its position 25 bases upstream of the transcription initiation site (denoted by "+1").  Although promoters are not directly translated into protein, promoter mutations often reduce gene expression by disrupting transcription factor binding, and in turn, impairing transcription initiation by RNA polymerase II.',
+      explI:[
+        {option:'A', explanation:'DNA methylation of promoter regions is carried out by DNA methyltransferases and results in downregulated gene expression.  However, this usually occurs at cytosines in regions where a cytosine is followed by a guanine nucleotide (CpG islands).'},
+        {option:'B', explanation:'Following translation, polypeptides fold into secondary and tertiary structures determined by the amino acid sequence.  This generally occurs spontaneously or with assistance from chaperone proteins.'},
+        {option:'C', explanation:'Posttranscriptional RNA splicing is facilitated by small nuclear ribonucleoproteins that remove introns from pre–messenger RNA (pre-mRNA) containing GU at the 5\' splice site and AG at the 3\' splice site.'},
+        {option:'D', explanation:'The TATA box participates only in the initiation of transcription.  The addition of nucleotides to the forming RNA molecule (RNA elongation) continues until RNA polymerase II encounters a termination signal.'},
+        {option:'F', explanation:'In eukaryotes, translation initiation requires both ribosomal subunits (60S and 40S) with their associated ribosomal RNA, mRNA, initiation factors, initiator transfer RNA charged with methionine, and GTP.  The assembled ribosome then recognizes the AUG start codon on mRNA to begin translation.'},
+      ],
+      objective:'The TATA box is a promoter region that binds transcription factors and RNA polymerase II during the initiation of transcription; it is located approximately 25 bases upstream from the beginning of the coding region.  Mutations in the TATA box impair transcription factor binding, reducing gene expression.',
+      peer:{A:2, B:6, C:7, D:3, E:71, F:8},
+      ptTranslation:{
+        vignette:'Um estudo genético realizado em um menino de 10 anos revela uma mutação de substituição de uma única base que afeta a produção de uma proteína celular.  A região afetada do gene envolvido é mostrada na imagem abaixo.',
+        q:'Essa mutação tem maior probabilidade de afetar qual dos seguintes processos?',
+        objective:'A caixa TATA é uma região promotora que liga fatores de transcrição e a RNA polimerase II durante o início da transcrição; ela está localizada aproximadamente 25 bases a montante do começo da região codificadora.  Mutações na caixa TATA prejudicam a ligação dos fatores de transcrição, reduzindo a expressão gênica.',
+        options:[
+          {label:'A', text:'Metilação do DNA'},
+          {label:'B', text:'Dobramento do polipeptídeo após a tradução'},
+          {label:'C', text:'Splicing pós-transcricional do RNA'},
+          {label:'D', text:'Elongação do RNA'},
+          {label:'E', text:'Início da transcrição'},
+          {label:'F', text:'Início da tradução'},
+        ],
+        explC:'A maioria das sequências gênicas eucarióticas consiste em éxons, íntrons não codificantes e as seguintes 2 regiões promotoras:\n\n•  Caixa TATA (25 bases a montante do início [extremidade 5\'] da região codificadora)\n\n•  Caixa CAAT (70-80 bases a montante)\n\nNormalmente, os fatores de transcrição ligam-se às regiões promotoras e então recrutam a RNA polimerase II para iniciar a transcrição.  Neste caso, o paciente tem uma substituição de base que afeta a caixa TATA, conforme determinado por sua posição 25 bases a montante do sítio de início da transcrição (indicado por "+1").  Embora os promotores não sejam diretamente traduzidos em proteína, as mutações nos promotores frequentemente reduzem a expressão gênica ao romper a ligação dos fatores de transcrição e, por sua vez, prejudicar o início da transcrição pela RNA polimerase II.',
+        explI:[
+          {option:'A', explanation:'A metilação do DNA das regiões promotoras é realizada por DNA metiltransferases e resulta na redução da expressão gênica.  Entretanto, isso geralmente ocorre em citosinas em regiões onde uma citosina é seguida por um nucleotídeo de guanina (ilhas CpG).'},
+          {option:'B', explanation:'Após a tradução, os polipeptídeos dobram-se em estruturas secundárias e terciárias determinadas pela sequência de aminoácidos.  Isso geralmente ocorre espontaneamente ou com a assistência de proteínas chaperonas.'},
+          {option:'C', explanation:'O splicing pós-transcricional do RNA é facilitado por pequenas ribonucleoproteínas nucleares que removem íntrons do pré-RNA mensageiro (pré-mRNA) contendo GU no sítio de splicing 5\' e AG no sítio de splicing 3\'.'},
+          {option:'D', explanation:'A caixa TATA participa apenas do início da transcrição.  A adição de nucleotídeos à molécula de RNA em formação (elongação do RNA) continua até que a RNA polimerase II encontre um sinal de término.'},
+          {option:'F', explanation:'Em eucariotos, o início da tradução requer ambas as subunidades ribossômicas (60S e 40S) com seu RNA ribossômico associado, o mRNA, os fatores de iniciação, o tRNA iniciador carregado com metionina e GTP.  O ribossomo montado então reconhece o códon de início AUG no mRNA para começar a tradução.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
