@@ -5959,6 +5959,119 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0051', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'easy',
+      vignette:'A researcher develops two mRNA sequences, one with a coding region composed exclusively of CUC trinucleotide repeats and another with a coding region comprised entirely of CUU trinucleotide repeats.  The mRNA sequences are then placed in solutions containing functional ribosomes and appropriately-charged tRNA molecules that all have the same anticodon, which is complementary to only one of the trinucleotide repeat patterns.  After several hours, it is found that both mRNA sequences produce polypeptide chains containing multiple leucine residues.',
+      q:'This observed finding is most likely due to which of the following properties of the genetic code?',
+      options:[
+        {label:'A', text:'Ambiguity'},
+        {label:'B', text:'No punctuation'},
+        {label:'C', text:'Transition'},
+        {label:'D', text:'Universality'},
+        {label:'E', text:'Wobble'},
+      ],
+      correct:'E',
+      explC:'There are 61 codons that code for amino acids, but only 20 amino acids are used in protein synthesis.  Therefore, more than one codon codes for a particular amino acid, a concept referred to as redundancy or degeneracy of the genetic code.  For instance, the codons CUC and CUU both code for the amino acid leucine.\n\nEach type of transfer RNA (tRNA) carries a specific amino acid and has a specific anticodon that recognizes a complementary mRNA codon.  Some amino acids are carried by more than one type of tRNA, allowing the same amino acid to be coded by different mRNA codons.  In addition, some tRNA molecules can recognize different codons coding for the same amino acid (ie, wobble pairing).\n\nAlthough the first two nucleotide positions on the mRNA codon typically require traditional (Watson-Crick) base pairing with their complementary nucleotides on tRNA, the third nucleotide frequently undergoes less stringent (nontraditional) base pairing.  This nontraditional bond is less spatially confined, hence the name "wobble."  For example, in the case of leucine, one tRNA molecule with an anticodon GAG normally recognizes CUC but can also recognize and bond to CUU because only the first two nucleotide positions in the codon (CU) form traditional bonds.',
+      explI:[
+        {option:'A', explanation:'Ambiguity refers to a codon that codes for multiple amino acids.  The genetic code is not ambiguous as each codon is associated with only a single amino acid.'},
+        {option:'B', explanation:'The genetic code is read sequentially from a starting point and has no internal punctuation as each codon is adjacent to the next without spacer nucleotides between them.  The lack of punctuation does not account for one tRNA molecule recognizing different codons.'},
+        {option:'C', explanation:'Genetic transition refers to a point mutation that results in replacement of a purine nucleotide for another purine or a pyrimidine nucleotide for another pyrimidine (in contrast, transversions results in interconversion of purines and pyrimidines).  This principle is unrelated to multicodon recognition by a tRNA molecule.'},
+        {option:'D', explanation:'The genetic code is almost universal as amino acid codons are nearly identical across species.  This principle does not account for different codon recognition by one tRNA molecule.'},
+      ],
+      objective:'The first two nucleotide positions on an mRNA codon require traditional (Watson-Crick) base pairing, whereas the third nucleotide position may undergo less stringent wobble pairing.  This allows one tRNA molecule to recognize different codons that code for the same amino acid.',
+      peer:{A:11, B:1, C:4, D:12, E:70},
+      ptTranslation:{
+        vignette:'Um pesquisador desenvolve duas sequências de mRNA, uma com uma região codificadora composta exclusivamente por repetições do trinucleotídeo CUC e outra com uma região codificadora composta inteiramente por repetições do trinucleotídeo CUU.  As sequências de mRNA são então colocadas em soluções contendo ribossomos funcionais e moléculas de tRNA apropriadamente carregadas que possuem todas o mesmo anticódon, o qual é complementar a apenas um dos padrões de repetição de trinucleotídeos.  Após várias horas, descobre-se que ambas as sequências de mRNA produzem cadeias polipeptídicas contendo múltiplos resíduos de leucina.',
+        q:'Esse achado observado deve-se mais provavelmente a qual das seguintes propriedades do código genético?',
+        objective:'As duas primeiras posições de nucleotídeos em um códon de mRNA requerem pareamento de bases tradicional (Watson-Crick), enquanto a terceira posição de nucleotídeo pode sofrer um pareamento oscilante (wobble) menos rigoroso.  Isso permite que uma única molécula de tRNA reconheça diferentes códons que codificam o mesmo aminoácido.',
+        options:[
+          {label:'A', text:'Ambiguidade'},
+          {label:'B', text:'Ausência de pontuação'},
+          {label:'C', text:'Transição'},
+          {label:'D', text:'Universalidade'},
+          {label:'E', text:'Oscilação (wobble)'},
+        ],
+        explC:'Existem 61 códons que codificam aminoácidos, mas apenas 20 aminoácidos são usados na síntese proteica.  Portanto, mais de um códon codifica um determinado aminoácido, um conceito conhecido como redundância ou degeneração do código genético.  Por exemplo, os códons CUC e CUU codificam ambos o aminoácido leucina.\n\nCada tipo de RNA transportador (tRNA) carrega um aminoácido específico e possui um anticódon específico que reconhece um códon de mRNA complementar.  Alguns aminoácidos são carregados por mais de um tipo de tRNA, permitindo que o mesmo aminoácido seja codificado por diferentes códons de mRNA.  Além disso, algumas moléculas de tRNA podem reconhecer diferentes códons que codificam o mesmo aminoácido (ie, pareamento oscilante ou wobble).\n\nEmbora as duas primeiras posições de nucleotídeos no códon de mRNA normalmente requeiram pareamento de bases tradicional (Watson-Crick) com seus nucleotídeos complementares no tRNA, o terceiro nucleotídeo frequentemente sofre um pareamento de bases menos rigoroso (não tradicional).  Essa ligação não tradicional é menos confinada espacialmente, daí o nome "oscilação" (wobble).  Por exemplo, no caso da leucina, uma molécula de tRNA com o anticódon GAG normalmente reconhece CUC, mas também pode reconhecer e se ligar a CUU porque apenas as duas primeiras posições de nucleotídeos no códon (CU) formam ligações tradicionais.',
+        explI:[
+          {option:'A', explanation:'A ambiguidade refere-se a um códon que codifica múltiplos aminoácidos.  O código genético não é ambíguo, pois cada códon está associado a apenas um único aminoácido.'},
+          {option:'B', explanation:'O código genético é lido sequencialmente a partir de um ponto de partida e não possui pontuação interna, pois cada códon é adjacente ao seguinte sem nucleotídeos espaçadores entre eles.  A ausência de pontuação não explica o reconhecimento de diferentes códons por uma molécula de tRNA.'},
+          {option:'C', explanation:'A transição genética refere-se a uma mutação de ponto que resulta na substituição de um nucleotídeo purínico por outra purina ou de um nucleotídeo pirimidínico por outra pirimidina (em contraste, as transversões resultam na interconversão de purinas e pirimidinas).  Esse princípio não tem relação com o reconhecimento de múltiplos códons por uma molécula de tRNA.'},
+          {option:'D', explanation:'O código genético é quase universal, pois os códons de aminoácidos são quase idênticos entre as espécies.  Esse princípio não explica o reconhecimento de diferentes códons por uma única molécula de tRNA.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0052', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'medium',
+      vignette:'In an experiment, erythrocyte precursor cells are incubated in a medium containing radiolabeled cysteine.  These radiolabeled cysteine residues are attached to their appropriate tRNAs by the enzyme aminoacyl-tRNA synthetase.  The cells are lysed, and the tRNA molecules charged with cysteine are extracted and purified.  The bound cysteine residues are then chemically modified to form alanine.  These altered tRNA molecules are subsequently used to synthesize recombinant proteins via a cell-free technique involving eukaryotic ribosomes.',
+      q:'Which of the following is most likely to occur to the alanine residues during polypeptide synthesis?',
+      options:[
+        {label:'A', text:'They will be incorporated into the polypeptide chain at sites where alanine is normally present'},
+        {label:'B', text:'They will be incorporated into the polypeptide chain sites where cysteine is normally present'},
+        {label:'C', text:'They will be randomly incorporated into the polypeptide chain and cause premature translation termination'},
+        {label:'D', text:'They will be rapidly cleaved off tRNA by the ribosome'},
+        {label:'E', text:'They will never be incorporated into the polypeptide chain and will remain attached to tRNA'},
+      ],
+      correct:'B',
+      explC:'The amino acid sequence in a polypeptide chain is dictated by mRNA sequence; each codon (ie, nucleotide triplet) in the mRNA coding region specifies a particular amino acid.  During translation, the mRNA codons bind complementary anticodons on transfer RNA.\n\nNormally, the 3\' end of each tRNA is attached to a specific amino acid based on its anticodon, a process catalyzed by aminoacyl-tRNA synthetases (AA-tRNA synthetases).  Each amino acid/tRNA pair has a specific AA-tRNA synthetase that links them together.  AA-tRNA synthetases are highly specific for their correct amino acids and tRNA molecules; some AA-tRNA synthetases can also proofread their specific tRNA molecules and hydrolyze the amino acid bond when their tRNAs are incorrectly charged.  Accurate charging is important because erroneous amino acid/tRNA coupling causes the wrong amino acid to be incorporated into the growing polypeptide chain (Choice E).\n\nIn this experiment, the involved tRNA molecules have cysteine anticodons and were originally charged with cysteine.  However, the cysteine residues were then chemically modified into alanine (ie, the cysteine tRNA is now mischarged with alanine).  When these mischarged tRNA molecules are subsequently used to synthesize proteins, alanine will be incorrectly incorporated into the growing polypeptide chain instead of cysteine (Choice A).',
+      explI:[
+        {option:'C', explanation:'During polypeptide chain elongation, ribosomes move sequentially (not randomly) on mRNA from codon to codon in the 5\' to 3\' direction, adding amino acids from charged tRNA to the peptide chain until the ribosome encounters a stop codon (ie, UAA, UAG, or UGA), which signals the end of protein synthesis.'},
+        {option:'D', explanation:'Errors in tRNA/amino acid binding can often be proofread by AA-tRNA synthetases (not the ribosome).  In this case, the charged tRNA molecules were extracted from the cell before being chemically modified (ie, mischarged), so there was no opportunity for proofreading by AA-tRNA synthetase.'},
+      ],
+      objective:'The sequence of amino acids in a growing polypeptide chain is dictated by mRNA codons, which bind to the complementary anticodon on tRNA that has the corresponding amino acid attached.  tRNA that is mischarged with an incorrect amino acid will incorporate it into the growing polypeptide chain in place of the correct amino acid.',
+      peer:{A:19, B:61, C:6, D:5, E:6},
+      ptTranslation:{
+        vignette:'Em um experimento, células precursoras de eritrócitos são incubadas em um meio contendo cisteína radiomarcada.  Esses resíduos de cisteína radiomarcados são ligados aos seus tRNAs apropriados pela enzima aminoacil-tRNA sintetase.  As células são lisadas, e as moléculas de tRNA carregadas com cisteína são extraídas e purificadas.  Os resíduos de cisteína ligados são então quimicamente modificados para formar alanina.  Essas moléculas de tRNA alteradas são subsequentemente usadas para sintetizar proteínas recombinantes por meio de uma técnica livre de células envolvendo ribossomos eucarióticos.',
+        q:'Qual das seguintes situações tem maior probabilidade de ocorrer com os resíduos de alanina durante a síntese polipeptídica?',
+        objective:'A sequência de aminoácidos em uma cadeia polipeptídica em crescimento é ditada pelos códons de mRNA, que se ligam ao anticódon complementar no tRNA que tem o aminoácido correspondente ligado.  Um tRNA carregado incorretamente (mischarged) com um aminoácido errado irá incorporá-lo à cadeia polipeptídica em crescimento no lugar do aminoácido correto.',
+        options:[
+          {label:'A', text:'Serão incorporados à cadeia polipeptídica em locais onde a alanina normalmente está presente'},
+          {label:'B', text:'Serão incorporados à cadeia polipeptídica em locais onde a cisteína normalmente está presente'},
+          {label:'C', text:'Serão incorporados aleatoriamente à cadeia polipeptídica e causarão término prematuro da tradução'},
+          {label:'D', text:'Serão rapidamente clivados do tRNA pelo ribossomo'},
+          {label:'E', text:'Nunca serão incorporados à cadeia polipeptídica e permanecerão ligados ao tRNA'},
+        ],
+        explC:'A sequência de aminoácidos em uma cadeia polipeptídica é ditada pela sequência de mRNA; cada códon (ie, trinca de nucleotídeos) na região codificadora do mRNA especifica um aminoácido particular.  Durante a tradução, os códons de mRNA ligam-se aos anticódons complementares no RNA transportador.\n\nNormalmente, a extremidade 3\' de cada tRNA é ligada a um aminoácido específico com base em seu anticódon, um processo catalisado pelas aminoacil-tRNA sintetases (AA-tRNA sintetases).  Cada par aminoácido/tRNA tem uma AA-tRNA sintetase específica que os liga.  As AA-tRNA sintetases são altamente específicas para seus aminoácidos e moléculas de tRNA corretos; algumas AA-tRNA sintetases também podem revisar (proofread) suas moléculas de tRNA específicas e hidrolisar a ligação do aminoácido quando seus tRNAs estão carregados incorretamente.  A carga precisa é importante porque o acoplamento errôneo de aminoácido/tRNA faz com que o aminoácido errado seja incorporado à cadeia polipeptídica em crescimento (Alternativa E).\n\nNeste experimento, as moléculas de tRNA envolvidas têm anticódons de cisteína e foram originalmente carregadas com cisteína.  Entretanto, os resíduos de cisteína foram então quimicamente modificados em alanina (ie, o tRNA de cisteína está agora carregado incorretamente com alanina).  Quando essas moléculas de tRNA carregadas incorretamente são subsequentemente usadas para sintetizar proteínas, a alanina será incorretamente incorporada à cadeia polipeptídica em crescimento no lugar da cisteína (Alternativa A).',
+        explI:[
+          {option:'C', explanation:'Durante a elongação da cadeia polipeptídica, os ribossomos movem-se sequencialmente (não aleatoriamente) no mRNA de códon em códon no sentido 5\' para 3\', adicionando aminoácidos do tRNA carregado à cadeia peptídica até que o ribossomo encontre um códon de parada (ie, UAA, UAG ou UGA), que sinaliza o fim da síntese proteica.'},
+          {option:'D', explanation:'Erros na ligação tRNA/aminoácido podem frequentemente ser revisados (proofread) pelas AA-tRNA sintetases (não pelo ribossomo).  Neste caso, as moléculas de tRNA carregadas foram extraídas da célula antes de serem quimicamente modificadas (ie, carregadas incorretamente), de modo que não houve oportunidade de revisão pela AA-tRNA sintetase.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0053', system:'genetics', discipline:'genetics', category:'genetics::protein_synthesis', difficulty:'hard',
+      img:'CMQ-STEP1-GEN-0053_desc.png',
+      vignette:'A 58-year-old man comes to the office with a persistent dry cough.  He also has involuntarily lost 10 kg (22 lb) over the past 3 months.  The patient drinks 2 or 3 beers daily and has a 40-pack-year smoking history.  Physical examination shows dullness to percussion over the right lower lung base.  CT scan of the chest reveals a right-sided pleural effusion and a mass in the lower lobe of the right lung.  Microscopic examination of the mass demonstrates malignant cells with large nuclei that contain prominent, round, basophilic bodies, as shown in the image below:',
+      q:'Which of the following enzymes is most likely to function only within this basophilic region of the nucleus?',
+      options:[
+        {label:'A', text:'Peptidyltransferase'},
+        {label:'B', text:'RNA polymerase I'},
+        {label:'C', text:'RNA polymerase II'},
+        {label:'D', text:'Ubiquitin ligase'},
+      ],
+      correct:'B',
+      explC:'This patient\'s biopsy demonstrates malignant cells with prominent nucleoli, which appear as round, dense, basophilic (ie, dark blue to purple) intranuclear bodies on hematoxylin and eosin staining.  The nucleolus is the primary site of ribosomal RNA (rRNA) transcription.  Copies of the 45S pre-rRNA gene are arranged in clusters (nucleolar organizing regions) on multiple chromosomes; these regions come together in the nucleus to form the nucleolus.  RNA polymerase I functions exclusively within the nucleolus to transcribe the 45S pre-rRNA gene into a single transcript that is subsequently processed into mature 18S, 5.8S, and 28S rRNAs.\n\nIn addition to rRNA transcription, the nucleolus is involved in the maturation and assembly of ribosomal subunits.  Ribosomal proteins, which are synthesized in the cytoplasm, are transported into the nucleolus, where they combine with rRNA to form immature 40S and 60S subunits.  These subunits are then shuttled via nuclear pores to the cytoplasm, where they ultimately participate in protein synthesis.\n\nThe regulation of ribosomal synthesis occurs in part by controlling the number of active rRNA genes.  Generally, as cells become more differentiated, growth slows and the cells require fewer ribosomes for protein production.  In contrast, malignant cells with high metabolic activity usually have a large number of active rRNA genes and prominent nucleoli.',
+      explI:[
+        {option:'A', explanation:'Peptidyltransferase catalyzes peptide bond formation during protein synthesis, which occurs in mature ribosomes found in the cytoplasm.'},
+        {option:'C', explanation:'RNA polymerase II synthesizes messenger RNA (mRNA), small nuclear RNA (snRNA), and microRNA (miRNA) in the nucleus.  It is the most highly regulated of the 3 RNA polymerases, with its function determined by multiple transcription factors and epigenetic processes.'},
+        {option:'D', explanation:'Ubiquitin ligase attaches ubiquitin molecules to proteins in the cytoplasm, tagging them for degradation in the cell\'s proteasome complex.  The ubiquitin-proteasome pathway is important for the degradation of short-lived, senescent, or abnormal (eg, denatured, misfolded) proteins.'},
+      ],
+      objective:'The nucleolus is the site of ribosomal RNA (rRNA) transcription and ribosomal subunit assembly.  RNA polymerase I functions exclusively within the nucleolus to transcribe the 45S pre-rRNA gene, which codes for most of the rRNA components (18S, 5.8S, and 28S rRNAs).',
+      peer:{A:10, B:46, C:27, D:15},
+      ptTranslation:{
+        vignette:'Um homem de 58 anos vem ao consultório com tosse seca persistente.  Ele também perdeu involuntariamente 10 kg (22 lb) nos últimos 3 meses.  O paciente bebe 2 ou 3 cervejas por dia e tem uma história de tabagismo de 40 maços-ano.  O exame físico mostra macicez à percussão sobre a base do pulmão direito.  A tomografia computadorizada do tórax revela um derrame pleural à direita e uma massa no lobo inferior do pulmão direito.  O exame microscópico da massa demonstra células malignas com núcleos grandes que contêm corpos basofílicos, arredondados e proeminentes, como mostrado na imagem abaixo:',
+        q:'Qual das seguintes enzimas tem maior probabilidade de funcionar apenas dentro desta região basofílica do núcleo?',
+        objective:'O nucléolo é o local da transcrição do RNA ribossômico (rRNA) e da montagem das subunidades ribossômicas.  A RNA polimerase I funciona exclusivamente dentro do nucléolo para transcrever o gene do pré-rRNA 45S, que codifica a maior parte dos componentes do rRNA (rRNAs 18S, 5,8S e 28S).',
+        options:[
+          {label:'A', text:'Peptidiltransferase'},
+          {label:'B', text:'RNA polimerase I'},
+          {label:'C', text:'RNA polimerase II'},
+          {label:'D', text:'Ubiquitina ligase'},
+        ],
+        explC:'A biópsia deste paciente demonstra células malignas com nucléolos proeminentes, que aparecem como corpos intranucleares arredondados, densos e basofílicos (ie, de azul-escuro a roxo) na coloração de hematoxilina e eosina.  O nucléolo é o local primário da transcrição do RNA ribossômico (rRNA).  Cópias do gene do pré-rRNA 45S estão dispostas em agrupamentos (regiões organizadoras do nucléolo) em múltiplos cromossomos; essas regiões se reúnem no núcleo para formar o nucléolo.  A RNA polimerase I funciona exclusivamente dentro do nucléolo para transcrever o gene do pré-rRNA 45S em um único transcrito que é subsequentemente processado em rRNAs maduros 18S, 5,8S e 28S.\n\nAlém da transcrição do rRNA, o nucléolo está envolvido na maturação e na montagem das subunidades ribossômicas.  As proteínas ribossômicas, que são sintetizadas no citoplasma, são transportadas para dentro do nucléolo, onde se combinam com o rRNA para formar as subunidades imaturas 40S e 60S.  Essas subunidades são então transportadas por meio dos poros nucleares para o citoplasma, onde por fim participam da síntese proteica.\n\nA regulação da síntese ribossômica ocorre em parte pelo controle do número de genes de rRNA ativos.  Geralmente, à medida que as células se tornam mais diferenciadas, o crescimento diminui e as células requerem menos ribossomos para a produção de proteínas.  Em contraste, as células malignas com alta atividade metabólica geralmente têm um grande número de genes de rRNA ativos e nucléolos proeminentes.',
+        explI:[
+          {option:'A', explanation:'A peptidiltransferase catalisa a formação de ligações peptídicas durante a síntese proteica, o que ocorre nos ribossomos maduros encontrados no citoplasma.'},
+          {option:'C', explanation:'A RNA polimerase II sintetiza o RNA mensageiro (mRNA), o RNA nuclear pequeno (snRNA) e o microRNA (miRNA) no núcleo.  É a mais altamente regulada das 3 RNA polimerases, com sua função determinada por múltiplos fatores de transcrição e processos epigenéticos.'},
+          {option:'D', explanation:'A ubiquitina ligase liga moléculas de ubiquitina a proteínas no citoplasma, marcando-as para degradação no complexo do proteassomo da célula.  A via ubiquitina-proteassomo é importante para a degradação de proteínas de vida curta, senescentes ou anormais (ex.: desnaturadas, mal dobradas).'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
