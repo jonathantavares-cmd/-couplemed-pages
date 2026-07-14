@@ -246,6 +246,7 @@ Apenas acrescentar mais uma opção em `options` (label `F`) e adicionar `F` em 
 | Psychiatry/Behavioral | PSY |
 | Biochemistry | BCH |
 | Genetics | GEN |
+| Pathology | PAT |
 | Pharmacology | PHR |
 | Biostatistics & Epidemiology | BST |
 | Microbiology | MIC |
