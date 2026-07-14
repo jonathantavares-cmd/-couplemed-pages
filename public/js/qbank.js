@@ -4368,6 +4368,136 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0011', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      vignette:'A 25-year-old nulligravid woman comes with her husband to the clinic for preconception genetic counseling.  She has oculocutaneous albinism due to a homozygous OCA2 gene mutation within the region of chromosome 15q12-q13.  Examination shows pale hypopigmented skin with blonde hair.  Eye examination shows faint brown irises.  Her husband is 26 years old and has oculocutaneous albinism due to a biallelic TYR gene mutation at position 11q14.3.  Examination of the husband shows complete absence of pigmentation in the skin, hair, and irises.  The couple asks about their chance of having a child with oculocutaneous albinism and are told that the chance is 0%.',
+      q:'Which of the following is the best explanation for this?',
+      options:[
+        {label:'A', text:'Allelic heterogeneity'},
+        {label:'B', text:'Heteroplasmy'},
+        {label:'C', text:'Incomplete penetrance'},
+        {label:'D', text:'Linkage disequilibrium'},
+        {label:'E', text:'Locus heterogeneity'},
+        {label:'F', text:'Pleiotropy'},
+      ],
+      correct:'E',
+      explC:'This case is an example of locus heterogeneity, in which mutations at different genetic loci result in similar phenotypes.  Both parents have oculocutaneous albinism, an inherited autosomal recessive disorder.  However, although their phenotype is similar, their recessive mutations occur on different chromosomes.\n\nIn this case, the child would inherit one normal (paternal) allele and one abnormal (maternal) allele at location 15q12-q13 and one normal (maternal) allele and one abnormal (paternal) allele at location 11q14.3.  Because the child would have one normal, dominant allele at each location, they would be a double heterozygote and therefore would not express an oculocutaneous albinism phenotype.',
+      explI:[
+        {option:'A', explanation:'In contrast to this case, allelic heterogeneity describes different mutations at the same genetic locus causing similar phenotypes (eg, cystic fibrosis).  Children born to parents who have autosomal recessive genetic conditions resulting from different mutations at the same genetic locus would inherit two abnormal copies of the gene and likely display the corresponding phenotype.'},
+        {option:'B', explanation:'Mitochondrial diseases (eg, MELAS syndrome, Leber hereditary optic neuropathy) are maternally inherited.  The variable severity of these diseases is explained by heteroplasmy, the random distribution of normal and mutated mitochondrial DNA between daughter cells during meiosis.  As a result, some eggs may have completely healthy mitochondria, while other cells contain mitochondria affected by genetic mutation.'},
+        {option:'C', explanation:'Penetrance is the probability that a person with a given genotype will express its associated phenotype.  Incomplete penetrance means that some individuals with an abnormal genotype will not express the corresponding phenotype (eg, breast cancer in individuals with BRCA1/2 mutations).'},
+        {option:'D', explanation:'Two allele loci are said to be in linkage disequilibrium when a pair of alleles is inherited together in the same gamete (haplotype) more often or less often than would be expected given random pairing.  This most often occurs when the genes are in close physical proximity on the same chromosome.'},
+        {option:'F', explanation:'The occurrence of multiple, seemingly unrelated phenotypic manifestations (often in different organ systems as a result of a single genetic defect) is termed pleiotropy.  Although this may apply to features of oculocutaneous albinism (eg, absence of melanin in skin, reduced visual acuity, nystagmus), it does not explain why a child of two affected parents would be unaffected.'},
+      ],
+      objective:'Locus heterogeneity describes when a similar phenotype is produced by mutations in different genetic loci (eg, oculocutaneous albinism).',
+      peer:{A:25, B:4, C:8, D:11, E:45, F:5},
+      ptTranslation:{
+        vignette:'Uma mulher de 25 anos, nuligesta, vem com o marido à clínica para aconselhamento genético pré-concepcional.  Ela tem albinismo oculocutâneo devido a uma mutação homozigota do gene OCA2 na região do cromossomo 15q12-q13.  O exame mostra pele hipopigmentada e pálida, com cabelo loiro.  O exame ocular mostra íris de tom castanho-claro.  Seu marido tem 26 anos e tem albinismo oculocutâneo devido a uma mutação bialélica do gene TYR na posição 11q14.3.  O exame do marido mostra ausência completa de pigmentação na pele, cabelo e íris.  O casal pergunta sobre a chance de ter um filho com albinismo oculocutâneo e é informado de que a chance é de 0%.',
+        q:'Qual das seguintes é a melhor explicação para isso?',
+        objective:'Heterogeneidade de locus descreve quando um fenótipo semelhante é produzido por mutações em loci genéticos diferentes (ex.: albinismo oculocutâneo).',
+        options:[
+          {label:'A', text:'Heterogeneidade alélica'},
+          {label:'B', text:'Heteroplasmia'},
+          {label:'C', text:'Penetrância incompleta'},
+          {label:'D', text:'Desequilíbrio de ligação'},
+          {label:'E', text:'Heterogeneidade de locus'},
+          {label:'F', text:'Pleiotropia'},
+        ],
+        explC:'Este caso é um exemplo de heterogeneidade de locus, na qual mutações em loci genéticos diferentes resultam em fenótipos semelhantes.  Ambos os pais têm albinismo oculocutâneo, um distúrbio autossômico recessivo herdado.  Entretanto, embora o fenótipo seja semelhante, suas mutações recessivas ocorrem em cromossomos diferentes.\n\nNeste caso, a criança herdaria um alelo normal (paterno) e um alelo anormal (materno) no locus 15q12-q13, e um alelo normal (materno) e um alelo anormal (paterno) no locus 11q14.3.  Como a criança teria um alelo normal e dominante em cada locus, ela seria uma dupla heterozigota e, portanto, não expressaria o fenótipo de albinismo oculocutâneo.',
+        explI:[
+          {option:'A', explanation:'Em contraste com este caso, a heterogeneidade alélica descreve mutações diferentes no mesmo locus genético causando fenótipos semelhantes (ex.: fibrose cística).  Filhos de pais que têm condições genéticas autossômicas recessivas resultantes de mutações diferentes no mesmo locus genético herdariam duas cópias anormais do gene e provavelmente exibiriam o fenótipo correspondente.'},
+          {option:'B', explanation:'Doenças mitocondriais (ex.: síndrome de MELAS, neuropatia óptica hereditária de Leber) são herdadas por via materna.  A gravidade variável dessas doenças é explicada pela heteroplasmia, a distribuição aleatória de DNA mitocondrial normal e mutado entre as células-filhas durante a meiose.  Como resultado, alguns óvulos podem ter mitocôndrias completamente saudáveis, enquanto outras células contêm mitocôndrias afetadas pela mutação genética.'},
+          {option:'C', explanation:'Penetrância é a probabilidade de que uma pessoa com determinado genótipo expresse o fenótipo associado.  Penetrância incompleta significa que alguns indivíduos com genótipo anormal não expressarão o fenótipo correspondente (ex.: câncer de mama em indivíduos com mutações BRCA1/2).'},
+          {option:'D', explanation:'Dois loci alélicos são ditos estar em desequilíbrio de ligação quando um par de alelos é herdado junto no mesmo gameta (haplótipo) com frequência maior ou menor do que seria esperado com pareamento aleatório.  Isso ocorre mais frequentemente quando os genes estão em proximidade física próxima no mesmo cromossomo.'},
+          {option:'F', explanation:'A ocorrência de múltiplas manifestações fenotípicas aparentemente não relacionadas (frequentemente em diferentes sistemas orgânicos, como resultado de um único defeito genético) é chamada de pleiotropia.  Embora isso possa se aplicar a características do albinismo oculocutâneo (ex.: ausência de melanina na pele, acuidade visual reduzida, nistagmo), isso não explica por que um filho de dois pais afetados seria não afetado.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0012', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'A study is undertaken to map the HLA-DQ loci in a population with a high incidence of celiac sprue.  High-resolution HLA typing of the DQA1 and DQB1 loci is performed using polymerase chain reaction sequencing.  The frequency of the DQA1*0501-DQB1*0201 haplotype, strongly implicated in autoimmunity, is found to be 0.2.  However, in the same population, the frequency of the DQA1*0501 allele is 0.3 and the frequency of the DQB1*0201 allele is 0.2.',
+      q:'Which of the following best explains the observed DQA1*0501-DQB1*0201 haplotype frequency in this population?',
+      options:[
+        {label:'A', text:'Heteroplasmy'},
+        {label:'B', text:'Increased penetrance'},
+        {label:'C', text:'Linkage disequilibrium'},
+        {label:'D', text:'Pleiotropy'},
+        {label:'E', text:'Segregation'},
+      ],
+      correct:'C',
+      explC:'Two genetic loci are said to be in linkage disequilibrium when their respective alleles are inherited together in the same gamete (haplotype) more or less often than expected by chance alone given their corresponding allele frequencies.  Although linkage disequilibrium is often the result of physical proximity of genes on the same chromosome, it does not always imply physical linkage between the allelic loci.\n\nTo estimate the expected probability of 2 alleles from separate loci appearing together, multiply their occurrence rates.  Note that the Hardy-Weinberg principle (2pq) is not applicable when considering alleles at different loci.\n\nDQA1*0501-DQB1*0201 haplotype frequency = [Frequency of DQA1*0501] × [Frequency of DQB1*0201] = 0.3 × 0.2 = 0.06\n\nIn this example, the observed frequency of both alleles being inherited together is 0.2, which is greater than the expected frequency of 0.06; therefore, the population is said to be in linkage disequilibrium.  This disequilibrium is explained by the close proximity of the HLA-DQA1 and HLA-DQB1 loci that code for α and β chains of class II major histocompatibility complex.',
+      explI:[
+        {option:'A', explanation:'Heteroplasmy describes the presence of different mitochondrial genomes (eg, mutated and wild type) within a single cell.  The severity of mitochondrial diseases is often related to the proportion of abnormal to normal mitochondria.'},
+        {option:'B', explanation:'Penetrance is the proportion of people with a given genotype who express its associated phenotype.  If all individuals with a given gene express its phenotype, that gene is said to have full penetrance.'},
+        {option:'D', explanation:'Pleiotropy is the occurrence of multiple phenotypic manifestations, often in different organ systems, which result from a mutation in a single gene.'},
+        {option:'E', explanation:"The law of segregation describes the phenomenon in which gametogenesis results in the separation of paired chromosomes so that the offspring inherit only half of each parent's genetic composition."},
+      ],
+      objective:'Two allele loci are said to be in linkage disequilibrium when a pair of alleles are inherited together in the same gamete (haplotype) more or less often than would be expected given random pairing.  This most often occurs when the genes are in close physical proximity on the same chromosome.',
+      peer:{A:12, B:8, C:58, D:12, E:7},
+      ptTranslation:{
+        vignette:'Um estudo é realizado para mapear os loci HLA-DQ em uma população com alta incidência de doença celíaca.  A tipagem de HLA de alta resolução dos loci DQA1 e DQB1 é realizada por sequenciamento por reação em cadeia da polimerase.  A frequência do haplótipo DQA1*0501-DQB1*0201, fortemente implicado em autoimunidade, é de 0,2.  Entretanto, na mesma população, a frequência do alelo DQA1*0501 é de 0,3 e a frequência do alelo DQB1*0201 é de 0,2.',
+        q:'Qual das seguintes melhor explica a frequência observada do haplótipo DQA1*0501-DQB1*0201 nesta população?',
+        objective:'Dois loci alélicos são ditos estar em desequilíbrio de ligação quando um par de alelos é herdado junto no mesmo gameta (haplótipo) com frequência maior ou menor do que seria esperado com pareamento aleatório.  Isso ocorre mais frequentemente quando os genes estão em proximidade física próxima no mesmo cromossomo.',
+        options:[
+          {label:'A', text:'Heteroplasmia'},
+          {label:'B', text:'Penetrância aumentada'},
+          {label:'C', text:'Desequilíbrio de ligação'},
+          {label:'D', text:'Pleiotropia'},
+          {label:'E', text:'Segregação'},
+        ],
+        explC:'Dois loci genéticos são ditos estar em desequilíbrio de ligação quando seus respectivos alelos são herdados juntos no mesmo gameta (haplótipo) com frequência maior ou menor do que o esperado apenas pelo acaso, dadas suas frequências alélicas correspondentes.  Embora o desequilíbrio de ligação seja frequentemente resultado da proximidade física de genes no mesmo cromossomo, isso nem sempre implica ligação física entre os loci alélicos.\n\nPara estimar a probabilidade esperada de 2 alelos de loci separados aparecerem juntos, multiplicam-se suas taxas de ocorrência.  Note que o princípio de Hardy-Weinberg (2pq) não é aplicável ao se considerar alelos em loci diferentes.\n\nFrequência do haplótipo DQA1*0501-DQB1*0201 = [Frequência de DQA1*0501] × [Frequência de DQB1*0201] = 0,3 × 0,2 = 0,06\n\nNeste exemplo, a frequência observada de ambos os alelos sendo herdados juntos é 0,2, que é maior que a frequência esperada de 0,06; portanto, diz-se que a população está em desequilíbrio de ligação.  Esse desequilíbrio é explicado pela proximidade próxima dos loci HLA-DQA1 e HLA-DQB1, que codificam as cadeias α e β do complexo principal de histocompatibilidade de classe II.',
+        explI:[
+          {option:'A', explanation:'Heteroplasmia descreve a presença de diferentes genomas mitocondriais (ex.: mutado e selvagem) dentro de uma única célula.  A gravidade das doenças mitocondriais costuma estar relacionada à proporção de mitocôndrias anormais em relação às normais.'},
+          {option:'B', explanation:'Penetrância é a proporção de pessoas com determinado genótipo que expressam o fenótipo associado.  Se todos os indivíduos com determinado gene expressam seu fenótipo, diz-se que esse gene tem penetrância completa.'},
+          {option:'D', explanation:'Pleiotropia é a ocorrência de múltiplas manifestações fenotípicas, frequentemente em diferentes sistemas orgânicos, resultantes de uma mutação em um único gene.'},
+          {option:'E', explanation:'A lei da segregação descreve o fenômeno em que a gametogênese resulta na separação dos cromossomos pareados, de modo que a prole herda apenas metade da composição genética de cada genitor.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0013', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'A patient is suspected of having an inherited disorder.  Pedigree analysis shows the following pattern:',
+      q:'This patient most likely has which of the following conditions?',
+      img:'assets/qbank/CMQ-STEP1-GEN-0013_galactosemia_pedigree.png',
+      options:[
+        {label:'A', text:'Classic galactosemia'},
+        {label:'B', text:'Hemophilia B'},
+        {label:'C', text:'Huntington disease'},
+        {label:'D', text:'Leber hereditary optic neuropathy'},
+        {label:'E', text:'Rett syndrome'},
+      ],
+      correct:'A',
+      explC:'Each affected individual in this pedigree inherited the disorder from asymptomatic parents, which suggests a recessive inheritance pattern (eg, heterozygous carrier parents); this contrasts with a dominant inheritance pattern in which affected offspring typically have an affected parent.\n\nIn addition, both male and female patients inherited the condition, a finding more suggestive of autosomal recessive disease rather than X-linked recessive disease, which usually only affects male patients.  The approximate proportion of affected offspring (eg, 25% of the second generation) also supports an autosomal recessive inheritance pattern because ~25% of offspring from heterozygous parents are typically affected.\n\nIn general, most enzyme deficiencies are characterized by an autosomal recessive inheritance pattern.  Classic galactosemia is an autosomal recessive disorder in which the absence of galactose-1-phosphate uridylyltransferase activity leads to impaired galactose metabolism.  Newborns typically develop jaundice, vomiting, and hepatomegaly within days of birth due to the accumulation of excess galactose.',
+      explI:[
+        {option:'B', explanation:'Hemophilia B is an X-linked recessive disorder in which factor IX deficiency leads to impaired coagulation and excessive bleeding.  In X-linked recessive disorders, female patients are typically carriers, and male patients are usually affected, making this inheritance pattern unlikely in a family with more affected females than males.'},
+        {option:'C', explanation:'Huntington disease is an autosomal dominant disorder in which trinucleotide repeat expansion in the huntingtin gene leads to progressive neurodegeneration.  In autosomal dominant disorders, affected offspring typically have an affected parent, which is not seen in this case.'},
+        {option:'D', explanation:"Leber hereditary optic neuropathy is a mitochondrial disorder that leads to progressive bilateral vision loss due to impaired ATP synthesis.  Because mitochondrial DNA is inherited from the mother exclusively, all offspring of an affected mother are at risk of inheriting the condition.  However, in this pedigree, affected offspring have unaffected mothers."},
+        {option:'E', explanation:'Rett syndrome is a progressive disorder characterized by neurologic regression and autistic features; it occurs almost exclusively in females due to de novo mutations.  Rare inherited cases are X-linked dominant, but unlike other X-linked conditions, affected males are not usually seen because they die in utero.  Furthermore, affected offspring would have an affected mother.'},
+      ],
+      objective:'Pedigrees showing an inherited disorder in which affected offspring are both male and female and have unaffected parents are suggestive of autosomal recessive diseases.  Most enzyme deficiency disorders (eg, classic galactosemia) demonstrate an autosomal recessive inheritance pattern.',
+      peer:{A:56, B:21, C:6, D:6, E:9},
+      labs:[
+        ['Galactose-1-phosphate uridylyltransferase (GALT) activity', '≥24.5 nmol/h/mg hemoglobin', '≥24,5 nmol/h/mg de hemoglobina',
+         'Absent or barely detectable in classic galactosemia due to biallelic GALT gene mutations',
+         'Ausente ou praticamente indetectável na galactosemia clássica, por mutações bialélicas do gene GALT'],
+      ],
+      ptTranslation:{
+        vignette:'Um paciente tem suspeita de um distúrbio hereditário.  A análise do heredograma mostra o seguinte padrão:',
+        q:'Este paciente muito provavelmente tem qual das seguintes condições?',
+        objective:'Heredogramas que mostram um distúrbio hereditário no qual a prole afetada é tanto masculina quanto feminina e tem pais não afetados sugerem doenças autossômicas recessivas.  A maioria dos distúrbios por deficiência enzimática (ex.: galactosemia clássica) demonstra um padrão de herança autossômico recessivo.',
+        options:[
+          {label:'A', text:'Galactosemia clássica'},
+          {label:'B', text:'Hemofilia B'},
+          {label:'C', text:'Doença de Huntington'},
+          {label:'D', text:'Neuropatia óptica hereditária de Leber'},
+          {label:'E', text:'Síndrome de Rett'},
+        ],
+        explC:'Cada indivíduo afetado neste heredograma herdou o distúrbio de pais assintomáticos, o que sugere um padrão de herança recessivo (ex.: pais portadores heterozigotos); isso contrasta com um padrão de herança dominante, no qual a prole afetada tipicamente tem um genitor afetado.\n\nAlém disso, tanto pacientes do sexo masculino quanto feminino herdaram a condição, um achado mais sugestivo de doença autossômica recessiva do que de doença recessiva ligada ao X, que geralmente afeta apenas pacientes do sexo masculino.  A proporção aproximada de prole afetada (ex.: 25% da segunda geração) também apoia um padrão de herança autossômico recessivo, pois ~25% da prole de pais heterozigotos costuma ser afetada.\n\nEm geral, a maioria das deficiências enzimáticas é caracterizada por um padrão de herança autossômico recessivo.  A galactosemia clássica é um distúrbio autossômico recessivo no qual a ausência da atividade da galactose-1-fosfato uridiltransferase leva a um metabolismo prejudicado da galactose.  Recém-nascidos tipicamente desenvolvem icterícia, vômitos e hepatomegalia poucos dias após o nascimento devido ao acúmulo de excesso de galactose.',
+        explI:[
+          {option:'B', explanation:'A hemofilia B é um distúrbio recessivo ligado ao X, no qual a deficiência do fator IX leva a coagulação prejudicada e sangramento excessivo.  Em distúrbios recessivos ligados ao X, pacientes do sexo feminino costumam ser portadoras, e pacientes do sexo masculino costumam ser afetados, tornando esse padrão de herança improvável em uma família com mais mulheres afetadas do que homens.'},
+          {option:'C', explanation:'A doença de Huntington é um distúrbio autossômico dominante no qual a expansão de repetição de trinucleotídeos no gene da huntingtina leva à neurodegeneração progressiva.  Em distúrbios autossômicos dominantes, a prole afetada tipicamente tem um genitor afetado, o que não é visto neste caso.'},
+          {option:'D', explanation:'A neuropatia óptica hereditária de Leber é um distúrbio mitocondrial que leva à perda visual bilateral progressiva devido à síntese prejudicada de ATP.  Como o DNA mitocondrial é herdado exclusivamente da mãe, toda a prole de uma mãe afetada está em risco de herdar a condição.  Entretanto, neste heredograma, a prole afetada tem mães não afetadas.'},
+          {option:'E', explanation:'A síndrome de Rett é um distúrbio progressivo caracterizado por regressão neurológica e características autistas; ocorre quase exclusivamente em mulheres devido a mutações de novo.  Casos herdados raros são dominantes ligados ao X, mas, diferentemente de outras condições ligadas ao X, machos afetados geralmente não são vistos porque morrem intraútero.  Além disso, a prole afetada teria uma mãe afetada.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
