@@ -74,24 +74,28 @@
   }
   window.cmRefreshUsers = cmRefreshUsers;
 
-  /* ===== PREFERÊNCIAS DO USUÁRIO (v51) — couplemed_prefs_<uid> =====
+  /* ===== PREFERÊNCIAS DO USUÁRIO (v51/v52) — couplemed_prefs_<uid> =====
      Apenas o ESTADO INICIAL do site para aquele usuário. Nenhum controle existente
      é removido: o botão de tema e as bandeiras no topo continuam funcionando, e o
      Create Test / revisão de flashcards seguem livres para alterar a qualquer momento.
+     v52: Tutor e Temporizador viraram switches independentes (antes eram um "mode"
+     exclusivo) — dados antigos com só "mode" salvo são migrados na leitura.
      Formato: { theme:'dark'|'light', lang:'en'|'pt',
-                qbank:{ mode:'tutor'|'timed', count:n, peer:bool },
+                qbank:{ tutor:bool, timed:bool, count:n, peer:bool },
                 flashcards:{ order:'due'|'random'|'sequential', reversed:bool } } */
-  const PREFS_DEFAULT={theme:'',lang:'',qbank:{mode:'tutor',count:10,peer:true},flashcards:{order:'due',reversed:false}};
+  const PREFS_DEFAULT={theme:'',lang:'',qbank:{tutor:true,timed:false,count:10,peer:true},flashcards:{order:'due',reversed:false}};
   function getPrefs(uid){
     let p={};
     try{ p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid))||{}; }catch(e){ p={}; }
+    const qb = p.qbank||{};
     return {
       theme: p.theme==='dark'||p.theme==='light' ? p.theme : '',
       lang:  p.lang==='pt'||p.lang==='en' ? p.lang : '',
       qbank:{
-        mode:  (p.qbank&&p.qbank.mode==='timed')?'timed':'tutor',
-        count: Math.max(1,Math.min(40,parseInt(p.qbank&&p.qbank.count,10)||10)),
-        peer:  !(p.qbank&&p.qbank.peer===false)
+        tutor: qb.tutor!=null ? !!qb.tutor : (qb.mode!=='timed'),
+        timed: qb.timed!=null ? !!qb.timed : (qb.mode==='timed'),
+        count: Math.max(1,Math.min(40,parseInt(qb.count,10)||10)),
+        peer:  !(qb.peer===false)
       },
       flashcards:{
         order: (p.flashcards&&['due','random','sequential'].includes(p.flashcards.order))?p.flashcards.order:'due',
@@ -756,17 +760,18 @@
       <div class="stg-card">
         <div class="stg-card-head"><h2>${stgEsc(t.stgSecQbank)}</h2><p>${stgEsc(t.stgQbDesc)}</p></div>
         <div class="stg-field"><label>${t.stgQbMode}</label>
-          ${stgSeg('qbmode',p.qbank.mode,[{v:'tutor',l:t.stgQbTutor},{v:'timed',l:t.stgQbTimed}])}</div>
+          <div class="stg-qbmode-row">${stgToggle('stgQbTutor',p.qbank.tutor,stgEsc(t.stgQbTutor))}${stgToggle('stgQbTimed',p.qbank.timed,stgEsc(t.stgQbTimed))}</div></div>
         <div class="stg-field"><label>${t.stgQbCount}</label>
           <input type="number" id="stgQbCount" min="1" max="40" value="${p.qbank.count}" class="stg-num" /></div>
         <div class="stg-field">${stgToggle('stgQbPeer',p.qbank.peer,stgEsc(t.stgQbPeer))}</div>
         <div class="stg-msg" id="stgQbMsg" hidden></div>
       </div>`;
-    panel.querySelectorAll('[data-seg="qbmode"]').forEach(btn=>btn.addEventListener('click',()=>{
-      btn.parentElement.querySelectorAll('.stg-seg-btn').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-      const cur=getPrefs(u); cur.qbank.mode=btn.dataset.v; setPrefs(u,cur); stgFlashSaved($('#stgQbMsg'),t);
-    }));
+    $('#stgQbTutor').addEventListener('change',e=>{
+      const cur=getPrefs(u); cur.qbank.tutor=e.target.checked; setPrefs(u,cur); stgFlashSaved($('#stgQbMsg'),t);
+    });
+    $('#stgQbTimed').addEventListener('change',e=>{
+      const cur=getPrefs(u); cur.qbank.timed=e.target.checked; setPrefs(u,cur); stgFlashSaved($('#stgQbMsg'),t);
+    });
     $('#stgQbCount').addEventListener('change',e=>{
       const cur=getPrefs(u); cur.qbank.count=Math.max(1,Math.min(40,parseInt(e.target.value,10)||10));
       e.target.value=cur.qbank.count; setPrefs(u,cur); stgFlashSaved($('#stgQbMsg'),t);

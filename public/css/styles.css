@@ -661,6 +661,7 @@ body.light .bar-line.bar-locked .bar-btn{background:#d3dce8;color:#7c8ca1}
 .stg-switch input:checked + .stg-switch-track{background:linear-gradient(180deg,#3d84ff,#1258ef)}
 .stg-switch input:checked + .stg-switch-track .stg-switch-knob{transform:translateX(16px)}
 .stg-switch-lbl{font-size:13px;color:#cfdcee}
+.stg-qbmode-row{display:flex;gap:28px;flex-wrap:wrap}
 
 /* campo numérico */
 .stg-num{width:110px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#eaf1fb;

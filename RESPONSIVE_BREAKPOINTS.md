@@ -49,12 +49,12 @@ Todo o resto do site (My Workspace, Flashcards, QBank, Notebook, AI Tutor, Setti
 | Linha | Breakpoint | O que acontece |
 |---|---|---|
 | 20 | `max-width:640px` | `#internalContent.qb-wide .internal-card` reduz padding (18px 14px) |
-| 82 | `max-width:900px` | `.qb-stepper` (navegador de passadas) quebra linha; cada `.qb-step` ocupa ~44%; conector entre steps some |
-| 83 | `max-width:560px` | Cada `.qb-step` ocupa 100% (1 por linha) |
-| 118 | `max-width:720px` | `.qb-row` (grid de 2 colunas do Create Test) vira 1 coluna |
-| 246 | `max-width:640px` | Tela de resultados/resolução: `.qb-perf`, `.qb-res-top`, `.qb-nav` empilham em coluna; `.qb-head-tools` ocupa 100% |
-| 259 | `max-width:820px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna — **é o "filtros de sistemas em 1 coluna" citado** |
-| 344 | `max-width:640px` | Imagem da questão (`.qb-question-image`): reduz padding/margem, `max-height` da imagem cai para 300px, legenda "Click to enlarge" some |
+| 85 | `max-width:560px` | `.qb-stepper` (navegador de passadas) quebra linha; cada `.qb-step` ocupa 100%; conector entre steps some. **v52**: antes havia um estágio intermediário em 900px (2 por linha) — removido de propósito para o iPad ficar visualmente igual ao desktop (só reagrupa perto da largura real de celular) |
+| 120 | `max-width:720px` | `.qb-row` (grid de 2 colunas do Create Test — usado só na tela standalone `/create` com o filtro "Passada" visível) vira 1 coluna |
+| 158 | `max-width:480px` | Barra unificada "Nº de questões + disponíveis + Gerar Teste" (`.qb-gen`) empilha em coluna; botão vira 100% da largura |
+| 274 | `max-width:640px` | Tela de resultados/resolução: `.qb-perf`, `.qb-res-top`, `.qb-nav` empilham em coluna; `.qb-head-tools` ocupa 100% |
+| 289 | `max-width:560px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna. **v52**: era 820px — baixado para 560px para o iPad manter 2 colunas igual ao desktop, só virando 1 coluna perto da largura real de celular (mesmo valor do stepper acima) |
+| 377 | `max-width:640px` | Imagem da questão (`.qb-question-image`): reduz padding/margem, `max-height` da imagem cai para 300px, legenda "Click to enlarge" some |
 
 ---
 
