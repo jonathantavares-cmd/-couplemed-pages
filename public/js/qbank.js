@@ -1150,7 +1150,7 @@
       ],
       objective:'After a ligand binds to a G protein-coupled receptor that activates phospholipase C, membrane phospholipids are broken down into diacylglycerol (DAG) and inositol triphosphate (IP3). Protein kinase C is subsequently activated by DAG and calcium; the latter is released from the endoplasmic reticulum under the influence of IP3.',
       peer:{A:10, B:1, C:4, D:36, E:47},
-      img:'assets/qbank/CMQ-STEP1-BCH-0001_phosphatidylinositol_second_messenger_system.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0001_phosphatidylinositol_second_messenger_system.png',
       ptTranslation:{
         vignette:'Um cientista pesquisador desenvolve um agente que bloqueia especificamente a interação do trifosfato de inositol (IP3) com seu receptor intracelular. Em seguida, é realizado um estudo no qual células musculares lisas vasculares são divididas em 2 grupos: um grupo experimental tratado com o bloqueador do receptor e um grupo controle não tratado. Ambos os grupos são expostos à fenilefrina.',
         q:'Em comparação com as células controle, a diminuição da atividade de qual das seguintes enzimas é mais provável de ser observada nas células do grupo experimental?',
@@ -1191,7 +1191,7 @@
       ],
       objective:'Patients with urea cycle disorders typically have discrete episodes of vomiting, tachypnea, and confusion/coma secondary to hyperammonemia (a metabolic emergency). Ornithine transcarbamylase deficiency is the most common disorder of the urea cycle and is characterized by hyperammonemia and elevated urinary orotic acid.',
       peer:{A:15, B:4, C:3, D:64, E:11},
-      img:'assets/qbank/CMQ-STEP1-BCH-0002_urea_cycle.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0002_urea_cycle.png',
       labs:[
         ['Ammonia (venous)','15–45 µg/dL (≈9–26 µmol/L)','15–45 µg/dL (≈9–26 µmol/L)','Elevated in urea cycle disorders (eg, OTC deficiency) due to impaired ammonia clearance','Elevada nos distúrbios do ciclo da ureia (ex.: deficiência de OTC) por depuração prejudicada de amônia'],
         ['Orotic acid (urine)','<1.5 mg/g creatinine (varies by lab/method)','<1,5 mg/g creatinina (varia por laboratório/método)','Markedly elevated in OTC deficiency; low/normal in CPS I and N-acetylglutamate synthetase deficiency','Marcadamente elevado na deficiência de OTC; baixo/normal na deficiência de CPS I e de N-acetilglutamato sintetase'],
@@ -1324,7 +1324,7 @@
       ],
       objective:'Alanine is the major amino acid responsible for transferring nitrogen to the liver for disposal. During the catabolism of proteins, amino groups are transferred to α-ketoglutarate to form glutamate. Glutamate is then processed in the liver to form urea, the primary disposal form of nitrogen in humans. Free ammonia is also excreted into the urine by the kidney for regulation of acid-base status.',
       peer:{A:61, B:5, C:7, D:5, E:20},
-      img:'assets/qbank/CMQ-STEP1-BCH-0005_alanine_glucose_cycle_urea_cycle.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0005_alanine_glucose_cycle_urea_cycle.png',
       ptTranslation:{
         vignette:'Como parte de um experimento, voluntários saudáveis passam por um jejum de 12 horas e depois bebem uma solução contendo alanina radiomarcada. Amostras de sangue consecutivas são coletadas a cada 15 minutos durante as 3 horas seguintes. As amostras de sangue iniciais detectam a alanina radiomarcada, mas a análise de amostras posteriores mostra que o radiotraçador está presente no sangue principalmente na forma de glicose.',
         q:'Antes que a alanina possa ser convertida em glicose, seu grupo amino é transferido para qual das seguintes substâncias?',
@@ -1365,7 +1365,7 @@
       ],
       objective:'Significant elevations in levels of plasma homocysteine are associated with thrombotic events. Homocysteine can be metabolized to methionine via remethylation or to cystathionine via transsulfuration. Hyperhomocysteinemia is most commonly due to genetic mutations in critical enzymes or deficiencies of vitamin B12, vitamin B6, and folate.',
       peer:{A:9, B:10, C:67, D:10, E:2},
-      img:'assets/qbank/CMQ-STEP1-BCH-0006_folate_methionine_cycle.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0006_folate_methionine_cycle.png',
       ptTranslation:{
         vignette:'Um homem de 34 anos previamente hígido vem ao pronto-socorro devido a um quadro de 3 horas de dor torácica, diaforese e dispneia. Ele não fuma, pratica exercícios regularmente e tem uma dieta equilibrada. Seu pai morreu aos 56 anos de infarto do miocárdio. Sua pressão arterial é 110/70 mmHg e o pulso é 110/min e regular. O exame físico é inexpressivo. O ECG mostra supradesnivelamento do segmento ST nas derivações anterolaterais. O angiograma coronariano revela estenose e trombose proximal da artéria descendente anterior esquerda, tratadas com angioplastia e colocação de stent. Os resultados laboratoriais são os seguintes:\n\nColesterol total: 160 mg/dL\nLipoproteína de baixa densidade: 90 mg/dL\nGlicose sérica: 98 mg/dL\nHomocisteína plasmática: 21,5 µmol/L (normal: 4-14 µmol/L)\n\nExames adicionais revelam uma mutação homozigótica no gene da metilenotetrahidrofolato redutase que leva à diminuição da atividade enzimática.',
         q:'Devido a esse defeito, o paciente muito provavelmente apresenta comprometimento na conversão de homocisteína em qual das seguintes substâncias?',
@@ -1408,7 +1408,7 @@
       ],
       objective:'Homocystinuria is most commonly caused by a defect in cystathionine synthase, resulting in an inability to form cysteine from homocysteine. Cysteine becomes essential in affected patients, and homocysteine buildup leads to elevated methionine. Homocysteine is prothrombotic, resulting in premature thromboembolic events (eg, atherosclerosis, acute coronary syndrome) in these patients.',
       peer:{A:4, B:72, C:1, D:3, E:14, F:2},
-      img:'assets/qbank/CMQ-STEP1-BCH-0007_methionine_cycle_cystathionine_synthase.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0007_methionine_cycle_cystathionine_synthase.png',
       labs:[
         ['Methionine, plasma', '10–40 µmol/L (varies by lab/method)', '10–40 µmol/L (varia por laboratório/método)', 'Elevated in classic homocystinuria (cystathionine β-synthase deficiency) due to remethylation of accumulated homocysteine back to methionine', 'Elevada na homocistinúria clássica (deficiência de cistationina β-sintase) pela remetilação da homocisteína acumulada de volta a metionina'],
         ['Total homocysteine, plasma', '5–15 µmol/L (fasting)', '5–15 µmol/L (em jejum)', 'Markedly elevated (often >100 µmol/L) in classic homocystinuria due to cystathionine β-synthase deficiency', 'Marcadamente elevada (frequentemente >100 µmol/L) na homocistinúria clássica por deficiência de cistationina β-sintase'],
@@ -1457,7 +1457,7 @@
       ],
       objective:'Arginase is a urea cycle enzyme that produces urea and ornithine from arginine. Arginase deficiency results in progressive spastic diplegia, growth delay, and abnormal movements. Treatment includes an arginine-free, low-protein diet.',
       peer:{A:17, B:9, C:7, D:11, E:2, F:49},
-      img:'assets/qbank/CMQ-STEP1-BCH-0008_urea_cycle_arginase_deficiency.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0008_urea_cycle_arginase_deficiency.png',
       labs:[
         ['Arginine, plasma', '40–115 µmol/L', '40–115 µmol/L', 'Markedly elevated (often >300 µmol/L, 3- to 4-fold the upper limit of normal) in arginase deficiency due to impaired conversion of arginine to ornithine and urea', 'Marcadamente elevada (geralmente >300 µmol/L, 3 a 4 vezes o limite superior da normalidade) na deficiência de arginase, por conversão prejudicada de arginina em ornitina e ureia'],
       ],
@@ -1507,7 +1507,7 @@
       ],
       objective:'Ornithine transport into mitochondria is necessary for proper function of the urea cycle, which is the major disposal pathway for waste nitrogen generated by catabolism of amino acids. Urea cycle defects typically cause neurological damage due to the accumulation of ammonia. Protein restriction improves this condition by reducing the amount of amino acid turnover.',
       peer:{A:19, B:2, C:3, D:14, E:8, F:47, G:4},
-      img:'assets/qbank/CMQ-STEP1-BCH-0009_urea_cycle_ornithine_translocase.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0009_urea_cycle_ornithine_translocase.png',
       labs:[
         ['Ammonia (venous), neonate (1–7 days)', '≤110 µmol/L (≈154 µg/dL)', '≤110 µmol/L (≈154 µg/dL)', 'Elevated in urea cycle disorders, including HHH syndrome (ornithine translocase deficiency), due to impaired ammonia clearance', 'Elevada nos distúrbios do ciclo da ureia, incluindo a síndrome HHH (deficiência do transportador de ornitina), por depuração prejudicada de amônia'],
         ['Ornithine, plasma', '30–110 µmol/L', '30–110 µmol/L', 'Elevated (often 200–700 µmol/L or higher) in HHH syndrome due to impaired mitochondrial import of ornithine', 'Elevada (geralmente 200–700 µmol/L ou mais) na síndrome HHH por importação mitocondrial prejudicada de ornitina'],
@@ -1594,7 +1594,7 @@
       ],
       objective:'Hartnup disease is caused by impaired transport of neutral amino acids in the small intestine and proximal tubule of the kidney. Symptoms include pellagra-like skin eruptions and cerebellar ataxia, which occur as a result of niacin deficiency. The diagnosis can be confirmed through detection of excessive amounts of neutral amino acids in the urine.',
       peer:{A:3, B:54, C:12, D:4, E:11, F:13},
-      img:'assets/qbank/CMQ-STEP1-BCH-0011_niacin_metabolism.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0011_niacin_metabolism.png',
       labs:[
         ['Urinary neutral amino acids (eg, tryptophan)', 'Absent to trace', 'Ausentes a traços',
          'Markedly increased in Hartnup disease due to impaired renal and intestinal reabsorption of neutral amino acids (neutral aminoaciduria)',
@@ -1644,7 +1644,7 @@
       ],
       objective:'Ehlers-Danlos syndrome (EDS) is a heritable connective tissue disease associated with abnormal collagen formation. EDS usually manifests clinically as overflexible (hypermobile) joints, overelastic (hyperelastic) skin, and fragile tissue susceptible to bruising, wounding, and hemarthrosis.',
       peer:{A:74, B:15, C:9, D:0, E:0, F:0},
-      img:'assets/qbank/CMQ-STEP1-BCH-0012_collagen_synthesis.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0012_collagen_synthesis.png',
       ptTranslation:{
         vignette:'Uma mulher de 24 anos vai ao consultório para uma avaliação médica pré-admissional. A paciente não tem problemas médicos conhecidos, mas relata que sua pele forma hematomas e cicatrizes com facilidade. Ela diz que a maioria dos membros de sua família tem um corpo muito "flexível", e seu irmão trabalha em um circo como contorcionista. A paciente não usa medicamentos e não tem alergias. Ela não usa tabaco, álcool ou drogas. Os achados do exame físico são mostrados no exhibit.',
         q:'Este paciente provavelmente tem um defeito hereditário em qual das seguintes proteínas?',
@@ -1689,7 +1689,7 @@
       ],
       objective:'Propionyl-CoA is derived from the metabolism of valine, isoleucine, methionine, threonine, and odd-chain fatty acids. Congenital deficiency of propionyl-CoA carboxylase, the enzyme responsible for the conversion of propionyl-CoA to methylmalonyl-CoA, leads to the development of propionic acidemia. The condition presents with lethargy, poor feeding, vomiting, and hypotonia 1-2 weeks after birth.',
       peer:{A:15, B:10, C:11, D:13, E:17, F:31},
-      img:'assets/qbank/CMQ-STEP1-BCH-0013_organic_acidemia_pathway.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0013_organic_acidemia_pathway.png',
       labs:[
         ['Ammonia (venous), neonate (1–7 days)', '≤110 µmol/L (≈154 µg/dL)', '≤110 µmol/L (≈154 µg/dL)',
          'Often elevated in organic acidemias (eg, propionic acidemia) due to secondary impairment of the urea cycle by accumulated organic acids',
@@ -1740,7 +1740,7 @@
       ],
       objective:'Inclusion cell disease is a lysosomal storage disorder in which a defect in protein targeting prevents the phosphorylation of mannose residues required to tag acid hydrolases for transport to lysosomes. Without these lysosomal proteins, cellular debris cannot be degraded and therefore accumulates within lysosomes, forming inclusion bodies characteristic of the disease.',
       peer:{A:8, B:7, C:68, D:3, E:12},
-      img:'assets/qbank/CMQ-STEP1-BCH-0014_mannose_6_phosphate_lysosomal_targeting.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0014_mannose_6_phosphate_lysosomal_targeting.png',
       labs:[
         ['Serum lysosomal enzymes (eg, hexosaminidase, arylsulfatase A)', 'Reference range varies by assay/laboratory', 'Faixa de referência varia conforme o método/laboratório',
          'Markedly elevated (~10–20× normal) in I-cell disease, because enzymes lacking the mannose-6-phosphate tag are secreted into the extracellular space instead of delivered to lysosomes (paradoxically low activity within cultured fibroblasts)',
@@ -1785,7 +1785,7 @@
       ],
       objective:'Untreated phenylketonuria leads to irreversible neurologic abnormalities (eg, intellectual disability, seizures), as well as reduced melanin production and a musty odor. Pathophysiology involves impaired metabolism of phenylalanine to tyrosine, and treatment includes a phenylalanine-restricted diet that may require supplemental tyrosine.',
       peer:{A:6, B:1, C:2, D:23, E:64, F:1},
-      img:'assets/qbank/CMQ-STEP1-BCH-0015_phenylketonuria_pathway.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0015_phenylketonuria_pathway.png',
       labs:[
         ['Phenylalanine, plasma', '<2 mg/dL (<120 µmol/L)', '<2 mg/dL (<120 µmol/L)',
          'Markedly elevated (classically >20 mg/dL) in untreated phenylketonuria due to phenylalanine hydroxylase deficiency',
@@ -1832,7 +1832,7 @@
       ],
       objective:'Orotic aciduria is a rare autosomal recessive disorder of de novo pyrimidine synthesis that occurs due to a defect in uridine 5\'-monophosphate (UMP) synthase. Children typically present with developmental delay, megaloblastic anemia, and large amounts of urinary orotic acid. Uridine supplementation can improve symptoms as uridine is converted to UMP via nucleoside kinases.',
       peer:{A:2, B:26, C:5, D:1, E:22, F:39},
-      img:'assets/qbank/CMQ-STEP1-BCH-0016_de_novo_pyrimidine_synthesis.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0016_de_novo_pyrimidine_synthesis.png',
       labs:[
         ['Orotic acid (urine)', '1.12–2.52 mmol/mol creatinine (age 13 mo–10 y)', '1,12–2,52 mmol/mol creatinina (13 meses–10 anos)',
          'Markedly elevated in hereditary orotic aciduria (UMP synthase deficiency) due to impaired conversion of orotic acid to UMP',
@@ -1881,7 +1881,7 @@
       ],
       objective:'Tetrahydrobiopterin (BH4) is an essential cofactor for hydroxylase enzymes involved in the metabolism of phenylalanine, tyrosine, and tryptophan. Impaired BH4 synthesis causes hyperphenylalaninemia and reduced levels of neurotransmitters (eg, dopamine, serotonin), causing progressive neurologic findings (developmental delay, seizures, microcephaly).',
       peer:{A:7, B:40, C:5, D:46},
-      img:'assets/qbank/CMQ-STEP1-BCH-0017_tetrahydrobiopterin_synthesis.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0017_tetrahydrobiopterin_synthesis.png',
       labs:[
         ['Phenylalanine, plasma', '<2 mg/dL (<120 µmol/L)', '<2 mg/dL (<120 µmol/L)',
          'Elevated in tetrahydrobiopterin (BH4) deficiency, since BH4 is a required cofactor for phenylalanine hydroxylase — mimics classic phenylketonuria',
@@ -1927,7 +1927,7 @@
       ],
       objective:'Transamination reactions typically occur between an amino acid and an α-keto acid. The amino group from the amino acid is transferred to the α-keto acid, and the α-keto acid in turn becomes an amino acid. Pyridoxal phosphate (active vitamin B6) serves as a cofactor in amino acid transamination and decarboxylation reactions.',
       peer:{A:16, B:3, C:17, D:40, E:7, F:14},
-      img:'assets/qbank/CMQ-STEP1-BCH-0018_transamination_deamination_amino_acids.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0018_transamination_deamination_amino_acids.png',
       ptTranslation:{
         vignette:'Um cientista pesquisador está estudando reações bioquímicas que ocorrem no fígado. Ele cultiva hepatócitos em um meio de cultura enriquecido com glutamato marcado com isótopos de nitrogênio. Depois de algum tempo, ele constata que os isótopos de nitrogênio são transferidos para o oxaloacetato, formando aspartato no processo.',
         q:'Qual das seguintes substâncias provavelmente está envolvida nessa reação?',
@@ -1970,7 +1970,8 @@
       ],
       objective:'Competitive inhibitors compete with substrate for active binding sites on enzymes. Additional substrate is required to achieve the same rate of reaction, increasing the measured value of the Michaelis constant (Km). Competitive inhibitors do not affect enzyme function; therefore, maximal velocity (Vmax) is unchanged in their presence.',
       peer:{A:5, B:9, C:3, D:13, E:67},
-      img:['assets/qbank/CMQ-STEP1-BCH-0019_succinate_dehydrogenase_table.png','assets/qbank/CMQ-STEP1-BCH-0019_competitive_inhibition_km_vmax.png'],
+      img:'assets/qbank/CMQ-STEP1-BCH-0019_succinate_dehydrogenase_table.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0019_competitive_inhibition_km_vmax.png',
       ptTranslation:{
         vignette:'A succinato desidrogenase (SDH) é um complexo enzimático localizado na membrana mitocondrial interna que catalisa a oxidação de succinato a fumarato. Um experimento é conduzido para determinar se o malato altera a taxa de atividade da SDH. A velocidade da reação é medida com e sem uma quantidade fixa de malato, à medida que a concentração de succinato é gradualmente aumentada. Os resultados obtidos são mostrados abaixo.\n\nConcentração de succinato (mM) | Taxa de reação sem malato (µmol/L/seg) | Taxa de reação com malato (µmol/L/seg)\n2 | 80 | 40\n8 | 200 | 120\n16 | 280 | 200\n64 | 400 | 400\n128 | 400 | 400',
         q:'Qual das seguintes é a afirmação mais precisa sobre o malato neste experimento?',
@@ -2010,7 +2011,7 @@
       ],
       objective:'Ehlers-Danlos syndrome is a group of rare hereditary disorders characterized by defective collagen synthesis. It can be caused by procollagen peptidase deficiency, which results in impaired cleavage of terminal propeptides in the extracellular space. Patients often have joint laxity, hyperextensible skin, and tissue fragility due to the formation of soluble collagen that does not properly crosslink.',
       peer:{A:11, B:18, C:23, D:17, E:29},
-      img:'assets/qbank/CMQ-STEP1-BCH-0020_collagen_synthesis_steps.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0020_collagen_synthesis_steps.png',
       ptTranslation:{
         vignette:'Um menino de 2 anos é avaliado por hematomas fáceis. Os pais relatam que ele desenvolve hematomas acentuados e feridas abertas após traumas leves. A pele é difícil de suturar devido à sua fragilidade extrema. O exame físico revela pele hiperextensível, múltiplas equimoses sobre os antebraços e regiões pré-tibiais, e uma hérnia umbilical. Uma biópsia de pele é realizada, e a avaliação histoquímica da biópsia revela um defeito no processamento extracelular do colágeno.',
         q:'Qual das seguintes etapas da síntese de colágeno provavelmente está prejudicada neste paciente?',
@@ -2051,7 +2052,7 @@
       ],
       objective:'Riboflavin is a precursor of the coenzymes FMN and FAD. FAD participates in the tricarboxylic acid cycle and electron transport chain by acting as an electron acceptor for succinate dehydrogenase (complex II), which converts succinate into fumarate.',
       peer:{A:7, B:7, C:6, D:14, E:9, F:50, G:4},
-      img:'assets/qbank/CMQ-STEP1-BCH-0021_citric_acid_cycle_succinate_dehydrogenase.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0021_citric_acid_cycle_succinate_dehydrogenase.png',
       labs:[
         ['Riboflavin, urinary excretion', '≥120 µg/day (or ≥27 µg/g creatinine)', '≥120 µg/dia (ou ≥27 µg/g de creatinina)',
          'Decreased in riboflavin (vitamin B2) deficiency, reflecting reduced substrate for FAD/FMN synthesis',
@@ -2147,7 +2148,7 @@
       ],
       objective:'Under anaerobic conditions, NADH transfers electrons to pyruvate to form lactate and regenerate NAD+. NAD+ is required to convert glyceraldehyde-3-phosphate to 1-3-bisphosphoglycerate in glycolysis.',
       peer:{A:6, B:3, C:4, D:3, E:63, F:19},
-      img:'assets/qbank/CMQ-STEP1-BCH-0023_anaerobic_glycolysis_lactate_dehydrogenase.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0023_anaerobic_glycolysis_lactate_dehydrogenase.png',
       labs:[
         ['Lactate, venous (post-ischemic forearm exercise)', 'Normal: 3- to 5-fold rise above baseline within 5 min (baseline <2.2 mmol/L)', 'Normal: aumento de 3 a 5 vezes acima do basal em 5 min (basal <2,2 mmol/L)',
          'Fails to rise in lactate dehydrogenase deficiency (glycogen storage disease XI) due to impaired anaerobic glycolysis',
@@ -2195,7 +2196,7 @@
       ],
       objective:'Glucose-6-phosphate dehydrogenase is the rate-limiting enzyme in the pentose phosphate pathway, the major source of cellular NADPH. This molecule is necessary for reducing glutathione (protects red blood cells from oxidative damage) and for the biosynthesis of cholesterol, fatty acids, and steroids.',
       peer:{A:30, B:43, C:10, D:8, E:7},
-      img:'assets/qbank/CMQ-STEP1-BCH-0024_pentose_phosphate_pathway.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0024_pentose_phosphate_pathway.png',
       labs:[
         ['Bilirubin, indirect (unconjugated)', '0.2–0.8 mg/dL (adult)', '0,2–0,8 mg/dL (adulto)',
          'Elevated in G6PD deficiency due to acute hemolysis',
@@ -2245,7 +2246,7 @@
       ],
       objective:'Lenticular accumulation of galactitol in the lenses of patients with galactosemia can cause osmotic damage and development of cataracts. Cataracts are frequently the only manifestation of galactokinase deficiency.',
       peer:{A:17, B:7, C:11, D:47, E:2, F:6, G:6},
-      img:'assets/qbank/CMQ-STEP1-BCH-0025_galactose_metabolism_pathway.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0025_galactose_metabolism_pathway.png',
       labs:[
         ['Urine reducing substances (Clinitest)', 'Negative', 'Negativo',
          'Positive (non-glucose reducing substance) in galactosemia/galactokinase deficiency due to urinary galactose excretion; Clinistix (glucose oxidase-specific) remains negative',
@@ -2339,7 +2340,7 @@
       ],
       objective:'Ethanol inhibits gluconeogenesis and can cause hypoglycemia once hepatic glycogen stores are depleted.',
       peer:{A:72, B:13, C:2, D:4, E:6},
-      img:'assets/qbank/CMQ-STEP1-BCH-0027_ethanol_inhibition_citric_acid_cycle.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0027_ethanol_inhibition_citric_acid_cycle.png',
       labs:[
         ['Glucose, plasma (fasting)', '70–100 mg/dL', '70–100 mg/dL',
          'Decreased (eg, 35 mg/dL here) when ethanol inhibits gluconeogenesis after hepatic glycogen depletion',
@@ -2386,7 +2387,7 @@
       ],
       objective:'Essential fructosuria is a benign disorder of fructose metabolism caused by fructokinase deficiency. In patients with essential fructosuria, some of the dietary fructose load is converted by hexokinase to fructose-6-phosphate, which can then enter glycolysis in normal individuals.',
       peer:{A:25, B:11, C:22, D:37, E:3},
-      img:'assets/qbank/CMQ-STEP1-BCH-0028_disorders_fructose_metabolism.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0028_disorders_fructose_metabolism.png',
       labs:[
         ['Urine reducing substances (Clinitest)', 'Negative', 'Negativo',
          'Positive (non-glucose reducing substance) in essential fructosuria due to urinary fructose excretion; Clinistix (glucose oxidase-specific) remains negative',
@@ -2431,7 +2432,7 @@
       ],
       objective:'Acid maltase (alpha-glucosidase) deficiency presents in early infancy with cardiomegaly, macroglossia, and profound muscular hypotonia. Abnormal glycogen accumulation within lysosomal vesicles is seen on muscle biopsy.',
       peer:{A:52, B:5, C:8, D:18, E:11, F:3},
-      img:'assets/qbank/CMQ-STEP1-BCH-0029_impairments_glycogenolysis.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0029_impairments_glycogenolysis.png',
       labs:[
         ['Creatine kinase, serum (child ≥2 months)', '≤90 U/L', '≤90 U/L',
          'Mildly to moderately elevated in Pompe disease (acid alpha-glucosidase deficiency) due to lysosomal glycogen accumulation in myocytes',
@@ -2479,7 +2480,7 @@
       ],
       objective:'Acetyl-CoA stimulates gluconeogenesis by increasing the activity of pyruvate carboxylase when acetyl-CoA is abundant. This regulatory step allows pyruvate to be shunted toward acetyl-CoA production when acetyl-CoA levels are low, preventing the cell from becoming depleted of energy.',
       peer:{A:39, B:7, C:12, D:17, E:6, F:17},
-      img:'assets/qbank/CMQ-STEP1-BCH-0030_metabolic_fate_pyruvate.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0030_metabolic_fate_pyruvate.png',
       labs:[
         ['Glucose, plasma (24-hour fast, adult)', '70–100 mg/dL (maintained via hepatic gluconeogenesis during prolonged fasting)', '70–100 mg/dL (mantida pela gliconeogênese hepática durante jejum prolongado)',
          'Remains within the normal range here (82 mg/dL) due to intact hepatic gluconeogenesis despite a 24-hour fast',
@@ -2529,7 +2530,8 @@
       ],
       objective:'Glucose-6-phosphate dehydrogenase (G6PD) is the rate-limiting enzyme of the pentose phosphate pathway. G6PD deficiency is a common X-linked recessive disorder resulting in episodes of hemolytic anemia during times of increased oxidative stress (eg, use of antimalarials/sulfonamide, infections).',
       peer:{A:7, B:6, C:56, D:11, E:5, F:9, G:2},
-      img:['assets/qbank/CMQ-STEP1-BCH-0032_g6pd_substrate_flow_diagram.png', 'assets/qbank/CMQ-STEP1-BCH-0032_pentose_phosphate_pathway.png'],
+      img:'assets/qbank/CMQ-STEP1-BCH-0032_g6pd_substrate_flow_diagram.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0032_pentose_phosphate_pathway.png',
       labs:[
         ['Reticulocyte count', '0.5–2.5% (adult)', '0,5–2,5% (adulto)',
          'Elevated here, reflecting a compensatory bone marrow response to acute hemolysis in G6PD deficiency',
@@ -2580,7 +2582,7 @@
       ],
       objective:'Unlike hereditary fructose intolerance (aldolase B deficiency) and classic galactosemia (galactose-1-phosphate uridyl transferase deficiency), essential fructosuria (fructokinase deficiency) is a benign disorder. Although affected patients are asymptomatic, their urine will test positive for a reducing sugar due to the presence of unmetabolized fructose.',
       peer:{A:8, B:12, C:62, D:10, E:6},
-      img:'assets/qbank/CMQ-STEP1-BCH-0033_disorders_fructose_metabolism.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0033_disorders_fructose_metabolism.png',
       labs:[
         ['Urine copper reduction test (Benedict/Clinitest)', 'Negative', 'Negativo',
          'Repeatedly positive (non-glucose reducing sugar) in essential fructosuria due to urinary fructose excretion, while the glucose oxidase dipstick remains negative',
@@ -2626,7 +2628,8 @@
       ],
       objective:'Myophosphorylase deficiency (McArdle disease, or glycogen storage disease type V) causes failure of muscle glycogenolysis, resulting in decreased exercise tolerance, muscle pain, cramping, and myoglobinuria shortly after initiating physical activity.',
       peer:{A:64, B:10, C:3, D:3, E:17},
-      img:['assets/qbank/CMQ-STEP1-BCH-0034_mcardle_substrate_flow_diagram.png', 'assets/qbank/CMQ-STEP1-BCH-0034_glycogenolysis_pathway.png'],
+      img:'assets/qbank/CMQ-STEP1-BCH-0034_mcardle_substrate_flow_diagram.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0034_glycogenolysis_pathway.png',
       labs:[
         ['Creatine kinase, serum (adult)', '30–200 U/L (assay-dependent)', '30–200 U/L (depende do método)',
          'Markedly elevated after exertion in McArdle disease (myophosphorylase deficiency) due to exercise-induced rhabdomyolysis',
@@ -2671,7 +2674,7 @@
       ],
       objective:'Niacin is a precursor for nicotinamide adenine dinucleotide (NAD) and nicotinamide adenine dinucleotide phosphate (NADP), two important cofactors for many dehydrogenase and reductase enzymes. Niacin deficiency results in pellagra (ie, diarrhea, dementia, and dermatitis).',
       peer:{A:12, B:5, C:42, D:10, E:30},
-      img:'assets/qbank/CMQ-STEP1-BCH-0035_niacin_dependent_tca_enzymes.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0035_niacin_dependent_tca_enzymes.png',
       labs:[
         ['N1-methylnicotinamide, urinary (24h)', '>17.5 µmol/day (adequate); <5.8 µmol/day (deficient)', '>17,5 µmol/dia (adequado); <5,8 µmol/dia (deficiente)',
          'Decreased (<5.8 µmol/day) in niacin (vitamin B3) deficiency/pellagra, reflecting reduced niacin methylation and excretion',
@@ -2715,7 +2718,7 @@
       ],
       objective:'Aldolase B deficiency causes hereditary fructose intolerance. This disease manifests after introduction of fructose into the diet with vomiting and hypoglycemia about 20-30 minutes after fructose ingestion. These infants can present with failure to thrive, jaundice, and hepatomegaly.',
       peer:{A:10, B:63, C:20, D:3, E:2},
-      img:'assets/qbank/CMQ-STEP1-BCH-0036_hereditary_fructose_intolerance_pathway.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0036_hereditary_fructose_intolerance_pathway.png',
       labs:[
         ['ALT (alanine aminotransferase), serum (infant)', '<35–40 U/L (assay-dependent pediatric reference)', '<35–40 U/L (referência pediátrica, depende do método)',
          'Elevated in hereditary fructose intolerance due to hepatocellular injury from fructose-1-phosphate accumulation',
@@ -2741,6 +2744,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0031', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0029_impairments_glycogenolysis.png',
       vignette:'A 6-month-old girl is brought to the office by her mother for a check-up appointment. The mother states, "My baby doesn\'t seem to be growing much despite feeding as often as my previous children. I\'m worried that something is wrong with her." Height and weight are below the 10th percentile. Physical examination shows hepatomegaly and hypotonia. Laboratory results show hypoglycemia and ketoacidosis. Liver biopsy shows hepatic fibrosis without fat accumulation. Further analysis reveals excessive amounts of abnormally structured polysaccharides within the cytosol of the hepatocytes.',
       q:'Which of the following enzymes is most likely deficient in this patient?',
       options:[
@@ -2811,6 +2815,7 @@
       objective:'Classic galactosemia results from deficiency of galactose-1-phosphate uridyl transferase. Clinical features include vomiting, lethargy, jaundice, and Escherichia coli sepsis. Cessation of breastfeeding and switching to soy milk-based formula is recommended.',
       peer:{A:16, B:3, C:16, D:51, E:11},
       img:'assets/qbank/CMQ-STEP1-BCH-0037_galactose_metabolism_lettered_diagram.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0037_expl_galactose_disorders_table.png',
       labs:[
         ['Galactose-1-phosphate, erythrocyte', '<1.0 mg/dL', '<1,0 mg/dL',
          'Markedly elevated (often >10 mg/dL) in classic galactosemia (GALT deficiency) due to accumulation of the toxic metabolite',
@@ -2856,7 +2861,8 @@
       ],
       objective:'GTP is synthesized by succinyl-CoA synthetase during the conversion of succinyl-CoA to succinate in the citric acid cycle. During gluconeogenesis, phosphoenolpyruvate carboxykinase uses GTP to synthesize phosphoenolpyruvate from oxaloacetate.',
       peer:{A:3, B:3, C:10, D:20, E:39, F:11, G:4, H:5},
-      img:['assets/qbank/CMQ-STEP1-BCH-0038_tca_cycle_lettered_diagram.png', 'assets/qbank/CMQ-STEP1-BCH-0038_tca_cycle_gtp_pepck.png'],
+      img:'assets/qbank/CMQ-STEP1-BCH-0038_tca_cycle_lettered_diagram.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0038_tca_cycle_gtp_pepck.png',
       ptTranslation:{
         vignette:'Um homem de 43 anos que prospecta ouro no Arizona fica preso no deserto depois que seu caminhão quebra. Ele trouxe um grande suprimento de água, mas apenas algumas barras de granola como alimento. Após 3 dias, ele consegue parar um veículo que passava e obter transporte até o povoado mais próximo. Durante essa provação, seu fígado começa a sintetizar grandes quantidades de glicose a partir de moléculas de origem como alanina, lactato e glicerol. Como parte desse processo, o fosfoenolpiruvato é formado a partir do oxaloacetato em uma reação que requer um nucleosídeo trifosfato específico como cofator.',
         q:'Qual das seguintes reações sintetiza diretamente esse cofator?',
@@ -2878,6 +2884,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0039', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0039_expl_pentose_phosphate_pathway.png',
       vignette:'Erythroblasts isolated from a bone marrow biopsy sample of a patient with neonatal jaundice are incubated in a medium containing radiolabeled glucose. The cells are unable to generate NADPH from glucose metabolism but are able to convert fructose-6-phosphate to ribose-5-phosphate, which is required for nucleic acid synthesis.',
       q:'Which of the following enzymes is essential for the latter conversion?',
       options:[
@@ -2919,6 +2926,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0040', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0040_expl_regulation_glycogenolysis.png',
       vignette:'A 31-year-old man comes to the office for a routine checkup. He has no significant medical problems and does not take any medications. The patient works as a fitness trainer and lifts weights recreationally. He has been consuming carbohydrate-rich food prior to his weightlifting sessions and claims that it increases muscle strength. A literature review shows that the rate of glycogenolysis within myocytes increases several hundredfold during active skeletal muscle contraction.',
       q:'Which of the following substances is most likely responsible for increasing the reaction rate during active contraction?',
       options:[
@@ -2958,6 +2966,7 @@
       }
     },
     { id:'CMQ-STEP1-BCH-0041', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0028_disorders_fructose_metabolism.png',
       vignette:'A 6-month-old full-term boy is brought to the emergency department with lethargy and vomiting. He was born by uncomplicated spontaneous vaginal delivery and has been growing and developing normally. The patient was breastfed exclusively until 2 days ago when homemade pureed food was added to his diet. He has had no fever or diarrhea. His parents are healthy and he has had no sick contacts. Examination shows a pale, diaphoretic, and ill-appearing infant. Serum glucose is 30 mg/dL. Diagnostic testing confirms aldolase B deficiency.',
       q:'Which of the following should be removed from this patient\'s diet?',
       options:[
@@ -3023,7 +3032,7 @@
       ],
       objective:'Impaired beta-oxidation of fatty acids causes hypoglycemia after prolonged fasting and insufficient levels of ketone bodies. Acyl-CoA dehydrogenase catalyzes the first step in the beta-oxidation pathway and is the most commonly deficient enzyme.',
       peer:{A:16, B:3, C:31, D:25, E:23},
-      img:'assets/qbank/CMQ-STEP1-BCH-0042_fatty_acid_oxidation_pathway.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0042_fatty_acid_oxidation_pathway.png',
       labs:[
         ['Glucose, plasma (child, fasting)', '70–100 mg/dL', '70–100 mg/dL',
          'Markedly decreased here (22 mg/dL) during a prolonged fast in a fatty acid oxidation disorder (eg, MCAD/acyl-CoA dehydrogenase deficiency)',
@@ -3112,7 +3121,7 @@
       ],
       objective:'Carnitine deficiency impairs fatty acid transport from the cytoplasm into mitochondria, preventing beta-oxidation of fatty acids into acetyl CoA. This leads to cardiac and skeletal myocyte injury (lack of ATP from citric acid cycle) and impaired ketone body production by the liver during fasting periods.',
       peer:{A:42, B:4, C:8, D:8, E:9, F:27},
-      img:'assets/qbank/CMQ-STEP1-BCH-0044_fatty_acid_oxidation_pathway.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0044_fatty_acid_oxidation_pathway.png',
       labs:[
         ['Glucose, plasma (child, fasting)', '70–100 mg/dL', '70–100 mg/dL',
          'Decreased here (37 mg/dL), consistent with hypoketotic hypoglycemia in primary carnitine deficiency',
@@ -3200,7 +3209,7 @@
       ],
       objective:'Reduced forms of folate serve as methyl group donors in the synthesis of methionine. Folate deficiency leads to impaired methionine synthesis with accumulation of homocysteine, a precursor to methionine. Methylmalonic acid metabolism is unaffected by folate deficiency.',
       peer:{A:54, B:12, C:20, D:6, E:6},
-      img:'assets/qbank/CMQ-STEP1-BCH-0046_methionine_cycle.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0046_methionine_cycle.png',
       labs:[
         ['Folate, serum', '2.7–17.0 ng/mL (varies by lab)', '2,7–17,0 ng/mL (varia por laboratório)',
          'Decreased here, consistent with folate deficiency from malabsorption in poorly controlled celiac disease',
@@ -3248,7 +3257,7 @@
       ],
       objective:'Hurler syndrome is a mucopolysaccharidosis caused by a deficiency of alpha-L-iduronidase, which hydrolyzes dermatan and heparan sulfate. Accumulation of these substances results in the characteristic features of intellectual disability, coarse facial features, corneal clouding, and hepatosplenomegaly. Early death due to cardiac complications (eg, myocardial infarction) is expected.',
       peer:{A:9, B:17, C:11, D:47, E:13},
-      img:'assets/qbank/CMQ-STEP1-BCH-0047_mucopolysaccharidoses_table.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0047_mucopolysaccharidoses_table.png',
       ptTranslation:{
         vignette:'Uma autópsia está sendo realizada em um menino de 4 anos que recentemente morreu de infarto do miocárdio. A criança tinha histórico de deficiência intelectual. A autópsia mostra testa proeminente e nariz largo. Há uma opacidade difusa sobre as córneas bilateralmente. O coração, o fígado e o baço estão aumentados.',
         q:'A amostragem das artérias coronárias mais provavelmente revelará acúmulo intimal de qual das seguintes substâncias?',
@@ -3288,7 +3297,7 @@
       ],
       objective:'Northern blots detect target mRNA in a sample and can be used to assess the degree of gene transcription.',
       peer:{A:42, B:16, C:28, D:5, E:6},
-      img:'assets/qbank/CMQ-STEP1-BCH-0048_northern_blot_technique.png',
+      explImg:'assets/qbank/CMQ-STEP1-BCH-0048_northern_blot_technique.png',
       ptTranslation:{
         vignette:'Acredita-se que uma mutação em uma sequência de DNA não codificante afete a expressão do gene que codifica uma enzima fetal específica. Células hepáticas e da medula óssea do feto e de seus pais são obtidas.',
         q:'Qual dos seguintes é o melhor método para determinar se esse gene está sendo transcrito em culturas das células isoladas?',
