@@ -4826,6 +4826,7 @@
     },
     // BATCH GEN 03 — Genetics: DNA structure, replication, and repair
     { id:'CMQ-STEP1-GEN-0022', system:'genetics', discipline:'biochemistry', category:'genetics::dna_structure_replication_repair', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0022_expl_prokaryotic_dna_replication_fork.png',
       vignette:'A 34-year-old woman with a history of recurrent urinary tract infections comes to the office with dysuria and increased urinary frequency.  Her urine culture grows colonies of Gram-negative bacteria.  The bacteria are isolated and placed in a growth-enhancing nutrient solution, where they undergo rapid cellular division.  As they are actively dividing, the bacterial cells are lysed and their DNA is extracted and purified.  Analysis of the partially replicated DNA fragments reveals the presence of uracil.',
       q:'Which of the following enzymes is most likely responsible for integration of this nucleotide into the DNA fragments?',
       options:[
@@ -4911,6 +4912,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0024', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0024_expl_origin_of_replication.png',
       vignette:'A genetic researcher is comparing the DNA replication process of prokaryotic and eukaryotic cells.  In an experiment, Escherichia coli and human cells are cultured in separate media containing tagged nucleotides and their rates of DNA replication are determined.  Although the eukaryotic genome is significantly larger and more complex than that of the prokaryote, eukaryotic DNA replication still occurs in a timely manner.',
       q:'Which of the following features of eukaryotic replication best explains this observation?',
       options:[
@@ -4951,6 +4953,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0025', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0025_expl_base_excision_repair.png',
       vignette:'A 56-year-old man comes to the office due to difficulty swallowing for the past several months.  He has the most trouble with solid foods and says, "They seem to get stuck in my throat if I don\'t chew a lot."  The patient has no chest pain or heartburn and has lost 4.5 kg (10 lb) in the last 3 months.  He has been an avid hunter for many years and frequently cures the meat he eats with sodium nitrite.  Physical examination is unremarkable.  Endoscopy shows an ulcerated mass in the distal third of the esophagus, and biopsy samples are obtained from the mass and adjacent normal mucosa.  Analysis of the samples shows accelerated cytosine deamination of chromosomal DNA in both normal and malignant epithelial cells.',
       q:'This damage is most likely to be repaired through which of the following enzymatic sequences?',
       options:[
@@ -4981,6 +4984,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0026', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0026_expl_frameshift_mutation.png',
       vignette:'A 34-year-old woman comes to the office due to dysuria.  The patient has a history of recurrent urinary tract infections.  A urine sample is collected and sent for culture.  Gram-negative bacteria isolated from the urine are found to form pink colonies on lactose-containing MacConkey agar.  Several days later, bacterial isolates from a second urine sample are found to form white colonies when plated on the same type of medium.  Genetic analysis shows that the more recent isolates have a single nucleotide deletion within the lac operon DNA sequence.',
       q:'This genomic change is most consistent with which of the following?',
       options:[
@@ -5019,6 +5023,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0027', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0027_expl_nucleotide_excision_repair.png',
       vignette:'An 18-year-old man comes to the urgent care clinic due to painful erythema affecting his extremities, trunk, and face.  He is vacationing in Florida and spent 5 hours at a Gulf coast beach earlier in the day.  The patient did not apply any sunscreen as it was cloudy.  The physician explains that cloud cover does not afford a high degree of protection against the sun, especially with prolonged exposure in highly reflective environments like the beach.  He is advised to wear protective clothing and apply sunscreen to prevent recurrence.',
       q:"Which of the following is most likely to happen within the patient's skin cells as a result of his exposure?",
       options:[
@@ -5059,6 +5064,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0028', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0028_expl_telomerase_stem_cell.png',
       vignette:'A cell biologist is studying the role of ribonucleoproteins in normal cellular function.  He prepares a cell extract using a specific cell type obtained from a 73-year-old man.  Ribonucleoproteins are separated and purified from the cell extract for structural and functional analyses.  These cells are found to express higher amounts of a particular protein in comparison to other cell types.  This protein has reverse transcriptase activity that functions to add TTAGGG repeats to the 3\' end of chromosomes.',
       q:'Which of the following cell types was most likely studied in this experiment?',
       options:[
@@ -5093,6 +5099,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0029', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0029_expl_radiation_cell_survival.png',
       vignette:'A 23-year-old previously healthy man comes to the office after noticing a painless, hard mass in the left testis.  Scrotal ultrasound shows a solid testicular mass, and CT scan of the abdomen and pelvis shows left paraaortic lymphadenopathy.  Left orchidectomy is performed and postoperative histopathology reveals seminoma of the testis.  External beam radiotherapy is administered to the paraaortic metastatic area.  Several weeks later, the retroperitoneal nodes are observed to have markedly decreased in size.',
       q:'Which of the following is the most likely effect of the therapy used on the metastatic cells in this patient?',
       options:[
@@ -5133,6 +5140,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0030', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0030_expl_euchromatin_heterochromatin.png',
       vignette:"A 24-year-old woman comes to the office for evaluation of a skin lesion.  Physical examination shows a 5-mm, brown, oval macule on her anterior thigh.  Biopsy of the lesion shows normal-appearing nevus cells clustered in the epidermis, consistent with a benign acquired melanocytic nevus.  During histologic analysis, the patient's epithelial cells are found to each contain a condensed body composed of heavily methylated DNA at the periphery of the nucleus.",
       q:'This region of DNA is most likely associated with which of the following genetic findings?',
       options:[
@@ -5215,6 +5223,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0032', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0032_expl_prokaryotic_replication_proteins_table.png',
       vignette:'A research scientist purifies DNA polymerase III from an Escherichia coli extract.  The isolated enzymes are then incubated in a mixture containing DNA templates, RNA primer oligonucleotides, and tagged deoxynucleotides.  After analyzing the DNA molecules formed during incubation, the researcher concludes that the enzyme possesses 3\' to 5\' exonuclease activity.',
       q:'Which of the following enzymatic actions was most likely observed during the experiment?',
       options:[
@@ -5255,6 +5264,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0033', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0033_expl_eukaryotic_dna_organization.png',
       vignette:'Researchers studying molecular biology observe a eukaryotic cell via electron microscopy.  During interphase of the cell cycle, they notice 10-nm thick chromatin fibers with a "beads on a string" appearance.  These chromatin fibers are extracted and treated with an endonuclease, which preferentially cleaves the "string" portions of the chromatin.  Further evaluation reveals that the "beads" are composed of DNA wrapped around a core of proteins.',
       q:'Which of the following proteins is most likely found outside this core and promotes chromatin compaction?',
       options:[
@@ -5297,6 +5307,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0034', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0027_expl_nucleotide_excision_repair.png',
       vignette:'A 6-year-old boy is brought to the office due to a persistent facial ulcer for the past 2 months.  His mother reports that the patient has extreme sensitivity to sunlight and has developed freckles on his face, neck, and limbs since infancy.  On physical examination, the skin in sun-exposed areas is dry and rough with numerous freckles and erythematous macules.  There is an ulcerated plaque on the left face; a biopsy reveals squamous cell carcinoma.  Further testing leads to a diagnosis of xeroderma pigmentosum.',
       q:"A defect in which of the following enzymes is most likely causing this patient's condition?",
       options:[
@@ -5373,6 +5384,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0036', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0022_expl_prokaryotic_dna_replication_fork.png',
       vignette:"A pharmaceutical researcher develops a novel antibacterial drug that works by inhibiting exonuclease activity during DNA replication.  When actively dividing Escherichia coli is exposed to the drug, enzyme-mediated nucleotide removal in the 5' to 3' direction is impaired, leading to inhibition of bacterial growth.",
       q:'Which of the following enzymes is the most likely target of this drug?',
       options:[
@@ -5417,6 +5429,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0037', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0037_expl_telomerase_cell_division.png',
       vignette:'An 18-year-old woman comes to the office for evaluation of graying hair.  The patient has no other concerns and has otherwise been healthy.  She reports that her mother had similar features at a young age and died of progressive pulmonary fibrosis.  Examination shows diffuse gray hair.  There are white patches on the surface of the tongue.  Cardiopulmonary examination is unremarkable, and the abdomen is soft and nondistended.  Skin examination shows areas of reticular hyperpigmentation on the neck and torso.  The nails of the fingers and toes appear thin.  Genetic testing reveals a loss-of-function mutation affecting the telomerase reverse transcriptase gene.',
       q:'Which of the following cell types is most likely to be affected by this mutation?',
       options:[
@@ -5455,6 +5468,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0038', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0038_expl_dna_replication_fork.png',
       vignette:'A 65-year-old woman with chronic obstructive pulmonary disease and type 2 diabetes mellitus comes to the emergency department due to profound fever and malaise.  After initial evaluation, she is hospitalized for sepsis.  Blood cultures plated on lactose-containing media grow rapidly dividing gram-negative bacteria.  Replication of these microbial cells requires the synthesis of new bacterial DNA, a process that uses parent DNA strands as templates to produce 2 daughter strands.  DNA synthesis occurs slightly differently between the 2 strands.',
       q:'The greatest difference most likely involves which of the following processes?',
       options:[
@@ -5489,6 +5503,7 @@
       }
     },
     { id:'CMQ-STEP1-GEN-0039', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0038_expl_dna_replication_fork.png',
       vignette:'A 4-year-old boy is brought to the office for evaluation of fatigue and bone pain.  Physical examination shows diffuse lymphadenopathy and purpura over his arms and legs.  Laboratory analysis reveals anemia and thrombocytopenia, and a peripheral blood smear shows lymphoblasts.  After further work-up, acute lymphoblastic leukemia is diagnosed, and the patient begins a chemotherapy regimen that includes doxorubicin.  This agent intercalates between DNA base pairs and inhibits DNA replication, a process that normally occurs at replication forks and produces 2 distinct daughter strands.',
       q:'Which of the following is unique to the daughter strand that is synthesized in the opposite direction of the growing replication fork?',
       options:[
