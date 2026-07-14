@@ -4498,6 +4498,118 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0014', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'A 5-year-old boy is being evaluated for progressive muscle weakness that has resulted in numerous recent falls.  There is no family history of muscle disorders.  Physical examination reveals bilateral calf enlargement.  When the patient is asked to stand, he uses his hands and arms to help push himself to an upright position.  Serum creatine kinase is 12,600 U/L (normal: 30-170 U/L).  Molecular tests reveal a large muscle protein that is defective due to the loss of 508 amino acid residues.  Genetic analysis reveals a single base substitution within exon 48 of the gene encoding this muscle protein.',
+      q:"This patient's gene mutation has most likely resulted in which of the following mRNA codon changes?",
+      options:[
+        {label:'A', text:'CUU → AUU'},
+        {label:'B', text:'UAA → UAG'},
+        {label:'C', text:'UAC → CAC'},
+        {label:'D', text:'UCA → UGA'},
+        {label:'E', text:'UUU → UUC'},
+      ],
+      correct:'D',
+      explC:'This young boy with progressive proximal muscle weakness, calf pseudohypertrophy, Gowers sign, and elevated creatine kinase likely has Duchenne muscular dystrophy, an X-linked recessive disorder caused by mutations in the dystrophin gene.  Although Duchenne muscular dystrophy is most commonly caused by deletions resulting in frameshift mutations, nonsense mutations may also occur, leading to the formation of a truncated dystrophin protein.\n\nAfter messenger RNA (mRNA) is produced from DNA and posttranscriptionally modified, it is transported to the cytoplasm for translation into protein.  mRNA is composed of groups of 3 sequential nucleotide bases known as codons.  These nucleotide triplets code for specific amino acids and signal for the initiation (eg, start codon [AUG]) or termination of translation (eg, stop codons [UAA, UAG, UGA]).  In this case, a single base substitution from UCA (serine) to UGA has introduced a premature stop codon in the middle of the protein sequence (nonsense mutation), resulting in early termination of protein synthesis.\n\nDystrophin normally links with actin fibers and provides mechanical reinforcement to glycoprotein complexes in the plasma membrane of skeletal muscle cells.  Consequently, dystrophin dysfunction leads to increased breakdown of the sarcolemma, muscle fiber degeneration, and the clinical findings described above.',
+      explI:[
+        {option:'A and C', explanation:'Changing CUU (leucine) to AUU (isoleucine) or UAC (tyrosine) to CAC (histidine) would result in an amino acid substitution at one position (missense mutation).  The function of this protein may be altered depending on a variety of factors, but the ultimate size of the protein will remain the same.  Missense mutations that result in the substitution of a new amino acid with similar chemical properties are called conservative mutations.'},
+        {option:'B', explanation:'Changing UAA to UAG would not affect protein structure or function because both of these sequences are stop codons.  Stop codons are normally located at the end of the translated region of mRNA.'},
+        {option:'E', explanation:'Changing UUU to UUC would not affect the protein as both sequences code for phenylalanine.  Point mutations that do not change the amino acid sequence of a protein are called silent mutations.'},
+      ],
+      objective:'Duchenne muscular dystrophy presents with progressive proximal muscle weakness in young boys due to increased muscle fiber degeneration.  It is caused by frameshift mutations (most common) or nonsense mutations in the dystrophin gene that lead to the formation of a truncated, defective protein.  Nonsense mutations introduce premature stop codons (eg, UAA, UAG, UGA) in the coding sequence of mRNA.',
+      peer:{A:3, B:23, C:8, D:62, E:2},
+      labs:[
+        ['Creatine kinase (serum)', '30–170 U/L', '30–170 U/L',
+         'Markedly elevated (this patient: 12,600 U/L) in Duchenne muscular dystrophy due to ongoing skeletal muscle fiber breakdown',
+         'Marcadamente elevada (neste paciente: 12.600 U/L) na distrofia muscular de Duchenne, por degeneração contínua das fibras musculares esqueléticas'],
+      ],
+      ptTranslation:{
+        vignette:'Um menino de 5 anos está sendo avaliado por fraqueza muscular progressiva que resultou em várias quedas recentes.  Não há histórico familiar de distúrbios musculares.  O exame físico revela hipertrofia bilateral das panturrilhas.  Quando solicitado a ficar em pé, o paciente usa as mãos e os braços para se ajudar a alcançar a posição ereta.  A creatina quinase sérica é de 12.600 U/L (normal: 30-170 U/L).  Testes moleculares revelam uma grande proteína muscular defeituosa devido à perda de 508 resíduos de aminoácidos.  A análise genética revela uma substituição de base única dentro do éxon 48 do gene que codifica essa proteína muscular.',
+        q:'A mutação genética deste paciente muito provavelmente resultou em qual das seguintes alterações de códon no mRNA?',
+        objective:'A distrofia muscular de Duchenne se apresenta com fraqueza muscular proximal progressiva em meninos jovens devido ao aumento da degeneração das fibras musculares.  É causada por mutações frameshift (mais comum) ou mutações nonsense no gene da distrofina, que levam à formação de uma proteína truncada e defeituosa.  Mutações nonsense introduzem códons de parada prematuros (ex.: UAA, UAG, UGA) na sequência codificante do mRNA.',
+        options:[
+          {label:'A', text:'CUU → AUU'},
+          {label:'B', text:'UAA → UAG'},
+          {label:'C', text:'UAC → CAC'},
+          {label:'D', text:'UCA → UGA'},
+          {label:'E', text:'UUU → UUC'},
+        ],
+        explC:'Este menino com fraqueza muscular proximal progressiva, pseudo-hipertrofia de panturrilhas, sinal de Gowers e creatina quinase elevada provavelmente tem distrofia muscular de Duchenne, um distúrbio recessivo ligado ao X causado por mutações no gene da distrofina.  Embora a distrofia muscular de Duchenne seja mais comumente causada por deleções que resultam em mutações frameshift, mutações nonsense também podem ocorrer, levando à formação de uma proteína distrofina truncada.\n\nApós o RNA mensageiro (mRNA) ser produzido a partir do DNA e sofrer modificação pós-transcricional, ele é transportado ao citoplasma para tradução em proteína.  O mRNA é composto por grupos de 3 bases nucleotídicas sequenciais conhecidas como códons.  Esses tripletos de nucleotídeos codificam aminoácidos específicos e sinalizam o início (ex.: códon de início AUG) ou o término da tradução (ex.: códons de parada UAA, UAG, UGA).  Neste caso, uma substituição de base única de UCA (serina) para UGA introduziu um códon de parada prematuro no meio da sequência proteica (mutação nonsense), resultando em término precoce da síntese proteica.\n\nA distrofina normalmente se liga a fibras de actina e fornece reforço mecânico aos complexos de glicoproteínas na membrana plasmática das células musculares esqueléticas.  Consequentemente, a disfunção da distrofina leva ao aumento da degradação do sarcolema, degeneração das fibras musculares e aos achados clínicos descritos acima.',
+        explI:[
+          {option:'A and C', explanation:'Mudar CUU (leucina) para AUU (isoleucina) ou UAC (tirosina) para CAC (histidina) resultaria em uma substituição de aminoácido em uma posição (mutação missense).  A função dessa proteína pode ser alterada dependendo de vários fatores, mas o tamanho final da proteína permanecerá o mesmo.  Mutações missense que resultam na substituição por um novo aminoácido com propriedades químicas semelhantes são chamadas de mutações conservativas.'},
+          {option:'B', explanation:'Mudar UAA para UAG não afetaria a estrutura ou função da proteína, pois ambas as sequências são códons de parada.  Códons de parada normalmente ficam localizados no final da região traduzida do mRNA.'},
+          {option:'E', explanation:'Mudar UUU para UUC não afetaria a proteína, pois ambas as sequências codificam fenilalanina.  Mutações pontuais que não alteram a sequência de aminoácidos de uma proteína são chamadas de mutações silenciosas (silent).'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0015', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'A 26-year-old woman comes to the office with her husband for genetic counseling.  Both of them are healthy with no chronic medical conditions, but their firstborn son has had recurrent episodes of anemia, jaundice, and painful swelling of the hands and feet.  Hemoglobin electrophoresis is performed on the son at alkaline pH to determine the predominant hemoglobin variants present in his red blood cells.  The results are shown below.',
+      q:'The parents are considering having another child.  What is the probability they will conceive a child who inherits ≥1 mutated alleles?',
+      img:'assets/qbank/CMQ-STEP1-GEN-0015_hemoglobin_electrophoresis_scd.png',
+      options:[
+        {label:'A', text:'Near 0%'},
+        {label:'B', text:'25%'},
+        {label:'C', text:'50%'},
+        {label:'D', text:'75%'},
+        {label:'E', text:'100%'},
+      ],
+      correct:'D',
+      explC:"This couple's son has sickle cell disease (SCD), an autosomal recessive disorder characterized by the production of hemoglobin S and sickled red blood cells that undergo hemolysis (eg, anemia, jaundice) and cause vascular obstruction (eg, painful swelling of the hands/feet).  SCD is diagnosed using hemoglobin electrophoresis, which separates different types of hemoglobin according to the electrical charge of their amino acid composition.  In this case, electrophoresis shows a predominance of hemoglobin S, consistent with SCD.\n\nFor autosomal recessive disorders such as SCD, affected offspring must inherit a mutant allele from each parent.  In this case, both parents are unaffected but have affected offspring.  Therefore, both parents must be carriers, and the probability of inheriting each of the 3 possible genotypes (AA, Aa, aa) can be determined using a Punnett square.\n\n- 25% probability (1 in 4) of inheriting 2 normal alleles (AA, unaffected)\n- 50% (2 in 4) probability of inheriting 1 normal allele and 1 mutated allele (Aa, carrier)\n- 25% (1 in 4) probability of inheriting 2 mutated alleles (aa, affected)\n\nAlthough the couple already has an affected child, each child's genotype is determined independently, and the probability of this couple's second child inheriting ≥1 mutant alleles is neither more nor less likely than that of their first.  Therefore, the probability of this couple's second child inheriting ≥1 mutated alleles is 50% + 25% = 75%.",
+      explI:[],
+      objective:'Sickle cell disease is an autosomal recessive disorder characterized by a predominance of hemoglobin S, causing red blood cells to sickle, hemolyze, and cause vascular obstruction.  Offspring of carrier parents have a 3 in 4 (75%) chance of inheriting at least 1 mutated allele (ie, genotype Aa or aa).',
+      peer:{A:2, B:28, C:8, D:56, E:3},
+      ptTranslation:{
+        vignette:'Uma mulher de 26 anos vem ao consultório com o marido para aconselhamento genético.  Ambos são saudáveis, sem condições médicas crônicas, mas o primeiro filho do casal tem tido episódios recorrentes de anemia, icterícia e inchaço doloroso das mãos e dos pés.  A eletroforese de hemoglobina é realizada no filho em pH alcalino para determinar as variantes predominantes de hemoglobina presentes em suas hemácias.  Os resultados são mostrados abaixo.',
+        q:'Os pais estão considerando ter outro filho.  Qual é a probabilidade de conceberem um filho que herde ≥1 alelo mutado?',
+        objective:'A doença falciforme é um distúrbio autossômico recessivo caracterizado por predominância de hemoglobina S, causando falcização das hemácias, hemólise e obstrução vascular.  Filhos de pais portadores têm 3 em 4 (75%) chances de herdar ao menos 1 alelo mutado (isto é, genótipo Aa ou aa).',
+        options:[
+          {label:'A', text:'Próximo de 0%'},
+          {label:'B', text:'25%'},
+          {label:'C', text:'50%'},
+          {label:'D', text:'75%'},
+          {label:'E', text:'100%'},
+        ],
+        explC:'O filho deste casal tem doença falciforme (DF), um distúrbio autossômico recessivo caracterizado pela produção de hemoglobina S e hemácias falcizadas que sofrem hemólise (ex.: anemia, icterícia) e causam obstrução vascular (ex.: inchaço doloroso das mãos/pés).  A DF é diagnosticada por eletroforese de hemoglobina, que separa os diferentes tipos de hemoglobina de acordo com a carga elétrica de sua composição de aminoácidos.  Neste caso, a eletroforese mostra predominância de hemoglobina S, compatível com DF.\n\nEm distúrbios autossômicos recessivos como a DF, a prole afetada deve herdar um alelo mutante de cada genitor.  Neste caso, ambos os pais não são afetados mas têm um filho afetado.  Portanto, ambos os pais devem ser portadores, e a probabilidade de herdar cada um dos 3 genótipos possíveis (AA, Aa, aa) pode ser determinada usando um quadro de Punnett.\n\n- 25% de probabilidade (1 em 4) de herdar 2 alelos normais (AA, não afetado)\n- 50% (2 em 4) de probabilidade de herdar 1 alelo normal e 1 alelo mutado (Aa, portador)\n- 25% (1 em 4) de probabilidade de herdar 2 alelos mutados (aa, afetado)\n\nEmbora o casal já tenha um filho afetado, o genótipo de cada filho é determinado de forma independente, e a probabilidade de o segundo filho deste casal herdar ≥1 alelo mutante não é nem mais nem menos provável do que a do primeiro filho.  Portanto, a probabilidade de o segundo filho deste casal herdar ≥1 alelo mutado é 50% + 25% = 75%.',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0016', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      vignette:'A 1-hour-old girl born to a 40-year-old woman is brought to the nursery for evaluation.  The pregnancy and delivery were uncomplicated.  Physical examination shows mid-face hypoplasia with a flat nasal bridge, up-slanting palpebral fissures, a small mouth, and a single palmar crease bilaterally.  Cardiac auscultation reveals a blowing holosystolic murmur heard best along the sternal border.',
+      q:'Which of the following abnormalities is most likely to be present in this patient?',
+      options:[
+        {label:'A', text:'Aberrant genomic imprinting'},
+        {label:'B', text:'Mosaicism'},
+        {label:'C', text:'Partial deletion'},
+        {label:'D', text:'Triplet expansion'},
+        {label:'E', text:'Uniparental disomy'},
+      ],
+      correct:'B',
+      explC:"This child has many of the characteristic features of Down syndrome (DS), a condition that results from an increased gene dosage effect due to an extra copy of chromosome 21.  Three cytogenetic abnormalities can lead to DS:\n\n- Meiotic nondisjunction accounts for nearly 95% of DS cases.  Failure of homologous chromosomes or sister chromatids to separate during meiosis can result in the inheritance of 3 copies of chromosome 21 in one daughter cell (trisomy) and 1 copy in the other daughter cell (monosomy).  Nondisjunction during meiosis is almost always of maternal origin.\n- Unbalanced translocations account for 2%-3% of DS cases.  These individuals have 46 chromosomes, but have extra genetic material (consisting of duplicate chromosome 21 genes) attached to one of their chromosomes.  Approximately one third of these cases are due to a balanced translocation in one parent, which confers a high recurrence risk.\n- Mosaicism accounts for <2% of DS cases.  Affected individuals have 2 distinct cell lines as a result of nondisjunction during mitosis: one with a normal genotype and one with trisomy 21.  The proportion of affected cells determines the severity of DS features.\n\nOf the available answer options, only mosaicism is consistent with a third copy of chromosome 21 existing in at least a portion of the patient's cells.",
+      explI:[
+        {option:'A and E', explanation:"Genomic imprinting is a normal process that refers to selective activation of gene expression depending on the parent of origin.  Aberrant imprinting occurs with uniparental disomy, or when a person receives 2 copies of a chromosome from the same parent and no copy from the other parent.  Prader-Willi syndrome and Angelman syndrome (15q) are examples of conditions caused by dysfunctional imprinting due to uniparental disomy."},
+        {option:'C', explanation:'Many genetic syndromes are caused by deletions (loss of genetic material).  Cri du chat syndrome (5p deletion) is an example of a syndrome caused by a partial deletion of chromosome 5.'},
+        {option:'D', explanation:'Increased trinucleotide repeats (triplet expansion) on certain genes can lead to silencing of a gene or synthesis of an abnormal gene product.  Huntington disease and fragile X syndrome are examples of conditions caused by triplet expansion.'},
+      ],
+      objective:'Common findings in Down syndrome include cognitive impairment, facial dysmorphism, and cardiac defects; 95% of cases are caused by the presence of an extra chromosome 21 (trisomy) resulting from nondisjunction.  Unbalanced Robertsonian translocations or mosaicism are less common causes.',
+      peer:{A:3, B:42, C:5, D:16, E:33},
+      ptTranslation:{
+        vignette:'Uma menina de 1 hora de vida, filha de uma mulher de 40 anos, é levada ao berçário para avaliação.  A gestação e o parto transcorreram sem intercorrências.  O exame físico mostra hipoplasia da face média com ponte nasal achatada, fendas palpebrais oblíquas para cima, boca pequena e prega palmar única bilateralmente.  A ausculta cardíaca revela um sopro holossistólico em sopro, mais audível ao longo da borda esternal.',
+        q:'Qual das seguintes anormalidades tem mais probabilidade de estar presente nesta paciente?',
+        objective:'Achados comuns na síndrome de Down incluem deficiência cognitiva, dismorfismo facial e defeitos cardíacos; 95% dos casos são causados pela presença de um cromossomo 21 extra (trissomia) resultante de não disjunção.  Translocações Robertsonianas não balanceadas ou mosaicismo são causas menos comuns.',
+        options:[
+          {label:'A', text:'Imprinting genômico aberrante'},
+          {label:'B', text:'Mosaicismo'},
+          {label:'C', text:'Deleção parcial'},
+          {label:'D', text:'Expansão de tripleto'},
+          {label:'E', text:'Dissomia uniparental'},
+        ],
+        explC:'Esta criança tem muitas das características típicas da síndrome de Down (SD), uma condição que resulta de um efeito de dosagem gênica aumentada devido a uma cópia extra do cromossomo 21.  Três anormalidades citogenéticas podem causar SD:\n\n- A não disjunção meiótica responde por quase 95% dos casos de SD.  A falha na separação de cromossomos homólogos ou cromátides-irmãs durante a meiose pode resultar na herança de 3 cópias do cromossomo 21 em uma célula-filha (trissomia) e 1 cópia na outra célula-filha (monossomia).  A não disjunção durante a meiose é quase sempre de origem materna.\n- Translocações não balanceadas respondem por 2%-3% dos casos de SD.  Esses indivíduos têm 46 cromossomos, mas possuem material genético extra (consistindo em genes duplicados do cromossomo 21) anexado a um de seus cromossomos.  Aproximadamente um terço desses casos se deve a uma translocação balanceada em um dos pais, o que confere alto risco de recorrência.\n- O mosaicismo responde por <2% dos casos de SD.  Indivíduos afetados têm 2 linhagens celulares distintas em decorrência de não disjunção durante a mitose: uma com genótipo normal e outra com trissomia do 21.  A proporção de células afetadas determina a gravidade das características da SD.\n\nDentre as opções disponíveis, apenas o mosaicismo é compatível com a existência de uma terceira cópia do cromossomo 21 em ao menos uma parte das células da paciente.',
+        explI:[
+          {option:'A and E', explanation:'O imprinting genômico é um processo normal que se refere à ativação seletiva da expressão gênica dependendo do genitor de origem.  O imprinting aberrante ocorre na dissomia uniparental, ou quando uma pessoa recebe 2 cópias de um cromossomo do mesmo genitor e nenhuma cópia do outro genitor.  A síndrome de Prader-Willi e a síndrome de Angelman (15q) são exemplos de condições causadas por imprinting disfuncional devido à dissomia uniparental.'},
+          {option:'C', explanation:'Muitas síndromes genéticas são causadas por deleções (perda de material genético).  A síndrome do miado do gato ("cri du chat", deleção 5p) é um exemplo de síndrome causada por deleção parcial do cromossomo 5.'},
+          {option:'D', explanation:'O aumento de repetições de trinucleotídeos (expansão de tripleto) em certos genes pode levar ao silenciamento de um gene ou à síntese de um produto gênico anormal.  A doença de Huntington e a síndrome do X frágil são exemplos de condições causadas por expansão de tripleto.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
