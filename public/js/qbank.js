@@ -4174,6 +4174,200 @@
         ]
       }
     },
+    // BATCH GEN 02 — Genetics: Clinical genetics (continued)
+    { id:'CMQ-STEP1-GEN-0006', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      vignette:'A healthy couple, who recently emigrated from Eastern Europe, brings their 3-year-old son to the office for evaluation of an eczematous rash.  On examination, the child also shows signs of intellectual disability and gait abnormality and has a musty body odor.',
+      q:"Which of the following is the likelihood that this couple's next child will be affected with the same disease?",
+      options:[
+        {label:'A', text:'Same as the general population'},
+        {label:'B', text:'1/32'},
+        {label:'C', text:'1/16'},
+        {label:'D', text:'1/8'},
+        {label:'E', text:'1/4'},
+        {label:'F', text:'1/2'},
+      ],
+      correct:'E',
+      explC:'Intellectual disability, gait abnormalities, a musty body odor, and eczema are signs consistent with phenylketonuria (PKU).  PKU is caused by a mutation in a single gene that codes for phenylalanine hydroxylase.  This enzyme normally synthesizes tyrosine from phenylalanine, and a buildup of phenylalanine in the CNS results in neurologic dysfunction.  In the United States, phenylalanine levels are measured in neonates via routine newborn screening.\n\nPKU is an autosomal recessive disease.  Therefore, when a child is affected but parents are unaffected, the parents are very likely to be heterozygous carriers of the mutation.  The probability of a child inheriting any disease with an autosomal recessive inheritance pattern, including PKU, depends on the following factors:\n\np1 = probability that the mother transmits the mutant allele = 1/2\np2 = probability that the father transmits the mutant allele = 1/2\n\nThe probability that a child will inherit a mutant allele from each carrier parent is equal to p1 × p2 = 1/4 because these are independent events (Choices A, B, and D).',
+      explI:[
+        {option:'C', explanation:'The probability of having two future children both inherit an autosomal recessive disease from parents who are heterozygous carriers is 1/4 × 1/4 = 1/16 (each 1/4 representing the likelihood of 1 child inheriting the disease).  In this case, this family already has an affected child, making the probability of a single subsequent child with the disease remain at 1/4.'},
+        {option:'F', explanation:'The probability that a child will inherit an autosomal dominant disorder if one parent is affected is 1/2.'},
+      ],
+      objective:'Intellectual disability, gait abnormalities, and a musty body odor are signs of phenylketonuria, an autosomal recessive disorder.  The probability that a child will inherit an autosomal recessive disease from heterozygous carrier parents is 1/4.',
+      peer:{A:5, B:0, C:4, D:4, E:79, F:5},
+      labs:[
+        ['Phenylalanine (blood, newborn screening)', '<2 mg/dL', '<2 mg/dL',
+         'Markedly elevated (classically >20 mg/dL if untreated) in phenylketonuria due to deficient phenylalanine hydroxylase activity',
+         'Marcadamente elevada (classicamente >20 mg/dL se não tratada) na fenilcetonúria, por atividade deficiente da fenilalanina hidroxilase'],
+      ],
+      ptTranslation:{
+        vignette:'Um casal saudável, que recentemente emigrou do Leste Europeu, leva seu filho de 3 anos ao consultório para avaliação de uma erupção cutânea eczematosa.  Ao exame, a criança também apresenta sinais de deficiência intelectual e alteração da marcha, além de odor corporal característico ("mofado").',
+        q:'Qual das seguintes é a probabilidade de o próximo filho deste casal ser afetado pela mesma doença?',
+        objective:'Deficiência intelectual, alterações da marcha e odor corporal característico ("mofado") são sinais de fenilcetonúria, um distúrbio autossômico recessivo.  A probabilidade de um filho herdar uma doença autossômica recessiva de pais portadores heterozigotos é de 1/4.',
+        options:[
+          {label:'A', text:'Igual à da população geral'},
+          {label:'B', text:'1/32'},
+          {label:'C', text:'1/16'},
+          {label:'D', text:'1/8'},
+          {label:'E', text:'1/4'},
+          {label:'F', text:'1/2'},
+        ],
+        explC:'Deficiência intelectual, alterações da marcha, odor corporal característico ("mofado") e eczema são sinais compatíveis com fenilcetonúria (PKU).  A PKU é causada por uma mutação em um único gene que codifica a fenilalanina hidroxilase.  Essa enzima normalmente sintetiza tirosina a partir da fenilalanina, e o acúmulo de fenilalanina no SNC resulta em disfunção neurológica.  Nos Estados Unidos, os níveis de fenilalanina são medidos em neonatos por meio da triagem neonatal de rotina.\n\nA PKU é uma doença autossômica recessiva.  Portanto, quando uma criança é afetada mas os pais não são, é muito provável que os pais sejam portadores heterozigotos da mutação.  A probabilidade de um filho herdar qualquer doença com padrão de herança autossômico recessivo, incluindo a PKU, depende dos seguintes fatores:\n\np1 = probabilidade de a mãe transmitir o alelo mutante = 1/2\np2 = probabilidade de o pai transmitir o alelo mutante = 1/2\n\nA probabilidade de um filho herdar um alelo mutante de cada genitor portador é igual a p1 × p2 = 1/4, pois esses são eventos independentes (Alternativas A, B e D).',
+        explI:[
+          {option:'C', explanation:'A probabilidade de dois futuros filhos herdarem uma doença autossômica recessiva de pais que são portadores heterozigotos é 1/4 × 1/4 = 1/16 (cada 1/4 representando a probabilidade de 1 filho herdar a doença).  Neste caso, esta família já tem um filho afetado, o que faz a probabilidade de um filho subsequente com a doença permanecer em 1/4.'},
+          {option:'F', explanation:'A probabilidade de um filho herdar um distúrbio autossômico dominante, se um dos genitores for afetado, é de 1/2.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0007', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      vignette:"A 3-year-old boy is being evaluated for recurrent respiratory infections.  The patient's family immigrated to the United States 5 months after his birth.  Since then, the boy has experienced multiple episodes of pneumonia and bronchitis.  Genetic testing reveals a mutation in exon 4 of the CFTR gene leading to production of an mRNA transcript that is 6,118 nucleotides long.  The wild-type allele produces an mRNA transcript that is 6,128 nucleotides long.",
+      q:"Which of the following is most likely responsible for this patient's condition?",
+      options:[
+        {label:'A', text:'Frameshift deletion'},
+        {label:'B', text:'In-frame deletion'},
+        {label:'C', text:'Missense mutation'},
+        {label:'D', text:'Nonsense mutation'},
+        {label:'E', text:'Trinucleotide expansion'},
+      ],
+      correct:'A',
+      explC:"This patient has cystic fibrosis due to mutation affecting the CFTR (cystic fibrosis transmembrane conductance regulator) gene.  The mutation is found within an exon (coding region), so it is detectable in the mRNA transcript.\n\nSpecifically, the patient's CFTR transcript is 10 nucleotides shorter than the wild-type transcript.  Deletion or insertion of a number of bases that is not divisible by 3 shifts the translation reading frame, generating entirely new codons downstream of the modification.  Most frameshift mutations cause the translated protein to have a dramatically different amino acid structure than the native protein, leading to loss of normal function.",
+      explI:[
+        {option:'B', explanation:'One or more complete codons (genetic triplet codes) are removed in an in-frame deletion reflecting the deletion of a number of bases divisible by 3 (unlike in this case).  Although this reduces overall mRNA strand length, the reading frames of subsequent codons are intact, and the protein is more likely to retain at least some function as compared with frameshift mutations.'},
+        {option:'C and D', explanation:"Missense and nonsense mutations are due to single base substitutions that result in the placement of an incorrect amino acid (missense) or the introduction of a premature stop codon (nonsense).  These mutations occur in exons and affect protein translation, causing varying degrees of dysfunction depending on their location in the sequence.  Because the mutations are base substitutions in exon regions, mRNA transcript length is unaffected (RNA transcription is terminated by specific sequences in the 3' untranslated region); however, in the case of a nonsense mutation, the protein length is reduced."},
+        {option:'E', explanation:"Trinucleotide expansions increase the number of trinucleotide repeats in a gene, often resulting in large proteins with abnormal function when they occur within coding regions.  This patient's abnormal CFTR gene is shorter (not longer) than the normal gene, which indicates a deletion has occurred."},
+      ],
+      objective:'Deletion or addition of a number of bases that is not divisible by 3 in the coding region of a gene will cause a frameshift mutation.  Frameshift mutations alter the reading frame of the genetic code, resulting in the formation of nonfunctional proteins.',
+      peer:{A:39, B:14, C:11, D:30, E:3},
+      ptTranslation:{
+        vignette:'Um menino de 3 anos está sendo avaliado por infecções respiratórias recorrentes.  A família do paciente imigrou para os Estados Unidos 5 meses após seu nascimento.  Desde então, o menino teve vários episódios de pneumonia e bronquite.  O teste genético revela uma mutação no éxon 4 do gene CFTR, levando à produção de um transcrito de mRNA com 6.118 nucleotídeos de comprimento.  O alelo selvagem produz um transcrito de mRNA com 6.128 nucleotídeos de comprimento.',
+        q:'Qual das seguintes é a mais provável responsável pela condição deste paciente?',
+        objective:'A deleção ou adição de um número de bases que não é divisível por 3 na região codificante de um gene causará uma mutação frameshift (mudança de matriz de leitura).  Mutações frameshift alteram a matriz de leitura do código genético, resultando na formação de proteínas não funcionais.',
+        options:[
+          {label:'A', text:'Deleção frameshift (com mudança de matriz de leitura)'},
+          {label:'B', text:'Deleção in-frame (sem mudança de matriz de leitura)'},
+          {label:'C', text:'Mutação de sentido trocado (missense)'},
+          {label:'D', text:'Mutação sem sentido (nonsense)'},
+          {label:'E', text:'Expansão de trinucleotídeos'},
+        ],
+        explC:'Este paciente tem fibrose cística devido a uma mutação que afeta o gene CFTR (regulador de condutância transmembrana da fibrose cística).  A mutação está localizada em um éxon (região codificante), portanto é detectável no transcrito de mRNA.\n\nEspecificamente, o transcrito CFTR do paciente é 10 nucleotídeos mais curto que o transcrito selvagem.  A deleção ou inserção de um número de bases que não é divisível por 3 desloca a matriz de leitura da tradução, gerando códons inteiramente novos a partir do ponto da modificação.  A maioria das mutações frameshift faz com que a proteína traduzida tenha uma estrutura de aminoácidos drasticamente diferente da proteína nativa, levando à perda da função normal.',
+        explI:[
+          {option:'B', explanation:'Um ou mais códons completos (códigos de tripleto genético) são removidos em uma deleção in-frame, refletindo a deleção de um número de bases divisível por 3 (diferente deste caso).  Embora isso reduza o comprimento total da fita de mRNA, as matrizes de leitura dos códons subsequentes permanecem intactas, e a proteína tem mais chance de reter ao menos alguma função em comparação com mutações frameshift.'},
+          {option:'C and D', explanation:'Mutações missense e nonsense se devem a substituições de uma única base que resultam na colocação de um aminoácido incorreto (missense) ou na introdução de um códon de parada prematuro (nonsense).  Essas mutações ocorrem em éxons e afetam a tradução proteica, causando graus variados de disfunção dependendo de sua localização na sequência.  Como as mutações são substituições de base em regiões de éxon, o comprimento do transcrito de mRNA não é afetado (a transcrição do RNA é terminada por sequências específicas na região 3\' não traduzida); entretanto, no caso de uma mutação nonsense, o comprimento da proteína é reduzido.'},
+          {option:'E', explanation:'Expansões de trinucleotídeos aumentam o número de repetições de trinucleotídeos em um gene, frequentemente resultando em proteínas grandes com função anormal quando ocorrem dentro de regiões codificantes.  O gene CFTR anormal deste paciente é mais curto (não mais longo) que o gene normal, o que indica que ocorreu uma deleção.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0008', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      vignette:"A 50-year-old previously healthy man is evaluated for progressive fatigue, weakness, and recurrent gingival bleeding.  Laboratory studies reveal normocytic normochromic anemia, thrombocytopenia, and leukocytosis with circulating myeloblasts.  Bone marrow biopsy establishes a diagnosis of acute myeloid leukemia.  Induction chemotherapy followed by allogeneic hematopoietic cell transplantation (HCT) is planned.  Molecular typing of human leukocyte antigen (HLA) -A, -B, -C, -DP, -DQ, and -DR is performed.  The patient's biological sister, with whom he shares both parents, is eligible for stem cell donation and undergoes HLA typing.",
+      q:'Which of the following is the most likely probability that the sibling will be an identical HLA match with this patient?',
+      options:[
+        {label:'A', text:'0'},
+        {label:'B', text:'1/16'},
+        {label:'C', text:'1/8'},
+        {label:'D', text:'1/4'},
+        {label:'E', text:'1/2'},
+      ],
+      correct:'D',
+      explC:'The human leukocyte antigen (HLA) genes encode major histocompatibility complex (MHC) molecules that are expressed on the cell surface and are key to recognition of cells as self or non-self by the immune system.  These include major class I genes (eg, HLA-A, HLA-B, HLA-C) and class II genes (eg, HLA-DP, HLA-DQ, HLA-DR), along with other minor HLA genes.\n\nAlthough there are thousands of HLA alleles in the human population with millions of potential combinations, the HLA genes are clustered within a short region of a single chromosome.  This results in a low rate of crossover, allowing the HLA gene cluster to be treated as an HLA haplotype (a series of linked genes on the same chromosome).  Each child inherits 2 HLA haplotypes, one from the mother and one from the father.  Therefore, the probabilities that a given sibling will share some or all of the same HLA genes are as follows:\n\n- 1/4 chance of inheriting all the same HLA genes (ie, identical HLA match).\n- 1/2 chance of inheriting half of the same HLA genes (ie, haploidentical HLA match) (Choice E).\n- 1/4 chance of inheriting none of the same HLA genes (ie, HLA mismatch).\n\nMolecular typing of HLA antigens is performed prior to transplants (eg, allogeneic stem cell transplant) to evaluate potential donors for mismatch in HLA alleles (eg, HLA-DR8 versus HLA-DR3), which is associated with higher rates of posttransplant complications (eg, graft versus host disease, graft failure).  An HLA-identical sibling donor would drastically reduce the likelihood of serious complications and increase the likelihood of a successful transplant.',
+      explI:[
+        {option:'E', explanation:'A given sibling has a 1/2 chance of inheriting half of the same HLA genes, ie, a haploidentical HLA match, rather than a fully identical match.'},
+      ],
+      objective:'The human leukocyte antigen (HLA) genes encode major histocompatibility complex (MHC) molecules that are key to activation of the immune system in response to foreign (non-self) antigens.  All the HLA genes are clustered together, meaning that there is a low rate of crossover and that offspring essentially inherit 2 HLA haplotypes, one from each parent.  Therefore, the probability that a sibling would be an identical HLA match is 1/4.',
+      peer:{A:9, B:15, C:12, D:49, E:13},
+      ptTranslation:{
+        vignette:'Um homem de 50 anos, previamente saudável, é avaliado por fadiga progressiva, fraqueza e sangramento gengival recorrente.  Estudos laboratoriais revelam anemia normocítica normocrômica, trombocitopenia e leucocitose com mieloblastos circulantes.  A biópsia de medula óssea estabelece o diagnóstico de leucemia mieloide aguda.  Está planejada quimioterapia de indução seguida de transplante alogênico de células hematopoiéticas (TCH).  É realizada a tipagem molecular do antígeno leucocitário humano (HLA) -A, -B, -C, -DP, -DQ e -DR.  A irmã biológica do paciente, com quem ele compartilha ambos os pais, é elegível para doação de células-tronco e é submetida à tipagem de HLA.',
+        q:'Qual das seguintes é a probabilidade mais provável de a irmã ser uma compatibilidade de HLA idêntica com este paciente?',
+        objective:'Os genes do antígeno leucocitário humano (HLA) codificam moléculas do complexo principal de histocompatibilidade (MHC), que são fundamentais para a ativação do sistema imune em resposta a antígenos estranhos (não próprios).  Todos os genes HLA estão agrupados, o que significa uma baixa taxa de crossover e que a prole essencialmente herda 2 haplótipos HLA, um de cada genitor.  Portanto, a probabilidade de um irmão ser uma compatibilidade de HLA idêntica é de 1/4.',
+        options:[
+          {label:'A', text:'0'},
+          {label:'B', text:'1/16'},
+          {label:'C', text:'1/8'},
+          {label:'D', text:'1/4'},
+          {label:'E', text:'1/2'},
+        ],
+        explC:'Os genes do antígeno leucocitário humano (HLA) codificam moléculas do complexo principal de histocompatibilidade (MHC) que são expressas na superfície celular e são fundamentais para o reconhecimento de células como próprias ou não próprias pelo sistema imune.  Isso inclui os principais genes de classe I (ex.: HLA-A, HLA-B, HLA-C) e de classe II (ex.: HLA-DP, HLA-DQ, HLA-DR), além de outros genes HLA menores.\n\nEmbora existam milhares de alelos HLA na população humana, com milhões de combinações potenciais, os genes HLA estão agrupados em uma região curta de um único cromossomo.  Isso resulta em uma baixa taxa de crossover, permitindo que o agrupamento de genes HLA seja tratado como um haplótipo HLA (uma série de genes ligados no mesmo cromossomo).  Cada filho herda 2 haplótipos HLA, um da mãe e um do pai.  Portanto, as probabilidades de que um determinado irmão compartilhe alguns ou todos os mesmos genes HLA são as seguintes:\n\n- 1/4 de chance de herdar todos os mesmos genes HLA (isto é, compatibilidade HLA idêntica).\n- 1/2 de chance de herdar metade dos mesmos genes HLA (isto é, compatibilidade HLA haploidêntica) (Alternativa E).\n- 1/4 de chance de não herdar nenhum dos mesmos genes HLA (isto é, incompatibilidade HLA).\n\nA tipagem molecular de antígenos HLA é realizada antes de transplantes (ex.: transplante alogênico de células-tronco) para avaliar potenciais doadores quanto à incompatibilidade de alelos HLA (ex.: HLA-DR8 versus HLA-DR3), o que está associado a taxas mais altas de complicações pós-transplante (ex.: doença do enxerto contra o hospedeiro, falha do enxerto).  Um doador irmão HLA-idêntico reduziria drasticamente a probabilidade de complicações graves e aumentaria a probabilidade de um transplante bem-sucedido.',
+        explI:[
+          {option:'E', explanation:'Um determinado irmão tem 1/2 de chance de herdar metade dos mesmos genes HLA, isto é, uma compatibilidade HLA haploidêntica, em vez de uma compatibilidade totalmente idêntica.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0009', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      vignette:'Researchers studying cancer predisposition syndromes evaluate a group of patients who have early-onset solid tumors, including soft tissue sarcomas and brain tumors.  These patients all have loss of function in a protein that plays a major role in regulating cell cycle progression.  The protein is encoded by a gene on chromosome 17, and most patients appear to have point mutations within the gene.  However, the specific site within the gene where they occur varies widely among patients, and many of the causative mutations remain unknown and not well characterized.',
+      q:'Which of the following studies is most appropriate in the initial evaluation of patients suspected of having this condition?',
+      options:[
+        {label:'A', text:'Chromosomal microarray'},
+        {label:'B', text:'Cytogenetic analysis'},
+        {label:'C', text:'Fluorescence in situ hybridization testing'},
+        {label:'D', text:'Methylation analysis'},
+        {label:'E', text:'Single gene sequencing'},
+      ],
+      correct:'E',
+      explC:"In this study, the affected patients have varying and unknown point mutations within a particular gene.  The initial genetic test for identifying an unknown mutation in a given gene is single gene sequencing.  This technique typically involves isolating and amplifying the target gene (eg, via PCR) and then determining the specific nucleotide order.  Subsequent comparison to a normal sequence allows for identification of a potentially pathogenic variant.\n\nThe patients in this study likely have Li-Fraumeni syndrome, an autosomal dominant disorder involving a tumor suppressor gene on chromosome 17 (TP53).  This gene plays an important role in preventing cell cycle progression in cells with damaged DNA.  Because patients with Li-Fraumeni syndrome have only 1 functional gene, they are at a greater risk for malignancy due to uncontrolled cell proliferation if the remaining gene spontaneously mutates during the cell's lifetime.\n\nMultiple pathogenic variants, most commonly missense point mutations, have been identified at various loci within the gene, making single gene sequencing the ideal tool for identifying patients with Li-Fraumeni syndrome.  However, this method has limitations, including the inability to detect whole gene deletions (the remaining normal allele will still be sequenced, so the absence of the deleted allele cannot be directly ascertained).",
+      explI:[
+        {option:'A and C', explanation:'Chromosomal microarrays and fluorescence in situ hybridization (FISH) identify known targeted chromosomal abnormalities using oligonucleotide probes (at least 20 bases long) that bind complementary sequences; neither can reliably detect the presence of unknown point mutations at various locations.  Microarrays are typically used to screen for many mutations or genetic polymorphisms simultaneously, whereas FISH is typically used to identify a suspected condition (eg, BCR-ABL1 fusion in chronic myeloid leukemia).'},
+        {option:'B', explanation:'Cytogenetic analysis, or karyotyping, can detect large abnormalities in chromosomal size (eg, long arm deletion) or number (eg, trisomy) but not small chromosome abnormalities or point mutations.'},
+        {option:'D', explanation:'DNA methylation is an epigenetic modification that results in suppressed gene expression via the addition of a methyl group to a base.  Because methylation patterns can be specific to the parental origin of the chromosome, methylation analysis is useful for suspected imprinting disorders (eg, Prader-Willi syndrome) in which a patient may inherit two genes derived from the same parent.'},
+      ],
+      objective:'Single gene sequencing is the initial genetic test for disorders caused by an unknown mutation in a single gene (eg, Li-Fraumeni syndrome).  A limitation includes the inability to detect whole gene deletions.',
+      peer:{A:17, B:8, C:22, D:5, E:45},
+      ptTranslation:{
+        vignette:'Pesquisadores estudando síndromes de predisposição a câncer avaliam um grupo de pacientes que têm tumores sólidos de início precoce, incluindo sarcomas de partes moles e tumores cerebrais.  Todos esses pacientes têm perda de função em uma proteína que desempenha papel importante na regulação da progressão do ciclo celular.  A proteína é codificada por um gene no cromossomo 17, e a maioria dos pacientes parece ter mutações pontuais dentro do gene.  Entretanto, o local específico dentro do gene onde elas ocorrem varia amplamente entre os pacientes, e muitas das mutações causadoras permanecem desconhecidas e não bem caracterizadas.',
+        q:'Qual dos seguintes exames é mais apropriado na avaliação inicial de pacientes com suspeita desta condição?',
+        objective:'O sequenciamento de gene único é o exame genético inicial para distúrbios causados por uma mutação desconhecida em um único gene (ex.: síndrome de Li-Fraumeni).  Uma limitação inclui a incapacidade de detectar deleções completas do gene.',
+        options:[
+          {label:'A', text:'Microarray cromossômico'},
+          {label:'B', text:'Análise citogenética'},
+          {label:'C', text:'Teste de hibridização in situ por fluorescência'},
+          {label:'D', text:'Análise de metilação'},
+          {label:'E', text:'Sequenciamento de gene único'},
+        ],
+        explC:'Neste estudo, os pacientes afetados têm mutações pontuais variadas e desconhecidas dentro de um determinado gene.  O exame genético inicial para identificar uma mutação desconhecida em um gene é o sequenciamento de gene único.  Essa técnica tipicamente envolve isolar e amplificar o gene-alvo (ex.: via PCR) e depois determinar a ordem específica dos nucleotídeos.  A comparação subsequente com uma sequência normal permite identificar uma possível variante patogênica.\n\nOs pacientes deste estudo provavelmente têm síndrome de Li-Fraumeni, um distúrbio autossômico dominante envolvendo um gene supressor de tumor no cromossomo 17 (TP53).  Esse gene desempenha papel importante em impedir a progressão do ciclo celular em células com DNA danificado.  Como os pacientes com síndrome de Li-Fraumeni têm apenas 1 gene funcional, eles têm maior risco de malignidade devido à proliferação celular descontrolada caso o gene remanescente sofra mutação espontânea ao longo da vida da célula.\n\nMúltiplas variantes patogênicas, mais comumente mutações pontuais missense, foram identificadas em vários loci dentro do gene, tornando o sequenciamento de gene único a ferramenta ideal para identificar pacientes com síndrome de Li-Fraumeni.  Entretanto, esse método tem limitações, incluindo a incapacidade de detectar deleções completas do gene (o alelo normal remanescente ainda será sequenciado, então a ausência do alelo deletado não pode ser diretamente constatada).',
+        explI:[
+          {option:'A and C', explanation:'Microarrays cromossômicos e a hibridização in situ por fluorescência (FISH) identificam anormalidades cromossômicas alvo conhecidas usando sondas oligonucleotídicas (com pelo menos 20 bases) que se ligam a sequências complementares; nenhum dos dois consegue detectar de forma confiável a presença de mutações pontuais desconhecidas em locais variados.  Microarrays são tipicamente usados para rastrear muitas mutações ou polimorfismos genéticos simultaneamente, enquanto o FISH é tipicamente usado para identificar uma condição suspeita (ex.: fusão BCR-ABL1 na leucemia mieloide crônica).'},
+          {option:'B', explanation:'A análise citogenética, ou cariótipo, pode detectar grandes anormalidades no tamanho cromossômico (ex.: deleção de braço longo) ou no número (ex.: trissomia), mas não pequenas anormalidades cromossômicas ou mutações pontuais.'},
+          {option:'D', explanation:'A metilação do DNA é uma modificação epigenética que resulta em expressão gênica suprimida pela adição de um grupo metil a uma base.  Como os padrões de metilação podem ser específicos da origem parental do cromossomo, a análise de metilação é útil em distúrbios de imprinting suspeitos (ex.: síndrome de Prader-Willi), nos quais um paciente pode herdar dois genes derivados do mesmo genitor.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0010', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'medium',
+      vignette:'A 50-year-old man comes to the clinic for evaluation of worsening fatigue.  He reports no fevers or recent illnesses.  The patient has no prior medical conditions and takes no medications.  Examination shows mild pallor and an enlarged spleen.  Laboratory evaluation reveals leukocytosis and anemia.  Peripheral blood smear and bone marrow aspirate both reveal hyperplasia of granulocytic cells at various stages of maturation with no increased blasts.  These findings are consistent with chronic myeloid leukemia.  However, chromosomal analysis from the bone marrow reveals 46,XY in 20 out of 20 cells, with no detectable clones containing the Philadelphia chromosome.',
+      q:'Which of the following tests is the best next step to confirm the diagnosis in this patient?',
+      options:[
+        {label:'A', text:'Chromosomal microarray'},
+        {label:'B', text:'Fluorescence in situ hybridization'},
+        {label:'C', text:'Lymphocyte subset panel'},
+        {label:'D', text:'Peripheral blood chromosomal analysis'},
+        {label:'E', text:'Whole exome sequencing'},
+      ],
+      correct:'B',
+      explC:'This patient has findings consistent with chronic myeloid leukemia (CML), a myeloproliferative neoplasm associated with aberrant fusion of the BCR and ABL genes.  This fusion results in a protooncogene that encodes a constitutively active tyrosine kinase, causing unregulated granulocyte proliferation.  The most common cause of a fused BCR::ABL gene is a reciprocal translocation between chromosomes 9 and 22, resulting in a characteristically shortened chromosome 22 on karyotype analysis (ie, Philadelphia chromosome).\n\nHowever, in a minority of patients, CML may be due to nonreciprocal BCR::ABL translocations that are undetectable by chromosomal analysis (ie, karyotype), because the chromosomes retain their normal size (ie, cryptic fusion).  In these cases, as in this patient, BCR::ABL fusion is detected by fluorescence in situ hybridization (FISH).\n\nFISH uses fluorescent probes that bind specific DNA sequences spanning or flanking the regions of interest.  To detect CML in a blood sample, a probe mixture targeting the BCR gene (eg, green) and ABL gene (eg, red) are added.  The presence of green and red signals distant from one another suggests a normal cell (ie, no translocation) whereas the presence of a green and red signal adjacent to each other with an overlapping yellow region is indicative of BCR::ABL fusion on one chromosome.',
+      explI:[
+        {option:'A', explanation:'Chromosomal microarrays uses labeled probes to detect changes in gene copy number (eg, microdeletions, microduplications).  It cannot detect balanced translocations or rearrangements.'},
+        {option:'C', explanation:'Lymphocyte subset panels identify and quantify classes of lymphocytes (eg, CD4+, CD8+), not granulocytes, and therefore would not be helpful in the evaluation of CML.'},
+        {option:'D', explanation:"Because CML arises from an abnormal myeloid progenitor cell within the bone marrow, and chromosomal analysis of this patient's bone marrow was normal, the same result would be expected on peripheral blood analysis."},
+        {option:'E', explanation:'Although whole exome sequencing can detect variant translocations, it is costly and time-consuming compared to FISH and often detects variants of unknown significance that are difficult to interpret.  Whole exome sequencing is typically reserved for cases in which targeted cytogenetic analysis is unrevealing.'},
+      ],
+      objective:'Chronic myeloid leukemia is associated with aberrant fusion of the BCR and ABL genes, which can be detected by fluorescence in situ hybridization (ie, florescent probes complementary to the sequence of interest).  Karyotype analysis may identify a shortened chromosome (ie, Philadelphia chromosome) in patients with a reciprocal translocation but may be normal in those with nonreciprocal translocations.',
+      peer:{A:17, B:54, C:9, D:13, E:5},
+      ptTranslation:{
+        vignette:'Um homem de 50 anos vem à clínica para avaliação de fadiga que está piorando.  Ele relata não ter febre nem doenças recentes.  O paciente não tem condições médicas prévias e não usa medicamentos.  O exame mostra palidez leve e esplenomegalia.  A avaliação laboratorial revela leucocitose e anemia.  O esfregaço de sangue periférico e o aspirado de medula óssea revelam hiperplasia de células granulocíticas em vários estágios de maturação, sem aumento de blastos.  Esses achados são compatíveis com leucemia mieloide crônica.  Entretanto, a análise cromossômica da medula óssea revela 46,XY em 20 de 20 células, sem clones detectáveis contendo o cromossomo Philadelphia.',
+        q:'Qual dos seguintes exames é o melhor próximo passo para confirmar o diagnóstico neste paciente?',
+        objective:'A leucemia mieloide crônica está associada à fusão aberrante dos genes BCR e ABL, que pode ser detectada por hibridização in situ por fluorescência (isto é, sondas fluorescentes complementares à sequência de interesse).  A análise de cariótipo pode identificar um cromossomo encurtado (isto é, cromossomo Philadelphia) em pacientes com translocação recíproca, mas pode ser normal naqueles com translocações não recíprocas.',
+        options:[
+          {label:'A', text:'Microarray cromossômico'},
+          {label:'B', text:'Hibridização in situ por fluorescência'},
+          {label:'C', text:'Painel de subpopulações de linfócitos'},
+          {label:'D', text:'Análise cromossômica de sangue periférico'},
+          {label:'E', text:'Sequenciamento completo do exoma'},
+        ],
+        explC:'Este paciente tem achados compatíveis com leucemia mieloide crônica (LMC), uma neoplasia mieloproliferativa associada à fusão aberrante dos genes BCR e ABL.  Essa fusão resulta em um protooncogene que codifica uma tirosina quinase constitutivamente ativa, causando proliferação desregulada de granulócitos.  A causa mais comum de um gene BCR::ABL fusionado é uma translocação recíproca entre os cromossomos 9 e 22, resultando em um cromossomo 22 caracteristicamente encurtado na análise de cariótipo (isto é, cromossomo Philadelphia).\n\nEntretanto, em uma minoria de pacientes, a LMC pode se dever a translocações BCR::ABL não recíprocas que são indetectáveis pela análise cromossômica (isto é, cariótipo), porque os cromossomos mantêm seu tamanho normal (isto é, fusão críptica).  Nesses casos, como neste paciente, a fusão BCR::ABL é detectada por hibridização in situ por fluorescência (FISH).\n\nO FISH usa sondas fluorescentes que se ligam a sequências específicas de DNA que abrangem ou flanqueiam as regiões de interesse.  Para detectar LMC em uma amostra de sangue, uma mistura de sondas visando o gene BCR (ex.: verde) e o gene ABL (ex.: vermelho) é adicionada.  A presença de sinais verde e vermelho distantes um do outro sugere uma célula normal (isto é, sem translocação), enquanto a presença de um sinal verde e vermelho adjacentes, com uma região amarela sobreposta, é indicativa de fusão BCR::ABL em um cromossomo.',
+        explI:[
+          {option:'A', explanation:'Microarrays cromossômicos usam sondas marcadas para detectar mudanças no número de cópias gênicas (ex.: microdeleções, microduplicações).  Não conseguem detectar translocações ou rearranjos balanceados.'},
+          {option:'C', explanation:'Painéis de subpopulações de linfócitos identificam e quantificam classes de linfócitos (ex.: CD4+, CD8+), não granulócitos, e portanto não seriam úteis na avaliação da LMC.'},
+          {option:'D', explanation:'Como a LMC surge de uma célula progenitora mieloide anormal dentro da medula óssea, e a análise cromossômica da medula óssea deste paciente foi normal, o mesmo resultado seria esperado na análise de sangue periférico.'},
+          {option:'E', explanation:'Embora o sequenciamento completo do exoma possa detectar translocações variantes, ele é custoso e demorado em comparação ao FISH, e frequentemente detecta variantes de significado incerto que são difíceis de interpretar.  O sequenciamento completo do exoma costuma ser reservado para casos em que a análise citogenética direcionada é inconclusiva.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
