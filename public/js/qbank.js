@@ -5525,6 +5525,128 @@
         ]
       }
     },
+    // BATCH GEN 04 — Genetics: Gene expression and regulation
+    { id:'CMQ-STEP1-GEN-0040', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      vignette:'A researcher is studying the Fas receptor (FasR), a protein widely expressed on cell surfaces.  The signaling cascade of programmed cell death is initiated when FasR binds to its ligand (FasL), which is expressed on cytotoxic T cells.  In an experiment, cancer cells that escaped elimination by the immune system were found to contain soluble Fas proteins that did not promote apoptosis.  The soluble Fas proteins were shorter and lacked the transmembrane domain.  DNA analysis of these cells revealed no FAS gene mutations.',
+      q:'Which of the following is the most likely explanation for the formation of altered Fas proteins in these cancer cells?',
+      options:[
+        {label:'A', text:'Alternative splicing'},
+        {label:'B', text:'Defective polyadenylation'},
+        {label:'C', text:'DNA methylation'},
+        {label:'D', text:'Polycistronic mRNA'},
+        {label:'E', text:'Protein ubiquitination'},
+      ],
+      correct:'A',
+      explC:'Alternative splicing is a process by which different combinations of DNA coding regions (exons) are selectively included or excluded from a mature messenger RNA (mRNA) transcript.  This allows the DNA contained in a single gene to code for a functionally diverse group of proteins.\n\nSplicing is a post-transcriptional modification that removes noncoding DNA regions (introns) from precursor-mRNA (pre-mRNA).  The process is driven by a large protein complex (spliceosome) comprised of small nuclear ribonucleoproteins (snRNPs).  Pre-mRNA splice sites are bound by the spliceosome, forming a lariat-shaped intermediate containing the introns.  This intermediate is excised and the exons are joined, completing the splicing process.\n\nAlternative splicing is a normal process that allows production of alternate sets of proteins in different tissues.  It has also been implicated in various human diseases.  Cancers in particular can use alternative splicing to evade innate defense mechanisms.  The Fas receptor-Fas ligand interaction drives programmed cell death via the cytotoxic T-cell mediated extrinsic pathway.  Cancer cells may develop the ability to splice out a particular exon that codes for the transmembrane domain of the Fas receptor (FasR), converting it to a soluble form that is not expressed on the cell surface, which allows the cells to evade apoptosis.',
+      explI:[
+        {option:'B', explanation:"Polyadenylation is a post-transcriptional modification in which a tail comprised of multiple adenosine nucleotides is added to the 3' end of a new mRNA transcript.  This process is necessary for the nuclear export and cytoplasmic stability of mRNA."},
+        {option:'C', explanation:'DNA methylation describes the process by which methyl groups are added to DNA, suppressing transcription of the methylated genes.'},
+        {option:'D', explanation:'Polycistronic mRNA is often found in bacteria and contains multiple open reading frames that are translated into several proteins.  In contrast, eukaryotic organisms have monocistronic mRNA, which codes for only one protein.'},
+        {option:'E', explanation:'Ubiquitination is a process by which certain proteins are tagged with ubiquitin, a small regulatory protein, marking them for proteasomal degradation.'},
+      ],
+      objective:'Alternative splicing is a process by which a single gene can code for various unique proteins by selectively including or excluding different DNA coding regions (exons) into mature mRNA.',
+      peer:{A:67, B:7, C:12, D:3, E:8},
+      ptTranslation:{
+        vignette:'Um pesquisador está estudando o receptor Fas (FasR), uma proteína amplamente expressa nas superfícies celulares.  A cascata de sinalização de morte celular programada é iniciada quando o FasR se liga ao seu ligante (FasL), que é expresso em linfócitos T citotóxicos.  Em um experimento, células cancerígenas que escaparam da eliminação pelo sistema imune foram encontradas contendo proteínas Fas solúveis que não promoviam apoptose.  As proteínas Fas solúveis eram mais curtas e não possuíam o domínio transmembrana.  A análise do DNA dessas células não revelou mutações no gene FAS.',
+        q:'Qual das seguintes é a explicação mais provável para a formação de proteínas Fas alteradas nessas células cancerígenas?',
+        objective:'O splicing alternativo é um processo pelo qual um único gene pode codificar várias proteínas distintas ao incluir ou excluir seletivamente diferentes regiões codificantes de DNA (éxons) no mRNA maduro.',
+        options:[
+          {label:'A', text:'Splicing alternativo'},
+          {label:'B', text:'Poliadenilação defeituosa'},
+          {label:'C', text:'Metilação do DNA'},
+          {label:'D', text:'mRNA policistrônico'},
+          {label:'E', text:'Ubiquitinação de proteínas'},
+        ],
+        explC:'O splicing alternativo é um processo pelo qual diferentes combinações de regiões codificantes de DNA (éxons) são seletivamente incluídas ou excluídas de um transcrito maduro de RNA mensageiro (mRNA).  Isso permite que o DNA contido em um único gene codifique um grupo funcionalmente diverso de proteínas.\n\nO splicing é uma modificação pós-transcricional que remove regiões não codificantes de DNA (íntrons) do mRNA precursor (pré-mRNA).  O processo é conduzido por um grande complexo proteico (spliceossomo) composto por pequenas ribonucleoproteínas nucleares (snRNPs).  Os sítios de splicing do pré-mRNA são ligados pelo spliceossomo, formando um intermediário em forma de laço (lariat) contendo os íntrons.  Esse intermediário é excisado e os éxons são unidos, completando o processo de splicing.\n\nO splicing alternativo é um processo normal que permite a produção de conjuntos alternativos de proteínas em diferentes tecidos.  Também tem sido implicado em várias doenças humanas.  Cânceres, em particular, podem usar o splicing alternativo para escapar de mecanismos de defesa inatos.  A interação receptor Fas-ligante Fas conduz a morte celular programada pela via extrínseca mediada por linfócitos T citotóxicos.  Células cancerígenas podem desenvolver a capacidade de remover (splice out) um éxon específico que codifica o domínio transmembrana do receptor Fas (FasR), convertendo-o em uma forma solúvel que não é expressa na superfície celular, o que permite às células escapar da apoptose.',
+        explI:[
+          {option:'B', explanation:'A poliadenilação é uma modificação pós-transcricional na qual uma cauda composta por múltiplos nucleotídeos de adenosina é adicionada à extremidade 3\' de um novo transcrito de mRNA.  Esse processo é necessário para a exportação nuclear e a estabilidade citoplasmática do mRNA.'},
+          {option:'C', explanation:'A metilação do DNA descreve o processo pelo qual grupos metil são adicionados ao DNA, suprimindo a transcrição dos genes metilados.'},
+          {option:'D', explanation:'O mRNA policistrônico é frequentemente encontrado em bactérias e contém múltiplas fases de leitura aberta que são traduzidas em várias proteínas.  Em contraste, organismos eucarióticos têm mRNA monocistrônico, que codifica apenas uma proteína.'},
+          {option:'E', explanation:'A ubiquitinação é um processo pelo qual certas proteínas são marcadas com ubiquitina, uma pequena proteína reguladora, sinalizando-as para degradação proteassomal.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0041', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'hard',
+      vignette:"A 1-day-old boy is evaluated in the neonatal intensive care unit due to severe hypotonia, poor feeding, and respiratory distress.  The patient was born to a 30-year-old woman via vaginal delivery; the pregnancy was complicated by polyhydramnios.  The neonate's mother has a history of recurrent muscle cramps, mostly in her hands; her face is long and narrow and lacks expression.  She is otherwise healthy.  The patient's length, weight, and head circumference are at the 30th percentile.  Examination shows profound hypotonia, truncal and appendicular weakness, and marked hyporeflexia.  Flexion deformities and clubfoot are present bilaterally.",
+      q:'Assuming that the patient and his mother have the same inheritable condition, which of the following mechanisms best explains their different phenotypic presentations?',
+      options:[
+        {label:'A', text:'Genetic anticipation'},
+        {label:'B', text:'Genetic heterogeneity'},
+        {label:'C', text:'Germline mosaicism'},
+        {label:'D', text:'Maternal imprinting'},
+        {label:'E', text:'Single nucleotide polymorphism'},
+      ],
+      correct:'A',
+      explC:'Compared to his mother, this neonate has profound symptoms of muscle weakness.  These findings suggest genetic anticipation, in which an inherited condition presents earlier and with more severe disease in successive generations.\n\nThe most likely diagnosis in this case is myotonic dystrophy (DM), an autosomal dominant disorder caused by a trinucleotide repeat expansion:\n\n- Classic (adult) DM: Muscle weakness affecting the distal extremities and face (eg, absent facial expression, long and narrow face) is classic, as seen in this patient\'s mother.  Myotonia (impaired muscle relaxation) also occurs and is often described by patients as cramping or stiffness.\n\nWith increasing repeat expansion length, DM can cause worsening symptoms in successive generations, as seen in this infant.\n\n- Congenital DM: Neonates have respiratory distress and poor feeding due to profound muscle weakness and hypotonia.  Prenatal findings of DM may include polyhydramnios secondary to impaired swallowing from weakened pharyngeal muscles.  Decreased fetal movement can also result in flexion contractures (ie, arthrogryposis) and clubfoot.',
+      explI:[
+        {option:'B', explanation:"Genetic heterogeneity describes different genetic mutations causing the same disease (eg, tuberous sclerosis).  This mechanism is inconsistent with this patient's symptoms because affected members of the same family would have the same mutation.  Moreover, this mother and child have markedly different disease manifestations."},
+        {option:'C', explanation:'Germline mosaicism occurs when an unaffected parent has gametes with a mutated allele that is passed to offspring; it is typically suspected when multiple siblings have an autosomal dominant disorder with phenotypically normal parents.'},
+        {option:'D', explanation:'Prader-Willi syndrome often occurs due to maternal imprinting, in which a loss-of-function mutation in the paternal allele is inherited while the maternally inherited allele is silenced.  Infants can have profound disease (eg, hypotonia, feeding difficulties), but the mother would not be affected.'},
+        {option:'E', explanation:"Single nucleotide polymorphism (SNP) refers to a variation at a single base pair within a DNA sequence.  SNPs occur frequently throughout the genome and contribute to genetic variation within the population.  If located near or within a gene, they may be markers of certain genetic diseases but would not cause the increasingly severe manifestations seen in this family's successive generations."},
+      ],
+      objective:'Anticipation describes an inherited condition that presents earlier and with more severe disease in successive generations.  In myotonic dystrophy, increasing length of the pathogenic trinucleotide repeat expansion accounts for severe hypotonia in a neonate (congenital) and mild symptoms (eg, myotonia, facial weakness) in a parent (classic [adult]).',
+      peer:{A:41, B:28, C:17, D:7, E:5},
+      ptTranslation:{
+        vignette:'Um menino de 1 dia de vida é avaliado na unidade de terapia intensiva neonatal por hipotonia grave, dificuldade de alimentação e desconforto respiratório.  O paciente nasceu de uma mulher de 30 anos por parto vaginal; a gestação foi complicada por polidrâmnio.  A mãe do neonato tem histórico de cãibras musculares recorrentes, principalmente nas mãos; seu rosto é longo e estreito e sem expressão.  Ela é saudável no restante.  O comprimento, o peso e o perímetro cefálico do paciente estão no percentil 30.  O exame mostra hipotonia profunda, fraqueza truncal e apendicular e hiporreflexia acentuada.  Deformidades em flexão e pé torto estão presentes bilateralmente.',
+        q:'Assumindo que o paciente e sua mãe têm a mesma condição hereditária, qual dos seguintes mecanismos melhor explica suas apresentações fenotípicas diferentes?',
+        objective:'A antecipação descreve uma condição hereditária que se apresenta mais cedo e com doença mais grave em gerações sucessivas.  Na distrofia miotônica, o aumento do comprimento da expansão patogênica de repetições de trinucleotídeos explica a hipotonia grave em um neonato (congênita) e os sintomas leves (ex.: miotonia, fraqueza facial) em um dos pais (clássica [adulto]).',
+        options:[
+          {label:'A', text:'Antecipação genética'},
+          {label:'B', text:'Heterogeneidade genética'},
+          {label:'C', text:'Mosaicismo germinativo'},
+          {label:'D', text:'Imprinting materno'},
+          {label:'E', text:'Polimorfismo de nucleotídeo único'},
+        ],
+        explC:'Comparado à sua mãe, este neonato tem sintomas profundos de fraqueza muscular.  Esses achados sugerem antecipação genética, na qual uma condição hereditária se apresenta mais cedo e com doença mais grave em gerações sucessivas.\n\nO diagnóstico mais provável neste caso é distrofia miotônica (DM), um distúrbio autossômico dominante causado por uma expansão de repetições de trinucleotídeos:\n\n- DM clássica (adulto): fraqueza muscular afetando as extremidades distais e a face (ex.: ausência de expressão facial, rosto longo e estreito) é clássica, como visto na mãe deste paciente.  A miotonia (relaxamento muscular prejudicado) também ocorre e é frequentemente descrita pelos pacientes como cãibra ou rigidez.\n\nCom o aumento do comprimento da expansão de repetições, a DM pode causar piora dos sintomas em gerações sucessivas, como visto neste lactente.\n\n- DM congênita: neonatos têm desconforto respiratório e dificuldade de alimentação devido a fraqueza muscular profunda e hipotonia.  Achados pré-natais da DM podem incluir polidrâmnio secundário à deglutição prejudicada por músculos faríngeos enfraquecidos.  A diminuição do movimento fetal também pode resultar em contraturas em flexão (isto é, artrogripose) e pé torto.',
+        explI:[
+          {option:'B', explanation:'A heterogeneidade genética descreve diferentes mutações genéticas causando a mesma doença (ex.: esclerose tuberosa).  Esse mecanismo é inconsistente com os sintomas deste paciente, pois membros afetados da mesma família teriam a mesma mutação.  Além disso, esta mãe e este filho têm manifestações de doença marcadamente diferentes.'},
+          {option:'C', explanation:'O mosaicismo germinativo ocorre quando um genitor não afetado tem gametas com um alelo mutado que é transmitido à prole; costuma ser suspeitado quando múltiplos irmãos têm um distúrbio autossômico dominante com pais fenotipicamente normais.'},
+          {option:'D', explanation:'A síndrome de Prader-Willi frequentemente ocorre por imprinting materno, no qual uma mutação com perda de função no alelo paterno é herdada enquanto o alelo herdado da mãe é silenciado.  Lactentes podem ter doença profunda (ex.: hipotonia, dificuldades de alimentação), mas a mãe não seria afetada.'},
+          {option:'E', explanation:'O polimorfismo de nucleotídeo único (SNP) se refere a uma variação em um único par de bases dentro de uma sequência de DNA.  SNPs ocorrem com frequência por todo o genoma e contribuem para a variação genética dentro da população.  Se localizados próximo ou dentro de um gene, podem ser marcadores de certas doenças genéticas, mas não causariam as manifestações cada vez mais graves observadas nas gerações sucessivas desta família.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0042', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
+      vignette:'A 6-year-old girl with chronic anemia requiring repeated blood transfusions is undergoing genetic testing.  The patient\'s mother and older sibling have a history of mild anemia.  Her peripheral blood smear shows hypochromic, microcytic red blood cells, and hemoglobin electrophoresis reveals a predominance of hemoglobins F and A2.  Sequencing of the β-globin gene is performed using the patient\'s erythroblast DNA.  A schematic representation of the gene and its transcribed RNA is shown in the image below.',
+      q:'The base sequence indicated by the bold red arrow is responsible for which of the following functions?',
+      img:'assets/qbank/CMQ-STEP1-GEN-0042_beta_globin_gene_schematic.png',
+      options:[
+        {label:'A', text:'Enhancement of transcription'},
+        {label:'B', text:'Initiation of transcription'},
+        {label:'C', text:'Initiation of translation'},
+        {label:'D', text:'Repression of transcription'},
+        {label:'E', text:'Termination of transcription'},
+      ],
+      correct:'B',
+      explC:'This patient with chronic microcytic anemia requiring blood transfusions and a predominance of hemoglobins F and A2 on hemoglobin electrophoresis likely has beta-thalassemia, a hereditary blood disorder characterized by reduced β-globin chain production.\n\nThe base sequence indicated by the bold red arrow in this patient\'s β-globin gene represents the CAAT box, a highly conserved (consensus) sequence that functions as a promoter of transcription in the eukaryotic genome.  It is typically located 70-80 bases upstream from the transcription start site.  The Hogness (TATA) box is a second promoter region in the eukaryotic genome and is seen just to the right of the CAAT box in the above image.  The TATA box is generally located 25 bases upstream from the transcription start site.  Both the CAAT box and the TATA box promote initiation of transcription by acting as binding sites for general transcription factors and RNA polymerase II.',
+      explI:[
+        {option:'A', explanation:'Enhancer sequences bind activator proteins that facilitate bending of DNA.  DNA bending allows activator proteins to interact with general transcription factors and RNA polymerase II at the promoter, increasing the rate of transcription.  Enhancers can be located upstream or downstream from the gene being transcribed and may be near the gene or thousands of base pairs away.'},
+        {option:'C', explanation:'Translation is initiated in the cytoplasm when a ribosome recognizes the AUG (methionine) start codon on a mature mRNA strand.  The Kozak consensus sequence plays a major role in initiation of the eukaryotic translation process.'},
+        {option:'D', explanation:'Silencers are similar to enhancers, but they decrease transcription rates by binding repressor proteins.'},
+        {option:'E', explanation:'Eukaryotic transcription termination is not completely understood.  In prokaryotes, a palindromic code in the DNA template causes formation of a "hairpin" turn in the newly synthesized mRNA, which facilitates detachment of RNA polymerase from the DNA template.'},
+      ],
+      objective:'The TATA and CAAT boxes are promoters of transcription in eukaryotic cells and are located approximately 25 and 75 bases upstream from the transcription start site, respectively.  They promote initiation of transcription by serving as binding sites for transcription factors and RNA polymerase II.',
+      peer:{A:27, B:60, C:5, D:3, E:3},
+      ptTranslation:{
+        vignette:'Uma menina de 6 anos com anemia crônica que requer transfusões de sangue repetidas está sendo submetida a testes genéticos.  A mãe e um irmão mais velho da paciente têm histórico de anemia leve.  Seu esfregaço de sangue periférico mostra hemácias hipocrômicas e microcíticas, e a eletroforese de hemoglobina revela predominância das hemoglobinas F e A2.  O sequenciamento do gene da β-globina é realizado usando o DNA de eritroblastos da paciente.  Uma representação esquemática do gene e de seu RNA transcrito é mostrada na imagem abaixo.',
+        q:'A sequência de bases indicada pela seta vermelha em negrito é responsável por qual das seguintes funções?',
+        objective:'As caixas TATA e CAAT são promotoras de transcrição em células eucarióticas e estão localizadas aproximadamente 25 e 75 bases a montante do sítio de início da transcrição, respectivamente.  Elas promovem a iniciação da transcrição servindo como sítios de ligação para fatores de transcrição e RNA polimerase II.',
+        options:[
+          {label:'A', text:'Intensificação da transcrição'},
+          {label:'B', text:'Iniciação da transcrição'},
+          {label:'C', text:'Iniciação da tradução'},
+          {label:'D', text:'Repressão da transcrição'},
+          {label:'E', text:'Terminação da transcrição'},
+        ],
+        explC:'Esta paciente com anemia microcítica crônica que requer transfusões de sangue e predominância das hemoglobinas F e A2 na eletroforese de hemoglobina provavelmente tem beta-talassemia, um distúrbio sanguíneo hereditário caracterizado por produção reduzida da cadeia de β-globina.\n\nA sequência de bases indicada pela seta vermelha em negrito no gene da β-globina desta paciente representa a caixa CAAT, uma sequência altamente conservada (de consenso) que funciona como promotora de transcrição no genoma eucariótico.  Ela está tipicamente localizada 70-80 bases a montante do sítio de início da transcrição.  A caixa Hogness (TATA) é uma segunda região promotora no genoma eucariótico e é vista logo à direita da caixa CAAT na imagem acima.  A caixa TATA geralmente está localizada 25 bases a montante do sítio de início da transcrição.  Tanto a caixa CAAT quanto a caixa TATA promovem a iniciação da transcrição atuando como sítios de ligação para fatores de transcrição gerais e para a RNA polimerase II.',
+        explI:[
+          {option:'A', explanation:'Sequências intensificadoras (enhancers) ligam proteínas ativadoras que facilitam a curvatura do DNA.  A curvatura do DNA permite que proteínas ativadoras interajam com fatores de transcrição gerais e com a RNA polimerase II no promotor, aumentando a taxa de transcrição.  Enhancers podem estar localizados a montante ou a jusante do gene transcrito e podem estar perto do gene ou a milhares de pares de bases de distância.'},
+          {option:'C', explanation:'A tradução é iniciada no citoplasma quando um ribossomo reconhece o códon de início AUG (metionina) em uma fita de mRNA madura.  A sequência de consenso de Kozak desempenha papel importante na iniciação do processo de tradução eucariótica.'},
+          {option:'D', explanation:'Silenciadores (silencers) são semelhantes aos enhancers, mas diminuem as taxas de transcrição ao ligar proteínas repressoras.'},
+          {option:'E', explanation:'A terminação da transcrição eucariótica não é completamente compreendida.  Em procariotos, um código palindrômico no molde de DNA causa a formação de uma volta em "grampo" (hairpin) no mRNA recém-sintetizado, o que facilita o desprendimento da RNA polimerase do molde de DNA.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
