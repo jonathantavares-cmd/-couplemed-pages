@@ -4738,6 +4738,89 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0020', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+      vignette:'A 10-year-old boy is brought to the emergency department for new swelling in his right leg.  He has a history of lens dislocation and intellectual disability.  Physical examination demonstrates moderate, pitting edema from his right calf to his right thigh and a normal left lower extremity.  In addition, the patient has a caved-in appearing chest wall.  He has no family members with similar conditions.  Ultrasound reveals a deep venous thrombosis in his right femoral vein.  Further genetic testing reveals a single missense mutation in the gene coding for cystathionine beta-synthase enzyme.',
+      q:"Which of the following is the most likely explanation for this patient's genetic defect affecting multiple tissues?",
+      options:[
+        {label:'A', text:'Dominant negative mutation'},
+        {label:'B', text:'Genetic linkage'},
+        {label:'C', text:'Incomplete penetrance'},
+        {label:'D', text:'Locus heterogeneity'},
+        {label:'E', text:'Pleiotropy'},
+        {label:'F', text:'Polyploidy'},
+        {label:'G', text:'Segregation'},
+      ],
+      correct:'E',
+      explC:'This patient presenting with skeletal abnormalities, lens dislocation, intellectual deficits, vascular thromboses, and a genetic defect in the cystathionine beta-synthase enzyme likely has homocystinuria.  The occurrence of multiple, seemingly unrelated phenotypic manifestations, often in different organ systems, as a result of a single genetic defect is termed pleiotropy.  Most syndromic genetic illnesses including homocystinuria exhibit pleiotropy.',
+      explI:[
+        {option:'A', explanation:'Dominant negative mutations occur when an abnormal gene negatively affects the product of the wild-type gene in the same cell.  For example, certain oncogene p53 mutations can lead to translation of a protein product that prevents wild-type p53 from binding to the promoter of its target genes.'},
+        {option:'B', explanation:'Genetic linkage describes the tendency of alleles located near one another on the same chromosome to be inherited jointly.'},
+        {option:'C', explanation:'Penetrance refers to the proportion of individuals with a given genotype who express its associated phenotype.  In incomplete penetrance, less than 100% of individuals with a given genotype express its associated phenotype.'},
+        {option:'D', explanation:'Locus heterogeneity refers to the ability of one disease or trait to be caused by mutations in multiple different genes.  An example is familial hypercholesteremia, which can be caused by different mutations affecting cholesterol metabolism genes (eg, LDL receptor, apo B-100).'},
+        {option:'F', explanation:'Polyploidy occurs when more than 2 complete sets of homologous chromosomes exist within an organism or cell.  In a partial hydatidiform mole, for example, there are cells of nonstandard ploidy (typically 69,XXX; 69,XXY; or 69,XYY).  The chromosomes in this case are derived from 1 haploid maternal set and 2 haploid paternal sets of chromosomes.'},
+        {option:'G', explanation:"The law of segregation (Mendel's first law) describes the phenomenon whereby gametogenesis within the parent organism results in the separation of paired alleles so that each offspring inherits only half of each parent's genetic composition."},
+      ],
+      objective:'Pleiotropy describes instances where multiple phenotypic manifestations result from a single genetic mutation.  Most syndromic genetic illnesses exhibit pleiotropy.',
+      peer:{A:5, B:3, C:2, D:10, E:73, F:3, G:0},
+      labs:[
+        ['Homocysteine (plasma, total)', '4–15 µmol/L', '4–15 µmol/L',
+         'Markedly elevated (classically >100 µmol/L) in homocystinuria due to cystathionine beta-synthase deficiency',
+         'Marcadamente elevada (classicamente >100 µmol/L) na homocistinúria, por deficiência da cistationina beta-sintase'],
+      ],
+      ptTranslation:{
+        vignette:'Um menino de 10 anos é levado ao pronto-socorro por inchaço novo na perna direita.  Ele tem histórico de deslocamento do cristalino e deficiência intelectual.  O exame físico demonstra edema moderado, depressível, da panturrilha direita até a coxa direita, com a extremidade inferior esquerda normal.  Além disso, o paciente tem parede torácica com aspecto afundado.  Ele não tem familiares com condições semelhantes.  O ultrassom revela trombose venosa profunda na veia femoral direita.  Testes genéticos adicionais revelam uma única mutação missense no gene que codifica a enzima cistationina beta-sintase.',
+        q:'Qual das seguintes é a explicação mais provável para o defeito genético deste paciente afetar múltiplos tecidos?',
+        objective:'A pleiotropia descreve situações em que múltiplas manifestações fenotípicas resultam de uma única mutação genética.  A maioria das doenças genéticas sindrômicas exibe pleiotropia.',
+        options:[
+          {label:'A', text:'Mutação dominante negativa'},
+          {label:'B', text:'Ligação genética (linkage)'},
+          {label:'C', text:'Penetrância incompleta'},
+          {label:'D', text:'Heterogeneidade de locus'},
+          {label:'E', text:'Pleiotropia'},
+          {label:'F', text:'Poliploidia'},
+          {label:'G', text:'Segregação'},
+        ],
+        explC:'Este paciente, que apresenta anormalidades esqueléticas, deslocamento do cristalino, déficits intelectuais, tromboses vasculares e um defeito genético na enzima cistationina beta-sintase, provavelmente tem homocistinúria.  A ocorrência de múltiplas manifestações fenotípicas aparentemente não relacionadas, frequentemente em diferentes sistemas orgânicos, como resultado de um único defeito genético, é chamada de pleiotropia.  A maioria das doenças genéticas sindrômicas, incluindo a homocistinúria, exibe pleiotropia.',
+        explI:[
+          {option:'A', explanation:'Mutações dominantes negativas ocorrem quando um gene anormal afeta negativamente o produto do gene selvagem na mesma célula.  Por exemplo, certas mutações do oncogene p53 podem levar à tradução de um produto proteico que impede a p53 selvagem de se ligar ao promotor de seus genes-alvo.'},
+          {option:'B', explanation:'A ligação genética (linkage) descreve a tendência de alelos localizados próximos uns dos outros no mesmo cromossomo de serem herdados em conjunto.'},
+          {option:'C', explanation:'Penetrância se refere à proporção de indivíduos com determinado genótipo que expressam o fenótipo associado.  Na penetrância incompleta, menos de 100% dos indivíduos com determinado genótipo expressam o fenótipo associado.'},
+          {option:'D', explanation:'A heterogeneidade de locus se refere à capacidade de uma doença ou traço ser causado por mutações em múltiplos genes diferentes.  Um exemplo é a hipercolesterolemia familiar, que pode ser causada por diferentes mutações que afetam genes do metabolismo do colesterol (ex.: receptor de LDL, apo B-100).'},
+          {option:'F', explanation:'A poliploidia ocorre quando mais de 2 conjuntos completos de cromossomos homólogos existem dentro de um organismo ou célula.  Em uma mola hidatiforme parcial, por exemplo, existem células com ploidia não padrão (tipicamente 69,XXX; 69,XXY; ou 69,XYY).  Os cromossomos, nesse caso, derivam de 1 conjunto haploide materno e 2 conjuntos haploides paternos.'},
+          {option:'G', explanation:'A lei da segregação (primeira lei de Mendel) descreve o fenômeno pelo qual a gametogênese no organismo parental resulta na separação dos alelos pareados, de modo que cada descendente herda apenas metade da composição genética de cada genitor.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0021', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'hard',
+      vignette:"A 23-year-old primigravid woman at 12 weeks gestation comes to the clinic for evaluation.  She and her male partner are healthy, but her younger brother has an inherited bleeding disorder.  His condition was diagnosed after he developed severe, prolonged bleeding following a tooth extraction.  The brother also has had multiple episodes of painful joint swelling and bleeding into muscles following minimal trauma.  Both of the patient's parents are healthy, but genetic analysis reveals that one parent is a carrier of the disease.  The sex of the patient's fetus is unknown.",
+      q:'Which of the following is the best estimate of the probability that the fetus will also develop disease manifestations?',
+      options:[
+        {label:'A', text:'Near 0'},
+        {label:'B', text:'1/16'},
+        {label:'C', text:'1/8'},
+        {label:'D', text:'1/4'},
+        {label:'E', text:'1/2'},
+      ],
+      correct:'C',
+      explC:"This patient's brother has a history of excessive bleeding, including hemarthroses and muscle hematomas after minor trauma.  This pattern of deep tissue bleeding is classic for hemophilia, and the family history of an affected male with an asymptomatic carrier parent is most consistent with an X-linked recessive disorder such as hemophilia A or B (hemophilia C, an autosomal recessive disorder, is less common and typically causes excessive bleeding only after major trauma or surgery).\n\nIn X-linked recessive disorders, the mutant allele is on the X chromosome (Xd).  As a result, males are usually affected (ie, only 1 mutant allele is required to cause disease, or XdY), and females are typically carriers (XXd).  Because the patient's male partner is healthy, he does not have a mutant allele.  This means that the probability of this couple having an affected child is equal to the product of the following independent probabilities: the patient being a carrier (P1), the patient transmitting her mutant allele (P2), and the offspring being male (P3).\n\n- P(patient is a carrier), or P1: Given that the patient's brother has hemophilia, the patient's mother must be the carrier; the patient's father is unaffected, so he cannot be the carrier because males with a mutant allele are always affected (and they also cannot pass the mutation to their sons).  This means that the patient inherited a normal X chromosome from her father and either a normal or Xd chromosome from her mother.  The probability that she inherited the Xd chromosome and is a carrier is 1 in 2.\n- P(patient transmits the mutant allele), or P2: If the patient is a carrier, then her offspring will inherit either her normal X or mutant Xd chromosome.  The probability of the offspring inheriting Xd is 1 in 2.\n- P(offspring is male), or P3: If the mutant allele is transmitted from the patient, only male offspring will usually be affected; all female offspring would typically be carriers.  The probability of the offspring being male (ie, inheriting a Y chromosome from the male partner) is 1 in 2.\n\nTherefore, the probability that this couple's offspring will be affected by hemophilia, an XLR disorder, is P1 × P2 × P3, or 1/2 × 1/2 × 1/2 = 1/8.",
+      explI:[],
+      objective:'In X-linked recessive disorders (eg, hemophilia A or B), males with the mutation are affected and females with the mutation are usually unaffected carriers.  If a woman has a brother affected by an X-linked recessive disorder and both parents are unaffected, the probability that she will have an affected child with a healthy male partner is 1 in 8.',
+      peer:{A:18, B:6, C:26, D:38, E:10},
+      ptTranslation:{
+        vignette:'Uma mulher de 23 anos, primigesta, com 12 semanas de gestação, vem à clínica para avaliação.  Ela e seu parceiro são saudáveis, mas seu irmão mais novo tem um distúrbio hemorrágico hereditário.  A condição dele foi diagnosticada após ele desenvolver sangramento grave e prolongado após uma extração dentária.  O irmão também teve vários episódios de inchaço articular doloroso e sangramento nos músculos após trauma mínimo.  Ambos os pais da paciente são saudáveis, mas a análise genética revela que um dos pais é portador da doença.  O sexo do feto da paciente é desconhecido.',
+        q:'Qual das seguintes é a melhor estimativa da probabilidade de o feto também desenvolver manifestações da doença?',
+        objective:'Em distúrbios recessivos ligados ao X (ex.: hemofilia A ou B), homens com a mutação são afetados e mulheres com a mutação costumam ser portadoras não afetadas.  Se uma mulher tem um irmão afetado por um distúrbio recessivo ligado ao X e ambos os pais não são afetados, a probabilidade de ela ter um filho afetado com um parceiro saudável é de 1 em 8.',
+        options:[
+          {label:'A', text:'Próximo de 0'},
+          {label:'B', text:'1/16'},
+          {label:'C', text:'1/8'},
+          {label:'D', text:'1/4'},
+          {label:'E', text:'1/2'},
+        ],
+        explC:'O irmão desta paciente tem histórico de sangramento excessivo, incluindo hemartroses e hematomas musculares após trauma mínimo.  Esse padrão de sangramento em tecidos profundos é clássico de hemofilia, e o histórico familiar de um homem afetado com um genitor portador assintomático é mais compatível com um distúrbio recessivo ligado ao X, como a hemofilia A ou B (a hemofilia C, um distúrbio autossômico recessivo, é menos comum e tipicamente causa sangramento excessivo apenas após trauma grave ou cirurgia).\n\nEm distúrbios recessivos ligados ao X, o alelo mutante está no cromossomo X (Xd).  Como resultado, homens costumam ser afetados (isto é, basta 1 alelo mutante para causar a doença, ou XdY), e mulheres costumam ser portadoras (XXd).  Como o parceiro da paciente é saudável, ele não tem alelo mutante.  Isso significa que a probabilidade de este casal ter um filho afetado é igual ao produto das seguintes probabilidades independentes: a paciente ser portadora (P1), a paciente transmitir seu alelo mutante (P2), e a prole ser do sexo masculino (P3).\n\n- P(a paciente é portadora), ou P1: Dado que o irmão da paciente tem hemofilia, a mãe da paciente deve ser a portadora; o pai da paciente não é afetado, então ele não pode ser o portador, pois homens com um alelo mutante são sempre afetados (e também não conseguem transmitir a mutação para seus filhos homens).  Isso significa que a paciente herdou um cromossomo X normal do pai e um cromossomo normal ou Xd da mãe.  A probabilidade de ela ter herdado o cromossomo Xd e ser portadora é de 1 em 2.\n- P(a paciente transmite o alelo mutante), ou P2: Se a paciente for portadora, sua prole herdará o X normal ou o Xd mutante dela.  A probabilidade de a prole herdar o Xd é de 1 em 2.\n- P(a prole é do sexo masculino), ou P3: Se o alelo mutante for transmitido pela paciente, geralmente apenas a prole masculina será afetada; toda a prole feminina normalmente será portadora.  A probabilidade de a prole ser do sexo masculino (isto é, herdar um cromossomo Y do parceiro) é de 1 em 2.\n\nPortanto, a probabilidade de a prole deste casal ser afetada pela hemofilia, um distúrbio recessivo ligado ao X, é P1 × P2 × P3, ou 1/2 × 1/2 × 1/2 = 1/8.',
+        explI:[]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
