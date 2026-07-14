@@ -5169,6 +5169,88 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0031', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'easy',
+      vignette:'A 5-year-old girl is brought to the office by her mother because she is concerned that her daughter "sunburns too easily."  The mother says the patient\'s skin becomes red and scaly with only minimal sun exposure.  She first noticed the problem when her daughter was 7 months old during a trip to the beach.  The mother has since avoided exposing her child to excess sunlight, but finds it difficult now that the patient has begun kindergarten.  Physical examination shows thin and hyperpigmented skin.  She also has a few nevi on her hands that have been enlarging rapidly.',
+      q:"This patient's disorder is most likely due to a primary defect involving which of the following processes?",
+      options:[
+        {label:'A', text:'DNA mismatch repair'},
+        {label:'B', text:'Nucleotide excision repair'},
+        {label:'C', text:'Ras signal transduction'},
+        {label:'D', text:'Regulation of apoptosis'},
+        {label:'E', text:'Regulation of cell cycle'},
+        {label:'F', text:'Repair of DNA crosslinks'},
+      ],
+      correct:'B',
+      explC:'This patient likely has xeroderma pigmentosum, a rare autosomal recessive disorder that occurs due to defective nucleotide excision repair of DNA damaged by ultraviolet (UV) light.  Normally, the regions of DNA damaged by UV radiation are excised and replaced by a series of DNA repair enzymes.  In xeroderma pigmentosum, this process is impaired and leads to the accumulation of abnormal pyrimidine nucleotides, especially thymine dimers, and other carcinogenic adducts.\n\nThe skin of affected individuals is normal at birth, but they present during the first year of life with severe sun sensitivity (eg, blistering, scaling) affecting light-exposed areas, especially the face.  Over time, the skin shows atrophy, telangiectasias, and intermingling areas of hypo- and hyperpigmentation due to chronic UV damage.  Skin malignancies, including malignant melanoma and squamous and basal cell carcinoma, develop as early as ages 5-6.',
+      explI:[
+        {option:'A', explanation:'Abnormalities of genes responsible for DNA mismatch repair are found in patients with hereditary nonpolyposis colorectal cancer (HNPCC, or Lynch syndrome).  These patients have a greater incidence of colorectal, endometrial, and ovarian cancer.'},
+        {option:'C', explanation:'Ras codes for a G protein that regulates growth factor signal transduction.  Mutations that result in a constitutively activated Ras protein cause constant and unregulated cell proliferation, leading to malignancy (particularly pancreatic and colorectal cancer).'},
+        {option:'D and E', explanation:'p53 is a regulatory protein that halts cell cycle progression when DNA is damaged, allowing time for the DNA to be repaired.  When the damage is irreversible, apoptosis is triggered.  Acquired p53 mutations are found in the majority of spontaneous cancers, whereas inherited p53 mutations are responsible for Li-Fraumeni syndrome (which causes a wide range of malignancies at a young age).'},
+        {option:'F', explanation:'Fanconi anemia is an autosomal recessive condition caused by mutations in the genes responsible for the repair of interstrand DNA crosslinks.  It is the most common inherited cause of aplastic anemia and presents with short stature, absent thumbs, and increased malignancy risk.'},
+      ],
+      objective:'Xeroderma pigmentosum develops due to a defect in nucleotide excision repair.  This disease is characterized by increased sensitivity to ultraviolet radiation and a high incidence of cutaneous malignancy.',
+      peer:{A:10, B:70, C:1, D:2, E:2, F:12},
+      ptTranslation:{
+        vignette:'Uma menina de 5 anos é levada ao consultório por sua mãe, que está preocupada porque sua filha "se queima com o sol muito facilmente."  A mãe diz que a pele da paciente fica vermelha e descamativa com apenas exposição solar mínima.  Ela notou o problema pela primeira vez quando sua filha tinha 7 meses, durante uma viagem à praia.  A mãe desde então tem evitado expor a criança a sol em excesso, mas está achando difícil agora que a paciente começou o jardim de infância.  O exame físico mostra pele fina e hiperpigmentada.  Ela também tem alguns nevos nas mãos que têm crescido rapidamente.',
+        q:'O distúrbio desta paciente é mais provavelmente devido a um defeito primário envolvendo qual dos seguintes processos?',
+        objective:'O xeroderma pigmentoso se desenvolve devido a um defeito no reparo por excisão de nucleotídeo.  Essa doença é caracterizada por sensibilidade aumentada à radiação ultravioleta e alta incidência de malignidade cutânea.',
+        options:[
+          {label:'A', text:'Reparo de incompatibilidade de DNA'},
+          {label:'B', text:'Reparo por excisão de nucleotídeo'},
+          {label:'C', text:'Transdução de sinal via Ras'},
+          {label:'D', text:'Regulação da apoptose'},
+          {label:'E', text:'Regulação do ciclo celular'},
+          {label:'F', text:'Reparo de ligações cruzadas de DNA'},
+        ],
+        explC:'Esta paciente provavelmente tem xeroderma pigmentoso, um distúrbio autossômico recessivo raro que ocorre devido a reparo por excisão de nucleotídeo defeituoso do DNA danificado pela radiação ultravioleta (UV).  Normalmente, as regiões de DNA danificadas pela radiação UV são excisadas e substituídas por uma série de enzimas de reparo de DNA.  No xeroderma pigmentoso, esse processo é prejudicado e leva ao acúmulo de nucleotídeos de pirimidina anormais, especialmente dímeros de timina, e outros aductos carcinogênicos.\n\nA pele dos indivíduos afetados é normal ao nascimento, mas eles se apresentam durante o primeiro ano de vida com sensibilidade solar grave (ex.: bolhas, descamação) afetando áreas expostas à luz, especialmente a face.  Com o tempo, a pele mostra atrofia, telangiectasias e áreas intercaladas de hipo- e hiperpigmentação devido ao dano crônico por UV.  Malignidades cutâneas, incluindo melanoma maligno e carcinomas espinocelular e basocelular, se desenvolvem já a partir dos 5-6 anos de idade.',
+        explI:[
+          {option:'A', explanation:'Anormalidades em genes responsáveis pelo reparo de incompatibilidade de DNA são encontradas em pacientes com câncer colorretal hereditário sem polipose (HNPCC, ou síndrome de Lynch).  Esses pacientes têm maior incidência de câncer colorretal, endometrial e ovariano.'},
+          {option:'C', explanation:'O Ras codifica uma proteína G que regula a transdução de sinal de fatores de crescimento.  Mutações que resultam em uma proteína Ras constitutivamente ativada causam proliferação celular constante e desregulada, levando à malignidade (particularmente câncer pancreático e colorretal).'},
+          {option:'D and E', explanation:'A p53 é uma proteína reguladora que interrompe a progressão do ciclo celular quando o DNA está danificado, dando tempo para que o DNA seja reparado.  Quando o dano é irreversível, a apoptose é desencadeada.  Mutações adquiridas de p53 são encontradas na maioria dos cânceres espontâneos, enquanto mutações herdadas de p53 são responsáveis pela síndrome de Li-Fraumeni (que causa uma ampla gama de malignidades em idade jovem).'},
+          {option:'F', explanation:'A anemia de Fanconi é uma condição autossômica recessiva causada por mutações nos genes responsáveis pelo reparo de ligações cruzadas entre fitas de DNA.  É a causa hereditária mais comum de anemia aplástica e se apresenta com baixa estatura, ausência de polegares e risco aumentado de malignidade.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0032', system:'genetics', discipline:'genetics', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+      vignette:'A research scientist purifies DNA polymerase III from an Escherichia coli extract.  The isolated enzymes are then incubated in a mixture containing DNA templates, RNA primer oligonucleotides, and tagged deoxynucleotides.  After analyzing the DNA molecules formed during incubation, the researcher concludes that the enzyme possesses 3\' to 5\' exonuclease activity.',
+      q:'Which of the following enzymatic actions was most likely observed during the experiment?',
+      options:[
+        {label:'A', text:'Cleavage of DNA strands to remove supercoils'},
+        {label:'B', text:'Excision of thymine dimers within DNA'},
+        {label:'C', text:'Removal of mismatched base pairs during DNA synthesis'},
+        {label:'D', text:'Removal of RNA primer nucleotides'},
+        {label:'E', text:'Unwinding of double-stranded DNA'},
+      ],
+      correct:'C',
+      explC:"DNA replication is coordinated by the actions of multiple enzymes and proteins.  It requires a high degree of fidelity to ensure preservation of the genetic code in daughter cells and to prevent accumulation of mutations.\n\nProkaryotes have 3 types of DNA polymerase (I, II, III), all of which perform the following functions:\n\n- DNA synthesis (5' → 3' polymerase activity): DNA chain synthesis and elongation first require the presence of an RNA primer (created by an RNA polymerase, or primase).  DNA polymerases then add individual nucleotides to the 3' end of the growing daughter strand.\n- Proofreading (3' → 5' exonuclease activity): As the DNA daughter strand is synthesized, DNA polymerases check that each added nucleotide is appropriately matched to its complementary base.  Incorrect base pairs are removed (via hydrolysis of their phosphodiester bonds), and the correct complementary bases are added.\n\nIn this experiment, the researcher most likely observed removal of mismatched base pairs during DNA replication to conclude that DNA polymerase III has 3' to 5' exonuclease activity.",
+      explI:[
+        {option:'A', explanation:'During DNA replication in prokaryotes, the circular DNA strands are unwound, creating tension.  DNA gyrase (type II topoisomerase) temporarily cleaves both strands of the DNA double helix and introduces negative supercoils to relieve this tension.'},
+        {option:'B', explanation:'Ultraviolet (UV) light can damage DNA by covalently bonding adjacent pyrimidine (typically thymine) bases to form dimers.  These thymine dimers are usually removed via nucleotide excision repair by the enzyme UV-specific endonuclease.'},
+        {option:'D', explanation:"A unique function of DNA polymerase I is its 5' to 3' exonuclease activity, which is used to remove the RNA primer synthesized by RNA primase.  DNA polymerase III does not have 5' to 3' exonuclease activity."},
+        {option:'E', explanation:'Helicase promotes unwinding and dissociation of parent DNA strands at the replication fork.'},
+      ],
+      objective:"All prokaryotic DNA polymerases (I, II, and III) remove mismatched nucleotides via their 3' to 5' exonuclease (proofreading) activity.  Only DNA polymerase I has 5' to 3' exonuclease activity, which is used to remove the RNA primer synthesized by RNA primase.",
+      peer:{A:3, B:5, C:61, D:25, E:4},
+      ptTranslation:{
+        vignette:'Um cientista pesquisador purifica a DNA polimerase III de um extrato de Escherichia coli.  As enzimas isoladas são então incubadas em uma mistura contendo moldes de DNA, oligonucleotídeos primers de RNA e desoxinucleotídeos marcados.  Após analisar as moléculas de DNA formadas durante a incubação, o pesquisador conclui que a enzima possui atividade exonucleásica 3\' para 5\'.',
+        q:'Qual das seguintes ações enzimáticas foi mais provavelmente observada durante o experimento?',
+        objective:'Todas as DNA polimerases procarióticas (I, II e III) removem nucleotídeos incompatíveis por meio de sua atividade exonucleásica 3\' para 5\' ("revisão").  Apenas a DNA polimerase I tem atividade exonucleásica 5\' para 3\', usada para remover o primer de RNA sintetizado pela primase.',
+        options:[
+          {label:'A', text:'Clivagem de fitas de DNA para remover superenrolamentos'},
+          {label:'B', text:'Excisão de dímeros de timina dentro do DNA'},
+          {label:'C', text:'Remoção de pares de bases incompatíveis durante a síntese de DNA'},
+          {label:'D', text:'Remoção de nucleotídeos do primer de RNA'},
+          {label:'E', text:'Desenrolamento do DNA de fita dupla'},
+        ],
+        explC:'A replicação do DNA é coordenada pela ação de múltiplas enzimas e proteínas.  Ela exige alto grau de fidelidade para garantir a preservação do código genético nas células-filhas e prevenir o acúmulo de mutações.\n\nProcariotos têm 3 tipos de DNA polimerase (I, II, III), todas as quais desempenham as seguintes funções:\n\n- Síntese de DNA (atividade polimerase 5\' → 3\'): a síntese e o alongamento da cadeia de DNA primeiro exigem a presença de um primer de RNA (criado por uma RNA polimerase, ou primase).  As DNA polimerases então adicionam nucleotídeos individuais à extremidade 3\' da fita-filha em crescimento.\n- Revisão (atividade exonucleásica 3\' → 5\'): à medida que a fita-filha de DNA é sintetizada, as DNA polimerases verificam se cada nucleotídeo adicionado está corretamente pareado com sua base complementar.  Pares de bases incorretos são removidos (por hidrólise de suas ligações fosfodiéster), e as bases complementares corretas são adicionadas.\n\nNeste experimento, o pesquisador mais provavelmente observou a remoção de pares de bases incompatíveis durante a replicação do DNA para concluir que a DNA polimerase III tem atividade exonucleásica 3\' para 5\'.',
+        explI:[
+          {option:'A', explanation:'Durante a replicação do DNA em procariotos, as fitas circulares de DNA são desenroladas, criando tensão.  A DNA girase (topoisomerase tipo II) temporariamente cliva ambas as fitas da dupla hélice de DNA e introduz superenrolamentos negativos para aliviar essa tensão.'},
+          {option:'B', explanation:'A luz ultravioleta (UV) pode danificar o DNA ao ligar covalentemente bases pirimídicas adjacentes (tipicamente timina) para formar dímeros.  Esses dímeros de timina costumam ser removidos por reparo por excisão de nucleotídeo pela enzima endonuclease específica de UV.'},
+          {option:'D', explanation:'Uma função exclusiva da DNA polimerase I é sua atividade exonucleásica 5\' para 3\', usada para remover o primer de RNA sintetizado pela primase de RNA.  A DNA polimerase III não tem atividade exonucleásica 5\' para 3\'.'},
+          {option:'E', explanation:'A helicase promove o desenrolamento e a dissociação das fitas de DNA parentais na forquilha de replicação.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
