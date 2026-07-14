@@ -6072,6 +6072,129 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0054', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'medium',
+      img:'CMQ-STEP1-GEN-0054_desc.png',
+      vignette:'Molecular biologists are investigating the functional significance of non-coding RNA molecules.  During an experiment, they isolate large complexes containing both protein and RNA from exocrine pancreatic cells.  The complexes are found both freely floating in the cytoplasm and bound to the endoplasmic reticulum.',
+      q:'The RNA found within these complexes is primarily synthesized at which of the following intracellular sites?',
+      options:[
+        {label:'A', text:'A'},
+        {label:'B', text:'B'},
+        {label:'C', text:'C'},
+        {label:'D', text:'D'},
+        {label:'E', text:'E'},
+      ],
+      correct:'B',
+      explC:'The large complexes containing both protein and RNA that are found freely floating and bound to the endoplasmic reticulum are most likely ribosomes.  Ribosome biogenesis occurs primarily within the nucleolus, a dense round structure inside the nucleus that is in direct contact with the rest of the nucleoplasm.  The nucleolus contains ribosomal DNA coding for the 28S, 5.8S, and 18S ribosomal RNA (rRNA) components, and it is here where most of the rRNA is transcribed.  After synthesis, rRNA is combined with ribosomal protein components that are translated in the cytoplasm and then imported into the nucleus.  The immature 60S and 40S ribosomal subunits are then exported from the nucleus to fully mature in the cytoplasm.',
+      explI:[
+        {option:'A', explanation:'The rough endoplasmic reticulum is identifiable due to its characteristic long, folded membranes that are coated with ribosomes, giving it a speckled or rough appearance.'},
+        {option:'C', explanation:'The nucleus is identifiable as a membrane-bound structure that contains the nucleolus, electron-lucent euchromatin, and electron-dense heterochromatin (condensed DNA typically found around the periphery).  However, most of the ribosomal DNA is found in the form of tandem repeats within the nucleolus; only the 5S rRNA is transcribed outside of the nucleolus.'},
+        {option:'D', explanation:'Mitochondria are organelles with dual phospholipid bilayer membranes that can be recognized by the presence of foldings (ie, cristae) in their inner membranes.  Mitochondria have their own ribosomes, but they are typically found within the mitochondrial matrix or bound to the inner mitochondrial membrane.'},
+        {option:'E', explanation:'Pancreatic zymogen granules are electron-dense structures containing digestive proenzymes that are released from the cell via exocytosis.'},
+      ],
+      objective:'The nucleolus is a dense intranuclear body visible by light and electron microscopy that functions as the primary site of ribosome synthesis and assembly.  All ribosomal RNA except 5S rRNA is transcribed in the nucleolus.',
+      peer:{A:10, B:51, C:23, D:10, E:4},
+      ptTranslation:{
+        vignette:'Biólogos moleculares estão investigando o significado funcional de moléculas de RNA não codificante.  Durante um experimento, eles isolam grandes complexos contendo tanto proteína quanto RNA de células exócrinas pancreáticas.  Os complexos são encontrados tanto flutuando livremente no citoplasma quanto ligados ao retículo endoplasmático.',
+        q:'O RNA encontrado dentro desses complexos é sintetizado primariamente em qual dos seguintes sítios intracelulares?',
+        objective:'O nucléolo é um corpo intranuclear denso, visível por microscopia óptica e eletrônica, que funciona como o sítio primário de síntese e montagem de ribossomos.  Todo o RNA ribossômico, exceto o rRNA 5S, é transcrito no nucléolo.',
+        options:[
+          {label:'A', text:'A'},
+          {label:'B', text:'B'},
+          {label:'C', text:'C'},
+          {label:'D', text:'D'},
+          {label:'E', text:'E'},
+        ],
+        explC:'Os grandes complexos contendo tanto proteína quanto RNA que são encontrados flutuando livremente e ligados ao retículo endoplasmático são, muito provavelmente, ribossomos.  A biogênese ribossômica ocorre primariamente dentro do nucléolo, uma estrutura densa e arredondada dentro do núcleo que está em contato direto com o restante do nucleoplasma.  O nucléolo contém DNA ribossômico que codifica os componentes do RNA ribossômico (rRNA) 28S, 5,8S e 18S, e é aqui onde a maior parte do rRNA é transcrita.  Após a síntese, o rRNA é combinado com os componentes proteicos ribossômicos que são traduzidos no citoplasma e então importados para o núcleo.  As subunidades ribossômicas imaturas 60S e 40S são então exportadas do núcleo para amadurecerem completamente no citoplasma.',
+        explI:[
+          {option:'A', explanation:'O retículo endoplasmático rugoso é identificável por suas características membranas longas e dobradas que são revestidas por ribossomos, conferindo-lhe uma aparência pontilhada ou rugosa.'},
+          {option:'C', explanation:'O núcleo é identificável como uma estrutura delimitada por membrana que contém o nucléolo, a eucromatina eletron-lucente e a heterocromatina eletron-densa (DNA condensado tipicamente encontrado ao redor da periferia).  Entretanto, a maior parte do DNA ribossômico é encontrada na forma de repetições em tandem dentro do nucléolo; apenas o rRNA 5S é transcrito fora do nucléolo.'},
+          {option:'D', explanation:'As mitocôndrias são organelas com duplas membranas de bicamada fosfolipídica que podem ser reconhecidas pela presença de dobras (ie, cristas) em suas membranas internas.  As mitocôndrias têm seus próprios ribossomos, mas eles são tipicamente encontrados dentro da matriz mitocondrial ou ligados à membrana mitocondrial interna.'},
+          {option:'E', explanation:'Os grânulos de zimogênio pancreático são estruturas eletron-densas contendo proenzimas digestivas que são liberadas da célula por exocitose.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0055', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      vignette:'In an experiment, cultured fibroblasts are mechanically lysed, and the membrane lipids and cellular proteins are chemically removed to isolate nucleic acids.  The cellular extract containing the purified nucleic acids is incubated along with short sequences of repeated deoxythymidine residues fixed to latex beads.  The solution is washed several times to remove unbound molecules.',
+      q:'Which of the following types of nucleic acid is most likely to bind the strongest to the latex beads in this experiment?',
+      options:[
+        {label:'A', text:'Aminoacyl-tRNA'},
+        {label:'B', text:'Mature mRNA'},
+        {label:'C', text:'Promoter regions of DNA'},
+        {label:'D', text:'Ribosomal RNA'},
+        {label:'E', text:'Splice sites of pre-mRNA'},
+        {label:'F', text:'Telomere regions of chromosomes'},
+      ],
+      correct:'B',
+      explC:'In the experiment described above, the poly-A tail on mature mRNA is most likely to bind the latex beads because the adenine residues in this tail would form complementary base pairs with the repeated deoxythymine residues fixed to the beads.\n\nMature mRNA refers to mRNA that has been processed and is ready for nuclear export and translation into protein.  mRNA processing (post-transcriptional modification) involves the following steps:\n\n1.  5\' capping: A 7-methyl-guanosine cap is added to the 5\' end of the mRNA.\n\n2.  Polyadenylation: A poly-A tail (chain of adenine residues) is added to most eukaryotic mRNA molecules by poly-A polymerase.  Poly-A tails are not transcribed from the DNA template.  Instead, a consensus sequence (AAUAAA) located near the 3\' end of the RNA molecule directs the addition of the poly-A tail.  This tail protects the mRNA from degradation within the cytoplasm after it exits the nucleus.\n\n3.  Splicing: The initial mRNA transcript (pre-mRNA) contains sequences from coding and noncoding regions of DNA, known as exons and introns, respectively.  Spliceosomes (complexes of small nuclear ribonucleoproteins [snRNPs] and other proteins) remove introns containing GU at the 5\' splice site and AG at the 3\' splice site (Choice E).',
+      explI:[
+        {option:'A', explanation:'Aminoacyl-tRNA is tRNA charged with its amino acid.  The cloverleaf structure of tRNA consists of a 3\' CCA tail (amino acid binding site); a T loop abundant in ribothymidine, pseudouridine, and cytidine residues; a D loop rich in dihydrouridine residues; and an anticodon loop.'},
+        {option:'C', explanation:'DNA promoter regions help initiate transcription by binding transcription factors and RNA polymerase II.  Promoter regions contain consensus sequences that are typically AT-rich (eg, TATA and CAAT boxes) or GC-rich (eg, GC box).'},
+        {option:'D', explanation:'Ribosomal RNA (rRNA) is a component of the ribosome that catalyzes peptide bond formation during translation.'},
+        {option:'F', explanation:'Telomeres are located at the ends of chromosomes and contain TTAGGG repeats, which are added by the enzyme telomerase (RNA-dependent DNA polymerase).  Critical shortening in telomere length is thought to signal programmed cell death.'},
+      ],
+      objective:'The poly-A tail is not transcribed from DNA; instead, it is added as a post-transcriptional modification downstream of the consensus sequence (AAUAAA) located near the 3\' end of the mRNA molecule.  This tail protects mRNA from degradation within the cytoplasm after it exits the nucleus.',
+      peer:{A:16, B:21, C:31, D:8, E:6, F:15},
+      ptTranslation:{
+        vignette:'Em um experimento, fibroblastos cultivados são lisados mecanicamente, e os lipídios de membrana e as proteínas celulares são quimicamente removidos para isolar os ácidos nucleicos.  O extrato celular contendo os ácidos nucleicos purificados é incubado juntamente com sequências curtas de resíduos repetidos de desoxitimidina fixados a esferas de látex.  A solução é lavada várias vezes para remover as moléculas não ligadas.',
+        q:'Qual dos seguintes tipos de ácido nucleico tem maior probabilidade de se ligar mais fortemente às esferas de látex neste experimento?',
+        objective:'A cauda poli A não é transcrita a partir do DNA; em vez disso, ela é adicionada como uma modificação pós-transcricional a jusante da sequência de consenso (AAUAAA) localizada próximo à extremidade 3\' da molécula de mRNA.  Essa cauda protege o mRNA da degradação dentro do citoplasma após ele sair do núcleo.',
+        options:[
+          {label:'A', text:'Aminoacil-tRNA'},
+          {label:'B', text:'mRNA maduro'},
+          {label:'C', text:'Regiões promotoras do DNA'},
+          {label:'D', text:'RNA ribossômico'},
+          {label:'E', text:'Sítios de splicing do pré-mRNA'},
+          {label:'F', text:'Regiões teloméricas dos cromossomos'},
+        ],
+        explC:'No experimento descrito acima, a cauda poli A no mRNA maduro tem maior probabilidade de se ligar às esferas de látex porque os resíduos de adenina nessa cauda formariam pares de bases complementares com os resíduos repetidos de desoxitimina fixados às esferas.\n\nO mRNA maduro refere-se ao mRNA que foi processado e está pronto para a exportação nuclear e a tradução em proteína.  O processamento do mRNA (modificação pós-transcricional) envolve as seguintes etapas:\n\n1.  Capeamento (5\' cap): um cap de 7-metil-guanosina é adicionado à extremidade 5\' do mRNA.\n\n2.  Poliadenilação: uma cauda poli A (cadeia de resíduos de adenina) é adicionada à maioria das moléculas de mRNA eucariótico pela poli A polimerase.  As caudas poli A não são transcritas a partir do molde de DNA.  Em vez disso, uma sequência de consenso (AAUAAA) localizada próximo à extremidade 3\' da molécula de RNA direciona a adição da cauda poli A.  Essa cauda protege o mRNA da degradação dentro do citoplasma após ele sair do núcleo.\n\n3.  Splicing: o transcrito inicial de mRNA (pré-mRNA) contém sequências de regiões codificadoras e não codificadoras do DNA, conhecidas como éxons e íntrons, respectivamente.  Os spliceossomos (complexos de pequenas ribonucleoproteínas nucleares [snRNPs] e outras proteínas) removem íntrons contendo GU no sítio de splicing 5\' e AG no sítio de splicing 3\' (Alternativa E).',
+        explI:[
+          {option:'A', explanation:'O aminoacil-tRNA é o tRNA carregado com seu aminoácido.  A estrutura em folha de trevo do tRNA consiste em uma cauda CCA 3\' (sítio de ligação do aminoácido); uma alça T abundante em resíduos de ribotimidina, pseudouridina e citidina; uma alça D rica em resíduos de di-hidrouridina; e uma alça do anticódon.'},
+          {option:'C', explanation:'As regiões promotoras do DNA ajudam a iniciar a transcrição ao ligar fatores de transcrição e a RNA polimerase II.  As regiões promotoras contêm sequências de consenso que são tipicamente ricas em AT (ex.: caixas TATA e CAAT) ou ricas em GC (ex.: caixa GC).'},
+          {option:'D', explanation:'O RNA ribossômico (rRNA) é um componente do ribossomo que catalisa a formação de ligações peptídicas durante a tradução.'},
+          {option:'F', explanation:'Os telômeros estão localizados nas extremidades dos cromossomos e contêm repetições TTAGGG, que são adicionadas pela enzima telomerase (DNA polimerase dependente de RNA).  O encurtamento crítico do comprimento do telômero é considerado um sinal para a morte celular programada.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-GEN-0056', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
+      vignette:'A series of experiments is being conducted to determine the structure and function of different types of bacterial RNA.  Cultures of Staphylococcus aureus are exposed to chemicals that lyse the bacterial cells, and the RNA molecules are then extracted.  A specific RNA consisting of 90 nucleotides is purified for further analysis.  It is found to contain high amounts of chemically modified bases such as dihydrouridine, pseudouridine, and ribothymidine, and its secondary structure arises from base pairing within the chain.',
+      q:'Which of the following is the most likely composition of the 3\'-end of this molecule?',
+      options:[
+        {label:'A', text:'AUG'},
+        {label:'B', text:'CCA'},
+        {label:'C', text:'Methylguanosine triphosphate'},
+        {label:'D', text:'Poly-A'},
+        {label:'E', text:'TATA'},
+        {label:'F', text:'UAG'},
+      ],
+      correct:'B',
+      explC:'Transfer RNA (tRNA) is a form of non-coding RNA composed of 74-93 nucleotides.  Specific tRNAs transfer certain amino acid residues to the growing polypeptide during translation.  tRNA functions by recognizing the 3 base codon on the mRNA being translated through its anticodon region, which contains complementary bases.  The secondary structure of tRNA resembles a cloverleaf and contains the following regions:\n\n•  The acceptor stem is created through the base pairing of the 5\'-terminal nucleotides with the 3\'-terminal nucleotides.  The CCA tail hangs off the 3\' end, with the amino acid bound to the 3\' terminal hydroxyl group.  tRNA is "loaded" with the appropriate amino acid by aminoacyl tRNA synthetase.  The acceptor stem helps mediate correct tRNA recognition by the proper aminoacyl tRNA synthetase.\n\n•  A 3\' CCA tail is added to the 3\' end of tRNA as a posttranscriptional modification in eukaryotes and most prokaryotes.  Several enzymes utilize this tail to help recognize tRNA molecules.\n\n•  The D loop contains numerous dihydrouridine residues, which are modified bases often present in tRNA.  The D loop (along with the acceptor stem and anticodon loop) facilitates correct tRNA recognition by the proper aminoacyl tRNA synthetase.\n\n•  The anticodon loop contains sequences that are complementary to the mRNA codon.  During translation, the ribosome complex selects the proper tRNA based solely on its anticodon sequence.\n\n•  The T loop contains the TΨC sequence that is necessary for binding of tRNA to ribosomes.  The TΨC sequence refers to the presence of ribothymidine, pseudouridine, and cytidine residues.',
+      explI:[
+        {option:'A and F', explanation:'AUG and UAG are mRNA start and stop codons that initiate and terminate translation, respectively.'},
+        {option:'C and D', explanation:'After transcription, eukaryotic pre-mRNA undergoes posttranscriptional modification, which includes the addition of a poly-A tail at the 3\' end and methylguanosine cap at the 5\' end, and the removal of introns.'},
+        {option:'E', explanation:'A TATA box is an upstream promoter region associated with some genes in eukaryotic organisms.  TATA binding protein binds to this promoter during transcription, unwinding the DNA and initiating separation of the strands.'},
+      ],
+      objective:'Transfer RNA (tRNA) is a small, noncoding form of RNA that contains chemically modified bases (eg, dihydrouridine, ribothymidine, pseudouridine).  tRNA has a CCA sequence at its 3\'-end that is used as a recognition sequence by proteins.  The 3\' terminal hydroxyl group of the CCA tail serves as the amino acid binding site.',
+      peer:{A:6, B:40, C:5, D:30, E:3, F:13},
+      ptTranslation:{
+        vignette:'Uma série de experimentos está sendo conduzida para determinar a estrutura e a função de diferentes tipos de RNA bacteriano.  Culturas de Staphylococcus aureus são expostas a substâncias químicas que lisam as células bacterianas, e as moléculas de RNA são então extraídas.  Um RNA específico consistindo de 90 nucleotídeos é purificado para análise adicional.  Descobre-se que ele contém altas quantidades de bases quimicamente modificadas, como di-hidrouridina, pseudouridina e ribotimidina, e sua estrutura secundária surge do pareamento de bases dentro da cadeia.',
+        q:'Qual das seguintes é a composição mais provável da extremidade 3\' desta molécula?',
+        objective:'O RNA transportador (tRNA) é uma forma pequena e não codificante de RNA que contém bases quimicamente modificadas (ex.: di-hidrouridina, ribotimidina, pseudouridina).  O tRNA tem uma sequência CCA em sua extremidade 3\' que é usada como sequência de reconhecimento por proteínas.  O grupo hidroxila terminal 3\' da cauda CCA serve como o sítio de ligação do aminoácido.',
+        options:[
+          {label:'A', text:'AUG'},
+          {label:'B', text:'CCA'},
+          {label:'C', text:'Trifosfato de metilguanosina'},
+          {label:'D', text:'Poli-A'},
+          {label:'E', text:'TATA'},
+          {label:'F', text:'UAG'},
+        ],
+        explC:'O RNA transportador (tRNA) é uma forma de RNA não codificante composta por 74-93 nucleotídeos.  tRNAs específicos transferem certos resíduos de aminoácidos para o polipeptídeo em crescimento durante a tradução.  O tRNA funciona reconhecendo o códon de 3 bases no mRNA sendo traduzido por meio de sua região do anticódon, que contém bases complementares.  A estrutura secundária do tRNA assemelha-se a uma folha de trevo e contém as seguintes regiões:\n\n•  A haste aceptora (acceptor stem) é criada por meio do pareamento de bases dos nucleotídeos 5\'-terminais com os nucleotídeos 3\'-terminais.  A cauda CCA projeta-se da extremidade 3\', com o aminoácido ligado ao grupo hidroxila terminal 3\'.  O tRNA é "carregado" com o aminoácido apropriado pela aminoacil-tRNA sintetase.  A haste aceptora ajuda a mediar o reconhecimento correto do tRNA pela aminoacil-tRNA sintetase apropriada.\n\n•  Uma cauda CCA 3\' é adicionada à extremidade 3\' do tRNA como uma modificação pós-transcricional em eucariotos e na maioria dos procariotos.  Várias enzimas utilizam essa cauda para ajudar a reconhecer as moléculas de tRNA.\n\n•  A alça D contém numerosos resíduos de di-hidrouridina, que são bases modificadas frequentemente presentes no tRNA.  A alça D (juntamente com a haste aceptora e a alça do anticódon) facilita o reconhecimento correto do tRNA pela aminoacil-tRNA sintetase apropriada.\n\n•  A alça do anticódon contém sequências que são complementares ao códon do mRNA.  Durante a tradução, o complexo do ribossomo seleciona o tRNA apropriado com base unicamente em sua sequência de anticódon.\n\n•  A alça T contém a sequência TΨC que é necessária para a ligação do tRNA aos ribossomos.  A sequência TΨC refere-se à presença de resíduos de ribotimidina, pseudouridina e citidina.',
+        explI:[
+          {option:'A and F', explanation:'AUG e UAG são os códons de início e de parada do mRNA que iniciam e terminam a tradução, respectivamente.'},
+          {option:'C and D', explanation:'Após a transcrição, o pré-mRNA eucariótico sofre modificação pós-transcricional, que inclui a adição de uma cauda poli A na extremidade 3\' e um cap de metilguanosina na extremidade 5\', e a remoção de íntrons.'},
+          {option:'E', explanation:'Uma caixa TATA é uma região promotora a montante associada a alguns genes em organismos eucarióticos.  A proteína de ligação à TATA liga-se a esse promotor durante a transcrição, desenrolando o DNA e iniciando a separação das fitas.'},
+        ]
+      }
+    },
   ];
 
   /* --- Expor contagem total para sidebar --- */
