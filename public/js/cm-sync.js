@@ -36,7 +36,7 @@
 
   /* Chaves que SINCRONIZAM (nome já sem o prefixo e sem o _uid do final). */
   var SYNCED = ['qb','qb_unlock','fc','streak','time','prefs','last_access',
-                'nb','notes','notebook','tutor_chat'];
+                'nb','notes','notebook','tutor_chat','lib3hl'];
 
   /* Chaves globais, iguais para todos os usuários. */
   var SHARED = ['couplemed_fc_shared'];

@@ -366,6 +366,9 @@
   // Biblioteca 3: 17 módulos (First Aid por módulos), cada PDF servido via R2/worker (GET /api/library3/pdf/<key>)
   const LIBRARY3_STRUCTURE = window.LIBRARY3_STRUCTURE || [];
   const LIBRARY3_FULL_BOOK = window.LIBRARY3_FULL_BOOK || null;
+  // Piloto do leitor embutido (ver public/js/library3-reader.js): só as chaves aqui
+  // abrem dentro do site. Todo o resto continua abrindo em nova aba, como sempre.
+  const LIBRARY3_READER_PILOT = window.LIBRARY3_READER_PILOT || new Set();
   const lib3PdfUrl = key => `/api/library3/pdf/${key}`;
   const slugify = s => s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   function libBack(id,lang){
@@ -374,6 +377,10 @@
   }
   function libOpenFolder(id,lang,slug){
     history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}`);
+    renderLibrary(id,lang);
+  }
+  function libOpenPdf(id,lang,slug,key){
+    history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}&pdf=${encodeURIComponent(key)}`);
     renderLibrary(id,lang);
   }
   function renderLibrary(id,lang){
@@ -416,11 +423,25 @@
       const lib3Name = item => (lang==='pt' && item.ptName) ? item.ptName : item.name;
       const openFolder = folderSlug ? LIBRARY3_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
       if(openFolder){
-        const items=openFolder.items.map(topic=>
-          `<a class="lib-book lib-pdf" href="${lib3PdfUrl(topic.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(topic))}</a>`
-        ).join('');
+        // Piloto do leitor embutido: se a URL já chega com &pdf= apontando pra uma
+        // chave liberada, abre o leitor direto (suporta refresh/deep link).
+        const pdfKey = params().get('pdf');
+        const openItem = pdfKey ? openFolder.items.find(t=>t.key===pdfKey) : null;
+        if(openItem && LIBRARY3_READER_PILOT.has(openItem.key) && window.CMLibrary3Reader){
+          window.CMLibrary3Reader.open(rp, openItem, openFolder, ()=>libOpenFolder(id,lang,folderSlug));
+          return;
+        }
+        const items=openFolder.items.map(topic=>{
+          if(LIBRARY3_READER_PILOT.has(topic.key)){
+            return `<a class="lib-book lib-pdf" href="#" data-open-reader="${wsEsc(topic.key)}">${wsEsc(lib3Name(topic))}</a>`;
+          }
+          return `<a class="lib-book lib-pdf" href="${lib3PdfUrl(topic.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(topic))}</a>`;
+        }).join('');
         rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${wsEsc(lib3Name(openFolder))}</h1><div class="lib-list">${items}</div>`;
         $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
+        rp.querySelectorAll('.lib-list a[data-open-reader]').forEach(a=>{
+          a.addEventListener('click',e=>{e.preventDefault(); libOpenPdf(id,lang,folderSlug,a.dataset.openReader);});
+        });
         return;
       }
       const fullBook=LIBRARY3_FULL_BOOK?`<a class="lib-book lib-book-featured" href="${lib3PdfUrl(LIBRARY3_FULL_BOOK.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(LIBRARY3_FULL_BOOK))}</a>`:'';

@@ -18,3 +18,6 @@ window.LIBRARY3_STRUCTURE = [
     {name:"Rapid Review", ptName:"Revisão Rápida", items:[{name:"Pathophysiology of Important Diseases",ptName:"Fisiopatologia de Doenças Importantes",key:"lib3/rapid-review/01-pathophysiology-of-important-diseases.pdf"},{name:"Classic Presentations",ptName:"Apresentações Clássicas",key:"lib3/rapid-review/02-classic-presentations.pdf"},{name:"Classic Labs and Findings",ptName:"Exames e Achados Clássicos",key:"lib3/rapid-review/03-classic-labs-and-findings.pdf"},{name:"Key Associations",ptName:"Associações-Chave",key:"lib3/rapid-review/04-key-associations.pdf"},{name:"Equation Review",ptName:"Revisão de Equações",key:"lib3/rapid-review/05-equation-review.pdf"},{name:"Easily Confused Medications",ptName:"Medicamentos Facilmente Confundidos",key:"lib3/rapid-review/06-easily-confused-medications.pdf"}]},
 ];
 window.LIBRARY3_FULL_BOOK = {name:"First Aid USMLE Step 1 — Complete Book (2025)", ptName:"First Aid USMLE Step 1 — Livro Completo (2025)", key:"lib3/first-aid-usmle-step-1-2025-complete.pdf"};
+// Piloto do leitor embutido: só as chaves aqui abrem dentro do site (public/js/library3-reader.js).
+// Todo o resto continua abrindo em nova aba (target="_blank"), como sempre. Ver /Users/jonathan/.claude/plans/vivid-mixing-eich.md.
+window.LIBRARY3_READER_PILOT = new Set(["lib3/biochemistry/01-molecular.pdf"]);

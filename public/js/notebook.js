@@ -1387,7 +1387,7 @@
   function syncUrl(){
     const u = new URL(location.href);
     u.searchParams.set('page','notebooks'); u.searchParams.set('u',USER);
-    u.searchParams.delete('folder'); u.searchParams.delete('nb'); u.searchParams.delete('note');
+    u.searchParams.delete('folder'); u.searchParams.delete('nb'); u.searchParams.delete('note'); u.searchParams.delete('prefill');
     if(view.name==='folder') u.searchParams.set('folder', view.folderId);
     else if(view.name==='notebook') u.searchParams.set('nb', view.nbId);
     else if(view.name==='note'){ const nt=noteById(view.noteId); if(nt){ u.searchParams.set('nb', nt.notebookId); u.searchParams.set('note', view.noteId); } }
@@ -1395,7 +1395,33 @@
     else if(view.name==='favorites') u.searchParams.set('fav','1');
     history.replaceState(null,'', 'app.html'+u.search);
   }
+  /* ---------- entrada rápida por seleção (ex.: botão "Notebook" no leitor da
+     Library 3) — mesmo espírito do `?prefill=` que o Flashcards já suporta:
+     cai direto no editor de uma nota nova, já com o texto selecionado dentro. */
+  function ensureQuickCaptureBook(){
+    let folder = folderById('lib3-folder');
+    if(!folder){
+      folder = { id:'lib3-folder', name:'Library 3', color:FOLDER_COLORS[0], parentId:null, created:Date.now() };
+      DB.folders.push(folder);
+    }
+    let book = bookById('lib3-clips');
+    if(!book){
+      book = { id:'lib3-clips', folderId:folder.id, title:'Library 3', icon:'📘', paper:'blank', bg:'white',
+        orientation:'portrait', cover:{type:'color', value:'#2768ff'}, created:Date.now(), updated:Date.now() };
+      DB.notebooks.push(book);
+    }
+    return book;
+  }
+  function quickCaptureView(prefill){
+    const book = ensureQuickCaptureBook();
+    const nt = { id:uid(), notebookId:book.id, title:'', tags:[], fav:false, refs:[], multiPage:false,
+      pages:[{ id:uid(), html:'<p>'+esc(prefill)+'</p>', strokes:[] }], created:Date.now(), updated:Date.now() };
+    DB.notes.push(nt); save();
+    return { name:'note', noteId:nt.id, page:0 };
+  }
   function initialView(){
+    const prefill = params.get('prefill');
+    if(prefill) return quickCaptureView(prefill);
     if(PAGE==='notes') return { name:'allnotes' };
     if(params.get('fav')) return { name:'favorites' };
     const noteId = params.get('note'), nbId = params.get('nb'), folderId = params.get('folder');
@@ -1419,6 +1445,8 @@
     root = host.querySelector('#nbRoot');
     view = initialView();
     render();
+    // limpa o `?prefill=` da URL depois de criar a nota, senão um F5 duplicaria a captura
+    if(params.get('prefill')) syncUrl();
     // re-renderiza ao trocar de idioma (mesmo padrão do módulo Flashcards)
     new MutationObserver(()=>render()).observe(document.documentElement, {attributes:true, attributeFilter:['lang']});
   }
