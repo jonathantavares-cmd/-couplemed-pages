@@ -466,6 +466,10 @@ body.light .lib-book:hover{background:#eaf1ff;border-color:#bcd3ff}
 .lib-book.lib-topic::before{content:'📄'}
 .lib-book.lib-topic:hover{transform:none;border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
 body.light .lib-book.lib-topic:hover{border-color:#dde6f2;background:#f5f8fc}
+.lib-book.lib-pdf::before{content:'📄'}
+.lib-book-featured{border-color:rgba(120,168,255,.5);background:rgba(120,168,255,.1)}
+.lib-book-featured::before{content:'📘'}
+body.light .lib-book-featured{border-color:#bcd3ff;background:#eaf1ff}
 .lib-back{display:inline-block;margin-bottom:16px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#dbe6f5;font-size:13px;font-weight:600;padding:9px 16px;border-radius:9px;cursor:pointer}
 .lib-back:hover{background:rgba(120,168,255,.1);border-color:rgba(120,168,255,.4)}
 body.light .lib-back{background:#f5f8fc;border-color:#dde6f2;color:#0c1a30}

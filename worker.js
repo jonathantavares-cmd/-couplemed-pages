@@ -121,6 +121,11 @@ export default {
       return handleNotebook(request, env, url);
     }
 
+    /* ---------- rotas Library 3 (R2 — PDFs) ---------- */
+    if (url.pathname.startsWith('/api/library3')) {
+      return handleLibrary3(request, env, url);
+    }
+
     /* ---------- arquivos estáticos (public/) ---------- */
     return env.ASSETS.fetch(request);
   }
@@ -631,6 +636,82 @@ async function handleNotebook(request, env, url) {
     if (!key.startsWith('nb/')) return reply({ error: 'Invalid key' }, 400);
     try { await bucket.delete(key); } catch (err) { return reply({ error: 'R2 error', detail: String(err) }, 500); }
     return reply({ ok: true });
+  }
+
+  return reply({ error: 'Not found' }, 404);
+}
+
+/**
+ * Router da Library 3 sobre Cloudflare R2 (binding esperado: env.LIB3_STORAGE).
+ * Somente leitura: os PDFs são enviados via wrangler CLI, não pelo site.
+ *
+ * Endpoints:
+ *   GET /api/library3/pdf/<key>  → serve o PDF (cache imutável de 1 ano, inline no navegador)
+ */
+async function handleLibrary3(request, env, url) {
+  const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
+  if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+
+  const reply = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', ...cors } });
+  const path = url.pathname.replace(/^\/api\/library3/, '') || '/';
+  const bucket = env.LIB3_STORAGE;
+
+  if (path === '/health' || path === '/') {
+    return reply({ ok: true, r2Ready: !!bucket });
+  }
+
+  if (path.startsWith('/pdf/') && request.method === 'GET') {
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const key = decodeURIComponent(path.slice(5));
+    if (!key.startsWith('lib3/')) return reply({ error: 'Invalid key' }, 400);
+    const obj = await bucket.get(key);
+    if (!obj) return reply({ error: 'Not found' }, 404);
+    const filename = key.split('/').pop();
+    return new Response(obj.body, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `inline; filename="${filename}"`,
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
+  }
+
+  // ---- upload multipart p/ arquivos grandes (>300MiB, além do limite do wrangler CLI) ----
+  // Gate por segredo (env.LIB3_ADMIN_SECRET) — usado manualmente via script, não pelo site.
+  if (path.startsWith('/admin/')) {
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    if (!env.LIB3_ADMIN_SECRET || request.headers.get('X-Admin-Secret') !== env.LIB3_ADMIN_SECRET) {
+      return reply({ error: 'Unauthorized' }, 401);
+    }
+    if (path === '/admin/mpu-init' && request.method === 'POST') {
+      const { key } = await request.json();
+      if (!key || !key.startsWith('lib3/')) return reply({ error: 'Invalid key' }, 400);
+      const upload = await bucket.createMultipartUpload(key);
+      return reply({ ok: true, key, uploadId: upload.uploadId });
+    }
+    if (path === '/admin/mpu-part' && request.method === 'PUT') {
+      const key = url.searchParams.get('key');
+      const uploadId = url.searchParams.get('uploadId');
+      const partNumber = Number(url.searchParams.get('partNumber'));
+      if (!key || !uploadId || !partNumber) return reply({ error: 'Missing key/uploadId/partNumber' }, 400);
+      const upload = bucket.resumeMultipartUpload(key, uploadId);
+      const part = await upload.uploadPart(partNumber, request.body);
+      return reply({ ok: true, partNumber, etag: part.etag });
+    }
+    if (path === '/admin/mpu-complete' && request.method === 'POST') {
+      const { key, uploadId, parts } = await request.json();
+      if (!key || !uploadId || !Array.isArray(parts)) return reply({ error: 'Missing key/uploadId/parts' }, 400);
+      const upload = bucket.resumeMultipartUpload(key, uploadId);
+      await upload.complete(parts);
+      return reply({ ok: true });
+    }
+    if (path === '/admin/mpu-abort' && request.method === 'POST') {
+      const { key, uploadId } = await request.json();
+      const upload = bucket.resumeMultipartUpload(key, uploadId);
+      await upload.abort();
+      return reply({ ok: true });
+    }
   }
 
   return reply({ error: 'Not found' }, 404);

@@ -338,7 +338,7 @@
     });
   }
   function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),6450); setTimeout(()=>location.href=`app.html?u=${u}`,7000);}
-  const LIB_TITLE_KEY = {'library-1':'library1Title','library-2':'library2Title'};
+  const LIB_TITLE_KEY = {'library-1':'library1Title','library-2':'library2Title','library-3':'library3Title'};
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
   const LIB_FOLDERS = {
     'library-2': [
@@ -351,6 +351,10 @@
   };
   // Biblioteca 1: 26 pastas, cada uma com sua lista de tópicos (ordem exata do arquivo enviado pelo usuário)
   const LIBRARY1_STRUCTURE = window.LIBRARY1_STRUCTURE || [];
+  // Biblioteca 3: 17 módulos (First Aid por módulos), cada PDF servido via R2/worker (GET /api/library3/pdf/<key>)
+  const LIBRARY3_STRUCTURE = window.LIBRARY3_STRUCTURE || [];
+  const LIBRARY3_FULL_BOOK = window.LIBRARY3_FULL_BOOK || null;
+  const lib3PdfUrl = key => `/api/library3/pdf/${key}`;
   const slugify = s => s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   function libBack(id,lang){
     history.pushState(null,'',`app.html?page=${id}&u=${user()}`);
@@ -386,6 +390,32 @@
         return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${CM?CM.span(folder.name):folder.name}</a>`;
       }).join('');
       rp.innerHTML=`<h1 id="internalTitle">${libTitle}</h1><div class="lib-list">${folders}</div>`;
+      rp.querySelectorAll('.lib-list a[data-folder-slug]').forEach(a=>{
+        a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,a.dataset.folderSlug);});
+      });
+      CM&&CM.translateAllVisible(rp);
+      return;
+    }
+
+    // Biblioteca 3 tem 2 níveis: lista de 17 módulos -> lista de PDFs dentro do módulo
+    // (cada PDF abre em nova aba, servido pelo worker a partir do R2)
+    if(id==='library-3' && LIBRARY3_STRUCTURE.length){
+      const openFolder = folderSlug ? LIBRARY3_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
+      if(openFolder){
+        const items=openFolder.items.map(topic=>
+          `<a class="lib-book lib-pdf" href="${lib3PdfUrl(topic.key)}" target="_blank" rel="noopener">${CM?CM.span(topic.name):topic.name}</a>`
+        ).join('');
+        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${CM?CM.span(openFolder.name):openFolder.name}</h1><div class="lib-list">${items}</div>`;
+        $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
+        CM&&CM.translateAllVisible(rp);
+        return;
+      }
+      const fullBook=LIBRARY3_FULL_BOOK?`<a class="lib-book lib-book-featured" href="${lib3PdfUrl(LIBRARY3_FULL_BOOK.key)}" target="_blank" rel="noopener">${CM?CM.span(LIBRARY3_FULL_BOOK.name):LIBRARY3_FULL_BOOK.name}</a>`:'';
+      const folders=LIBRARY3_STRUCTURE.map(folder=>{
+        const slug=slugify(folder.name);
+        return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${CM?CM.span(folder.name):folder.name}</a>`;
+      }).join('');
+      rp.innerHTML=`<h1 id="internalTitle">${libTitle}</h1><div class="lib-list">${fullBook}${folders}</div>`;
       rp.querySelectorAll('.lib-list a[data-folder-slug]').forEach(a=>{
         a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,a.dataset.folderSlug);});
       });
@@ -1327,6 +1357,17 @@
     // Medical Library — Biblioteca 2: 17 pastas
     (LIB_FOLDERS['library-2']||[]).forEach(name=>{
       idx.push({ label: name, snippetSource:'', href: `app.html?page=library-2&u=${user()}`, cat: 'Medical Library · Library 2' });
+    });
+    // Medical Library — Biblioteca 3: 17 módulos + PDFs dentro deles
+    if(LIBRARY3_FULL_BOOK){
+      idx.push({ label: LIBRARY3_FULL_BOOK.name, snippetSource:'', href: lib3PdfUrl(LIBRARY3_FULL_BOOK.key), cat: 'Medical Library · Library 3' });
+    }
+    LIBRARY3_STRUCTURE.forEach(folder=>{
+      const slug = slugify(folder.name);
+      idx.push({ label: folder.name, snippetSource:'', href: `app.html?page=library-3&u=${user()}&folder=${slug}`, cat: 'Medical Library · Library 3' });
+      folder.items.forEach(topic=>{
+        idx.push({ label: topic.name, snippetSource:'', href: lib3PdfUrl(topic.key), cat: `Library 3 · ${folder.name}` });
+      });
     });
     // conteúdo dinâmico do usuário: QBank (questões + notebook) e Flashcards (decks + cards),
     // lido sob demanda dos módulos correspondentes — sempre reflete o estado atual.

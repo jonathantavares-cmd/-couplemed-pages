@@ -11,6 +11,11 @@ binding = "ASSETS"
 binding = "NB_STORAGE"
 bucket_name = "couplemed-notebook"
 
+# ---- Library 3 R2 (PDFs) ----
+[[r2_buckets]]
+binding = "LIB3_STORAGE"
+bucket_name = "couplemed-library3"
+
 # ---- D1: sincronizacao entre aparelhos (v52) ----
 [[d1_databases]]
 binding = "QBANK_DB"
