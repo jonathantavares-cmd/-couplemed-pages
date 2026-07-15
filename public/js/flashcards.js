@@ -1248,7 +1248,7 @@
     const fillTopics = (sysId, selTopic) => {
       const topics = sysId ? fcTopicsForSystem(sysId) : [];
       topSel.innerHTML = `<option value="">${t('noneTopic')}</option>` +
-        topics.map(tp=>`<option value="${esc(tp)}" ${selTopic===tp?'selected':''}>${esc(tp)}</option>`).join('');
+        topics.map(tp=>`<option value="${esc(tp.name)}" ${selTopic===tp.name?'selected':''}>${esc(lang()==='pt'&&tp.ptName?tp.ptName:tp.name)}</option>`).join('');
     };
     fillSubjects(c.sys||'', c.subj||'');
     fillTopics(c.sys||'', c.topic||'');

@@ -342,11 +342,23 @@
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
   const LIB_FOLDERS = {
     'library-2': [
-      'Biochemistry','Immunology','Microbiology','Pathology','General Pharmacology',
-      'Biostatistics','Public Health Science','Cardiovascular','Endocrinology',
-      'Gastrointestinal System','Hematology & Oncology',
-      'Musculoskeletal, Skin and Connective Tissue','Neurology','Psychiatry',
-      'Nephrology','Reproductive System','Pulmonology'
+      {name:'Biochemistry', ptName:'Bioquímica'},
+      {name:'Immunology', ptName:'Imunologia'},
+      {name:'Microbiology', ptName:'Microbiologia'},
+      {name:'Pathology', ptName:'Patologia'},
+      {name:'General Pharmacology', ptName:'Farmacologia Geral'},
+      {name:'Biostatistics', ptName:'Bioestatística'},
+      {name:'Public Health Science', ptName:'Ciência da Saúde Pública'},
+      {name:'Cardiovascular', ptName:'Cardiovascular'},
+      {name:'Endocrinology', ptName:'Endocrinologia'},
+      {name:'Gastrointestinal System', ptName:'Sistema Gastrointestinal'},
+      {name:'Hematology & Oncology', ptName:'Hematologia e Oncologia'},
+      {name:'Musculoskeletal, Skin and Connective Tissue', ptName:'Musculoesquelético, Pele e Tecido Conjuntivo'},
+      {name:'Neurology', ptName:'Neurologia'},
+      {name:'Psychiatry', ptName:'Psiquiatria'},
+      {name:'Nephrology', ptName:'Nefrologia'},
+      {name:'Reproductive System', ptName:'Sistema Reprodutor'},
+      {name:'Pulmonology', ptName:'Pneumologia'}
     ]
   };
   // Biblioteca 1: 26 pastas, cada uma com sua lista de tópicos (ordem exata do arquivo enviado pelo usuário)
@@ -372,28 +384,28 @@
     const CM=window.CMI18N;
     CM&&CM.bumpToken();
 
-    // Biblioteca 1 tem 2 níveis: lista de 26 pastas -> lista de tópicos dentro da pasta
+    // Biblioteca 1 tem 2 níveis: lista de 26 pastas -> lista de tópicos dentro da pasta.
+    // Nomes de pasta/tópico já vêm com PT-BR pré-gravado (ptName) — não depende da tradução ao vivo.
     if(id==='library-1' && LIBRARY1_STRUCTURE.length){
+      const lib1Name = item => (lang==='pt' && item.ptName) ? item.ptName : item.name;
       const openFolder = folderSlug ? LIBRARY1_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
       if(openFolder){
         const items=openFolder.items.map(topic=>
-          `<a class="lib-book lib-topic" href="#" data-no-nav>${CM?CM.span(topic):topic}</a>`
+          `<a class="lib-book lib-topic" href="#" data-no-nav>${wsEsc(lib1Name(topic))}</a>`
         ).join('');
-        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${CM?CM.span(openFolder.name):openFolder.name}</h1><div class="lib-list">${items}</div>`;
+        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${wsEsc(lib1Name(openFolder))}</h1><div class="lib-list">${items}</div>`;
         rp.querySelectorAll('.lib-topic[data-no-nav]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
         $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
-        CM&&CM.translateAllVisible(rp);
         return;
       }
       const folders=LIBRARY1_STRUCTURE.map(folder=>{
         const slug=slugify(folder.name);
-        return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${CM?CM.span(folder.name):folder.name}</a>`;
+        return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${wsEsc(lib1Name(folder))}</a>`;
       }).join('');
       rp.innerHTML=`<h1 id="internalTitle">${libTitle}</h1><div class="lib-list">${folders}</div>`;
       rp.querySelectorAll('.lib-list a[data-folder-slug]').forEach(a=>{
         a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,a.dataset.folderSlug);});
       });
-      CM&&CM.translateAllVisible(rp);
       return;
     }
 
@@ -423,14 +435,15 @@
       return;
     }
 
-    // Biblioteca 2 (e demais bibliotecas simples): 1 nível, lista direta
-    const folders=(LIB_FOLDERS[id]||[]).map(name=>{
-      const slug=slugify(name);
+    // Biblioteca 2 (e demais bibliotecas simples): 1 nível, lista direta.
+    // Nomes já vêm com PT-BR pré-gravado (ptName) — slug/pageLink sempre usam o nome em inglês.
+    const folders=(LIB_FOLDERS[id]||[]).map(folder=>{
+      const slug=slugify(folder.name);
       const pageLink=`${id.replace('library-','')}-${slug}`;
-      return `<a class="lib-book" href="app.html?page=${pageLink}&u=${user()}" data-page-link="${pageLink}">${CM?CM.span(name):name}</a>`;
+      const label=(lang==='pt'&&folder.ptName)?folder.ptName:folder.name;
+      return `<a class="lib-book" href="app.html?page=${pageLink}&u=${user()}" data-page-link="${pageLink}">${wsEsc(label)}</a>`;
     }).join('');
     rp.innerHTML=`<h1 id="internalTitle">${libTitle}</h1><div class="lib-list">${folders}</div>`;
-    CM&&CM.translateAllVisible(rp);
   }
   function renderStep1(lang){
     /* Instructions page removed — redirect handled in router */
@@ -1351,12 +1364,12 @@
       const slug = slugify(folder.name);
       idx.push({ label: folder.name, snippetSource:'', href: `app.html?page=library-1&u=${user()}&folder=${slug}`, cat: 'Medical Library · Library 1' });
       folder.items.forEach(topic=>{
-        idx.push({ label: topic, snippetSource:'', href: `app.html?page=library-1&u=${user()}&folder=${slug}`, cat: `Library 1 · ${folder.name}` });
+        idx.push({ label: topic.name, snippetSource:'', href: `app.html?page=library-1&u=${user()}&folder=${slug}`, cat: `Library 1 · ${folder.name}` });
       });
     });
     // Medical Library — Biblioteca 2: 17 pastas
-    (LIB_FOLDERS['library-2']||[]).forEach(name=>{
-      idx.push({ label: name, snippetSource:'', href: `app.html?page=library-2&u=${user()}`, cat: 'Medical Library · Library 2' });
+    (LIB_FOLDERS['library-2']||[]).forEach(folder=>{
+      idx.push({ label: folder.name, snippetSource:'', href: `app.html?page=library-2&u=${user()}`, cat: 'Medical Library · Library 2' });
     });
     // Medical Library — Biblioteca 3: 17 módulos + PDFs dentro deles
     if(LIBRARY3_FULL_BOOK){
