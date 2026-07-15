@@ -6,8 +6,15 @@
      - zoom, busca por texto, download do arquivo original;
      - marcação (highlight) de trechos, persistida por usuário e sincronizada
        entre aparelhos via a mesma camada genérica de `cm-sync.js`;
-     - botão "Traduzir página", que traduz o texto extraído da página atual
-       usando o MESMO motor/cache de tradução do resto do site (window.CMI18N);
+     - tradução da página NO LUGAR: ao trocar a bandeira 🇧🇷/🇺🇸 do topo do site
+       (o mesmo seletor global que traduz o QBank), a página atual troca de idioma
+       sem nenhum botão/painel próprio. Técnica "mascarar e sobrepor": o canvas
+       original do PDF nunca é alterado; por cima dele desenho retângulos com a
+       cor de fundo amostrada em cima de cada linha de texto (apagando o inglês
+       visualmente sem tocar nas imagens/diagramas) e sobreponho o texto traduzido
+       em HTML na mesma posição, usando o MESMO motor/cache de tradução do resto
+       do site (window.CMI18N.span/translateAllVisible — igual ao QBank). Ver
+       "Tradução no lugar (mask & overlay)" mais abaixo.
      - seleção de texto → "Criar Flashcard" / "Adicionar ao Notebook", reaproveitando
        o mecanismo de `?prefill=` (já existe pronto em flashcards.js; foi
        adicionado o equivalente em notebook.js).
@@ -40,13 +47,11 @@
   const T = {
     en: { loading:'Loading PDF…', loadError:'Could not load this PDF.', download:'Download',
           page:'Page', of:'of', search:'Search in this document…', noMatches:'0 results',
-          matchOf:m=>`${m.i} of ${m.n}`, translatePage:'Translate page', translating:'Translating…',
-          translateClose:'Close', hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook',
+          matchOf:m=>`${m.i} of ${m.n}`, hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook',
           zoomIn:'Zoom in', zoomOut:'Zoom out', back:'Back' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
-          matchOf:m=>`${m.i} de ${m.n}`, translatePage:'Traduzir página', translating:'Traduzindo…',
-          translateClose:'Fechar', hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook',
+          matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook',
           zoomIn:'Aumentar', zoomOut:'Diminuir', back:'Voltar' }
   };
   const t = k => T[uiLang()][k];
@@ -109,6 +114,20 @@
 
   /* ---------------------------- API pública ---------------------------- */
   function open(hostEl, item, folder, onBack){
+    // site.js já re-chama open() sozinho ao trocar a bandeira 🇧🇷/🇺🇸 (setLang() ->
+    // updateDynamicContent() -> renderLibrary() -> aqui, pra qualquer página cujo título
+    // dependa do idioma — Library 3 está nessa lista). Se for o MESMO PDF já aberto, isso
+    // é só uma re-renderização por causa do idioma: reaproveita o documento já carregado
+    // (evita rebaixar da rede de novo) e mantém página/zoom, só refaz o esqueleto e o
+    // desenho da página atual — é isso que reconstrói a sobreposição traduzida.
+    if(activeReader && activeReader.item.key===item.key && activeReader.pdfDoc){
+      const r = activeReader;
+      r.hostEl = hostEl; r.folder = folder; r.onBack = onBack;
+      renderSkeleton(r);
+      updatePageCount(r);
+      goToPage(r, r.currentPage);
+      return;
+    }
     destroyActive();
     const r = {
       hostEl, item, folder, onBack,
@@ -116,7 +135,6 @@
       pdfDoc:null, pageView:null, pageCount:0, currentPage:1, scale:1.3,
       textIndex:null, textIndexPromise:null,
       search:{ query:'', matches:[], idx:-1 },
-      translateCache:new Map(), translateOpen:false,
       highlights: (loadAllHighlights()[item.key] || [])
     };
     activeReader = r;
@@ -124,6 +142,14 @@
     loadPdfJs().then(({pdfjsLib, PDFPageView, EventBus})=>{
       if(activeReader!==r) return; // usuário já saiu daqui
       r.pdfjsLib = pdfjsLib; r.PDFPageView = PDFPageView; r.eventBus = new EventBus();
+      // `pv.draw()` resolve assim que o CANVAS termina — a camada de texto (.textLayer, de
+      // onde a sobreposição traduzida lê as posições) renderiza à parte e só fica pronta
+      // quando este evento dispara. Esperar por ele (em vez de só o draw()) evita montar a
+      // tradução antes das spans existirem (dava 0 linhas encontradas).
+      r.eventBus.on('textlayerrendered', evt=>{
+        if(activeReader!==r || evt.pageNumber!==r.currentPage || uiLang()!=='pt') return;
+        buildTranslationOverlay(r);
+      });
       return pdfjsLib.getDocument({ url: lib3PdfUrl(item.key) }).promise;
     }).then(doc=>{
       if(!doc || activeReader!==r) return;
@@ -166,7 +192,6 @@
             <span id="l3rSearchCount" class="l3r-searchcount"></span>
             <button type="button" class="l3r-ic" id="l3rSearchNext" aria-label="next match">↓</button>
           </div>
-          <button type="button" class="l3r-btn" id="l3rTranslateBtn">🌐 ${esc(t('translatePage'))}</button>
           <a class="l3r-btn l3r-download" id="l3rDownloadLink" download>⬇ ${esc(t('download'))}</a>
         </div>
         <div class="l3r-body">
@@ -174,15 +199,10 @@
             <div class="l3r-loading" id="l3rLoading">${esc(t('loading'))}</div>
             <div class="l3r-pagehost pdfViewer" id="l3rPageHost">
               <div class="l3r-hilayer" id="l3rHiLayer"></div>
+              <canvas class="l3r-mask-layer" id="l3rMaskLayer" hidden></canvas>
+              <div class="l3r-translate-layer" id="l3rTranslateLayer" hidden></div>
             </div>
           </div>
-          <aside class="l3r-translatepanel" id="l3rTranslatePanel" hidden>
-            <div class="l3r-translatepanel-head">
-              <strong>${esc(t('translatePage'))}</strong>
-              <button type="button" class="l3r-ic" id="l3rTranslateClose">✕</button>
-            </div>
-            <div class="l3r-translatepanel-body" id="l3rTranslateBody"></div>
-          </aside>
         </div>
         <div class="l3r-selpop" id="l3rSelPop" hidden>
           ${HL_COLORS.map(c=>`<button type="button" class="l3r-selpop-hl" data-color="${c.id}" style="background:${c.v}" title="${esc(t('hl'))}"></button>`).join('')}
@@ -203,8 +223,8 @@
       zoomLabel: r.hostEl.querySelector('#l3rZoomLabel'),
       searchInput: r.hostEl.querySelector('#l3rSearchInput'),
       searchCount: r.hostEl.querySelector('#l3rSearchCount'),
-      translatePanel: r.hostEl.querySelector('#l3rTranslatePanel'),
-      translateBody: r.hostEl.querySelector('#l3rTranslateBody'),
+      maskLayer: r.hostEl.querySelector('#l3rMaskLayer'),
+      translateLayer: r.hostEl.querySelector('#l3rTranslateLayer'),
       selPop: r.hostEl.querySelector('#l3rSelPop'),
       downloadLink: r.hostEl.querySelector('#l3rDownloadLink')
     };
@@ -216,10 +236,11 @@
     r.hostEl.querySelector('#l3rPrev').addEventListener('click', ()=> goToPage(r, r.currentPage-1));
     r.hostEl.querySelector('#l3rNext').addEventListener('click', ()=> goToPage(r, r.currentPage+1));
     r.el.pageInput.addEventListener('change', ()=> goToPage(r, parseInt(r.el.pageInput.value,10)||1));
+    r.el.pageInput.addEventListener('keydown', e=>{
+      if(e.key==='Enter'){ e.preventDefault(); goToPage(r, parseInt(r.el.pageInput.value,10)||1); r.el.pageInput.blur(); }
+    });
     r.hostEl.querySelector('#l3rZoomOut').addEventListener('click', ()=> setScale(r, r.scale-0.15));
     r.hostEl.querySelector('#l3rZoomIn').addEventListener('click', ()=> setScale(r, r.scale+0.15));
-    r.hostEl.querySelector('#l3rTranslateBtn').addEventListener('click', ()=> toggleTranslatePanel(r));
-    r.hostEl.querySelector('#l3rTranslateClose').addEventListener('click', ()=> toggleTranslatePanel(r, false));
 
     let searchTimer = null;
     r.el.searchInput.addEventListener('input', ()=>{
@@ -274,6 +295,9 @@
       return pv.draw().then(()=>{
         if(activeReader!==r) return;
         renderHighlightsForPage(r);
+        // se estiver em PT, quem monta a sobreposição é o listener de 'textlayerrendered'
+        // (garante que a camada de texto já existe); aqui só limpa quando volta pro EN.
+        if(uiLang()!=='pt') clearTranslationOverlay(r);
       });
     }).catch(err=>console.error('[library3-reader] page render', err));
   }
@@ -338,47 +362,201 @@
       : (r.search.query ? t('noMatches') : '');
   }
 
-  /* ---------------------------- traduzir página (painel) ---------------------------- */
-  function toggleTranslatePanel(r, force){
-    r.translateOpen = force!==undefined ? force : !r.translateOpen;
-    r.el.translatePanel.hidden = !r.translateOpen;
-    r.el.pageWrap.classList.toggle('l3r-with-panel', r.translateOpen);
-    if(r.translateOpen) renderTranslationForCurrentPage(r);
+  /* ---------------------------- tradução no lugar (mask & overlay) ----------------------------
+     Sem botão/painel próprio: dispara junto com a troca da bandeira 🇧🇷/🇺🇸 do topo do site
+     (que já muda document.documentElement.lang — o mesmo gatilho que o QBank usa pra traduzir
+     as questões). O canvas original nunca é tocado: numa camada extra por cima, mascaro cada
+     linha de texto com a cor de fundo amostrada e sobreponho o texto traduzido em HTML,
+     reaproveitando window.CMI18N.span()/translateAllVisible() — o motor único de tradução de
+     conteúdo do site (mesmo usado em qbank.js:9176-9179). */
+
+  // Agrupa as SPANS já renderizadas pela camada de texto do próprio PDF.js (.textLayer) em
+  // linhas. Usar as spans reais (em vez de recalcular a posição a partir da matriz do PDF)
+  // garante alinhamento exato com o que está na tela — é a mesma geometria que já funciona
+  // pra seleção de texto — em vez de reimplementar (e arriscar errar) a matemática de
+  // transform/viewport do PDF.js.
+  function buildLinesFromTextLayer(r){
+    const textLayerEl = r.pageView.div && r.pageView.div.querySelector('.textLayer');
+    if(!textLayerEl) return [];
+    const hostRect = r.el.pageHost.getBoundingClientRect();
+    const spans = Array.from(textLayerEl.querySelectorAll('span'))
+      .filter(sp=>sp.children.length===0 && sp.textContent && sp.textContent.trim());
+    const items = spans.map(sp=>{
+      const rc = sp.getBoundingClientRect();
+      const fontSize = parseFloat(getComputedStyle(sp).fontSize) || rc.height*0.8;
+      return { text: sp.textContent, x:rc.left-hostRect.left, y:rc.top-hostRect.top, w:rc.width, h:rc.height, fontSize };
+    }).filter(it=>it.w>0 && it.h>0);
+
+    const lines = [];
+    let cur = null;
+    items.forEach(it=>{
+      if(cur){
+        const curH = cur.y2-cur.y;
+        const closeY = Math.abs((it.y+it.h/2)-(cur.y+curH/2)) < Math.max(it.h,curH)*0.6;
+        const gap = it.x - cur.x2;
+        // tolerância generosa: cobre espaço normal entre palavras E títulos com letras bem
+        // espaçadas (ex.: "H I G H - Y I E L D"), sem juntar colunas/blocos realmente
+        // diferentes (esses ficam bem mais longe que ~3.5x a altura da linha).
+        const sameLine = closeY && gap > -Math.max(2, it.w*0.4) && gap < Math.max(it.h,curH)*3.5;
+        if(sameLine){
+          cur.text += (/\s$/.test(cur.text) || /^\s/.test(it.text)) ? it.text : (' '+it.text);
+          cur.x2 = Math.max(cur.x2, it.x+it.w);
+          cur.y = Math.min(cur.y, it.y);
+          cur.y2 = Math.max(cur.y2, it.y+it.h);
+          cur.fontSize = Math.max(cur.fontSize, it.fontSize);
+          return;
+        }
+        lines.push(cur); cur = null;
+      }
+      cur = { text:it.text, x:it.x, x2:it.x+it.w, y:it.y, y2:it.y+it.h, fontSize:it.fontSize };
+    });
+    if(cur) lines.push(cur);
+    return lines.filter(l=>l.text && l.text.trim());
   }
-  async function renderTranslationForCurrentPage(r){
-    const page = r.currentPage;
-    if(r.translateCache.has(page)){
-      r.el.translateBody.innerHTML = r.translateCache.get(page);
-      return;
+
+  const luminance = p => 0.299*p[0]+0.587*p[1]+0.114*p[2];
+  const toHex = p => '#'+p.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+
+  // Amostra a cor de fundo (bordas da caixa) e a cor de "tinta" (pixel mais contrastante lá
+  // dentro) de uma região do canvas JÁ renderizado, antes de mascarar — pra cobrir tanto texto
+  // escuro em fundo claro quanto texto claro na barra escura de seção.
+  function sampleLineColors(ctx, rect){
+    const x = Math.max(0, Math.round(rect.x)), y = Math.max(0, Math.round(rect.y));
+    const w = Math.max(1, Math.round(rect.w)), h = Math.max(1, Math.round(rect.h));
+    let data;
+    try{ data = ctx.getImageData(x, y, w, h).data; }
+    catch(e){ return { bg:'#ffffff', ink:'#132235' }; }
+    const step = Math.max(1, Math.floor(Math.min(w,h)/24));
+    const edge = [], all = [];
+    for(let j=0;j<h;j+=step){
+      for(let i=0;i<w;i+=step){
+        const idx = (j*w+i)*4;
+        const px = [data[idx],data[idx+1],data[idx+2]];
+        all.push(px);
+        if(i<step*2 || j<step*2 || i>w-step*2 || j>h-step*2) edge.push(px);
+      }
     }
-    r.el.translateBody.innerHTML = `<p class="l3r-translate-loading">${esc(t('translating'))}</p>`;
-    const arr = await ensureTextIndex(r);
-    if(activeReader!==r || r.currentPage!==page) return;
-    const text = arr[page-1] || '';
-    if(!text.trim()){ r.el.translateBody.innerHTML = ''; return; }
-    const html = await translateLongText(text);
-    if(activeReader!==r || r.currentPage!==page) return;
-    r.translateCache.set(page, html);
-    r.el.translateBody.innerHTML = html;
+    const avg = arr => { const s=arr.reduce((a,p)=>[a[0]+p[0],a[1]+p[1],a[2]+p[2]],[0,0,0]); return s.map(v=>v/arr.length); };
+    const bg = avg(edge.length?edge:all);
+    let inkPx = bg, best = -1;
+    all.forEach(p=>{
+      const d = (p[0]-bg[0])**2+(p[1]-bg[1])**2+(p[2]-bg[2])**2;
+      if(d>best){ best=d; inkPx=p; }
+    });
+    return { bg: toHex(bg), ink: best>800 ? toHex(inkPx) : (luminance(bg)>140 ? '#132235' : '#ffffff') };
   }
-  async function translateLongText(text){
+
+  // Depois que a tradução real (assíncrona, via CM.translateAllVisible) preenche o texto,
+  // encolhe a fonte das linhas que ficaram grandes demais pro espaço original.
+  function fitOverlayLine(div){
+    const targetH = parseFloat(div.dataset.targetH||'0');
+    const baseFont = parseFloat(div.dataset.baseFont||'0');
+    if(!targetH || !baseFont) return;
+    let size = parseFloat(div.style.fontSize) || baseFont;
+    let guard = 0;
+    while(div.scrollHeight > targetH*1.25 && size > baseFont*0.7 && guard<6){
+      size *= 0.92;
+      div.style.fontSize = size+'px';
+      div.style.lineHeight = Math.max(size*1.05, targetH*0.6)+'px';
+      guard++;
+    }
+  }
+
+  async function buildTranslationOverlay(r){
     const CM = window.CMI18N;
-    if(!CM || typeof CM.translateText !== 'function'){
-      return `<p>${esc(text)}</p>`;
+    if(!CM || !r.pageView || !r.el) return;
+    const page = r.currentPage;
+
+    const canvas = r.pageView.canvas || (r.pageView.div && r.pageView.div.querySelector('canvas'));
+    const hostRect = r.el.pageHost.getBoundingClientRect();
+    if(!canvas) return;
+    const canvasRect = canvas.getBoundingClientRect();
+    const canvasOffX = canvasRect.left-hostRect.left, canvasOffY = canvasRect.top-hostRect.top;
+    const dpr = canvas.width / canvas.clientWidth || 1;
+    const srcCtx = canvas.getContext('2d');
+
+    const lines = buildLinesFromTextLayer(r);
+    if(activeReader!==r || r.currentPage!==page || uiLang()!=='pt') return;
+
+    const hostW = r.el.pageHost.clientWidth, hostH = r.el.pageHost.clientHeight;
+    const maskCanvas = r.el.maskLayer, overlay = r.el.translateLayer;
+    maskCanvas.width = hostW; maskCanvas.height = hostH;
+    maskCanvas.style.width = hostW+'px'; maskCanvas.style.height = hostH+'px';
+    overlay.style.width = hostW+'px'; overlay.style.height = hostH+'px';
+    const mctx = maskCanvas.getContext('2d');
+    mctx.clearRect(0,0,hostW,hostH);
+    overlay.innerHTML = '';
+
+    lines.forEach(line=>{
+      const x = line.x, y = line.y, w = line.x2-line.x, h = line.y2-line.y;
+      if(w<=0 || h<=0) return;
+      // amostragem de cor precisa das coordenadas relativas ao CANVAS (não ao pageHost) e em
+      // pixels reais do buffer (canvas.width pode ser maior que clientWidth em telas retina)
+      const colors = sampleLineColors(srcCtx, {
+        x:(x-canvasOffX)*dpr, y:(y-canvasOffY)*dpr, w:w*dpr, h:h*dpr
+      });
+      mctx.fillStyle = colors.bg;
+      mctx.fillRect(Math.max(0,x-2), Math.max(0,y-2), w+4, h+4);
+
+      const fontSize = Math.max(7, line.fontSize*0.92);
+      const div = document.createElement('div');
+      div.className = 'l3r-translated-line';
+      div.style.left = x+'px'; div.style.top = y+'px';
+      div.style.width = w+'px'; div.style.minHeight = h+'px';
+      div.style.color = colors.ink;
+      div.style.fontSize = fontSize+'px';
+      div.style.lineHeight = Math.max(fontSize*1.05, h*0.85)+'px';
+      div.dataset.targetH = String(h);
+      div.dataset.baseFont = String(fontSize);
+      div.textContent = line.text; // mostra o inglês na hora; troca pro traduzido assim que chegar
+      overlay.appendChild(div);
+      line.div = div;
+    });
+
+    maskCanvas.hidden = false;
+    overlay.hidden = false;
+    const origTextLayer = r.pageView.div && r.pageView.div.querySelector('.textLayer');
+    if(origTextLayer) origTextLayer.style.pointerEvents = 'none';
+
+    // Uma página tem muito mais linhas (dezenas) do que qualquer outro lugar do site que usa
+    // CM.translateAllVisible (que dispara tudo em paralelo) — isso estourava o limite de taxa
+    // da API gratuita de tradução. Aqui, chamo CM.translateText() diretamente (mesmo motor/
+    // cache — é a mesma função que select-translate.js já usa) só que com um número pequeno
+    // de chamadas simultâneas por vez, pra não tomar 429.
+    translateLinesThrottled(CM, lines, page);
+  }
+
+  async function translateLinesThrottled(CM, lines, page, concurrency){
+    concurrency = concurrency || 3;
+    let idx = 0;
+    async function worker(){
+      while(idx < lines.length){
+        const line = lines[idx++];
+        const r = activeReader;
+        if(!r || r.currentPage!==page || uiLang()!=='pt' || !line.div || !line.div.isConnected) continue;
+        try{
+          const tr = await CM.translateText(line.text, 'pt', 'en');
+          if(activeReader===r && r.currentPage===page && line.div.isConnected) line.div.textContent = tr || line.text;
+        }catch(e){ /* mantém o inglês se a tradução falhar */ }
+        if(line.div && line.div.isConnected) fitOverlayLine(line.div);
+      }
     }
-    // divide em pedaços por frase (mesmo padrão de select-translate.js), ~480 chars
-    const parts = text.match(/[^.!?]+[.!?]*\s*/g) || [text];
-    const chunks = []; let cur = '';
-    parts.forEach(p=>{ if((cur+p).length > 480){ if(cur) chunks.push(cur); cur = p; } else cur += p; });
-    if(cur) chunks.push(cur);
-    const out = [];
-    for(const c of chunks){
-      try{
-        const tr = await CM.translateText(c.trim(), 'pt', 'en');
-        out.push(tr || c.trim());
-      }catch(e){ out.push(c.trim()); }
+    await Promise.all(Array.from({ length: Math.min(concurrency, lines.length) }, worker));
+  }
+
+  function clearTranslationOverlay(r){
+    if(!r.el) return;
+    if(r.el.maskLayer){
+      r.el.maskLayer.hidden = true;
+      const c = r.el.maskLayer.getContext('2d');
+      if(c) c.clearRect(0,0,r.el.maskLayer.width,r.el.maskLayer.height);
     }
-    return `<p>${esc(out.join(' '))}</p>`;
+    if(r.el.translateLayer){
+      r.el.translateLayer.hidden = true;
+      r.el.translateLayer.innerHTML = '';
+    }
+    const origTextLayer = r.pageView && r.pageView.div && r.pageView.div.querySelector('.textLayer');
+    if(origTextLayer) origTextLayer.style.pointerEvents = '';
   }
 
   /* ---------------------------- marcações (highlight) ---------------------------- */
@@ -478,15 +656,12 @@
     else if(e.key==='ArrowLeft') goToPage(r, r.currentPage-1);
   });
 
-  /* ---------------------------- re-render de labels ao trocar idioma ---------------------------- */
-  new MutationObserver(()=>{
-    const r = activeReader;
-    if(!r || !r.el) return;
-    const wasTranslateOpen = r.translateOpen;
-    renderSkeleton(r);
-    if(r.pdfDoc){ updatePageCount(r); goToPage(r, r.currentPage); }
-    if(wasTranslateOpen){ r.translateOpen = false; toggleTranslatePanel(r, true); }
-  }).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+  /* Troca de idioma: NÃO precisa de observer próprio aqui. site.js já re-chama open() sozinho
+     quando a bandeira 🇧🇷/🇺🇸 do topo muda (setLang -> updateDynamicContent -> renderLibrary),
+     e open() (acima) já sabe reaproveitar o documento carregado e re-renderizar a página atual
+     nesse caso. Ter um observer próprio AQUI TAMBÉM causava uma corrida: os dois disparavam pro
+     mesmo evento, e o open() (que reseta pra página 1) podia vencer depois do reaproveitamento
+     ter rodado, perdendo a página em que o usuário estava. */
 
   window.CMLibrary3Reader = { open, close: destroyActive };
 })();

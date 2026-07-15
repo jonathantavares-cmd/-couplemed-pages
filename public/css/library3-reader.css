@@ -46,7 +46,6 @@ body.light .l3r{
   flex:1; position:relative; overflow:auto; display:flex; justify-content:center; align-items:flex-start;
   border:1px solid var(--l3r-line); border-radius:12px; background:var(--l3r-bg); padding:18px;
 }
-.l3r-pagewrap.l3r-with-panel{flex:1 1 62%}
 .l3r-loading{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--l3r-muted); font-size:13px}
 .l3r-loading[hidden]{display:none}
 .l3r-loading-error{color:#ff8a80}
@@ -56,15 +55,19 @@ body.light .l3r-pagehost{box-shadow:0 10px 30px rgba(20,50,110,.18)}
 .l3r-hilayer{position:absolute; inset:0; pointer-events:none; z-index:1}
 .l3r-hl{position:absolute; background:#ffe08a; opacity:.42; mix-blend-mode:multiply; border-radius:2px}
 
-/* ---------- painel "Traduzir página" ---------- */
-.l3r-translatepanel{
-  flex:0 0 38%; max-width:420px; display:flex; flex-direction:column;
-  border:1px solid var(--l3r-line); border-radius:12px; background:var(--l3r-card2); overflow:hidden;
+/* ---------- tradução no lugar (mask & overlay) ----------
+   Sem painel: a camada de máscara (canvas, apaga o inglês com a cor de fundo amostrada)
+   fica por cima do canvas original; a camada de texto traduzido fica por cima da máscara.
+   As duas nascem com o atributo hidden e só aparecem quando a bandeira 🇧🇷 está ativa
+   (public/js/library3-reader.js — buildTranslationOverlay/clearTranslationOverlay). */
+.l3r-mask-layer{position:absolute; left:0; top:0; z-index:2; pointer-events:none}
+.l3r-mask-layer[hidden]{display:none}
+.l3r-translate-layer{position:absolute; left:0; top:0; z-index:3}
+.l3r-translate-layer[hidden]{display:none}
+.l3r-translated-line{
+  position:absolute; font-family:inherit; white-space:pre-wrap; word-break:break-word;
+  overflow-wrap:anywhere; cursor:text; user-select:text; -webkit-user-select:text;
 }
-.l3r-translatepanel[hidden]{display:none} /* [hidden] e .l3r-translatepanel têm a mesma especificidade — sem isso, quem carrega por último (esta regra) vence e o painel nunca some */
-.l3r-translatepanel-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--l3r-line)}
-.l3r-translatepanel-body{flex:1;overflow:auto;padding:14px;font-size:14px;line-height:1.6;color:var(--l3r-text)}
-.l3r-translate-loading{color:var(--l3r-muted);font-style:italic}
 
 /* ---------- popover de seleção (marcar / notebook / flashcard) ---------- */
 .l3r-selpop{
@@ -84,6 +87,4 @@ body.light .l3r-selpop-btn:hover{background:rgba(46,99,201,.16)}
 
 @media (max-width:820px){
   .l3r-title{max-width:100%; order:-1; flex:1 0 100%}
-  .l3r-body{flex-direction:column}
-  .l3r-translatepanel{flex:none; max-width:none; max-height:38vh}
 }
