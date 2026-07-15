@@ -398,28 +398,28 @@
     }
 
     // Biblioteca 3 tem 2 níveis: lista de 17 módulos -> lista de PDFs dentro do módulo
-    // (cada PDF abre em nova aba, servido pelo worker a partir do R2)
+    // (cada PDF abre em nova aba, servido pelo worker a partir do R2). Nomes de módulo/tópico
+    // já vêm com PT-BR pré-gravado (ptName) — não depende do motor de tradução ao vivo.
     if(id==='library-3' && LIBRARY3_STRUCTURE.length){
+      const lib3Name = item => (lang==='pt' && item.ptName) ? item.ptName : item.name;
       const openFolder = folderSlug ? LIBRARY3_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
       if(openFolder){
         const items=openFolder.items.map(topic=>
-          `<a class="lib-book lib-pdf" href="${lib3PdfUrl(topic.key)}" target="_blank" rel="noopener">${CM?CM.span(topic.name):topic.name}</a>`
+          `<a class="lib-book lib-pdf" href="${lib3PdfUrl(topic.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(topic))}</a>`
         ).join('');
-        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${CM?CM.span(openFolder.name):openFolder.name}</h1><div class="lib-list">${items}</div>`;
+        rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${wsEsc(lib3Name(openFolder))}</h1><div class="lib-list">${items}</div>`;
         $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
-        CM&&CM.translateAllVisible(rp);
         return;
       }
-      const fullBook=LIBRARY3_FULL_BOOK?`<a class="lib-book lib-book-featured" href="${lib3PdfUrl(LIBRARY3_FULL_BOOK.key)}" target="_blank" rel="noopener">${CM?CM.span(LIBRARY3_FULL_BOOK.name):LIBRARY3_FULL_BOOK.name}</a>`:'';
+      const fullBook=LIBRARY3_FULL_BOOK?`<a class="lib-book lib-book-featured" href="${lib3PdfUrl(LIBRARY3_FULL_BOOK.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(LIBRARY3_FULL_BOOK))}</a>`:'';
       const folders=LIBRARY3_STRUCTURE.map(folder=>{
         const slug=slugify(folder.name);
-        return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${CM?CM.span(folder.name):folder.name}</a>`;
+        return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${wsEsc(lib3Name(folder))}</a>`;
       }).join('');
       rp.innerHTML=`<h1 id="internalTitle">${libTitle}</h1><div class="lib-list">${fullBook}${folders}</div>`;
       rp.querySelectorAll('.lib-list a[data-folder-slug]').forEach(a=>{
         a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,a.dataset.folderSlug);});
       });
-      CM&&CM.translateAllVisible(rp);
       return;
     }
 
