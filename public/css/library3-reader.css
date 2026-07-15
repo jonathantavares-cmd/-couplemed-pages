@@ -65,8 +65,13 @@ body.light .l3r-pagehost{box-shadow:0 10px 30px rgba(20,50,110,.18)}
 .l3r-translate-layer{position:absolute; left:0; top:0; z-index:3}
 .l3r-translate-layer[hidden]{display:none}
 .l3r-translated-line{
-  position:absolute; font-family:inherit; white-space:pre-wrap; word-break:break-word;
-  overflow-wrap:anywhere; cursor:text; user-select:text; -webkit-user-select:text;
+  /* nowrap+hidden é proposital: a linha NUNCA pode crescer pra baixo (invadiria a máscara/
+     texto da linha seguinte — era isso que parecia "texto duplicado/sobreposto"). Quando a
+     tradução não cabe na largura original, library3-reader.js (fitOverlayLine) encolhe a fonte
+     e, se ainda não couber, comprime na horizontal (transform:scaleX) em vez de quebrar linha. */
+  position:absolute; font-family:inherit; white-space:nowrap; overflow:hidden;
+  display:flex; align-items:center; transform-origin:left center;
+  cursor:text; user-select:text; -webkit-user-select:text;
 }
 
 /* ---------- popover de seleção (marcar / notebook / flashcard) ---------- */

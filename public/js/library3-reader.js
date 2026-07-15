@@ -421,44 +421,68 @@
   // dentro) de uma região do canvas JÁ renderizado, antes de mascarar — pra cobrir tanto texto
   // escuro em fundo claro quanto texto claro na barra escura de seção.
   function sampleLineColors(ctx, rect){
-    const x = Math.max(0, Math.round(rect.x)), y = Math.max(0, Math.round(rect.y));
-    const w = Math.max(1, Math.round(rect.w)), h = Math.max(1, Math.round(rect.h));
-    let data;
-    try{ data = ctx.getImageData(x, y, w, h).data; }
-    catch(e){ return { bg:'#ffffff', ink:'#132235' }; }
-    const step = Math.max(1, Math.floor(Math.min(w,h)/24));
-    const edge = [], all = [];
-    for(let j=0;j<h;j+=step){
-      for(let i=0;i<w;i+=step){
-        const idx = (j*w+i)*4;
-        const px = [data[idx],data[idx+1],data[idx+2]];
-        all.push(px);
-        if(i<step*2 || j<step*2 || i>w-step*2 || j>h-step*2) edge.push(px);
+    const gx = Math.max(0, Math.round(rect.x)), gy = Math.max(0, Math.round(rect.y));
+    const gw = Math.max(1, Math.round(rect.w)), gh = Math.max(1, Math.round(rect.h));
+    // "fundo" tem que vir de FORA da caixa apertada do texto — pixels bem na borda do glyph já
+    // são antialiasing (mistura de tinta com fundo), então uma média ali sai mais clara que o
+    // fundo de verdade e cria um "halo" visível em volta da máscara (parecia o próprio caractere
+    // fantasma). A margem abre até passar dessa franja antes de amostrar.
+    const margin = Math.max(4, Math.round(gh*0.4));
+    const bx = Math.max(0, gx-margin), by = Math.max(0, gy-margin);
+    const bw = gw+margin*2, bh = gh+margin*2;
+    let bgData, inkData;
+    try{
+      bgData = ctx.getImageData(bx, by, bw, bh).data;
+      inkData = gx===bx&&gy===by&&gw===bw&&gh===bh ? bgData : ctx.getImageData(gx, gy, gw, gh).data;
+    }catch(e){ return { bg:'#ffffff', ink:'#132235' }; }
+    const step = Math.max(1, Math.floor(Math.min(bw,bh)/24));
+    const bgPixels = [];
+    for(let j=0;j<bh;j+=step){
+      for(let i=0;i<bw;i+=step){
+        const insideGlyphBox = i>=margin && i<margin+gw && j>=margin && j<margin+gh;
+        if(insideGlyphBox) continue; // fica só com o anel FORA da caixa do texto
+        const idx = (j*bw+i)*4;
+        bgPixels.push([bgData[idx],bgData[idx+1],bgData[idx+2]]);
       }
     }
     const avg = arr => { const s=arr.reduce((a,p)=>[a[0]+p[0],a[1]+p[1],a[2]+p[2]],[0,0,0]); return s.map(v=>v/arr.length); };
-    const bg = avg(edge.length?edge:all);
+    const bg = avg(bgPixels.length?bgPixels:[[255,255,255]]);
+    const inkStep = Math.max(1, Math.floor(Math.min(gw,gh)/24));
     let inkPx = bg, best = -1;
-    all.forEach(p=>{
-      const d = (p[0]-bg[0])**2+(p[1]-bg[1])**2+(p[2]-bg[2])**2;
-      if(d>best){ best=d; inkPx=p; }
-    });
+    for(let j=0;j<gh;j+=inkStep){
+      for(let i=0;i<gw;i+=inkStep){
+        const idx = (j*gw+i)*4;
+        const p = [inkData[idx],inkData[idx+1],inkData[idx+2]];
+        const d = (p[0]-bg[0])**2+(p[1]-bg[1])**2+(p[2]-bg[2])**2;
+        if(d>best){ best=d; inkPx=p; }
+      }
+    }
     return { bg: toHex(bg), ink: best>800 ? toHex(inkPx) : (luminance(bg)>140 ? '#132235' : '#ffffff') };
   }
 
   // Depois que a tradução real (assíncrona, via CM.translateAllVisible) preenche o texto,
   // encolhe a fonte das linhas que ficaram grandes demais pro espaço original.
+  // A linha NUNCA pode crescer pra baixo (invadiria a linha seguinte, que tem sua própria
+  // máscara/tradução) — por isso o CSS usa white-space:nowrap. Se o texto traduzido não coube
+  // na largura original, primeiro encolhe a fonte; se ainda não couber, comprime na horizontal
+  // (scaleX) até caber. Fica um pouco mais "condensado" nesses casos, mas nunca sobrepõe outra
+  // linha — que era o bug real por trás do "texto duplicado" que o Jonathan viu.
   function fitOverlayLine(div){
-    const targetH = parseFloat(div.dataset.targetH||'0');
+    const targetW = parseFloat(div.dataset.targetW||'0');
     const baseFont = parseFloat(div.dataset.baseFont||'0');
-    if(!targetH || !baseFont) return;
-    let size = parseFloat(div.style.fontSize) || baseFont;
+    if(!targetW || !baseFont) return;
+    div.style.transform = '';
+    let size = baseFont;
+    div.style.fontSize = size+'px';
     let guard = 0;
-    while(div.scrollHeight > targetH*1.25 && size > baseFont*0.7 && guard<6){
-      size *= 0.92;
+    while(div.scrollWidth > targetW*1.05 && size > baseFont*0.65 && guard<6){
+      size *= 0.9;
       div.style.fontSize = size+'px';
-      div.style.lineHeight = Math.max(size*1.05, targetH*0.6)+'px';
       guard++;
+    }
+    if(div.scrollWidth > targetW*1.05){
+      const scale = Math.max(0.55, targetW/div.scrollWidth);
+      div.style.transform = `scaleX(${scale})`;
     }
   }
 
@@ -496,20 +520,26 @@
         x:(x-canvasOffX)*dpr, y:(y-canvasOffY)*dpr, w:w*dpr, h:h*dpr
       });
       mctx.fillStyle = colors.bg;
-      mctx.fillRect(Math.max(0,x-2), Math.max(0,y-2), w+4, h+4);
+      // folga generosa (proporcional à altura da linha): a camada de texto invisível do PDF.js
+      // (usada só pra seleção, com fonte substituta) não bate 100% com onde o glyph de verdade
+      // é desenhado no canvas (que usa a fonte real incorporada no PDF) — sem essa margem, sobra
+      // uma lasca do caractere original visível do lado, parecendo um dígito duplicado.
+      const padX = Math.max(24, h*1.4), padY = Math.max(4, h*0.2);
+      mctx.fillRect(Math.max(0,x-padX), Math.max(0,y-padY), w+padX*2, h+padY*2);
 
       const fontSize = Math.max(7, line.fontSize*0.92);
       const div = document.createElement('div');
       div.className = 'l3r-translated-line';
       div.style.left = x+'px'; div.style.top = y+'px';
-      div.style.width = w+'px'; div.style.minHeight = h+'px';
+      div.style.width = w+'px'; div.style.height = h+'px';
       div.style.color = colors.ink;
       div.style.fontSize = fontSize+'px';
-      div.style.lineHeight = Math.max(fontSize*1.05, h*0.85)+'px';
-      div.dataset.targetH = String(h);
+      div.style.lineHeight = h+'px';
+      div.dataset.targetW = String(w);
       div.dataset.baseFont = String(fontSize);
       div.textContent = line.text; // mostra o inglês na hora; troca pro traduzido assim que chegar
       overlay.appendChild(div);
+      fitOverlayLine(div); // já garante que nem o placeholder em inglês invade a linha de baixo
       line.div = div;
     });
 
