@@ -48,15 +48,24 @@
   ];
   const HL_COLOR_MAP = Object.fromEntries(HL_COLORS.map(c=>[c.id,c.v]));
 
+  // Ícone de borracha desenhado (era o emoji 🧹, que parece uma vassoura — pedido explícito
+  // pra trocar por um desenho de borracha de verdade). currentColor acompanha o estado
+  // normal/ativo do botão, igual aos outros ícones inline em select-translate.js.
+  const ERASER_SVG = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M18.7 13.1 11 20.8H6.3l-3.5-3.5a2 2 0 0 1 0-2.8l9-9a2 2 0 0 1 2.8 0l4.1 4.1a2 2 0 0 1 0 2.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M12.7 10.4 18 15.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M6.3 20.8h12.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  </svg>`;
+
   const T = {
     en: { loading:'Loading PDF…', loadError:'Could not load this PDF.', download:'Download',
           page:'Page', of:'of', search:'Search in this document…', noMatches:'0 results',
-          matchOf:m=>`${m.i} of ${m.n}`, hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook',
+          matchOf:m=>`${m.i} of ${m.n}`, hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Zoom in', zoomOut:'Zoom out', back:'Back',
           customColor:'Custom color', eraser:'Eraser — click a highlight to remove it' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
-          matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook',
+          matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Aumentar', zoomOut:'Diminuir', back:'Voltar',
           customColor:'Cor personalizada', eraser:'Borracha — clique numa marcação pra apagar' }
   };
@@ -193,7 +202,11 @@
               <button type="button" class="l3r-swatch l3r-swatch-add" id="l3rCustomColorBtn" title="${esc(t('customColor'))}">+</button>
               <input type="color" id="l3rCustomColor" class="l3r-custom-color-input" value="#ff8a3d" tabindex="-1" aria-hidden="true" />
               <span class="l3r-marktools-sep"></span>
-              <button type="button" class="l3r-ic l3r-eraser" id="l3rEraserBtn" aria-label="${esc(t('eraser'))}" title="${esc(t('eraser'))}">🧹</button>
+              <button type="button" class="l3r-ic l3r-eraser" id="l3rEraserBtn" aria-label="${esc(t('eraser'))}" title="${esc(t('eraser'))}">${ERASER_SVG}</button>
+              <span class="l3r-marktools-sep"></span>
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotebookBtn">📓 ${esc(t('notebook'))}</button>
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotesBtn">📝 ${esc(t('notes'))}</button>
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rFlashcardBtn">🃏 ${esc(t('flashcard'))}</button>
             </div>
             <div class="l3r-group l3r-nav">
               <button type="button" class="l3r-ic" id="l3rPrev" aria-label="prev">‹</button>
@@ -201,15 +214,10 @@
               <span class="l3r-of">${esc(t('of'))} <span id="l3rPageCount">—</span></span>
               <button type="button" class="l3r-ic" id="l3rNext" aria-label="next">›</button>
             </div>
-            <div class="l3r-group l3r-endtools">
-              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotebookBtn">📓 ${esc(t('notebook'))}</button>
-              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rFlashcardBtn">🃏 ${esc(t('flashcard'))}</button>
-              <span class="l3r-marktools-sep"></span>
-              <div class="l3r-group l3r-zoom">
-                <button type="button" class="l3r-ic" id="l3rZoomOut" aria-label="${esc(t('zoomOut'))}">−</button>
-                <span id="l3rZoomLabel">130%</span>
-                <button type="button" class="l3r-ic" id="l3rZoomIn" aria-label="${esc(t('zoomIn'))}">+</button>
-              </div>
+            <div class="l3r-group l3r-zoom">
+              <button type="button" class="l3r-ic" id="l3rZoomOut" aria-label="${esc(t('zoomOut'))}">−</button>
+              <span id="l3rZoomLabel">130%</span>
+              <button type="button" class="l3r-ic" id="l3rZoomIn" aria-label="${esc(t('zoomIn'))}">+</button>
             </div>
           </div>
         </div>
@@ -277,6 +285,8 @@
     r.el.eraserBtn.addEventListener('click', ()=> setEraseMode(r, !r.eraseMode));
     r.hostEl.querySelector('#l3rNotebookBtn').addEventListener('mousedown', e=>e.preventDefault());
     r.hostEl.querySelector('#l3rNotebookBtn').addEventListener('click', ()=> sendSelectionTo(r, 'notebook'));
+    r.hostEl.querySelector('#l3rNotesBtn').addEventListener('mousedown', e=>e.preventDefault());
+    r.hostEl.querySelector('#l3rNotesBtn').addEventListener('click', ()=> sendSelectionTo(r, 'notes'));
     r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('mousedown', e=>e.preventDefault());
     r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('click', ()=> sendSelectionTo(r, 'flashcard'));
     setEraseMode(r, r.eraseMode); // reaplica o estado visual (o DOM é reconstruído do zero aqui)
@@ -410,7 +420,18 @@
       : (r.search.query ? t('noMatches') : '');
   }
 
-  /* ---------------------------- marcações (highlight) ---------------------------- */
+  /* ---------------------------- marcações (highlight) ----------------------------
+     Coordenadas guardadas como FRAÇÃO (0..1) do próprio #l3rPageHost, não pixels
+     em "escala 1" — antes, a conversão pixel↔escala 1 dependia de r.scale bater
+     exatamente com o fator de correção aplicado ao pv.div (goToPage, ver `corr`),
+     e qualquer resíduo (o código tolera até 1% de erro sem corrigir, e o PDF.js
+     pode escalar largura/altura de forma levemente diferente uma da outra) ia
+     acumulando ao longo da página — por isso a marcação aparecia cada vez mais
+     deslocada do texto real conforme a posição Y aumentava. Usando fração do
+     próprio host (que é o TAMANHO FINAL, já corrigido, da página) e desenhando
+     com `left/top/width/height` em % (não px), a marcação fica pixel-perfeita
+     em cima do texto não importa a escala/zoom, nem o tamanho de tela/aparelho —
+     não depende de nenhum cálculo de correção nem de reler r.scale depois. */
   function pageHostRect(r){ return r.el.pageHost.getBoundingClientRect(); }
 
   function addHighlightFromSelection(r, colorHex){
@@ -421,8 +442,10 @@
     const text = sel.toString();
     if(!text.trim()) return;
     const host = pageHostRect(r);
+    if(host.width<=0 || host.height<=0) return;
     const rects = Array.from(sel.getRangeAt(0).getClientRects()).map(rc=>({
-      x:(rc.left-host.left)/r.scale, y:(rc.top-host.top)/r.scale, w:rc.width/r.scale, h:rc.height/r.scale
+      x:(rc.left-host.left)/host.width, y:(rc.top-host.top)/host.height,
+      w:rc.width/host.width, h:rc.height/host.height
     })).filter(rc=>rc.w>0 && rc.h>0);
     if(!rects.length) return;
     const hl = { id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), page:r.currentPage, color:colorHex, rects, text, ts:Date.now() };
@@ -450,10 +473,10 @@
       h.rects.forEach(rc=>{
         const d = document.createElement('div');
         d.className = 'l3r-hl';
-        d.style.left = (rc.x*r.scale)+'px';
-        d.style.top = (rc.y*r.scale)+'px';
-        d.style.width = (rc.w*r.scale)+'px';
-        d.style.height = (rc.h*r.scale)+'px';
+        d.style.left = (rc.x*100)+'%';
+        d.style.top = (rc.y*100)+'%';
+        d.style.width = (rc.w*100)+'%';
+        d.style.height = (rc.h*100)+'%';
         d.style.background = color;
         d.addEventListener('click', ()=>{ if(r.eraseMode) removeHighlight(r, h.id); });
         layer.appendChild(d);
@@ -470,7 +493,7 @@
     r.el.eraserBtn.classList.toggle('l3r-ic-active', on);
   }
 
-  /* ---------------------------- seleção → notebook / flashcard ---------------------------- */
+  /* ---------------------------- seleção → notebook / notes / flashcard ---------------------------- */
   function sendSelectionTo(r, act){
     const sel = window.getSelection && window.getSelection();
     const anchor = sel && sel.anchorNode && (sel.anchorNode.nodeType===1 ? sel.anchorNode : sel.anchorNode.parentElement);
@@ -478,7 +501,7 @@
     const text = sel ? sel.toString().trim() : '';
     if(!text) return;
     const user = currentUser();
-    const page = act==='flashcard' ? 'flashcards' : 'notebooks';
+    const page = act==='flashcard' ? 'flashcards' : (act==='notes' ? 'notes' : 'notebooks');
     location.href = `app.html?page=${page}&u=${encodeURIComponent(user)}&prefill=${encodeURIComponent(text)}`;
   }
 

@@ -85,12 +85,10 @@ body.light .l3r-pagehost{box-shadow:0 10px 30px rgba(20,50,110,.18)}
 .l3r-hl{position:absolute; background:#ffe08a; opacity:.55; mix-blend-mode:multiply; border-radius:2px; transition:outline .1s}
 
 /* ---------- barra inferior (única barra de controles — a de cima só tem busca/download) ----------
-   Ferramentas de marcação fixas à esquerda; Notebook/Flashcard ficam junto do zoom
-   à direita — pedido explícito do Jonathan ("ao lado dessa funcionalidade de
-   aumento da tela"). */
-.l3r-toolbar-bottom{ justify-content:space-between; margin-bottom:0; margin-top:0; }
-.l3r-endtools{ gap:8px; }
-.l3r-endtools .l3r-zoom{ background:transparent; padding:4px 2px 4px 6px; }
+   Ferramentas de marcação (cores + borracha) e Notebook/Notes/Flashcard ficam
+   juntas à esquerda — pedido explícito do Jonathan. Navegação no meio, zoom à
+   direita. */
+.l3r-toolbar-bottom{ justify-content:space-between; margin-bottom:0; margin-top:0; flex-wrap:wrap; }
 
 /* ---------- setas grandes nas laterais pra virar página (mais intuitivo que só a toolbar) ---------- */
 .l3r-sidearrow{
@@ -112,7 +110,7 @@ body.light .l3r-pagehost{box-shadow:0 10px 30px rgba(20,50,110,.18)}
    Substituiu o antigo popover flutuante de seleção — agora fica sempre visível,
    fixo embaixo à esquerda. Tradução por seleção continua sendo o balão global de
    sempre (select-translate.js) — não precisa de nenhum estilo aqui. */
-.l3r-marktools{ gap:8px; padding:5px 8px; }
+.l3r-marktools{ gap:8px; padding:5px 8px; flex-wrap:wrap; row-gap:6px; }
 .l3r-swatch{
   width:24px; height:24px; border-radius:50%; border:2px solid rgba(255,255,255,.5);
   cursor:pointer; padding:0; box-shadow:0 2px 6px rgba(0,0,0,.3); transition:transform .12s;
