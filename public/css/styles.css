@@ -945,6 +945,10 @@ body.light .stg-field-ico,body.light .stg-metric-ico{background:rgba(11,25,48,.0
 }
 
 /* ---- Aparência: seletor de fundo em bolinhas ---- */
+.stg-swatch-groups{display:flex;flex-direction:column;gap:15px;margin-top:2px}
+.stg-swatch-group{display:flex;flex-direction:column;gap:9px}
+.stg-swatch-glabel{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5f7089}
+body.light .stg-swatch-glabel{color:#8a99ad}
 .stg-swatches{display:flex;flex-wrap:wrap;gap:12px;margin-top:2px}
 .stg-swatch{border:0;background:none;padding:0;cursor:pointer;border-radius:50%;line-height:0;
   outline:2px solid transparent;outline-offset:3px;transition:outline-color .15s,transform .12s}
@@ -958,6 +962,10 @@ body.light .stg-swatch-name{color:#5f7089}
 /* tons das bolinhas (refletem o fundo real de cada tema) */
 .stg-dot-auto{background:linear-gradient(135deg,#0b1d38 0 50%,#f4f7fb 50% 100%)}
 .stg-dot-light{background:#f4f7fb;box-shadow:inset 0 0 0 1px rgba(11,25,48,.18),0 2px 6px rgba(0,0,0,.2)}
+.stg-dot-paper{background:#efe7d7;box-shadow:inset 0 0 0 1px rgba(11,25,48,.14),0 2px 6px rgba(0,0,0,.18)}
+.stg-dot-mist{background:#e2ebf6;box-shadow:inset 0 0 0 1px rgba(11,25,48,.14),0 2px 6px rgba(0,0,0,.18)}
+.stg-dot-sage{background:#e0ece1;box-shadow:inset 0 0 0 1px rgba(11,25,48,.14),0 2px 6px rgba(0,0,0,.18)}
+.stg-dot-rose{background:#f2e1e8;box-shadow:inset 0 0 0 1px rgba(11,25,48,.14),0 2px 6px rgba(0,0,0,.18)}
 .stg-dot-navy{background:#0e2140}
 .stg-dot-black{background:#0a0a0a}
 .stg-dot-slate{background:#141922}
@@ -986,3 +994,25 @@ html[data-bg="ocean"] .internal-content,html[data-bg="ocean"] .platform-page.int
 html[data-bg="plum"] body,html[data-bg="plum"] .platform-page{background:#120616}
 html[data-bg="plum"] .sidebar{background:#1e0c22}
 html[data-bg="plum"] .internal-content,html[data-bg="plum"] .platform-page.internal .platform-main{background:#1a0a1e}
+
+/* ---- Tons CLAROS: body.light + fundo suave; os cards ficam brancos por cima.
+   Seletores carregam .platform-page.internal pra vencer o body.light{background:#fff}. */
+html[data-bg="paper"] body.light,
+html[data-bg="paper"] body.light .platform-main,
+html[data-bg="paper"] body.light .internal-content,
+html[data-bg="paper"] body.light.platform-page.internal .platform-main{background:#f5efe3}
+
+html[data-bg="mist"] body.light,
+html[data-bg="mist"] body.light .platform-main,
+html[data-bg="mist"] body.light .internal-content,
+html[data-bg="mist"] body.light.platform-page.internal .platform-main{background:#eaf0f8}
+
+html[data-bg="sage"] body.light,
+html[data-bg="sage"] body.light .platform-main,
+html[data-bg="sage"] body.light .internal-content,
+html[data-bg="sage"] body.light.platform-page.internal .platform-main{background:#e9f1ea}
+
+html[data-bg="rose"] body.light,
+html[data-bg="rose"] body.light .platform-main,
+html[data-bg="rose"] body.light .internal-content,
+html[data-bg="rose"] body.light.platform-page.internal .platform-main{background:#f7ecf1}

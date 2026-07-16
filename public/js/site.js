@@ -88,11 +88,18 @@
      histórico). 'light' = claro. Os demais são tons ESCUROS de fundo, aplicados via
      html[data-bg]; a cor do texto continua a mesma do escuro, só o fundo muda. */
   const STG_DARK_BGS=['dark','black','slate','indigo','ocean','plum'];
-  const STG_THEMES=['light'].concat(STG_DARK_BGS);
+  /* 'light' = branco puro (sem data-bg); os demais claros aplicam body.light + um
+     tom suave no fundo via html[data-bg], mantendo os cards brancos por cima. */
+  const STG_LIGHT_BGS=['light','paper','mist','sage','rose'];
+  const STG_THEMES=STG_LIGHT_BGS.concat(STG_DARK_BGS);
   /* Aplica tema+fundo em qualquer página. `page` só importa quando theme='' (auto). */
   function applyAppearance(theme,page){
     const b=document.body, h=document.documentElement;
-    if(theme==='light'){ b.classList.add('light'); h.removeAttribute('data-bg'); return; }
+    if(STG_LIGHT_BGS.includes(theme)){
+      b.classList.add('light');
+      if(theme==='light') h.removeAttribute('data-bg'); else h.setAttribute('data-bg',theme);
+      return;
+    }
     if(STG_DARK_BGS.includes(theme)){
       b.classList.remove('light');
       if(theme==='dark') h.removeAttribute('data-bg'); else h.setAttribute('data-bg',theme);
@@ -265,6 +272,7 @@
     stgAvatar:'Avatar',
     stgThemeLabel:'Default theme', stgThemeDark:'Dark', stgThemeLight:'Light',
     stgBgLabel:'Background', stgThemeAuto:'System', stgBgNavy:'Navy', stgBgBlack:'Black', stgBgSlate:'Slate', stgBgIndigo:'Indigo', stgBgOcean:'Ocean', stgBgPlum:'Plum',
+    stgBgWhite:'White', stgBgPaper:'Paper', stgBgMist:'Mist', stgBgSage:'Sage', stgBgRose:'Rosé', stgBgGroupAuto:'Automatic', stgBgGroupLight:'Light', stgBgGroupDark:'Dark',
     stgLangLabel:'Default language', stgLangEN:'English', stgLangPT:'Português',
     stgApprDesc:'How the platform opens for you. You can still switch theme and language anytime from the top bar.',
     stgQbMode:'Default test mode', stgQbTutor:'Tutor', stgQbTimed:'Timed',
@@ -298,6 +306,7 @@
     stgAvatar:'Avatar',
     stgThemeLabel:'Tema padrão', stgThemeDark:'Escuro', stgThemeLight:'Claro',
     stgBgLabel:'Cor de fundo', stgThemeAuto:'Sistema', stgBgNavy:'Marinho', stgBgBlack:'Preto', stgBgSlate:'Ardósia', stgBgIndigo:'Índigo', stgBgOcean:'Oceano', stgBgPlum:'Ameixa',
+    stgBgWhite:'Branco', stgBgPaper:'Papel', stgBgMist:'Névoa', stgBgSage:'Sálvia', stgBgRose:'Rosé', stgBgGroupAuto:'Automático', stgBgGroupLight:'Claros', stgBgGroupDark:'Escuros',
     stgLangLabel:'Idioma padrão', stgLangEN:'English', stgLangPT:'Português',
     stgApprDesc:'Como a plataforma abre para você. Você ainda pode trocar tema e idioma quando quiser na barra superior.',
     stgQbMode:'Modo de teste padrão', stgQbTutor:'Tutor', stgQbTimed:'Cronometrado',
@@ -896,23 +905,37 @@
     const p=getPrefs(u);
     const cur=p.theme||'auto';
     /* Cada opção é uma BOLINHA com o tom real do fundo — sem nomes escritos.
-       O `title`/`aria-label` dá o nome para acessibilidade e tooltip. */
+       O `title`/`aria-label` dá o nome para acessibilidade e tooltip. Agrupadas
+       em Automático / Claros / Escuros para dar destaque aos tons claros. */
     const swatches=[
-      {v:'auto',  l:t.stgThemeAuto,  cls:'stg-dot-auto'},
-      {v:'light', l:t.stgThemeLight, cls:'stg-dot-light'},
-      {v:'dark',  l:t.stgBgNavy,     cls:'stg-dot-navy'},
-      {v:'black', l:t.stgBgBlack,    cls:'stg-dot-black'},
-      {v:'slate', l:t.stgBgSlate,    cls:'stg-dot-slate'},
-      {v:'indigo',l:t.stgBgIndigo,   cls:'stg-dot-indigo'},
-      {v:'ocean', l:t.stgBgOcean,    cls:'stg-dot-ocean'},
-      {v:'plum',  l:t.stgBgPlum,     cls:'stg-dot-plum'}
+      {v:'auto',  l:t.stgThemeAuto,  cls:'stg-dot-auto',   g:'auto'},
+      {v:'light', l:t.stgBgWhite,    cls:'stg-dot-light',  g:'light'},
+      {v:'paper', l:t.stgBgPaper,    cls:'stg-dot-paper',  g:'light'},
+      {v:'mist',  l:t.stgBgMist,     cls:'stg-dot-mist',   g:'light'},
+      {v:'sage',  l:t.stgBgSage,     cls:'stg-dot-sage',   g:'light'},
+      {v:'rose',  l:t.stgBgRose,     cls:'stg-dot-rose',   g:'light'},
+      {v:'dark',  l:t.stgBgNavy,     cls:'stg-dot-navy',   g:'dark'},
+      {v:'black', l:t.stgBgBlack,    cls:'stg-dot-black',  g:'dark'},
+      {v:'slate', l:t.stgBgSlate,    cls:'stg-dot-slate',  g:'dark'},
+      {v:'indigo',l:t.stgBgIndigo,   cls:'stg-dot-indigo', g:'dark'},
+      {v:'ocean', l:t.stgBgOcean,    cls:'stg-dot-ocean',  g:'dark'},
+      {v:'plum',  l:t.stgBgPlum,     cls:'stg-dot-plum',   g:'dark'}
     ];
-    const swHTML=swatches.map(s=>`<button type="button" class="stg-swatch ${s.v===cur?'on':''}" data-bg-choice="${s.v}" title="${stgEsc(s.l)}" aria-label="${stgEsc(s.l)}"><span class="stg-swatch-dot ${s.cls}"></span></button>`).join('');
+    const dot=s=>`<button type="button" class="stg-swatch ${s.v===cur?'on':''}" data-bg-choice="${s.v}" title="${stgEsc(s.l)}" aria-label="${stgEsc(s.l)}"><span class="stg-swatch-dot ${s.cls}"></span></button>`;
+    const groups=[
+      {id:'auto', label:t.stgBgGroupAuto},
+      {id:'light',label:t.stgBgGroupLight},
+      {id:'dark', label:t.stgBgGroupDark}
+    ];
+    const swHTML=groups.map(g=>`<div class="stg-swatch-group">
+        <span class="stg-swatch-glabel">${stgEsc(g.label)}</span>
+        <div class="stg-swatches">${swatches.filter(s=>s.g===g.id).map(dot).join('')}</div>
+      </div>`).join('');
     panel.innerHTML=`
       <div class="stg-card">
         ${stgHead('appearance',t.stgSecAppearance,t.stgApprDesc,'violet')}
         <div class="stg-field"><label class="stg-field-label">${stgSvg('appearance')}${t.stgBgLabel}</label>
-          <div class="stg-swatches" role="group" aria-label="${stgEsc(t.stgBgLabel)}">${swHTML}</div>
+          <div class="stg-swatch-groups" role="group" aria-label="${stgEsc(t.stgBgLabel)}">${swHTML}</div>
           <div class="stg-swatch-name" id="stgSwatchName">${stgEsc((swatches.find(s=>s.v===cur)||swatches[0]).l)}</div></div>
         <div class="stg-field"><label class="stg-field-label">${stgSvg('globe')}${t.stgLangLabel}</label>
           ${stgSeg('lang',p.lang||'en',[{v:'en',l:t.stgLangEN},{v:'pt',l:t.stgLangPT}])}</div>
@@ -1454,7 +1477,8 @@
        não grava em preferências, igual ao comportamento original. */
     const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>{
       const savedDark=STG_DARK_BGS.includes(prefs.theme)?prefs.theme:'dark';
-      applyAppearance(document.body.classList.contains('light')?savedDark:'light', p);
+      const savedLight=STG_LIGHT_BGS.includes(prefs.theme)?prefs.theme:'light';
+      applyAppearance(document.body.classList.contains('light')?savedDark:savedLight, p);
     });
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',async e=>{
