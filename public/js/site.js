@@ -337,7 +337,7 @@
       setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);
     });
   }
-  function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),6450); setTimeout(()=>location.href=`app.html?u=${u}`,7000);}
+  function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),3450); setTimeout(()=>location.href=`app.html?u=${u}`,4000);}
   const LIB_TITLE_KEY = {'library-1':'library1Title','library-2':'library2Title','library-3':'library3Title'};
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
   const LIB_FOLDERS = {
@@ -1157,7 +1157,7 @@
       wk.innerHTML=html;
     }
     const loc=lang==='pt'?'pt-BR':'en-US';
-    const be=document.getElementById('streakBest'); if(be)be.textContent=d.best.toLocaleString(loc);
+    const be=document.getElementById('streakBest'); if(be)be.textContent=d.best.toLocaleString(loc)+' '+(d.best===1?t.dayOne:t.dayMany);
     const qe=document.getElementById('streakQ'); if(qe)qe.textContent=d.questions.toLocaleString(loc);
     const fe=document.getElementById('streakFC'); if(fe)fe.textContent=d.fcReviews.toLocaleString(loc);
   }
