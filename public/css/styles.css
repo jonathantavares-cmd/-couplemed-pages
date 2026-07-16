@@ -943,3 +943,46 @@ body.light .stg-field-ico,body.light .stg-metric-ico{background:rgba(11,25,48,.0
   .stg-stats-row{grid-template-columns:1fr}
   .stg-hero-row{gap:12px}
 }
+
+/* ---- Aparência: seletor de fundo em bolinhas ---- */
+.stg-swatches{display:flex;flex-wrap:wrap;gap:12px;margin-top:2px}
+.stg-swatch{border:0;background:none;padding:0;cursor:pointer;border-radius:50%;line-height:0;
+  outline:2px solid transparent;outline-offset:3px;transition:outline-color .15s,transform .12s}
+.stg-swatch:hover{transform:scale(1.08)}
+.stg-swatch.on{outline-color:#3d84ff}
+.stg-swatch-dot{display:block;width:30px;height:30px;border-radius:50%;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 2px 6px rgba(0,0,0,.35)}
+.stg-swatch.on .stg-swatch-dot{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 2px 8px rgba(0,0,0,.4)}
+.stg-swatch-name{margin-top:10px;font-size:12px;font-weight:700;color:#93a7c4;letter-spacing:.02em}
+body.light .stg-swatch-name{color:#5f7089}
+/* tons das bolinhas (refletem o fundo real de cada tema) */
+.stg-dot-auto{background:linear-gradient(135deg,#0b1d38 0 50%,#f4f7fb 50% 100%)}
+.stg-dot-light{background:#f4f7fb;box-shadow:inset 0 0 0 1px rgba(11,25,48,.18),0 2px 6px rgba(0,0,0,.2)}
+.stg-dot-navy{background:#0e2140}
+.stg-dot-black{background:#0a0a0a}
+.stg-dot-slate{background:#141922}
+.stg-dot-indigo{background:#141036}
+.stg-dot-ocean{background:#07303f}
+.stg-dot-plum{background:#22102a}
+
+/* ---- Tons de fundo aplicados no site inteiro (html[data-bg]) ----
+   Só o backdrop muda; texto e cards seguem o esquema escuro. */
+html[data-bg="black"] body,html[data-bg="black"] .platform-page{background:#000}
+html[data-bg="black"] .sidebar{background:#080809}
+html[data-bg="black"] .internal-content,html[data-bg="black"] .platform-page.internal .platform-main{background:#0b0b0d}
+
+html[data-bg="slate"] body,html[data-bg="slate"] .platform-page{background:#0a0d12}
+html[data-bg="slate"] .sidebar{background:#12161d}
+html[data-bg="slate"] .internal-content,html[data-bg="slate"] .platform-page.internal .platform-main{background:#10141b}
+
+html[data-bg="indigo"] body,html[data-bg="indigo"] .platform-page{background:#06061a}
+html[data-bg="indigo"] .sidebar{background:#0e0c26}
+html[data-bg="indigo"] .internal-content,html[data-bg="indigo"] .platform-page.internal .platform-main{background:#0c0a20}
+
+html[data-bg="ocean"] body,html[data-bg="ocean"] .platform-page{background:#021018}
+html[data-bg="ocean"] .sidebar{background:#06202c}
+html[data-bg="ocean"] .internal-content,html[data-bg="ocean"] .platform-page.internal .platform-main{background:#052330}
+
+html[data-bg="plum"] body,html[data-bg="plum"] .platform-page{background:#120616}
+html[data-bg="plum"] .sidebar{background:#1e0c22}
+html[data-bg="plum"] .internal-content,html[data-bg="plum"] .platform-page.internal .platform-main{background:#1a0a1e}
