@@ -242,6 +242,7 @@
     stgSecProfile:'Profile', stgSecAppearance:'Appearance', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
     stgSecData:'My Data', stgSecDanger:'Danger Zone', stgSecUsers:'User Management', stgSecUnlock:'Pass Unlock',
     stgSecSystem:'System Info',
+    stgGroupGeneral:'General', stgGroupStudy:'Studies', stgGroupAccount:'Account', stgGroupAdmin:'Administration',
     stgProfileDesc:'Your display name and login credentials.',
     stgAvatar:'Avatar',
     stgThemeLabel:'Default theme', stgThemeDark:'Dark', stgThemeLight:'Light',
@@ -273,6 +274,7 @@
     stgSecProfile:'Perfil', stgSecAppearance:'Aparência', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
     stgSecData:'Meus Dados', stgSecDanger:'Zona de Perigo', stgSecUsers:'Gestão de Usuários', stgSecUnlock:'Desbloqueio de Passadas',
     stgSecSystem:'Informações do Sistema',
+    stgGroupGeneral:'Geral', stgGroupStudy:'Estudos', stgGroupAccount:'Conta', stgGroupAdmin:'Administração',
     stgProfileDesc:'Seu nome de exibição e credenciais de acesso.',
     stgAvatar:'Avatar',
     stgThemeLabel:'Tema padrão', stgThemeDark:'Escuro', stgThemeLight:'Claro',
@@ -444,7 +446,21 @@
         });
         return;
       }
-      const fullBook=LIBRARY3_FULL_BOOK?`<a class="lib-book lib-book-featured" href="${lib3PdfUrl(LIBRARY3_FULL_BOOK.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(LIBRARY3_FULL_BOOK))}</a>`:'';
+      // Livro completo não mora dentro de nenhuma pasta de LIBRARY3_STRUCTURE — trata como
+      // deep-link próprio (&pdf= sem &folder=), com uma "pasta" sintética só pro título do
+      // leitor (a volta cai na lista de módulos, não numa pasta que não existe).
+      {
+        const pdfKey = params().get('pdf');
+        if(LIBRARY3_FULL_BOOK && pdfKey===LIBRARY3_FULL_BOOK.key && LIBRARY3_READER_PILOT.has(LIBRARY3_FULL_BOOK.key) && window.CMLibrary3Reader){
+          window.CMLibrary3Reader.open(rp, LIBRARY3_FULL_BOOK, { name: libTitle, ptName: libTitle }, ()=>libBack(id,lang));
+          return;
+        }
+      }
+      const fullBookInReader = LIBRARY3_FULL_BOOK && LIBRARY3_READER_PILOT.has(LIBRARY3_FULL_BOOK.key);
+      const fullBook=LIBRARY3_FULL_BOOK?(fullBookInReader
+        ? `<a class="lib-book lib-book-featured" href="#" data-open-fullbook="1">${wsEsc(lib3Name(LIBRARY3_FULL_BOOK))}</a>`
+        : `<a class="lib-book lib-book-featured" href="${lib3PdfUrl(LIBRARY3_FULL_BOOK.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(LIBRARY3_FULL_BOOK))}</a>`
+      ):'';
       const folders=LIBRARY3_STRUCTURE.map(folder=>{
         const slug=slugify(folder.name);
         return `<a class="lib-book" href="app.html?page=${id}&u=${user()}&folder=${slug}" data-folder-slug="${slug}">${wsEsc(lib3Name(folder))}</a>`;
@@ -453,6 +469,14 @@
       rp.querySelectorAll('.lib-list a[data-folder-slug]').forEach(a=>{
         a.addEventListener('click',e=>{e.preventDefault(); libOpenFolder(id,lang,a.dataset.folderSlug);});
       });
+      if(fullBookInReader){
+        const fbLink = rp.querySelector('[data-open-fullbook]');
+        if(fbLink) fbLink.addEventListener('click', e=>{
+          e.preventDefault();
+          history.pushState(null,'',`app.html?page=${id}&u=${user()}&pdf=${encodeURIComponent(LIBRARY3_FULL_BOOK.key)}`);
+          renderLibrary(id,lang);
+        });
+      }
       return;
     }
 
@@ -554,6 +578,24 @@
      controle existente (tema, bandeiras, Create Test) é removido ou movido. */
   const STG_VERSION='v51';
   let stgTab=null;
+
+  /* Ícones de traço (substituem os antigos emojis da navegação/Perfil) */
+  const STG_ICONS={
+    user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+    appearance:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" stroke="none" opacity=".35"/>',
+    layers:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    cards:'<rect x="3.2" y="5.2" width="14" height="10" rx="2" transform="rotate(-7 3.2 5.2)"/><rect x="6" y="7.3" width="14" height="10" rx="2"/>',
+    save:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>',
+    alert:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    info:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>',
+    shield:'<path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>',
+    mail:'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/>',
+    flame:'<path d="M12 2c1 4-4 5-4 9a4 4 0 0 0 8 0c0-1-.5-2-1-3 2 1 3 3 3 5a6 6 0 0 1-12 0c0-5 3-7 6-11z"/>',
+    edit:'<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>'
+  };
+  function stgSvg(name){ return `<svg class="stg-svg-ico" viewBox="0 0 24 24">${STG_ICONS[name]||''}</svg>`; }
 
   function stgEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function stgAvatarColor(uid){
@@ -682,21 +724,25 @@
     const isAdmin=m.role==='admin';
 
     const tabs=[
-      {id:'profile',   label:t.stgSecProfile,    ico:'👤'},
-      {id:'appearance',label:t.stgSecAppearance, ico:'🎨'},
-      {id:'qbank',     label:t.stgSecQbank,      ico:'📋'},
-      {id:'flash',     label:t.stgSecFlash,      ico:'🗂'},
-      {id:'data',      label:t.stgSecData,       ico:'💾'},
-      {id:'danger',    label:t.stgSecDanger,     ico:'⚠️'}
+      {id:'profile',   label:t.stgSecProfile,    ico:'user',       group:t.stgGroupGeneral},
+      {id:'appearance',label:t.stgSecAppearance, ico:'appearance', group:t.stgGroupGeneral},
+      {id:'qbank',     label:t.stgSecQbank,      ico:'layers',     group:t.stgGroupStudy},
+      {id:'flash',     label:t.stgSecFlash,      ico:'cards',      group:t.stgGroupStudy},
+      {id:'data',      label:t.stgSecData,       ico:'save',       group:t.stgGroupStudy},
+      {id:'danger',    label:t.stgSecDanger,     ico:'alert',      group:t.stgGroupAccount}
     ];
     if(isAdmin){
-      tabs.push({id:'users', label:t.stgSecUsers,  ico:'👥', admin:true});
-      tabs.push({id:'unlock',label:t.stgSecUnlock, ico:'🔓', admin:true});
-      tabs.push({id:'system',label:t.stgSecSystem, ico:'🛠', admin:true});
+      tabs.push({id:'users', label:t.stgSecUsers,  ico:'users', admin:true, group:t.stgGroupAdmin});
+      tabs.push({id:'unlock',label:t.stgSecUnlock, ico:'lock',  admin:true, group:t.stgGroupAdmin});
+      tabs.push({id:'system',label:t.stgSecSystem, ico:'info',  admin:true, group:t.stgGroupAdmin});
     }
     if(!stgTab || !tabs.some(x=>x.id===stgTab)) stgTab=tabs[0].id;
 
-    const navHTML=tabs.map(tb=>`<button class="stg-nav-item ${tb.id===stgTab?'on':''} ${tb.admin?'is-admin':''}" data-tab="${tb.id}"><span class="stg-nav-ico">${tb.ico}</span><span>${stgEsc(tb.label)}</span></button>`).join('');
+    let navHTML=''; let stgLastGroup=null;
+    tabs.forEach(tb=>{
+      if(tb.group!==stgLastGroup){ navHTML+=`<div class="stg-nav-group-label">${stgEsc(tb.group)}</div>`; stgLastGroup=tb.group; }
+      navHTML+=`<button class="stg-nav-item ${tb.id===stgTab?'on':''} ${tb.admin?'is-admin':''}" data-tab="${tb.id}"><span class="stg-nav-ico">${stgSvg(tb.ico)}</span><span>${stgEsc(tb.label)}</span></button>`;
+    });
 
     rp.innerHTML=`
       <h1 id="internalTitle">${t.settings}</h1>
@@ -753,17 +799,36 @@
     const custom=getUserCustom(u);
     const name=custom&&custom.displayName?custom.displayName:meta.displayName;
     const login=custom&&custom.login?custom.login:meta.originalLogin;
+    const isAdminSelf=meta.role==='admin';
     /* A senha atual não é mais recuperável: só existe como hash no servidor.
        O admin pode DEFINIR uma nova, nunca LER a existente. */
+    const streak=cmStreakCompute();
+    const streakDays=streak.state==='restart'?0:streak.current;
     panel.innerHTML=`
       <div class="stg-card">
         <div class="stg-card-head"><h2>${stgEsc(t.stgSecProfile)}</h2><p>${stgEsc(t.stgProfileDesc)}</p></div>
-        <div class="stg-profile-top">${stgAvatar(u,64)}<div class="stg-profile-id"><strong>${stgEsc(name)}</strong><small>${stgEsc(login)}</small></div></div>
+        <div class="stg-hero">
+          <div class="stg-hero-row">
+            ${stgAvatar(u,64)}
+            <div class="stg-profile-id">
+              <strong>${stgEsc(name)}</strong>
+              <div class="stg-hero-meta">
+                <span class="stg-role-pill${isAdminSelf?'':' stg-role-pill-user'}">${stgSvg(isAdminSelf?'shield':'user')}${isAdminSelf?stgEsc(t.settingsAdmin):stgEsc(t.settingsUser)}</span>
+                <span class="stg-hero-login">${stgSvg('mail')}${stgEsc(login)}</span>
+              </div>
+            </div>
+          </div>
+          <div class="stg-stats-row">
+            <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-flame">${stgSvg('flame')}</span><div><b>${streakDays}</b><i>${stgEsc(t.streakRecord)}</i></div></div>
+            <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-blue">${stgSvg('layers')}</span><div><b>${streak.questions}</b><i>${stgEsc(t.streakQuestions)}</i></div></div>
+            <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-amber">${stgSvg('cards')}</span><div><b>${streak.fcReviews}</b><i>${stgEsc(t.streakFlash)}</i></div></div>
+          </div>
+        </div>
         <div class="stg-view-block" id="stgSelfView">
-          <div class="stg-info-row"><span class="stg-label">${t.settingsDisplayName}</span><span class="stg-value">${stgEsc(name)}</span></div>
-          <div class="stg-info-row"><span class="stg-label">${t.settingsLogin}</span><span class="stg-value">${stgEsc(login)}</span></div>
-          <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value">••••••••</span><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
-          <button class="stg-btn stg-btn-edit" id="stgEditBtn">${t.settingsChangeData}</button>
+          <div class="stg-info-row stg-info-row-icon"><span class="stg-field-ico">${stgSvg('user')}</span><span class="stg-label">${t.settingsDisplayName}</span><span class="stg-value">${stgEsc(name)}</span></div>
+          <div class="stg-info-row stg-info-row-icon"><span class="stg-field-ico">${stgSvg('mail')}</span><span class="stg-label">${t.settingsLogin}</span><span class="stg-value">${stgEsc(login)}</span></div>
+          <div class="stg-info-row stg-info-row-icon"><span class="stg-field-ico">${stgSvg('lock')}</span><span class="stg-label">${t.settingsPassword}</span><span class="stg-value">••••••••</span><button type="button" class="stg-btn stg-btn-eye" data-action="toggle-pass">${t.settingsShowPass}</button></div>
+          <button class="stg-btn stg-btn-edit" id="stgEditBtn">${stgSvg('edit')}${t.settingsChangeData}</button>
         </div>
         <div class="stg-edit-form" id="stgSelfEdit" hidden>
           <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgEditName" value="${stgEsc(name)}" /></div>
