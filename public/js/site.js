@@ -593,9 +593,25 @@
     shield:'<path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>',
     mail:'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/>',
     flame:'<path d="M12 2c1 4-4 5-4 9a4 4 0 0 0 8 0c0-1-.5-2-1-3 2 1 3 3 3 5a6 6 0 0 1-12 0c0-5 3-7 6-11z"/>',
-    edit:'<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>'
+    edit:'<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>',
+    globe:'<circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/>',
+    sliders:'<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
+    download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+    upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',
+    refresh:'<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/>',
+    tag:'<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+    key:'<path d="M21 2l-2 2m-3.5 3.5a5 5 0 1 1-7.07 7.07 5 5 0 0 1 7.07-7.07zm0 0L19 4m-3 3l2 2"/>'
   };
   function stgSvg(name){ return `<svg class="stg-svg-ico" viewBox="0 0 24 24">${STG_ICONS[name]||''}</svg>`; }
+  /* Cabeçalho de card padronizado: chip de ícone colorido + título + descrição.
+     tone ∈ blue|amber|green|red|violet (cor do chip). desc opcional. */
+  function stgHead(icon,title,desc,tone){
+    return `<div class="stg-card-head stg-card-head-icon">
+      <span class="stg-head-ico stg-head-ico-${tone||'blue'}">${stgSvg(icon)}</span>
+      <div><h2>${stgEsc(title)}</h2>${desc?`<p>${stgEsc(desc)}</p>`:''}</div>
+    </div>`;
+  }
 
   function stgEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function stgAvatarColor(uid){
@@ -806,7 +822,7 @@
     const streakDays=streak.state==='restart'?0:streak.current;
     panel.innerHTML=`
       <div class="stg-card">
-        <div class="stg-card-head"><h2>${stgEsc(t.stgSecProfile)}</h2><p>${stgEsc(t.stgProfileDesc)}</p></div>
+        ${stgHead('user',t.stgSecProfile,t.stgProfileDesc,'blue')}
         <div class="stg-hero">
           <div class="stg-hero-row">
             ${stgAvatar(u,64)}
@@ -860,10 +876,10 @@
     const p=getPrefs(u);
     panel.innerHTML=`
       <div class="stg-card">
-        <div class="stg-card-head"><h2>${stgEsc(t.stgSecAppearance)}</h2><p>${stgEsc(t.stgApprDesc)}</p></div>
-        <div class="stg-field"><label>${t.stgThemeLabel}</label>
+        ${stgHead('appearance',t.stgSecAppearance,t.stgApprDesc,'violet')}
+        <div class="stg-field"><label class="stg-field-label">${stgSvg('appearance')}${t.stgThemeLabel}</label>
           ${stgSeg('theme',p.theme||'auto',[{v:'auto',l:t.stgUnlockAuto},{v:'dark',l:t.stgThemeDark},{v:'light',l:t.stgThemeLight}])}</div>
-        <div class="stg-field"><label>${t.stgLangLabel}</label>
+        <div class="stg-field"><label class="stg-field-label">${stgSvg('globe')}${t.stgLangLabel}</label>
           ${stgSeg('lang',p.lang||'en',[{v:'en',l:t.stgLangEN},{v:'pt',l:t.stgLangPT}])}</div>
         <div class="stg-msg" id="stgApprMsg" hidden></div>
       </div>`;
@@ -887,10 +903,10 @@
     const p=getPrefs(u);
     panel.innerHTML=`
       <div class="stg-card">
-        <div class="stg-card-head"><h2>${stgEsc(t.stgSecQbank)}</h2><p>${stgEsc(t.stgQbDesc)}</p></div>
-        <div class="stg-field"><label>${t.stgQbMode}</label>
+        ${stgHead('layers',t.stgSecQbank,t.stgQbDesc,'blue')}
+        <div class="stg-field"><label class="stg-field-label">${stgSvg('sliders')}${t.stgQbMode}</label>
           <div class="stg-qbmode-row">${stgToggle('stgQbTutor',p.qbank.tutor,stgEsc(t.stgQbTutor))}${stgToggle('stgQbTimed',p.qbank.timed,stgEsc(t.stgQbTimed))}</div></div>
-        <div class="stg-field"><label>${t.stgQbCount}</label>
+        <div class="stg-field"><label class="stg-field-label">${stgSvg('layers')}${t.stgQbCount}</label>
           <input type="number" id="stgQbCount" min="1" max="40" value="${p.qbank.count}" class="stg-num" /></div>
         <div class="stg-field">${stgToggle('stgQbPeer',p.qbank.peer,stgEsc(t.stgQbPeer))}</div>
         <div class="stg-msg" id="stgQbMsg" hidden></div>
@@ -915,8 +931,8 @@
     const p=getPrefs(u);
     panel.innerHTML=`
       <div class="stg-card">
-        <div class="stg-card-head"><h2>${stgEsc(t.stgSecFlash)}</h2><p>${stgEsc(t.stgFcDesc)}</p></div>
-        <div class="stg-field"><label>${t.stgFcOrder}</label>
+        ${stgHead('cards',t.stgSecFlash,t.stgFcDesc,'amber')}
+        <div class="stg-field"><label class="stg-field-label">${stgSvg('sliders')}${t.stgFcOrder}</label>
           ${stgSeg('fcorder',p.flashcards.order,[{v:'due',l:t.stgFcOrderDue},{v:'random',l:t.stgFcOrderRandom},{v:'sequential',l:t.stgFcOrderSeq}])}</div>
         <div class="stg-field">${stgToggle('stgFcRev',p.flashcards.reversed,stgEsc(t.stgFcReversed))}</div>
         <div class="stg-msg" id="stgFcMsg" hidden></div>
@@ -938,15 +954,15 @@
     const kb=(bytes/1024).toFixed(1);
     panel.innerHTML=`
       <div class="stg-card">
-        <div class="stg-card-head"><h2>${stgEsc(t.stgSecData)}</h2><p>${stgEsc(t.stgDataDesc)}</p></div>
+        ${stgHead('save',t.stgSecData,t.stgDataDesc,'green')}
         <div class="stg-data-stats">
-          <div class="stg-kpi"><b>${window.QBANK_TOTAL||0}</b><i>${stgEsc(t.stgSysQuestions)}</i></div>
-          <div class="stg-kpi"><b>${stgFlashCount(u)}</b><i>${stgEsc(t.stgSysFlash)}</i></div>
-          <div class="stg-kpi"><b>${kb} KB</b><i>${stgEsc(t.stgSecData)}</i></div>
+          <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-blue">${stgSvg('layers')}</span><div><b>${window.QBANK_TOTAL||0}</b><i>${stgEsc(t.stgSysQuestions)}</i></div></div>
+          <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-amber">${stgSvg('cards')}</span><div><b>${stgFlashCount(u)}</b><i>${stgEsc(t.stgSysFlash)}</i></div></div>
+          <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-green">${stgSvg('save')}</span><div><b>${kb} KB</b><i>${stgEsc(t.stgSecData)}</i></div></div>
         </div>
         <div class="stg-data-actions">
-          <button class="stg-btn stg-btn-primary" id="stgExportBtn">⬇ ${stgEsc(t.stgExport)}</button>
-          <button class="stg-btn" id="stgImportBtn">⬆ ${stgEsc(t.stgImport)}</button>
+          <button class="stg-btn stg-btn-primary stg-btn-ico" id="stgExportBtn">${stgSvg('download')}${stgEsc(t.stgExport)}</button>
+          <button class="stg-btn stg-btn-ico" id="stgImportBtn">${stgSvg('upload')}${stgEsc(t.stgImport)}</button>
           <input type="file" id="stgImportFile" accept="application/json,.json" hidden />
         </div>
         <p class="stg-hint">${stgEsc(t.stgExportHint)}</p>
@@ -963,15 +979,15 @@
   function stgDanger(panel,u,lang,t){
     panel.innerHTML=`
       <div class="stg-card stg-card-danger">
-        <div class="stg-card-head"><h2>${stgEsc(t.stgSecDanger)}</h2><p>${stgEsc(t.stgDangerDesc)}</p></div>
-        <button class="stg-btn stg-btn-reset" id="stgResetMine">${stgEsc(t.stgResetMine)}</button>
+        ${stgHead('alert',t.stgSecDanger,t.stgDangerDesc,'red')}
+        <button class="stg-btn stg-btn-reset stg-btn-ico" id="stgResetMine">${stgSvg('refresh')}${stgEsc(t.stgResetMine)}</button>
       </div>`;
     $('#stgResetMine').addEventListener('click',()=>stgResetSelf(u,lang,()=>location.reload()));
   }
 
   /* ---------------- Admin: gestão de usuários ---------------- */
   function stgUsers(panel,u,lang,t){
-    let html=`<div class="stg-card"><div class="stg-card-head"><h2>${stgEsc(t.stgSecUsers)}</h2></div>`;
+    let html=`<div class="stg-card">${stgHead('users',t.stgSecUsers,'','violet')}`;
     Object.keys(USER_META).forEach(uid=>{
       if(uid===u)return;
       const meta=USER_META[uid];
@@ -989,19 +1005,19 @@
             <small>${stgEsc(curLogin)}</small>
           </div>
           <div class="stg-user-actions">
-            <button class="stg-btn stg-btn-edit stg-btn-edit-inline" data-action="edit-user" data-uid="${uid}">${t.settingsChangeData}</button>
+            <button class="stg-btn stg-btn-edit stg-btn-edit-inline stg-btn-ico" data-action="edit-user" data-uid="${uid}">${stgSvg('edit')}${t.settingsChangeData}</button>
             <button class="stg-toggle ${blocked?'stg-toggle-off':'stg-toggle-on'}" data-action="toggle" data-uid="${uid}">
               <span class="stg-toggle-knob"></span>
               <span class="stg-toggle-label">${blocked?t.settingsBlocked:t.settingsEnabled}</span>
             </button>
-            <button class="stg-btn stg-btn-reset" data-action="reset" data-uid="${uid}">${t.settingsReset}</button>
+            <button class="stg-btn stg-btn-reset stg-btn-ico" data-action="reset" data-uid="${uid}">${stgSvg('refresh')}${t.settingsReset}</button>
           </div>
         </div>
         <div class="stg-user-metrics">
-          <div><i>${stgEsc(t.stgLastAccess)}</i><b>${stgEsc(last)}</b></div>
-          <div><i>${stgEsc(t.stgStreakCur)}</i><b>${stgStreakBest(uid)}</b></div>
-          <div><i>${stgEsc(t.stgTimeTotal)}</i><b>${stgFmtSecs(stgTotalTime(uid))}</b></div>
-          <div><i>${stgEsc(t.settingsCardsTotal)}</i><b>${stgFlashCount(uid)}</b></div>
+          <div><span class="stg-metric-ico">${stgSvg('clock')}</span><i>${stgEsc(t.stgLastAccess)}</i><b>${stgEsc(last)}</b></div>
+          <div><span class="stg-metric-ico">${stgSvg('flame')}</span><i>${stgEsc(t.stgStreakCur)}</i><b>${stgStreakBest(uid)}</b></div>
+          <div><span class="stg-metric-ico">${stgSvg('clock')}</span><i>${stgEsc(t.stgTimeTotal)}</i><b>${stgFmtSecs(stgTotalTime(uid))}</b></div>
+          <div><span class="stg-metric-ico">${stgSvg('cards')}</span><i>${stgEsc(t.settingsCardsTotal)}</i><b>${stgFlashCount(uid)}</b></div>
         </div>
         <div class="stg-user-passes"><i>${stgEsc(t.stgPassCol)}</i><div class="stg-pass-chips">${stgPassSummary(uid,lang)}</div></div>
         <div class="stg-view-block" id="stgUserView_${uid}">
@@ -1050,7 +1066,7 @@
   /* ---------------- Admin: desbloqueio de passadas ---------------- */
   function stgUnlock(panel,u,lang,t){
     const total=window.QBANK_TOTAL||0;
-    let html=`<div class="stg-card"><div class="stg-card-head"><h2>${stgEsc(t.stgSecUnlock)}</h2><p>${stgEsc(t.stgUnlockDesc)}</p></div>`;
+    let html=`<div class="stg-card">${stgHead('lock',t.stgSecUnlock,t.stgUnlockDesc,'amber')}`;
     Object.keys(USER_META).forEach(uid=>{
       if(uid===u)return;
       const ceiling=qbUnlockCeiling(uid);
@@ -1083,12 +1099,12 @@
   function stgSystem(panel,u,lang,t){
     panel.innerHTML=`
       <div class="stg-card">
-        <div class="stg-card-head"><h2>${stgEsc(t.stgSecSystem)}</h2></div>
+        ${stgHead('info',t.stgSecSystem,'','blue')}
         <div class="stg-sys-grid">
-          <div class="stg-kpi"><b>${STG_VERSION}</b><i>${stgEsc(t.stgSysVersion)}</i></div>
-          <div class="stg-kpi"><b>${window.QBANK_TOTAL||0}</b><i>${stgEsc(t.stgSysQuestions)}</i></div>
-          <div class="stg-kpi"><b>${stgFlashCount(u)}</b><i>${stgEsc(t.stgSysFlash)}</i></div>
-          <div class="stg-kpi"><b>${stgEsc(getUserDisplay(u))}</b><i>${stgEsc(t.stgSysUser)}</i></div>
+          <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-violet">${stgSvg('tag')}</span><div><b>${STG_VERSION}</b><i>${stgEsc(t.stgSysVersion)}</i></div></div>
+          <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-blue">${stgSvg('layers')}</span><div><b>${window.QBANK_TOTAL||0}</b><i>${stgEsc(t.stgSysQuestions)}</i></div></div>
+          <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-amber">${stgSvg('cards')}</span><div><b>${stgFlashCount(u)}</b><i>${stgEsc(t.stgSysFlash)}</i></div></div>
+          <div class="stg-kpi stg-kpi-icon"><span class="stg-kpi-ico stg-kpi-ico-green">${stgSvg('user')}</span><div><b>${stgEsc(getUserDisplay(u))}</b><i>${stgEsc(t.stgSysUser)}</i></div></div>
         </div>
       </div>`;
   }
