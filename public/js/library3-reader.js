@@ -6,15 +6,14 @@
      - zoom, busca por texto, download do arquivo original;
      - marcação (highlight) de trechos, persistida por usuário e sincronizada
        entre aparelhos via a mesma camada genérica de `cm-sync.js`;
-     - tradução da página NO LUGAR: ao trocar a bandeira 🇧🇷/🇺🇸 do topo do site
-       (o mesmo seletor global que traduz o QBank), a página atual troca de idioma
-       sem nenhum botão/painel próprio. Técnica "mascarar e sobrepor": o canvas
-       original do PDF nunca é alterado; por cima dele desenho retângulos com a
-       cor de fundo amostrada em cima de cada linha de texto (apagando o inglês
-       visualmente sem tocar nas imagens/diagramas) e sobreponho o texto traduzido
-       em HTML na mesma posição, usando o MESMO motor/cache de tradução do resto
-       do site (window.CMI18N.span/translateAllVisible — igual ao QBank). Ver
-       "Tradução no lugar (mask & overlay)" mais abaixo.
+     - tradução: por SELEÇÃO, igual ao resto do site inteiro (balão global do
+       `select-translate.js`, que já funciona sozinho aqui porque a camada de
+       texto do PDF.js é texto de verdade selecionável — nenhuma mudança
+       precisou ser feita nesse arquivo). Chegamos a testar uma versão de
+       tradução automática da página inteira (mask & overlay ao trocar de
+       idioma), mas o resultado não ficou como o Jonathan precisava — decisão
+       dele foi manter os PDFs como estão e usar só a tradução por seleção
+       já existente, específico pra esta Library 3.
      - seleção de texto → "Criar Flashcard" / "Adicionar ao Notebook", reaproveitando
        o mecanismo de `?prefill=` (já existe pronto em flashcards.js; foi
        adicionado o equivalente em notebook.js).
@@ -114,12 +113,11 @@
 
   /* ---------------------------- API pública ---------------------------- */
   function open(hostEl, item, folder, onBack){
-    // site.js já re-chama open() sozinho ao trocar a bandeira 🇧🇷/🇺🇸 (setLang() ->
+    // site.js re-chama open() sozinho ao trocar a bandeira 🇧🇷/🇺🇸 (setLang() ->
     // updateDynamicContent() -> renderLibrary() -> aqui, pra qualquer página cujo título
     // dependa do idioma — Library 3 está nessa lista). Se for o MESMO PDF já aberto, isso
-    // é só uma re-renderização por causa do idioma: reaproveita o documento já carregado
-    // (evita rebaixar da rede de novo) e mantém página/zoom, só refaz o esqueleto e o
-    // desenho da página atual — é isso que reconstrói a sobreposição traduzida.
+    // é só uma re-renderização por causa do idioma (troca labels da toolbar): reaproveita
+    // o documento já carregado (evita rebaixar da rede de novo) e mantém página/zoom.
     if(activeReader && activeReader.item.key===item.key && activeReader.pdfDoc){
       const r = activeReader;
       r.hostEl = hostEl; r.folder = folder; r.onBack = onBack;
@@ -132,7 +130,7 @@
     const r = {
       hostEl, item, folder, onBack,
       pdfjsLib:null, PDFPageView:null, eventBus:null,
-      pdfDoc:null, pageView:null, pageCount:0, currentPage:1, scale:1.3,
+      pdfDoc:null, pageView:null, pageCount:0, currentPage:1, scale:1.3, fitDone:false,
       textIndex:null, textIndexPromise:null,
       search:{ query:'', matches:[], idx:-1 },
       highlights: (loadAllHighlights()[item.key] || [])
@@ -142,14 +140,6 @@
     loadPdfJs().then(({pdfjsLib, PDFPageView, EventBus})=>{
       if(activeReader!==r) return; // usuário já saiu daqui
       r.pdfjsLib = pdfjsLib; r.PDFPageView = PDFPageView; r.eventBus = new EventBus();
-      // `pv.draw()` resolve assim que o CANVAS termina — a camada de texto (.textLayer, de
-      // onde a sobreposição traduzida lê as posições) renderiza à parte e só fica pronta
-      // quando este evento dispara. Esperar por ele (em vez de só o draw()) evita montar a
-      // tradução antes das spans existirem (dava 0 linhas encontradas).
-      r.eventBus.on('textlayerrendered', evt=>{
-        if(activeReader!==r || evt.pageNumber!==r.currentPage || uiLang()!=='pt') return;
-        buildTranslationOverlay(r);
-      });
       return pdfjsLib.getDocument({ url: lib3PdfUrl(item.key) }).promise;
     }).then(doc=>{
       if(!doc || activeReader!==r) return;
@@ -197,10 +187,23 @@
         <div class="l3r-body">
           <div class="l3r-pagewrap" id="l3rPageWrap">
             <div class="l3r-loading" id="l3rLoading">${esc(t('loading'))}</div>
+            <button type="button" class="l3r-sidearrow l3r-sidearrow-prev" id="l3rSidePrev" aria-label="prev">‹</button>
+            <button type="button" class="l3r-sidearrow l3r-sidearrow-next" id="l3rSideNext" aria-label="next">›</button>
             <div class="l3r-pagehost pdfViewer" id="l3rPageHost">
               <div class="l3r-hilayer" id="l3rHiLayer"></div>
-              <canvas class="l3r-mask-layer" id="l3rMaskLayer" hidden></canvas>
-              <div class="l3r-translate-layer" id="l3rTranslateLayer" hidden></div>
+            </div>
+          </div>
+          <div class="l3r-toolbar l3r-toolbar-bottom">
+            <div class="l3r-group l3r-nav">
+              <button type="button" class="l3r-ic" id="l3rPrev2" aria-label="prev">‹</button>
+              <input type="number" id="l3rPageInput2" class="l3r-pageinput" min="1" value="1" />
+              <span class="l3r-of">${esc(t('of'))} <span id="l3rPageCount2">—</span></span>
+              <button type="button" class="l3r-ic" id="l3rNext2" aria-label="next">›</button>
+            </div>
+            <div class="l3r-group l3r-zoom">
+              <button type="button" class="l3r-ic" id="l3rZoomOut2" aria-label="${esc(t('zoomOut'))}">−</button>
+              <span id="l3rZoomLabel2">130%</span>
+              <button type="button" class="l3r-ic" id="l3rZoomIn2" aria-label="${esc(t('zoomIn'))}">+</button>
             </div>
           </div>
         </div>
@@ -218,13 +221,13 @@
       pageWrap: r.hostEl.querySelector('#l3rPageWrap'),
       pageHost: r.hostEl.querySelector('#l3rPageHost'),
       hiLayer: r.hostEl.querySelector('#l3rHiLayer'),
-      pageInput: r.hostEl.querySelector('#l3rPageInput'),
-      pageCount: r.hostEl.querySelector('#l3rPageCount'),
-      zoomLabel: r.hostEl.querySelector('#l3rZoomLabel'),
+      // navegação/zoom existem duas vezes (toolbar de cima + barra de baixo) — mantidas em
+      // sincronia sempre que uma muda (updatePageCount/updateZoomLabel/goToPage abaixo).
+      pageInputs: [r.hostEl.querySelector('#l3rPageInput'), r.hostEl.querySelector('#l3rPageInput2')],
+      pageCounts: [r.hostEl.querySelector('#l3rPageCount'), r.hostEl.querySelector('#l3rPageCount2')],
+      zoomLabels: [r.hostEl.querySelector('#l3rZoomLabel'), r.hostEl.querySelector('#l3rZoomLabel2')],
       searchInput: r.hostEl.querySelector('#l3rSearchInput'),
       searchCount: r.hostEl.querySelector('#l3rSearchCount'),
-      maskLayer: r.hostEl.querySelector('#l3rMaskLayer'),
-      translateLayer: r.hostEl.querySelector('#l3rTranslateLayer'),
       selPop: r.hostEl.querySelector('#l3rSelPop'),
       downloadLink: r.hostEl.querySelector('#l3rDownloadLink')
     };
@@ -233,14 +236,20 @@
     updateZoomLabel(r);
 
     r.hostEl.querySelector('#l3rBack').addEventListener('click', ()=>{ destroyActive(); if(r.onBack) r.onBack(); });
-    r.hostEl.querySelector('#l3rPrev').addEventListener('click', ()=> goToPage(r, r.currentPage-1));
-    r.hostEl.querySelector('#l3rNext').addEventListener('click', ()=> goToPage(r, r.currentPage+1));
-    r.el.pageInput.addEventListener('change', ()=> goToPage(r, parseInt(r.el.pageInput.value,10)||1));
-    r.el.pageInput.addEventListener('keydown', e=>{
-      if(e.key==='Enter'){ e.preventDefault(); goToPage(r, parseInt(r.el.pageInput.value,10)||1); r.el.pageInput.blur(); }
+    ['l3rPrev','l3rSidePrev','l3rPrev2'].forEach(id=>
+      r.hostEl.querySelector('#'+id).addEventListener('click', ()=> goToPage(r, r.currentPage-1)));
+    ['l3rNext','l3rSideNext','l3rNext2'].forEach(id=>
+      r.hostEl.querySelector('#'+id).addEventListener('click', ()=> goToPage(r, r.currentPage+1)));
+    r.el.pageInputs.forEach(inp=>{
+      inp.addEventListener('change', ()=> goToPage(r, parseInt(inp.value,10)||1));
+      inp.addEventListener('keydown', e=>{
+        if(e.key==='Enter'){ e.preventDefault(); goToPage(r, parseInt(inp.value,10)||1); inp.blur(); }
+      });
     });
-    r.hostEl.querySelector('#l3rZoomOut').addEventListener('click', ()=> setScale(r, r.scale-0.15));
-    r.hostEl.querySelector('#l3rZoomIn').addEventListener('click', ()=> setScale(r, r.scale+0.15));
+    ['l3rZoomOut','l3rZoomOut2'].forEach(id=>
+      r.hostEl.querySelector('#'+id).addEventListener('click', ()=> setScale(r, r.scale-0.15)));
+    ['l3rZoomIn','l3rZoomIn2'].forEach(id=>
+      r.hostEl.querySelector('#'+id).addEventListener('click', ()=> setScale(r, r.scale+0.15)));
 
     let searchTimer = null;
     r.el.searchInput.addEventListener('input', ()=>{
@@ -269,18 +278,28 @@
     r.el.loading.textContent = error ? t('loadError') : t('loading');
     r.el.loading.classList.toggle('l3r-loading-error', !!error);
   }
-  function updatePageCount(r){ if(r.el) r.el.pageCount.textContent = String(r.pageCount); }
-  function updateZoomLabel(r){ if(r.el) r.el.zoomLabel.textContent = Math.round(r.scale*100) + '%'; }
+  function updatePageCount(r){ if(r.el) r.el.pageCounts.forEach(el=>el.textContent = String(r.pageCount)); }
+  function updateZoomLabel(r){ if(r.el) r.el.zoomLabels.forEach(el=>el.textContent = Math.round(r.scale*100) + '%'); }
 
   /* ---------------------------- navegação de página ---------------------------- */
   function goToPage(r, n){
     if(!r.pdfDoc) return;
     n = Math.max(1, Math.min(r.pageCount, n));
     r.currentPage = n;
-    if(r.el) r.el.pageInput.value = String(n);
+    if(r.el) r.el.pageInputs.forEach(el=>el.value = String(n));
     if(r.pageView){ try{ r.pageView.div && r.pageView.div.remove(); r.pageView.destroy(); }catch(e){} r.pageView = null; }
     r.pdfDoc.getPage(n).then(page=>{
       if(activeReader!==r || r.currentPage!==n) return;
+      const base = page.getViewport({ scale: 1 }); // dimensões da página em escala 1, pra fit e correção
+      if(!r.fitDone){
+        // abre já ajustado ao aparelho — a página inteira cabe na tela sem precisar rolar
+        // (nem na largura nem na altura); o usuário decide se quer aumentar depois.
+        r.fitDone = true;
+        const wrap = r.el.pageWrap;
+        const availW = Math.max(80, wrap.clientWidth - 36), availH = Math.max(80, wrap.clientHeight - 36);
+        const fit = Math.min(availW/base.width, availH/base.height);
+        if(isFinite(fit) && fit>0){ r.scale = Math.max(0.35, Math.min(3, fit)); updateZoomLabel(r); }
+      }
       const viewport = page.getViewport({ scale: r.scale });
       const pv = new r.PDFPageView({
         container: r.el.pageHost,
@@ -294,10 +313,29 @@
       pv.setPdfPage(page);
       return pv.draw().then(()=>{
         if(activeReader!==r) return;
+        // O PDF.js às vezes ajusta a escala sozinho por "qualidade" (ex.: mantendo um piso
+        // mínimo), renderizando maior do que o pedido — foi isso que quebrava o "cabe sem
+        // rolar": pedia uma escala pequena pra caber, e ele desenhava maior mesmo assim. Depois
+        // de desenhar, meço o tamanho real e força de volta pro tamanho pedido com um
+        // transform:scale (afeta canvas + camada de texto juntos, então seleção/marcação
+        // continuam batendo certo, já que tudo usa getBoundingClientRect(), que já reflete
+        // o transform).
+        const rect = pv.div.getBoundingClientRect();
+        const targetW = base.width*r.scale, targetH = base.height*r.scale;
+        if(rect.width>0 && rect.height>0){
+          const corr = ((targetW/rect.width) + (targetH/rect.height)) / 2;
+          if(Math.abs(corr-1) > 0.01){
+            pv.div.style.transformOrigin = 'top left';
+            pv.div.style.transform = `scale(${corr})`;
+          }
+        }
+        // CSS transform não muda a caixa de LAYOUT que o pageHost usa pra calcular quanto
+        // espaço ocupar (só o desenho visual) — sem isto, o pageWrap continuava achando que
+        // precisava rolar, mesmo com a página visualmente já do tamanho certo. Travando o
+        // tamanho do pageHost explicitamente no alvo (mesmo valor do transform) resolve.
+        r.el.pageHost.style.width = targetW+'px';
+        r.el.pageHost.style.height = targetH+'px';
         renderHighlightsForPage(r);
-        // se estiver em PT, quem monta a sobreposição é o listener de 'textlayerrendered'
-        // (garante que a camada de texto já existe); aqui só limpa quando volta pro EN.
-        if(uiLang()!=='pt') clearTranslationOverlay(r);
       });
     }).catch(err=>console.error('[library3-reader] page render', err));
   }
@@ -308,7 +346,7 @@
     goToPage(r, r.currentPage);
   }
 
-  /* ---------------------------- índice de texto (busca + tradução) ---------------------------- */
+  /* ---------------------------- índice de texto (busca) ---------------------------- */
   function ensureTextIndex(r){
     if(r.textIndexPromise) return r.textIndexPromise;
     r.textIndexPromise = (async ()=>{
@@ -360,233 +398,6 @@
     r.el.searchCount.textContent = r.search.matches.length
       ? t('matchOf')({ i:r.search.idx+1, n:r.search.matches.length })
       : (r.search.query ? t('noMatches') : '');
-  }
-
-  /* ---------------------------- tradução no lugar (mask & overlay) ----------------------------
-     Sem botão/painel próprio: dispara junto com a troca da bandeira 🇧🇷/🇺🇸 do topo do site
-     (que já muda document.documentElement.lang — o mesmo gatilho que o QBank usa pra traduzir
-     as questões). O canvas original nunca é tocado: numa camada extra por cima, mascaro cada
-     linha de texto com a cor de fundo amostrada e sobreponho o texto traduzido em HTML,
-     reaproveitando window.CMI18N.span()/translateAllVisible() — o motor único de tradução de
-     conteúdo do site (mesmo usado em qbank.js:9176-9179). */
-
-  // Agrupa as SPANS já renderizadas pela camada de texto do próprio PDF.js (.textLayer) em
-  // linhas. Usar as spans reais (em vez de recalcular a posição a partir da matriz do PDF)
-  // garante alinhamento exato com o que está na tela — é a mesma geometria que já funciona
-  // pra seleção de texto — em vez de reimplementar (e arriscar errar) a matemática de
-  // transform/viewport do PDF.js.
-  function buildLinesFromTextLayer(r){
-    const textLayerEl = r.pageView.div && r.pageView.div.querySelector('.textLayer');
-    if(!textLayerEl) return [];
-    const hostRect = r.el.pageHost.getBoundingClientRect();
-    const spans = Array.from(textLayerEl.querySelectorAll('span'))
-      .filter(sp=>sp.children.length===0 && sp.textContent && sp.textContent.trim());
-    const items = spans.map(sp=>{
-      const rc = sp.getBoundingClientRect();
-      const fontSize = parseFloat(getComputedStyle(sp).fontSize) || rc.height*0.8;
-      return { text: sp.textContent, x:rc.left-hostRect.left, y:rc.top-hostRect.top, w:rc.width, h:rc.height, fontSize };
-    }).filter(it=>it.w>0 && it.h>0);
-
-    const lines = [];
-    let cur = null;
-    items.forEach(it=>{
-      if(cur){
-        const curH = cur.y2-cur.y;
-        const closeY = Math.abs((it.y+it.h/2)-(cur.y+curH/2)) < Math.max(it.h,curH)*0.6;
-        const gap = it.x - cur.x2;
-        // tolerância generosa: cobre espaço normal entre palavras E títulos com letras bem
-        // espaçadas (ex.: "H I G H - Y I E L D"), sem juntar colunas/blocos realmente
-        // diferentes (esses ficam bem mais longe que ~3.5x a altura da linha).
-        const sameLine = closeY && gap > -Math.max(2, it.w*0.4) && gap < Math.max(it.h,curH)*3.5;
-        if(sameLine){
-          cur.text += (/\s$/.test(cur.text) || /^\s/.test(it.text)) ? it.text : (' '+it.text);
-          cur.x2 = Math.max(cur.x2, it.x+it.w);
-          cur.y = Math.min(cur.y, it.y);
-          cur.y2 = Math.max(cur.y2, it.y+it.h);
-          cur.fontSize = Math.max(cur.fontSize, it.fontSize);
-          return;
-        }
-        lines.push(cur); cur = null;
-      }
-      cur = { text:it.text, x:it.x, x2:it.x+it.w, y:it.y, y2:it.y+it.h, fontSize:it.fontSize };
-    });
-    if(cur) lines.push(cur);
-    return lines.filter(l=>l.text && l.text.trim());
-  }
-
-  const luminance = p => 0.299*p[0]+0.587*p[1]+0.114*p[2];
-  const toHex = p => '#'+p.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
-
-  // Amostra a cor de fundo (bordas da caixa) e a cor de "tinta" (pixel mais contrastante lá
-  // dentro) de uma região do canvas JÁ renderizado, antes de mascarar — pra cobrir tanto texto
-  // escuro em fundo claro quanto texto claro na barra escura de seção.
-  function sampleLineColors(ctx, rect){
-    const gx = Math.max(0, Math.round(rect.x)), gy = Math.max(0, Math.round(rect.y));
-    const gw = Math.max(1, Math.round(rect.w)), gh = Math.max(1, Math.round(rect.h));
-    // "fundo" tem que vir de FORA da caixa apertada do texto — pixels bem na borda do glyph já
-    // são antialiasing (mistura de tinta com fundo), então uma média ali sai mais clara que o
-    // fundo de verdade e cria um "halo" visível em volta da máscara (parecia o próprio caractere
-    // fantasma). A margem abre até passar dessa franja antes de amostrar.
-    const margin = Math.max(4, Math.round(gh*0.4));
-    const bx = Math.max(0, gx-margin), by = Math.max(0, gy-margin);
-    const bw = gw+margin*2, bh = gh+margin*2;
-    let bgData, inkData;
-    try{
-      bgData = ctx.getImageData(bx, by, bw, bh).data;
-      inkData = gx===bx&&gy===by&&gw===bw&&gh===bh ? bgData : ctx.getImageData(gx, gy, gw, gh).data;
-    }catch(e){ return { bg:'#ffffff', ink:'#132235' }; }
-    const step = Math.max(1, Math.floor(Math.min(bw,bh)/24));
-    const bgPixels = [];
-    for(let j=0;j<bh;j+=step){
-      for(let i=0;i<bw;i+=step){
-        const insideGlyphBox = i>=margin && i<margin+gw && j>=margin && j<margin+gh;
-        if(insideGlyphBox) continue; // fica só com o anel FORA da caixa do texto
-        const idx = (j*bw+i)*4;
-        bgPixels.push([bgData[idx],bgData[idx+1],bgData[idx+2]]);
-      }
-    }
-    const avg = arr => { const s=arr.reduce((a,p)=>[a[0]+p[0],a[1]+p[1],a[2]+p[2]],[0,0,0]); return s.map(v=>v/arr.length); };
-    const bg = avg(bgPixels.length?bgPixels:[[255,255,255]]);
-    const inkStep = Math.max(1, Math.floor(Math.min(gw,gh)/24));
-    let inkPx = bg, best = -1;
-    for(let j=0;j<gh;j+=inkStep){
-      for(let i=0;i<gw;i+=inkStep){
-        const idx = (j*gw+i)*4;
-        const p = [inkData[idx],inkData[idx+1],inkData[idx+2]];
-        const d = (p[0]-bg[0])**2+(p[1]-bg[1])**2+(p[2]-bg[2])**2;
-        if(d>best){ best=d; inkPx=p; }
-      }
-    }
-    return { bg: toHex(bg), ink: best>800 ? toHex(inkPx) : (luminance(bg)>140 ? '#132235' : '#ffffff') };
-  }
-
-  // Depois que a tradução real (assíncrona, via CM.translateAllVisible) preenche o texto,
-  // encolhe a fonte das linhas que ficaram grandes demais pro espaço original.
-  // A linha NUNCA pode crescer pra baixo (invadiria a linha seguinte, que tem sua própria
-  // máscara/tradução) — por isso o CSS usa white-space:nowrap. Se o texto traduzido não coube
-  // na largura original, primeiro encolhe a fonte; se ainda não couber, comprime na horizontal
-  // (scaleX) até caber. Fica um pouco mais "condensado" nesses casos, mas nunca sobrepõe outra
-  // linha — que era o bug real por trás do "texto duplicado" que o Jonathan viu.
-  function fitOverlayLine(div){
-    const targetW = parseFloat(div.dataset.targetW||'0');
-    const baseFont = parseFloat(div.dataset.baseFont||'0');
-    if(!targetW || !baseFont) return;
-    div.style.transform = '';
-    let size = baseFont;
-    div.style.fontSize = size+'px';
-    let guard = 0;
-    while(div.scrollWidth > targetW*1.05 && size > baseFont*0.65 && guard<6){
-      size *= 0.9;
-      div.style.fontSize = size+'px';
-      guard++;
-    }
-    if(div.scrollWidth > targetW*1.05){
-      const scale = Math.max(0.55, targetW/div.scrollWidth);
-      div.style.transform = `scaleX(${scale})`;
-    }
-  }
-
-  async function buildTranslationOverlay(r){
-    const CM = window.CMI18N;
-    if(!CM || !r.pageView || !r.el) return;
-    const page = r.currentPage;
-
-    const canvas = r.pageView.canvas || (r.pageView.div && r.pageView.div.querySelector('canvas'));
-    const hostRect = r.el.pageHost.getBoundingClientRect();
-    if(!canvas) return;
-    const canvasRect = canvas.getBoundingClientRect();
-    const canvasOffX = canvasRect.left-hostRect.left, canvasOffY = canvasRect.top-hostRect.top;
-    const dpr = canvas.width / canvas.clientWidth || 1;
-    const srcCtx = canvas.getContext('2d');
-
-    const lines = buildLinesFromTextLayer(r);
-    if(activeReader!==r || r.currentPage!==page || uiLang()!=='pt') return;
-
-    const hostW = r.el.pageHost.clientWidth, hostH = r.el.pageHost.clientHeight;
-    const maskCanvas = r.el.maskLayer, overlay = r.el.translateLayer;
-    maskCanvas.width = hostW; maskCanvas.height = hostH;
-    maskCanvas.style.width = hostW+'px'; maskCanvas.style.height = hostH+'px';
-    overlay.style.width = hostW+'px'; overlay.style.height = hostH+'px';
-    const mctx = maskCanvas.getContext('2d');
-    mctx.clearRect(0,0,hostW,hostH);
-    overlay.innerHTML = '';
-
-    lines.forEach(line=>{
-      const x = line.x, y = line.y, w = line.x2-line.x, h = line.y2-line.y;
-      if(w<=0 || h<=0) return;
-      // amostragem de cor precisa das coordenadas relativas ao CANVAS (não ao pageHost) e em
-      // pixels reais do buffer (canvas.width pode ser maior que clientWidth em telas retina)
-      const colors = sampleLineColors(srcCtx, {
-        x:(x-canvasOffX)*dpr, y:(y-canvasOffY)*dpr, w:w*dpr, h:h*dpr
-      });
-      mctx.fillStyle = colors.bg;
-      // folga generosa (proporcional à altura da linha): a camada de texto invisível do PDF.js
-      // (usada só pra seleção, com fonte substituta) não bate 100% com onde o glyph de verdade
-      // é desenhado no canvas (que usa a fonte real incorporada no PDF) — sem essa margem, sobra
-      // uma lasca do caractere original visível do lado, parecendo um dígito duplicado.
-      const padX = Math.max(24, h*1.4), padY = Math.max(4, h*0.2);
-      mctx.fillRect(Math.max(0,x-padX), Math.max(0,y-padY), w+padX*2, h+padY*2);
-
-      const fontSize = Math.max(7, line.fontSize*0.92);
-      const div = document.createElement('div');
-      div.className = 'l3r-translated-line';
-      div.style.left = x+'px'; div.style.top = y+'px';
-      div.style.width = w+'px'; div.style.height = h+'px';
-      div.style.color = colors.ink;
-      div.style.fontSize = fontSize+'px';
-      div.style.lineHeight = h+'px';
-      div.dataset.targetW = String(w);
-      div.dataset.baseFont = String(fontSize);
-      div.textContent = line.text; // mostra o inglês na hora; troca pro traduzido assim que chegar
-      overlay.appendChild(div);
-      fitOverlayLine(div); // já garante que nem o placeholder em inglês invade a linha de baixo
-      line.div = div;
-    });
-
-    maskCanvas.hidden = false;
-    overlay.hidden = false;
-    const origTextLayer = r.pageView.div && r.pageView.div.querySelector('.textLayer');
-    if(origTextLayer) origTextLayer.style.pointerEvents = 'none';
-
-    // Uma página tem muito mais linhas (dezenas) do que qualquer outro lugar do site que usa
-    // CM.translateAllVisible (que dispara tudo em paralelo) — isso estourava o limite de taxa
-    // da API gratuita de tradução. Aqui, chamo CM.translateText() diretamente (mesmo motor/
-    // cache — é a mesma função que select-translate.js já usa) só que com um número pequeno
-    // de chamadas simultâneas por vez, pra não tomar 429.
-    translateLinesThrottled(CM, lines, page);
-  }
-
-  async function translateLinesThrottled(CM, lines, page, concurrency){
-    concurrency = concurrency || 3;
-    let idx = 0;
-    async function worker(){
-      while(idx < lines.length){
-        const line = lines[idx++];
-        const r = activeReader;
-        if(!r || r.currentPage!==page || uiLang()!=='pt' || !line.div || !line.div.isConnected) continue;
-        try{
-          const tr = await CM.translateText(line.text, 'pt', 'en');
-          if(activeReader===r && r.currentPage===page && line.div.isConnected) line.div.textContent = tr || line.text;
-        }catch(e){ /* mantém o inglês se a tradução falhar */ }
-        if(line.div && line.div.isConnected) fitOverlayLine(line.div);
-      }
-    }
-    await Promise.all(Array.from({ length: Math.min(concurrency, lines.length) }, worker));
-  }
-
-  function clearTranslationOverlay(r){
-    if(!r.el) return;
-    if(r.el.maskLayer){
-      r.el.maskLayer.hidden = true;
-      const c = r.el.maskLayer.getContext('2d');
-      if(c) c.clearRect(0,0,r.el.maskLayer.width,r.el.maskLayer.height);
-    }
-    if(r.el.translateLayer){
-      r.el.translateLayer.hidden = true;
-      r.el.translateLayer.innerHTML = '';
-    }
-    const origTextLayer = r.pageView && r.pageView.div && r.pageView.div.querySelector('.textLayer');
-    if(origTextLayer) origTextLayer.style.pointerEvents = '';
   }
 
   /* ---------------------------- marcações (highlight) ---------------------------- */
@@ -644,7 +455,10 @@
     location.href = `app.html?page=${page}&u=${encodeURIComponent(user)}&prefill=${encodeURIComponent(text)}`;
   }
 
-  /* ---------------------------- popover de seleção (marcar/notebook/flashcard) ---------------------------- */
+  /* ---------------------------- popover de seleção (marcar/notebook/flashcard) ----------------------------
+     Fica lado a lado com o balão global "Traduzir" (select-translate.js, que já funciona sozinho
+     aqui — nenhuma mudança nele foi necessária). Este popover cobre só marcar/Notebook/Flashcard;
+     tradução por seleção é o balão de sempre. */
   function hideSelPop(r){ if(r && r.el) r.el.selPop.hidden = true; }
   function showSelPopFor(r, rect){
     const pop = r.el.selPop;
@@ -685,13 +499,6 @@
     if(e.key==='ArrowRight') goToPage(r, r.currentPage+1);
     else if(e.key==='ArrowLeft') goToPage(r, r.currentPage-1);
   });
-
-  /* Troca de idioma: NÃO precisa de observer próprio aqui. site.js já re-chama open() sozinho
-     quando a bandeira 🇧🇷/🇺🇸 do topo muda (setLang -> updateDynamicContent -> renderLibrary),
-     e open() (acima) já sabe reaproveitar o documento carregado e re-renderizar a página atual
-     nesse caso. Ter um observer próprio AQUI TAMBÉM causava uma corrida: os dois disparavam pro
-     mesmo evento, e o open() (que reseta pra página 1) podia vencer depois do reaproveitamento
-     ter rodado, perdendo a página em que o usuário estava. */
 
   window.CMLibrary3Reader = { open, close: destroyActive };
 })();

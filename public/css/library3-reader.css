@@ -31,17 +31,24 @@ body.light .l3r{
 .l3r-pageinput{width:44px;border:1px solid var(--l3r-line);background:var(--l3r-card);color:var(--l3r-text);border-radius:6px;text-align:center;font:600 12px/1.2 inherit;padding:4px 2px}
 .l3r-of{font-size:12px;color:var(--l3r-muted);white-space:nowrap}
 .l3r-zoom span{font-size:12px;color:var(--l3r-muted);min-width:38px;text-align:center}
-.l3r-search{padding:4px 8px}
-.l3r-search input{border:0;background:transparent;color:var(--l3r-text);font:400 13px/1.2 inherit;width:160px;outline:none}
+.l3r-search{
+  background:var(--l3r-card); border:1px solid var(--l3r-line); border-radius:999px;
+  padding:6px 6px 6px 14px; transition:border-color .16s, box-shadow .16s;
+}
+.l3r-search::before{content:'🔎'; font-size:12px; opacity:.6; margin-right:2px}
+.l3r-search:focus-within{border-color:var(--l3r-blue); box-shadow:0 0 0 3px rgba(61,132,255,.15)}
+.l3r-search input{border:0;background:transparent;color:var(--l3r-text);font:400 13px/1.2 inherit;width:180px;outline:none}
 .l3r-search input::placeholder{color:var(--l3r-muted)}
-.l3r-searchcount{font-size:11px;color:var(--l3r-muted);white-space:nowrap;min-width:44px}
+.l3r-searchcount{font-size:11px;color:var(--l3r-muted);white-space:nowrap;min-width:44px;text-align:center}
+.l3r-search .l3r-ic{background:var(--l3r-chip)}
+.l3r-search .l3r-ic:hover{background:rgba(120,168,255,.28)}
 .l3r-btn{border:1px solid var(--l3r-line);background:var(--l3r-card2);color:var(--l3r-text);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .l3r-btn:hover{border-color:rgba(120,168,255,.45)}
 .l3r-download{text-decoration:none;background:linear-gradient(180deg,var(--l3r-blue),var(--l3r-blue2));border-color:transparent;color:#fff}
 .l3r-download:hover{filter:brightness(1.1)}
 
 /* ---------- corpo / página ---------- */
-.l3r-body{flex:1; display:flex; gap:10px; min-height:0}
+.l3r-body{flex:1; display:flex; flex-direction:column; gap:10px; min-height:0}
 .l3r-pagewrap{
   flex:1; position:relative; overflow:auto; display:flex; justify-content:center; align-items:flex-start;
   border:1px solid var(--l3r-line); border-radius:12px; background:var(--l3r-bg); padding:18px;
@@ -49,32 +56,35 @@ body.light .l3r{
 .l3r-loading{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--l3r-muted); font-size:13px}
 .l3r-loading[hidden]{display:none}
 .l3r-loading-error{color:#ff8a80}
-.l3r-pagehost{position:relative; height:fit-content; box-shadow:0 10px 34px rgba(0,0,0,.35); border-radius:2px}
+.l3r-pagehost{position:relative; height:fit-content; overflow:hidden; box-shadow:0 10px 34px rgba(0,0,0,.35); border-radius:2px}
 body.light .l3r-pagehost{box-shadow:0 10px 30px rgba(20,50,110,.18)}
 .l3r-pagehost .page{background:#fff; margin:0}
 .l3r-hilayer{position:absolute; inset:0; pointer-events:none; z-index:1}
 .l3r-hl{position:absolute; background:#ffe08a; opacity:.42; mix-blend-mode:multiply; border-radius:2px}
 
-/* ---------- tradução no lugar (mask & overlay) ----------
-   Sem painel: a camada de máscara (canvas, apaga o inglês com a cor de fundo amostrada)
-   fica por cima do canvas original; a camada de texto traduzido fica por cima da máscara.
-   As duas nascem com o atributo hidden e só aparecem quando a bandeira 🇧🇷 está ativa
-   (public/js/library3-reader.js — buildTranslationOverlay/clearTranslationOverlay). */
-.l3r-mask-layer{position:absolute; left:0; top:0; z-index:2; pointer-events:none}
-.l3r-mask-layer[hidden]{display:none}
-.l3r-translate-layer{position:absolute; left:0; top:0; z-index:3}
-.l3r-translate-layer[hidden]{display:none}
-.l3r-translated-line{
-  /* nowrap+hidden é proposital: a linha NUNCA pode crescer pra baixo (invadiria a máscara/
-     texto da linha seguinte — era isso que parecia "texto duplicado/sobreposto"). Quando a
-     tradução não cabe na largura original, library3-reader.js (fitOverlayLine) encolhe a fonte
-     e, se ainda não couber, comprime na horizontal (transform:scaleX) em vez de quebrar linha. */
-  position:absolute; font-family:inherit; white-space:nowrap; overflow:hidden;
-  display:flex; align-items:center; transform-origin:left center;
-  cursor:text; user-select:text; -webkit-user-select:text;
+/* ---------- barra inferior (mesmos controles de página/zoom do topo, mais à mão) ----------
+   Alinhada à direita, logo abaixo do PDF — pedido explícito do Jonathan. */
+.l3r-toolbar-bottom{ justify-content:flex-end; margin-bottom:0; margin-top:0; }
+
+/* ---------- setas grandes nas laterais pra virar página (mais intuitivo que só a toolbar) ---------- */
+.l3r-sidearrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+  width:44px; height:44px; border-radius:50%; border:1px solid var(--l3r-line);
+  background:var(--l3r-card2); color:var(--l3r-text); font-size:22px; line-height:1;
+  display:grid; place-items:center; cursor:pointer; opacity:.75; box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+.l3r-sidearrow:hover{ opacity:1; background:rgba(120,168,255,.22); }
+.l3r-sidearrow-prev{ left:14px; }
+.l3r-sidearrow-next{ right:14px; }
+@media (max-width:640px){
+  .l3r-sidearrow{ width:36px; height:36px; font-size:18px; }
+  .l3r-sidearrow-prev{ left:6px; }
+  .l3r-sidearrow-next{ right:6px; }
 }
 
-/* ---------- popover de seleção (marcar / notebook / flashcard) ---------- */
+/* ---------- popover de seleção (marcar / notebook / flashcard) ----------
+   Tradução por seleção é o balão global de sempre (select-translate.js) — não precisa
+   de nenhum estilo aqui, já funciona sozinho em cima da camada de texto do PDF.js. */
 .l3r-selpop{
   position:fixed; z-index:99999; display:flex; align-items:center; gap:6px;
   background:#0d1b32; border:1px solid rgba(120,170,255,.35); border-radius:12px;
