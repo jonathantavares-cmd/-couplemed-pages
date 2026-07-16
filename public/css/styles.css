@@ -922,8 +922,11 @@ body.light .stg-nav-group-label{color:#8a99ad}
 .stg-head-ico-red{background:rgba(235,87,87,.16);color:#ff8a8a}
 
 /* label de campo com ícone */
-.stg-field-label{display:flex;align-items:center;gap:7px}
+.stg-field-label{display:flex;align-items:center;gap:7px;margin-bottom:13px}
 .stg-field-label svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+/* respiro entre campos das configurações (Aparência, QBank, Flashcards) */
+.stg-card>.stg-field{margin-bottom:26px}
+.stg-card>.stg-field:last-of-type{margin-bottom:6px}
 
 /* botão genérico com ícone à esquerda */
 .stg-btn-ico{display:inline-flex;align-items:center;gap:7px}
@@ -945,8 +948,8 @@ body.light .stg-field-ico,body.light .stg-metric-ico{background:rgba(11,25,48,.0
 }
 
 /* ---- Aparência: seletor de fundo em bolinhas ---- */
-.stg-swatch-groups{display:flex;flex-direction:column;gap:15px;margin-top:2px}
-.stg-swatch-group{display:flex;flex-direction:column;gap:9px}
+.stg-swatch-groups{display:flex;flex-direction:column;gap:18px;margin-top:2px}
+.stg-swatch-group{display:flex;flex-direction:column;gap:11px}
 .stg-swatch-glabel{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5f7089}
 body.light .stg-swatch-glabel{color:#8a99ad}
 .stg-swatches{display:flex;flex-wrap:wrap;gap:12px;margin-top:2px}
@@ -957,7 +960,7 @@ body.light .stg-swatch-glabel{color:#8a99ad}
 .stg-swatch-dot{display:block;width:30px;height:30px;border-radius:50%;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 2px 6px rgba(0,0,0,.35)}
 .stg-swatch.on .stg-swatch-dot{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 2px 8px rgba(0,0,0,.4)}
-.stg-swatch-name{margin-top:10px;font-size:12px;font-weight:700;color:#93a7c4;letter-spacing:.02em}
+.stg-swatch-name{margin-top:14px;font-size:12px;font-weight:700;color:#93a7c4;letter-spacing:.02em}
 body.light .stg-swatch-name{color:#5f7089}
 /* tons das bolinhas (refletem o fundo real de cada tema) */
 .stg-dot-auto{background:linear-gradient(135deg,#0b1d38 0 50%,#f4f7fb 50% 100%)}
