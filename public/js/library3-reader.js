@@ -36,22 +36,29 @@
   const esc = s => String(s==null?'':s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const currentUser = () => new URLSearchParams(location.search).get('u') || 'guest';
 
+  // Marca-texto fluorescente, estilo GoodNotes (4 fixas + "+" abre o seletor de cor nativo do
+  // sistema pra qualquer cor customizada — ver l3rCustomColor). Highlights guardam a cor em HEX
+  // direto (não um id) desde essa versão — HL_COLOR_MAP só serve pra resolver marcações antigas
+  // que ainda tenham o id salvo.
   const HL_COLORS = [
-    { id:'yellow', v:'#ffe08a' },
-    { id:'green',  v:'#b8f5b0' },
-    { id:'blue',   v:'#a8d8ff' },
-    { id:'pink',   v:'#ffc4dd' }
+    { id:'yellow', v:'#FFE600' },
+    { id:'green',  v:'#4CFF6B' },
+    { id:'blue',   v:'#00D6FF' },
+    { id:'pink',   v:'#FF3EC9' }
   ];
+  const HL_COLOR_MAP = Object.fromEntries(HL_COLORS.map(c=>[c.id,c.v]));
 
   const T = {
     en: { loading:'Loading PDF…', loadError:'Could not load this PDF.', download:'Download',
           page:'Page', of:'of', search:'Search in this document…', noMatches:'0 results',
           matchOf:m=>`${m.i} of ${m.n}`, hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook',
-          zoomIn:'Zoom in', zoomOut:'Zoom out', back:'Back' },
+          zoomIn:'Zoom in', zoomOut:'Zoom out', back:'Back',
+          customColor:'Custom color', eraser:'Eraser — click a highlight to remove it' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
           matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook',
-          zoomIn:'Aumentar', zoomOut:'Diminuir', back:'Voltar' }
+          zoomIn:'Aumentar', zoomOut:'Diminuir', back:'Voltar',
+          customColor:'Cor personalizada', eraser:'Borracha — clique numa marcação pra apagar' }
   };
   const t = k => T[uiLang()][k];
 
@@ -132,7 +139,7 @@
       pdfjsLib:null, PDFPageView:null, eventBus:null,
       pdfDoc:null, pageView:null, pageCount:0, currentPage:1, scale:1.3, fitDone:false,
       textIndex:null, textIndexPromise:null,
-      search:{ query:'', matches:[], idx:-1 },
+      search:{ query:'', matches:[], idx:-1 }, eraseMode:false,
       highlights: (loadAllHighlights()[item.key] || [])
     };
     activeReader = r;
@@ -165,22 +172,9 @@
         <div class="l3r-toolbar">
           <button type="button" class="l3r-back" id="l3rBack">‹ ${esc(t('back'))}</button>
           <div class="l3r-title" id="l3rTitle">${title}</div>
-          <div class="l3r-group l3r-nav">
-            <button type="button" class="l3r-ic" id="l3rPrev" aria-label="prev">‹</button>
-            <input type="number" id="l3rPageInput" class="l3r-pageinput" min="1" value="1" />
-            <span class="l3r-of">${esc(t('of'))} <span id="l3rPageCount">—</span></span>
-            <button type="button" class="l3r-ic" id="l3rNext" aria-label="next">›</button>
-          </div>
-          <div class="l3r-group l3r-zoom">
-            <button type="button" class="l3r-ic" id="l3rZoomOut" aria-label="${esc(t('zoomOut'))}">−</button>
-            <span id="l3rZoomLabel">130%</span>
-            <button type="button" class="l3r-ic" id="l3rZoomIn" aria-label="${esc(t('zoomIn'))}">+</button>
-          </div>
           <div class="l3r-group l3r-search">
             <input type="text" id="l3rSearchInput" placeholder="${esc(t('search'))}" />
-            <button type="button" class="l3r-ic" id="l3rSearchPrev" aria-label="prev match">↑</button>
             <span id="l3rSearchCount" class="l3r-searchcount"></span>
-            <button type="button" class="l3r-ic" id="l3rSearchNext" aria-label="next match">↓</button>
           </div>
           <a class="l3r-btn l3r-download" id="l3rDownloadLink" download>⬇ ${esc(t('download'))}</a>
         </div>
@@ -194,24 +188,30 @@
             </div>
           </div>
           <div class="l3r-toolbar l3r-toolbar-bottom">
-            <div class="l3r-group l3r-nav">
-              <button type="button" class="l3r-ic" id="l3rPrev2" aria-label="prev">‹</button>
-              <input type="number" id="l3rPageInput2" class="l3r-pageinput" min="1" value="1" />
-              <span class="l3r-of">${esc(t('of'))} <span id="l3rPageCount2">—</span></span>
-              <button type="button" class="l3r-ic" id="l3rNext2" aria-label="next">›</button>
+            <div class="l3r-group l3r-marktools">
+              ${HL_COLORS.map(c=>`<button type="button" class="l3r-swatch" data-color="${c.v}" style="background:${c.v}" title="${esc(t('hl'))}"></button>`).join('')}
+              <button type="button" class="l3r-swatch l3r-swatch-add" id="l3rCustomColorBtn" title="${esc(t('customColor'))}">+</button>
+              <input type="color" id="l3rCustomColor" class="l3r-custom-color-input" value="#ff8a3d" tabindex="-1" aria-hidden="true" />
+              <span class="l3r-marktools-sep"></span>
+              <button type="button" class="l3r-ic l3r-eraser" id="l3rEraserBtn" aria-label="${esc(t('eraser'))}" title="${esc(t('eraser'))}">🧹</button>
             </div>
-            <div class="l3r-group l3r-zoom">
-              <button type="button" class="l3r-ic" id="l3rZoomOut2" aria-label="${esc(t('zoomOut'))}">−</button>
-              <span id="l3rZoomLabel2">130%</span>
-              <button type="button" class="l3r-ic" id="l3rZoomIn2" aria-label="${esc(t('zoomIn'))}">+</button>
+            <div class="l3r-group l3r-nav">
+              <button type="button" class="l3r-ic" id="l3rPrev" aria-label="prev">‹</button>
+              <input type="number" id="l3rPageInput" class="l3r-pageinput" min="1" value="1" />
+              <span class="l3r-of">${esc(t('of'))} <span id="l3rPageCount">—</span></span>
+              <button type="button" class="l3r-ic" id="l3rNext" aria-label="next">›</button>
+            </div>
+            <div class="l3r-group l3r-endtools">
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotebookBtn">📓 ${esc(t('notebook'))}</button>
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rFlashcardBtn">🃏 ${esc(t('flashcard'))}</button>
+              <span class="l3r-marktools-sep"></span>
+              <div class="l3r-group l3r-zoom">
+                <button type="button" class="l3r-ic" id="l3rZoomOut" aria-label="${esc(t('zoomOut'))}">−</button>
+                <span id="l3rZoomLabel">130%</span>
+                <button type="button" class="l3r-ic" id="l3rZoomIn" aria-label="${esc(t('zoomIn'))}">+</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="l3r-selpop" id="l3rSelPop" hidden>
-          ${HL_COLORS.map(c=>`<button type="button" class="l3r-selpop-hl" data-color="${c.id}" style="background:${c.v}" title="${esc(t('hl'))}"></button>`).join('')}
-          <span class="l3r-selpop-sep"></span>
-          <button type="button" class="l3r-selpop-btn" data-act="notebook">📓 ${esc(t('notebook'))}</button>
-          <button type="button" class="l3r-selpop-btn" data-act="flashcard">🃏 ${esc(t('flashcard'))}</button>
         </div>
       </div>`;
 
@@ -221,14 +221,15 @@
       pageWrap: r.hostEl.querySelector('#l3rPageWrap'),
       pageHost: r.hostEl.querySelector('#l3rPageHost'),
       hiLayer: r.hostEl.querySelector('#l3rHiLayer'),
-      // navegação/zoom existem duas vezes (toolbar de cima + barra de baixo) — mantidas em
-      // sincronia sempre que uma muda (updatePageCount/updateZoomLabel/goToPage abaixo).
-      pageInputs: [r.hostEl.querySelector('#l3rPageInput'), r.hostEl.querySelector('#l3rPageInput2')],
-      pageCounts: [r.hostEl.querySelector('#l3rPageCount'), r.hostEl.querySelector('#l3rPageCount2')],
-      zoomLabels: [r.hostEl.querySelector('#l3rZoomLabel'), r.hostEl.querySelector('#l3rZoomLabel2')],
+      // navegação/zoom moraram só na barra de baixo (o topo tinha isso duplicado antes —
+      // removido a pedido). Continua em array porque as setas laterais também disparam
+      // as mesmas ações e algumas rotinas iteram por conveniência.
+      pageInputs: [r.hostEl.querySelector('#l3rPageInput')],
+      pageCounts: [r.hostEl.querySelector('#l3rPageCount')],
+      zoomLabels: [r.hostEl.querySelector('#l3rZoomLabel')],
       searchInput: r.hostEl.querySelector('#l3rSearchInput'),
       searchCount: r.hostEl.querySelector('#l3rSearchCount'),
-      selPop: r.hostEl.querySelector('#l3rSelPop'),
+      eraserBtn: r.hostEl.querySelector('#l3rEraserBtn'),
       downloadLink: r.hostEl.querySelector('#l3rDownloadLink')
     };
     r.el.downloadLink.href = lib3PdfUrl(r.item.key);
@@ -236,9 +237,9 @@
     updateZoomLabel(r);
 
     r.hostEl.querySelector('#l3rBack').addEventListener('click', ()=>{ destroyActive(); if(r.onBack) r.onBack(); });
-    ['l3rPrev','l3rSidePrev','l3rPrev2'].forEach(id=>
+    ['l3rPrev','l3rSidePrev'].forEach(id=>
       r.hostEl.querySelector('#'+id).addEventListener('click', ()=> goToPage(r, r.currentPage-1)));
-    ['l3rNext','l3rSideNext','l3rNext2'].forEach(id=>
+    ['l3rNext','l3rSideNext'].forEach(id=>
       r.hostEl.querySelector('#'+id).addEventListener('click', ()=> goToPage(r, r.currentPage+1)));
     r.el.pageInputs.forEach(inp=>{
       inp.addEventListener('change', ()=> goToPage(r, parseInt(inp.value,10)||1));
@@ -246,11 +247,11 @@
         if(e.key==='Enter'){ e.preventDefault(); goToPage(r, parseInt(inp.value,10)||1); inp.blur(); }
       });
     });
-    ['l3rZoomOut','l3rZoomOut2'].forEach(id=>
-      r.hostEl.querySelector('#'+id).addEventListener('click', ()=> setScale(r, r.scale-0.15)));
-    ['l3rZoomIn','l3rZoomIn2'].forEach(id=>
-      r.hostEl.querySelector('#'+id).addEventListener('click', ()=> setScale(r, r.scale+0.15)));
+    r.hostEl.querySelector('#l3rZoomOut').addEventListener('click', ()=> setScale(r, r.scale-0.15));
+    r.hostEl.querySelector('#l3rZoomIn').addEventListener('click', ()=> setScale(r, r.scale+0.15));
 
+    // setas ↑↓ de resultado foram retiradas de dentro da busca (pedido explícito) — navegar
+    // entre os resultados continua funcionando por teclado (Enter / Shift+Enter).
     let searchTimer = null;
     r.el.searchInput.addEventListener('input', ()=>{
       clearTimeout(searchTimer);
@@ -259,17 +260,26 @@
     r.el.searchInput.addEventListener('keydown', e=>{
       if(e.key==='Enter'){ e.preventDefault(); e.shiftKey ? searchStep(r,-1) : searchStep(r,1); }
     });
-    r.hostEl.querySelector('#l3rSearchPrev').addEventListener('click', ()=> searchStep(r,-1));
-    r.hostEl.querySelector('#l3rSearchNext').addEventListener('click', ()=> searchStep(r,1));
 
-    r.el.selPop.querySelectorAll('[data-color]').forEach(btn=>{
+    // Ferramentas de marcação ficam FIXAS na barra de baixo (não é mais um balão que aparece
+    // ao selecionar — pedido explícito, o balão flutuante estava "piscando"/incomodando).
+    // mousedown->preventDefault em todos: clicar um botão não pode derrubar a seleção de texto
+    // atual, senão não haveria o que marcar/mandar quando o click() realmente disparar.
+    r.hostEl.querySelectorAll('.l3r-swatch[data-color]').forEach(btn=>{
       btn.addEventListener('mousedown', e=>e.preventDefault());
       btn.addEventListener('click', ()=> addHighlightFromSelection(r, btn.dataset.color));
     });
-    r.el.selPop.querySelectorAll('[data-act]').forEach(btn=>{
-      btn.addEventListener('mousedown', e=>e.preventDefault());
-      btn.addEventListener('click', ()=> sendSelectionTo(r, btn.dataset.act));
-    });
+    const customInput = r.hostEl.querySelector('#l3rCustomColor');
+    r.hostEl.querySelector('#l3rCustomColorBtn').addEventListener('mousedown', e=>e.preventDefault());
+    r.hostEl.querySelector('#l3rCustomColorBtn').addEventListener('click', ()=> customInput.click());
+    customInput.addEventListener('input', e=>e.stopPropagation());
+    customInput.addEventListener('change', ()=> addHighlightFromSelection(r, customInput.value));
+    r.el.eraserBtn.addEventListener('click', ()=> setEraseMode(r, !r.eraseMode));
+    r.hostEl.querySelector('#l3rNotebookBtn').addEventListener('mousedown', e=>e.preventDefault());
+    r.hostEl.querySelector('#l3rNotebookBtn').addEventListener('click', ()=> sendSelectionTo(r, 'notebook'));
+    r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('mousedown', e=>e.preventDefault());
+    r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('click', ()=> sendSelectionTo(r, 'flashcard'));
+    setEraseMode(r, r.eraseMode); // reaplica o estado visual (o DOM é reconstruído do zero aqui)
   }
 
   function setLoading(r, on, error){
@@ -403,9 +413,11 @@
   /* ---------------------------- marcações (highlight) ---------------------------- */
   function pageHostRect(r){ return r.el.pageHost.getBoundingClientRect(); }
 
-  function addHighlightFromSelection(r, colorId){
+  function addHighlightFromSelection(r, colorHex){
     const sel = window.getSelection && window.getSelection();
     if(!sel || sel.isCollapsed || !sel.rangeCount) return;
+    const anchor = sel.anchorNode && (sel.anchorNode.nodeType===1 ? sel.anchorNode : sel.anchorNode.parentElement);
+    if(!anchor || !anchor.closest('#l3rPageHost')) return; // ignora seleção fora do PDF (ex.: dentro de outro widget)
     const text = sel.toString();
     if(!text.trim()) return;
     const host = pageHostRect(r);
@@ -413,12 +425,16 @@
       x:(rc.left-host.left)/r.scale, y:(rc.top-host.top)/r.scale, w:rc.width/r.scale, h:rc.height/r.scale
     })).filter(rc=>rc.w>0 && rc.h>0);
     if(!rects.length) return;
-    const hl = { id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), page:r.currentPage, color:colorId, rects, text, ts:Date.now() };
+    const hl = { id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), page:r.currentPage, color:colorHex, rects, text, ts:Date.now() };
     r.highlights.push(hl);
     persistHighlights(r);
     renderHighlightsForPage(r);
-    hideSelPop(r);
     sel.removeAllRanges();
+  }
+  function removeHighlight(r, id){
+    r.highlights = r.highlights.filter(h=>h.id!==id);
+    persistHighlights(r);
+    renderHighlightsForPage(r);
   }
   function persistHighlights(r){
     const all = loadAllHighlights();
@@ -429,8 +445,8 @@
     if(!r.el) return;
     const layer = r.el.hiLayer;
     layer.innerHTML = '';
-    const colorMap = Object.fromEntries(HL_COLORS.map(c=>[c.id,c.v]));
     r.highlights.filter(h=>h.page===r.currentPage).forEach(h=>{
+      const color = HL_COLOR_MAP[h.color] || h.color || HL_COLORS[0].v; // ids antigos continuam OK
       h.rects.forEach(rc=>{
         const d = document.createElement('div');
         d.className = 'l3r-hl';
@@ -438,58 +454,33 @@
         d.style.top = (rc.y*r.scale)+'px';
         d.style.width = (rc.w*r.scale)+'px';
         d.style.height = (rc.h*r.scale)+'px';
-        d.style.background = colorMap[h.color] || colorMap.yellow;
+        d.style.background = color;
+        d.addEventListener('click', ()=>{ if(r.eraseMode) removeHighlight(r, h.id); });
         layer.appendChild(d);
       });
     });
   }
 
+  /* ---------------------------- borracha ----------------------------
+     Enquanto ativa, a camada de marcações passa a aceitar clique (ela normalmente ignora o
+     mouse — pointer-events:none — pra não atrapalhar a seleção de texto por baixo). */
+  function setEraseMode(r, on){
+    r.eraseMode = on;
+    r.el.hiLayer.classList.toggle('l3r-erase-active', on);
+    r.el.eraserBtn.classList.toggle('l3r-ic-active', on);
+  }
+
   /* ---------------------------- seleção → notebook / flashcard ---------------------------- */
   function sendSelectionTo(r, act){
     const sel = window.getSelection && window.getSelection();
+    const anchor = sel && sel.anchorNode && (sel.anchorNode.nodeType===1 ? sel.anchorNode : sel.anchorNode.parentElement);
+    if(!anchor || !anchor.closest('#l3rPageHost')) return;
     const text = sel ? sel.toString().trim() : '';
-    hideSelPop(r);
     if(!text) return;
     const user = currentUser();
     const page = act==='flashcard' ? 'flashcards' : 'notebooks';
     location.href = `app.html?page=${page}&u=${encodeURIComponent(user)}&prefill=${encodeURIComponent(text)}`;
   }
-
-  /* ---------------------------- popover de seleção (marcar/notebook/flashcard) ----------------------------
-     Fica lado a lado com o balão global "Traduzir" (select-translate.js, que já funciona sozinho
-     aqui — nenhuma mudança nele foi necessária). Este popover cobre só marcar/Notebook/Flashcard;
-     tradução por seleção é o balão de sempre. */
-  function hideSelPop(r){ if(r && r.el) r.el.selPop.hidden = true; }
-  function showSelPopFor(r, rect){
-    const pop = r.el.selPop;
-    pop.hidden = false;
-    const margin = 8;
-    pop.style.left = '0px'; pop.style.top = '0px';
-    const w = pop.offsetWidth, h = pop.offsetHeight;
-    let x = rect.left + rect.width/2 - w/2;
-    let y = rect.bottom + margin; // sempre ABAIXO da seleção (o balão global de tradução prefere ficar acima)
-    x = Math.max(margin, Math.min(x, window.innerWidth - w - margin));
-    y = Math.min(y, window.innerHeight - h - margin);
-    pop.style.left = x+'px'; pop.style.top = y+'px';
-  }
-  document.addEventListener('selectionchange', ()=>{
-    const r = activeReader;
-    if(!r || !r.el) return;
-    const sel = window.getSelection && window.getSelection();
-    if(!sel || sel.isCollapsed || !sel.rangeCount){ hideSelPop(r); return; }
-    const anchor = sel.anchorNode && (sel.anchorNode.nodeType===1 ? sel.anchorNode : sel.anchorNode.parentElement);
-    if(!anchor || !anchor.closest('#l3rPageHost')){ hideSelPop(r); return; }
-    const text = sel.toString();
-    if(!text.trim() || text.length>4000){ hideSelPop(r); return; }
-    const rect = sel.getRangeAt(0).getBoundingClientRect();
-    if(!rect || (rect.width===0 && rect.height===0)){ hideSelPop(r); return; }
-    showSelPopFor(r, rect);
-  });
-  document.addEventListener('mousedown', e=>{
-    const r = activeReader;
-    if(!r || !r.el || r.el.selPop.hidden) return;
-    if(!r.el.selPop.contains(e.target)) hideSelPop(r);
-  });
 
   /* ---------------------------- atalhos de teclado ---------------------------- */
   document.addEventListener('keydown', e=>{

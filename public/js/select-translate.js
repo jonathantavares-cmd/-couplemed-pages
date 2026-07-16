@@ -304,16 +304,32 @@
     if(hideTimer) clearTimeout(hideTimer);
     hideTimer = setTimeout(onSelectionSettled, 180);
   }
-  document.addEventListener('mouseup', scheduleCheck);
-  document.addEventListener('touchend', scheduleCheck);
+  /* clicar no próprio balão/popover dispara mouseup no documento também — mas
+     isso NÃO é uma nova seleção de texto na página, é só o clique na nossa UI.
+     O mousedown do balão usa preventDefault() de propósito (pra não perder a
+     seleção ao clicar em "Translate"), então esse mouseup chegava aqui e, no
+     debounce seguinte, via a seleção antiga ainda válida e escondia o popover
+     no meio da tradução (reaparecendo só quando a tradução terminava) — outra
+     causa do "piscar". Ignorando eventos que começam dentro do balão/popover. */
+  function fromOwnUI(target){
+    return !!(target && target.closest && (target.closest('.cm-sel-bubble') || target.closest('.cm-sel-pop')));
+  }
+  document.addEventListener('mouseup', e=>{ if(!fromOwnUI(e.target)) scheduleCheck(); });
+  document.addEventListener('touchend', e=>{ if(!fromOwnUI(e.target)) scheduleCheck(); });
   document.addEventListener('keyup', e=>{
     /* seleção via teclado (Shift+setas) */
     if(e.shiftKey || e.key==='Shift') scheduleCheck();
   });
-  document.addEventListener('selectionchange', ()=>{
-    const sel = window.getSelection && window.getSelection();
-    if(!sel || sel.isCollapsed){ hideBubble(); }
-  });
+  /* 'selectionchange' dispara MUITAS vezes durante um arraste (a cada pixel), e
+     o navegador reporta a seleção como "colapsada" por instantes intermediários
+     mesmo no meio de um arraste contínuo (mousedown recomeça colapsada, ajustar
+     a ponta de uma seleção existente também passa por estados intermediários).
+     Chamar hideBubble() direto aqui (sem debounce) escondia e mostrava o balão
+     várias vezes até o usuário soltar o botão — o "piscar" reportado. Em vez
+     disso, tudo passa pelo MESMO debounce de 180ms que decide show/hide juntos
+     (onSelectionSettled), então só o estado final (depois de parar de mexer)
+     é que aparece na tela — nada pisca no meio do processo. */
+  document.addEventListener('selectionchange', scheduleCheck);
   document.addEventListener('mousedown', e=>{
     if(pop && !pop.contains(e.target) && bubble && !bubble.contains(e.target)) hidePop();
   });
