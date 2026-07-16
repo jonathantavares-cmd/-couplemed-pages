@@ -62,12 +62,16 @@
           page:'Page', of:'of', search:'Search in this document…', noMatches:'0 results',
           matchOf:m=>`${m.i} of ${m.n}`, hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Zoom in', zoomOut:'Zoom out', back:'Back',
-          customColor:'Custom color', eraser:'Eraser — click a highlight to remove it' },
+          customColor:'Custom color',
+          eraserClick:'Eraser — click a highlight to remove it entirely',
+          eraserBrush:'Eraser — drag over a highlight to erase it, like a real eraser' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
           matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Aumentar', zoomOut:'Diminuir', back:'Voltar',
-          customColor:'Cor personalizada', eraser:'Borracha — clique numa marcação pra apagar' }
+          customColor:'Cor personalizada',
+          eraserClick:'Borracha — clique numa marcação pra apagar ela inteira',
+          eraserBrush:'Borracha — arraste por cima pra apagar de verdade, como uma borracha' }
   };
   const t = k => T[uiLang()][k];
 
@@ -116,6 +120,15 @@
   function saveAllHighlights(all){
     try{ localStorage.setItem(hlKey(), JSON.stringify(all)); }catch(e){}
   }
+  // Formato antigo era uma lista só de marcações (sem `type`, cada uma com `rects`).
+  // Agora é uma lista de AÇÕES em ordem cronológica — marcação (`type:'highlight'`) e
+  // apagão de borracha de verdade (`type:'erase'`), redesenhadas nessa mesma ordem a
+  // cada render (ver renderHighlightsForPage). Dados antigos continuam abrindo normal.
+  function normalizeActions(raw){
+    if(!Array.isArray(raw)) return [];
+    return raw.map(a => a.type ? a : Object.assign({}, a, { type:'highlight' }));
+  }
+  function genId(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 
   /* ---------------------------- instância ativa (uma por vez) ---------------------------- */
   let activeReader = null;
@@ -148,8 +161,10 @@
       pdfjsLib:null, PDFPageView:null, eventBus:null,
       pdfDoc:null, pageView:null, pageCount:0, currentPage:1, scale:1.3, fitDone:false,
       textIndex:null, textIndexPromise:null,
-      search:{ query:'', matches:[], idx:-1 }, eraseMode:false,
-      highlights: (loadAllHighlights()[item.key] || [])
+      search:{ query:'', matches:[], idx:-1 },
+      eraseMode:null, // null | 'click' (apaga marcação inteira) | 'brush' (apaga de verdade, feito canvas)
+      eraseBrushRadius:0.02, _activeErase:null,
+      actions: normalizeActions(loadAllHighlights()[item.key])
     };
     activeReader = r;
     renderSkeleton(r);
@@ -200,7 +215,10 @@
               <button type="button" class="l3r-swatch l3r-swatch-add" id="l3rCustomColorBtn" title="${esc(t('customColor'))}">+</button>
               <input type="color" id="l3rCustomColor" class="l3r-custom-color-input" value="#ff8a3d" tabindex="-1" aria-hidden="true" />
               <span class="l3r-marktools-sep"></span>
-              <button type="button" class="l3r-ic l3r-eraser" id="l3rEraserBtn" aria-label="${esc(t('eraser'))}" title="${esc(t('eraser'))}">${ERASER_SVG}</button>
+              <button type="button" class="l3r-ic l3r-eraser" id="l3rEraserClickBtn" aria-label="${esc(t('eraserClick'))}" title="${esc(t('eraserClick'))}">${ERASER_SVG}</button>
+              <button type="button" class="l3r-erasedot l3r-erasedot-s" id="l3rEraseS" data-radius="0.012" title="${esc(t('eraserBrush'))}"></button>
+              <button type="button" class="l3r-erasedot l3r-erasedot-m" id="l3rEraseM" data-radius="0.022" title="${esc(t('eraserBrush'))}"></button>
+              <button type="button" class="l3r-erasedot l3r-erasedot-l" id="l3rEraseL" data-radius="0.036" title="${esc(t('eraserBrush'))}"></button>
               <span class="l3r-marktools-sep"></span>
               <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotebookBtn">📓 ${esc(t('notebook'))}</button>
               <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotesBtn">📝 ${esc(t('notes'))}</button>
@@ -235,7 +253,8 @@
       zoomLabels: [r.hostEl.querySelector('#l3rZoomLabel')],
       searchInput: r.hostEl.querySelector('#l3rSearchInput'),
       searchCount: r.hostEl.querySelector('#l3rSearchCount'),
-      eraserBtn: r.hostEl.querySelector('#l3rEraserBtn'),
+      eraserClickBtn: r.hostEl.querySelector('#l3rEraserClickBtn'),
+      eraseDots: Array.from(r.hostEl.querySelectorAll('.l3r-erasedot')),
       downloadLink: r.hostEl.querySelector('#l3rDownloadLink')
     };
     r.el.downloadLink.href = lib3PdfUrl(r.item.key);
@@ -280,7 +299,20 @@
     r.hostEl.querySelector('#l3rCustomColorBtn').addEventListener('click', ()=> customInput.click());
     customInput.addEventListener('input', e=>e.stopPropagation());
     customInput.addEventListener('change', ()=> addHighlightFromSelection(r, customInput.value));
-    r.el.eraserBtn.addEventListener('click', ()=> setEraseMode(r, !r.eraseMode));
+    // Duas ferramentas de apagar, lado a lado, pedido explícito pra manter as duas opções:
+    // (1) clique numa marcação = some ela inteira (comportamento de antes); (2) arraste
+    // com um círculo (3 tamanhos, estilo GoodNotes) = apaga só o pedaço que o círculo tocar,
+    // como uma borracha de verdade — ver attachEraserHandlers/renderHighlightsForPage.
+    r.el.eraserClickBtn.addEventListener('mousedown', e=>e.preventDefault());
+    r.el.eraserClickBtn.addEventListener('click', ()=> setEraseMode(r, r.eraseMode==='click' ? null : 'click'));
+    r.el.eraseDots.forEach(btn=>{
+      btn.addEventListener('mousedown', e=>e.preventDefault());
+      btn.addEventListener('click', ()=>{
+        const radius = Number(btn.dataset.radius);
+        if(r.eraseMode==='brush' && r.eraseBrushRadius===radius) setEraseMode(r, null);
+        else { r.eraseBrushRadius = radius; setEraseMode(r, 'brush'); }
+      });
+    });
     r.hostEl.querySelector('#l3rNotebookBtn').addEventListener('mousedown', e=>e.preventDefault());
     r.hostEl.querySelector('#l3rNotebookBtn').addEventListener('click', ()=> sendSelectionTo(r, 'notebook'));
     r.hostEl.querySelector('#l3rNotesBtn').addEventListener('mousedown', e=>e.preventDefault());
@@ -370,17 +402,28 @@
         // de verdade está (ver pageHostRect()), eliminando qualquer resíduo de erro de
         // escala/borda entre a hora de criar a marcação e a hora de redesenhá-la —
         // funciona igual não importa o zoom, o tamanho de tela nem o aparelho.
+        // hiLayer agora é um <canvas> (não mais divs por retângulo) — precisa ser bitmap
+        // pra desenhar a borracha circular de verdade (destination-out, ver
+        // renderHighlightsForPage). O blend "marca-texto real" (deixa letra preta aparecer
+        // por baixo) vem do mix-blend-mode:multiply no PRÓPRIO canvas (CSS), não em cada
+        // marcação — canvas 2D não enxerga o que tem atrás dele na página, só CSS blend faz isso.
         const pvBox = pv.div.getBoundingClientRect();
         const canvasBox = (pv.div.querySelector('canvas') || pv.div).getBoundingClientRect();
-        const hiLayer = document.createElement('div');
+        const dpr = window.devicePixelRatio || 1;
+        const hiLayer = document.createElement('canvas');
         hiLayer.id = 'l3rHiLayer';
         hiLayer.className = 'l3r-hilayer' + (r.eraseMode ? ' l3r-erase-active' : '');
         hiLayer.style.left = (canvasBox.left-pvBox.left)+'px';
         hiLayer.style.top = (canvasBox.top-pvBox.top)+'px';
         hiLayer.style.width = canvasBox.width+'px';
         hiLayer.style.height = canvasBox.height+'px';
+        hiLayer.width = Math.max(1, Math.round(canvasBox.width*dpr));
+        hiLayer.height = Math.max(1, Math.round(canvasBox.height*dpr));
+        hiLayer.__dpr = dpr;
         pv.div.appendChild(hiLayer);
         r.el.hiLayer = hiLayer;
+        attachEraserHandlers(r, hiLayer);
+        updateEraserCursor(r);
 
         renderHighlightsForPage(r);
       });
@@ -465,6 +508,37 @@
   // permanecerem pixel-perfeitos entre si, sem depender de nenhum fator de correção.
   function pageHostRect(r){ return r.el.hiLayer.getBoundingClientRect(); }
 
+  // Pega os client rects só dos NÓS DE TEXTO de verdade contidos/parcialmente contidos
+  // na seleção — em vez de `range.getClientRects()` puro. O PDF.js insere um `<br
+  // role="presentation">` entre cada linha da camada de texto (pra copiar/colar preservar
+  // quebra de linha); quando a seleção do mouse cruza esse `<br>`, o navegador às vezes
+  // devolve um retângulo "fantasma" cobrindo o resto da linha (onde não tem nenhum
+  // caractere) — é exatamente esse retângulo extra que aparecia sobrando depois da
+  // última palavra de uma linha marcada. Como TreeWalker aqui só visita nós de TEXTO
+  // (NodeFilter.SHOW_TEXT), o `<br>` nunca entra — cada retângulo devolvido corresponde
+  // sempre a caracteres de verdade.
+  function textNodeRectsInRange(range){
+    const rects = [];
+    const root = range.commonAncestorContainer;
+    const container = root.nodeType===1 ? root : root.parentNode;
+    if(!container) return rects;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){ return range.intersectsNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
+    });
+    let node;
+    while((node = walker.nextNode())){
+      let startOffset = 0, endOffset = node.textContent.length;
+      if(node===range.startContainer) startOffset = range.startOffset;
+      if(node===range.endContainer) endOffset = range.endOffset;
+      if(startOffset>=endOffset) continue;
+      const nodeRange = document.createRange();
+      nodeRange.setStart(node, startOffset);
+      nodeRange.setEnd(node, endOffset);
+      rects.push(...Array.from(nodeRange.getClientRects()));
+    }
+    return rects;
+  }
+
   function addHighlightFromSelection(r, colorHex){
     const sel = window.getSelection && window.getSelection();
     if(!sel || sel.isCollapsed || !sel.rangeCount) return;
@@ -475,54 +549,151 @@
     if(!text.trim()) return;
     const host = pageHostRect(r);
     if(host.width<=0 || host.height<=0) return;
-    const rects = Array.from(sel.getRangeAt(0).getClientRects()).map(rc=>({
+    const rects = textNodeRectsInRange(sel.getRangeAt(0)).map(rc=>({
       x:(rc.left-host.left)/host.width, y:(rc.top-host.top)/host.height,
       w:rc.width/host.width, h:rc.height/host.height
     })).filter(rc=>rc.w>0 && rc.h>0);
     if(!rects.length) return;
-    const hl = { id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), page:r.currentPage, color:colorHex, rects, text, ts:Date.now() };
-    r.highlights.push(hl);
+    r.actions.push({ id:genId(), type:'highlight', page:r.currentPage, color:colorHex, rects, text, ts:Date.now() });
     persistHighlights(r);
     renderHighlightsForPage(r);
     sel.removeAllRanges();
   }
-  function removeHighlight(r, id){
-    r.highlights = r.highlights.filter(h=>h.id!==id);
-    persistHighlights(r);
-    renderHighlightsForPage(r);
+
+  // Clique-pra-apagar: acha a marcação (topo pro fundo, ou seja a mais recente primeiro)
+  // cujo algum retângulo contém o ponto clicado, e remove ela INTEIRA.
+  function removeHighlightAtPoint(r, xFrac, yFrac){
+    for(let i=r.actions.length-1; i>=0; i--){
+      const a = r.actions[i];
+      if(a.type!=='highlight' || a.page!==r.currentPage) continue;
+      const hit = a.rects.some(rc =>
+        xFrac>=rc.x-0.002 && xFrac<=rc.x+rc.w+0.002 && yFrac>=rc.y-0.002 && yFrac<=rc.y+rc.h+0.002);
+      if(hit){ r.actions.splice(i,1); persistHighlights(r); renderHighlightsForPage(r); return true; }
+    }
+    return false;
   }
+
   function persistHighlights(r){
     const all = loadAllHighlights();
-    all[r.item.key] = r.highlights;
+    all[r.item.key] = r.actions;
     saveAllHighlights(all);
   }
+
+  // Redesenha a página inteira de marcações TODA VEZ, tocando as ações em ordem
+  // cronológica — marcação pinta (source-over, com transparência), apagão de borracha
+  // "fura" (destination-out) o que já tinha sido pintado ANTES dele na lista. É assim que
+  // uma borracha de verdade se comporta: apagar não impede marcar de novo por cima depois.
   function renderHighlightsForPage(r){
-    if(!r.el) return;
-    const layer = r.el.hiLayer;
-    layer.innerHTML = '';
-    r.highlights.filter(h=>h.page===r.currentPage).forEach(h=>{
-      const color = HL_COLOR_MAP[h.color] || h.color || HL_COLORS[0].v; // ids antigos continuam OK
-      h.rects.forEach(rc=>{
-        const d = document.createElement('div');
-        d.className = 'l3r-hl';
-        d.style.left = (rc.x*100)+'%';
-        d.style.top = (rc.y*100)+'%';
-        d.style.width = (rc.w*100)+'%';
-        d.style.height = (rc.h*100)+'%';
-        d.style.background = color;
-        d.addEventListener('click', ()=>{ if(r.eraseMode) removeHighlight(r, h.id); });
-        layer.appendChild(d);
+    if(!r.el || !r.el.hiLayer) return;
+    const canvas = r.el.hiLayer;
+    const ctx = canvas.getContext('2d');
+    const dpr = canvas.__dpr || 1;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const W = canvas.width/dpr, H = canvas.height/dpr;
+    ctx.clearRect(0,0,W,H);
+    if(W<=0 || H<=0) return;
+    r.actions.filter(a=>a.page===r.currentPage).forEach(a=>{
+      if(a.type==='erase'){
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = '#000';
+        const rad = a.radius*W;
+        (a.points||[]).forEach(p=>{
+          ctx.beginPath();
+          ctx.arc(p.x*W, p.y*H, rad, 0, Math.PI*2);
+          ctx.fill();
+        });
+        ctx.restore();
+        return;
+      }
+      const color = HL_COLOR_MAP[a.color] || a.color || HL_COLORS[0].v; // ids antigos continuam OK
+      ctx.save();
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 0.32;
+      ctx.fillStyle = color;
+      (a.rects||[]).forEach(rc=>{
+        ctx.fillRect(rc.x*W, rc.y*H, rc.w*W, rc.h*H);
       });
+      ctx.restore();
     });
   }
 
   /* ---------------------------- borracha ----------------------------
-     Enquanto ativa, a camada de marcações passa a aceitar clique (ela normalmente ignora o
-     mouse — pointer-events:none — pra não atrapalhar a seleção de texto por baixo). */
-  function setEraseMode(r, on){
-    r.eraseMode = on;
-    if(r.el.hiLayer) r.el.hiLayer.classList.toggle('l3r-erase-active', on);
-    r.el.eraserBtn.classList.toggle('l3r-ic-active', on);
+     Duas ferramentas, as duas disponíveis ao mesmo tempo (pedido explícito):
+     - 'click': clique numa marcação e ela some inteira (comportamento de antes).
+     - 'brush': arrasta um círculo (3 tamanhos) por cima e só aquele pedaço some, igual
+       uma borracha de verdade apagando um borrão — ver attachEraserHandlers.
+     Em qualquer um dos dois, a camada de marcações passa a aceitar ponteiro (ela
+     normalmente ignora — pointer-events:none — pra não atrapalhar a seleção de texto). */
+  function setEraseMode(r, mode){
+    r.eraseMode = mode;
+    if(r.el.hiLayer){
+      r.el.hiLayer.classList.toggle('l3r-erase-active', !!mode);
+      updateEraserCursor(r);
+    }
+    r.el.eraserClickBtn.classList.toggle('l3r-ic-active', mode==='click');
+    r.el.eraseDots.forEach(btn=>{
+      btn.classList.toggle('l3r-erasedot-active', mode==='brush' && Number(btn.dataset.radius)===r.eraseBrushRadius);
+    });
+  }
+
+  // Cursor circular do tamanho real do pincel (em px de tela) — feedback visual de
+  // "borracha apagando", igual GoodNotes. Refeito sempre que o modo/tamanho muda ou uma
+  // nova página/hiLayer é criada.
+  function eraserCursorCss(radiusPx){
+    const rad = Math.max(4, Math.min(60, Math.round(radiusPx)));
+    const size = rad*2+4, c = size/2;
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}'>`+
+      `<circle cx='${c}' cy='${c}' r='${rad}' fill='rgba(255,255,255,.35)' stroke='#333' stroke-width='1.5'/></svg>`;
+    return `url("data:image/svg+xml,${encodeURIComponent(svg)}") ${c} ${c}, crosshair`;
+  }
+  function updateEraserCursor(r){
+    if(!r.el || !r.el.hiLayer) return;
+    if(r.eraseMode==='brush'){
+      const box = r.el.hiLayer.getBoundingClientRect();
+      r.el.hiLayer.style.cursor = eraserCursorCss(r.eraseBrushRadius * box.width);
+    } else if(r.eraseMode==='click'){
+      r.el.hiLayer.style.cursor = 'crosshair';
+    } else {
+      r.el.hiLayer.style.cursor = '';
+    }
+  }
+
+  // Listeners de ponteiro recriados a cada página nova (o canvas hiLayer é recriado do
+  // zero em goToPage a cada vez, ver ali).
+  function attachEraserHandlers(r, canvas){
+    let dragging = false;
+    canvas.addEventListener('pointerdown', e=>{
+      if(!r.eraseMode) return;
+      const box = canvas.getBoundingClientRect();
+      const xFrac = (e.clientX-box.left)/box.width, yFrac = (e.clientY-box.top)/box.height;
+      if(r.eraseMode==='click'){ removeHighlightAtPoint(r, xFrac, yFrac); return; }
+      dragging = true;
+      const action = { id:genId(), type:'erase', page:r.currentPage, radius:r.eraseBrushRadius, points:[{x:xFrac,y:yFrac}], ts:Date.now() };
+      r.actions.push(action);
+      r._activeErase = action;
+      renderHighlightsForPage(r);
+      try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+    });
+    canvas.addEventListener('pointermove', e=>{
+      if(!dragging || !r._activeErase) return;
+      const box = canvas.getBoundingClientRect();
+      const xFrac = (e.clientX-box.left)/box.width, yFrac = (e.clientY-box.top)/box.height;
+      const pts = r._activeErase.points;
+      const last = pts[pts.length-1];
+      if(!last || Math.hypot((xFrac-last.x)*box.width, (yFrac-last.y)*box.height) > 2){
+        pts.push({x:xFrac,y:yFrac});
+        renderHighlightsForPage(r);
+      }
+    });
+    const endDrag = ()=>{
+      if(!dragging) return;
+      dragging = false; r._activeErase = null;
+      persistHighlights(r);
+    };
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
+    canvas.addEventListener('pointerleave', endDrag);
   }
 
   /* ---------------------------- seleção → notebook / notes / flashcard ---------------------------- */
