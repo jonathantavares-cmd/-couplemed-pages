@@ -8,12 +8,24 @@
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <meta name="theme-color" content="#081324" />
-  <link rel="stylesheet" href="css/styles.css?v=48" />
+  <link rel="stylesheet" href="css/styles.css?v=49" />
   <link rel="stylesheet" href="css/ai-tutor-widget.css?v=24" />
   <link rel="stylesheet" href="css/qbank.css?v=47" />
   <link rel="stylesheet" href="css/notebook.css?v=2" />
 </head>
 <body class="platform-page" data-page="home">
+  <script>
+    /* Decide ANTES de qualquer rede se a página é a Home ou uma página interna,
+       lendo só a URL. Evita o "flash" da Home enquanto cm-sync.js ainda busca o
+       estado do servidor — sem isso, o dashboard aparecia visível por um
+       instante em toda navegação, já que essa troca antes dependia do JS de
+       boot completo (site.js) rodar depois do fetch. */
+    (function(){
+      var p=new URLSearchParams(location.search).get('page')||'home';
+      document.body.dataset.page=p;
+      if(p!=='home')document.body.classList.add('internal');
+    })();
+  </script>
   <button id="mobileMenuButton" class="mobile-menu-button" aria-label="Open menu">☰</button>
   <div id="sidebarScrim" class="sidebar-scrim"></div>
   <aside id="sidebar" class="sidebar" aria-label="Study platform menu">
