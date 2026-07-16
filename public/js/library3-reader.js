@@ -57,20 +57,28 @@
     <path d="M6.3 20.8h12.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
   </svg>`;
 
+  // Seta/cursor — representa o modo "clique pra apagar a marcação inteira" dentro do
+  // menu da borracha (pra não repetir o mesmo ícone de borracha duas vezes).
+  const CURSOR_SVG = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M5 3.5 19 10l-6.1 2.2L10.4 19 5 3.5Z" fill="currentColor"/>
+  </svg>`;
+
   const T = {
     en: { loading:'Loading PDF…', loadError:'Could not load this PDF.', download:'Download',
           page:'Page', of:'of', search:'Search in this document…', noMatches:'0 results',
           matchOf:m=>`${m.i} of ${m.n}`, hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Zoom in', zoomOut:'Zoom out', back:'Back',
           customColor:'Custom color',
-          eraserClick:'Eraser — click a highlight to remove it entirely',
+          eraserToggle:'Eraser options',
+          eraserClick:'Click a highlight to remove it entirely',
           eraserBrush:'Eraser — drag over a highlight to erase it, like a real eraser' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
           matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Aumentar', zoomOut:'Diminuir', back:'Voltar',
           customColor:'Cor personalizada',
-          eraserClick:'Borracha — clique numa marcação pra apagar ela inteira',
+          eraserToggle:'Opções de borracha',
+          eraserClick:'Clique numa marcação pra apagar ela inteira',
           eraserBrush:'Borracha — arraste por cima pra apagar de verdade, como uma borracha' }
   };
   const t = k => T[uiLang()][k];
@@ -163,7 +171,7 @@
       textIndex:null, textIndexPromise:null,
       search:{ query:'', matches:[], idx:-1 },
       eraseMode:null, // null | 'click' (apaga marcação inteira) | 'brush' (apaga de verdade, feito canvas)
-      eraseBrushRadius:0.02, _activeErase:null,
+      eraseBrushRadius:0.02, _activeErase:null, eraseMenuOpen:false,
       actions: normalizeActions(loadAllHighlights()[item.key])
     };
     activeReader = r;
@@ -215,10 +223,13 @@
               <button type="button" class="l3r-swatch l3r-swatch-add" id="l3rCustomColorBtn" title="${esc(t('customColor'))}">+</button>
               <input type="color" id="l3rCustomColor" class="l3r-custom-color-input" value="#ff8a3d" tabindex="-1" aria-hidden="true" />
               <span class="l3r-marktools-sep"></span>
-              <button type="button" class="l3r-ic l3r-eraser" id="l3rEraserClickBtn" aria-label="${esc(t('eraserClick'))}" title="${esc(t('eraserClick'))}">${ERASER_SVG}</button>
-              <button type="button" class="l3r-erasedot l3r-erasedot-s" id="l3rEraseS" data-radius="0.012" title="${esc(t('eraserBrush'))}"></button>
-              <button type="button" class="l3r-erasedot l3r-erasedot-m" id="l3rEraseM" data-radius="0.022" title="${esc(t('eraserBrush'))}"></button>
-              <button type="button" class="l3r-erasedot l3r-erasedot-l" id="l3rEraseL" data-radius="0.036" title="${esc(t('eraserBrush'))}"></button>
+              <button type="button" class="l3r-ic l3r-eraser" id="l3rEraserToggleBtn" aria-label="${esc(t('eraserToggle'))}" title="${esc(t('eraserToggle'))}">${ERASER_SVG}</button>
+              <span class="l3r-erase-menu" id="l3rEraseMenu">
+                <button type="button" class="l3r-ic l3r-erase-click" id="l3rEraserClickBtn" aria-label="${esc(t('eraserClick'))}" title="${esc(t('eraserClick'))}">${CURSOR_SVG}</button>
+                <button type="button" class="l3r-erasedot l3r-erasedot-s" id="l3rEraseS" data-radius="0.012" title="${esc(t('eraserBrush'))}"></button>
+                <button type="button" class="l3r-erasedot l3r-erasedot-m" id="l3rEraseM" data-radius="0.022" title="${esc(t('eraserBrush'))}"></button>
+                <button type="button" class="l3r-erasedot l3r-erasedot-l" id="l3rEraseL" data-radius="0.036" title="${esc(t('eraserBrush'))}"></button>
+              </span>
               <span class="l3r-marktools-sep"></span>
               <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotebookBtn">📓 ${esc(t('notebook'))}</button>
               <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotesBtn">📝 ${esc(t('notes'))}</button>
@@ -253,6 +264,8 @@
       zoomLabels: [r.hostEl.querySelector('#l3rZoomLabel')],
       searchInput: r.hostEl.querySelector('#l3rSearchInput'),
       searchCount: r.hostEl.querySelector('#l3rSearchCount'),
+      eraserToggleBtn: r.hostEl.querySelector('#l3rEraserToggleBtn'),
+      eraseMenu: r.hostEl.querySelector('#l3rEraseMenu'),
       eraserClickBtn: r.hostEl.querySelector('#l3rEraserClickBtn'),
       eraseDots: Array.from(r.hostEl.querySelectorAll('.l3r-erasedot')),
       downloadLink: r.hostEl.querySelector('#l3rDownloadLink')
@@ -299,10 +312,18 @@
     r.hostEl.querySelector('#l3rCustomColorBtn').addEventListener('click', ()=> customInput.click());
     customInput.addEventListener('input', e=>e.stopPropagation());
     customInput.addEventListener('change', ()=> addHighlightFromSelection(r, customInput.value));
-    // Duas ferramentas de apagar, lado a lado, pedido explícito pra manter as duas opções:
-    // (1) clique numa marcação = some ela inteira (comportamento de antes); (2) arraste
-    // com um círculo (3 tamanhos, estilo GoodNotes) = apaga só o pedaço que o círculo tocar,
-    // como uma borracha de verdade — ver attachEraserHandlers/renderHighlightsForPage.
+    // Duas ferramentas de apagar, pedido explícito pra manter as duas opções: (1) clique
+    // numa marcação = some ela inteira; (2) arraste com um círculo (3 tamanhos, estilo
+    // GoodNotes) = apaga só o pedaço que o círculo tocar, como uma borracha de verdade —
+    // ver attachEraserHandlers/renderHighlightsForPage. As duas ficam ESCONDIDAS atrás do
+    // ícone de borracha (pedido explícito) — só aparecem quando ele é clicado, e um 2º
+    // clique no mesmo ícone esconde de novo. Escolher uma ferramenta NÃO fecha o menu
+    // sozinho (só o próprio ícone de borracha abre/fecha).
+    r.el.eraserToggleBtn.addEventListener('mousedown', e=>e.preventDefault());
+    r.el.eraserToggleBtn.addEventListener('click', ()=>{
+      r.eraseMenuOpen = !r.eraseMenuOpen;
+      r.el.eraseMenu.classList.toggle('l3r-erase-menu-open', r.eraseMenuOpen);
+    });
     r.el.eraserClickBtn.addEventListener('mousedown', e=>e.preventDefault());
     r.el.eraserClickBtn.addEventListener('click', ()=> setEraseMode(r, r.eraseMode==='click' ? null : 'click'));
     r.el.eraseDots.forEach(btn=>{
@@ -320,6 +341,7 @@
     r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('mousedown', e=>e.preventDefault());
     r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('click', ()=> sendSelectionTo(r, 'flashcard'));
     setEraseMode(r, r.eraseMode); // reaplica o estado visual (o DOM é reconstruído do zero aqui)
+    r.el.eraseMenu.classList.toggle('l3r-erase-menu-open', r.eraseMenuOpen);
   }
 
   function setLoading(r, on, error){
@@ -631,6 +653,7 @@
       r.el.hiLayer.classList.toggle('l3r-erase-active', !!mode);
       updateEraserCursor(r);
     }
+    r.el.eraserToggleBtn.classList.toggle('l3r-ic-active', !!mode); // ícone-gatilho acende quando QUALQUER ferramenta de apagar está ativa, mesmo com o menu fechado
     r.el.eraserClickBtn.classList.toggle('l3r-ic-active', mode==='click');
     r.el.eraseDots.forEach(btn=>{
       btn.classList.toggle('l3r-erasedot-active', mode==='brush' && Number(btn.dataset.radius)===r.eraseBrushRadius);

@@ -1262,10 +1262,13 @@
     return {tToday,t7,tAll};
   }
   function cmLang(){return sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en';}
+  // "1h12min" (>=1h) já usava unidade abreviada sem estilo pequeno — só o caso <1h
+  // ("25 Minutes") tinha o <small class="unit">. Deixei os dois com o mesmo tratamento
+  // visual (unidade pequena) — só isso, sem mexer nas palavras que já estavam definidas.
   function cmFmtTime(sec,t){
     sec=Math.max(0,Math.floor(sec));
     const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);
-    if(h>0)return h+'h'+(m<10?'0':'')+m+'min';
+    if(h>0)return h+'<small class="unit">h</small>'+(m<10?'0':'')+m+'<small class="unit">min</small>';
     return m+'<small class="unit">'+(m===1?t.minuteOne:t.minuteMany)+'</small>';
   }
   function renderStudyTime(){
@@ -1299,7 +1302,7 @@
     },CM_TICK*1000);
   }
 
-  function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false;
+  function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false; const ld=$('#cmLoader'); if(ld)ld.remove();
     const isQBank=QBANK_PAGES.includes(p);
     const isCS=COMING_SOON_PAGES.includes(p);
     const isModule=p==='flashcards'||p==='ai-tutor'||isQBank;
