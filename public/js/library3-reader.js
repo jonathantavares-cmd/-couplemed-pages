@@ -176,10 +176,25 @@
     };
     activeReader = r;
     renderSkeleton(r);
-    loadPdfJs().then(({pdfjsLib, PDFPageView, EventBus})=>{
+    loadPdfJs().then(refs=>{
       if(activeReader!==r) return; // usuário já saiu daqui
-      r.pdfjsLib = pdfjsLib; r.PDFPageView = PDFPageView; r.eventBus = new EventBus();
-      return pdfjsLib.getDocument({ url: lib3PdfUrl(item.key) }).promise;
+      r.pdfjsLib = refs.pdfjsLib; r.PDFPageView = refs.PDFPageView; r.eventBus = new refs.EventBus();
+      // Decide o modo de carregamento pelo TAMANHO do arquivo (HEAD, barato — só headers):
+      // - PDF pequeno (a esmagadora maioria da Library 3, poucos MB): modo padrão do PDF.js
+      //   (baixa o arquivo inteiro de uma vez), que é o mais rápido pra esses.
+      // - PDF grande (o livro completo, ~390MB): modo range-only (disableAutoFetch +
+      //   disableStream), senão o PDF.js baixaria os 390MB inteiros antes de mostrar a 1ª
+      //   página. Range-only faz ele buscar (via Range request, ver worker.js) só os
+      //   pedaços das páginas visitadas. LIMIAR de 50MB.
+      return fetch(lib3PdfUrl(item.key), { method:'HEAD' }).then(res=>{
+        const size = Number(res.headers.get('Content-Length')) || 0;
+        return size > 50*1024*1024;
+      }).catch(()=>false);
+    }).then(big=>{
+      if(activeReader!==r) return;
+      const opts = { url: lib3PdfUrl(item.key) };
+      if(big){ opts.disableAutoFetch = true; opts.disableStream = true; }
+      return r.pdfjsLib.getDocument(opts).promise;
     }).then(doc=>{
       if(!doc || activeReader!==r) return;
       r.pdfDoc = doc; r.pageCount = doc.numPages;

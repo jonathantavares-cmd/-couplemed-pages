@@ -1,1 +1,4 @@
 seed_users.sql
+
+# wrangler dev — estado/temp local (cache do R2, etc), nunca versionar
+.wrangler/

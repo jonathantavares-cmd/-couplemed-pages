@@ -649,7 +649,7 @@ async function handleNotebook(request, env, url) {
  *   GET /api/library3/pdf/<key>  → serve o PDF (cache imutável de 1 ano, inline no navegador)
  */
 async function handleLibrary3(request, env, url) {
-  const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
+  const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,Range' };
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
 
   const reply = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', ...cors } });
@@ -660,20 +660,66 @@ async function handleLibrary3(request, env, url) {
     return reply({ ok: true, r2Ready: !!bucket });
   }
 
-  if (path.startsWith('/pdf/') && request.method === 'GET') {
+  // Suporte a Range request: sem isso, o PDF.js sempre baixa o arquivo INTEIRO antes de
+  // mostrar a 1ª página — ok pros PDFs de tópico (poucos MB), mas inviável pro livro
+  // completo (392MB). O PDF.js primeiro checa `Accept-Ranges: bytes` numa requisição sem
+  // Range pra decidir se pode usar range depois, então esse header precisa estar em
+  // TODAS as respostas (com ou sem Range pedido), não só na 206.
+  if (path.startsWith('/pdf/') && (request.method === 'GET' || request.method === 'HEAD')) {
     if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
     const key = decodeURIComponent(path.slice(5));
     if (!key.startsWith('lib3/')) return reply({ error: 'Invalid key' }, 400);
+    const filename = key.split('/').pop();
+    const baseHeaders = {
+      'Content-Disposition': `inline; filename="${filename}"`,
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Access-Control-Allow-Origin': '*',
+      'Accept-Ranges': 'bytes'
+    };
+
+    const rangeHeader = request.headers.get('Range');
+    if (rangeHeader) {
+      const head = await bucket.head(key);
+      if (!head) return reply({ error: 'Not found' }, 404);
+      const size = head.size;
+      const match = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader.trim());
+      if (!match || (!match[1] && !match[2])) {
+        return new Response(null, { status: 416, headers: { ...baseHeaders, 'Content-Range': `bytes */${size}` } });
+      }
+      let start, end;
+      if (match[1] === '') { // sufixo, ex: "bytes=-500" = últimos 500 bytes
+        const suffixLength = parseInt(match[2], 10);
+        start = Math.max(0, size - suffixLength);
+        end = size - 1;
+      } else {
+        start = parseInt(match[1], 10);
+        end = match[2] === '' ? size - 1 : Math.min(parseInt(match[2], 10), size - 1);
+      }
+      if (!(start <= end) || start >= size) {
+        return new Response(null, { status: 416, headers: { ...baseHeaders, 'Content-Range': `bytes */${size}` } });
+      }
+      const length = end - start + 1;
+      const rangeHeaders = {
+        ...baseHeaders,
+        'Content-Type': 'application/pdf',
+        'Content-Range': `bytes ${start}-${end}/${size}`,
+        'Content-Length': String(length)
+      };
+      if (request.method === 'HEAD') return new Response(null, { status: 206, headers: rangeHeaders });
+      const obj = await bucket.get(key, { range: { offset: start, length } });
+      if (!obj) return reply({ error: 'Not found' }, 404);
+      return new Response(obj.body, { status: 206, headers: rangeHeaders });
+    }
+
+    if (request.method === 'HEAD') {
+      const head = await bucket.head(key);
+      if (!head) return reply({ error: 'Not found' }, 404);
+      return new Response(null, { headers: { ...baseHeaders, 'Content-Type': 'application/pdf', 'Content-Length': String(head.size) } });
+    }
     const obj = await bucket.get(key);
     if (!obj) return reply({ error: 'Not found' }, 404);
-    const filename = key.split('/').pop();
     return new Response(obj.body, {
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `inline; filename="${filename}"`,
-        'Cache-Control': 'public, max-age=31536000, immutable',
-        'Access-Control-Allow-Origin': '*'
-      }
+      headers: { ...baseHeaders, 'Content-Type': 'application/pdf', 'Content-Length': String(obj.size) }
     });
   }
 
