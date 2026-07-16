@@ -81,8 +81,10 @@ body.light .l3r{
 .l3r-pagehost{position:relative; height:fit-content; overflow:hidden; box-shadow:0 10px 34px rgba(0,0,0,.35); border-radius:2px}
 body.light .l3r-pagehost{box-shadow:0 10px 30px rgba(20,50,110,.18)}
 .l3r-pagehost .page{background:#fff; margin:0}
-.l3r-hilayer{position:absolute; inset:0; pointer-events:none; z-index:1}
-.l3r-hl{position:absolute; background:#ffe08a; opacity:.55; mix-blend-mode:multiply; border-radius:2px; transition:outline .1s}
+/* left/top/width/height são travados em px pelo JS (goToPage), exatamente no
+   retângulo do canvas — não usar inset:0 aqui pra não sobre-restringir a caixa. */
+.l3r-hilayer{position:absolute; pointer-events:none; z-index:1}
+.l3r-hl{position:absolute; background:#ffe08a; opacity:.4; mix-blend-mode:multiply; border-radius:2px; transition:outline .1s}
 
 /* ---------- barra inferior (única barra de controles — a de cima só tem busca/download) ----------
    Ferramentas de marcação (cores + borracha) e Notebook/Notes/Flashcard ficam

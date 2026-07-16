@@ -192,9 +192,7 @@
             <div class="l3r-loading" id="l3rLoading">${esc(t('loading'))}</div>
             <button type="button" class="l3r-sidearrow l3r-sidearrow-prev" id="l3rSidePrev" aria-label="prev">‹</button>
             <button type="button" class="l3r-sidearrow l3r-sidearrow-next" id="l3rSideNext" aria-label="next">›</button>
-            <div class="l3r-pagehost pdfViewer" id="l3rPageHost">
-              <div class="l3r-hilayer" id="l3rHiLayer"></div>
-            </div>
+            <div class="l3r-pagehost pdfViewer" id="l3rPageHost"></div>
           </div>
           <div class="l3r-toolbar l3r-toolbar-bottom">
             <div class="l3r-group l3r-marktools">
@@ -228,7 +226,7 @@
       loading: r.hostEl.querySelector('#l3rLoading'),
       pageWrap: r.hostEl.querySelector('#l3rPageWrap'),
       pageHost: r.hostEl.querySelector('#l3rPageHost'),
-      hiLayer: r.hostEl.querySelector('#l3rHiLayer'),
+      hiLayer: null, // criada de novo a cada goToPage(), dentro do próprio pv.div — ver goToPage
       // navegação/zoom moraram só na barra de baixo (o topo tinha isso duplicado antes —
       // removido a pedido). Continua em array porque as setas laterais também disparam
       // as mesmas ações e algumas rotinas iteram por conveniência.
@@ -340,10 +338,19 @@
         // transform:scale (afeta canvas + camada de texto juntos, então seleção/marcação
         // continuam batendo certo, já que tudo usa getBoundingClientRect(), que já reflete
         // o transform).
-        const rect = pv.div.getBoundingClientRect();
+        // Medir pelo CANVAS (não pelo pv.div/".page") é essencial: ".page" (classe do
+        // próprio pdf_viewer.css) tem uma borda transparente de 9px (--page-border) em
+        // todo o perímetro, embutida no getBoundingClientRect() do pv.div. Usando o
+        // pv.div como referência, essa borda inflava a medida e o fator de correção saía
+        // levemente errado sempre — daí a marcação ir desalinhando mais nas linhas de
+        // baixo (erro de escala residual crescendo com a distância do canto superior
+        // esquerdo). O canvas (e a camada de texto, que o PDF.js sempre posiciona
+        // exatamente por cima dele) não tem essa borda.
+        const canvasEl = pv.div.querySelector('canvas');
+        const measureRect = (canvasEl || pv.div).getBoundingClientRect();
         const targetW = base.width*r.scale, targetH = base.height*r.scale;
-        if(rect.width>0 && rect.height>0){
-          const corr = ((targetW/rect.width) + (targetH/rect.height)) / 2;
+        if(measureRect.width>0 && measureRect.height>0){
+          const corr = ((targetW/measureRect.width) + (targetH/measureRect.height)) / 2;
           if(Math.abs(corr-1) > 0.01){
             pv.div.style.transformOrigin = 'top left';
             pv.div.style.transform = `scale(${corr})`;
@@ -355,6 +362,26 @@
         // tamanho do pageHost explicitamente no alvo (mesmo valor do transform) resolve.
         r.el.pageHost.style.width = targetW+'px';
         r.el.pageHost.style.height = targetH+'px';
+
+        // Camada de marcações É CRIADA DE NOVO A CADA PÁGINA, DENTRO do próprio pv.div,
+        // com left/top/width/height travados (em px) exatamente no retângulo real do
+        // canvas — não mais um irmão solto dentro do pageHost. Isso garante que a
+        // marcação seja sempre medida e desenhada contra o MESMO retângulo onde o texto
+        // de verdade está (ver pageHostRect()), eliminando qualquer resíduo de erro de
+        // escala/borda entre a hora de criar a marcação e a hora de redesenhá-la —
+        // funciona igual não importa o zoom, o tamanho de tela nem o aparelho.
+        const pvBox = pv.div.getBoundingClientRect();
+        const canvasBox = (pv.div.querySelector('canvas') || pv.div).getBoundingClientRect();
+        const hiLayer = document.createElement('div');
+        hiLayer.id = 'l3rHiLayer';
+        hiLayer.className = 'l3r-hilayer' + (r.eraseMode ? ' l3r-erase-active' : '');
+        hiLayer.style.left = (canvasBox.left-pvBox.left)+'px';
+        hiLayer.style.top = (canvasBox.top-pvBox.top)+'px';
+        hiLayer.style.width = canvasBox.width+'px';
+        hiLayer.style.height = canvasBox.height+'px';
+        pv.div.appendChild(hiLayer);
+        r.el.hiLayer = hiLayer;
+
         renderHighlightsForPage(r);
       });
     }).catch(err=>console.error('[library3-reader] page render', err));
@@ -432,13 +459,18 @@
      com `left/top/width/height` em % (não px), a marcação fica pixel-perfeita
      em cima do texto não importa a escala/zoom, nem o tamanho de tela/aparelho —
      não depende de nenhum cálculo de correção nem de reler r.scale depois. */
-  function pageHostRect(r){ return r.el.pageHost.getBoundingClientRect(); }
+  // Base da fração é a própria camada de marcações (hiLayer) — criada em goToPage() já
+  // travada, em px, no retângulo exato do canvas. Usar o mesmo elemento pra medir (aqui)
+  // e pra desenhar (renderHighlightsForPage) é o que garante marcação e texto
+  // permanecerem pixel-perfeitos entre si, sem depender de nenhum fator de correção.
+  function pageHostRect(r){ return r.el.hiLayer.getBoundingClientRect(); }
 
   function addHighlightFromSelection(r, colorHex){
     const sel = window.getSelection && window.getSelection();
     if(!sel || sel.isCollapsed || !sel.rangeCount) return;
     const anchor = sel.anchorNode && (sel.anchorNode.nodeType===1 ? sel.anchorNode : sel.anchorNode.parentElement);
     if(!anchor || !anchor.closest('#l3rPageHost')) return; // ignora seleção fora do PDF (ex.: dentro de outro widget)
+    if(!r.el.hiLayer) return;
     const text = sel.toString();
     if(!text.trim()) return;
     const host = pageHostRect(r);
@@ -489,7 +521,7 @@
      mouse — pointer-events:none — pra não atrapalhar a seleção de texto por baixo). */
   function setEraseMode(r, on){
     r.eraseMode = on;
-    r.el.hiLayer.classList.toggle('l3r-erase-active', on);
+    if(r.el.hiLayer) r.el.hiLayer.classList.toggle('l3r-erase-active', on);
     r.el.eraserBtn.classList.toggle('l3r-ic-active', on);
   }
 
@@ -510,6 +542,12 @@
     const r = activeReader;
     if(!r || !r.el) return;
     if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    // Shift/Ctrl/Cmd/Alt + seta é o atalho padrão do navegador pra ESTENDER uma seleção
+    // de texto (ex.: clicar antes da 1ª letra de uma frase e Shift+→ pra selecionar).
+    // Virar de página nesse momento destruía a página/camada de texto no meio do gesto —
+    // por isso nunca dava pra selecionar a partir do início de uma frase. Só navega com
+    // a seta "pura", sem nenhum modificador.
+    if(e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
     if(e.key==='ArrowRight') goToPage(r, r.currentPage+1);
     else if(e.key==='ArrowLeft') goToPage(r, r.currentPage-1);
   });
