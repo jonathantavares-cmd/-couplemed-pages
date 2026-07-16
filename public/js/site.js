@@ -1300,9 +1300,9 @@
       wk.innerHTML=html;
     }
     const loc=lang==='pt'?'pt-BR':'en-US';
-    const be=document.getElementById('streakBest'); if(be)be.innerHTML=d.best.toLocaleString(loc)+'<small class="unit">'+(d.best===1?t.dayOne:t.dayMany)+'</small>';
-    const qe=document.getElementById('streakQ'); if(qe)qe.innerHTML=d.questions.toLocaleString(loc)+'<small class="unit">'+t.questionsAnsweredUnit+'</small>';
-    const fe=document.getElementById('streakFC'); if(fe)fe.innerHTML=d.fcReviews.toLocaleString(loc)+'<small class="unit">'+t.flashcardsDoneUnit+'</small>';
+    const be=document.getElementById('streakBest'); if(be)be.innerHTML=d.best.toLocaleString(loc)+'<small class="unit unit-word">'+(d.best===1?t.dayOne:t.dayMany)+'</small>';
+    const qe=document.getElementById('streakQ'); if(qe)qe.innerHTML=d.questions.toLocaleString(loc)+'<small class="unit unit-word">'+t.questionsAnsweredUnit+'</small>';
+    const fe=document.getElementById('streakFC'); if(fe)fe.innerHTML=d.fcReviews.toLocaleString(loc)+'<small class="unit unit-word">'+t.flashcardsDoneUnit+'</small>';
   }
   window.addEventListener('couplemed:langchange',e=>{if(page()==='home'){renderStreak(e.detail.lang); renderStudyTime();}});
 
@@ -1412,7 +1412,7 @@
     sec=Math.max(0,Math.floor(sec));
     const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);
     if(h>0)return h+'<small class="unit">h</small>'+(m<10?'0':'')+m+'<small class="unit">min</small>';
-    return m+'<small class="unit">'+(m===1?t.minuteOne:t.minuteMany)+'</small>';
+    return m+'<small class="unit unit-word">'+(m===1?t.minuteOne:t.minuteMany)+'</small>';
   }
   function renderStudyTime(){
     const t=I18N[cmLang()];
