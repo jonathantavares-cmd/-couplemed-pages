@@ -67,6 +67,18 @@
       }
     });
     (DB.folders||[]).forEach(f=>{ if(f.parentId===undefined){ f.parentId=null; touched=true; } });
+    /* v3: capas antigas ({type:'color'|'image', value}) viram o novo modelo GoodNotes
+       ({on, model, colorHex, image}) sem perder nada — cor antiga vira capa "Sólida". */
+    (DB.notebooks||[]).forEach(nb=>{
+      const c = nb.cover;
+      if(c && c.on===undefined){
+        nb.cover = c.type==='image'
+          ? { on:true, model:'image', image:c.value }
+          : { on:true, model:'solida', colorHex:c.value||'#55c6e4' };
+        touched = true;
+      }
+      if(!nb.cover){ nb.cover = { on:false, model:'claras', colorHex:'#55c6e4' }; touched = true; }
+    });
     if(touched){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){} }
   }
   migrate();
@@ -168,7 +180,26 @@
       sortRecent:'Recent', sortName:'Name', sortCreated:'Created', sortBy:'Sort',
       pinned:'Pinned', tagFilter:'Filter by tag', allTags:'All tags', clearFilter:'Clear filter',
       wordCount:'{w} words · {c} chars', emptyReading:'This note is empty.',
-      copyLink:'Copy link', linkCopied:'Link copied!', fullscreen:'Fullscreen', exitFullscreen:'Exit fullscreen'
+      copyLink:'Copy link', linkCopied:'Link copied!', fullscreen:'Fullscreen', exitFullscreen:'Exit fullscreen',
+      /* --- v3: fluxo de criação estilo GoodNotes --- */
+      plusNew:'+ New', ctFolder:'Folder', ctNotebook:'Notebook', ctNotes:'Notes',
+      newFolderTitle:'New folder', untitledFolder:'Untitled',
+      tabColor:'Color', tabIcon:'Icon', noIcon:'None',
+      colorsTitle:'Colors', pickerCustom:'Custom', pickerHistory:'History',
+      removeColor:'Remove color', addPreset:'Add to presets', hexLbl:'HEX',
+      nbNewTitle:'New notebook', nameLbl:'Name', nbUntitledPh:'Untitled notebook',
+      paperCaps:'PAPER TEMPLATES', coverCaps:'COVER TEMPLATES',
+      sizeLbl2:'Size', a4v:'A4, Vertical', a4h:'A4, Horizontal',
+      paperModelsTitle:'Paper templates', coverModelsTitle:'Cover templates',
+      essentials:'Essentials', simpleCat:'Simple',
+      paperLbl:'PAPER', coverLbl2:'COVER',
+      pDotted:'Dotted paper', pGridGN:'Grid paper', pNarrow:'Narrow ruled', pWide:'Wide ruled', pImported:'Imported',
+      importLbl:'Import',
+      cWhite:'White', cYellow:'Yellow', cBlack:'Black', cLBlue:'Light blue', cLGreen:'Light green', cLPink:'Light pink',
+      cmClaras:'Bright', cmPercurso:'Doodle', cmSimples:'Simple', cmSolida:'Solid', cmLiso:'Plain',
+      covBlue:'Blue', covPink:'Pink', covPurple:'Purple', covRed:'Red', covOrange:'Orange',
+      covYellow:'Yellow', covGreen:'Green', covGray:'Gray', covBlack:'Black',
+      editLbl:'Edit', noCover:'No cover'
     },
     pt:{
       title:'Meus Cadernos', titleNotes:'Todas as Notas', home:'Início',
@@ -228,7 +259,26 @@
       sortRecent:'Recentes', sortName:'Nome', sortCreated:'Criação', sortBy:'Ordenar',
       pinned:'Fixados', tagFilter:'Filtrar por tag', allTags:'Todas as tags', clearFilter:'Limpar filtro',
       wordCount:'{w} palavras · {c} caracteres', emptyReading:'Esta nota está vazia.',
-      copyLink:'Copiar link', linkCopied:'Link copiado!', fullscreen:'Tela cheia', exitFullscreen:'Sair da tela cheia'
+      copyLink:'Copiar link', linkCopied:'Link copiado!', fullscreen:'Tela cheia', exitFullscreen:'Sair da tela cheia',
+      /* --- v3: fluxo de criação estilo GoodNotes --- */
+      plusNew:'+ Novo', ctFolder:'Pasta', ctNotebook:'Notebook', ctNotes:'Notes',
+      newFolderTitle:'Nova pasta', untitledFolder:'Sem título',
+      tabColor:'Cor', tabIcon:'Ícone', noIcon:'Nenhum',
+      colorsTitle:'Cores', pickerCustom:'Personalizar', pickerHistory:'Histórico',
+      removeColor:'Remover cor', addPreset:'Adicionar a predefinições', hexLbl:'HEX',
+      nbNewTitle:'Novo caderno', nameLbl:'Nome', nbUntitledPh:'Caderno sem título',
+      paperCaps:'MODELOS DE PAPEL', coverCaps:'MODELOS DE CAPA',
+      sizeLbl2:'Tamanho', a4v:'A4, Vertical', a4h:'A4, Horizontal',
+      paperModelsTitle:'Modelos de papel', coverModelsTitle:'Modelos de capa',
+      essentials:'Essenciais', simpleCat:'Simples',
+      paperLbl:'PAPEL', coverLbl2:'CAPA',
+      pDotted:'Papel pontilhado', pGridGN:'Papel quadriculado', pNarrow:'Pautado estreito', pWide:'Pautado largo', pImported:'Importado',
+      importLbl:'Importar',
+      cWhite:'Branco', cYellow:'Amarelo', cBlack:'Preto', cLBlue:'Azul claro', cLGreen:'Verde claro', cLPink:'Rosa claro',
+      cmClaras:'Claras', cmPercurso:'Percurso', cmSimples:'Simples', cmSolida:'Sólida', cmLiso:'Liso',
+      covBlue:'Azul', covPink:'Rosa', covPurple:'Roxo', covRed:'Vermelho', covOrange:'Laranja',
+      covYellow:'Amarelo', covGreen:'Verde', covGray:'Cinza', covBlack:'Preto',
+      editLbl:'Editar', noCover:'Sem capa'
     }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
@@ -243,7 +293,6 @@
 
   /* ---------- constantes de personalização ---------- */
   const FOLDER_COLORS = ['#3d84ff','#7c5cff','#12a150','#e5484d','#f0932b','#0a9fb5','#d64f9e','#8d99ae'];
-  const BOOK_ICONS = ['📘','📗','📕','📙','🧠','🫀','🦠','💊','🩺','🔬','🧬','⭐'];
   const PEN_COLORS = ['#182233','#2768ff','#e5484d','#12a150','#f0932b','#7c5cff','#0a9fb5','#ffffff'];
   const SWATCHES = ['#182233','#5f748f','#2768ff','#0a9fb5','#12a150','#f0932b','#e5484d','#d64f9e','#7c5cff','#8c6d2d','#ffffff','#fff176'];
   /* v2: paleta ampliada para caneta/marcador (2 linhas), estilo GoodNotes */
@@ -251,18 +300,59 @@
   const MARKER_PALETTE = ['#ffe08a','#ffd0a0','#ffe08a','#b8f5b0','#a8d8ff','#d9c4ff','#ffc4dd','#fff176','#b9f6ca','#84ffff','#ff8a80'];
   const PEN_WIDTHS = [{k:'thin',v:2},{k:'medium',v:4},{k:'thick',v:8}];
   const MARKER_WIDTHS = [{k:'thin',v:14},{k:'medium',v:22},{k:'thick',v:32}];
-  const PAPERS = [
-    {id:'blank',   k:'pBlank',  th:''},
-    {id:'ruled-s', k:'pRuledS', th:'nb-th-ruled-s'},
-    {id:'ruled-m', k:'pRuledM', th:'nb-th-ruled-m'},
-    {id:'ruled-l', k:'pRuledL', th:'nb-th-ruled-l'},
-    {id:'grid-s',  k:'pGridS',  th:'nb-th-grid-s'},
-    {id:'grid-m',  k:'pGridM',  th:'nb-th-grid-m'},
-    {id:'grid-l',  k:'pGridL',  th:'nb-th-grid-l'}
+  /* ---------- v3: constantes do fluxo de criação estilo GoodNotes ---------- */
+  // 3 fileiras de cores de pasta (escuras / vivas / claras) — a última posição é o arco-íris (cor personalizada)
+  const GN_FOLDER_COLORS = [
+    ['#8c2f39','#a04a2b','#8a6116','#1e6b34','#2b56b3','#6d3fbf','#94357c','#5b6066','#1d1d1f'],
+    ['#f25c54','#f5a13d','#f0c53d','#5fd35f','#3d84ff','#b18aff','#f58ac8','#b9bcc0','#ffffff'],
+    ['#f7b1b1','#f9d6a8','#f7eea0','#b5efc4','#c7dcff','#ddd0fa','#f9d4ea','#e8e6e1']
   ];
-  const BGS = [{id:'white',k:'bgWhite',c:'#ffffff'},{id:'cream',k:'bgCream',c:'#f7efdc'},{id:'black',k:'bgBlack',c:'#12151c'}];
+  // emojis visuais/chamativos para memorização de estudo (pedido do Jonathan — nada de ícones de linha)
+  const GN_FOLDER_EMOJIS = [
+    '🧠','🫀','🫁','🦴','🩸','💊','💉','🦠','🧬','🩺','🔬','🧪','🏥','🚑','🥼',
+    '📚','📖','📝','✏️','📌','⭐','❤️','🔥','💡','🎯','🏆','⏰','😊','🌙','🎨','🎵','⚖️','🌍'
+  ];
+  // papéis "Essenciais" (ids legados ruled-m/grid-s/grid-l continuam válidos no CSS p/ cadernos antigos)
+  const GN_PAPERS = [
+    {id:'blank',   k:'pBlank',  th:''},
+    {id:'dotted',  k:'pDotted', th:'nb-th-dotted'},
+    {id:'grid-m',  k:'pGridGN', th:'nb-th-grid-m'},
+    {id:'ruled-s', k:'pNarrow', th:'nb-th-ruled-s'},
+    {id:'ruled-l', k:'pWide',   th:'nb-th-ruled-l'}
+  ];
+  const GN_PAPER_ALIAS = { 'ruled-m':'ruled-s', 'grid-s':'grid-m', 'grid-l':'grid-m' }; // legado → card equivalente
+  // cores de papel: as 3 do GoodNotes + azul claro, verde claro e rosa claro (pedido)
+  const GN_PAPER_COLORS = [
+    {id:'white', k:'cWhite', c:'#ffffff'},
+    {id:'cream', k:'cYellow',c:'#faf3dd'},
+    {id:'black', k:'cBlack', c:'#1c1f26'},
+    {id:'lblue', k:'cLBlue', c:'#e7f1fc'},
+    {id:'lgreen',k:'cLGreen',c:'#e9f7ec'},
+    {id:'lpink', k:'cLPink', c:'#fdeef5'}
+  ];
+  // cores de capa exatamente como o popover do GoodNotes (Imagem 21)
+  const GN_COVER_COLORS = [
+    {id:'blue',  k:'covBlue',  c:'#55c6e4'},
+    {id:'pink',  k:'covPink',  c:'#ee93c6'},
+    {id:'purple',k:'covPurple',c:'#b49add'},
+    {id:'red',   k:'covRed',   c:'#e4746a'},
+    {id:'orange',k:'covOrange',c:'#f0a45e'},
+    {id:'yellow',k:'covYellow',c:'#f5d664'},
+    {id:'green', k:'covGreen', c:'#59d99d'},
+    {id:'gray',  k:'covGray',  c:'#a8a6a4'},
+    {id:'black', k:'covBlack', c:'#3a3a3c'}
+  ];
+  const GN_COVER_MODELS = [
+    {id:'claras',  k:'cmClaras'},
+    {id:'percurso',k:'cmPercurso'},
+    {id:'simples', k:'cmSimples'},
+    {id:'solida',  k:'cmSolida'},
+    {id:'liso',    k:'cmLiso'}
+  ];
+  const coverColorHex = id => { const cc = GN_COVER_COLORS.find(c=>c.id===id); return cc?cc.c:GN_COVER_COLORS[0].c; };
+  const paperColorHex = id => { const pc = GN_PAPER_COLORS.find(c=>c.id===id); return pc?pc.c:'#ffffff'; };
 
-  const defBook = () => ({ paper:'ruled-m', bg:'white', orientation:'portrait', icon:'📘', cover:{type:'color', value:'#2768ff'} });
+  const defBook = () => ({ paper:'ruled-s', bg:'white', orientation:'portrait', icon:'', cover:{on:false, model:'claras', colorHex:'#55c6e4'} });
 
   /* ---------- upload de imagem (R2 com fallback base64) ---------- */
   async function compressImage(file, maxSide, quality){
@@ -356,6 +446,169 @@
   }
   function closeModal(){ const m = document.querySelector('.nb-modal'); if(m){ m.hidden = true; m.innerHTML=''; } }
 
+  /* ==================================================================
+     v3 — infraestrutura GoodNotes: popover ancorado, seletor de cor
+     personalizado e renderização de pastas/capas.
+     ================================================================== */
+  let popEl = null, popCleanup = null;
+  function closePopover(){
+    if(popCleanup){ popCleanup(); popCleanup = null; }
+    if(popEl){ popEl.remove(); popEl = null; }
+  }
+  /* popover com balão + seta, ancorado num elemento; fecha em clique fora/Esc */
+  function openPopover(anchor, html, opts){
+    opts = opts||{};
+    closePopover();
+    const pop = document.createElement('div');
+    pop.className = 'nb nb-pop' + (opts.cls?' '+opts.cls:'');
+    pop.innerHTML = `<span class="nb-pop-arrow"></span><div class="nb-pop-body">${html}</div>`;
+    document.body.appendChild(pop);
+    popEl = pop;
+    const place = ()=>{
+      const r = anchor.getBoundingClientRect();
+      const pw = pop.offsetWidth, ph = pop.offsetHeight;
+      let left = r.left + r.width/2 - pw/2;
+      left = Math.max(10, Math.min(left, window.innerWidth - pw - 10));
+      let top = r.bottom + 10;
+      let above = false;
+      if(top + ph > window.innerHeight - 10 && r.top - ph - 10 > 0){ top = r.top - ph - 10; above = true; }
+      pop.style.left = left+'px'; pop.style.top = top+'px';
+      pop.classList.toggle('nb-pop-above', above);
+      const ar = pop.querySelector('.nb-pop-arrow');
+      if(ar) ar.style.left = Math.max(14, Math.min(r.left + r.width/2 - left, pw-14))+'px';
+    };
+    place();
+    requestAnimationFrame(place);
+    const onDoc = e=>{ if(!pop.contains(e.target) && e.target!==anchor && !anchor.contains(e.target)) closePopover(); };
+    const onKey = e=>{ if(e.key==='Escape') closePopover(); };
+    setTimeout(()=>{ document.addEventListener('pointerdown', onDoc, true); document.addEventListener('keydown', onKey); },0);
+    popCleanup = ()=>{ document.removeEventListener('pointerdown', onDoc, true); document.removeEventListener('keydown', onKey); };
+    return pop;
+  }
+
+  /* ---------- seletor de cor personalizado (grade + HEX + roda + conta-gotas) ---------- */
+  const COLOR_HIST_KEY = 'couplemed_nb_colors_hist';
+  const colorHist = () => { try{ const a = JSON.parse(localStorage.getItem(COLOR_HIST_KEY)); return Array.isArray(a)?a:[]; }catch(e){ return []; } };
+  function pushColorHist(hex){
+    try{
+      const a = colorHist().filter(c=>c.toLowerCase()!==hex.toLowerCase());
+      a.unshift(hex); localStorage.setItem(COLOR_HIST_KEY, JSON.stringify(a.slice(0,24)));
+    }catch(e){}
+  }
+  function gnGradientGrid(){
+    // 12 colunas × 10 linhas: 1ª coluna tons de cinza, demais colunas por matiz (escuro → claro)
+    const hues = [0,25,45,60,95,135,165,195,225,260,290,325];
+    let html = '';
+    for(let row=0; row<10; row++){
+      for(let col=0; col<12; col++){
+        let c;
+        if(col===0){ const l = Math.round(row*100/9); c = `hsl(0,0%,${l}%)`; }
+        else { const l = 14 + row*8.6; c = `hsl(${hues[col-1]},82%,${Math.round(l)}%)`; }
+        html += `<button class="nb-cgrad" data-hex="${c}" style="background:${c}"></button>`;
+      }
+    }
+    return html;
+  }
+  function toHex(c){
+    // aceita hsl()/rgb()/#hex e devolve #rrggbb
+    if(/^#([0-9a-f]{6})$/i.test(c)) return c.toLowerCase();
+    const d = document.createElement('div'); d.style.color = c; document.body.appendChild(d);
+    const m = getComputedStyle(d).color.match(/\d+/g); d.remove();
+    if(!m) return '#000000';
+    return '#'+m.slice(0,3).map(n=>(+n).toString(16).padStart(2,'0')).join('');
+  }
+  /* painel "Cores" (Personalizar/Histórico) — usado pela pasta, caneta, marcador etc. */
+  function openColorPicker(anchor, opts){
+    opts = opts||{};
+    const hist = colorHist();
+    const pop = openPopover(anchor, `
+      <div class="nb-cpick">
+        <div class="nb-cpick-head">
+          ${opts.back?`<button class="nb-cpick-back" id="nbCpBack">‹</button>`:'<span></span>'}
+          <strong>${t('colorsTitle')}</strong>
+          <button class="nb-cpick-eye" id="nbCpEye" title="${t('pickerCustom')}">💧</button>
+        </div>
+        <div class="nb-seg nb-cpick-seg">
+          <button class="nb-on" data-cptab="custom">${t('pickerCustom')}</button>
+          <button data-cptab="hist">${t('pickerHistory')}</button>
+        </div>
+        <div id="nbCpCustom"><div class="nb-cgrad-grid">${gnGradientGrid()}</div></div>
+        <div id="nbCpHist" hidden>
+          ${hist.length?`<div class="nb-cgrad-grid nb-hist-grid">${hist.map(c=>`<button class="nb-cgrad" data-hex="${c}" style="background:${c}"></button>`).join('')}</div>`:`<div class="nb-cpick-empty">—</div>`}
+        </div>
+        <div class="nb-cpick-foot">
+          <span class="nb-cpick-cur" id="nbCpCur" style="background:${esc(opts.hex||'#000000')}"></span>
+          <label class="nb-cpick-hex">${t('hexLbl')} <input id="nbCpHex" maxlength="7" value="${esc((opts.hex||'#000000').replace('#','').toUpperCase())}"></label>
+          <label class="nb-cpick-wheel" title="${t('colorsTitle')}"><input type="color" id="nbCpWheel" value="${esc(toHex(opts.hex||'#000000'))}"></label>
+        </div>
+        ${opts.onRemove?`<button class="nb-cpick-remove" id="nbCpRemove">${t('removeColor')}</button>`:''}
+      </div>`, {cls:'nb-pop-cpick'});
+    const cur = pop.querySelector('#nbCpCur');
+    const apply = (hex, keepOpen)=>{
+      hex = toHex(hex);
+      cur.style.background = hex;
+      pop.querySelector('#nbCpHex').value = hex.replace('#','').toUpperCase();
+      pushColorHist(hex);
+      if(opts.onPick) opts.onPick(hex);
+      if(!keepOpen) closePopover();
+    };
+    pop.querySelectorAll('[data-cptab]').forEach(b=>b.addEventListener('click',()=>{
+      pop.querySelectorAll('[data-cptab]').forEach(x=>x.classList.toggle('nb-on', x===b));
+      pop.querySelector('#nbCpCustom').hidden = b.dataset.cptab!=='custom';
+      pop.querySelector('#nbCpHist').hidden = b.dataset.cptab!=='hist';
+    }));
+    pop.querySelectorAll('.nb-cgrad').forEach(b=>b.addEventListener('click',()=>apply(b.dataset.hex)));
+    pop.querySelector('#nbCpHex').addEventListener('change', e=>{
+      const v = e.target.value.trim().replace('#','');
+      if(/^[0-9a-f]{6}$/i.test(v)) apply('#'+v);
+    });
+    pop.querySelector('#nbCpWheel').addEventListener('input', e=>apply(e.target.value, true));
+    pop.querySelector('#nbCpWheel').addEventListener('change', e=>apply(e.target.value));
+    const eye = pop.querySelector('#nbCpEye');
+    if(window.EyeDropper){
+      eye.addEventListener('click', async ()=>{
+        try{ const r = await new window.EyeDropper().open(); if(r && r.sRGBHex) apply(r.sRGBHex); }catch(e){}
+      });
+    } else eye.style.display = 'none';
+    const back = pop.querySelector('#nbCpBack');
+    if(back) back.addEventListener('click', ()=>{ closePopover(); if(opts.back) opts.back(); });
+    const rem = pop.querySelector('#nbCpRemove');
+    if(rem) rem.addEventListener('click', ()=>{ closePopover(); opts.onRemove(); });
+    return pop;
+  }
+
+  /* ---------- renderização: pasta colorida (estilo macOS/GoodNotes) ---------- */
+  function folderIconHtml(f, big){
+    const c = esc(f.color||'#3d84ff');
+    return `<span class="nb-gnfolder ${big?'nb-gnfolder-big':''}" style="--fc:${c}">
+      ${f.icon?`<span class="nb-gnfolder-emoji">${esc(f.icon)}</span>`:''}
+    </span>`;
+  }
+  /* ---------- renderização: capa do caderno (modelos GoodNotes) ---------- */
+  function bookCoverHtml(b){
+    const cov = b.cover||{};
+    const icon = b.icon?`<span class="nb-book-ico">${esc(b.icon)}</span>`:'';
+    if(cov.on===false){
+      // sem capa: mostra o papel (primeira página) como no GoodNotes
+      const th = paperThumbClass(b.paper);
+      return `<span class="nb-book-cover nb-cov-off" style="background:${paperBgOf(b)}"><span class="nb-covpaper ${th}"></span>${icon}</span>`;
+    }
+    if(cov.model==='image' || cov.type==='image'){
+      return `<span class="nb-book-cover" style="background-image:url('${esc(cov.image||cov.value)}');background-size:cover;background-position:center">${icon}</span>`;
+    }
+    const hex = esc(cov.colorHex||cov.value||'#55c6e4');
+    const model = esc(cov.model||'solida');
+    let inner = '';
+    if(model==='percurso') inner = `<svg class="nb-cov-squiggle" viewBox="0 0 60 80" fill="none"><path d="M8 22c14-12 30-8 26 4-4 12-22 10-18 22 4 12 26 6 30 16" stroke="${hex}" stroke-width="5" stroke-linecap="round"/><rect x="14" y="34" width="26" height="10" rx="3" fill="#fff"/></svg>`;
+    return `<span class="nb-book-cover nb-cov-${model}" style="--cov:${hex}">${inner}${icon}</span>`;
+  }
+  function paperThumbClass(paper){
+    const id = GN_PAPER_ALIAS[paper]||paper;
+    const p = GN_PAPERS.find(x=>x.id===id);
+    return p?p.th:'';
+  }
+  function paperBgOf(b){ return paperColorHex(b.bg||'white'); }
+
   /* ---------- render principal ---------- */
   function render(){
     if(!root) return;
@@ -386,75 +639,134 @@
   }
 
   /* ================= VISÃO: PASTAS ================= */
+  /* v3 — popover do "+ Novo" (Pasta / Notebook / Notes), estilo GoodNotes */
+  function openNewMenu(anchor, folderId){
+    const pop = openPopover(anchor, `
+      <div class="nb-newpop">
+        <button data-nn="folder">
+          <span class="nb-newpop-ico"><span class="nb-gnfolder" style="--fc:#3d84ff"></span></span>
+          <em>${t('ctFolder')}</em>
+        </button>
+        <button data-nn="notebook">
+          <span class="nb-newpop-ico">${bookCoverHtml({icon:'', cover:{on:true, model:'claras', colorHex:'#55c6e4'}})}</span>
+          <em>${t('ctNotebook')}</em>
+        </button>
+        <button data-nn="notes">
+          <span class="nb-newpop-ico"><span class="nb-newpop-note"></span></span>
+          <em>${t('ctNotes')}</em>
+        </button>
+      </div>`, {cls:'nb-pop-new'});
+    pop.querySelector('[data-nn="folder"]').addEventListener('click', ()=>{ closePopover(); folderModal(null, folderId||null); });
+    pop.querySelector('[data-nn="notebook"]').addEventListener('click', ()=>{ closePopover(); bookModal(null, folderId||null); });
+    pop.querySelector('[data-nn="notes"]').addEventListener('click', ()=>{ closePopover(); location.href = `app.html?page=notes&u=${encodeURIComponent(USER)}`; });
+  }
+  function folderCardHtml(f, openAttr, menuAttr){
+    const nBooks = booksIn(f.id).length;
+    const nSub = subfoldersOf(f.id).length;
+    const sub = nSub?`${nSub} ${t('folders').toLowerCase()} · `:'';
+    return `<button class="nb-folder" data-${openAttr}="${f.id}">
+      <span class="nb-item-menu" data-${menuAttr}="${f.id}" role="button" tabindex="0" aria-label="menu">⋯</span>
+      ${folderIconHtml(f)}
+      <strong>${cmSpan(f.name)}</strong>
+      <small>${sub}${nBooks} ${t('notebooks')}</small>
+    </button>`;
+  }
+  function bookCardHtml(b){
+    const n = notesIn(b.id).length;
+    return `<button class="nb-book" data-open="${b.id}">
+      <span class="nb-item-menu" data-menu="${b.id}" role="button" tabindex="0" aria-label="menu">⋯</span>
+      ${bookCoverHtml(b)}
+      <span class="nb-book-body"><strong>${cmSpan(b.title)}</strong><small>${n} ${t('notes')}</small></span>
+    </button>`;
+  }
   function renderFolders(){
     const parts = [{label:t('title')}];
     const fav = favNotes();
     const roots = rootFolders();
+    const rootBooks = DB.notebooks.filter(n=>!n.folderId);
     root.innerHTML = `
       <div class="nb-head">
         <div><h1>${t('title')}</h1>${crumbs(parts)}</div>
         <div class="nb-actions">
           ${fav.length?`<button class="nb-btn" id="nbGoFav">★ ${t('favorites')}</button>`:''}
-          <button class="nb-btn nb-btn-primary" id="nbNewFolder">${t('newFolder')}</button>
+          <button class="nb-btn nb-btn-primary" id="nbPlusNew">${t('plusNew')}</button>
         </div>
       </div>
-      ${roots.length ? `<div class="nb-grid">${roots.map(f=>{
-        const nBooks = booksIn(f.id).length;
-        const nSub = subfoldersOf(f.id).length;
-        const sub = nSub?`${nSub} ${t('folders').toLowerCase()} · `:'';
-        return `<button class="nb-folder" data-open="${f.id}">
-          <span class="nb-item-menu" data-menu="${f.id}" role="button" tabindex="0" aria-label="menu">⋯</span>
-          <span class="nb-folder-ico" style="background:${esc(f.color||'#3d84ff')}"></span>
-          <strong>${cmSpan(f.name)}</strong>
-          <small>${sub}${nBooks} ${t('notebooks')}</small>
-        </button>`;
-      }).join('')}</div>`
+      ${(roots.length||rootBooks.length) ? `<div class="nb-grid">${
+        roots.map(f=>folderCardHtml(f,'open','menu-f')).join('') + rootBooks.map(bookCardHtml).join('')
+      }</div>`
       : `<div class="nb-empty"><span class="nb-empty-ico">📂</span>${t('emptyFolders')}</div>`}`;
-    root.querySelector('#nbNewFolder').addEventListener('click', ()=>folderModal(null, null));
+    root.querySelector('#nbPlusNew').addEventListener('click', e=>openNewMenu(e.currentTarget, null));
     const gf = root.querySelector('#nbGoFav'); if(gf) gf.addEventListener('click', ()=>{ view={name:'favorites'}; syncUrl(); render(); });
     root.querySelectorAll('[data-open]').forEach(el=>el.addEventListener('click', e=>{
-      if(e.target.closest('[data-menu]')) return;
-      view = { name:'folder', folderId: el.dataset.open }; syncUrl(); render();
+      if(e.target.closest('[data-menu-f],[data-menu]')) return;
+      const id = el.dataset.open;
+      view = folderById(id) ? { name:'folder', folderId:id } : { name:'notebook', nbId:id };
+      syncUrl(); render();
+    }));
+    root.querySelectorAll('[data-menu-f]').forEach(el=>el.addEventListener('click', e=>{
+      e.stopPropagation(); const f = folderById(el.dataset.menuF); folderModal(f, f.parentId||null);
     }));
     root.querySelectorAll('[data-menu]').forEach(el=>el.addEventListener('click', e=>{
-      e.stopPropagation(); folderModal(folderById(el.dataset.menu), folderById(el.dataset.menu).parentId||null);
+      e.stopPropagation(); const b = bookById(el.dataset.menu); if(b) bookModal(b, b.folderId||null);
     }));
   }
+  /* v3 — diálogo de pasta estilo GoodNotes: preview grande, nome no meio,
+     abas Cor/Ícone; cores em 3 fileiras + arco-íris (cor personalizada);
+     ícones = emojis chamativos que ajudam na memorização de estudo. */
   function folderModal(folder, parentId){
     const isNew = !folder;
-    const cur = folder || { name:'', color:FOLDER_COLORS[0], parentId: parentId||null };
-    let color = cur.color || FOLDER_COLORS[0];
-    let pid = (folder ? (folder.parentId||null) : (parentId||null));
-    // opções de pasta-superior: todas menos a própria e suas descendentes (evita ciclo)
-    const banned = folder ? allDescendantFolderIds(folder.id) : [];
-    const parentOpts = DB.folders.filter(f=>!banned.includes(f.id));
+    let color = (folder && folder.color) || '#3d84ff';
+    let icon = (folder && folder.icon) || '';
+    const pid = (folder ? (folder.parentId||null) : (parentId||null));
+    let tab = 'color';
     const m = openModal(`
-      <h3>${isNew?t('newFolder').replace('+ ',''):t('rename')}</h3>
-      <div class="nb-field"><label>${t('folderName')}</label><input type="text" id="nbFName" maxlength="60" value="${esc(cur.name)}" /></div>
-      <div class="nb-field"><label>${t('parentFolder')}</label>
-        <select id="nbFParent" class="nb-tb-select" style="width:100%">
-          <option value="">${t('none')}</option>
-          ${parentOpts.map(f=>`<option value="${f.id}" ${f.id===pid?'selected':''}>${esc(f.name)}</option>`).join('')}
-        </select>
-      </div>
-      <div class="nb-field"><label>${t('color')}</label><div class="nb-color-row" id="nbFColors">
-        ${FOLDER_COLORS.map(c=>`<button class="nb-color-dot ${c===color?'nb-on':''}" data-c="${c}" style="background:${c}"></button>`).join('')}
-      </div></div>
-      <div class="nb-modal-foot">
-        ${isNew?'':`<button class="nb-btn nb-btn-danger" id="nbFDel">${t('del')}</button>`}
-        <button class="nb-btn nb-btn-ghost" id="nbFCancel">${t('cancel')}</button>
-        <button class="nb-btn nb-btn-primary" id="nbFSave">${isNew?t('create'):t('saveBtn')}</button>
+      <div class="nb-gnf">
+        <div class="nb-gnf-prev" id="nbGnfPrev">${folderIconHtml({color, icon}, true)}</div>
+        <input type="text" id="nbGnfName" class="nb-gnf-name" maxlength="60"
+               placeholder="${t('untitledFolder')}" value="${esc(folder?folder.name:'')}" />
+        <div class="nb-seg nb-gnf-seg">
+          <button data-gtab="color" class="nb-on">${t('tabColor')}</button>
+          <button data-gtab="icon">${t('tabIcon')}</button>
+        </div>
+        <div class="nb-gnf-panel" id="nbGnfPanel"></div>
+        <div class="nb-modal-foot nb-gnf-foot">
+          ${isNew?'':`<button class="nb-btn nb-btn-danger" id="nbFDel">${t('del')}</button>`}
+          <button class="nb-btn nb-btn-ghost" id="nbFCancel">${t('cancel')}</button>
+          <button class="nb-btn nb-btn-primary" id="nbFSave">${isNew?t('create'):t('saveBtn')}</button>
+        </div>
       </div>`);
-    m.querySelectorAll('[data-c]').forEach(b=>b.addEventListener('click',()=>{
-      color = b.dataset.c;
-      m.querySelectorAll('[data-c]').forEach(x=>x.classList.toggle('nb-on', x===b));
+    const updPrev = ()=>{ m.querySelector('#nbGnfPrev').innerHTML = folderIconHtml({color, icon}, true); };
+    const isPreset = c => GN_FOLDER_COLORS.some(row=>row.some(x=>x.toLowerCase()===String(c).toLowerCase()));
+    function renderPanel(){
+      const panel = m.querySelector('#nbGnfPanel');
+      if(tab==='color'){
+        panel.innerHTML = GN_FOLDER_COLORS.map((row,ri)=>`<div class="nb-gnf-crow">${
+          row.map(c=>`<button class="nb-gnf-dot ${c.toLowerCase()===color.toLowerCase()?'nb-on':''}" data-fc="${c}" style="background:${c}">${c.toLowerCase()===color.toLowerCase()?'✓':''}</button>`).join('')
+        }${ri===2?`<button class="nb-gnf-dot nb-gnf-rainbow ${!isPreset(color)?'nb-on':''}" id="nbGnfCustom">${!isPreset(color)?'✓':''}</button>`:''}</div>`).join('');
+        panel.querySelectorAll('[data-fc]').forEach(b=>b.addEventListener('click',()=>{ color = b.dataset.fc; updPrev(); renderPanel(); }));
+        panel.querySelector('#nbGnfCustom').addEventListener('click', e=>{
+          openColorPicker(e.currentTarget, { hex: color, onPick: hex=>{ color = hex; updPrev(); renderPanel(); } });
+        });
+      } else {
+        panel.innerHTML = `<div class="nb-gnf-icons">
+          <button class="nb-gnf-ic nb-gnf-ic-none ${!icon?'nb-on':''}" data-fi="" title="${t('noIcon')}">∅</button>
+          ${GN_FOLDER_EMOJIS.map(e2=>`<button class="nb-gnf-ic ${e2===icon?'nb-on':''}" data-fi="${e2}">${e2}</button>`).join('')}
+        </div>`;
+        panel.querySelectorAll('[data-fi]').forEach(b=>b.addEventListener('click',()=>{ icon = b.dataset.fi; updPrev(); renderPanel(); }));
+      }
+    }
+    renderPanel();
+    m.querySelectorAll('[data-gtab]').forEach(b=>b.addEventListener('click',()=>{
+      tab = b.dataset.gtab;
+      m.querySelectorAll('[data-gtab]').forEach(x=>x.classList.toggle('nb-on', x===b));
+      renderPanel();
     }));
-    m.querySelector('#nbFParent').addEventListener('change', e=>{ pid = e.target.value || null; });
     m.querySelector('#nbFCancel').addEventListener('click', closeModal);
     m.querySelector('#nbFSave').addEventListener('click', ()=>{
-      const name = m.querySelector('#nbFName').value.trim(); if(!name) return;
-      if(isNew) DB.folders.push({ id:uid(), name, color, parentId:pid, created:Date.now() });
-      else { folder.name = name; folder.color = color; folder.parentId = pid; }
+      const name = m.querySelector('#nbGnfName').value.trim() || t('untitledFolder');
+      if(isNew) DB.folders.push({ id:uid(), name, color, icon, parentId:pid, created:Date.now() });
+      else { folder.name = name; folder.color = color; folder.icon = icon; }
       save(); closeModal(); render();
     });
     const del = m.querySelector('#nbFDel');
@@ -469,7 +781,7 @@
       DB.folders = DB.folders.filter(f=>!ids.includes(f.id));
       save(); closeModal(); view = { name:'folders' }; syncUrl(); render();
     });
-    m.querySelector('#nbFName').focus();
+    m.querySelector('#nbGnfName').focus();
   }
 
   /* ================= VISÃO: CADERNOS DA PASTA ================= */
@@ -486,38 +798,18 @@
     });
     const subs = subfoldersOf(folder.id);
     const books = booksIn(folder.id);
-    const subHtml = subs.map(f=>{
-      const nBooks = booksIn(f.id).length, nSub = subfoldersOf(f.id).length;
-      const sub = nSub?`${nSub} ${t('folders').toLowerCase()} · `:'';
-      return `<button class="nb-folder" data-openf="${f.id}">
-        <span class="nb-item-menu" data-menuf="${f.id}" role="button" tabindex="0" aria-label="menu">⋯</span>
-        <span class="nb-folder-ico" style="background:${esc(f.color||'#3d84ff')}"></span>
-        <strong>${cmSpan(f.name)}</strong><small>${sub}${nBooks} ${t('notebooks')}</small>
-      </button>`;
-    }).join('');
-    const bookHtml = books.map(b=>{
-      const n = notesIn(b.id).length;
-      const cov = b.cover && b.cover.type==='image'
-        ? `style="background-image:url('${esc(b.cover.value)}')"`
-        : `style="background:${esc((b.cover&&b.cover.value)||'#2768ff')}"`;
-      return `<button class="nb-book" data-open="${b.id}">
-        <span class="nb-item-menu" data-menu="${b.id}" role="button" tabindex="0" aria-label="menu">⋯</span>
-        <span class="nb-book-cover" ${cov}><span class="nb-book-ico">${esc(b.icon||'📘')}</span></span>
-        <span class="nb-book-body"><strong>${cmSpan(b.title)}</strong><small>${n} ${t('notes')}</small></span>
-      </button>`;
-    }).join('');
+    const subHtml = subs.map(f=>folderCardHtml(f,'openf','menuf')).join('');
+    const bookHtml = books.map(bookCardHtml).join('');
     root.innerHTML = `
       <div class="nb-head">
         <div><h1>${cmSpan(folder.name)}</h1>${crumbs(parts)}</div>
         <div class="nb-actions">
-          <button class="nb-btn" id="nbNewSub">${t('subfolder')}</button>
-          <button class="nb-btn nb-btn-primary" id="nbNewBook">${t('newNotebook')}</button>
+          <button class="nb-btn nb-btn-primary" id="nbPlusNew">${t('plusNew')}</button>
         </div>
       </div>
       ${(subs.length||books.length) ? `<div class="nb-grid">${subHtml}${bookHtml}</div>`
       : `<div class="nb-empty"><span class="nb-empty-ico">📘</span>${t('emptyBooks')}</div>`}`;
-    root.querySelector('#nbNewSub').addEventListener('click', ()=>folderModal(null, folder.id));
-    root.querySelector('#nbNewBook').addEventListener('click', ()=>bookModal(null, folder.id));
+    root.querySelector('#nbPlusNew').addEventListener('click', e=>openNewMenu(e.currentTarget, folder.id));
     root.querySelectorAll('[data-openf]').forEach(el=>el.addEventListener('click', e=>{
       if(e.target.closest('[data-menuf]')) return;
       view = { name:'folder', folderId: el.dataset.openf }; syncUrl(); render();
@@ -535,66 +827,191 @@
     wireCrumbs(parts);
   }
 
+  /* v3 — modal "Novo caderno" estilo GoodNotes: X/✓ no cabeçalho, previews de
+     PAPEL e CAPA à esquerda (clique alterna a seção ativa), Nome + toggle Capa,
+     MODELOS DE PAPEL/CAPA (Tamanho + Cor) e a galeria de modelos embaixo.
+     Sem a linha "Idioma" (o site já é bilíngue). */
   function bookModal(book, folderId){
     const isNew = !book;
     const cur = book ? JSON.parse(JSON.stringify(book)) : Object.assign({ title:'' }, defBook());
-    let coverType = (cur.cover&&cur.cover.type)||'color';
-    let coverValue = (cur.cover&&cur.cover.value)||'#2768ff';
+    if(!cur.cover || cur.cover.on===undefined) cur.cover = defBook().cover;
+    let section = cur.cover.on ? 'cover' : 'paper'; // qual preview está ativo (sublinhado azul)
+    const paperName = ()=>{ const id = cur.paper==='custom'?null:(GN_PAPER_ALIAS[cur.paper]||cur.paper); const p = GN_PAPERS.find(x=>x.id===id); return cur.paper==='custom'?t('pImported'):(p?t(p.k):t('pBlank')); };
+    const paperColorName = ()=>{ const c = GN_PAPER_COLORS.find(x=>x.id===cur.bg); return c?t(c.k):t('cWhite'); };
+    const coverColorName = ()=>{ const c = GN_COVER_COLORS.find(x=>x.c.toLowerCase()===String(cur.cover.colorHex||'').toLowerCase()); return c?t(c.k):t('tabColor'); };
+    const coverModelName = ()=>{ const mm = GN_COVER_MODELS.find(x=>x.id===cur.cover.model); return mm?t(mm.k):t('cmClaras'); };
     const m = openModal(`
-      <h3>${isNew?t('newNotebook').replace('+ ',''):t('customize')}</h3>
-      <div class="nb-field"><label>${t('notebookTitle')}</label><input type="text" id="nbBTitle" maxlength="80" value="${esc(cur.title)}" /></div>
-      <div class="nb-field"><label>${t('icon')}</label><div class="nb-opts" id="nbBIcons">
-        ${BOOK_ICONS.map(i=>`<button class="nb-opt ${i===cur.icon?'nb-on':''}" data-i="${i}">${i}</button>`).join('')}
-      </div></div>
-      <div class="nb-field"><label>${t('cover')}</label>
-        <div class="nb-cover-line">
-          <span class="nb-cover-prev" id="nbCoverPrev"></span>
-          <div>
-            <div class="nb-color-row" id="nbBCovColors" style="margin-bottom:9px">
-              ${FOLDER_COLORS.map(c=>`<button class="nb-color-dot" data-cc="${c}" style="background:${c}"></button>`).join('')}
+      <div class="nb-gnb">
+        <div class="nb-gnb-head">
+          <button class="nb-gnb-x" id="nbGnbX" aria-label="${t('cancel')}">✕</button>
+          <strong>${isNew?t('nbNewTitle'):t('customize')}</strong>
+          <button class="nb-gnb-ok" id="nbGnbOk" aria-label="${t('create')}">✓</button>
+        </div>
+        <div class="nb-gnb-top">
+          <div class="nb-gnb-prevs" id="nbGnbPrevs"></div>
+          <div class="nb-gnb-form">
+            <div class="nb-gnb-rows">
+              <label class="nb-gnb-row"><span>${t('nameLbl')}</span><input id="nbGnbName" maxlength="80" placeholder="${t('nbUntitledPh')}" value="${esc(cur.title||'')}"></label>
+              <div class="nb-gnb-row"><span>${t('cover')}</span>
+                <label class="nb-switch"><input type="checkbox" id="nbGnbCovSw" ${cur.cover.on?'checked':''}><i></i></label>
+              </div>
             </div>
-            <button class="nb-btn" id="nbCovUpload">🖼 ${t('coverImage')}</button>
-            <input type="file" id="nbCovFile" accept="image/*" hidden />
+            <div class="nb-gnb-caps" id="nbGnbCaps"></div>
+            <div class="nb-gnb-rows">
+              <button class="nb-gnb-row nb-gnb-click" id="nbGnbSize"><span>${t('sizeLbl2')}</span><span class="nb-gnb-val" id="nbGnbSizeVal"></span></button>
+              <button class="nb-gnb-row nb-gnb-click" id="nbGnbColor"><span>${t('color')}</span><span class="nb-gnb-val" id="nbGnbColorVal"></span></button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="nb-field"><label>${t('paper')}</label><div class="nb-opts" id="nbBPapers">
-        ${PAPERS.map(p=>`<button class="nb-paper-thumb ${p.th} ${p.id===cur.paper?'nb-on':''}" data-p="${p.id}" title="${t(p.k)}"></button>`).join('')}
-      </div></div>
-      <div class="nb-field"><label>${t('bg')}</label><div class="nb-opts" id="nbBBgs">
-        ${BGS.map(b=>`<button class="nb-opt ${b.id===cur.bg?'nb-on':''}" data-b="${b.id}"><span class="nb-color-dot" style="width:16px;height:16px;background:${b.c};display:inline-block;border:1px solid rgba(0,0,0,.2)"></span>${t(b.k)}</button>`).join('')}
-      </div></div>
-      <div class="nb-field"><label>${t('orientation')}</label><div class="nb-opts" id="nbBOri">
-        <button class="nb-opt ${cur.orientation!=='landscape'?'nb-on':''}" data-o="portrait">▯ ${t('portrait')}</button>
-        <button class="nb-opt ${cur.orientation==='landscape'?'nb-on':''}" data-o="landscape">▭ ${t('landscape')}</button>
-      </div></div>
-      <div class="nb-modal-foot">
-        ${isNew?'':`<button class="nb-btn nb-btn-danger" id="nbBDel">${t('del')}</button>`}
-        <button class="nb-btn nb-btn-ghost" id="nbBCancel">${t('cancel')}</button>
-        <button class="nb-btn nb-btn-primary" id="nbBSave">${isNew?t('create'):t('saveBtn')}</button>
+        <div class="nb-gnb-body" id="nbGnbBody"></div>
+        ${isNew?'':`<div class="nb-gnb-del"><button class="nb-btn nb-btn-danger" id="nbBDel">${t('del')}</button></div>`}
+        <input type="file" id="nbGnbImport" accept="image/*" hidden />
       </div>`);
-    const prev = m.querySelector('#nbCoverPrev');
-    const updPrev = ()=>{ if(coverType==='image'){ prev.style.background=''; prev.style.backgroundImage=`url('${coverValue}')`; prev.style.backgroundSize='cover'; } else { prev.style.backgroundImage=''; prev.style.background=coverValue; } };
-    updPrev();
-    m.querySelectorAll('[data-i]').forEach(b=>b.addEventListener('click',()=>{ cur.icon=b.dataset.i; m.querySelectorAll('[data-i]').forEach(x=>x.classList.toggle('nb-on',x===b)); }));
-    m.querySelectorAll('[data-cc]').forEach(b=>b.addEventListener('click',()=>{ coverType='color'; coverValue=b.dataset.cc; updPrev(); }));
-    m.querySelector('#nbCovUpload').addEventListener('click',()=>m.querySelector('#nbCovFile').click());
-    m.querySelector('#nbCovFile').addEventListener('change', async e=>{
+
+    /* ---- previews (esquerda) ---- */
+    function renderPrevs(){
+      const wrap = m.querySelector('#nbGnbPrevs');
+      const paperCard = `
+        <button class="nb-gnb-prevcard ${section==='paper'?'nb-on':''}" data-sec="paper">
+          <small>${t('paperLbl')}</small>
+          <span class="nb-gnb-paperprev ${cur.paper==='custom'?'':paperThumbClass(cur.paper)}"
+                style="background-color:${paperColorHex(cur.bg)};${cur.paper==='custom'&&cur.customPaper?`background-image:url('${esc(cur.customPaper)}');background-size:100% auto;`:''}"></span>
+          <em>${paperName()}</em><i class="nb-gnb-under"></i>
+        </button>`;
+      const coverCard = cur.cover.on ? `
+        <button class="nb-gnb-prevcard ${section==='cover'?'nb-on':''}" data-sec="cover">
+          <small>${t('coverLbl2')}</small>
+          <span class="nb-gnb-covprev">${bookCoverHtml({icon:'', cover:cur.cover, paper:cur.paper, bg:cur.bg})}</span>
+          <em>${coverModelName()}</em><i class="nb-gnb-under"></i>
+        </button>` : '';
+      wrap.innerHTML = coverCard + paperCard;
+      wrap.querySelectorAll('[data-sec]').forEach(b=>b.addEventListener('click',()=>{ section = b.dataset.sec; refresh(); }));
+    }
+    /* ---- MODELOS DE PAPEL/CAPA (Tamanho + Cor) ---- */
+    function renderMeta(){
+      m.querySelector('#nbGnbCaps').textContent = section==='cover' ? t('coverCaps') : t('paperCaps');
+      m.querySelector('#nbGnbSizeVal').innerHTML = `${cur.orientation==='landscape'?t('a4h'):t('a4v')} <b>⌄</b>`;
+      const dot = section==='cover'
+        ? `<i class="nb-mini-dot" style="background:${esc(cur.cover.colorHex||'#55c6e4')}"></i> ${coverColorName()}`
+        : `<i class="nb-mini-dot" style="background:${paperColorHex(cur.bg)}"></i> ${paperColorName()}`;
+      m.querySelector('#nbGnbColorVal').innerHTML = `${dot} <b>⌄</b>`;
+    }
+    /* ---- galeria de modelos (embaixo) ---- */
+    function renderBody(){
+      const body = m.querySelector('#nbGnbBody');
+      if(section==='paper'){
+        const dots = pid => GN_PAPER_COLORS.map(c=>`<button class="nb-gnb-minidot ${cur.paper===pid&&cur.bg===c.id?'nb-on':''}" data-pcol="${pid}|${c.id}" title="${t(c.k)}" style="background:${c.c}"></button>`).join('');
+        body.innerHTML = `
+          <h4>${t('paperModelsTitle')}</h4><h5>${t('essentials')}</h5>
+          <div class="nb-gnb-cards">
+            ${GN_PAPERS.map(p=>`
+              <div class="nb-gnb-card">
+                <button class="nb-gnb-paperth ${p.th}" data-pp="${p.id}" style="background-color:${paperColorHex(cur.bg)}">
+                  ${ (GN_PAPER_ALIAS[cur.paper]||cur.paper)===p.id?'<span class="nb-gnb-check">✓</span>':'' }
+                </button>
+                <em>${t(p.k)}</em>
+                <div class="nb-gnb-dots">${dots(p.id)}</div>
+              </div>`).join('')}
+            ${cur.customPaper?`
+              <div class="nb-gnb-card">
+                <button class="nb-gnb-paperth" data-pp="custom" style="background-image:url('${esc(cur.customPaper)}');background-size:cover;background-position:top center">
+                  ${cur.paper==='custom'?'<span class="nb-gnb-check">✓</span>':''}
+                </button>
+                <em>${t('pImported')}</em>
+              </div>`:''}
+            <div class="nb-gnb-card">
+              <button class="nb-gnb-import" id="nbGnbImpBtn">＋<br>${t('importLbl')}</button>
+            </div>
+          </div>`;
+        body.querySelectorAll('[data-pp]').forEach(b=>b.addEventListener('click',()=>{ cur.paper = b.dataset.pp; refresh(); }));
+        body.querySelectorAll('[data-pcol]').forEach(b=>b.addEventListener('click',e=>{
+          e.stopPropagation();
+          const [pid,cid] = b.dataset.pcol.split('|'); cur.paper = pid; cur.bg = cid; refresh();
+        }));
+        body.querySelector('#nbGnbImpBtn').addEventListener('click',()=>m.querySelector('#nbGnbImport').click());
+      } else {
+        const covOf = (model,hex)=>bookCoverHtml({icon:'', cover:{on:true, model, colorHex:hex}});
+        const defHex = {claras:'#55c6e4', percurso:'#55c6e4', simples:'#b49a72', solida:'#a9c6f2', liso:'#f2f2f4'};
+        body.innerHTML = `
+          <h4>${t('coverModelsTitle')}</h4><h5>${t('simpleCat')}</h5>
+          <div class="nb-gnb-cards nb-gnb-covcards">
+            ${GN_COVER_MODELS.map(mm=>{
+              const hex = cur.cover.model===mm.id ? (cur.cover.colorHex||defHex[mm.id]) : defHex[mm.id];
+              return `
+              <div class="nb-gnb-card">
+                <button class="nb-gnb-covth" data-cm="${mm.id}">
+                  ${covOf(mm.id, hex)}
+                  ${cur.cover.model===mm.id?'<span class="nb-gnb-check">✓</span>':''}
+                </button>
+                <em>${t(mm.k)}</em>
+                <div class="nb-gnb-dots">
+                  ${GN_COVER_COLORS.slice(0,4).map(c=>`<button class="nb-gnb-minidot ${cur.cover.model===mm.id&&String(cur.cover.colorHex).toLowerCase()===c.c.toLowerCase()?'nb-on':''}" data-cmc="${mm.id}|${c.c}" title="${t(c.k)}" style="background:${c.c}"></button>`).join('')}
+                  <span class="nb-gnb-more">+${GN_COVER_COLORS.length-4}</span>
+                </div>
+              </div>`;}).join('')}
+          </div>`;
+        body.querySelectorAll('[data-cm]').forEach(b=>b.addEventListener('click',()=>{ cur.cover.model = b.dataset.cm; delete cur.cover.image; refresh(); }));
+        body.querySelectorAll('[data-cmc]').forEach(b=>b.addEventListener('click',e=>{
+          e.stopPropagation();
+          const [mid,hex] = b.dataset.cmc.split('|'); cur.cover.model = mid; cur.cover.colorHex = hex; delete cur.cover.image; refresh();
+        }));
+      }
+    }
+    function refresh(){ renderPrevs(); renderMeta(); renderBody(); }
+    refresh();
+
+    /* toggle Capa: liga → mostra preview da capa e a seção vira MODELOS DE CAPA */
+    m.querySelector('#nbGnbCovSw').addEventListener('change', e=>{
+      cur.cover.on = e.target.checked;
+      section = cur.cover.on ? 'cover' : 'paper';
+      refresh();
+    });
+    /* Tamanho: A4 Vertical/Horizontal */
+    m.querySelector('#nbGnbSize').addEventListener('click', e=>{
+      const pop = openPopover(e.currentTarget, `
+        <div class="nb-pop-list">
+          <button data-sz="portrait" class="${cur.orientation!=='landscape'?'nb-on':''}">${t('a4v')}</button>
+          <button data-sz="landscape" class="${cur.orientation==='landscape'?'nb-on':''}">${t('a4h')}</button>
+        </div>`);
+      pop.querySelectorAll('[data-sz]').forEach(b=>b.addEventListener('click',()=>{ cur.orientation = b.dataset.sz; closePopover(); refresh(); }));
+    });
+    /* Cor: papel = lista simples; capa = grade de mini-capas (Imagem 21) */
+    m.querySelector('#nbGnbColor').addEventListener('click', e=>{
+      if(section==='paper'){
+        const pop = openPopover(e.currentTarget, `
+          <div class="nb-pop-list">
+            ${GN_PAPER_COLORS.map(c=>`<button data-pc="${c.id}" class="${cur.bg===c.id?'nb-on':''}"><i class="nb-mini-dot" style="background:${c.c}"></i> ${t(c.k)}</button>`).join('')}
+          </div>`);
+        pop.querySelectorAll('[data-pc]').forEach(b=>b.addEventListener('click',()=>{ cur.bg = b.dataset.pc; closePopover(); refresh(); }));
+      } else {
+        const pop = openPopover(e.currentTarget, `
+          <div class="nb-covgrid-head"><strong>${t('color')}</strong></div>
+          <div class="nb-covgrid">
+            ${GN_COVER_COLORS.map(c=>`
+              <button data-cvc="${c.c}" class="nb-covgrid-item">
+                <span class="nb-covgrid-mini">${bookCoverHtml({icon:'', cover:{on:true, model:cur.cover.model==='image'?'claras':cur.cover.model, colorHex:c.c}})}</span>
+                ${String(cur.cover.colorHex).toLowerCase()===c.c.toLowerCase()?'<span class="nb-gnb-check">✓</span>':''}
+                <em>${t(c.k)}</em>
+              </button>`).join('')}
+          </div>`, {cls:'nb-pop-covgrid'});
+        pop.querySelectorAll('[data-cvc]').forEach(b=>b.addEventListener('click',()=>{ cur.cover.colorHex = b.dataset.cvc; delete cur.cover.image; closePopover(); refresh(); }));
+      }
+    });
+    /* Importar tipo de página (imagem vira o papel do caderno) */
+    m.querySelector('#nbGnbImport').addEventListener('change', async e=>{
       const f = e.target.files[0]; if(!f) return;
       const url = await uploadImage(f);
-      if(url){ coverType='image'; coverValue=url; updPrev(); }
+      if(url){ cur.customPaper = url; cur.paper = 'custom'; refresh(); }
       e.target.value='';
     });
-    m.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>{ cur.paper=b.dataset.p; m.querySelectorAll('[data-p]').forEach(x=>x.classList.toggle('nb-on',x===b)); }));
-    m.querySelectorAll('[data-b]').forEach(b=>b.addEventListener('click',()=>{ cur.bg=b.dataset.b; m.querySelectorAll('[data-b]').forEach(x=>x.classList.toggle('nb-on',x===b)); }));
-    m.querySelectorAll('[data-o]').forEach(b=>b.addEventListener('click',()=>{ cur.orientation=b.dataset.o; m.querySelectorAll('[data-o]').forEach(x=>x.classList.toggle('nb-on',x===b)); }));
-    m.querySelector('#nbBCancel').addEventListener('click', closeModal);
-    m.querySelector('#nbBSave').addEventListener('click', ()=>{
-      const title = m.querySelector('#nbBTitle').value.trim(); if(!title) return;
-      const data = { title, icon:cur.icon, paper:cur.paper, bg:cur.bg, orientation:cur.orientation, cover:{type:coverType, value:coverValue} };
-      if(isNew) DB.notebooks.push(Object.assign({ id:uid(), folderId, created:Date.now(), updated:Date.now() }, data));
+    m.querySelector('#nbGnbX').addEventListener('click', ()=>{ closePopover(); closeModal(); });
+    m.querySelector('#nbGnbOk').addEventListener('click', ()=>{
+      const title = m.querySelector('#nbGnbName').value.trim() || t('nbUntitledPh');
+      const data = { title, icon:cur.icon||'', paper:cur.paper, bg:cur.bg, orientation:cur.orientation,
+                     cover:cur.cover, customPaper:cur.customPaper||null };
+      if(isNew) DB.notebooks.push(Object.assign({ id:uid(), folderId:folderId||null, created:Date.now(), updated:Date.now() }, data));
       else Object.assign(book, data, { updated:Date.now() });
-      save(); closeModal(); render();
+      save(); closePopover(); closeModal(); render();
     });
     const del = m.querySelector('#nbBDel');
     if(del) del.addEventListener('click', ()=>{
@@ -602,9 +1019,9 @@
       notesIn(book.id).forEach(nt=>notePages(nt).forEach(p=>deleteRemoteImages(p.html)));
       DB.notes = DB.notes.filter(n=>n.notebookId!==book.id);
       DB.notebooks = DB.notebooks.filter(n=>n.id!==book.id);
-      save(); closeModal(); render();
+      save(); closePopover(); closeModal(); render();
     });
-    m.querySelector('#nbBTitle').focus();
+    m.querySelector('#nbGnbName').focus();
   }
 
   /* ================= VISÃO: NOTAS DO CADERNO ================= */
@@ -710,14 +1127,14 @@
     const folder = folderById(book.folderId);
     const parts = [
       { label:t('title'), act:()=>{ view={name:'folders'}; syncUrl(); render(); } },
-      { label:cmSpan(folder?folder.name:''), raw:true, act:()=>{ view={name:'folder', folderId:book.folderId}; syncUrl(); render(); } },
+      ...(folder?[{ label:cmSpan(folder.name), raw:true, act:()=>{ view={name:'folder', folderId:book.folderId}; syncUrl(); render(); } }]:[]),
       { label:cmSpan(book.title), raw:true }
     ];
     const all = notesIn(book.id);
     const list = applyToolsState(all);
     root.innerHTML = `
       <div class="nb-head">
-        <div><h1>${esc(book.icon||'📘')} ${cmSpan(book.title)}</h1>${crumbs(parts)}</div>
+        <div><h1>${book.icon?esc(book.icon)+' ':''}${cmSpan(book.title)}</h1>${crumbs(parts)}</div>
         <div class="nb-actions">
           <button class="nb-btn" id="nbBookCfg">⚙ ${t('customize')}</button>
           <button class="nb-btn nb-btn-primary" id="nbNewNote">${t('newNote')}</button>
@@ -801,7 +1218,7 @@
 
     const parts = [
       { label:t('title'), act:()=>{ view={name:'folders'}; syncUrl(); render(); } },
-      { label:cmSpan(folder?folder.name:''), raw:true, act:()=>{ view={name:'folder', folderId:book.folderId}; syncUrl(); render(); } },
+      ...(folder?[{ label:cmSpan(folder.name), raw:true, act:()=>{ view={name:'folder', folderId:book.folderId}; syncUrl(); render(); } }]:[]),
       { label:cmSpan(book.title||''), raw:true, act:()=>{ view={name:'notebook', nbId:nt.notebookId}; syncUrl(); render(); } },
       { label:cmSpan(nt.title||t('untitled')), raw:true }
     ];
@@ -862,7 +1279,7 @@
       ${drawing ? drawToolbar() : textToolbar(swatchPop)}
       ${pagerHtml}
       <div class="nb-page-wrap">
-        <div class="nb-page nb-bg-${esc(book.bg||'white')} ${book.paper&&book.paper!=='blank'?'nb-paper-'+esc(book.paper):''} ${book.orientation==='landscape'?'nb-o-landscape':''} ${drawing?'nb-drawmode':''}" id="nbPage">
+        <div class="nb-page nb-bg-${esc(book.bg||'white')} ${book.paper&&book.paper!=='blank'?'nb-paper-'+esc(book.paper):''} ${book.orientation==='landscape'?'nb-o-landscape':''} ${drawing?'nb-drawmode':''}" ${book.paper==='custom'&&book.customPaper?`style="background-image:url('${esc(book.customPaper)}');background-size:100% auto;background-repeat:repeat-y"`:''} id="nbPage">
           <div class="nb-page-text" id="nbEditor" contenteditable="${drawing?'false':'true'}" data-ph="${t('notePh')}"></div>
           <canvas class="nb-page-draw" id="nbCanvas"></canvas>
         </div>
@@ -1118,7 +1535,7 @@
   function renderReading(nt, book, parts){
     const pages = notePages(nt);
     const body = pages.map((p,i)=>`
-      <div class="nb-read-page nb-bg-${esc(book.bg||'white')} ${book.paper&&book.paper!=='blank'?'nb-paper-'+esc(book.paper):''} ${book.orientation==='landscape'?'nb-o-landscape':''}">
+      <div class="nb-read-page nb-bg-${esc(book.bg||'white')} ${book.paper&&book.paper!=='blank'?'nb-paper-'+esc(book.paper):''} ${book.orientation==='landscape'?'nb-o-landscape':''}" ${book.paper==='custom'&&book.customPaper?`style="background-image:url('${esc(book.customPaper)}');background-size:100% auto;background-repeat:repeat-y"`:''}>
         <div class="nb-read-body">${p.html||'<p class="nb-muted">'+t('emptyReading')+'</p>'}</div>
       </div>`).join('');
     root.innerHTML = `
@@ -1407,7 +1824,7 @@
     let book = bookById('lib3-clips');
     if(!book){
       book = { id:'lib3-clips', folderId:folder.id, title:'Library 3', icon:'📘', paper:'blank', bg:'white',
-        orientation:'portrait', cover:{type:'color', value:'#2768ff'}, created:Date.now(), updated:Date.now() };
+        orientation:'portrait', cover:{on:true, model:'solida', colorHex:'#2768ff'}, created:Date.now(), updated:Date.now() };
       DB.notebooks.push(book);
     }
     return book;
