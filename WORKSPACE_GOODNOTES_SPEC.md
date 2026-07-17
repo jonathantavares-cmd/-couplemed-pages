@@ -34,6 +34,10 @@ EXCETO os itens marcados como "fora". Tudo bilíngue EN+PT no mesmo commit.
 - AirDrop fora; no share do Notes fica "Copiar".
 - "Resultados de Cálculos" (Apple Notes): implementar versão simples.
 - Ícones de pasta: emojis chamativos de estudo, NUNCA ícones de linha.
+- **Caderno = páginas direto** (decidido pelo Jonathan em 2026-07-17): abrir o
+  caderno abre o editor com as páginas, sem lista de notas no meio. Notas antigas
+  viram páginas do caderno (título vira <h1> na 1ª página da nota); notas rápidas
+  passam a viver no app Notes (Fase 5).
 
 ## Fase 2 — Barra superior do caderno aberto (itens 16–20)
 Esquerda: painel lateral de páginas (miniaturas), busca no documento (painel
