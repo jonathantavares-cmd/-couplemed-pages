@@ -44,7 +44,7 @@ const json = (obj, status = 200) =>
   });
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     /* ---------- rota AI Tutor ---------- */
@@ -123,7 +123,7 @@ export default {
 
     /* ---------- rotas Library 3 (R2 — PDFs) ---------- */
     if (url.pathname.startsWith('/api/library3')) {
-      return handleLibrary3(request, env, url);
+      return handleLibrary3(request, env, url, ctx);
     }
 
     /* ---------- arquivos estáticos (public/) ---------- */
@@ -648,7 +648,7 @@ async function handleNotebook(request, env, url) {
  * Endpoints:
  *   GET /api/library3/pdf/<key>  → serve o PDF (cache imutável de 1 ano, inline no navegador)
  */
-async function handleLibrary3(request, env, url) {
+async function handleLibrary3(request, env, url, ctx) {
   const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,Range' };
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
 
@@ -677,11 +677,28 @@ async function handleLibrary3(request, env, url) {
       'Accept-Ranges': 'bytes'
     };
 
+    // Edge cache pros chunks — o mesmo PDF grande (livro completo) é reaberto por vários
+    // usuários e o PDF.js sempre pede os MESMOS ranges (xref/hint/página 1) na abertura.
+    // Sem isso, cada chunk batia no R2 de novo (bucket.head() + bucket.get() = 2 round
+    // trips) toda vez, e a abertura do livro (~600 requisições) ficava lenta demais
+    // (request count × latência do R2, sequencial pelo jeito que o PDF.js consome range).
+    // Cache-Control immutable de 1 ano bate com o do arquivo (a key só muda se o PDF for
+    // re-substituído).
+    const cache = caches.default;
+    const sizeCacheKey = new Request(`https://lib3-cache.internal/size/${encodeURIComponent(key)}`);
+
     const rangeHeader = request.headers.get('Range');
     if (rangeHeader) {
-      const head = await bucket.head(key);
-      if (!head) return reply({ error: 'Not found' }, 404);
-      const size = head.size;
+      let size;
+      const cachedSize = await cache.match(sizeCacheKey);
+      if (cachedSize) {
+        size = Number(await cachedSize.text());
+      } else {
+        const head = await bucket.head(key);
+        if (!head) return reply({ error: 'Not found' }, 404);
+        size = head.size;
+        ctx.waitUntil(cache.put(sizeCacheKey, new Response(String(size), { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } })));
+      }
       const match = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader.trim());
       if (!match || (!match[1] && !match[2])) {
         return new Response(null, { status: 416, headers: { ...baseHeaders, 'Content-Range': `bytes */${size}` } });
@@ -706,9 +723,22 @@ async function handleLibrary3(request, env, url) {
         'Content-Length': String(length)
       };
       if (request.method === 'HEAD') return new Response(null, { status: 206, headers: rangeHeaders });
+
+      // A Cache API da Cloudflare rejeita (lança exceção) respostas com status 206 — só
+      // aceita 200 pra cache.put(). Por isso guardamos o pedaço como um 200 "cru" com uma
+      // key que já embute o range exato, e remontamos o 206 de verdade (com Content-Range
+      // certo) na hora de servir pro cliente, tanto no HIT quanto no MISS.
+      const rangeCacheKey = new Request(`https://lib3-cache.internal/range/${encodeURIComponent(key)}?s=${start}&e=${end}`);
+      const cachedRange = await cache.match(rangeCacheKey);
+      if (cachedRange) {
+        return new Response(cachedRange.body, { status: 206, headers: { ...rangeHeaders, 'X-Lib3-Cache': 'HIT' } });
+      }
+
       const obj = await bucket.get(key, { range: { offset: start, length } });
       if (!obj) return reply({ error: 'Not found' }, 404);
-      return new Response(obj.body, { status: 206, headers: rangeHeaders });
+      const bytes = await obj.arrayBuffer();
+      ctx.waitUntil(cache.put(rangeCacheKey, new Response(bytes, { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } })));
+      return new Response(bytes, { status: 206, headers: { ...rangeHeaders, 'X-Lib3-Cache': 'MISS' } });
     }
 
     if (request.method === 'HEAD') {

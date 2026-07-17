@@ -368,7 +368,7 @@
       setTimeout(()=>{location.href=(u==='john'||u==='alysson')?`transition.html?u=${u}`:`app.html?u=${u}`},460);
     });
   }
-  function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),3450); setTimeout(()=>location.href=`app.html?u=${u}`,4000);}
+  function initTransition(){const q=$('#transitionQuote'); if(!q)return; const u=params().get('u'); if(!['john','alysson'].includes(u)){location.replace('index.html');return} sessionStorage.setItem('couplemed_active_user',u); q.textContent=draw(`couplemed_transition_deck_${u}`,quotes); setTimeout(()=>$('.transition-viewport').classList.add('fading'),2450); setTimeout(()=>location.href=`app.html?u=${u}`,3000);}
   const LIB_TITLE_KEY = {'library-1':'library1Title','library-2':'library2Title','library-3':'library3Title'};
   // Nomes reais das pastas de cada biblioteca, na ordem exata solicitada pelo usuário.
   const LIB_FOLDERS = {
@@ -1412,7 +1412,7 @@
     sec=Math.max(0,Math.floor(sec));
     const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);
     if(h>0)return h+'<small class="unit">h</small>'+(m<10?'0':'')+m+'<small class="unit">min</small>';
-    return m+'<small class="unit unit-word">'+(m===1?t.minuteOne:t.minuteMany)+'</small>';
+    return m+'<small class="unit">'+(m===1?t.minuteOne:t.minuteMany)+'</small>';
   }
   function renderStudyTime(){
     const t=I18N[cmLang()];

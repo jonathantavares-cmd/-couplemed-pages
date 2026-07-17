@@ -193,7 +193,14 @@
     }).then(big=>{
       if(activeReader!==r) return;
       const opts = { url: lib3PdfUrl(item.key) };
-      if(big){ opts.disableAutoFetch = true; opts.disableStream = true; }
+      // rangeChunkSize maior pro modo "big": esse PDF específico (First Aid completo)
+      // precisa varrer uma fração grande do arquivo pra montar a árvore de páginas mesmo
+      // linearizado (o PDF.js não usa a hint table de linearização nesse modo range-only —
+      // testado: o padrão de acesso é quase idêntico com/sem linearização). Com o chunk
+      // padrão de 64KB isso vira ~600 requisições sequenciais (lento demais); em 1MB caem
+      // pra ~230, e o cache de edge do worker.js (immutable, mesma key pra todo mundo)
+      // deixa a 2ª pessoa em diante MUITO mais rápida.
+      if(big){ opts.disableAutoFetch = true; opts.disableStream = true; opts.rangeChunkSize = 4*1024*1024; }
       return r.pdfjsLib.getDocument(opts).promise;
     }).then(doc=>{
       if(!doc || activeReader!==r) return;
