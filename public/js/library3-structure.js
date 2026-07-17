@@ -22,11 +22,10 @@ window.LIBRARY3_FULL_BOOK = {name:"First Aid USMLE Step 1 — Complete Book (202
 // abre TODOS os 84 PDFs de tópico da Library 3 — gerado direto da estrutura acima, então
 // qualquer PDF novo adicionado aqui já entra automaticamente, sem precisar lembrar de
 // atualizar uma lista separada.
-// O LIVRO COMPLETO (392MB) NÃO entra aqui de propósito: ele não é linearizado ("fast web
-// view"), então mesmo com o suporte a Range request do worker.js o PDF.js precisa ler
-// grande parte do arquivo (de trás pra frente) só pra montar a estrutura de páginas antes
-// de mostrar a 1ª — inviável. Pra ele abrir aqui, o arquivo precisa ser linearizado
-// (qpdf --linearize) e re-enviado ao R2. Enquanto isso, continua abrindo em nova aba.
+// O LIVRO COMPLETO entrou também (2026-07-16): foi linearizado (qpdf --linearize via
+// pikepdf) e re-enviado ao R2 na mesma key, então o PDF.js consegue montar a estrutura de
+// páginas só com Range requests pequenas, sem baixar o arquivo inteiro.
 window.LIBRARY3_READER_PILOT = new Set(
   window.LIBRARY3_STRUCTURE.flatMap(folder => folder.items.map(item => item.key))
+    .concat([window.LIBRARY3_FULL_BOOK.key])
 );
