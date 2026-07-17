@@ -10,9 +10,13 @@ EXCETO os itens marcados como "fora". Tudo bilíngue EN+PT no mesmo commit.
   popover Pasta/Notebook/Notes; diálogo de pasta (Cor/Ícone, seletor de cor
   personalizado, emojis de estudo); modal "Novo caderno" (papéis, cores, capas,
   importar papel). Cadernos podem ficar na raiz; capas antigas migradas.
-- [ ] **Fase 2 — Shell do editor** (itens 16–20)
-- [ ] **Fase 3 — Ferramentas** (itens 6–15)
-- [ ] **Fase 4 — Exportar/Imprimir** (item 17)
+- [x] **Fase 2 — Shell do editor** (commit `bf50173`): caderno abre direto nas
+  páginas; barra azul (home, renomear, painel de miniaturas, busca no documento
+  Notas/Esquemas, modo leitura "Apenas leitura"); adicionar página (popover
+  completo); menu ⋯ da página; migração notas→páginas; busca global por página.
+- [ ] **Fase 3 — Ferramentas** (itens 6–15) ← PRÓXIMA. Substituir os toolbars
+  atuais (textToolbar/drawToolbar em notebook.js) pelas ferramentas GoodNotes.
+- [x] **Fase 4 — Exportar/Imprimir** (embutida na Fase 2: openSharePop/exportBookPages)
 - [ ] **Fase 5 — Notes = clone do Apple Notes** (itens 21–29)
 
 ## Arquivos
