@@ -233,12 +233,6 @@
           <a class="l3r-btn l3r-download" id="l3rDownloadLink" download>⬇ ${esc(t('download'))}</a>
         </div>
         <div class="l3r-body">
-          <div class="l3r-pagewrap" id="l3rPageWrap">
-            <div class="l3r-loading" id="l3rLoading">${esc(t('loading'))}</div>
-            <button type="button" class="l3r-sidearrow l3r-sidearrow-prev" id="l3rSidePrev" aria-label="prev">‹</button>
-            <button type="button" class="l3r-sidearrow l3r-sidearrow-next" id="l3rSideNext" aria-label="next">›</button>
-            <div class="l3r-pagehost pdfViewer" id="l3rPageHost"></div>
-          </div>
           <div class="l3r-toolbar l3r-toolbar-bottom">
             <div class="l3r-group l3r-marktools">
               ${HL_COLORS.map(c=>`<button type="button" class="l3r-swatch" data-color="${c.v}" style="background:${c.v}" title="${esc(t('hl'))}"></button>`).join('')}
@@ -268,6 +262,12 @@
               <span id="l3rZoomLabel">130%</span>
               <button type="button" class="l3r-ic" id="l3rZoomIn" aria-label="${esc(t('zoomIn'))}">+</button>
             </div>
+          </div>
+          <div class="l3r-pagewrap" id="l3rPageWrap">
+            <div class="l3r-loading" id="l3rLoading">${esc(t('loading'))}</div>
+            <button type="button" class="l3r-sidearrow l3r-sidearrow-prev" id="l3rSidePrev" aria-label="prev">‹</button>
+            <button type="button" class="l3r-sidearrow l3r-sidearrow-next" id="l3rSideNext" aria-label="next">›</button>
+            <div class="l3r-pagehost pdfViewer" id="l3rPageHost"></div>
           </div>
         </div>
       </div>`;
