@@ -125,7 +125,8 @@
       items.push({ label:n.title, snippetSource:'', href:`app.html?page=notebooks&u=${USER}&nb=${n.id}`, cat:'Notebooks · '+(f?f.name:'No folder') });
       // v4: páginas do caderno (conteúdo) entram na busca global
       (Array.isArray(n.pages)?n.pages:[]).forEach((p,i)=>{
-        const txt = stripHtml(p.html||''); if(!txt) return;
+        const sticky = (Array.isArray(p.objs)?p.objs:[]).filter(o=>o.type==='sticky'&&o.text).map(o=>o.text).join(' ');
+        const txt = (stripHtml(p.html||'')+' '+sticky).replace(/\s+/g,' ').trim(); if(!txt) return;
         items.push({
           label: (n.title||'') + ' · p.' + (i+1),
           snippetSource: txt,
@@ -241,7 +242,19 @@
       confirmTrashPage:'Move this page to the trash? This deletes the page.',
       shareExport:'Share and export', exportSec:'Export',
       exportThisPage:'Export this page', exportAll:'Export all',
-      renameBook:'Rename notebook', pagesLbl:'Pages'
+      renameBook:'Rename notebook', pagesLbl:'Pages',
+      /* --- v5: ferramentas do editor (Fase 3) --- */
+      lassoTitle:'Lasso tool', lassoRect:'Rectangular', lassoFree:'Freehand',
+      textTool:'Text', imageTool:'Image', stickyTool:'Sticky note', laserTool:'Laser pointer',
+      penColorTitle:'Pen color', markerColorTitle:'Highlighter color', presetsLbl:'Presets',
+      styleFountain:'Fountain pen', styleBall:'Ballpoint', styleBrush:'Brush',
+      eraserStandard:'Standard', eraserStroke:'Whole stroke', eraserSettings:'Eraser settings',
+      eraserOnlyMarker:'Erase highlighter only',
+      laserPoint:'Point', laserLine:'Line',
+      spacingLbl:'Spacing', boxBorder:'Text box border',
+      favStyleTip:'Favorite style', favApply:'Apply favorite style', favSave:'Save current style as favorite', favSaved:'Style saved!',
+      pinText:'Pin text tool', stickyHint:'Tap the page to add a sticky note.',
+      delSel:'Delete selection'
     },
     pt:{
       title:'Meus Cadernos', titleNotes:'Todas as Notas', home:'Início',
@@ -341,7 +354,19 @@
       confirmTrashPage:'Mover esta página para o lixo? Isso exclui a página.',
       shareExport:'Partilhar e exportar', exportSec:'Exportar',
       exportThisPage:'Exportar esta página', exportAll:'Exportar tudo',
-      renameBook:'Renomear caderno', pagesLbl:'Páginas'
+      renameBook:'Renomear caderno', pagesLbl:'Páginas',
+      /* --- v5: ferramentas do editor (Fase 3) --- */
+      lassoTitle:'Ferramenta de laço', lassoRect:'Retangular', lassoFree:'Mão livre',
+      textTool:'Texto', imageTool:'Imagem', stickyTool:'Nota adesiva', laserTool:'Ponteiro laser',
+      penColorTitle:'Cor da caneta', markerColorTitle:'Cor do marcador', presetsLbl:'Predefinições',
+      styleFountain:'Caneta-tinteiro', styleBall:'Esferográfica', styleBrush:'Pincel',
+      eraserStandard:'Padrão', eraserStroke:'Traço inteiro', eraserSettings:'Ajustes da borracha',
+      eraserOnlyMarker:'Apagar apenas marca-texto',
+      laserPoint:'Ponto', laserLine:'Linha',
+      spacingLbl:'Espaçamento', boxBorder:'Borda da caixa de texto',
+      favStyleTip:'Estilo favorito', favApply:'Aplicar estilo favorito', favSave:'Guardar estilo atual como favorito', favSaved:'Estilo guardado!',
+      pinText:'Afixar ferramenta de texto', stickyHint:'Toque na página para adicionar a nota adesiva.',
+      delSel:'Apagar seleção'
     }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
@@ -363,6 +388,41 @@
   const MARKER_PALETTE = ['#ffe08a','#ffd0a0','#ffe08a','#b8f5b0','#a8d8ff','#d9c4ff','#ffc4dd','#fff176','#b9f6ca','#84ffff','#ff8a80'];
   const PEN_WIDTHS = [{k:'thin',v:2},{k:'medium',v:4},{k:'thick',v:8}];
   const MARKER_WIDTHS = [{k:'thin',v:14},{k:'medium',v:22},{k:'thick',v:32}];
+  /* ---------- v5: constantes das ferramentas GoodNotes (Fase 3) ---------- */
+  // popover "Cor da caneta": 3 fileiras (vivas / escuras / neutras)
+  const GN_PEN_ROWS = [
+    ['#ff3b30','#ff9500','#ffcc00','#34c759','#00c7be','#32ade6','#007aff','#5856d6','#af52de','#ff2d55'],
+    ['#1d1d1f','#48484a','#7a0619','#8a3800','#6b5500','#0e5a2b','#0b3d6b','#2c2a6b','#5b1e63','#5c4033'],
+    ['#ffffff','#f2f2f7','#d1d1d6','#aeaeb2','#8e8e93','#636366','#48484a','#2c2c2e','#c9b9a0','#8d7350']
+  ];
+  // popover "Cor do marcador": pastéis (2 fileiras)
+  const GN_MARKER_ROWS = [
+    ['#fff59d','#ffe082','#ffcc80','#ffab91','#f8bbd0','#e1bee7','#d1c4e9','#c5cae9','#bbdefb','#b2ebf2'],
+    ['#b2dfdb','#c8e6c9','#dcedc8','#f0f4c3','#ffd9e1','#ffe5b4','#d7ccc8','#cfd8dc','#e0f7fa','#f5f5f5']
+  ];
+  // nota adesiva: 10 cores exatas (rosa-averm., laranja, amarelo, verde, verde-água,
+  // azul, lilás, rosa, cinza | branco)
+  const GN_STICKY_COLORS = ['#f6a099','#fbc57c','#f9e08c','#c3e79a','#9fe3cf','#a5d4f6','#c8b6f2','#f4b6d9','#c9ccd2','#ffffff'];
+  const GN_ERASER_SIZES = [10,18,32];
+  const GN_PEN_STYLES = [
+    {id:'fountain', k:'styleFountain', ico:'✒'},
+    {id:'ball',     k:'styleBall',     ico:'🖊'},
+    {id:'brush',    k:'styleBrush',    ico:'🖌'}
+  ];
+  /* preferências das ferramentas persistem entre sessões (como no GoodNotes) */
+  const TOOLS_KEY = 'couplemed_nb_tools';
+  const GN_TOOL_DEFAULTS = {
+    tool:'text', penStyle:'fountain', penWidth:4, penSlots:['#182233','#2768ff','#e5484d'], penSlot:0, penPresets:[],
+    markerWidth:22, markerSlots:['#fff176','#b9f6ca','#a8d8ff'], markerSlot:0, markerPresets:[],
+    eraserMode:'standard', eraserWidth:18, eraserOnlyMarker:false,
+    lassoMode:'rect', stickyColor:'#f9e08c', laserMode:'point',
+    textPinned:false, favStyle:null, textColor:'#182233', textHilite:'#fff176'
+  };
+  let gnT = (function(){
+    try{ const o = JSON.parse(localStorage.getItem(TOOLS_KEY)); if(o && typeof o==='object') return Object.assign({}, GN_TOOL_DEFAULTS, o); }catch(e){}
+    return Object.assign({}, GN_TOOL_DEFAULTS);
+  })();
+  const saveTools = ()=>{ try{ localStorage.setItem(TOOLS_KEY, JSON.stringify(gnT)); }catch(e){} };
   /* ---------- v3: constantes do fluxo de criação estilo GoodNotes ---------- */
   // 3 fileiras de cores de pasta (escuras / vivas / claras) — a última posição é o arco-íris (cor personalizada)
   const GN_FOLDER_COLORS = [
@@ -1189,6 +1249,19 @@
      partilhar/exportar e menu ⋯ da página.
      ================================================================ */
   const bookPages = nb => { if(!Array.isArray(nb.pages)||!nb.pages.length) nb.pages=[{id:uid(),html:'',strokes:[]}]; return nb.pages; };
+  const objsOf = pg => { if(!Array.isArray(pg.objs)) pg.objs = []; return pg.objs; };
+  const pageObjsText = pg => (Array.isArray(pg.objs)?pg.objs:[]).filter(o=>o.type==='sticky'&&o.text).map(o=>o.text).join(' ');
+  /* objetos (imagens/post-its) nas miniaturas do painel de páginas */
+  const thumbObjsHtml = p => (Array.isArray(p.objs)&&p.objs.length ? `<span class="nb-pthumb-objs">${p.objs.map(o=> o.type==='img'
+      ? `<img src="${esc(o.src)}" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%">`
+      : `<i style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%;height:${+o.h||8}%;background:${esc(o.color)}"></i>`).join('')}</span>` : '');
+  /* apaga do R2 as imagens da página (corpo + objetos) — melhor esforço */
+  function deletePageAssets(pg){
+    deleteRemoteImages(pg.html);
+    (Array.isArray(pg.objs)?pg.objs:[]).forEach(o=>{
+      if(o.type==='img' && (o.src||'').startsWith('/api/notebook/img/')){ try{ fetch(o.src, {method:'DELETE'}); }catch(e){} }
+    });
+  }
   const pagePaperOf = (book,p)=> p.paper || book.paper || 'blank';
   const pageBgOf2 = (book,p)=> p.bg || book.bg || 'white';
   function pageClass(book,p,extra){
@@ -1218,13 +1291,10 @@
     if(view.page>pages.length-1) view.page=pages.length-1;
     const pg = pages[view.page];
     const reading = !!view.reading;
-    const drawing = view.mode==='draw' && !reading;
+    const tool = gnT.tool;
+    const inking = !reading && ['pen','marker','eraser','lasso','laser'].includes(tool);
+    const toolCls = reading ? '' : (inking ? 'nb-drawmode nb-tool-ink' : 'nb-tool-'+tool);
     if(view.panel===undefined) view.panel = window.innerWidth>1024;
-
-    const swatchPop = (id) => `<div class="nb-swatch-pop" id="${id}" hidden>
-      ${SWATCHES.map(c=>`<button class="nb-sw" data-sw="${c}" style="background:${c}"></button>`).join('')}
-      <input type="color" class="nb-sw-custom" data-swc value="#2768ff" />
-    </div>`;
 
     root.innerHTML = `
       <div class="nb-gnshell">
@@ -1239,11 +1309,6 @@
           <button class="nb-gnicon ${reading?'nb-on':''}" id="nbReadTgl" title="${reading?t('editModeTip'):t('readModeTip')}">${reading?'✎':'👁'}</button>
           ${reading?`<span class="nb-gnro">${t('readOnly')}</span>`:''}
           <span class="nb-gnflex"></span>
-          ${reading?'':`<div class="nb-mode nb-gnmode">
-            <button id="nbModeType" class="${drawing?'':'nb-on'}">${t('typeMode')}</button>
-            <button id="nbModeDraw" class="${drawing?'nb-on':''}">${t('drawMode')}</button>
-          </div>`}
-          <span class="nb-gnflex"></span>
           <span class="nb-savestate nb-gnsave" id="nbSaveState">${t('saved')}</span>
           <button class="nb-gnicon" id="nbAddPgBtn" title="${t('addPage')}">
             <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v4h4M4 8v13h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.5 13.5h5M13 11v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -1253,13 +1318,14 @@
           </button>
           <button class="nb-gnicon" id="nbPgMoreBtn" title="⋯">⋯</button>
         </div>
-        ${reading?'':(drawing?drawToolbar():textToolbar(swatchPop))}
+        ${reading?'':gnToolbar()}
         <div class="nb-gnmain">
           <aside class="nb-pgpanel" id="nbPgPanel" ${view.panel?'':'hidden'}>
             ${pages.map((p,i)=>`
               <button class="nb-pthumb ${i===view.page?'nb-on':''}" data-goto="${i}">
                 <span class="${pageClass(book,p,'nb-pthumb-page')}" ${pageStyleAttr(book,p)}>
                   <span class="nb-pthumb-body">${p.html||''}</span>
+                  ${thumbObjsHtml(p)}
                   <canvas class="nb-pthumb-ink" data-inkthumb="${i}"></canvas>
                 </span>
                 <em>${p.fav?'★ ':''}${i+1}</em>
@@ -1269,8 +1335,9 @@
           <div class="nb-pgarea">
             <button class="nb-pgnav" id="nbPgPrev" ${view.page===0?'disabled':''} title="${t('prevPage')}">‹</button>
             <div class="nb-page-wrap nb-pgwrap">
-              <div class="${pageClass(book,pg,(drawing?'nb-drawmode':''))}" ${pageStyleAttr(book,pg)} id="nbPage">
-                <div class="nb-page-text" id="nbEditor" contenteditable="${(!reading&&!drawing)?'true':'false'}" data-ph="${reading?'':t('notePh')}"></div>
+              <div class="${pageClass(book,pg,toolCls)}" ${pageStyleAttr(book,pg)} id="nbPage">
+                <div class="nb-page-text" id="nbEditor" contenteditable="${(!reading&&tool==='text')?'true':'false'}" data-ph="${(reading||tool!=='text')?'':t('notePh')}"></div>
+                <div class="nb-objlayer" id="nbObjLayer"></div>
                 <canvas class="nb-page-draw" id="nbCanvas"></canvas>
               </div>
               <div class="nb-pgcount">${t('pageOf',{n:view.page+1,total:pages.length})}</div>
@@ -1323,21 +1390,21 @@
     root.querySelector('#nbShareBtn').addEventListener('click', e=>{ flushPage(book, editor, pg); openSharePop(e.currentTarget, book, pg); });
     root.querySelector('#nbPgMoreBtn').addEventListener('click', e=>{ flushPage(book, editor, pg); openPageMenu(e.currentTarget, book, pg); });
 
-    setupCanvas(book, book, drawing, pg); // sempre redesenha os traços (inclusive no modo leitura)
+    renderObjLayer(book, pg, !reading);   // imagens móveis + notas adesivas
+    setupInk(book, pg, inking, tool);     // sempre redesenha os traços (inclusive no modo leitura)
     if(reading) return;
 
-    root.querySelector('#nbModeType').addEventListener('click', ()=>{ if(view.mode!=='draw')return; flushPage(book, editor, pg); view.mode='type'; render(); });
-    root.querySelector('#nbModeDraw').addEventListener('click', ()=>{ if(view.mode==='draw')return; flushPage(book, editor, pg); view.mode='draw'; render(); });
-
-    if(drawing){ wireDrawBar(book, pg); return; }
-    wireTextEditor(book, editor, pg);
+    gnWireShortcuts(book, editor, pg);    // atalhos V/P/E/I/N/L (só desktop)
+    wireGnToolbar(book, editor, pg);
+    if(tool==='text') wireTextCore(book, editor, pg);
   }
 
-  /* --- editor de texto (mesma mecânica da v2, agora por página do caderno) --- */
-  function wireTextEditor(book, editor, curPage){
+  /* --- editor de texto (núcleo: input/save/checklist/colar/arrastar) —
+     os comandos de formatação vivem na sub-barra da ferramenta Texto (v5) --- */
+  function wireTextCore(book, editor, curPage){
     const scheduleSave = ()=>{
       markSaving(); clearTimeout(saveTimer);
-      saveTimer = setTimeout(()=>{ if(view.mode!=='draw') curPage.html = editor.innerHTML; book.updated = Date.now(); save(); }, 500);
+      saveTimer = setTimeout(()=>{ curPage.html = editor.innerHTML; book.updated = Date.now(); save(); }, 500);
     };
     try{ document.execCommand('styleWithCSS', false, true); }catch(e){}
     try{ document.execCommand('defaultParagraphSeparator', false, 'p'); }catch(e){}
@@ -1347,51 +1414,7 @@
       const li = e.target.closest('li.nb-check-item');
       if(li && e.offsetX < 26){ li.classList.toggle('nb-checked'); scheduleSave(); }
     });
-    const exec = (cmd, val)=>{ editor.focus(); document.execCommand(cmd, false, val); scheduleSave(); };
-    root.querySelectorAll('#nbToolbar [data-cmd]').forEach(b=>{
-      b.addEventListener('mousedown', e=>e.preventDefault());
-      b.addEventListener('click', ()=>exec(b.dataset.cmd));
-    });
-    root.querySelector('#nbFmtBlock').addEventListener('change', e=>{ exec('formatBlock', '<'+e.target.value+'>'); e.target.value='p'; });
-    root.querySelector('#nbFontSel').addEventListener('change', e=>{ if(e.target.value) exec('fontName', e.target.value); e.target.selectedIndex=0; });
-    root.querySelector('#nbSizeSel').addEventListener('change', e=>{ if(e.target.value) exec('fontSize', e.target.value); e.target.selectedIndex=0; });
-    root.querySelector('#nbCheckBtn').addEventListener('mousedown', e=>e.preventDefault());
-    root.querySelector('#nbCheckBtn').addEventListener('click', ()=>{
-      editor.focus();
-      document.execCommand('insertHTML', false, '<ul class="nb-checklist"><li class="nb-check-item">&nbsp;</li></ul>');
-      scheduleSave();
-    });
-    root.querySelector('#nbQuoteBtn').addEventListener('mousedown', e=>e.preventDefault());
-    root.querySelector('#nbQuoteBtn').addEventListener('click', ()=>exec('formatBlock','<blockquote>'));
-    root.querySelector('#nbCodeBtn').addEventListener('mousedown', e=>e.preventDefault());
-    root.querySelector('#nbCodeBtn').addEventListener('click', ()=>exec('formatBlock','<pre>'));
-    root.querySelector('#nbLinkBtn').addEventListener('mousedown', e=>e.preventDefault());
-    root.querySelector('#nbLinkBtn').addEventListener('click', ()=>{ const u=prompt(t('linkPrompt'),'https://'); if(u) exec('createLink',u); });
-    const wireSwatch = (btnId, popId, barId, cmd)=>{
-      const btn = root.querySelector('#'+btnId), pop = root.querySelector('#'+popId), bar = root.querySelector('#'+barId);
-      btn.addEventListener('mousedown', e=>e.preventDefault());
-      btn.addEventListener('click', ()=>{ closePops(pop); pop.hidden = !pop.hidden; });
-      pop.querySelectorAll('[data-sw]').forEach(sw=>{
-        sw.addEventListener('mousedown', e=>e.preventDefault());
-        sw.addEventListener('click', ()=>{ bar.style.background = sw.dataset.sw; exec(cmd, sw.dataset.sw); pop.hidden = true; });
-      });
-      const custom = pop.querySelector('[data-swc]');
-      custom.addEventListener('input', ()=>{ bar.style.background = custom.value; exec(cmd, custom.value); });
-    };
-    const closePops = except => root.querySelectorAll('.nb-swatch-pop').forEach(p=>{ if(p!==except) p.hidden = true; });
-    wireSwatch('nbForeBtn','nbForePop','nbForeBar','foreColor');
-    wireSwatch('nbHiliteBtn','nbHilitePop','nbHiliteBar','hiliteColor');
-    if(!window.__nbPopCloser){
-      window.__nbPopCloser = true;
-      document.addEventListener('click', e=>{ if(!e.target.closest('.nb-swatch-wrap') && root) root.querySelectorAll('.nb-swatch-pop').forEach(p=>{ p.hidden = true; }); });
-    }
     const insertImg = url => { editor.focus(); document.execCommand('insertImage', false, url); scheduleSave(); };
-    root.querySelector('#nbImgBtn').addEventListener('click', ()=>root.querySelector('#nbImgFile').click());
-    root.querySelector('#nbImgFile').addEventListener('change', async e=>{
-      const f = e.target.files[0]; if(!f) return;
-      const url = await uploadImage(f); if(url) insertImg(url);
-      e.target.value='';
-    });
     editor.addEventListener('paste', async e=>{
       const items = (e.clipboardData||{}).items || [];
       for(const it of items){
@@ -1533,12 +1556,12 @@
       }
       else if(act==='goto') openGotoPop(anchor, book);
       else if(act==='clear'){
-        deleteRemoteImages(pg.html);
-        pg.html=''; pg.strokes=[]; book.updated=Date.now(); save(); closePopover(); render();
+        deletePageAssets(pg);
+        pg.html=''; pg.strokes=[]; pg.objs=[]; book.updated=Date.now(); save(); closePopover(); render();
       }
       else if(act==='trash'){
         if(!confirm(t('confirmTrashPage'))) return;
-        deleteRemoteImages(pg.html);
+        deletePageAssets(pg);
         pages.splice(view.page, 1);
         if(!pages.length) pages.push({id:uid(), html:'', strokes:[]});
         if(view.page>pages.length-1) view.page = pages.length-1;
@@ -1597,15 +1620,21 @@
         const ctx = cv.getContext('2d');
         if(ctx){ p.strokes.forEach(s=>drawStroke(ctx,s)); try{ canvasImg = `<img class="ink" src="${cv.toDataURL('image/png')}" />`; }catch(e){} }
       }
-      return `<section class="pg">${canvasImg}<div class="body">${p.html||''}</div></section>`;
+      const objsHtml = (Array.isArray(p.objs)?p.objs:[]).map(o=> o.type==='img'
+        ? `<img class="obj" src="${esc(o.src)}" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%">`
+        : `<div class="obj obj-sticky" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%;height:${+o.h||8}%;background:${esc(o.color)}">${esc(o.text||'')}</div>`).join('');
+      return `<section class="pg${book.orientation==='landscape'?' pg-l':''}">${canvasImg}${objsHtml}<div class="body">${p.html||''}</div></section>`;
     }).join('');
     const title = book.title||t('nbUntitledPh');
     const w = window.open('', '_blank');
     if(!w){ toast(t('storageFull'), true); return; }
     w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title>
       <style>@page{margin:16mm} body{font-family:'Helvetica Neue',Arial,sans-serif;color:#182233;line-height:1.6}
-      h1,h2,h3{line-height:1.3} .pg{position:relative;page-break-after:always;padding-bottom:12px}
-      .pg:last-child{page-break-after:auto} .pg .ink{position:absolute;inset:0;width:100%;height:auto;pointer-events:none}
+      h1,h2,h3{line-height:1.3} .pg{position:relative;page-break-after:always;padding-bottom:12px;aspect-ratio:1/1.35;overflow:hidden}
+      .pg.pg-l{aspect-ratio:1.35/1}
+      .pg:last-child{page-break-after:auto} .pg .ink{position:absolute;inset:0;width:100%;height:auto;pointer-events:none;z-index:3}
+      .pg .obj{position:absolute;z-index:2}
+      .pg .obj-sticky{border-radius:4px;padding:8px;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.2);white-space:pre-wrap;color:#26251f}
       img{max-width:100%} blockquote{border-left:3px solid #3d84ff;margin:10px 0;padding:4px 14px;color:#445}
       pre{background:#f4f6fa;padding:12px;border-radius:8px;overflow:auto} ul.nb-checklist{list-style:none;padding-left:4px}
       ul.nb-checklist li{position:relative;padding-left:26px} ul.nb-checklist li:before{content:'☐';position:absolute;left:0}
@@ -1659,7 +1688,7 @@
         if(!q){ res.innerHTML = emptyHtml; return; }
         const items = [];
         pages.forEach((p,i)=>{
-          const txt = stripHtml(p.html||'');
+          const txt = (stripHtml(p.html||'')+' '+pageObjsText(p)).replace(/\s+/g,' ').trim();
           const pos = txt.toLowerCase().indexOf(q);
           if(pos<0) return;
           const start = Math.max(0, pos-40);
@@ -1983,6 +2012,658 @@
     });
   }
 
+  /* ================================================================
+     v5 — FASE 3: barra de ferramentas do editor estilo GoodNotes.
+     Ordem: Laço · Caneta · Marca-texto · Borracha · Texto · Imagem ·
+     Nota adesiva · Ponteiro laser. FORA: figurinhas, formas, microfone.
+     Preferências persistem em couplemed_nb_tools (gnT).
+     ================================================================ */
+  const gnIco = {
+    lasso:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><ellipse cx="12" cy="10" rx="8" ry="6" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2.4"/><path d="M12 16v3a2 2 0 0 0 2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    pen:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M4 20l1.2-4.2L16.6 4.4a2 2 0 0 1 2.8 0l.2.2a2 2 0 0 1 0 2.8L8.2 18.8 4 20z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 6.5l3.5 3.5" stroke="currentColor" stroke-width="1.8"/></svg>',
+    marker:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M5.5 20h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".5"/><path d="M9.5 16.5L16 5.5l3 2.2-6.5 10-3.6 1.3 0.6-2.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    eraser:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M8.5 19l-4.2-4.2a2 2 0 0 1 0-2.8l7.5-7.5a2 2 0 0 1 2.8 0l4.9 4.9a2 2 0 0 1 0 2.8L13.4 19H8.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 10.5l6.5 6.5" stroke="currentColor" stroke-width="1.8"/></svg>',
+    text:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M5 6V4h14v2M12 4v16m-3 0h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    image:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M6 17l4.5-4.5 3 3L17 12l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    sticky:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M4.5 5.5a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v9l-5 5h-9a1 1 0 0 1-1-1v-13z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M19.5 14.5H15a1 1 0 0 0-1 1v4.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    laser:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 4v2.4M12 17.6V20M4 12h2.4M17.6 12H20M6.3 6.3L8 8M16 16l1.7 1.7M17.7 6.3L16 8M8 16l-1.7 1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+  };
+
+  function gnToolbar(){
+    const tool = gnT.tool;
+    const tools = [
+      ['lasso',  t('lassoTitle'),   'V'],
+      ['pen',    t('penTool'),      'P'],
+      ['marker', t('highlighter'),  '' ],
+      ['eraser', t('eraserTool'),   'E'],
+      ['text',   t('textTool'),     '' ],
+      ['image',  t('imageTool'),    'I'],
+      ['sticky', t('stickyTool'),   'N'],
+      ['laser',  t('laserTool'),    'L']
+    ];
+    return `
+    <div class="nb-gntools" id="nbGnTools">
+      <div class="nb-gt-row">
+        ${tools.map(([id,tt,k])=>`<button class="nb-gt ${tool===id?'nb-on':''}" data-gt="${id}" title="${tt}${k?' ('+k+')':''}">${gnIco[id]}</button>`).join('')}
+        <span class="nb-gnflex"></span>
+        <button class="nb-gt" id="nbGnUndo" title="${t('tipUndo')}">↩</button>
+        <button class="nb-gt" id="nbGnRedo" title="${t('tipRedo')}">↪</button>
+      </div>
+      ${gnSubbar(tool)}
+      ${gnT.textPinned && tool!=='text' ? gnTextSub(true) : ''}
+      <input type="file" id="nbGnImgFile" accept="image/*" hidden />
+    </div>`;
+  }
+
+  function gnSubbar(tool){
+    if(tool==='pen' || tool==='marker'){
+      const isM = tool==='marker';
+      const widths = isM ? MARKER_WIDTHS : PEN_WIDTHS;
+      const curW = isM ? gnT.markerWidth : gnT.penWidth;
+      const slots = isM ? gnT.markerSlots : gnT.penSlots;
+      const slotIdx = isM ? gnT.markerSlot : gnT.penSlot;
+      return `<div class="nb-gnsub">
+        ${isM?'':`<div class="nb-gt-styles">${GN_PEN_STYLES.map(s=>`<button class="nb-gt-style ${gnT.penStyle===s.id?'nb-on':''}" data-pst="${s.id}" title="${t(s.k)}">${s.ico}</button>`).join('')}</div><span class="nb-tb-sep"></span>`}
+        <div class="nb-width-group">${widths.map(w=>`<button class="nb-wbtn ${w.v===curW?'nb-on':''}" data-gw="${w.v}" title="${t(w.k)}"><span style="width:${Math.min(22,w.v+8)}px;height:${Math.max(2,Math.round(w.v/2))}px"></span></button>`).join('')}</div>
+        <span class="nb-tb-sep"></span>
+        <div class="nb-gt-slots">
+          ${slots.map((c,i)=>`<button class="nb-gt-slot ${i===slotIdx?'nb-on':''}" data-slot="${i}" style="background:${esc(c)}"></button>`).join('')}
+          <button class="nb-gt-slot nb-gt-slot-add" id="nbSlotAdd" title="${isM?t('markerColorTitle'):t('penColorTitle')}">＋</button>
+        </div>
+      </div>`;
+    }
+    if(tool==='eraser'){
+      return `<div class="nb-gnsub">
+        <select class="nb-tb-select nb-gt-esel" id="nbErMode">
+          <option value="standard" ${gnT.eraserMode==='standard'?'selected':''}>${t('eraserStandard')}</option>
+          <option value="stroke" ${gnT.eraserMode==='stroke'?'selected':''}>${t('eraserStroke')}</option>
+        </select>
+        <div class="nb-width-group">${GN_ERASER_SIZES.map(v=>`<button class="nb-wbtn ${v===gnT.eraserWidth?'nb-on':''}" data-gw="${v}"><span style="width:${Math.min(24,Math.round(v*0.7))}px;height:${Math.min(24,Math.round(v*0.7))}px;border-radius:50%"></span></button>`).join('')}</div>
+        <button class="nb-gt" id="nbErCfg" title="${t('eraserSettings')}">⚙</button>
+      </div>`;
+    }
+    if(tool==='sticky'){
+      return `<div class="nb-gnsub">
+        <div class="nb-gt-slots">${GN_STICKY_COLORS.map(c=>`<button class="nb-gt-slot ${gnT.stickyColor===c?'nb-on':''}" data-stc="${c}" style="background:${c}"></button>`).join('')}</div>
+        <span class="nb-gt-hint">${t('stickyHint')}</span>
+      </div>`;
+    }
+    if(tool==='text') return gnTextSub(false);
+    return '';
+  }
+
+  /* sub-barra da ferramenta Texto (também aparece "afixada" nas outras ferramentas) */
+  function gnTextSub(pinned){
+    return `<div class="nb-gnsub nb-gnsub-text ${pinned?'nb-gnsub-pinned':''}">
+      <button class="nb-gt nb-gt-color" id="nbTxColor" title="${t('tipColor')}">A<span class="nb-tb-color-bar" id="nbTxColorBar" style="background:${esc(gnT.textColor)}"></span></button>
+      <select class="nb-tb-select" id="nbTxFont" title="${t('fontDefault')}"><option value="">${t('fontDefault')}</option>${FONTS.map(x=>`<option value="${x}">${x}</option>`).join('')}</select>
+      <select class="nb-tb-select nb-gt-size" id="nbTxSize" title="${t('sizeLbl')}"><option value="">${t('sizeLbl')}</option>${SIZES.map(s=>`<option value="${s.v}">${s.l}</option>`).join('')}</select>
+      <span class="nb-tb-sep"></span>
+      <button class="nb-gt" data-txc="bold" title="${t('tipBold')}"><b>B</b></button>
+      <button class="nb-gt" data-txc="italic" title="${t('tipItalic')}"><i>I</i></button>
+      <button class="nb-gt" data-txc="underline" title="${t('tipUnder')}"><u>U</u></button>
+      <button class="nb-gt" data-txc="strikeThrough" title="${t('tipStrike')}"><s>S</s></button>
+      <button class="nb-gt nb-gt-color" id="nbTxHilite" title="${t('tipHilite')}">🖍<span class="nb-tb-color-bar" id="nbTxHiliteBar" style="background:${esc(gnT.textHilite)}"></span></button>
+      <span class="nb-tb-sep"></span>
+      <button class="nb-gt" data-txc="justifyLeft" title="${t('tipLeft')}">⇤</button>
+      <button class="nb-gt" data-txc="justifyCenter" title="${t('tipCenter')}">☰</button>
+      <button class="nb-gt" data-txc="justifyRight" title="${t('tipRight')}">⇥</button>
+      <select class="nb-tb-select nb-gt-size" id="nbTxSpacing" title="${t('spacingLbl')}">
+        <option value="">${t('spacingLbl')}</option><option value="1.2">1.0</option><option value="1.65">1.5</option><option value="2">1.8</option><option value="2.4">2.0</option>
+      </select>
+      <span class="nb-tb-sep"></span>
+      <button class="nb-gt" data-txc="insertUnorderedList" title="${t('tipUl')}">•≡</button>
+      <button class="nb-gt" data-txc="insertOrderedList" title="${t('tipOl')}">1≡</button>
+      <button class="nb-gt" id="nbTxCheck" title="${t('tipCheck')}">☑</button>
+      <span class="nb-tb-sep"></span>
+      <button class="nb-gt" id="nbTxBox" title="${t('boxBorder')}">▣</button>
+      <button class="nb-gt ${gnT.favStyle?'':'nb-dim'}" id="nbTxFav" title="${t('favStyleTip')}">★</button>
+      <button class="nb-gt ${gnT.textPinned?'nb-on':''}" id="nbTxPin" title="${t('pinText')}">📌</button>
+    </div>`;
+  }
+
+  function wireGnToolbar(book, editor, pg){
+    const bar = root.querySelector('#nbGnTools'); if(!bar) return;
+    /* seleção de ferramenta; clicar de novo na ativa abre as opções (laço/laser/imagem) */
+    bar.querySelectorAll('[data-gt]').forEach(b=>b.addEventListener('click', ()=>{
+      const id = b.dataset.gt;
+      if(gnT.tool===id){
+        if(id==='lasso') openLassoPop(b);
+        else if(id==='laser') openLaserPop(b);
+        else if(id==='image'){ const f=root.querySelector('#nbGnImgFile'); if(f) f.click(); }
+        return;
+      }
+      flushPage(book, editor, pg);
+      gnT.tool = id; saveTools(); render();
+      if(id==='image') setTimeout(()=>{ const f=root.querySelector('#nbGnImgFile'); if(f) f.click(); }, 60);
+    }));
+    /* desfazer/refazer: texto usa o histórico do navegador; tinta usa a pilha de traços */
+    root.querySelector('#nbGnUndo').addEventListener('click', ()=>{
+      if(gnT.tool==='text'){ editor.focus(); document.execCommand('undo'); return; }
+      if(pg.strokes && pg.strokes.length){
+        if(inkState){ inkState.sel=null; positionSelChip(null); }
+        inkRedoStack.push(pg.strokes.pop()); book.updated=Date.now(); save(); if(inkState) inkState.redraw();
+      }
+    });
+    root.querySelector('#nbGnRedo').addEventListener('click', ()=>{
+      if(gnT.tool==='text'){ editor.focus(); document.execCommand('redo'); return; }
+      if(inkRedoStack.length){
+        if(inkState){ inkState.sel=null; positionSelChip(null); }
+        pg.strokes.push(inkRedoStack.pop()); book.updated=Date.now(); save(); if(inkState) inkState.redraw();
+      }
+    });
+    /* upload da ferramenta Imagem → objeto movível/redimensionável */
+    root.querySelector('#nbGnImgFile').addEventListener('change', async e=>{
+      const f = e.target.files[0]; e.target.value=''; if(!f) return;
+      const url = await uploadImage(f); if(!url) return;
+      objsOf(pg).push({ id:uid(), type:'img', src:url, x:25, y:18, w:50 });
+      book.updated = Date.now(); save(); renderObjLayer(book, pg, true);
+    });
+    /* sub-barras */
+    const tool = gnT.tool;
+    if(tool==='pen' || tool==='marker') wirePenSub(bar, tool);
+    else if(tool==='eraser') wireEraserSub(bar);
+    else if(tool==='sticky'){
+      bar.querySelectorAll('[data-stc]').forEach(b=>b.addEventListener('click', ()=>{
+        gnT.stickyColor = b.dataset.stc; saveTools();
+        bar.querySelectorAll('[data-stc]').forEach(x=>x.classList.toggle('nb-on', x===b));
+      }));
+    }
+    if(tool==='text' || gnT.textPinned) wireTextSub(bar, book, editor, pg);
+  }
+
+  function wirePenSub(bar, tool){
+    const isM = tool==='marker';
+    bar.querySelectorAll('[data-pst]').forEach(b=>b.addEventListener('click', ()=>{
+      gnT.penStyle = b.dataset.pst; saveTools();
+      bar.querySelectorAll('[data-pst]').forEach(x=>x.classList.toggle('nb-on', x===b));
+    }));
+    bar.querySelectorAll('.nb-gnsub [data-gw]').forEach(b=>b.addEventListener('click', ()=>{
+      const v = +b.dataset.gw;
+      if(isM) gnT.markerWidth = v; else gnT.penWidth = v;
+      saveTools();
+      bar.querySelectorAll('.nb-gnsub [data-gw]').forEach(x=>x.classList.toggle('nb-on', x===b));
+    }));
+    bar.querySelectorAll('[data-slot]').forEach(b=>b.addEventListener('click', ()=>{
+      const i = +b.dataset.slot;
+      if(isM) gnT.markerSlot = i; else gnT.penSlot = i;
+      saveTools();
+      bar.querySelectorAll('[data-slot]').forEach(x=>x.classList.toggle('nb-on', x===b));
+    }));
+    bar.querySelector('#nbSlotAdd').addEventListener('click', e=>openInkColorPop(e.currentTarget, isM));
+  }
+
+  /* popover "Cor da caneta" / "Cor do marcador": fileiras fixas + predefinições + seletor personalizado */
+  function openInkColorPop(anchor, isM){
+    const rows = isM ? GN_MARKER_ROWS : GN_PEN_ROWS;
+    const presets = isM ? gnT.markerPresets : gnT.penPresets;
+    const cur = String(isM ? gnT.markerSlots[gnT.markerSlot] : gnT.penSlots[gnT.penSlot]);
+    const dot = c => `<button class="nb-gt-dot ${c.toLowerCase()===cur.toLowerCase()?'nb-on':''}" data-ic="${c}" style="background:${c}"></button>`;
+    const pop = openPopover(anchor, `
+      <div class="nb-inkpop">
+        <strong class="nb-pop-title">${isM?t('markerColorTitle'):t('penColorTitle')}</strong>
+        ${rows.map(r=>`<div class="nb-gt-dotrow">${r.map(dot).join('')}</div>`).join('')}
+        <div class="nb-pgmenu-caps">${t('presetsLbl')}</div>
+        <div class="nb-gt-dotrow">
+          ${presets.map(dot).join('')}
+          <button class="nb-gt-dot nb-gt-dot-add" id="nbIcMore" title="${t('pickerCustom')}">＋</button>
+        </div>
+      </div>`, {cls:'nb-pop-ink'});
+    const applyColor = hex=>{
+      hex = toHex(hex);
+      if(isM) gnT.markerSlots[gnT.markerSlot] = hex; else gnT.penSlots[gnT.penSlot] = hex;
+      saveTools(); closePopover(); render();
+    };
+    pop.querySelectorAll('[data-ic]').forEach(b=>b.addEventListener('click', ()=>applyColor(b.dataset.ic)));
+    pop.querySelector('#nbIcMore').addEventListener('click', ()=>{
+      const arr = isM ? gnT.markerPresets : gnT.penPresets;
+      const inPresets = arr.some(c=>c.toLowerCase()===cur.toLowerCase());
+      openColorPicker(anchor, {
+        hex: cur, back: ()=>openInkColorPop(anchor, isM),
+        onPick: hex=>{ // escolher aqui já "Adiciona a predefinições"
+          if(!arr.some(c=>c.toLowerCase()===hex.toLowerCase())){ arr.unshift(hex); arr.splice(12); }
+          applyColor(hex);
+        },
+        onRemove: inPresets ? ()=>{ // "Remover cor" tira a cor atual das predefinições
+          const i = arr.findIndex(c=>c.toLowerCase()===cur.toLowerCase());
+          if(i>=0) arr.splice(i,1);
+          saveTools(); render();
+        } : null
+      });
+    });
+  }
+
+  function wireEraserSub(bar){
+    bar.querySelector('#nbErMode').addEventListener('change', e=>{ gnT.eraserMode = e.target.value; saveTools(); });
+    bar.querySelectorAll('.nb-gnsub [data-gw]').forEach(b=>b.addEventListener('click', ()=>{
+      gnT.eraserWidth = +b.dataset.gw; saveTools();
+      bar.querySelectorAll('.nb-gnsub [data-gw]').forEach(x=>x.classList.toggle('nb-on', x===b));
+    }));
+    bar.querySelector('#nbErCfg').addEventListener('click', e=>{
+      const pop = openPopover(e.currentTarget, `
+        <div><strong class="nb-pop-title">${t('eraserSettings')}</strong>
+        <label class="nb-gt-check"><input type="checkbox" id="nbErOnlyM" ${gnT.eraserOnlyMarker?'checked':''}> ${t('eraserOnlyMarker')}</label></div>`);
+      pop.querySelector('#nbErOnlyM').addEventListener('change', ev=>{ gnT.eraserOnlyMarker = ev.target.checked; saveTools(); });
+    });
+  }
+
+  function openLassoPop(anchor){
+    const opt = (id,label,ico)=>`<button data-lm="${id}" class="${gnT.lassoMode===id?'nb-on':''}">${ico} ${label}</button>`;
+    const pop = openPopover(anchor, `
+      <div><strong class="nb-pop-title">${t('lassoTitle')}</strong>
+      <div class="nb-pop-list">${opt('rect',t('lassoRect'),'▭')}${opt('free',t('lassoFree'),'〰')}</div></div>`);
+    pop.querySelectorAll('[data-lm]').forEach(b=>b.addEventListener('click', ()=>{ gnT.lassoMode = b.dataset.lm; saveTools(); closePopover(); }));
+  }
+  function openLaserPop(anchor){
+    const opt = (id,label,ico)=>`<button data-lz="${id}" class="${gnT.laserMode===id?'nb-on':''}">${ico} ${label}</button>`;
+    const pop = openPopover(anchor, `
+      <div><strong class="nb-pop-title">${t('laserTool')}</strong>
+      <div class="nb-pop-list">${opt('point',t('laserPoint'),'●')}${opt('line',t('laserLine'),'➰')}</div></div>`);
+    pop.querySelectorAll('[data-lz]').forEach(b=>b.addEventListener('click', ()=>{ gnT.laserMode = b.dataset.lz; saveTools(); closePopover(); }));
+  }
+
+  /* bloco (parágrafo/título/li) onde o cursor está — para espaçamento e borda */
+  function selBlock(editor){
+    const s = window.getSelection(); if(!s || !s.anchorNode) return null;
+    let n = s.anchorNode; if(n.nodeType===3) n = n.parentElement;
+    while(n && n!==editor && !/^(P|H1|H2|H3|DIV|LI|BLOCKQUOTE|PRE|UL|OL)$/.test(n.tagName)) n = n.parentElement;
+    return (n && n!==editor && editor.contains(n)) ? n : null;
+  }
+
+  function wireTextSub(bar, book, editor, pg){
+    const scheduleSave = ()=>{ markSaving(); clearTimeout(saveTimer); saveTimer = setTimeout(()=>{ pg.html = editor.innerHTML; book.updated = Date.now(); save(); }, 500); };
+    const exec = (cmd,val)=>{ editor.focus(); document.execCommand(cmd, false, val); scheduleSave(); };
+    bar.querySelectorAll('[data-txc]').forEach(b=>{
+      b.addEventListener('mousedown', e=>e.preventDefault());
+      b.addEventListener('click', ()=>exec(b.dataset.txc));
+    });
+    bar.querySelector('#nbTxFont').addEventListener('change', e=>{ if(e.target.value) exec('fontName', e.target.value); e.target.selectedIndex=0; });
+    bar.querySelector('#nbTxSize').addEventListener('change', e=>{ if(e.target.value) exec('fontSize', e.target.value); e.target.selectedIndex=0; });
+    const colorBtn = bar.querySelector('#nbTxColor'), hiliteBtn = bar.querySelector('#nbTxHilite');
+    colorBtn.addEventListener('mousedown', e=>e.preventDefault());
+    hiliteBtn.addEventListener('mousedown', e=>e.preventDefault());
+    colorBtn.addEventListener('click', e=>openTextColorPop(e.currentTarget, false, exec, bar));
+    hiliteBtn.addEventListener('click', e=>openTextColorPop(e.currentTarget, true, exec, bar));
+    bar.querySelector('#nbTxSpacing').addEventListener('change', e=>{
+      const v = e.target.value; e.target.selectedIndex = 0; if(!v) return;
+      const blk = selBlock(editor); if(blk){ blk.style.lineHeight = v; scheduleSave(); }
+    });
+    bar.querySelector('#nbTxCheck').addEventListener('mousedown', e=>e.preventDefault());
+    bar.querySelector('#nbTxCheck').addEventListener('click', ()=>{
+      editor.focus();
+      document.execCommand('insertHTML', false, '<ul class="nb-checklist"><li class="nb-check-item">&nbsp;</li></ul>');
+      scheduleSave();
+    });
+    bar.querySelector('#nbTxBox').addEventListener('mousedown', e=>e.preventDefault());
+    bar.querySelector('#nbTxBox').addEventListener('click', ()=>{
+      const blk = selBlock(editor); if(blk){ blk.classList.toggle('nb-txt-border'); scheduleSave(); }
+    });
+    /* estilo favorito: aplicar / guardar o formato atual */
+    bar.querySelector('#nbTxFav').addEventListener('mousedown', e=>e.preventDefault());
+    bar.querySelector('#nbTxFav').addEventListener('click', e=>{
+      const pop = openPopover(e.currentTarget, `<div class="nb-pop-list">
+        ${gnT.favStyle?`<button data-fv="apply">★ ${t('favApply')}</button>`:''}
+        <button data-fv="save">☆ ${t('favSave')}</button></div>`);
+      pop.querySelectorAll('[data-fv]').forEach(b=>{
+        b.addEventListener('mousedown', ev=>ev.preventDefault());
+        b.addEventListener('click', ()=>{
+          if(b.dataset.fv==='save'){
+            editor.focus();
+            gnT.favStyle = {
+              font: document.queryCommandValue('fontName')||'',
+              size: document.queryCommandValue('fontSize')||'',
+              color: document.queryCommandValue('foreColor')||'',
+              bold: document.queryCommandState('bold'),
+              italic: document.queryCommandState('italic'),
+              underline: document.queryCommandState('underline')
+            };
+            saveTools(); toast(t('favSaved'));
+          } else if(gnT.favStyle){
+            const f = gnT.favStyle; editor.focus();
+            if(f.font) document.execCommand('fontName', false, f.font);
+            if(f.size) document.execCommand('fontSize', false, f.size);
+            if(f.color) document.execCommand('foreColor', false, f.color);
+            ['bold','italic','underline'].forEach(k=>{ if(document.queryCommandState(k)!==!!f[k]) document.execCommand(k); });
+            scheduleSave();
+          }
+          closePopover();
+        });
+      });
+    });
+    bar.querySelector('#nbTxPin').addEventListener('click', ()=>{ gnT.textPinned = !gnT.textPinned; saveTools(); render(); });
+  }
+
+  function openTextColorPop(anchor, isHilite, exec, bar){
+    const rows = isHilite ? GN_MARKER_ROWS : GN_PEN_ROWS;
+    const pop = openPopover(anchor, `
+      <div class="nb-inkpop"><strong class="nb-pop-title">${isHilite?t('tipHilite'):t('tipColor')}</strong>
+      ${rows.map(r=>`<div class="nb-gt-dotrow">${r.map(c=>`<button class="nb-gt-dot" data-ic="${c}" style="background:${c}"></button>`).join('')}</div>`).join('')}
+      <div class="nb-gt-dotrow"><button class="nb-gt-dot nb-gt-dot-add" id="nbTxcMore" title="${t('pickerCustom')}">＋</button></div></div>`, {cls:'nb-pop-ink'});
+    const applyC = hex=>{
+      hex = toHex(hex);
+      if(isHilite) gnT.textHilite = hex; else gnT.textColor = hex;
+      saveTools();
+      const barEl = bar.querySelector(isHilite?'#nbTxHiliteBar':'#nbTxColorBar'); if(barEl) barEl.style.background = hex;
+      exec(isHilite?'hiliteColor':'foreColor', hex);
+      closePopover();
+    };
+    pop.querySelectorAll('[data-ic]').forEach(b=>{
+      b.addEventListener('mousedown', e=>e.preventDefault());
+      b.addEventListener('click', ()=>applyC(b.dataset.ic));
+    });
+    pop.querySelector('#nbTxcMore').addEventListener('click', ()=>openColorPicker(anchor, {
+      hex: isHilite?gnT.textHilite:gnT.textColor,
+      back: ()=>openTextColorPop(anchor, isHilite, exec, bar),
+      onPick: applyC
+    }));
+  }
+
+  /* ---------- camada de objetos: imagens móveis + notas adesivas ---------- */
+  function renderObjLayer(book, pg, interactive){
+    const layer = root.querySelector('#nbObjLayer'); if(!layer) return;
+    const objs = objsOf(pg);
+    layer.innerHTML = objs.map((o,i)=> o.type==='img' ? `
+      <div class="nb-obj nb-obj-img" data-oi="${i}" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%">
+        <img src="${esc(o.src)}" draggable="false">
+        ${interactive?`<button class="nb-obj-x" title="${t('del')}">✕</button><span class="nb-obj-rs"></span>`:''}
+      </div>` : `
+      <div class="nb-obj nb-obj-sticky" data-oi="${i}" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||20}%;height:${+o.h||14}%;--stc:${esc(o.color)}">
+        <span class="nb-obj-grip"></span>
+        <div class="nb-sticky-text" ${interactive?'contenteditable="true"':''}>${esc(o.text||'')}</div>
+        ${interactive?`<button class="nb-obj-x" title="${t('del')}">✕</button><span class="nb-obj-rs"></span>`:''}
+      </div>`).join('');
+    if(!interactive) return;
+    const saveObjs = ()=>{ book.updated = Date.now(); save(); };
+    /* clique na página com a ferramenta Nota adesiva → cria o post-it ali */
+    layer.onclick = e=>{
+      if(gnT.tool!=='sticky' || e.target!==layer) return;
+      const r = layer.getBoundingClientRect();
+      const x = Math.min(76, Math.max(0, (e.clientX-r.left)/r.width*100 - 11));
+      const y = Math.min(82, Math.max(0, (e.clientY-r.top)/r.height*100 - 2));
+      objs.push({ id:uid(), type:'sticky', color:gnT.stickyColor, text:'', x:Math.round(x*10)/10, y:Math.round(y*10)/10, w:23, h:14 });
+      saveObjs(); renderObjLayer(book, pg, true);
+      const el = layer.querySelector(`[data-oi="${objs.length-1}"] .nb-sticky-text`); if(el) el.focus();
+    };
+    layer.querySelectorAll('.nb-obj').forEach(el=>{
+      const o = objs[+el.dataset.oi];
+      const txt = el.querySelector('.nb-sticky-text');
+      if(txt){
+        txt.addEventListener('pointerdown', e=>e.stopPropagation()); // editar sem arrastar
+        txt.addEventListener('input', ()=>{
+          o.text = txt.innerText; markSaving();
+          clearTimeout(saveTimer); saveTimer = setTimeout(saveObjs, 500);
+        });
+      }
+      const x = el.querySelector('.nb-obj-x');
+      if(x) x.addEventListener('click', e=>{
+        e.stopPropagation();
+        if(o.type==='img' && (o.src||'').startsWith('/api/notebook/img/')){ try{ fetch(o.src, {method:'DELETE'}); }catch(err){} }
+        objs.splice(+el.dataset.oi, 1); saveObjs(); renderObjLayer(book, pg, true);
+      });
+      const rs = el.querySelector('.nb-obj-rs');
+      if(rs) rs.addEventListener('pointerdown', e=>{
+        e.preventDefault(); e.stopPropagation(); rs.setPointerCapture(e.pointerId);
+        const lr = layer.getBoundingClientRect();
+        const move = ev=>{
+          o.w = Math.round(Math.min(96, Math.max(6, (ev.clientX-lr.left)/lr.width*100 - o.x))*10)/10;
+          el.style.width = o.w+'%';
+          if(o.type==='sticky'){
+            o.h = Math.round(Math.min(90, Math.max(6, (ev.clientY-lr.top)/lr.height*100 - o.y))*10)/10;
+            el.style.height = o.h+'%';
+          }
+        };
+        const up = ()=>{ rs.removeEventListener('pointermove', move); rs.removeEventListener('pointerup', up); saveObjs(); };
+        rs.addEventListener('pointermove', move); rs.addEventListener('pointerup', up);
+      });
+      el.addEventListener('pointerdown', e=>{
+        if(e.target.closest('.nb-obj-x') || e.target.closest('.nb-obj-rs')) return;
+        if(txt && (e.target===txt || txt.contains(e.target))) return;
+        e.preventDefault(); el.setPointerCapture(e.pointerId);
+        const lr = layer.getBoundingClientRect();
+        const sx = e.clientX, sy = e.clientY, ox = o.x, oy = o.y;
+        let moved = false;
+        const move = ev=>{
+          const dx = (ev.clientX-sx)/lr.width*100, dy = (ev.clientY-sy)/lr.height*100;
+          if(Math.abs(dx)+Math.abs(dy) > 0.15) moved = true;
+          o.x = Math.round(Math.min(97-(+o.w||10), Math.max(0, ox+dx))*10)/10;
+          o.y = Math.round(Math.min(96, Math.max(0, oy+dy))*10)/10;
+          el.style.left = o.x+'%'; el.style.top = o.y+'%';
+        };
+        const up = ()=>{ el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); if(moved) saveObjs(); };
+        el.addEventListener('pointermove', move); el.addEventListener('pointerup', up);
+      });
+    });
+  }
+
+  /* ---------- tinta v5: caneta/marcador/borracha/laço/laser no canvas ---------- */
+  let inkState = null, inkRedoStack = [], inkPageId = null;
+  function pointInPoly(x, y, poly){
+    let inside = false;
+    for(let i=0, j=poly.length-2; i<poly.length; j=i, i+=2){
+      const xi=poly[i], yi=poly[i+1], xj=poly[j], yj=poly[j+1];
+      if(((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi)) inside = !inside;
+    }
+    return inside;
+  }
+  function drawSelBox(ctx, sel){
+    ctx.save(); ctx.strokeStyle = '#2768ff'; ctx.lineWidth = 2; ctx.setLineDash([7,5]);
+    ctx.strokeRect(sel.x, sel.y, sel.w, sel.h); ctx.restore();
+  }
+  /* botão flutuante "Apagar seleção" ancorado na caixa do laço */
+  function positionSelChip(sel){
+    if(!root) return;
+    let chip = root.querySelector('#nbSelChip');
+    if(!sel){ if(chip) chip.remove(); return; }
+    const page = root.querySelector('#nbPage'); if(!page || !inkState) return;
+    if(!chip){
+      chip = document.createElement('button');
+      chip.id = 'nbSelChip'; chip.className = 'nb-lasso-del';
+      chip.textContent = '🗑 ' + t('delSel');
+      page.appendChild(chip);
+      chip.addEventListener('click', ()=>{
+        const st = inkState; if(!st || !st.sel) return;
+        const set = new Set(st.sel.idx);
+        st.pg.strokes = st.pg.strokes.filter((s,i)=>!set.has(i));
+        st.sel = null; st.book.updated = Date.now(); save();
+        st.redraw(); positionSelChip(null);
+      });
+    }
+    const cv = inkState.canvas;
+    chip.style.left = Math.min(97, Math.max(6, (sel.x+sel.w)/cv.width*100))+'%';
+    chip.style.top = Math.min(96, Math.max(4, sel.y/cv.height*100))+'%';
+  }
+  function drawLassoPreview(ctx, path){
+    ctx.save(); ctx.strokeStyle = '#2768ff'; ctx.lineWidth = 1.6; ctx.setLineDash([6,5]);
+    if(gnT.lassoMode==='rect'){
+      const x2 = path[path.length-2], y2 = path[path.length-1];
+      ctx.strokeRect(Math.min(path[0],x2), Math.min(path[1],y2), Math.abs(x2-path[0]), Math.abs(y2-path[1]));
+    } else {
+      ctx.beginPath(); ctx.moveTo(path[0], path[1]);
+      for(let i=2;i<path.length;i+=2) ctx.lineTo(path[i], path[i+1]);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function laserLoop(st){
+    if(st.laserRaf) return;
+    const tick = ()=>{
+      st.laserRaf = 0;
+      if(st!==inkState) return; // página re-renderizada
+      const now = performance.now();
+      if(gnT.laserMode==='point') st.laser = st.laser.filter(p=>now-p.t < 420);
+      else if(!st.laserOn && st.laserUp && now-st.laserUp > 900) st.laser = [];
+      st.redraw();
+      if(st.laser.length){
+        const ctx = st.ctx;
+        ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+        ctx.shadowColor = 'rgba(255,45,35,.9)'; ctx.shadowBlur = 14;
+        const globalA = (!st.laserOn && st.laserUp) ? Math.max(0, 1-(now-st.laserUp)/900) : 1;
+        for(let i=1;i<st.laser.length;i++){
+          const a = st.laser[i-1], b = st.laser[i];
+          const age = gnT.laserMode==='point' ? Math.max(0, 1-(now-b.t)/420) : 1;
+          ctx.strokeStyle = 'rgba(255,59,48,'+(0.85*age*globalA).toFixed(3)+')';
+          ctx.lineWidth = 5;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+        const last = st.laser[st.laser.length-1];
+        ctx.fillStyle = 'rgba(255,59,48,'+(0.95*globalA).toFixed(3)+')';
+        ctx.beginPath(); ctx.arc(last.x, last.y, 6, 0, Math.PI*2); ctx.fill();
+        ctx.restore();
+      }
+      if(st.laser.length || st.laserOn) st.laserRaf = requestAnimationFrame(tick);
+      else st.redraw();
+    };
+    st.laserRaf = requestAnimationFrame(tick);
+  }
+  function setupInk(book, pg, interactive, tool){
+    const canvas = root.querySelector('#nbCanvas'); if(!canvas) return;
+    const ori = book.orientation==='landscape' ? 'landscape' : 'portrait';
+    canvas.width = CANVAS_W[ori]; canvas.height = CANVAS_H[ori];
+    const ctx = canvas.getContext ? canvas.getContext('2d') : null; if(!ctx) return;
+    pg.strokes = pg.strokes || [];
+    if(inkPageId !== pg.id){ inkPageId = pg.id; inkRedoStack = []; }
+    const st = { canvas, ctx, book, pg, sel:null, laser:[], laserOn:false, laserUp:0, laserRaf:0 };
+    st.redraw = ()=>{
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pg.strokes.forEach(s=>drawStroke(ctx, s));
+      if(st.sel) drawSelBox(ctx, st.sel);
+    };
+    st.redraw();
+    inkState = st;
+    positionSelChip(null);
+    if(!interactive) return;
+
+    const pos = e => {
+      const r = canvas.getBoundingClientRect();
+      return [ (e.clientX-r.left)*canvas.width/r.width, (e.clientY-r.top)*canvas.height/r.height ];
+    };
+    const hitStroke = (s, x, y, rad)=>{
+      for(let i=0;i<s.p.length;i+=2){
+        const dx = s.p[i]-x, dy = s.p[i+1]-y;
+        if(dx*dx+dy*dy < rad*rad) return true;
+      }
+      return false;
+    };
+    let cur = null, lassoPath = null, dragSel = null, erasing = false, strokeErased = false;
+    const eraseWholeStrokes = (x,y)=>{
+      const rad = Math.max(gnT.eraserWidth, 12);
+      const before = pg.strokes.length;
+      for(let i=pg.strokes.length-1; i>=0; i--){
+        const s = pg.strokes[i];
+        if(gnT.eraserOnlyMarker && !s.m) continue;
+        if(hitStroke(s, x, y, rad)) pg.strokes.splice(i, 1);
+      }
+      if(pg.strokes.length !== before){ strokeErased = true; st.redraw(); }
+    };
+    const finishLasso = ()=>{
+      const path = lassoPath; lassoPath = null;
+      if(!path || path.length < 6){ st.redraw(); return; }
+      let inside;
+      if(gnT.lassoMode==='rect'){
+        const x1 = Math.min(path[0], path[path.length-2]), x2 = Math.max(path[0], path[path.length-2]);
+        const y1 = Math.min(path[1], path[path.length-1]), y2 = Math.max(path[1], path[path.length-1]);
+        inside = (px,py)=> px>=x1 && px<=x2 && py>=y1 && py<=y2;
+      } else inside = (px,py)=> pointInPoly(px, py, path);
+      const idx = [];
+      pg.strokes.forEach((s,i)=>{
+        let inN = 0, tot = 0;
+        for(let k=0;k<s.p.length;k+=2){ tot++; if(inside(s.p[k], s.p[k+1])) inN++; }
+        if(tot && inN/tot >= 0.5) idx.push(i);
+      });
+      if(!idx.length){ st.sel = null; st.redraw(); positionSelChip(null); return; }
+      let mx1=1e9, my1=1e9, mx2=-1e9, my2=-1e9;
+      idx.forEach(i=>{ const p = pg.strokes[i].p; for(let k=0;k<p.length;k+=2){ mx1=Math.min(mx1,p[k]); mx2=Math.max(mx2,p[k]); my1=Math.min(my1,p[k+1]); my2=Math.max(my2,p[k+1]); } });
+      st.sel = { idx, x:mx1-12, y:my1-12, w:(mx2-mx1)+24, h:(my2-my1)+24 };
+      st.redraw(); positionSelChip(st.sel);
+    };
+
+    canvas.addEventListener('pointerdown', e=>{
+      e.preventDefault(); canvas.setPointerCapture(e.pointerId);
+      const [x,y] = pos(e);
+      if(tool==='laser'){ st.laser = [{x, y, t:performance.now()}]; st.laserOn = true; st.laserUp = 0; laserLoop(st); return; }
+      if(tool==='lasso'){
+        if(st.sel && x>=st.sel.x && x<=st.sel.x+st.sel.w && y>=st.sel.y && y<=st.sel.y+st.sel.h){ dragSel = {lx:x, ly:y, moved:false}; return; }
+        st.sel = null; positionSelChip(null); lassoPath = [x, y]; return;
+      }
+      if(tool==='eraser' && gnT.eraserMode==='stroke'){ erasing = true; strokeErased = false; eraseWholeStrokes(x, y); return; }
+      const isM = tool==='marker';
+      cur = {
+        c: tool==='eraser' ? '#000' : (isM ? gnT.markerSlots[gnT.markerSlot] : gnT.penSlots[gnT.penSlot]),
+        w: tool==='eraser' ? gnT.eraserWidth : (isM ? gnT.markerWidth : gnT.penWidth),
+        e: tool==='eraser' ? 1 : 0,
+        m: isM ? 1 : 0,
+        p: [Math.round(x), Math.round(y)]
+      };
+      if(tool==='pen' && gnT.penStyle!=='fountain') cur.st = gnT.penStyle;
+    });
+    canvas.addEventListener('pointermove', e=>{
+      const [x,y] = pos(e);
+      if(tool==='laser'){ if(st.laserOn) st.laser.push({x, y, t:performance.now()}); return; }
+      if(tool==='lasso'){
+        if(dragSel){
+          const dx = x-dragSel.lx, dy = y-dragSel.ly;
+          dragSel.lx = x; dragSel.ly = y; dragSel.moved = true;
+          st.sel.idx.forEach(i=>{ const p = pg.strokes[i].p; for(let k=0;k<p.length;k+=2){ p[k]+=dx; p[k+1]+=dy; } });
+          st.sel.x += dx; st.sel.y += dy;
+          st.redraw(); positionSelChip(st.sel);
+          return;
+        }
+        if(lassoPath){ lassoPath.push(x, y); st.redraw(); drawLassoPreview(ctx, lassoPath); }
+        return;
+      }
+      if(tool==='eraser' && gnT.eraserMode==='stroke'){ if(erasing) eraseWholeStrokes(x, y); return; }
+      if(!cur) return; e.preventDefault();
+      const n = cur.p.length, xi = Math.round(x), yi = Math.round(y);
+      if(n>=2 && Math.abs(cur.p[n-2]-xi)<2 && Math.abs(cur.p[n-1]-yi)<2) return;
+      cur.p.push(xi, yi);
+      drawStroke(ctx, cur, n-2);
+    });
+    const end = ()=>{
+      if(tool==='laser'){ st.laserOn = false; st.laserUp = performance.now(); return; }
+      if(tool==='lasso'){
+        if(dragSel){ const mv = dragSel.moved; dragSel = null; if(mv){ book.updated = Date.now(); save(); } return; }
+        if(lassoPath) finishLasso();
+        return;
+      }
+      if(tool==='eraser' && gnT.eraserMode==='stroke'){ erasing = false; if(strokeErased){ book.updated = Date.now(); save(); } return; }
+      if(!cur) return;
+      if(cur.p.length===2) cur.p.push(cur.p[0]+1, cur.p[1]+1);
+      pg.strokes.push(cur); cur = null; inkRedoStack = [];
+      book.updated = Date.now(); save();
+      st.redraw();
+    };
+    canvas.addEventListener('pointerup', end);
+    canvas.addEventListener('pointercancel', end);
+  }
+
+  /* ---------- atalhos de teclado das ferramentas (V,P,E,I,N,L) — só desktop ---------- */
+  let gnKeyCtx = null;
+  function gnWireShortcuts(book, editor, pg){
+    gnKeyCtx = { book, editor, pg };
+    if(window.__nbGnKeys) return;
+    window.__nbGnKeys = true;
+    document.addEventListener('keydown', e=>{
+      if(!gnKeyCtx || !root || view.name!=='notebook' || view.reading) return;
+      if(window.innerWidth <= 820) return;
+      if(e.ctrlKey || e.metaKey || e.altKey) return;
+      const tgt = e.target;
+      if(tgt && (tgt.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(tgt.tagName||''))) return;
+      const k = (e.key||'').toLowerCase();
+      if((k==='delete' || k==='backspace') && gnT.tool==='lasso' && inkState && inkState.sel){
+        e.preventDefault();
+        const chip = root.querySelector('#nbSelChip'); if(chip) chip.click();
+        return;
+      }
+      const map = { v:'lasso', p:'pen', e:'eraser', i:'image', n:'sticky', l:'laser' };
+      if(!map[k]) return;
+      e.preventDefault();
+      if(gnT.tool === map[k]) return;
+      flushPage(gnKeyCtx.book, gnKeyCtx.editor, gnKeyCtx.pg);
+      gnT.tool = map[k]; saveTools(); render();
+      if(map[k]==='image'){ const f = root.querySelector('#nbGnImgFile'); if(f) f.click(); }
+    });
+  }
+
   /* ---------- toolbars (texto e desenho) ---------- */
   function textToolbar(swatchPop){
     return `
@@ -2269,6 +2950,9 @@
     if(s.m){ ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=0.38; }
     else ctx.globalCompositeOperation = s.e ? 'destination-out' : 'source-over';
     ctx.strokeStyle = s.c; ctx.fillStyle = s.c; ctx.lineWidth = s.w; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    /* v5: estilos de caneta (tinteiro = padrão; esferográfica = traço mais fino; pincel = mais largo e translúcido) */
+    if(s.st==='ball') ctx.lineWidth = Math.max(1, s.w*0.75);
+    else if(s.st==='brush'){ ctx.lineWidth = s.w*1.6; if(!s.m && !s.e) ctx.globalAlpha = 0.88; }
     const p = s.p;
     if(s.shape){
       const [x1,y1,x2,y2]=p;

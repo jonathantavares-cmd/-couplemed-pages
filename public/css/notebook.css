@@ -596,3 +596,65 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
   .nb-gnmode button{padding:6px 8px;font-size:11px}
   .nb-pgcount{font-size:10px}
 }
+
+/* ====================================================================
+   v5 — Fase 3: ferramentas do editor estilo GoodNotes (laço, caneta,
+   marca-texto, borracha, texto, imagem, nota adesiva, ponteiro laser).
+   ==================================================================== */
+.nb-gntools{position:sticky;top:0;z-index:20;border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:12px;padding:6px 8px;margin-bottom:10px;display:flex;flex-direction:column;gap:6px}
+.nb-gt-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.nb-gt{flex:none;border:0;border-radius:9px;background:transparent;color:var(--nb-text);min-width:38px;height:38px;font-size:15px;display:grid;place-items:center;cursor:pointer;padding:0 7px;position:relative}
+.nb-gt:hover{background:var(--nb-chip)}
+.nb-gt.nb-on{background:var(--nb-blue);color:#fff}
+.nb-gt.nb-dim{opacity:.45}
+.nb-gt b{font-weight:800}.nb-gt i{font-style:italic}.nb-gt u{text-decoration:underline}.nb-gt s{text-decoration:line-through}
+.nb-gnsub{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:thin;border-top:1px solid var(--nb-line);padding-top:6px;-webkit-overflow-scrolling:touch}
+.nb-gnsub-pinned{opacity:.92}
+.nb-gt-styles{display:inline-flex;gap:3px;flex:none}
+.nb-gt-style{border:1px solid var(--nb-line);background:var(--nb-card);color:var(--nb-text);border-radius:8px;width:34px;height:32px;cursor:pointer;font-size:14px;display:grid;place-items:center;padding:0;flex:none}
+.nb-gt-style.nb-on{border-color:var(--nb-blue);background:rgba(61,132,255,.14)}
+.nb-gt-slots{display:inline-flex;align-items:center;gap:6px;flex:none}
+.nb-gt-slot{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.2);cursor:pointer;padding:0;flex:none}
+.nb-gt-slot.nb-on{box-shadow:0 0 0 2px var(--nb-card),0 0 0 4px var(--nb-blue)}
+.nb-gt-slot-add{background:var(--nb-chip);color:var(--nb-text);font-size:13px;font-weight:700;display:grid;place-items:center;border-style:dashed}
+.nb-gt-esel{min-height:34px;height:34px;flex:none}
+.nb-gt-size{max-width:96px}
+.nb-gt-hint{font-size:11px;color:var(--nb-muted);white-space:nowrap}
+.nb-gt-check{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--nb-text);padding:8px 6px 2px;cursor:pointer}
+.nb-gt-check input{accent-color:var(--nb-blue)}
+/* popover de cores da caneta/marcador/texto */
+.nb-pop-ink{width:312px}
+.nb-gt-dotrow{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0}
+.nb-gt-dot{width:24px;height:24px;border-radius:50%;border:1px solid rgba(0,0,0,.2);cursor:pointer;padding:0;flex:none}
+.nb-gt-dot:hover{transform:scale(1.12)}
+.nb-gt-dot.nb-on{box-shadow:0 0 0 2px var(--nb-card),0 0 0 4px var(--nb-blue)}
+.nb-gt-dot-add{background:var(--nb-chip);color:var(--nb-text);font-weight:700;display:grid;place-items:center;border-style:dashed}
+/* camadas da página: texto (1) < objetos (2) < tinta (3) */
+.nb-page-text{z-index:1}
+.nb-objlayer{position:absolute;inset:0;z-index:2;pointer-events:none}
+.nb-page-draw{z-index:3}
+.nb-page.nb-tool-image .nb-page-text,.nb-page.nb-tool-sticky .nb-page-text{pointer-events:none;user-select:none}
+.nb-page.nb-tool-sticky .nb-objlayer{pointer-events:auto;cursor:copy}
+.nb-obj{position:absolute;pointer-events:auto;touch-action:none}
+.nb-page.nb-tool-ink .nb-obj{pointer-events:none}
+.nb-obj-img{cursor:grab}
+.nb-obj-img img{width:100%;height:auto;display:block;border-radius:4px;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+.nb-obj-x{position:absolute;top:-10px;right:-10px;width:22px;height:22px;border-radius:50%;border:0;background:#e5484d;color:#fff;font-size:11px;cursor:pointer;display:none;place-items:center;z-index:3;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.nb-obj:hover .nb-obj-x{display:grid}
+.nb-obj-rs{position:absolute;right:-7px;bottom:-7px;width:16px;height:16px;border-radius:50%;background:var(--nb-blue);border:2px solid #fff;cursor:nwse-resize;display:none;z-index:3;touch-action:none}
+.nb-obj:hover .nb-obj-rs{display:block}
+.nb-obj-sticky{background:var(--stc,#f9e08c);border-radius:4px;box-shadow:0 4px 14px rgba(0,0,0,.22);min-width:60px;min-height:48px;display:flex;flex-direction:column;cursor:grab}
+.nb-obj-grip{height:13px;flex:none;background:rgba(0,0,0,.08);border-radius:4px 4px 0 0;cursor:grab}
+.nb-sticky-text{flex:1;padding:5px 9px 7px;font-size:13px;line-height:1.45;color:#26251f;outline:0;overflow:auto;white-space:pre-wrap;font-family:'Helvetica Neue',Arial,sans-serif;cursor:text}
+/* seleção do laço */
+.nb-lasso-del{position:absolute;z-index:5;border:0;border-radius:999px;background:#e5484d;color:#fff;font-size:11.5px;font-weight:700;padding:6px 11px;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.3);transform:translate(-100%,-130%);white-space:nowrap}
+/* borda da caixa de texto */
+.nb-page-text .nb-txt-border{border:1.6px solid var(--nb-blue);border-radius:8px;padding:8px 12px}
+/* miniaturas com objetos (imagens/post-its) */
+.nb-pthumb-objs{position:absolute;inset:0;pointer-events:none;display:block}
+.nb-pthumb-objs img,.nb-pthumb-objs i{position:absolute;display:block;max-width:none}
+.nb-pthumb-objs i{border-radius:2px}
+@media(max-width:640px){
+  .nb-gt{min-width:34px;height:34px}
+  .nb-gt-hint{display:none}
+}

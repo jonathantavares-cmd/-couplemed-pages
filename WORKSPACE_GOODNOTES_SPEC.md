@@ -14,8 +14,14 @@ EXCETO os itens marcados como "fora". Tudo bilíngue EN+PT no mesmo commit.
   páginas; barra azul (home, renomear, painel de miniaturas, busca no documento
   Notas/Esquemas, modo leitura "Apenas leitura"); adicionar página (popover
   completo); menu ⋯ da página; migração notas→páginas; busca global por página.
-- [ ] **Fase 3 — Ferramentas** (itens 6–15) ← PRÓXIMA. Substituir os toolbars
-  atuais (textToolbar/drawToolbar em notebook.js) pelas ferramentas GoodNotes.
+- [x] **Fase 3 — Ferramentas** (itens 6–15): barra GoodNotes no caderno (Laço ·
+  Caneta · Marca-texto · Borracha · Texto · Imagem · Nota adesiva · Laser) com
+  sub-barras, popovers de cor (3 fileiras + predefinições + `openColorPicker`),
+  estilos de caneta, borracha padrão/traço-inteiro (+ só marca-texto), laço
+  retangular/mão-livre (mover/apagar seleção), imagem e post-it como objetos
+  móveis/redimensionáveis (`pg.objs`), laser Ponto/Linha, atalhos V/P/E/I/N/L,
+  "Afixar ferramenta de texto", prefs em `couplemed_nb_tools`. Os toolbars
+  antigos (textToolbar/drawToolbar) continuam só na visão legada de nota.
 - [x] **Fase 4 — Exportar/Imprimir** (embutida na Fase 2: openSharePop/exportBookPages)
 - [ ] **Fase 5 — Notes = clone do Apple Notes** (itens 21–29)
 
