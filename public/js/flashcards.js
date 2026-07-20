@@ -1,4 +1,4 @@
-/* CoupleMed — Flashcards v7
+/* CoupleMed — Flashcards v9
    ============================================================================
    REGRA DE MANUTENÇÃO (COMANDOS OFICIAIS) — LEIA ANTES DE ALTERAR FUNCIONALIDADE:
    O Flashcards abre direto no Dashboard (renderDash) com tudo pronto para uso.
@@ -11,6 +11,8 @@
    (e GUIDE_CATS se a categoria não existir ainda) na mesma alteração, para
    que o guia continue 100% fiel e atualizado ao padrão real da plataforma.
    ============================================================================
+   v9: editor/importação reconstruídos com fluxo em etapas, contador de cards,
+   validação visual e layouts específicos para desktop, iPad e celular.
    v7: Dashboard como página única (guia movido para página própria, manual
    visual por categorias, acessível via botão "ⓘ Guia").
    v4: landing premium (guia + mini dashboard), import por arquivo (.txt/.csv),
@@ -119,10 +121,10 @@
   const FEATURES = [
     {i:'🧠', cat:'study', en:['Spaced repetition (SM-2)','Again / Hard / Good / Easy schedule each card at the ideal moment, with learning steps (1m → 10m → 1d) like Anki.'],
              pt:['Repetição espaçada (SM-2)','Errei / Difícil / Bom / Fácil agendam cada card no momento ideal, com learning steps (1m → 10m → 1d) igual ao Anki.']},
-    {i:'📄', cat:'create', en:['Import from AI file','Ask an AI for e.g. "100 psychiatry pharmacology flashcards", upload the .txt/.csv file and the platform creates them all, with tags for filtering.'],
-             pt:['Importar arquivo da AI','Peça à AI, por ex., "100 flashcards de farmacologia em psiquiatria", faça upload do arquivo .txt/.csv e a plataforma cria todos, com tags para filtrar.']},
-    {i:'🖼️', cat:'create', en:['Images on cards','Upload from gallery/files or paste (Cmd+V) a screenshot straight into the card.'],
-             pt:['Imagens nos cards','Envie da galeria/arquivos ou cole (Cmd+V) um print direto no card.']},
+    {i:'📄', cat:'create', en:['Guided bulk import','Upload .txt/.csv/.md or paste structured text, preview the valid-card count, then choose whether cards start suspended or shared.'],
+             pt:['Importação em lote guiada','Envie .txt/.csv/.md ou cole texto estruturado, confira o total de cards válidos e escolha se começam suspensos ou compartilhados.']},
+    {i:'🖼️', cat:'create', en:['Rich, responsive editor','Format text, build tables, upload from files or paste an image. Desktop and iPad show both sides; phones use a simple front/back switch.'],
+             pt:['Editor rico e responsivo','Formate texto, crie tabelas, envie arquivos ou cole imagens. Desktop e iPad mostram os dois lados; no celular, alterne entre frente e verso.']},
     {i:'✂️', cat:'create', en:['Cloze deletion','Use {{c1::hidden text}} to hide words inside a sentence.'],
              pt:['Cloze (lacunas)','Use {{c1::texto oculto}} para esconder palavras dentro de uma frase.']},
     {i:'🔁', cat:'create', en:['Reversed card','One click also creates the B→A copy of a basic card.'],
@@ -1121,9 +1123,17 @@
   }
 
   /* ---------- modais ---------- */
-  function openModal(html, wide){ const m = root.querySelector('#fcModal'); if(!m) return; m.innerHTML = `<div class="fc-modal-box ${wide?'fc-modal-wide':''}">${html}</div>`; m.hidden = false;
-    m.querySelectorAll('[data-act]').forEach(el => el.addEventListener('click', onAct)); }
-  function closeModal(){ const m = root.querySelector('#fcModal'); if(m){ m.hidden = true; m.innerHTML=''; } window.currentImageB64 = null; }
+  function openModal(html, wide){ const m = root.querySelector('#fcModal'); if(!m) return; m.innerHTML = `<div class="fc-modal-box ${wide?'fc-modal-wide':''}" role="dialog" aria-modal="true">${html}</div>`; m.hidden = false;
+    document.body.classList.add('fc-modal-open');
+    m.querySelectorAll('[data-act]').forEach(el => el.addEventListener('click', onAct));
+    window.fcModalBackdropHandler = e=>{ if(e.target===m) closeModal(); };
+    m.addEventListener('click',window.fcModalBackdropHandler);
+    window.fcModalKeyHandler = e=>{ if(e.key==='Escape') closeModal(); };
+    document.addEventListener('keydown',window.fcModalKeyHandler); }
+  function closeModal(){ const m = root.querySelector('#fcModal'); if(m){ m.hidden = true; m.innerHTML=''; } document.body.classList.remove('fc-modal-open');
+    if(m&&window.fcModalBackdropHandler){m.removeEventListener('click',window.fcModalBackdropHandler);window.fcModalBackdropHandler=null;}
+    if(window.fcModalKeyHandler){ document.removeEventListener('keydown',window.fcModalKeyHandler); window.fcModalKeyHandler=null; }
+    window.removeEventListener('resize', applyEditorLayout); window.currentImageB64 = null; }
 
   /* ---------- Editor de texto rico (rich text) para Frente e Verso ---------- */
   // paleta ampla de cores de texto + marca-texto
@@ -1221,8 +1231,8 @@
   }
   const deckOptions = sel => DB.decks.map(d=>`<option value="${d.id}" ${d.id===sel?'selected':''}>${esc(d.name)}</option>`).join('')
       + `<option value="__new__">${t('newDeck')}</option>`;
-  const deckPicker = preset => `<label>${t('deck')}</label><select id="fcDeckSel">${deckOptions(preset||'')}</select>
-      <input id="fcNewDeck" placeholder="${t('deckName')}" style="display:none"/>`;
+  const deckPicker = preset => `<div class="fc-form-field fc-deck-picker"><label for="fcDeckSel">${t('deck')}</label><select id="fcDeckSel">${deckOptions(preset||'')}</select>
+      <input id="fcNewDeck" placeholder="${t('deckName')}" aria-label="${t('deckName')}" style="display:none"/></div>`;
   function wireDeckPicker(){
     const sel = root.querySelector('#fcDeckSel'), nd = root.querySelector('#fcNewDeck');
     const upd = () => nd.style.display = sel.value === '__new__' ? 'block' : 'none';
@@ -1274,11 +1284,12 @@
     const frontHtml = c.front || '';
     const backHtml = c.back || '';
     window.fcActiveSide = 'front';
-    openModal(`<div class="fc-create-head"><h2>${card?t('edit'):t('create').replace('+ ','')}</h2></div>
-      ${deckPicker(c.deckId)}
+    const isPt=lang()==='pt';
+    openModal(`<div class="fc-create-head"><div><span class="fc-modal-kicker">${isPt?'EDITOR DE FLASHCARDS':'FLASHCARD EDITOR'}</span><h2>${card?t('edit'):t('create').replace('+ ','')}</h2><p>${isPt?'Crie uma pergunta clara e uma resposta objetiva. O agendamento é feito automaticamente.':'Create a clear question and an objective answer. Scheduling is automatic.'}</p></div><button type="button" class="fc-modal-x" data-act="close" aria-label="${t('cancel')}">×</button></div>
+      <section class="fc-form-section fc-card-setup"><div class="fc-form-section-head"><span>01</span><div><strong>${isPt?'Organização':'Organization'}</strong><small>${isPt?'Escolha onde este card será encontrado.':'Choose where this card will be found.'}</small></div></div>${deckPicker(c.deckId)}
       ${systemsPicker(c)}
-      <label>${t('tags')}</label><input id="fcTags" class="fc-input-sm" value="${esc((c.tags||[]).join(', '))}"/>
-      <div class="fc-editor-zone">
+      <div class="fc-form-field"><label for="fcTags">${t('tags')}</label><input id="fcTags" class="fc-input-sm" value="${esc((c.tags||[]).join(', '))}" placeholder="${isPt?'Ex.: cardio, fisiologia, revisar':'E.g. cardio, physiology, review'}"/></div></section>
+      <section class="fc-form-section fc-card-content"><div class="fc-form-section-head"><span>02</span><div><strong>${isPt?'Conteúdo do card':'Card content'}</strong><small>${isPt?'Escreva, formate e adicione imagens se necessário.':'Write, format, and add images when needed.'}</small></div></div><div class="fc-editor-zone">
         <div class="fc-editor-col" data-side="front">
           <div class="fc-editor-toplabel"><span>${t('front')}</span>
             <button type="button" class="fc-flip-btn" data-act="fc-flip" data-to="back">${t('flipToBack')}</button></div>
@@ -1293,10 +1304,10 @@
         </div>
       </div>
       <div class="fc-cloze-hint"><span class="fc-cloze-hint-ico">💡</span><span>${t('clozeHint')}</span></div>
-      ${card?'':reversedToggle()}
-      ${shareCheckbox(c.shared)}
+      </section><section class="fc-form-section fc-card-options"><div class="fc-form-section-head"><span>03</span><div><strong>${isPt?'Opções':'Options'}</strong><small>${isPt?'Personalize como o card será criado e compartilhado.':'Customize how the card is created and shared.'}</small></div></div>${card?'':reversedToggle()}
+      ${shareCheckbox(c.shared)}</section>
       <p id="fcMsg" class="fc-msg"></p>
-      <div class="fc-modal-actions"><button class="fc-btn" data-act="close">${t('cancel')}</button>
+      <div class="fc-modal-actions fc-modal-actions-sticky"><span class="fc-save-hint">${isPt?'Frente e deck são obrigatórios':'Front and deck are required'}</span><button class="fc-btn" data-act="close">${t('cancel')}</button>
       <button class="fc-btn fc-primary" data-act="save-card" data-card="${card?card.id:''}">${t('save')}</button></div>`, true);
     wireDeckPicker();
     wireSystemsPicker(c);
@@ -1373,17 +1384,25 @@
     window.addEventListener('resize', applyEditorLayout);
   }
   function importForm(){
-    openModal(`<h2>${t('imp')}</h2>${deckPicker('')}
-      <button class="fc-btn fc-sm" data-act="import-file" style="margin:10px 0">${t('impFile')}</button>
-      <p id="fcFileMsg" class="fc-hint"></p>
-      <p class="fc-hint">${t('impHint')}</p>
-      <textarea id="fcBatch" rows="7" placeholder="${esc(t('impExample'))}"></textarea>
-      <label class="fc-check"><input type="checkbox" id="fcImpSusp"/> 🔒 ${t('impSuspended')}</label>
-      ${shareCheckbox(false)}
+    const isPt=lang()==='pt';
+    openModal(`<div class="fc-create-head"><div><span class="fc-modal-kicker">${isPt?'IMPORTAÇÃO EM LOTE':'BULK IMPORT'}</span><h2>${t('imp')}</h2><p>${isPt?'Adicione vários cards de uma vez por arquivo ou texto estruturado.':'Add many cards at once from a file or structured text.'}</p></div><button type="button" class="fc-modal-x" data-act="close" aria-label="${t('cancel')}">×</button></div>
+      <section class="fc-form-section"><div class="fc-form-section-head"><span>01</span><div><strong>${isPt?'Deck de destino':'Destination deck'}</strong><small>${isPt?'Todos os cards importados serão adicionados aqui.':'All imported cards will be added here.'}</small></div></div>${deckPicker('')}</section>
+      <section class="fc-form-section"><div class="fc-form-section-head"><span>02</span><div><strong>${isPt?'Adicionar conteúdo':'Add content'}</strong><small>${isPt?'Use um arquivo .txt/.csv ou cole os cards abaixo.':'Use a .txt/.csv file or paste cards below.'}</small></div></div>
+      <button class="fc-import-drop" type="button" data-act="import-file"><span>⇧</span><strong>${t('impFile')}</strong><small>${isPt?'TXT, CSV ou MD':'TXT, CSV, or MD'}</small></button>
+      <p id="fcFileMsg" class="fc-file-msg" aria-live="polite"></p>
+      <div class="fc-format-help"><b>${isPt?'Formato':'Format'}</b><code>${isPt?'frente :: verso :: tag1, tag2':'front :: back :: tag1, tag2'}</code><span>${isPt?'Uma linha por card. Também aceita separação por Tab.':'One card per line. Tab separation also works.'}</span></div>
+      <div class="fc-form-field"><label for="fcBatch">${isPt?'Cards para importar':'Cards to import'}</label><textarea id="fcBatch" rows="7" placeholder="${esc(t('impExample'))}"></textarea></div>
+      <div class="fc-import-summary" id="fcImportSummary"><b>0</b><span>${isPt?'cards válidos detectados':'valid cards detected'}</span></div></section>
+      <section class="fc-form-section"><div class="fc-form-section-head"><span>03</span><div><strong>${isPt?'Opções de importação':'Import options'}</strong><small>${isPt?'Defina o estado inicial e a visibilidade.':'Set initial state and visibility.'}</small></div></div>
+      <label class="fc-toggle-row" id="fcSuspBox"><span class="fc-toggle-body"><span class="fc-toggle-text">🔒 ${t('impSuspended')}</span><small>${isPt?'Os cards ficam fora das revisões até você liberá-los.':'Cards stay out of reviews until you release them.'}</small></span><span class="fc-pill-switch"><input type="checkbox" id="fcImpSusp"/><span class="fc-pill-knob"></span></span></label>
+      ${shareCheckbox(false)}</section>
       <p id="fcMsg" class="fc-msg"></p>
-      <div class="fc-modal-actions"><button class="fc-btn" data-act="close">${t('cancel')}</button>
-      <button class="fc-btn fc-primary" data-act="save-batch">${t('impBtn')}</button></div>`);
+      <div class="fc-modal-actions fc-modal-actions-sticky"><span class="fc-save-hint">${isPt?'Revise o total antes de importar':'Review the total before importing'}</span><button class="fc-btn" data-act="close">${t('cancel')}</button>
+      <button class="fc-btn fc-primary" data-act="save-batch">${t('impBtn')}</button></div>`, true);
     wireDeckPicker();
+    const batch=root.querySelector('#fcBatch'), summary=root.querySelector('#fcImportSummary b');
+    const updateSummary=()=>{ const n=batch.value.split('\n').filter(l=>parseBatchLine(l)).length; summary.textContent=n; root.querySelector('#fcImportSummary').classList.toggle('has-cards',n>0); };
+    batch.addEventListener('input',updateSummary);
     const fi = document.createElement('input'); fi.type='file'; fi.accept='.txt,.csv,.md,text/plain,text/csv'; fi.id='fcBatchFile'; fi.style.display='none';
     root.querySelector('#fcModal').appendChild(fi);
     fi.addEventListener('change', e => {
@@ -1392,7 +1411,7 @@
       r.onload = () => { const txt = String(r.result || '');
         root.querySelector('#fcBatch').value = txt;
         const n = txt.split('\n').filter(l => l.includes('::') || l.includes('\t')).length;
-        root.querySelector('#fcFileMsg').textContent = t('impFileLoaded')(n); };
+        root.querySelector('#fcFileMsg').textContent = '✓ '+t('impFileLoaded')(n); updateSummary(); };
       r.readAsText(file);
     });
   }
