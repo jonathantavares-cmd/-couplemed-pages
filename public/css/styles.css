@@ -1019,3 +1019,10 @@ html[data-bg="rose"] body.light,
 html[data-bg="rose"] body.light .platform-main,
 html[data-bg="rose"] body.light .internal-content,
 html[data-bg="rose"] body.light.platform-page.internal .platform-main{background:#f7ecf1}
+
+/* ---------- botão redondo "voltar" (topo de toda página interna) ---------- */
+.cm-back-home{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;margin:0 0 14px 2px;background:rgba(255,255,255,.08);color:#eaf1fb;box-shadow:0 6px 18px rgba(0,0,0,.28);text-decoration:none;transition:background .16s,transform .12s}
+.cm-back-home:hover{background:rgba(255,255,255,.16);transform:translateX(-1px)}
+.cm-back-home:active{transform:translateX(-2px) scale(.96)}
+body.light .cm-back-home{background:#fff;color:#132235;box-shadow:0 6px 18px rgba(11,25,45,.14),0 0 0 1px rgba(11,25,45,.06)}
+body.light .cm-back-home:hover{background:#f4f8fe}
