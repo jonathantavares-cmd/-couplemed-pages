@@ -633,7 +633,7 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
 .nb-page-text{z-index:1}
 .nb-objlayer{position:absolute;inset:0;z-index:2;pointer-events:none}
 .nb-page-draw{z-index:3}
-.nb-page.nb-tool-image .nb-page-text,.nb-page.nb-tool-sticky .nb-page-text{pointer-events:none;user-select:none}
+.nb-page.nb-tool-image .nb-page-text,.nb-page.nb-tool-photo .nb-page-text,.nb-page.nb-tool-sticky .nb-page-text{pointer-events:none;user-select:none}
 .nb-page.nb-tool-sticky .nb-objlayer{pointer-events:auto;cursor:copy}
 .nb-obj{position:absolute;pointer-events:auto;touch-action:none}
 .nb-page.nb-tool-ink .nb-obj{pointer-events:none}
@@ -842,3 +842,49 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
 .nb-an-chev{flex:none;color:var(--nb-muted);opacity:.55;font-size:19px;font-style:normal;line-height:1;padding:0 2px;cursor:pointer;margin-left:2px}
 .nb-an-srow:hover .nb-an-chev,.nb-an-row:hover .nb-an-chev{opacity:.9}
 .nb-an-row.nb-an-row-picked .nb-an-chev,.nb-an-row.nb-on .nb-an-chev{color:rgba(255,255,255,.85)}
+
+/* botão Home mais visível na barra azul do editor (1ª função da barra) */
+.nb-gnicon-home{background:rgba(255,255,255,.22);border-radius:10px;font-size:17px}
+.nb-gnicon-home:hover{background:rgba(255,255,255,.32)}
+
+/* "PASTAS": botão com chevron pra recolher/mostrar a lista de pastas */
+.nb-an-folderscap{width:100%;display:flex;align-items:center;justify-content:space-between;border:0;background:transparent;cursor:pointer;padding:4px 10px;text-align:left}
+.nb-an-fchev{font-style:normal;color:var(--nb-muted);font-size:12px}
+
+/* seleção em massa (Notebooks): circulozinho discreto em cada card */
+.nb-card-sel{position:absolute;top:8px;left:8px;z-index:5;width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.75);background:rgba(10,20,35,.25);cursor:pointer}
+.nb-card-sel.nb-on{background:var(--nb-blue);border-color:var(--nb-blue)}
+.nb-card-sel.nb-on::after{content:'✓';display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#fff;font-size:12px;font-weight:900}
+.nb-nbrow .nb-card-sel{position:static;flex:none;margin-right:2px;border-color:var(--nb-line);background:transparent}
+.nb-nbrow .nb-card-sel.nb-on{border-color:var(--nb-blue)}
+
+/* selo "Compartilhado por X" nos cadernos recebidos via compartilhamento */
+.nb-shared-badge{display:block;color:var(--nb-blue)!important;font-weight:600;margin-top:2px}
+
+/* espessura personalizada (slider "0,3mm" estilo GoodNotes) */
+.nb-wbtn-custom{font-size:13px;color:var(--nb-muted)}
+.nb-pop-width{width:220px}
+.nb-widthpop-row{display:flex;align-items:center;gap:12px;margin-top:6px}
+.nb-widthpop-val{flex:none;font-size:12.5px;font-weight:700;color:var(--nb-text);min-width:42px}
+.nb-widthpop-row input[type=range]{flex:1;accent-color:var(--nb-blue)}
+
+/* ---------- Régua (Acessórios) ---------- */
+.nb-ruler{position:absolute;z-index:6;width:62%;height:3.2%;min-height:26px;background:rgba(255,214,102,.55);border:1px solid rgba(120,90,10,.4);border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.25);cursor:grab;display:flex;align-items:center;justify-content:space-evenly;touch-action:none}
+.nb-ruler:active{cursor:grabbing}
+.nb-ruler-tick{width:1px;height:55%;background:rgba(90,60,0,.45)}
+.nb-ruler-handle{position:absolute;right:-16px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--nb-blue);color:#fff;display:grid;place-items:center;font-size:13px;cursor:grab;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.nb-ruler-handle:active{cursor:grabbing}
+
+/* ---------- Mostrar gravações ---------- */
+.nb-rec-toolbar{display:flex;justify-content:flex-end;margin-bottom:10px}
+.nb-rec-group{margin-bottom:14px}
+.nb-rec-gcap{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--nb-muted);text-transform:uppercase;padding:4px 2px;margin-bottom:4px}
+.nb-rec-gdel{margin-left:auto;border:0;background:transparent;color:var(--nb-danger);cursor:pointer;font-size:12px}
+.nb-rec-row{display:flex;align-items:center;gap:8px;padding:7px 4px;border-bottom:1px solid var(--nb-line);flex-wrap:wrap}
+.nb-rec-play{flex:none;width:30px;height:30px;border-radius:50%;border:0;background:var(--nb-blue);color:#fff;cursor:pointer;font-size:12px}
+.nb-rec-name{flex:1;min-width:120px;border:1px solid transparent;background:transparent;color:var(--nb-text);font-size:13px;padding:5px 7px;border-radius:6px}
+.nb-rec-name:hover,.nb-rec-name:focus{border-color:var(--nb-line);background:var(--nb-card2)}
+.nb-rec-dur{flex:none;font-size:11px;color:var(--nb-muted);min-width:34px}
+.nb-rec-move{flex:none;max-width:130px}
+.nb-rec-del{flex:none;border:0;background:transparent;color:var(--nb-danger);cursor:pointer;font-size:14px}
+.nb-rec-audio{flex:1 0 100%;margin-top:6px;height:32px}

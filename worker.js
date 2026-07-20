@@ -299,6 +299,18 @@ async function handleAuth(request, env, url) {
     return json({ ok: true, users: results || [] });
   }
 
+  /* ---------------- GET /api/users/directory  (qualquer usuário logado) ----
+     Só uid + nome de exibição — nada sensível (sem login/senha/bloqueio).
+     Existe para telas de "Compartilhar com": todo usuário precisa enxergar
+     a lista atual (e os nomes atualizados) sem precisar ser admin. */
+  if (path === '/api/users/directory' && request.method === 'GET') {
+    const me = await currentUser(request, env);
+    if (!me) return json({ error: 'unauthenticated' }, 401);
+    const { results } = await env.QBANK_DB.prepare(
+      'SELECT uid, display_name FROM users WHERE blocked = 0 ORDER BY uid').all();
+    return json({ ok: true, users: results || [] });
+  }
+
   /* ---------------- POST /api/users/update ----------------
      Admin altera qualquer um. Usuário comum só altera a si mesmo.
      newPassword em branco = mantém a senha atual.                        */
@@ -634,6 +646,54 @@ async function handleNotebook(request, env, url) {
     if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
     const key = decodeURIComponent(path.slice(5));
     if (!key.startsWith('nb/')) return reply({ error: 'Invalid key' }, 400);
+    try { await bucket.delete(key); } catch (err) { return reply({ error: 'R2 error', detail: String(err) }, 500); }
+    return reply({ ok: true });
+  }
+
+  /* ---- Gravações de áudio (Acessórios › Gravar e resumir) — mesmo bucket
+     R2 dos cadernos, prefixo próprio "nb-audio/". Tamanho generoso (100MB,
+     ~horas de áudio comprimido) em vez de "sem limite" (nenhum sistema real
+     aguenta armazenamento infinito). ---- */
+  if (path === '/upload-audio' && request.method === 'POST') {
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    let form;
+    try { form = await request.formData(); } catch { return reply({ error: 'FormData inválido' }, 400); }
+    const file = form.get('file');
+    const user = String(form.get('user') || 'anon').replace(/[^a-z0-9_-]/gi, '').slice(0, 32) || 'anon';
+    if (!file || typeof file === 'string') return reply({ error: "Campo 'file' é obrigatório" }, 400);
+    if (!/^audio\//.test(file.type || '')) return reply({ error: 'Apenas áudio é aceito' }, 415);
+    if (file.size > 100 * 1024 * 1024) return reply({ error: 'Gravação muito grande (máx. 100MB)' }, 413);
+    const ext = ((file.type || '').split('/')[1] || 'webm').replace(/[^a-z0-9]/gi, '').slice(0, 5) || 'webm';
+    const key = `nb-audio/${user}/${crypto.randomUUID()}.${ext}`;
+    try {
+      await bucket.put(key, file.stream(), { httpMetadata: { contentType: file.type } });
+      return reply({ ok: true, key, url: '/api/notebook/audio/' + key });
+    } catch (err) {
+      return reply({ error: 'R2 error', detail: String(err) }, 500);
+    }
+  }
+
+  // ---- servir gravação: GET /audio/<key> ----
+  if (path.startsWith('/audio/') && request.method === 'GET') {
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const key = decodeURIComponent(path.slice(7));
+    if (!key.startsWith('nb-audio/')) return reply({ error: 'Invalid key' }, 400);
+    const obj = await bucket.get(key);
+    if (!obj) return reply({ error: 'Not found' }, 404);
+    return new Response(obj.body, {
+      headers: {
+        'Content-Type': (obj.httpMetadata && obj.httpMetadata.contentType) || 'application/octet-stream',
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
+  }
+
+  // ---- exclusão: DELETE /audio/<key> ----
+  if (path.startsWith('/audio/') && request.method === 'DELETE') {
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const key = decodeURIComponent(path.slice(7));
+    if (!key.startsWith('nb-audio/')) return reply({ error: 'Invalid key' }, 400);
     try { await bucket.delete(key); } catch (err) { return reply({ error: 'R2 error', detail: String(err) }, 500); }
     return reply({ ok: true });
   }

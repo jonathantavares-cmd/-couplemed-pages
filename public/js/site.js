@@ -74,6 +74,118 @@
   }
   window.cmRefreshUsers = cmRefreshUsers;
 
+  /* ===== Diretório de usuários (v54) =====
+     Qualquer usuário logado (não só admin) precisa ver {uid, nome} de todos
+     pra montar a tela de "Compartilhar com". GET /api/users/directory nunca
+     devolve login/senha/bloqueio — só o necessário pro seletor. Atualiza
+     sozinho quando um Guest é renomeado ou quando entra usuário novo, porque
+     é buscado do servidor a cada carregamento de página (nunca hardcoded). */
+  const USER_DIR_KEY='couplemed_user_directory';
+  function getUserDirectory(){
+    try{ const d=JSON.parse(localStorage.getItem(USER_DIR_KEY)); return Array.isArray(d)?d:[]; }catch(e){ return []; }
+  }
+  async function cmRefreshUserDirectory(){
+    try{
+      const r=await fetch('/api/users/directory',{credentials:'same-origin',cache:'no-store'});
+      if(!r.ok)return false;
+      const {users}=await r.json();
+      const list=(users||[]).map(u=>({uid:u.uid,displayName:u.display_name}));
+      localStorage.setItem(USER_DIR_KEY,JSON.stringify(list));
+      return true;
+    }catch(e){ return false; }
+  }
+  window.cmUserDirectory = getUserDirectory;
+  window.cmRefreshUserDirectory = cmRefreshUserDirectory;
+
+  /* ===== Feed de compartilhamentos + notificações (v54) =====
+     Bucket "_shared" (mesmo mecanismo já usado por couplemed_fc_shared):
+     um blob só, visível pra todo mundo, sincronizado via cm-sync.js. Cada
+     item guarda uma CÓPIA do conteúdo no momento do compartilhamento — quem
+     recebe edita ou duplica essa cópia, nunca o original do dono. */
+  const SHARE_FEED_KEY='couplemed_share_feed';
+  function cmShareFeed(){
+    try{ const d=JSON.parse(localStorage.getItem(SHARE_FEED_KEY)); if(d&&typeof d==='object') return {items:d.items||[],notifications:d.notifications||[]}; }catch(e){}
+    return {items:[],notifications:[]};
+  }
+  function cmShareFeedSave(feed){ try{ localStorage.setItem(SHARE_FEED_KEY,JSON.stringify(feed)); }catch(e){} }
+  /* type: 'notebook'|'note'|'flashcard'. targetUid: null = compartilhado com todos. */
+  function cmShareItem({type,title,data,targetUid}){
+    const feed=cmShareFeed();
+    const me=USER_META[user()]||{displayName:user()};
+    const id='sh_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+    const ts=Date.now();
+    feed.items.unshift({id,type,title,ownerUid:user(),ownerName:getUserDisplay(user()),sharedAt:ts,targetUid:targetUid||null,data});
+    feed.notifications.unshift({id:'nt_'+id,itemId:id,type,title,ownerUid:user(),ownerName:getUserDisplay(user()),targetUid:targetUid||null,ts,readBy:[]});
+    feed.items=feed.items.slice(0,300); feed.notifications=feed.notifications.slice(0,200);
+    cmShareFeedSave(feed);
+    return id;
+  }
+  function cmSharedItemsFor(type){
+    const uid=user();
+    return cmShareFeed().items.filter(it=>it.type===type && (!it.targetUid || it.targetUid===uid));
+  }
+  function cmNotifsFor(uid){
+    return cmShareFeed().notifications.filter(n=>(!n.targetUid||n.targetUid===uid) && n.ownerUid!==uid);
+  }
+  window.cmShareItem = cmShareItem;
+  window.cmSharedItemsFor = cmSharedItemsFor;
+  window.cmShareFeed = cmShareFeed;
+  window.cmShareFeedSave = cmShareFeedSave;
+
+  /* ---- sino de notificações (topo, ao lado da busca) ---- */
+  function cmNotifLabel(n,t){
+    const kind = n.type==='notebook'?(t.cmNotifNotebook||'a notebook'):n.type==='note'?(t.cmNotifNote||'a note'):(t.cmNotifFlash||'a flashcard deck');
+    return (t.cmNotifShared||'{user} shared {kind}').replace('{user}',n.ownerName).replace('{kind}',kind);
+  }
+  function cmRenderNotifBell(){
+    const btn=$('#cmNotifBtn'); if(!btn) return;
+    const t=I18N[(document.documentElement.lang==='pt-BR')?'pt':'en'];
+    const uid=user();
+    const notifs=cmNotifsFor(uid);
+    let read={}; try{ read=JSON.parse(localStorage.getItem('couplemed_notif_read_'+uid))||{}; }catch(e){}
+    const unread=notifs.filter(n=>!read[n.id]);
+    const badge=$('#cmNotifBadge');
+    if(badge){ if(unread.length){ badge.hidden=false; badge.textContent=unread.length>9?'9+':String(unread.length); } else badge.hidden=true; }
+    const pop=$('#cmNotifPop'); if(!pop) return;
+    if(!notifs.length){
+      pop.innerHTML = `<div class="cm-notif-empty">${t.cmNotifEmpty||'No notifications yet.'}</div>`;
+      return;
+    }
+    pop.innerHTML = notifs.slice(0,40).map(n=>`
+      <div class="cm-notif-row ${read[n.id]?'':'cm-notif-unread'}" data-nid="${n.id}" data-item="${n.itemId}" data-type="${n.type}">
+        <span class="cm-notif-txt">${stgEsc(cmNotifLabel(n,t))}</span>
+        <button class="cm-notif-x" data-nx="${n.id}" aria-label="Dismiss">✕</button>
+      </div>`).join('');
+    pop.querySelectorAll('[data-nid]').forEach(row=>row.addEventListener('click', e=>{
+      if(e.target.closest('[data-nx]')) return;
+      const nid=row.dataset.nid;
+      try{ const r=JSON.parse(localStorage.getItem('couplemed_notif_read_'+uid))||{}; r[nid]=true; localStorage.setItem('couplemed_notif_read_'+uid,JSON.stringify(r)); }catch(err){}
+      const type=row.dataset.type, itemId=row.dataset.item;
+      pop.hidden=true;
+      const dest = type==='notebook' ? `app.html?page=notebooks&u=${encodeURIComponent(uid)}&shared=${encodeURIComponent(itemId)}`
+                 : type==='note' ? `app.html?page=notes&u=${encodeURIComponent(uid)}&shared=${encodeURIComponent(itemId)}`
+                 : `app.html?page=flashcards&u=${encodeURIComponent(uid)}`;
+      location.href = dest;
+      cmRenderNotifBell();
+    }));
+    pop.querySelectorAll('[data-nx]').forEach(x=>x.addEventListener('click', e=>{
+      e.stopPropagation();
+      const nid=x.dataset.nx;
+      const feed=cmShareFeed();
+      feed.notifications=feed.notifications.filter(n=>n.id!==nid);
+      cmShareFeedSave(feed);
+      cmRenderNotifBell();
+    }));
+  }
+  function cmWireNotifBell(){
+    const btn=$('#cmNotifBtn'), pop=$('#cmNotifPop'); if(!btn||!pop) return;
+    cmRenderNotifBell();
+    btn.addEventListener('click', e=>{ e.stopPropagation(); pop.hidden=!pop.hidden; if(!pop.hidden) cmRenderNotifBell(); });
+    document.addEventListener('click', e=>{ if(!pop.hidden && !pop.contains(e.target) && e.target!==btn && !btn.contains(e.target)) pop.hidden=true; });
+    window.addEventListener('storage', e=>{ if(e.key===SHARE_FEED_KEY) cmRenderNotifBell(); });
+  }
+  window.cmRenderNotifBell = cmRenderNotifBell;
+
   /* ===== PREFERÊNCIAS DO USUÁRIO (v51/v52) — couplemed_prefs_<uid> =====
      Apenas o ESTADO INICIAL do site para aquele usuário. Nenhum controle existente
      é removido: o botão de tema e as bandeiras no topo continuam funcionando, e o
@@ -131,6 +243,18 @@
   function setPrefs(uid,data){localStorage.setItem('couplemed_prefs_'+uid,JSON.stringify(data))}
   function touchLastAccess(uid){try{localStorage.setItem('couplemed_last_access_'+uid,new Date().toISOString())}catch(e){}}
   function getLastAccess(uid){try{return localStorage.getItem('couplemed_last_access_'+uid)||''}catch(e){return ''}}
+  /* Quantidade de acessos: +1 por entrada na plataforma (1x por sessão de aba/
+     janela — evita contar cada navegação interna como um acesso novo). */
+  function touchAccessCount(uid){
+    try{
+      const flag='couplemed_access_counted_'+uid;
+      if(sessionStorage.getItem(flag))return;
+      sessionStorage.setItem(flag,'1');
+      const n=(parseInt(localStorage.getItem('couplemed_access_count_'+uid),10)||0)+1;
+      localStorage.setItem('couplemed_access_count_'+uid,String(n));
+    }catch(e){}
+  }
+  function getAccessCount(uid){try{return parseInt(localStorage.getItem('couplemed_access_count_'+uid),10)||0}catch(e){return 0}}
   function isUserBlocked(uid){const c=usersCache()[uid];return !!(c&&c.blocked)}
   async function setUserBlocked(uid,blocked){
     const r=await fetch('/api/users/blocked',{method:'POST',credentials:'same-origin',
@@ -293,7 +417,8 @@
     stgUnlockState:'Current', stgUnlockLevel:'Unlocked up to', stgUnlockPass:'Pass', stgUnlockDirected:'Directed',
     stgUnlockSave:'Apply', stgUnlockAuto:'Automatic (sequential)',
     stgSysVersion:'Platform version', stgSysQuestions:'Questions in bank', stgSysFlash:'Flashcards (yours)', stgSysUser:'Signed in as',
-    stgLastAccess:'Last access', stgNever:'Never', stgStreakCur:'Streak', stgTimeTotal:'Total time',
+    stgLastAccess:'Last access', stgNever:'Never', stgAccessCount:'Access count', stgStreakCur:'Streak', stgTimeTotal:'Total time',
+    cmNotifShared:'{user} shared {kind}', cmNotifNotebook:'a notebook', cmNotifNote:'a note', cmNotifFlash:'a flashcard deck', cmNotifEmpty:'No notifications yet.',
     stgPassCol:'Passes', stgUserStatus:'Status'
   });
   Object.assign(I18N.pt, {
@@ -327,7 +452,8 @@
     stgUnlockState:'Atual', stgUnlockLevel:'Liberado até', stgUnlockPass:'Passada', stgUnlockDirected:'Dirigida',
     stgUnlockSave:'Aplicar', stgUnlockAuto:'Automático (sequencial)',
     stgSysVersion:'Versão da plataforma', stgSysQuestions:'Questões no banco', stgSysFlash:'Flashcards (seus)', stgSysUser:'Logado como',
-    stgLastAccess:'Último acesso', stgNever:'Nunca', stgStreakCur:'Sequência', stgTimeTotal:'Tempo total',
+    stgLastAccess:'Último acesso', stgNever:'Nunca', stgAccessCount:'Quantidade de acessos', stgStreakCur:'Sequência', stgTimeTotal:'Tempo total',
+    cmNotifShared:'{user} compartilhou {kind}', cmNotifNotebook:'um notebook', cmNotifNote:'uma anotação', cmNotifFlash:'um baralho de flashcards', cmNotifEmpty:'Nenhuma notificação ainda.',
     stgPassCol:'Passadas', stgUserStatus:'Status'
   });
   const PAGE_TITLE_KEYS = {'my-workspace':'myWorkspace','notebooks':'notebooks','notes':'notes','study-planner':'studyPlanner','video-lectures':'videoLectures','audio-lessons':'audioLessons','library-1':'library1Title','library-2':'library2Title','library-3':'library3Title','qbank-1':'qbank1Title','qbank-2':'qbank2Title','settings':'settings','question-bank':'questionBank','performance':'performanceAnalytics'};
@@ -1077,6 +1203,7 @@
         </div>
         <div class="stg-user-metrics">
           <div><span class="stg-metric-ico">${stgSvg('clock')}</span><i>${stgEsc(t.stgLastAccess)}</i><b>${stgEsc(last)}</b></div>
+          <div><span class="stg-metric-ico">${stgSvg('cards')}</span><i>${stgEsc(t.stgAccessCount)}</i><b>${getAccessCount(uid)}</b></div>
           <div><span class="stg-metric-ico">${stgSvg('flame')}</span><i>${stgEsc(t.stgStreakCur)}</i><b>${stgStreakBest(uid)}</b></div>
           <div><span class="stg-metric-ico">${stgSvg('clock')}</span><i>${stgEsc(t.stgTimeTotal)}</i><b>${stgFmtSecs(stgTotalTime(uid))}</b></div>
           <div><span class="stg-metric-ico">${stgSvg('cards')}</span><i>${stgEsc(t.settingsCardsTotal)}</i><b>${stgFlashCount(uid)}</b></div>
@@ -1464,7 +1591,8 @@
     // regra fica disponível caso algum item futuro combine link + toggle.)
     $$('[data-toggle][data-page-link]').forEach(btn=>{ if(btn.dataset.pageLink===p){ const el=$('#'+btn.dataset.toggle); if(el)el.classList.add('open'); } });
     /* v51 — idioma inicial: sessão > preferência do usuário > inglês (padrão do site) */
-    const prefs=getPrefs(user()); touchLastAccess(user());
+    const prefs=getPrefs(user()); touchLastAccess(user()); touchAccessCount(user());
+    cmWireNotifBell(); cmRefreshUserDirectory().then(()=>cmRenderNotifBell());
     const sessLang=sessionStorage.getItem(`couplemed_lang_current_${user()}`);
     const bootLang = sessLang==='pt'||sessLang==='en' ? sessLang : (prefs.lang||'en');
     $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(bootLang);

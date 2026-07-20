@@ -46,9 +46,9 @@
   function load(){
     try{
       const d = JSON.parse(localStorage.getItem(KEY));
-      if(d && typeof d === 'object') return { folders:d.folders||[], notebooks:d.notebooks||[], notes:d.notes||[] };
+      if(d && typeof d === 'object') return { folders:d.folders||[], notebooks:d.notebooks||[], notes:d.notes||[], recordings:d.recordings||[], recFolders:d.recFolders||[] };
     }catch(e){}
-    return { folders:[], notebooks:[], notes:[] };
+    return { folders:[], notebooks:[], notes:[], recordings:[], recFolders:[] };
   }
   let DB = load();
   /* --- v2: migração transparente para o modelo de páginas ---
@@ -104,8 +104,42 @@
   }
   migrate();
   function save(){
-    try{ localStorage.setItem(KEY, JSON.stringify(DB)); markSaved(); }
+    try{
+      localStorage.setItem(KEY, JSON.stringify(DB)); markSaved();
+      syncSharedBooksOut();
+    }
     catch(e){ toast(t('storageFull'), true); }
+  }
+  /* cadernos abertos a partir de um compartilhamento (book.__sharedRef=shareId)
+     empurram a edição de volta pro feed partilhado (window.cmShareItem/cmShareFeed,
+     ver site.js) — assim quem compartilhou e quem recebeu editam a mesma cópia. */
+  function syncSharedBooksOut(){
+    if(!window.cmShareFeed) return;
+    const shared = DB.notebooks.filter(b=>b.__sharedRef && !b.deletedAt);
+    if(!shared.length) return;
+    const feed = window.cmShareFeed();
+    let touched = false;
+    shared.forEach(b=>{
+      const it = feed.items.find(x=>x.id===b.__sharedRef);
+      if(it){ const clone = JSON.parse(JSON.stringify(b)); delete clone.__sharedRef; it.data = clone; it.title = b.title; touched = true; }
+    });
+    if(touched) window.cmShareFeedSave(feed);
+  }
+  /* traz pra DB.notebooks (uma vez só) todo item partilhado ainda não aberto
+     localmente — depois disso o item vira um caderno normal, com toda a UI
+     existente (editar, exportar, mover pro lixo…) funcionando sem mudanças. */
+  function nbMaterializeSharedBooks(){
+    if(!window.cmSharedItemsFor) return;
+    const items = window.cmSharedItemsFor('notebook');
+    let touched = false;
+    items.forEach(it=>{
+      if(DB.notebooks.some(b=>b.__sharedRef===it.id)) return;
+      const book = JSON.parse(JSON.stringify(it.data||{}));
+      book.id = uid(); book.folderId = null; book.__sharedRef = it.id; book.__sharedOwner = it.ownerName;
+      book.title = it.title || book.title;
+      DB.notebooks.push(book); touched = true;
+    });
+    if(touched){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); markSaved(); }catch(e){} }
   }
   const stripHtml = html => { const d = document.createElement('div'); d.innerHTML = html||''; return (d.textContent||'').replace(/\s+/g,' ').trim(); };
   const esc = s => String(s==null?'':s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -248,7 +282,8 @@
       readOnly:'Read-only', editModeTip:'Edit mode', readModeTip:'Reading mode',
       pageN:'Page {n}',
       addFav:'Add to favorites', rmFav:'Remove from favorites',
-      copyPage:'Copy page', rotatePage:'Rotate page', rotCW:'Clockwise', rotCCW:'Counterclockwise',
+      copyPage:'Copy page', dupPage:'Duplicate page', nbCopyToTitle:'Copy page to…', nbPageCopied:'Page copied!',
+      rotatePage:'Rotate page', rotCW:'Clockwise', rotCCW:'Counterclockwise',
       changeModel:'Change template', goToPage:'Go to page',
       clearOrDelete:'CLEAR OR DELETE PAGE', trashPage:'Move page to trash',
       confirmTrashPage:'Move this page to the trash? This deletes the page.',
@@ -257,10 +292,16 @@
       renameBook:'Rename notebook', pagesLbl:'Pages',
       /* --- v5: ferramentas do editor (Fase 3) --- */
       lassoTitle:'Lasso tool', lassoRect:'Rectangular', lassoFree:'Freehand',
-      textTool:'Text', imageTool:'Image', stickyTool:'Sticky note', laserTool:'Laser pointer',
+      textTool:'Text', imageTool:'Image', photoTool:'Take Photo', stickyTool:'Sticky note', laserTool:'Laser pointer',
       penColorTitle:'Pen color', markerColorTitle:'Highlighter color', presetsLbl:'Presets',
       styleFountain:'Fountain pen', styleBall:'Ballpoint', styleBrush:'Brush',
       eraserStandard:'Standard', eraserStroke:'Whole stroke', eraserSettings:'Eraser settings',
+      customWidth:'Custom width', penWidthTitle:'Pen thickness',
+      accessories:'Accessories', recStart:'Record and Summarize', recStop:'Stop Recording',
+      showRecordings:'Show Recordings', rulerTool:'Ruler', rulerRotate:'Rotate ruler',
+      recUploadFail:'Could not save the recording (upload failed).', recFail:'Microphone unavailable.',
+      recUploading:'Uploading recording…', recSaved:'Recording saved!', recStarted:'Recording started…',
+      newRecFolder:'New Folder', recUnfiled:'Unfiled', confirmDelRec:'Delete this recording permanently?',
       eraserOnlyMarker:'Erase highlighter only',
       laserPoint:'Point', laserLine:'Line',
       spacingLbl:'Spacing', boxBorder:'Text box border',
@@ -316,7 +357,9 @@
       nbConfirmTrashFolder:'Move this folder to the trash?',
       nbConfirmTrashBook:'Move this notebook to the trash?',
       nbEmptyFav:'No favorites yet. Star a folder or notebook to pin it here.',
-      nbEmptyShared:'Nothing shared yet.', nbTypeLbl:'Type'
+      nbEmptyShared:'Nothing shared yet.', nbTypeLbl:'Type',
+      nbShareWithTitle:'Share with', nbShareAll:'Everyone', nbSharedToast:'Shared!',
+      nbSharedBadge:'Shared by {name}'
     },
     pt:{
       title:'Meus Cadernos', titleNotes:'Todas as Notas', home:'Início',
@@ -410,7 +453,8 @@
       readOnly:'Apenas leitura', editModeTip:'Modo de edição', readModeTip:'Modo de leitura',
       pageN:'Página {n}',
       addFav:'Adicionar a favoritos', rmFav:'Remover dos favoritos',
-      copyPage:'Copiar página', rotatePage:'Rodar página', rotCW:'Sentido horário', rotCCW:'Sentido anti-horário',
+      copyPage:'Copiar página', dupPage:'Duplicar página', nbCopyToTitle:'Copiar página para…', nbPageCopied:'Página copiada!',
+      rotatePage:'Rodar página', rotCW:'Sentido horário', rotCCW:'Sentido anti-horário',
       changeModel:'Alterar modelo', goToPage:'Ir para a página',
       clearOrDelete:'LIMPAR OU APAGAR PÁGINA', trashPage:'Mover a página para o lixo',
       confirmTrashPage:'Mover esta página para o lixo? Isso exclui a página.',
@@ -419,10 +463,16 @@
       renameBook:'Renomear caderno', pagesLbl:'Páginas',
       /* --- v5: ferramentas do editor (Fase 3) --- */
       lassoTitle:'Ferramenta de laço', lassoRect:'Retangular', lassoFree:'Mão livre',
-      textTool:'Texto', imageTool:'Imagem', stickyTool:'Nota adesiva', laserTool:'Ponteiro laser',
+      textTool:'Texto', imageTool:'Imagem', photoTool:'Tirar fotografia', stickyTool:'Nota adesiva', laserTool:'Ponteiro laser',
       penColorTitle:'Cor da caneta', markerColorTitle:'Cor do marcador', presetsLbl:'Predefinições',
       styleFountain:'Caneta-tinteiro', styleBall:'Esferográfica', styleBrush:'Pincel',
       eraserStandard:'Padrão', eraserStroke:'Traço inteiro', eraserSettings:'Ajustes da borracha',
+      customWidth:'Espessura personalizada', penWidthTitle:'Espessura da caneta',
+      accessories:'Acessórios', recStart:'Gravar e resumir', recStop:'Parar gravação',
+      showRecordings:'Mostrar gravações', rulerTool:'Régua', rulerRotate:'Rodar régua',
+      recUploadFail:'Não foi possível salvar a gravação (falha no envio).', recFail:'Microfone indisponível.',
+      recUploading:'Enviando gravação…', recSaved:'Gravação salva!', recStarted:'Gravando…',
+      newRecFolder:'Nova Pasta', recUnfiled:'Sem pasta', confirmDelRec:'Apagar esta gravação em definitivo?',
       eraserOnlyMarker:'Apagar apenas marca-texto',
       laserPoint:'Ponto', laserLine:'Linha',
       spacingLbl:'Espaçamento', boxBorder:'Borda da caixa de texto',
@@ -478,7 +528,9 @@
       nbConfirmTrashFolder:'Mover esta pasta para o lixo?',
       nbConfirmTrashBook:'Mover este caderno para o lixo?',
       nbEmptyFav:'Nenhum favorito ainda. Marque uma pasta ou caderno com a estrela para fixá-lo aqui.',
-      nbEmptyShared:'Nada partilhado ainda.', nbTypeLbl:'Tipo'
+      nbEmptyShared:'Nada partilhado ainda.', nbTypeLbl:'Tipo',
+      nbShareWithTitle:'Compartilhar com', nbShareAll:'Todos', nbSharedToast:'Compartilhado!',
+      nbSharedBadge:'Compartilhado por {name}'
     }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
@@ -517,8 +569,8 @@
   const GN_STICKY_COLORS = ['#f6a099','#fbc57c','#f9e08c','#c3e79a','#9fe3cf','#a5d4f6','#c8b6f2','#f4b6d9','#c9ccd2','#ffffff'];
   const GN_ERASER_SIZES = [10,18,32];
   const GN_PEN_STYLES = [
+    {id:'ball',     k:'styleBall',     ico:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><rect x="13.3" y="2.6" width="3" height="3" rx=".6" transform="rotate(45 14.8 4.1)" fill="currentColor"/><path d="M13.4 5.2l2 2-8 8-2.9.9.9-2.9 8-8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 15.1l-.9 2.9 2.9-.9" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>'},
     {id:'fountain', k:'styleFountain', ico:'✒'},
-    {id:'ball',     k:'styleBall',     ico:'🖊'},
     {id:'brush',    k:'styleBrush',    ico:'🖌'}
   ];
   /* preferências das ferramentas persistem entre sessões (como no GoodNotes) */
@@ -637,6 +689,23 @@
     try{ const dataUrl = await blobToDataURL(blob); toast(t('imgLocal'), true); return dataUrl; }
     catch(e){ return null; }
   }
+  /* gravações de áudio (Acessórios › Gravar e resumir) — sempre sobem pro R2
+     (couplemed-notebook, prefixo nb-audio/); sem fallback base64, porque um
+     áudio de vários minutos jamais caberia no localStorage. */
+  async function uploadAudio(blob){
+    try{
+      const fd = new FormData();
+      fd.append('file', blob, 'audio.webm');
+      fd.append('user', USER);
+      const resp = await fetch('/api/notebook/upload-audio', { method:'POST', body:fd });
+      if(resp.ok){
+        const data = await resp.json();
+        if(data && data.url) return { url:data.url, key:data.key };
+      }
+      toast(t('recUploadFail'), true);
+    }catch(e){ toast(t('recUploadFail'), true); }
+    return null;
+  }
   function deleteRemoteImages(html){
     // melhor esforço: limpa do R2 as imagens de uma nota excluída
     const d = document.createElement('div'); d.innerHTML = html||'';
@@ -717,7 +786,10 @@
   function nbApplyFilterSort(folderId){
     let items;
     if(nbUI.filter==='fav') items = favFoldersAndBooks();
-    else if(nbUI.filter==='shared') items = []; // recurso ainda não implementado
+    else if(nbUI.filter==='shared'){
+      nbMaterializeSharedBooks();
+      items = DB.notebooks.filter(b=>b.__sharedRef && !b.deletedAt).map(b=>({kind:'book', obj:b}));
+    }
     else {
       items = nbScopeItems(folderId);
       if(nbUI.filter==='folders') items = items.filter(x=>x.kind==='folder');
@@ -970,7 +1042,8 @@
   }
   function bookInnerHtml(b){
     const n = (Array.isArray(b.pages)?b.pages.length:0) || 1;
-    return `${bookCoverHtml(b)}<span class="nb-book-body"><strong>${cmSpan(b.title)}</strong><small>${n} ${t('pages').toLowerCase()}</small></span>`;
+    const sharedBadge = b.__sharedOwner ? `<small class="nb-shared-badge">👤 ${esc(t('nbSharedBadge',{name:b.__sharedOwner}))}</small>` : '';
+    return `${bookCoverHtml(b)}<span class="nb-book-body"><strong>${cmSpan(b.title)}</strong><small>${n} ${t('pages').toLowerCase()}</small>${sharedBadge}</span>`;
   }
   /* v6: card de pasta/caderno com ★ favorito e ⋯/⌄ menu de ações — mesma
      marcação serve para a grade (Galeria) e para a Lista, variando o layout. */
@@ -978,24 +1051,28 @@
     const { kind, obj } = item;
     const key = kind+':'+obj.id;
     const fav = !!obj.fav;
+    const picked = nbBulkPicked.includes(key);
     const starHtml = `<span class="nb-card-star ${fav?'nb-on':''}" role="button" tabindex="0" data-star="${key}" title="${fav?t('unfavorite'):t('favorite')}">${fav?'★':'☆'}</span>`;
     const menuHtml = `<span class="nb-card-menu" role="button" tabindex="0" data-cmenu="${key}" title="⋯">${nbUI.mode==='list'?'⌄':'⋯'}</span>`;
+    const selHtml = nbBulkSel ? `<span class="nb-card-sel ${picked?'nb-on':''}" role="button" tabindex="0" data-bulksel="${key}"></span>` : '';
     if(nbUI.mode==='list'){
       const name = kind==='folder' ? obj.name : obj.title;
       const thumb = kind==='folder' ? folderIconHtml(obj) : bookCoverHtml(obj);
-      return `<div class="nb-nbrow">
+      return `<div class="nb-nbrow ${nbBulkSel&&picked?'nb-an-row-picked':''}">
+        ${selHtml}
         <button class="nb-nbrow-open" data-open2="${key}">
           <span class="nb-nbrow-ico nb-nbrow-ico-${kind}">${thumb}</span>
           <span class="nb-nbrow-main"><strong>${cmSpan(name||'')}</strong><small>${fmtDate(obj.updated||obj.created)}</small></span>
         </button>
-        <span class="nb-nbrow-actions">${menuHtml}${starHtml}</span>
+        ${nbBulkSel?'':`<span class="nb-nbrow-actions">${menuHtml}${starHtml}</span>`}
       </div>`;
     }
     return `<div class="nb-cardwrap">
       <button class="${kind==='folder'?'nb-folder':'nb-book'}" data-open2="${key}">
         ${kind==='folder'?folderInnerHtml(obj):bookInnerHtml(obj)}
       </button>
-      ${starHtml}${menuHtml}
+      ${selHtml}
+      ${nbBulkSel?'':`${starHtml}${menuHtml}`}
     </div>`;
   }
   const NB_ICO_FUNNEL = '<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M4 5h16l-6 7v6l-4 2v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
@@ -1025,26 +1102,57 @@
           <button class="nb-filterbtn" id="nbFilterBtn">${NB_ICO_FUNNEL}<span>${filterLbl}</span><b>⌄</b></button>
         </div>
         <div class="nb-actions">
+          ${nbBulkSel ? `<button class="nb-btn" id="nbBulkDoneBtn">${t('nbDoneLbl')}</button>` : `
           <button class="nb-btn nb-btn-primary" id="nbPlusNew">${t('plusNew')}</button>
           <button class="nb-gt" id="nbViewBtn" title="${t('nbViewTip')}">${nbUI.mode==='list'?NB_ICO_LIST:NB_ICO_GRID}</button>
-          <button class="nb-gt" id="nbMoreVBtn" title="${t('nbMoreTip')}">⋯</button>
+          <button class="nb-gt" id="nbMoreVBtn" title="${t('nbMoreTip')}">⋯</button>`}
         </div>
       </div>
+      ${nbBulkSel?`<div class="nb-an-selbar">
+        <span>${t('nbNSelected',{n:nbBulkPicked.length})}</span>
+        <span class="nb-gnflex"></span>
+        <button class="nb-btn nb-btn-danger" id="nbBulkTrashBtn" ${nbBulkPicked.length?'':'disabled'}>🗑 ${t('nbItemTrash')}</button>
+      </div>`:''}
       ${items.length ? `<div class="${nbUI.mode==='list'?'nb-nblist':'nb-grid'}">${items.map(nbItemCardHtml).join('')}</div>`
       : `<div class="nb-empty"><span class="nb-empty-ico">${emptyIco}</span>${emptyMsg}</div>`}`;
-    root.querySelector('#nbPlusNew').addEventListener('click', e=>openNewMenu(e.currentTarget, folderId));
+    const plusNew = root.querySelector('#nbPlusNew'); if(plusNew) plusNew.addEventListener('click', e=>openNewMenu(e.currentTarget, folderId));
+    const viewBtn = root.querySelector('#nbViewBtn'); if(viewBtn) viewBtn.addEventListener('click', e=>nbOpenViewPop(e.currentTarget, folderId));
+    const moreBtn = root.querySelector('#nbMoreVBtn'); if(moreBtn) moreBtn.addEventListener('click', e=>nbOpenMorePop(e.currentTarget, folderId));
+    const doneBtn = root.querySelector('#nbBulkDoneBtn'); if(doneBtn) doneBtn.addEventListener('click', ()=>{ nbBulkSel=false; nbBulkPicked=[]; render(); });
+    const bulkTrashBtn = root.querySelector('#nbBulkTrashBtn');
+    if(bulkTrashBtn) bulkTrashBtn.addEventListener('click', ()=>{
+      if(!nbBulkPicked.length) return;
+      if(!confirm(t('nbConfirmDeleteSel'))) return;
+      nbBulkPicked.forEach(key=>{
+        const [kind,id] = key.split(':');
+        const obj = kind==='folder' ? folderById(id) : bookById(id);
+        if(obj){ obj.deletedAt = Date.now(); obj.fav = false; }
+      });
+      nbBulkPicked=[]; nbBulkSel=false; save(); render();
+    });
     root.querySelector('#nbFilterBtn').addEventListener('click', e=>nbOpenFilterPop(e.currentTarget, folderId));
-    root.querySelector('#nbViewBtn').addEventListener('click', e=>nbOpenViewPop(e.currentTarget, folderId));
-    root.querySelector('#nbMoreVBtn').addEventListener('click', e=>nbOpenMorePop(e.currentTarget));
     const back = root.querySelector('#nbBackBtn');
     if(back) back.addEventListener('click', ()=>{
       view = folder.parentId ? { name:'folder', folderId:folder.parentId } : { name:'folders' };
       syncUrl(); render();
     });
     root.querySelectorAll('[data-open2]').forEach(el=>el.addEventListener('click', ()=>{
-      const [kind,id] = el.dataset.open2.split(':');
+      const key = el.dataset.open2;
+      if(nbBulkSel){
+        const i = nbBulkPicked.indexOf(key);
+        if(i>=0) nbBulkPicked.splice(i,1); else nbBulkPicked.push(key);
+        render(); return;
+      }
+      const [kind,id] = key.split(':');
       view = kind==='folder' ? { name:'folder', folderId:id } : { name:'notebook', nbId:id };
       syncUrl(); render();
+    }));
+    root.querySelectorAll('[data-bulksel]').forEach(el=>el.addEventListener('click', e=>{
+      e.stopPropagation();
+      const key = el.dataset.bulksel;
+      const i = nbBulkPicked.indexOf(key);
+      if(i>=0) nbBulkPicked.splice(i,1); else nbBulkPicked.push(key);
+      render();
     }));
     root.querySelectorAll('[data-star]').forEach(el=>el.addEventListener('click', e=>{
       e.stopPropagation();
@@ -1093,10 +1201,12 @@
     });
   }
   /* "..." — só o Caixote do lixo por enquanto */
-  function nbOpenMorePop(anchor){
+  function nbOpenMorePop(anchor, folderId){
     const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-nbm="sel">☑ ${t('nbSelectLbl')}</button>
       <button data-nbm="trash">🗑 ${t('nbTrashLbl')}</button>
     </div>`);
+    pop.querySelector('[data-nbm="sel"]').addEventListener('click', ()=>{ closePopover(); nbBulkSel=true; nbBulkPicked=[]; renderScope(folderId); });
     pop.querySelector('[data-nbm="trash"]').addEventListener('click', ()=>{ closePopover(); view = { name:'trash' }; render(); });
   }
   /* menu ⋯/⌄ de cada card: Editar, Duplicar, Mover, Exportar, Partilhar (sem ação), Mover para o lixo */
@@ -1123,7 +1233,14 @@
       closePopover();
       if(kind==='folder') exportFolderPrint(obj); else exportBookPages(obj, bookPages(obj));
     });
-    pop.querySelector('[data-nim="share"]').addEventListener('click', ()=>closePopover()); // sem função por enquanto
+    pop.querySelector('[data-nim="share"]').addEventListener('click', ()=>{
+      closePopover();
+      if(kind!=='book'){ return; } // partilhar pasta ainda não implementado
+      nbOpenSharePicker(anchor, targetUid=>{
+        window.cmShareItem({ type:'notebook', title: obj.title||t('nbUntitledPh'), data: JSON.parse(JSON.stringify(obj)), targetUid });
+        toast(t('nbSharedToast'));
+      });
+    });
     pop.querySelector('[data-nim="trash"]').addEventListener('click', ()=>{
       closePopover();
       if(kind==='folder'){
@@ -1140,6 +1257,7 @@
     const nb = JSON.parse(JSON.stringify(b));
     nb.id = uid(); nb.title = (b.title||t('nbUntitledPh')) + t('nbDupSuffix');
     nb.created = Date.now(); nb.updated = Date.now(); nb.fav = false; nb.deletedAt = null;
+    delete nb.__sharedRef; delete nb.__sharedOwner;
     DB.notebooks.push(nb); save();
     return nb;
   }
@@ -1157,6 +1275,24 @@
     return nf;
   }
   /* "Mover" — escolher pasta de destino (raiz ou outra pasta; nunca a própria pasta/descendentes) */
+  /* "Compartilhar": lista os usuários da plataforma (window.cmUserDirectory,
+     alimentada por site.js via GET /api/users/directory) + "Todos". Reusada
+     por Notebooks e Notes — mesmo padrão nos dois. */
+  function nbOpenSharePicker(anchor, cb){
+    const dir = (window.cmUserDirectory ? window.cmUserDirectory() : []).filter(u=>u.uid!==USER);
+    const pop = openPopover(anchor, `<div>
+      <strong class="nb-pop-title">${t('nbShareWithTitle')}</strong>
+      <div class="nb-pop-list nb-pop-scroll">
+        <button data-shu="">👥 ${t('nbShareAll')}</button>
+        ${dir.map((u,i)=>`<button data-shu="${i}">👤 ${esc(u.displayName||u.uid)}</button>`).join('')}
+      </div>
+    </div>`, {cls:'nb-pop-move'});
+    pop.querySelectorAll('[data-shu]').forEach(b=>b.addEventListener('click', ()=>{
+      const idx = b.dataset.shu;
+      closePopover();
+      cb(idx===''? null : dir[+idx].uid);
+    }));
+  }
   function nbMovePop(anchor, kind, obj, curFolderId){
     const excludeIds = kind==='folder' ? new Set(allDescendantFolderIds(obj.id)) : new Set();
     const opts = [{id:null, name:t('none')}].concat(DB.folders.filter(f=>!f.deletedAt && !excludeIds.has(f.id)));
@@ -1173,6 +1309,7 @@
 
   /* ---------- Lixeira (pastas e cadernos excluídos) ---------- */
   let nbTrashSel = false, nbTrashPicked = [];
+  let nbBulkSel = false, nbBulkPicked = [];
   function renderTrash(){
     const items = trashedItems();
     const row = it => {
@@ -1683,7 +1820,7 @@
     root.innerHTML = `
       <div class="nb-gnshell">
         <div class="nb-gnbar">
-          <button class="nb-gnicon" id="nbHomeBtn" title="${t('home')}">⌂</button>
+          <button class="nb-gnicon nb-gnicon-home" id="nbHomeBtn" title="${t('home')}">⌂</button>
           <button class="nb-gntab" id="nbBookTab" title="${t('renameBook')}">${book.icon?esc(book.icon)+' ':''}${esc(book.title||t('nbUntitledPh'))} <b>⌄</b></button>
           <span class="nb-gnbar-sep"></span>
           <button class="nb-gnicon ${view.panel?'nb-on':''}" id="nbPanelBtn" title="${t('pagesLbl')}">▤</button>
@@ -1723,6 +1860,10 @@
                 <div class="nb-page-text" id="nbEditor" contenteditable="${(!reading&&tool==='text')?'true':'false'}" data-ph="${(reading||tool!=='text')?'':t('notePh')}"></div>
                 <div class="nb-objlayer" id="nbObjLayer"></div>
                 <canvas class="nb-page-draw" id="nbCanvas"></canvas>
+                ${(!reading && gnRulerState) ? `<div class="nb-ruler" id="nbRuler" style="left:${gnRulerState.x}%;top:${gnRulerState.y}%;transform:translate(-50%,-50%) rotate(${gnRulerState.angle}deg)">
+                  <i class="nb-ruler-tick"></i><i class="nb-ruler-tick"></i><i class="nb-ruler-tick"></i><i class="nb-ruler-tick"></i><i class="nb-ruler-tick"></i>
+                  <span class="nb-ruler-handle nb-ruler-rot" id="nbRulerRot" title="${t('rulerRotate')}">↻</span>
+                </div>` : ''}
               </div>
               <div class="nb-pgcount">${t('pageOf',{n:view.page+1,total:pages.length})}</div>
             </div>
@@ -1902,6 +2043,24 @@
   }
 
   /* --- menu ⋯ da página --- */
+  /* "Copiar página": escolher qualquer outro caderno (de qualquer pasta) como destino */
+  function nbCopyPageToPop(anchor, srcBook, pg){
+    const items = DB.notebooks.filter(b=>!b.deletedAt);
+    const nameOf = b => { const f = b.folderId ? folderById(b.folderId) : null; return (f?esc(f.name)+' / ':'') + esc(b.title||t('nbUntitledPh')); };
+    const pop = openPopover(anchor, `<div>
+      <strong class="nb-pop-title">${t('nbCopyToTitle')}</strong>
+      <div class="nb-pop-list nb-pop-scroll">
+        ${items.map((b,i)=>`<button data-cpto="${i}">📘 ${nameOf(b)}</button>`).join('')}
+      </div>
+    </div>`, {cls:'nb-pop-move'});
+    pop.querySelectorAll('[data-cpto]').forEach(b=>b.addEventListener('click', ()=>{
+      const dest = items[+b.dataset.cpto];
+      const clone = JSON.parse(JSON.stringify(pg)); clone.id = uid(); delete clone.fav;
+      bookPages(dest).push(clone);
+      dest.updated = Date.now(); save(); closePopover();
+      toast(t('nbPageCopied'));
+    }));
+  }
   function openPageMenu(anchor, book, pg){
     const pages = bookPages(book);
     const pop = openPopover(anchor, `
@@ -1911,8 +2070,9 @@
           <span class="${pageClass(book,pg,'nb-pgmenu-mini')}" ${pageStyleAttr(book,pg)}></span>
         </div>
         <div class="nb-pop-list">
-          <button data-pm="fav">🔖 ${pg.fav?t('rmFav'):t('addFav')}</button>
+          <button data-pm="fav"><span style="color:#f5b301">${pg.fav?'★':'☆'}</span> ${pg.fav?t('rmFav'):t('addFav')}</button>
           <button data-pm="copy">⧉ ${t('copyPage')}</button>
+          <button data-pm="dup">⿻ ${t('dupPage')}</button>
           <button data-pm="rotcw">↻ ${t('rotatePage')} · ${t('rotCW')}</button>
           <button data-pm="rotccw">↺ ${t('rotatePage')} · ${t('rotCCW')}</button>
           <button data-pm="model">🎨 ${t('changeModel')}</button>
@@ -1927,7 +2087,8 @@
     pop.querySelectorAll('[data-pm]').forEach(b=>b.addEventListener('click', ()=>{
       const act = b.dataset.pm;
       if(act==='fav'){ pg.fav = !pg.fav; book.updated=Date.now(); save(); closePopover(); render(); }
-      else if(act==='copy'){
+      else if(act==='copy'){ closePopover(); nbCopyPageToPop(anchor, book, pg); }
+      else if(act==='dup'){
         const clone = JSON.parse(JSON.stringify(pg)); clone.id = uid();
         pages.splice(view.page+1, 0, clone); view.page++;
         book.updated=Date.now(); save(); closePopover(); render();
@@ -2429,8 +2590,10 @@
     eraser:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M8.5 19l-4.2-4.2a2 2 0 0 1 0-2.8l7.5-7.5a2 2 0 0 1 2.8 0l4.9 4.9a2 2 0 0 1 0 2.8L13.4 19H8.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 10.5l6.5 6.5" stroke="currentColor" stroke-width="1.8"/></svg>',
     text:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M5 6V4h14v2M12 4v16m-3 0h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     image:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M6 17l4.5-4.5 3 3L17 12l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    photo:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M8.5 6.5l1.2-1.8h4.6l1.2 1.8H19a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 19 18.5H5A1.5 1.5 0 0 1 3.5 17v-9A1.5 1.5 0 0 1 5 6.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12.3" r="3.4" stroke="currentColor" stroke-width="1.8"/></svg>',
     sticky:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M4.5 5.5a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v9l-5 5h-9a1 1 0 0 1-1-1v-13z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M19.5 14.5H15a1 1 0 0 0-1 1v4.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
-    laser:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 4v2.4M12 17.6V20M4 12h2.4M17.6 12H20M6.3 6.3L8 8M16 16l1.7 1.7M17.7 6.3L16 8M8 16l-1.7 1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+    laser:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 4v2.4M12 17.6V20M4 12h2.4M17.6 12H20M6.3 6.3L8 8M16 16l1.7 1.7M17.7 6.3L16 8M8 16l-1.7 1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    accessories:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M9.5 4.5a2.5 2.5 0 015 0v4a2.5 2.5 0 01-5 0z" stroke="currentColor" stroke-width="1.7"/><path d="M7 10.5a5 5 0 0010 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 15.5V18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M14.5 19c0-2 1.6-3.2 3.5-3.2s3.5 1.2 3.5 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
   };
 
   function gnToolbar(){
@@ -2442,6 +2605,7 @@
       ['lasso',  t('lassoTitle'),   'V'],
       ['text',   t('textTool'),     '' ],
       ['image',  t('imageTool'),    'I'],
+      ['photo',  t('photoTool'),    '' ],
       ['sticky', t('stickyTool'),   'N'],
       ['laser',  t('laserTool'),    'L']
     ];
@@ -2449,6 +2613,7 @@
     <div class="nb-gntools" id="nbGnTools">
       <div class="nb-gt-row">
         ${tools.map(([id,tt,k])=>`<button class="nb-gt ${tool===id?'nb-on':''}" data-gt="${id}" title="${tt}${k?' ('+k+')':''}">${gnIco[id]}</button>`).join('')}
+        <button class="nb-gt ${(gnRulerState||gnRecState)?'nb-on':''}" id="nbGnAccBtn" title="${t('accessories')}">${gnIco.accessories}</button>
         <span class="nb-gnflex"></span>
         <button class="nb-gt" id="nbGnUndo" title="${t('tipUndo')}">↩</button>
         <button class="nb-gt" id="nbGnRedo" title="${t('tipRedo')}">↪</button>
@@ -2456,6 +2621,7 @@
       ${gnSubbar(tool)}
       ${gnT.textPinned && tool!=='text' ? gnTextSub(true) : ''}
       <input type="file" id="nbGnImgFile" accept="image/*" hidden />
+      <input type="file" id="nbGnPhotoFile" accept="image/*" capture="environment" hidden />
     </div>`;
   }
 
@@ -2468,7 +2634,9 @@
       const slotIdx = isM ? gnT.markerSlot : gnT.penSlot;
       return `<div class="nb-gnsub">
         ${isM?'':`<div class="nb-gt-styles">${GN_PEN_STYLES.map(s=>`<button class="nb-gt-style ${gnT.penStyle===s.id?'nb-on':''}" data-pst="${s.id}" title="${t(s.k)}">${s.ico}</button>`).join('')}</div><span class="nb-tb-sep"></span>`}
-        <div class="nb-width-group">${widths.map(w=>`<button class="nb-wbtn ${w.v===curW?'nb-on':''}" data-gw="${w.v}" title="${t(w.k)}"><span style="width:${Math.min(22,w.v+8)}px;height:${Math.max(2,Math.round(w.v/2))}px"></span></button>`).join('')}</div>
+        <div class="nb-width-group">${widths.map(w=>`<button class="nb-wbtn ${w.v===curW?'nb-on':''}" data-gw="${w.v}" title="${t(w.k)}"><span style="width:${Math.min(22,w.v+8)}px;height:${Math.max(2,Math.round(w.v/2))}px"></span></button>`).join('')}
+          <button class="nb-wbtn nb-wbtn-custom" id="nbWidthCustomBtn" title="${t('customWidth')}">⚙</button>
+        </div>
         <span class="nb-tb-sep"></span>
         <div class="nb-gt-slots">
           ${slots.map((c,i)=>`<button class="nb-gt-slot ${i===slotIdx?'nb-on':''}" data-slot="${i}" style="background:${esc(c)}"></button>`).join('')}
@@ -2535,11 +2703,13 @@
         if(id==='lasso') openLassoPop(b);
         else if(id==='laser') openLaserPop(b);
         else if(id==='image'){ const f=root.querySelector('#nbGnImgFile'); if(f) f.click(); }
+        else if(id==='photo'){ const f=root.querySelector('#nbGnPhotoFile'); if(f) f.click(); }
         return;
       }
       flushPage(book, editor, pg);
       gnT.tool = id; saveTools(); render();
       if(id==='image') setTimeout(()=>{ const f=root.querySelector('#nbGnImgFile'); if(f) f.click(); }, 60);
+      if(id==='photo') setTimeout(()=>{ const f=root.querySelector('#nbGnPhotoFile'); if(f) f.click(); }, 60);
     }));
     /* desfazer/refazer: texto usa o histórico do navegador; tinta usa a pilha de traços */
     root.querySelector('#nbGnUndo').addEventListener('click', ()=>{
@@ -2563,6 +2733,14 @@
       objsOf(pg).push({ id:uid(), type:'img', src:url, x:25, y:18, w:50 });
       book.updated = Date.now(); save(); renderObjLayer(book, pg, true);
     });
+    root.querySelector('#nbGnPhotoFile').addEventListener('change', async e=>{
+      const f = e.target.files[0]; e.target.value=''; if(!f) return;
+      const url = await uploadImage(f); if(!url) return;
+      objsOf(pg).push({ id:uid(), type:'img', src:url, x:25, y:18, w:50 });
+      book.updated = Date.now(); save(); renderObjLayer(book, pg, true);
+    });
+    root.querySelector('#nbGnAccBtn').addEventListener('click', e=>openAccessoriesPop(e.currentTarget, book, pg));
+    wireRuler(book, pg);
     /* sub-barras */
     const tool = gnT.tool;
     if(tool==='pen' || tool==='marker') wirePenSub(bar, tool);
@@ -2574,6 +2752,177 @@
       }));
     }
     if(tool==='text' || gnT.textPinned) wireTextSub(bar, book, editor, pg);
+  }
+
+  /* ================================================================
+     v7 — Acessórios: Gravar e resumir, Mostrar gravações, Régua.
+     ================================================================ */
+  function openAccessoriesPop(anchor, book, pg){
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-acc="rec">${gnRecState?'⏺ '+t('recStop'):'🎙 '+t('recStart')}</button>
+      <button data-acc="lib">🗂 ${t('showRecordings')}</button>
+      <button data-acc="ruler">📐 ${t('rulerTool')}${gnRulerState?' ✓':''}</button>
+    </div>`);
+    pop.querySelector('[data-acc="rec"]').addEventListener('click', ()=>{ closePopover(); toggleRecording(); });
+    pop.querySelector('[data-acc="lib"]').addEventListener('click', ()=>{ closePopover(); openRecordingsLibrary(); });
+    pop.querySelector('[data-acc="ruler"]').addEventListener('click', ()=>{
+      closePopover();
+      gnRulerState = gnRulerState ? null : { x:50, y:35, angle:0 };
+      render();
+    });
+  }
+
+  /* ---------- Régua: arrastar pra mover, alça pra rodar, sempre dentro da página ---------- */
+  function clampRuler(book, xPct, yPct, angle){
+    const ori = book.orientation==='landscape' ? 'landscape' : 'portrait';
+    const W = CANVAS_W[ori], H = CANVAS_H[ori];
+    const rw = W*0.62, rh = Math.max(30, W*0.03); // dimensões da régua em px "de página"
+    const rad = angle*Math.PI/180;
+    const aabbW = Math.abs(rw*Math.cos(rad)) + Math.abs(rh*Math.sin(rad));
+    const aabbH = Math.abs(rw*Math.sin(rad)) + Math.abs(rh*Math.cos(rad));
+    const halfWpct = Math.min(50, (aabbW/2)/W*100);
+    const halfHpct = Math.min(50, (aabbH/2)/H*100);
+    return {
+      x: Math.max(halfWpct, Math.min(100-halfWpct, xPct)),
+      y: Math.max(halfHpct, Math.min(100-halfHpct, yPct))
+    };
+  }
+  function wireRuler(book, pg){
+    const ruler = root.querySelector('#nbRuler'); if(!ruler) return;
+    const page = root.querySelector('#nbPage');
+    ruler.addEventListener('pointerdown', e=>{
+      if(e.target.closest('.nb-ruler-rot')) return;
+      e.preventDefault(); e.stopPropagation(); ruler.setPointerCapture(e.pointerId);
+      const pr = page.getBoundingClientRect();
+      const startX = e.clientX, startY = e.clientY;
+      const ox = gnRulerState.x, oy = gnRulerState.y;
+      const move = ev=>{
+        const dxPct = (ev.clientX-startX)/pr.width*100, dyPct = (ev.clientY-startY)/pr.height*100;
+        const c = clampRuler(book, ox+dxPct, oy+dyPct, gnRulerState.angle);
+        gnRulerState.x = c.x; gnRulerState.y = c.y;
+        ruler.style.left = c.x+'%'; ruler.style.top = c.y+'%';
+      };
+      const up = ()=>{ ruler.removeEventListener('pointermove', move); ruler.removeEventListener('pointerup', up); };
+      ruler.addEventListener('pointermove', move); ruler.addEventListener('pointerup', up);
+    });
+    const rot = ruler.querySelector('.nb-ruler-rot');
+    if(rot) rot.addEventListener('pointerdown', e=>{
+      e.preventDefault(); e.stopPropagation(); rot.setPointerCapture(e.pointerId);
+      const pr = page.getBoundingClientRect();
+      const cx = pr.left + pr.width*gnRulerState.x/100, cy = pr.top + pr.height*gnRulerState.y/100;
+      const move = ev=>{
+        const ang = Math.atan2(ev.clientY-cy, ev.clientX-cx)*180/Math.PI;
+        const c = clampRuler(book, gnRulerState.x, gnRulerState.y, ang);
+        gnRulerState.angle = Math.round(ang); gnRulerState.x = c.x; gnRulerState.y = c.y;
+        ruler.style.left = c.x+'%'; ruler.style.top = c.y+'%';
+        ruler.style.transform = `translate(-50%,-50%) rotate(${gnRulerState.angle}deg)`;
+      };
+      const up = ()=>{ rot.removeEventListener('pointermove', move); rot.removeEventListener('pointerup', up); };
+      rot.addEventListener('pointermove', move); rot.addEventListener('pointerup', up);
+    });
+  }
+
+  /* ---------- Gravar e resumir: MediaRecorder sem limite de tempo (só de tamanho, 100MB) ---------- */
+  let gnRecState = null; // {recorder, chunks, startedAt, timerEl}
+  async function toggleRecording(){
+    if(gnRecState){ gnRecState.recorder.stop(); return; }
+    if(!navigator.mediaDevices || !window.MediaRecorder){ toast(t('recFail'), true); return; }
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+      const recorder = new MediaRecorder(stream);
+      const chunks = [];
+      recorder.ondataavailable = e=>{ if(e.data && e.data.size) chunks.push(e.data); };
+      recorder.onstop = async ()=>{
+        stream.getTracks().forEach(tk=>tk.stop());
+        const startedAt = gnRecState.startedAt;
+        gnRecState = null; nbUpdateRecBadge();
+        const blob = new Blob(chunks, { type: recorder.mimeType||'audio/webm' });
+        toast(t('recUploading'));
+        const up = await uploadAudio(blob);
+        if(!up) return;
+        DB.recordings.push({
+          id: uid(), name: fmtDate(startedAt), url: up.url, key: up.key,
+          createdAt: startedAt, durationSec: Math.round((Date.now()-startedAt)/1000), folderId: null
+        });
+        save(); toast(t('recSaved'));
+      };
+      recorder.start();
+      gnRecState = { recorder, chunks, startedAt: Date.now() };
+      nbUpdateRecBadge();
+      toast(t('recStarted'));
+    }catch(e){ toast(t('recFail'), true); }
+  }
+  function nbUpdateRecBadge(){
+    const btn = root.querySelector('#nbGnAccBtn'); if(btn) btn.classList.toggle('nb-on', !!gnRecState || !!gnRulerState);
+  }
+
+  /* ---------- Mostrar gravações: lista por data/hora, renomear, mover pra pastas ---------- */
+  function openRecordingsLibrary(){
+    const m = openModal(`
+      <h3>${t('showRecordings')}</h3>
+      <div class="nb-rec-toolbar">
+        <button class="nb-btn" id="nbRecNewFolder">⊕ ${t('newRecFolder')}</button>
+      </div>
+      <div id="nbRecBody"></div>
+      <div class="nb-modal-foot"><button class="nb-btn nb-btn-primary" id="nbRecClose">${t('done')}</button></div>`);
+    function renderBody(){
+      const body = m.querySelector('#nbRecBody');
+      const recs = DB.recordings.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+      const groups = [{id:null, name:t('recUnfiled')}].concat(DB.recFolders);
+      body.innerHTML = groups.map(g=>{
+        const items = recs.filter(r=>(r.folderId||null)===(g.id||null));
+        if(!items.length && g.id===null && !DB.recFolders.length) {/* mostra mesmo vazio se não há pastas */}
+        return `<div class="nb-rec-group">
+          <div class="nb-rec-gcap">${g.id?'🗂 ':''}${esc(g.name)} <em>(${items.length})</em>${g.id?`<button class="nb-rec-gdel" data-recfdel="${g.id}">✕</button>`:''}</div>
+          ${items.length?items.map(r=>`
+            <div class="nb-rec-row" data-recid="${r.id}">
+              <button class="nb-rec-play" data-recplay="${r.id}">▶</button>
+              <input class="nb-rec-name" data-recname="${r.id}" value="${esc(r.name)}">
+              <span class="nb-rec-dur">${fmtDur(r.durationSec)}</span>
+              <select class="nb-tb-select nb-rec-move" data-recmove="${r.id}">
+                <option value="">${t('recUnfiled')}</option>
+                ${DB.recFolders.map(f=>`<option value="${f.id}" ${r.folderId===f.id?'selected':''}>${esc(f.name)}</option>`).join('')}
+              </select>
+              <button class="nb-rec-del" data-recdel="${r.id}">🗑</button>
+            </div>`).join(''):`<div class="nb-cpick-empty">—</div>`}
+        </div>`;
+      }).join('');
+      body.querySelectorAll('[data-recplay]').forEach(b=>b.addEventListener('click', ()=>{
+        const r = DB.recordings.find(x=>x.id===b.dataset.recplay); if(!r) return;
+        const existing = m.querySelector('audio.nb-rec-audio'); if(existing) existing.remove();
+        const audio = document.createElement('audio'); audio.className='nb-rec-audio'; audio.controls=true; audio.src=r.url; audio.autoplay=true;
+        b.closest('.nb-rec-row').appendChild(audio);
+      }));
+      body.querySelectorAll('[data-recname]').forEach(inp=>inp.addEventListener('change', ()=>{
+        const r = DB.recordings.find(x=>x.id===inp.dataset.recname); if(r){ r.name = inp.value.trim()||r.name; save(); }
+      }));
+      body.querySelectorAll('[data-recmove]').forEach(sel=>sel.addEventListener('change', ()=>{
+        const r = DB.recordings.find(x=>x.id===sel.dataset.recmove); if(r){ r.folderId = sel.value||null; save(); renderBody(); }
+      }));
+      body.querySelectorAll('[data-recdel]').forEach(b=>b.addEventListener('click', ()=>{
+        const r = DB.recordings.find(x=>x.id===b.dataset.recdel); if(!r) return;
+        if(!confirm(t('confirmDelRec'))) return;
+        if(r.key) try{ fetch('/api/notebook/audio/'+r.key, {method:'DELETE'}); }catch(e){}
+        DB.recordings = DB.recordings.filter(x=>x.id!==r.id); save(); renderBody();
+      }));
+      body.querySelectorAll('[data-recfdel]').forEach(b=>b.addEventListener('click', ()=>{
+        const fid = b.dataset.recfdel;
+        DB.recordings.forEach(r=>{ if(r.folderId===fid) r.folderId=null; });
+        DB.recFolders = DB.recFolders.filter(f=>f.id!==fid); save(); renderBody();
+      }));
+    }
+    renderBody();
+    m.querySelector('#nbRecNewFolder').addEventListener('click', ()=>{
+      const name = prompt(t('newRecFolder'));
+      if(!name) return;
+      DB.recFolders.push({ id:uid(), name:name.trim() }); save(); renderBody();
+    });
+    m.querySelector('#nbRecClose').addEventListener('click', closeModal);
+  }
+  function fmtDur(sec){
+    sec = Math.max(0, sec||0);
+    const m2 = Math.floor(sec/60), s2 = sec%60;
+    return m2+':'+String(s2).padStart(2,'0');
   }
 
   function wirePenSub(bar, tool){
@@ -2595,6 +2944,32 @@
       bar.querySelectorAll('[data-slot]').forEach(x=>x.classList.toggle('nb-on', x===b));
     }));
     bar.querySelector('#nbSlotAdd').addEventListener('click', e=>openInkColorPop(e.currentTarget, isM));
+    const wcBtn = bar.querySelector('#nbWidthCustomBtn');
+    if(wcBtn) wcBtn.addEventListener('click', e=>openWidthSliderPop(e.currentTarget, isM));
+  }
+  /* controle deslizante de espessura personalizada (caneta/marcador), com
+     leitura ao vivo em "mm" — como no seletor de espessura do GoodNotes. */
+  function openWidthSliderPop(anchor, isM){
+    const min = isM ? 8 : 1, max = isM ? 50 : 24;
+    const cur = isM ? gnT.markerWidth : gnT.penWidth;
+    const mm = v => (v/10).toFixed(1)+'mm';
+    const pop = openPopover(anchor, `
+      <div class="nb-widthpop">
+        <strong class="nb-pop-title">${t('penWidthTitle')}</strong>
+        <div class="nb-widthpop-row">
+          <span class="nb-widthpop-val" id="nbWidthVal">${mm(cur)}</span>
+          <input type="range" id="nbWidthSlider" min="${min}" max="${max}" step="1" value="${cur}">
+        </div>
+      </div>`, {cls:'nb-pop-width'});
+    const slider = pop.querySelector('#nbWidthSlider'), val = pop.querySelector('#nbWidthVal');
+    slider.addEventListener('input', ()=>{
+      const v = +slider.value;
+      val.textContent = mm(v);
+      if(isM) gnT.markerWidth = v; else gnT.penWidth = v;
+      saveTools();
+      if(inkState) inkState.redraw();
+    });
+    slider.addEventListener('change', ()=>{ closePopover(); render(); });
   }
 
   /* popover "Cor da caneta" / "Cor do marcador": fileiras fixas + predefinições + seletor personalizado */
@@ -2839,6 +3214,9 @@
     });
   }
 
+  /* ---------- Acessórios: Régua (v7) ---------- */
+  let gnRulerState = null; // {x,y (% da página), angle (graus)} quando ativa
+
   /* ---------- tinta v5: caneta/marcador/borracha/laço/laser no canvas ---------- */
   let inkState = null, inkRedoStack = [], inkPageId = null;
   function pointInPoly(x, y, poly){
@@ -3017,6 +3395,17 @@
       }
       if(tool==='eraser' && gnT.eraserMode==='stroke'){ if(erasing) eraseWholeStrokes(x, y); return; }
       if(!cur) return; e.preventDefault();
+      /* Régua ativa: a caneta/marcador desliza travada na direção da régua,
+         igual a desenhar encostado numa régua de verdade. */
+      if((tool==='pen'||tool==='marker') && gnRulerState){
+        const rad = gnRulerState.angle*Math.PI/180;
+        const dirX = Math.cos(rad), dirY = Math.sin(rad);
+        const sx = cur.p[0], sy = cur.p[1];
+        const proj = (x-sx)*dirX + (y-sy)*dirY;
+        cur.p = [sx, sy, Math.round(sx+proj*dirX), Math.round(sy+proj*dirY)];
+        st.redraw(); drawStroke(ctx, cur);
+        return;
+      }
       const n = cur.p.length, xi = Math.round(x), yi = Math.round(y);
       if(n>=2 && Math.abs(cur.p[n-2]-xi)<2 && Math.abs(cur.p[n-1]-yi)<2) return;
       cur.p.push(xi, yi);
@@ -3427,12 +3816,41 @@
     try{ const d = JSON.parse(localStorage.getItem(AN_KEY)); if(d && typeof d==='object') return { folders:d.folders||[], notes:d.notes||[] }; }catch(e){}
     return { folders:[], notes:[] };
   })();
-  function anPersist(){ try{ localStorage.setItem(AN_KEY, JSON.stringify(AN)); }catch(e){ toast(t('storageFull'), true); } }
+  function anPersist(){
+    try{ localStorage.setItem(AN_KEY, JSON.stringify(AN)); anSyncSharedOut(); }
+    catch(e){ toast(t('storageFull'), true); }
+  }
+  /* mesmo mecanismo do Notebooks: nota aberta a partir de um compartilhamento
+     (n.__sharedRef) empurra a edição de volta pro feed partilhado. */
+  function anSyncSharedOut(){
+    if(!window.cmShareFeed) return;
+    const shared = AN.notes.filter(n=>n.__sharedRef && !n.deletedAt);
+    if(!shared.length) return;
+    const feed = window.cmShareFeed();
+    let touched = false;
+    shared.forEach(n=>{
+      const it = feed.items.find(x=>x.id===n.__sharedRef);
+      if(it){ const clone = JSON.parse(JSON.stringify(n)); delete clone.__sharedRef; it.data = clone; it.title = anTitleOf(n); touched = true; }
+    });
+    if(touched) window.cmShareFeedSave(feed);
+  }
+  function anMaterializeSharedNotes(){
+    if(!window.cmSharedItemsFor) return;
+    const items = window.cmSharedItemsFor('note');
+    let touched = false;
+    items.forEach(it=>{
+      if(AN.notes.some(n=>n.__sharedRef===it.id)) return;
+      const n = JSON.parse(JSON.stringify(it.data||{}));
+      n.id = uid(); n.folderId = null; n.__sharedRef = it.id; n.__sharedOwner = it.ownerName;
+      AN.notes.push(n); touched = true;
+    });
+    if(touched){ try{ localStorage.setItem(AN_KEY, JSON.stringify(AN)); }catch(e){} }
+  }
   // lixeira: apaga em definitivo depois de 30 dias
   (function(){ const cut = Date.now()-30*864e5; const n0 = AN.notes.length;
     AN.notes = AN.notes.filter(n=>!(n.deletedAt && n.deletedAt < cut));
     if(AN.notes.length !== n0) anPersist(); })();
-  let anV = { folder:'all', noteId:null, sidebar:window.innerWidth>1024, gallery:false, sort:'edited', group:true, pinnedOpen:true, search:'', trashSel:false, trashPicked:[] };
+  let anV = { folder:'all', noteId:null, sidebar:window.innerWidth>1024, gallery:false, sort:'edited', group:true, pinnedOpen:true, search:'', trashSel:false, trashPicked:[], foldersOpen:true };
   let anBootNote = params.get('note');
   const AN_HILITES = [ // Roxo, Rosa, Laranja, Menta, Azul (estilo Apple Notes)
     {c:'#d9c8f6', k:'hiPurple'}, {c:'#f6c9dd', k:'hiPink'}, {c:'#f8d9b0', k:'hiOrange'},
@@ -3462,7 +3880,7 @@
     const live = AN.notes.filter(n=>!n.deletedAt);
     if(fid==='all') return live;
     if(fid==='fav') return live.filter(n=>n.fav);
-    if(fid==='shared') return []; // recurso ainda não implementado
+    if(fid==='shared'){ anMaterializeSharedNotes(); return AN.notes.filter(n=>n.__sharedRef && !n.deletedAt); }
     const f = anFolderById(fid); if(!f) return live;
     if(f.smart){
       const tags = (f.tags||[]).map(x=>('#'+String(x).replace(/^#/,'')).toLowerCase());
@@ -3545,8 +3963,8 @@
         <div class="nb-an-cols">
           <aside class="nb-an-side" id="anSide" ${anV.sidebar?'':'hidden'}>
             ${srow('all','📁',t('anNotes'), anNotesIn('all').length, true)}
-            ${AN.folders.length?`<div class="nb-an-sidecap nb-an-sidecap2">${t('folders')}</div>`:''}
-            ${AN.folders.map(f=>srow(f.id, f.smart?'⚙️':anFolderIco(f.color), esc(f.name), anNotesIn(f.id).length, true, true)).join('')}
+            ${AN.folders.length?`<button class="nb-an-sidecap nb-an-sidecap2 nb-an-folderscap" id="anFoldersTgl"><span>${t('folders')}</span><i class="nb-an-fchev">${anV.foldersOpen?'⌄':'›'}</i></button>`:''}
+            ${(AN.folders.length && anV.foldersOpen) ? AN.folders.map(f=>srow(f.id, f.smart?'⚙️':anFolderIco(f.color), esc(f.name), anNotesIn(f.id).length, true, true)).join('') : ''}
             ${srow('fav','⭐',t('anFavLbl'), anNotesIn('fav').length)}
             ${srow('shared','👤',t('anSharedLbl'), anNotesIn('shared').length)}
             ${srow('trash','🗑',t('anDeleted'), anNotesIn('trash').length)}
@@ -3835,7 +4253,14 @@
         anPersist(); closePopover(); render();
       }));
     });
-    pop.querySelector('[data-aqm="share"]').addEventListener('click', ()=>closePopover()); // sem função por enquanto
+    pop.querySelector('[data-aqm="share"]').addEventListener('click', ()=>{
+      closePopover();
+      if(kind!=='note') return; // partilhar pasta ainda não implementado
+      nbOpenSharePicker(anchor, targetUid=>{
+        window.cmShareItem({ type:'note', title: anTitleOf(obj), data: JSON.parse(JSON.stringify(obj)), targetUid });
+        toast(t('nbSharedToast'));
+      });
+    });
     pop.querySelector('[data-aqm="del"]').addEventListener('click', ()=>{
       closePopover();
       if(kind==='note'){
@@ -3920,6 +4345,8 @@
       e.stopPropagation(); anQuickMenu(i, 'folder', i.dataset.anfchev);
     }));
     root.querySelector('#anNewFolderTopBtn').addEventListener('click', ()=>anFolderModal(null));
+    const foldersTgl = root.querySelector('#anFoldersTgl');
+    if(foldersTgl) foldersTgl.addEventListener('click', ()=>{ anV.foldersOpen = !anV.foldersOpen; render(); });
     root.querySelector('#anNewNote').addEventListener('click', ()=>{
       anFlush(cur, ed());
       const f = anFolderById(anV.folder);
@@ -3938,7 +4365,8 @@
     root.querySelector('#anUndoBtn').addEventListener('click', need(()=>exec('undo')));
     root.querySelector('#anRedoBtn').addEventListener('click', need(()=>exec('redo')));
     root.querySelector('#anShareBtn').addEventListener('click', need(e=>{
-      const pop = openPopover(e.currentTarget, `<div class="nb-pop-list">
+      const shareAnchor = e.currentTarget;
+      const pop = openPopover(shareAnchor, `<div class="nb-pop-list">
         <button data-ash="copy">⧉ ${t('anCopy')}</button>
         <button data-ash="share">👤 ${t('nbItemShare')}</button>
         <button data-ash="export">⬆ ${t('exportNote')}</button>
@@ -3951,7 +4379,13 @@
         if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(done);
         else done();
       });
-      pop.querySelector('[data-ash="share"]').addEventListener('click', ()=>closePopover()); // sem função por enquanto
+      pop.querySelector('[data-ash="share"]').addEventListener('click', ()=>{
+        closePopover();
+        nbOpenSharePicker(shareAnchor, targetUid=>{
+          window.cmShareItem({ type:'note', title: anTitleOf(cur), data: JSON.parse(JSON.stringify(cur)), targetUid });
+          toast(t('nbSharedToast'));
+        });
+      });
       pop.querySelector('[data-ash="export"]').addEventListener('click', ()=>{ closePopover(); anExportNote(cur); });
       pop.querySelector('[data-ash="print"]').addEventListener('click', ()=>{ closePopover(); anPrintNote(cur); });
     }));
@@ -4060,9 +4494,11 @@
     const pop = openPopover(anchor, `
       <div class="nb-pop-list">
         <button data-ac="photo">🖼 ${t('anChoosePhoto')}</button>
+        <button data-ac="cam">📷 ${t('photoTool')}</button>
         <button data-ac="file">📄 ${t('anAttachFile')}</button>
       </div>
       <input type="file" id="anPvInp" accept="image/*" hidden>
+      <input type="file" id="anCamInp" accept="image/*" capture="environment" hidden>
       <input type="file" id="anFileInp" hidden>`);
     const attach = async f => {
       if(!f) return;
@@ -4073,6 +4509,8 @@
     };
     pop.querySelector('[data-ac="photo"]').addEventListener('click', ()=>pop.querySelector('#anPvInp').click());
     pop.querySelector('#anPvInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
+    pop.querySelector('[data-ac="cam"]').addEventListener('click', ()=>pop.querySelector('#anCamInp').click());
+    pop.querySelector('#anCamInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
     pop.querySelector('[data-ac="file"]').addEventListener('click', ()=>pop.querySelector('#anFileInp').click());
     pop.querySelector('#anFileInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
   }

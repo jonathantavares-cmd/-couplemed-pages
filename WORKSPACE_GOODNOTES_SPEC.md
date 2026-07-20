@@ -37,6 +37,12 @@ EXCETO os itens marcados como "fora". Tudo bilíngue EN+PT no mesmo commit.
   abaixo: Lixeira de pastas/cadernos, filtro/visão/menu do item na página
   Notebooks, "Notes" como item de menu separado, e ajustes no app Notes
   (clipe, marca-texto em bolinhas, ícones, menu de pasta, Apagadas).
+- [x] **Fase 7 — Ajustes no Notes + botão voltar** (sidebar Notas/Pastas/
+  Favoritos/Partilhados/Apagadas, diálogo Nova Pasta com cor, chevron "›" +
+  menu rápido, share simplificado, Desfazer/Refazer) e correção do botão
+  "‹ voltar" pra usar `history.back()` de verdade.
+- [x] **Fase 8 — Câmera, régua, gravações, compartilhamento real e mais**
+  (jul/2026), ver seção própria abaixo.
 
 ## Arquivos
 - `public/js/notebook.js` — módulo My Workspace (dados em localStorage `couplemed_nb_${user}`)
@@ -191,6 +197,96 @@ Rodada de ajustes sobre as fases 1–5, já concluídos e testados:
 - **Compartilhar/Enviar Cópia**: sem mais o título "Enviar Cópia" — lista
   direta **Copiar, Compartilhar (sem ação), Exportar (baixa .html), Imprimir**.
 - **Toolbar**: ganhou botões de **Desfazer (↩) e Refazer (↪)**.
+
+## Fase 8 — Câmera, régua, gravações, compartilhamento real (jul/2026)
+- **Notebooks**: botão de câmera (só ícone, tooltip "Tirar fotografia") logo
+  após Imagem na toolbar — abre a câmera do dispositivo direto
+  (`capture="environment"`). Estilos de caneta reordenados (Esferográfica,
+  Tinteiro, Pincel) com ícone novo pra esferográfica. Espessura da
+  caneta/marcador ganhou um "⚙" que abre um slider de espessura personalizada
+  (leitura ao vivo em "mm", estilo GoodNotes) além dos 3 tamanhos fixos.
+- **Menu da página**: ícone de favorito virou estrela amarela (★/☆). Duas
+  funções separadas agora: **Duplicar página** (clona logo em seguida, no
+  mesmo caderno — o que "Copiar página" fazia antes) e **Copiar página**
+  (abre um seletor pra colocar a cópia em **qualquer outro caderno** do site).
+- **Meus Cadernos**: menu "⋯" ganhou **Selecionar** — mostra um circulozinho
+  discreto na frente de cada card (canto superior esquerdo na Galeria, início
+  da linha na Lista) pra marcar vários itens e mandar pro lixo em lote.
+- **Editor do caderno**: botão Home (⌂), a primeira função da barra azul,
+  ficou mais destacado (fundo translúcido).
+- **Acessórios** (ícone novo no fim da toolbar, depois de Nota adesiva/Laser):
+  - **Régua**: barra sobre a página, arrasta pra mover e tem uma alcinha
+    pra rodar (livre, não só vertical/horizontal); fica sempre **dentro dos
+    limites da página** (nunca ultrapassa a borda, com cálculo de bounding
+    box considerando a rotação). Com a régua ativa, desenhar com Caneta ou
+    Marca-texto trava o traço na direção da régua (como encostar a caneta
+    numa régua de verdade), mesmo que o movimento do mouse/dedo não seja reto.
+  - **Gravar e resumir**: grava áudio via `MediaRecorder` sem limite de
+    duração no navegador (upload pro R2 ao parar, bucket `couplemed-notebook`,
+    prefixo `nb-audio/`, endpoints novos `POST /api/notebook/upload-audio` e
+    `GET/DELETE /api/notebook/audio/<key>` em `worker.js`; teto de 100MB por
+    gravação — nenhum sistema real aguenta "sem limite" de verdade). **A
+    transcrição/resumo automático não foi implementado**: exigiria
+    reconhecimento de fala no navegador (Web Speech API), que não tem suporte
+    confiável no Safari/iOS — provavelmente o ambiente real do Jonathan/
+    Alysson — e resumir sem transcrição não faz sentido. Fica como próximo
+    passo se/quando decidirem por transcrição via servidor.
+  - **Mostrar gravações**: modal com as gravações ordenadas por data/hora
+    (nome padrão = data), tocar (▶), renomear, criar pastas e mover a
+    gravação entre pastas, apagar (remove do R2 também).
+- **Notes**: "Tirar Fotografia" incluída abaixo de "Escolher Foto" no clipe
+  (mesmo mecanismo de câmera direta).
+- **Botão "voltar"**: confirmado que já era site-wide (testado em QBank,
+  Library, Settings, Flashcards, Vídeo Aulas, não só Notebooks/Notes).
+- **Compartilhar de verdade (Notebooks + Notes) + sino de notificações**:
+  - Descoberta de arquitetura: o site já tem backend real (Cloudflare Worker
+    `worker.js` + D1), com um usuário registrado de verdade por trás de
+    `USER_META`/`/api/users` (admin-only). Criado **`GET /api/users/directory`**
+    (qualquer usuário logado, só uid+nome, nada sensível) pra alimentar o
+    seletor de "Compartilhar com" pra todo mundo, não só admin.
+  - Reaproveitado o mecanismo `_shared` que `cm-sync.js` já usa pra
+    `couplemed_fc_shared` (Flashcards): novo `couplemed_share_feed` (adicionado
+    ao array `SHARED`) guarda `{items:[], notifications:[]}`, sincronizado
+    entre TODOS os usuários via `/api/state?shared=1` (mesma rota, sem
+    mudança no servidor além do directory endpoint).
+  - **Notebooks**: menu "⋯" de um caderno → Partilhar → escolhe um usuário
+    específico ou "Todos" → grava uma CÓPIA do caderno no feed. O caderno
+    aparece pro destinatário no filtro **Partilhados**; abrir materializa a
+    cópia como um caderno local de verdade (`book.__sharedRef`), com toda a
+    UI existente funcionando (editar, exportar…) — editar de fato grava de
+    volta no item do feed (`syncSharedBooksOut`, chamado a cada `save()`),
+    então dono e destinatário editam a mesma cópia. **Duplicar** quebra o
+    vínculo e vira um caderno 100% independente. Partilhar de **pastas**
+    ainda não foi implementado (só cadernos/notas individuais).
+  - **Notes**: mesmo padrão — botão de compartilhar (ícone ⬆) e o menu rápido
+    do chevron/botão direito têm "Compartilhar"; filtro **Partilhados** na
+    sidebar mostra as notas recebidas.
+  - **Sino de notificações**: ícone novo ao lado da busca (antes das
+    bandeiras, `#cmNotifBtn` em `app.html`), com badge vermelho de não-lidas.
+    Lista discreta, mais recente primeiro, texto resumido ("Fulano
+    compartilhou um notebook/uma nota"); clicar marca como lida e navega pra
+    página+filtro Partilhados correspondente; "✕" remove a notificação da
+    lista. Aparece em toda página (não só Notebooks/Notes).
+  - **Simplificação assumida**: compartilhar não é edição colaborativa em
+    tempo real linha-a-linha — é "a mesma cópia", resolvida por
+    last-write-wins (igual ao mecanismo que já existia pra Flashcards
+    partilhado). Suficiente pro uso do casal, mas duas pessoas editando ao
+    mesmo tempo no mesmo item compartilhado podem se sobrescrever.
+- **Admin (Settings)**: novo card "Quantidade de acessos" entre "Último
+  acesso" e "Sequência" — conta 1 acesso por sessão de aba/janela (não por
+  clique de navegação interna), somado com o mesmo padrão de sincronização
+  (best-effort, mesma limitação que "Último acesso"/"Sequência"/etc já têm:
+  só é visível de verdade pro admin se os dados já estiverem no mesmo
+  navegador — não existe hoje um pull "de todos os usuários" pro painel).
+- **Adiado a pedido do Jonathan**: "Cadastrar novo usuário" no painel de
+  admin — ele confirmou que essa função específica não deveria ser
+  construída nesta rodada, só documentada com cuidado (precisa gravar em
+  toda a base sem quebrar nada e ter estatísticas individuais como os
+  demais) pra quando for a hora certa.
+- **Pendências sem imagem**: duas referências (correção "avançar" da
+  toolbar; modelo específico da régua) nunca chegaram a abrir (permissão do
+  Desktop) e o Jonathan não reenviou — não implementadas por falta de
+  especificação visual.
 
 ## Como testar (sem deploy)
 ```

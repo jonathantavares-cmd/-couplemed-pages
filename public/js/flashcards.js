@@ -1,10 +1,18 @@
-/* CoupleMed — Flashcards v4
+/* CoupleMed — Flashcards v7
    ============================================================================
-   REGRA DE MANUTENÇÃO (COMANDOS OFICIAIS):
-   Toda alteração de funcionalidade deste módulo DEVE atualizar o array
-   FEATURES e/ou QUICKSTART abaixo. A página inicial de instruções é gerada
-   automaticamente a partir deles — nunca editar o HTML do guia manualmente.
+   REGRA DE MANUTENÇÃO (COMANDOS OFICIAIS) — LEIA ANTES DE ALTERAR FUNCIONALIDADE:
+   O Flashcards abre direto no Dashboard (renderDash) com tudo pronto para uso.
+   O Guia/Manual (renderGuide) é uma página À PARTE, aberta pelo botão discreto
+   "ⓘ Guia" no cabeçalho do Dashboard, e é gerada 100% automaticamente a partir
+   dos arrays FEATURES, QUICKSTART e GUIDE_CATS logo abaixo — nunca editar o
+   HTML do guia manualmente.
+   Toda alteração de funcionalidade deste módulo (nova feature, mudança de
+   comportamento, novo botão, etc.) DEVE atualizar FEATURES e/ou QUICKSTART
+   (e GUIDE_CATS se a categoria não existir ainda) na mesma alteração, para
+   que o guia continue 100% fiel e atualizado ao padrão real da plataforma.
    ============================================================================
+   v7: Dashboard como página única (guia movido para página própria, manual
+   visual por categorias, acessível via botão "ⓘ Guia").
    v4: landing premium (guia + mini dashboard), import por arquivo (.txt/.csv),
    bury até amanhã, flags coloridas, card invertido, retenção 70–97%,
    dias fáceis, adiar revisões, liberar por tema (unsuspend em massa),
@@ -100,30 +108,38 @@
       'Acompanhe as estatísticas para as revisões não acumularem.',
       'Ajuste a retenção e use dias fáceis perto de provas.']
   };
+  /* Categorias do manual (capítulos). Cada FEATURE abaixo declara cat:'id'.
+     Nova categoria de funcionalidade? Adicione aqui primeiro (i = ícone do capítulo). */
+  const GUIDE_CATS = [
+    {id:'study', i:'🧠', en:'Study & repetition', pt:'Estudo & repetição'},
+    {id:'create', i:'✍️', en:'Creating cards', pt:'Criação de cards'},
+    {id:'organize', i:'🗂️', en:'Organization & search', pt:'Organização & busca'},
+    {id:'share', i:'⇄', en:'Sharing & progress', pt:'Compartilhamento & progresso'}
+  ];
   const FEATURES = [
-    {i:'🧠', en:['Spaced repetition (SM-2)','Again / Hard / Good / Easy schedule each card at the ideal moment, with learning steps (1m → 10m → 1d) like Anki.'],
+    {i:'🧠', cat:'study', en:['Spaced repetition (SM-2)','Again / Hard / Good / Easy schedule each card at the ideal moment, with learning steps (1m → 10m → 1d) like Anki.'],
              pt:['Repetição espaçada (SM-2)','Errei / Difícil / Bom / Fácil agendam cada card no momento ideal, com learning steps (1m → 10m → 1d) igual ao Anki.']},
-    {i:'📄', en:['Import from AI file','Ask an AI for e.g. "100 psychiatry pharmacology flashcards", upload the .txt/.csv file and the platform creates them all, with tags for filtering.'],
+    {i:'📄', cat:'create', en:['Import from AI file','Ask an AI for e.g. "100 psychiatry pharmacology flashcards", upload the .txt/.csv file and the platform creates them all, with tags for filtering.'],
              pt:['Importar arquivo da AI','Peça à AI, por ex., "100 flashcards de farmacologia em psiquiatria", faça upload do arquivo .txt/.csv e a plataforma cria todos, com tags para filtrar.']},
-    {i:'🖼️', en:['Images on cards','Upload from gallery/files or paste (Cmd+V) a screenshot straight into the card.'],
+    {i:'🖼️', cat:'create', en:['Images on cards','Upload from gallery/files or paste (Cmd+V) a screenshot straight into the card.'],
              pt:['Imagens nos cards','Envie da galeria/arquivos ou cole (Cmd+V) um print direto no card.']},
-    {i:'✂️', en:['Cloze deletion','Use {{c1::hidden text}} to hide words inside a sentence.'],
+    {i:'✂️', cat:'create', en:['Cloze deletion','Use {{c1::hidden text}} to hide words inside a sentence.'],
              pt:['Cloze (lacunas)','Use {{c1::texto oculto}} para esconder palavras dentro de uma frase.']},
-    {i:'🔁', en:['Reversed card','One click also creates the B→A copy of a basic card.'],
+    {i:'🔁', cat:'create', en:['Reversed card','One click also creates the B→A copy of a basic card.'],
              pt:['Card invertido','Um clique também cria a cópia B→A de um card básico.']},
-    {i:'🏷️', en:['Decks, tags & smart search','Organize by deck and free tags; search with deck:Cardio tag:error text.'],
+    {i:'🏷️', cat:'organize', en:['Decks, tags & smart search','Organize by deck and free tags; search with deck:Cardio tag:error text.'],
              pt:['Decks, tags e busca avançada','Organize por deck e tags livres; busque com deck:Cardio tag:erro texto.']},
-    {i:'🔓', en:['Release by topic','Import ready-made cards as suspended and unsuspend a topic only after studying it.'],
+    {i:'🔓', cat:'organize', en:['Release by topic','Import ready-made cards as suspended and unsuspend a topic only after studying it.'],
              pt:['Liberar por tema','Importe cards prontos como suspensos e libere um tema só depois de estudá-lo.']},
-    {i:'💤', en:['Suspend, bury & flags','Suspend indefinitely, bury until tomorrow, or mark cards with colored flags.'],
+    {i:'💤', cat:'organize', en:['Suspend, bury & flags','Suspend indefinitely, bury until tomorrow, or mark cards with colored flags.'],
              pt:['Suspender, enterrar e flags','Suspenda por tempo indeterminado, enterre até amanhã ou marque cards com bandeiras coloridas.']},
-    {i:'🎯', en:['Desired retention (70–97%)','Higher = more frequent reviews; lower = fewer daily reviews. Plus postpone reviews and easy days.'],
+    {i:'🎯', cat:'study', en:['Desired retention (70–97%)','Higher = more frequent reviews; lower = fewer daily reviews. Plus postpone reviews and easy days.'],
              pt:['Retenção desejada (70–97%)','Maior = revisões mais frequentes; menor = menos revisões por dia. Além de adiar revisões e dias fáceis.']},
-    {i:'⇄', en:['Shared bank','Share your cards (created or imported) with the other users; each person keeps individual progress.'],
+    {i:'⇄', cat:'share', en:['Shared bank','Share your cards (created or imported) with the other users; each person keeps individual progress.'],
              pt:['Banco compartilhado','Compartilhe seus cards (criados ou importados) com os outros usuários; o progresso de cada um é individual.']},
-    {i:'⌨️', en:['Keyboard shortcuts','Space shows the answer; 1–4 rate the card; undo the last review.'],
+    {i:'⌨️', cat:'study', en:['Keyboard shortcuts','Space shows the answer; 1–4 rate the card; undo the last review.'],
              pt:['Atalhos de teclado','Espaço mostra a resposta; 1–4 avaliam o card; desfaça a última revisão.']},
-    {i:'📊', en:['Statistics','Daily reviews, mature retention, cards per state, streak and 7-day chart.'],
+    {i:'📊', cat:'share', en:['Statistics','Daily reviews, mature retention, cards per state, streak and 7-day chart.'],
              pt:['Estatísticas','Revisões diárias, retenção madura, cards por estado, sequência de dias e gráfico de 7 dias.']}
   ];
 
@@ -133,6 +149,7 @@
       title:'Flashcards', bread:'Home › Study › Flashcards',
       heroSub:'Your Anki-style spaced repetition system, built into CoupleMed.',
       openApp:'▶ Open Flashcards', quickTitle:'How to use in 5 steps', featTitle:'Everything you can do',
+      guideTitle:'Flashcards Manual', guideSub:'Everything this app can do, organized in one place — come back anytime you need a refresher.',
       perfTitle:'Your performance', streak:d=>`${d}-day streak`,
       decks:'Decks', dueToday:'Due today', newCards:'New', retention:'Retention',
       create:'+ Create', imp:'Import', browse:'Browse', stats:'Stats', review:'Study now', guide:'ⓘ Guide',
@@ -197,6 +214,7 @@
       title:'Flashcards', bread:'Home › Estudos › Flashcards',
       heroSub:'Seu sistema de repetição espaçada estilo Anki, integrado ao CoupleMed.',
       openApp:'▶ Abrir Flashcards', quickTitle:'Como usar em 5 passos', featTitle:'Tudo o que você pode fazer',
+      guideTitle:'Manual de Flashcards', guideSub:'Tudo o que este app pode fazer, organizado em um só lugar — volte aqui sempre que precisar relembrar.',
       perfTitle:'Sua performance', streak:d=>`${d} dia(s) seguidos`,
       decks:'Decks', dueToday:'Para hoje', newCards:'Novos', retention:'Retenção',
       create:'+ Criar', imp:'Importar', browse:'Navegar', stats:'Estatísticas', review:'Estudar agora', guide:'ⓘ Guia',
@@ -534,7 +552,7 @@
   }
 
   /* ---------- estado/UI ---------- */
-  let view = {name:'home'};
+  let view = {name:'dash'};
   let root = null, undoBuf = null;
   function boot(){
     const host = document.querySelector('#internalContent .internal-card');
@@ -549,7 +567,7 @@
     const prefill = params.get('prefill');
     if(prefill){
       setTimeout(()=>{
-        if(view.name==='home'){ view={name:'dash'}; render(); }
+        if(view.name!=='dash'){ view={name:'dash'}; render(); }
         cardForm(null, '');
         const ed = root.querySelector('#fcEditor_front');
         if(ed) ed.innerHTML = '<p>' + prefill.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>';
@@ -559,7 +577,7 @@
     window.addEventListener('cm-quick-flashcard', e=>{
       const text = e.detail && e.detail.text;
       if(!text) return;
-      if(view.name==='home'){ view={name:'dash'}; render(); }
+      if(view.name!=='dash'){ view={name:'dash'}; render(); }
       cardForm(null, '');
       const ed = root.querySelector('#fcEditor_front');
       if(ed) ed.innerHTML = '<p>' + text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>';
@@ -577,8 +595,8 @@
   function render(){
     if(!root) return;
     renderToken++;
-    if(view.name === 'home') renderHome();
-    else if(view.name === 'dash') renderDash();
+    if(view.name === 'dash') renderDash();
+    else if(view.name === 'guide') renderGuide();
     else if(view.name === 'browse') renderBrowse();
     else if(view.name === 'filter') renderFilter();
     else if(view.name === 'review') renderReview();
@@ -608,67 +626,46 @@
     return n;
   }
 
-  /* ---------- LANDING (guia gerado de FEATURES/QUICKSTART) ---------- */
-  function renderHome(){
+  /* ---------- GUIA / MANUAL (página própria, gerada de QUICKSTART/FEATURES/GUIDE_CATS) ---------- */
+  function renderGuide(){
     const L = lang();
-    const q = queues();
-    const dc = dayCounters();
-    const ret = DB.stats.matTotal ? Math.round(100*DB.stats.matOk/DB.stats.matTotal) : 0;
     const steps = QUICKSTART[L].map((s,i) => `<div class="fc-step"><b>${i+1}</b><span>${s}</span></div>`).join('');
-    const feats = FEATURES.map(f => `<div class="fc-feat"><span class="fc-feat-i">${f.i}</span>
-      <div><strong>${f[L][0]}</strong><p>${f[L][1]}</p></div></div>`).join('');
-    const myShared = DB.cards.filter(c=>c.shared).length;
-    const theirShared = foreignShared().length;
-    const streak = streakDays();
-    const shareBanner = `<div class="fc-share-banner">
-      <span class="fc-share-banner-icon">⇄</span>
-      <div class="fc-share-banner-txt"><strong>${t('shareBannerTitle')}</strong><p>${t('shareBannerBody')}</p></div>
-      <div class="fc-share-counts"><b>${myShared}</b><span>${t('sharedByMe')}</span></div>
-      <div class="fc-share-counts"><b>${theirShared}</b><span>${t('sharedByOthers')}</span></div>
-    </div>`;
-    const perfCard = (val, label, cls) => `<div class="fc-perf-card">
-      <strong class="${cls||''}">${val}</strong><span>${label}</span></div>`;
+    const chapters = GUIDE_CATS.map(cat => {
+      const items = FEATURES.filter(f => f.cat === cat.id);
+      if(!items.length) return '';
+      const feats = items.map(f => `<div class="fc-feat"><span class="fc-feat-i">${f.i}</span>
+        <div><strong>${f[L][0]}</strong><p>${f[L][1]}</p></div></div>`).join('');
+      return `<div class="fc-guide-chapter">
+        <h3 class="fc-guide-chapter-title"><span class="fc-guide-chapter-i">${cat.i}</span>${cat[L]}</h3>
+        <div class="fc-feats">${feats}</div>
+      </div>`;
+    }).join('');
     root.innerHTML = `
-      <div class="fc-hero">
-        <div class="fc-hero-txt">
-          <div class="fc-title-row">
-            <h1 class="fc-title">${t('title')}</h1>
-            <button class="fc-btn fc-primary fc-cta" data-act="open-app">${t('openApp')}</button>
-          </div>
-          <p class="fc-bread">${t('bread')}</p>
-          <p class="fc-hero-sub">${t('heroSub')}</p>
-        </div>
-      </div>
-
-      <div class="fc-perf">
-        <div class="fc-perf-head"><h2 class="fc-perf-title">${t('perfTitle')}</h2></div>
-        <div class="fc-perf-grid">
-          ${perfCard(q.review.length + q.learn.length, t('dueToday'), 'fc-c-rev')}
-          ${perfCard(q.fresh.length, t('newCards'), 'fc-c-new')}
-          ${perfCard(dc.total, t('statsToday')+' · '+t('statsReviews'))}
-          ${perfCard(ret+'%', t('retention'))}
-          <div class="fc-perf-card fc-perf-streak">
-            <span class="fc-check">✓</span>
-            <div><strong>${streak}</strong><span>${t('streak')(streak).replace(/^[\d]+[- ]?/,'')}</span></div>
-          </div>
+      <button class="fc-btn fc-back" data-act="back">${t('back')}</button>
+      <div class="fc-guide-cover">
+        <span class="fc-guide-cover-badge">📘</span>
+        <div>
+          <h1 class="fc-title">${t('guideTitle')}</h1>
+          <p class="fc-hero-sub">${t('guideSub')}</p>
         </div>
       </div>
 
       <div class="fc-guide-section">
         <h2 class="fc-sub">${t('quickTitle')}</h2>
         <div class="fc-steps">${steps}</div>
-        <h2 class="fc-sub">${t('featTitle')}</h2>
-        <div class="fc-feats">${feats}</div>
       </div>
 
-      ${shareBanner}`;
+      <div class="fc-guide-section">
+        <h2 class="fc-sub">${t('featTitle')}</h2>
+        ${chapters}
+      </div>`;
     wire();
   }
 
   function renderDash(){
     const q = queues();
     const ret = DB.stats.matTotal ? Math.round(100*DB.stats.matOk/DB.stats.matTotal) : 0;
-    const head = `<button class="fc-btn fc-back" data-act="go-home">${t('guide')}</button>
+    const head = `<button class="fc-btn fc-back fc-guide-btn" data-act="guide">${t('guide')}</button>
       <div class="fc-head"><div><h1 class="fc-title">${t('title')}</h1><p class="fc-bread">${t('bread')}</p></div>
       <div class="fc-actions">
         <button class="fc-btn fc-primary" data-act="create">${t('create')}</button>
@@ -1430,8 +1427,7 @@
   }); }
   function onAct(e){
     const el = e.currentTarget, act = el.dataset.act;
-    if(act==='open-app'){ view={name:'dash'}; render(); }
-    else if(act==='go-home'){ view={name:'home'}; render(); }
+    if(act==='guide'){ view={name:'guide'}; render(); }
     else if(act==='create') cardForm(null, el.dataset.deck||'');
     else if(act==='import') importForm();
     else if(act==='import-file') document.querySelector('#fcBatchFile').click();

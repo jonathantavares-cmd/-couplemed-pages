@@ -35,11 +35,11 @@
   var PULL_TIMEOUT_MS  = 6000;
 
   /* Chaves que SINCRONIZAM (nome já sem o prefixo e sem o _uid do final). */
-  var SYNCED = ['qb','qb_unlock','fc','streak','time','prefs','last_access',
+  var SYNCED = ['qb','qb_unlock','fc','streak','time','prefs','last_access','access_count',
                 'nb','notes','notebook','tutor_chat','lib3hl'];
 
   /* Chaves globais, iguais para todos os usuários. */
-  var SHARED = ['couplemed_fc_shared'];
+  var SHARED = ['couplemed_fc_shared', 'couplemed_share_feed'];
 
   /* Deliberadamente NÃO sincronizadas — são de aparelho, não de usuário:
        couplemed_lang_current_*     idioma da sessão atual
