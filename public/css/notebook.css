@@ -831,3 +831,9 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
 .nb-nbrow-actions .nb-card-menu,.nb-nbrow-actions .nb-card-star{position:static;background:transparent;color:var(--nb-muted);width:auto;height:auto;font-size:17px}
 .nb-nbrow-actions .nb-card-star.nb-on{color:#f5b301}
 .nb-nbrow-actions .nb-card-menu:hover,.nb-nbrow-actions .nb-card-star:hover{color:var(--nb-text)}
+
+/* ---------- orientação Horizontal refletida nas prévias do "Novo caderno" ---------- */
+.nb-gnb-paperprev.nb-gnb-prev-landscape{width:138px;height:104px}
+.nb-gnb-covprev.nb-gnb-prev-landscape .nb-book-cover{width:138px;height:104px;border-radius:6px 10px 10px 6px}
+.nb-gnb-paperth.nb-gnb-prev-landscape{width:132px;height:104px}
+.nb-gnb-covth.nb-gnb-prev-landscape .nb-book-cover{width:132px;height:104px}

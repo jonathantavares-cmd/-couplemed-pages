@@ -1373,17 +1373,18 @@
     /* ---- previews (esquerda) ---- */
     function renderPrevs(){
       const wrap = m.querySelector('#nbGnbPrevs');
+      const land = cur.orientation==='landscape' ? ' nb-gnb-prev-landscape' : '';
       const paperCard = `
         <button class="nb-gnb-prevcard ${section==='paper'?'nb-on':''}" data-sec="paper">
           <small>${t('paperLbl')}</small>
-          <span class="nb-gnb-paperprev ${cur.paper==='custom'?'':paperThumbClass(cur.paper)}"
+          <span class="nb-gnb-paperprev${land} ${cur.paper==='custom'?'':paperThumbClass(cur.paper)}"
                 style="background-color:${paperColorHex(cur.bg)};${cur.paper==='custom'&&cur.customPaper?`background-image:url('${esc(cur.customPaper)}');background-size:100% auto;`:''}"></span>
           <em>${paperName()}</em><i class="nb-gnb-under"></i>
         </button>`;
       const coverCard = cur.cover.on ? `
         <button class="nb-gnb-prevcard ${section==='cover'?'nb-on':''}" data-sec="cover">
           <small>${t('coverLbl2')}</small>
-          <span class="nb-gnb-covprev">${bookCoverHtml({icon:'', cover:cur.cover, paper:cur.paper, bg:cur.bg})}</span>
+          <span class="nb-gnb-covprev${land}">${bookCoverHtml({icon:'', cover:cur.cover, paper:cur.paper, bg:cur.bg})}</span>
           <em>${coverModelName()}</em><i class="nb-gnb-under"></i>
         </button>` : '';
       wrap.innerHTML = coverCard + paperCard;
@@ -1401,6 +1402,7 @@
     /* ---- galeria de modelos (embaixo) ---- */
     function renderBody(){
       const body = m.querySelector('#nbGnbBody');
+      const land = cur.orientation==='landscape' ? ' nb-gnb-prev-landscape' : '';
       if(section==='paper'){
         const dots = pid => GN_PAPER_COLORS.map(c=>`<button class="nb-gnb-minidot ${cur.paper===pid&&cur.bg===c.id?'nb-on':''}" data-pcol="${pid}|${c.id}" title="${t(c.k)}" style="background:${c.c}"></button>`).join('');
         body.innerHTML = `
@@ -1408,7 +1410,7 @@
           <div class="nb-gnb-cards">
             ${GN_PAPERS.map(p=>`
               <div class="nb-gnb-card">
-                <button class="nb-gnb-paperth ${p.th}" data-pp="${p.id}" style="background-color:${paperColorHex(cur.bg)}">
+                <button class="nb-gnb-paperth${land} ${p.th}" data-pp="${p.id}" style="background-color:${paperColorHex(cur.bg)}">
                   ${ (GN_PAPER_ALIAS[cur.paper]||cur.paper)===p.id?'<span class="nb-gnb-check">✓</span>':'' }
                 </button>
                 <em>${t(p.k)}</em>
@@ -1416,7 +1418,7 @@
               </div>`).join('')}
             ${cur.customPaper?`
               <div class="nb-gnb-card">
-                <button class="nb-gnb-paperth" data-pp="custom" style="background-image:url('${esc(cur.customPaper)}');background-size:cover;background-position:top center">
+                <button class="nb-gnb-paperth${land}" data-pp="custom" style="background-image:url('${esc(cur.customPaper)}');background-size:cover;background-position:top center">
                   ${cur.paper==='custom'?'<span class="nb-gnb-check">✓</span>':''}
                 </button>
                 <em>${t('pImported')}</em>
@@ -1441,7 +1443,7 @@
               const hex = cur.cover.model===mm.id ? (cur.cover.colorHex||defHex[mm.id]) : defHex[mm.id];
               return `
               <div class="nb-gnb-card">
-                <button class="nb-gnb-covth" data-cm="${mm.id}">
+                <button class="nb-gnb-covth${land}" data-cm="${mm.id}">
                   ${covOf(mm.id, hex)}
                   ${cur.cover.model===mm.id?'<span class="nb-gnb-check">✓</span>':''}
                 </button>
