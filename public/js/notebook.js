@@ -137,6 +137,18 @@
     });
     return items;
   };
+  /* v6: notas do app "Notes" (Apple Notes) também entram na busca global */
+  window.CMSearchProviders.notesApp = function(){
+    try{
+      const d = JSON.parse(localStorage.getItem(`couplemed_notes_${USER}`)) || {};
+      return (d.notes||[]).filter(n=>!n.deletedAt).map(n=>{
+        const div = document.createElement('div'); div.innerHTML = n.html||'';
+        const txt = (div.textContent||'').replace(/\s+/g,' ').trim();
+        return { label: txt.slice(0,60)||'Nota', snippetSource: txt,
+                 href:`app.html?page=notes&u=${USER}&note=${n.id}`, cat:'Notes' };
+      });
+    }catch(e){ return []; }
+  };
 
   // guard de página: todo o restante (UI completa) só roda nas páginas do módulo —
   // o provider acima já ficou registrado e funciona em qualquer página.
@@ -254,7 +266,35 @@
       spacingLbl:'Spacing', boxBorder:'Text box border',
       favStyleTip:'Favorite style', favApply:'Apply favorite style', favSave:'Save current style as favorite', favSaved:'Style saved!',
       pinText:'Pin text tool', stickyHint:'Tap the page to add a sticky note.',
-      delSel:'Delete selection'
+      delSel:'Delete selection',
+      /* --- v6: app Notes (clone do Apple Notes, Fase 5) --- */
+      anICloud:'iCloud', anNotes:'Notes', anDeleted:'Recently Deleted',
+      anNewFolderBtn:'New Folder', anFolderName:'Name',
+      anSmartChk:'Make into Smart Folder', anSmartTags:'Tags (comma separated)',
+      anRenameFolder:'Rename Folder', anDelFolder:'Delete Folder',
+      anConfirmDelFolder:'Delete this folder? Its notes go back to Notes.',
+      anPinned:'Pinned', anToday:'Today', anYesterday:'Yesterday',
+      anLast7:'Previous 7 Days', anLast30:'Previous 30 Days',
+      anNewNote:'New Note', anNoText:'No additional text', anEmpty:'No Notes',
+      anNotesCount:'{n} notes', anNoteCount1:'1 note', anAt:'at',
+      anViewGallery:'View as Gallery', anViewList:'View as List',
+      anSortBy:'Sort By', anGroup:'Group By Date', anAuto:'Automatic', anOffLbl:'Off',
+      anSortEdited:'Date Edited', anSortCreated:'Date Created', anSortTitle:'Title',
+      anSeeAtt:'View Attachments',
+      anPin:'Pin Note', anUnpin:'Unpin Note', anFind:'Find in Note',
+      anMoveTo:'Move To', anRecent:'Recent Notes', anCalc:'Calculation Results',
+      anAttOfNote:'Attachments View', anDelNote:'Delete Note',
+      anRestore:'Recover', anDelForever:'Delete Now',
+      anConfirmDelForever:'Permanently delete this note?',
+      anTrashHint:'Notes are permanently deleted after 30 days.',
+      anSendCopy:'Send a Copy', anCopy:'Copy', anCopied:'Note copied!',
+      anStyleTitle:'Title', anStyleHeading:'Heading', anStyleSub:'Subheading',
+      anStyleBody:'Body', anStyleMono:'Monostyled', anStyleBullet:'Bulleted List',
+      anStyleDash:'Dashed List', anStyleNum:'Numbered List', anStyleQuote:'Block Quote',
+      anTable:'Table', anPhotoVideo:'Choose Photo or Video', anRecAudio:'Record Audio',
+      anRecording:'Recording… click the clip again to stop.', anRecFail:'Microphone unavailable.',
+      anAttachFile:'Attach File', anSearchPh:'Search',
+      anNoCalc:'No calculations in this note.', anNoAtt:'No attachments.'
     },
     pt:{
       title:'Meus Cadernos', titleNotes:'Todas as Notas', home:'Início',
@@ -366,7 +406,35 @@
       spacingLbl:'Espaçamento', boxBorder:'Borda da caixa de texto',
       favStyleTip:'Estilo favorito', favApply:'Aplicar estilo favorito', favSave:'Guardar estilo atual como favorito', favSaved:'Estilo guardado!',
       pinText:'Afixar ferramenta de texto', stickyHint:'Toque na página para adicionar a nota adesiva.',
-      delSel:'Apagar seleção'
+      delSel:'Apagar seleção',
+      /* --- v6: app Notes (clone do Apple Notes, Fase 5) --- */
+      anICloud:'iCloud', anNotes:'Notas', anDeleted:'Apagadas',
+      anNewFolderBtn:'Nova Pasta', anFolderName:'Nome',
+      anSmartChk:'Transformar em Pasta Inteligente', anSmartTags:'Etiquetas (separadas por vírgula)',
+      anRenameFolder:'Renomear Pasta', anDelFolder:'Apagar Pasta',
+      anConfirmDelFolder:'Apagar esta pasta? As notas dela voltam para Notas.',
+      anPinned:'Fixadas', anToday:'Hoje', anYesterday:'Ontem',
+      anLast7:'Últimos 7 Dias', anLast30:'Últimos 30 Dias',
+      anNewNote:'Nova Nota', anNoText:'Sem texto adicional', anEmpty:'Nenhuma Nota',
+      anNotesCount:'{n} notas', anNoteCount1:'1 nota', anAt:'às',
+      anViewGallery:'Ver como Galeria', anViewList:'Ver como Lista',
+      anSortBy:'Ordenar por', anGroup:'Agrupar por Data', anAuto:'Automático', anOffLbl:'Desativado',
+      anSortEdited:'Data de Edição', anSortCreated:'Data de Criação', anSortTitle:'Título',
+      anSeeAtt:'Ver Anexos',
+      anPin:'Fixar Nota', anUnpin:'Desafixar Nota', anFind:'Buscar na Nota',
+      anMoveTo:'Mover para', anRecent:'Notas Recentes', anCalc:'Resultados de Cálculos',
+      anAttOfNote:'Visualização dos Anexos', anDelNote:'Apagar Nota',
+      anRestore:'Recuperar', anDelForever:'Apagar Agora',
+      anConfirmDelForever:'Apagar esta nota em definitivo?',
+      anTrashHint:'As notas são apagadas em definitivo após 30 dias.',
+      anSendCopy:'Enviar Cópia', anCopy:'Copiar', anCopied:'Nota copiada!',
+      anStyleTitle:'Título', anStyleHeading:'Cabeçalho', anStyleSub:'Subtítulo',
+      anStyleBody:'Corpo', anStyleMono:'Estilo Fixo', anStyleBullet:'Lista de Marcadores',
+      anStyleDash:'Lista com Travessões', anStyleNum:'Lista Numerada', anStyleQuote:'Citação em Bloco',
+      anTable:'Tabela', anPhotoVideo:'Escolher Foto ou Vídeo', anRecAudio:'Gravar Áudio',
+      anRecording:'Gravando… clique no clipe de novo para parar.', anRecFail:'Microfone indisponível.',
+      anAttachFile:'Anexar Arquivo', anSearchPh:'Buscar',
+      anNoCalc:'Nenhum cálculo nesta nota.', anNoAtt:'Nenhum anexo.'
     }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
@@ -736,7 +804,8 @@
   function render(){
     if(!root) return;
     if(CM) CM.bumpToken();
-    if(view.name==='folders') renderFolders();
+    if(PAGE==='notes') renderNotesApp();          // v6: app estilo Apple Notes
+    else if(view.name==='folders') renderFolders();
     else if(view.name==='folder') renderFolder();
     else if(view.name==='notebook') renderNotebook();
     else { view = { name:'folders' }; renderFolders(); } // rotas legadas (note/allnotes/favorites)
@@ -3012,6 +3081,575 @@
       page.strokes = []; nt.updated = Date.now(); save(); drawState.redraw();
     });
   }
+  /* ================================================================
+     v6 — FASE 5: app "Notes" = clone do Apple Notes (page=notes).
+     Layout 3 colunas (sidebar iCloud / lista / nota), dados próprios em
+     couplemed_notes_${user}. Título = 1ª linha da nota (como no Apple
+     Notes). FORA: Bloquear Nota e todas as extensões de share.
+     ================================================================ */
+  const AN_KEY = `couplemed_notes_${USER}`;
+  const AN = (function(){
+    try{ const d = JSON.parse(localStorage.getItem(AN_KEY)); if(d && typeof d==='object') return { folders:d.folders||[], notes:d.notes||[] }; }catch(e){}
+    return { folders:[], notes:[] };
+  })();
+  function anPersist(){ try{ localStorage.setItem(AN_KEY, JSON.stringify(AN)); }catch(e){ toast(t('storageFull'), true); } }
+  // lixeira: apaga em definitivo depois de 30 dias
+  (function(){ const cut = Date.now()-30*864e5; const n0 = AN.notes.length;
+    AN.notes = AN.notes.filter(n=>!(n.deletedAt && n.deletedAt < cut));
+    if(AN.notes.length !== n0) anPersist(); })();
+  let anV = { folder:'all', noteId:null, sidebar:window.innerWidth>1024, gallery:false, sort:'edited', group:true, pinnedOpen:true, search:'' };
+  let anRec = null, anBootNote = params.get('note');
+  const AN_HILITES = ['#d9c8f6','#f6c9dd','#f8d9b0','#c8f0dd','#c9e2f9']; // Roxo, Rosa, Laranja, Menta, Azul
+
+  const anById = id => AN.notes.find(n=>n.id===id);
+  const anFolderById = id => AN.folders.find(f=>f.id===id);
+  function anBlocks(n){
+    const d = document.createElement('div'); d.innerHTML = n.html||'';
+    const out = [];
+    d.childNodes.forEach(c=>{ const s = (c.textContent||'').trim(); if(s) out.push(s); });
+    return out;
+  }
+  const anTitleOf = n => (anBlocks(n)[0]||t('anNewNote')).slice(0,90);
+  const anSnippetOf = n => anBlocks(n).slice(1).join(' ').slice(0,110) || t('anNoText');
+  const anTextOf = n => anBlocks(n).join(' ');
+  function anThumbOf(n){ const d = document.createElement('div'); d.innerHTML = n.html||''; const im = d.querySelector('img'); return im ? im.getAttribute('src') : null; }
+  function anNotesIn(fid){
+    if(fid==='trash') return AN.notes.filter(n=>n.deletedAt);
+    const live = AN.notes.filter(n=>!n.deletedAt);
+    if(fid==='all') return live;
+    const f = anFolderById(fid); if(!f) return live;
+    if(f.smart){
+      const tags = (f.tags||[]).map(x=>('#'+String(x).replace(/^#/,'')).toLowerCase());
+      return live.filter(n=>{ const tx = anTextOf(n).toLowerCase(); return tags.some(tg=>tx.includes(tg)); });
+    }
+    return live.filter(n=>n.folderId===f.id);
+  }
+  const anLoc = () => lang()==='pt' ? 'pt-BR' : 'en-US';
+  function anDateShort(ts){
+    const d = new Date(ts||Date.now());
+    return d.toDateString()===new Date().toDateString()
+      ? d.toLocaleTimeString(anLoc(), {hour:'2-digit',minute:'2-digit'})
+      : d.toLocaleDateString(anLoc(), {day:'2-digit',month:'2-digit',year:'2-digit'});
+  }
+  function anDateLong(ts){
+    const d = new Date(ts||Date.now());
+    return d.toLocaleDateString(anLoc(), {day:'numeric',month:'long',year:'numeric'})
+      + ' ' + t('anAt') + ' ' + d.toLocaleTimeString(anLoc(), {hour:'2-digit',minute:'2-digit'});
+  }
+  function anGroupOf(ts){
+    const now = new Date();
+    const day0 = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    if(ts >= day0) return t('anToday');
+    if(ts >= day0-864e5) return t('anYesterday');
+    if(ts >= day0-7*864e5) return t('anLast7');
+    if(ts >= day0-30*864e5) return t('anLast30');
+    return new Date(ts).toLocaleDateString(anLoc(), {month:'long',year:'numeric'});
+  }
+  function anSyncUrl(){
+    const u = new URL(location.href);
+    u.searchParams.set('page','notes'); u.searchParams.set('u',USER);
+    ['folder','nb','pg','fav','prefill','note'].forEach(k=>u.searchParams.delete(k));
+    if(anV.noteId) u.searchParams.set('note', anV.noteId);
+    history.replaceState(null,'','app.html'+u.search);
+  }
+  const anCountLbl = n => n===1 ? t('anNoteCount1') : t('anNotesCount',{n});
+
+  /* ---------- render principal do app Notes ---------- */
+  function renderNotesApp(){
+    if(anBootNote){ // deep link ?note=
+      const n = anById(anBootNote); anBootNote = null;
+      if(n){ anV.noteId = n.id; if(n.deletedAt) anV.folder = 'trash'; }
+    }
+    const cur = anV.noteId ? anById(anV.noteId) : null;
+    if(anV.noteId && !cur) anV.noteId = null;
+    const inTrash = anV.folder==='trash';
+    const dis = (!cur || inTrash) ? 'nb-an-dis' : '';
+    const srow = (id, ico, label, count, menu) => `
+      <button class="nb-an-srow ${anV.folder===id?'nb-on':''}" data-anf="${id}">
+        <span class="nb-an-sico">${ico}</span><span class="nb-an-slbl">${label}</span>
+        ${menu?`<i class="nb-an-fmenu" data-anfm="${id}">⋯</i>`:''}<em>${count}</em>
+      </button>`;
+    root.innerHTML = `
+      <div class="nb-an ${cur?'nb-an-hasnote':''}">
+        <div class="nb-an-bar">
+          <button class="nb-gt ${anV.sidebar?'nb-on':''}" id="anSideTgl" title="Sidebar">◧</button>
+          <button class="nb-gt nb-an-back" id="anBack">‹ ${t('anNotes')}</button>
+          <button class="nb-gt" id="anNewNote" title="${t('anNewNote')}">✎</button>
+          <span class="nb-tb-sep"></span>
+          <button class="nb-gt ${dis}" id="anAaBtn" title="Aa"><b>Aa</b></button>
+          <button class="nb-gt ${dis}" id="anCheckBtn" title="${t('tipCheck')}">☑</button>
+          <button class="nb-gt ${dis}" id="anTableBtn" title="${t('anTable')}">⊞</button>
+          <button class="nb-gt ${dis}" id="anClipBtn" title="${t('anAttachFile')}">📎</button>
+          <span class="nb-tb-sep"></span>
+          <button class="nb-gt ${dis}" id="anShareBtn" title="${t('anSendCopy')}">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 14V3M12 3L8 7M12 3l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 11v9h14v-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="nb-gt ${cur?'':'nb-an-dis'}" id="anMoreBtn" title="⋯">⋯</button>
+          <span class="nb-gnflex"></span>
+          <span class="nb-savestate" id="anSaveState">${t('saved')}</span>
+          <div class="nb-search nb-an-search">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input id="anSearchInp" placeholder="${t('anSearchPh')}" value="${esc(anV.search)}" />
+          </div>
+        </div>
+        <div class="nb-an-cols">
+          <aside class="nb-an-side" id="anSide" ${anV.sidebar?'':'hidden'}>
+            <div class="nb-an-sidecap">${t('anICloud')}</div>
+            ${srow('all','📁',t('anNotes'), anNotesIn('all').length)}
+            ${srow('trash','🗑',t('anDeleted'), anNotesIn('trash').length)}
+            ${AN.folders.length?`<div class="nb-an-sidecap nb-an-sidecap2">${t('folders')}</div>`:''}
+            ${AN.folders.map(f=>srow(f.id, f.smart?'⚙️':'📁', esc(f.name), anNotesIn(f.id).length, true)).join('')}
+            <button class="nb-an-newfolder" id="anNewFolderBtn">⊕ ${t('anNewFolderBtn')}</button>
+          </aside>
+          <section class="nb-an-listcol" id="anListCol">${anListColHtml()}</section>
+          <section class="nb-an-notecol">${anNoteColHtml(cur, inTrash)}</section>
+        </div>
+      </div>`;
+    anWireShell(cur, inTrash);
+    anWireListCol();
+    if(cur) anWireNote(cur, inTrash);
+  }
+
+  /* ---------- coluna 2: lista/galeria com Fixadas + grupos de data ---------- */
+  function anListColHtml(){
+    const inTrash = anV.folder==='trash';
+    const f = anFolderById(anV.folder);
+    const title = inTrash ? t('anDeleted') : (f ? esc(f.name) : t('anNotes'));
+    const q = anV.search.trim().toLowerCase();
+    let list = anNotesIn(anV.folder);
+    if(q) list = list.filter(n=>anTextOf(n).toLowerCase().includes(q));
+    const sorters = {
+      edited:(a,b)=>(b.updated||0)-(a.updated||0),
+      created:(a,b)=>(b.created||0)-(a.created||0),
+      title:(a,b)=>anTitleOf(a).localeCompare(anTitleOf(b))
+    };
+    list.sort(sorters[anV.sort]||sorters.edited);
+    const pinned = inTrash ? [] : list.filter(n=>n.pinned);
+    const rest = inTrash ? list : list.filter(n=>!n.pinned);
+    const row = n => `
+      <button class="nb-an-row ${n.id===anV.noteId?'nb-on':''}" data-annote="${n.id}">
+        <span class="nb-an-rowmain">
+          <strong>${esc(anTitleOf(n))}</strong>
+          <span class="nb-an-rowsub"><em class="nb-an-date">${anDateShort(anV.sort==='created'?n.created:n.updated)}</em>
+          <span class="nb-an-snip">${esc(anSnippetOf(n))}</span></span>
+        </span>
+        ${anThumbOf(n)?`<img class="nb-an-thumb" src="${esc(anThumbOf(n))}">`:''}
+      </button>`;
+    const card = n => `
+      <button class="nb-an-card ${n.id===anV.noteId?'nb-on':''}" data-annote="${n.id}">
+        <span class="nb-an-cardprev">${anThumbOf(n)?`<img src="${esc(anThumbOf(n))}">`:`<span class="nb-an-cardtxt">${esc(anTextOf(n).slice(0,180)||t('anNoText'))}</span>`}</span>
+        <strong>${esc(anTitleOf(n))}</strong><em>${anDateShort(n.updated)}</em>
+      </button>`;
+    const item = anV.gallery ? card : row;
+    let body = '';
+    if(pinned.length){
+      body += `<button class="nb-an-gcap" id="anPinTgl"><b>${anV.pinnedOpen?'⌄':'›'}</b> 📌 ${t('anPinned')}</button>`;
+      if(anV.pinnedOpen) body += `<div class="${anV.gallery?'nb-an-cards':''}">${pinned.map(item).join('')}</div>`;
+    }
+    if(anV.group && anV.sort!=='title'){
+      let lastG = null;
+      let open = false;
+      rest.forEach(n=>{
+        const g = anGroupOf(anV.sort==='created'?n.created:n.updated);
+        if(g!==lastG){
+          if(open) body += '</div>';
+          body += `<div class="nb-an-gcap nb-an-gcap-date">${g}</div><div class="${anV.gallery?'nb-an-cards':''}">`;
+          lastG = g; open = true;
+        }
+        body += item(n);
+      });
+      if(open) body += '</div>';
+    } else body += `<div class="${anV.gallery?'nb-an-cards':''}">${rest.map(item).join('')}</div>`;
+    if(!list.length) body = `<div class="nb-an-emptylist">${t('anEmpty')}</div>`;
+    return `
+      <div class="nb-an-listhead">
+        <strong>${title}</strong>
+        <button class="nb-gt" id="anListMenu" title="⋯">⋯</button>
+      </div>
+      <div class="nb-an-count">${anCountLbl(list.length)}</div>
+      ${inTrash?`<div class="nb-an-trashhint">${t('anTrashHint')}</div>`:''}
+      <div class="nb-an-scroll">${body}</div>`;
+  }
+  function anWireListCol(){
+    const col = root.querySelector('#anListCol'); if(!col) return;
+    col.querySelectorAll('[data-annote]').forEach(b=>b.addEventListener('click', ()=>{
+      anV.noteId = b.dataset.annote; anSyncUrl(); render();
+    }));
+    const pt = col.querySelector('#anPinTgl');
+    if(pt) pt.addEventListener('click', ()=>{ anV.pinnedOpen = !anV.pinnedOpen; anRefreshList(); });
+    const lm = col.querySelector('#anListMenu');
+    if(lm) lm.addEventListener('click', e=>anOpenListMenu(e.currentTarget));
+  }
+  function anRefreshList(){
+    const col = root.querySelector('#anListCol'); if(!col) return;
+    col.innerHTML = anListColHtml(); anWireListCol();
+  }
+  function anTouchListItem(n){
+    const el = root.querySelector(`[data-annote="${n.id}"]`); if(!el) return;
+    const st = el.querySelector('strong'); if(st) st.textContent = anTitleOf(n);
+    const sn = el.querySelector('.nb-an-snip'); if(sn) sn.textContent = anSnippetOf(n);
+    const dt = el.querySelector('.nb-an-date'); if(dt) dt.textContent = anDateShort(n.updated);
+  }
+  /* menu ⋯ da lista: Galeria, Ordenar por ›, Agrupar por Data ›, Ver Anexos */
+  function anOpenListMenu(anchor){
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-alm="view">${anV.gallery?'☰ '+t('anViewList'):'⊞ '+t('anViewGallery')}</button>
+      <button data-alm="sort">↕ ${t('anSortBy')} ›</button>
+      <button data-alm="group">📅 ${t('anGroup')} ›</button>
+      <button data-alm="att">🖼 ${t('anSeeAtt')}</button>
+    </div>`);
+    pop.querySelector('[data-alm="view"]').addEventListener('click', ()=>{ anV.gallery = !anV.gallery; closePopover(); anRefreshList(); });
+    pop.querySelector('[data-alm="sort"]').addEventListener('click', ()=>{
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        ${[['edited','anSortEdited'],['created','anSortCreated'],['title','anSortTitle']].map(([v,k])=>`<button data-srt="${v}" class="${anV.sort===v?'nb-on':''}">${t(k)}</button>`).join('')}
+      </div>`);
+      p2.querySelectorAll('[data-srt]').forEach(b=>b.addEventListener('click', ()=>{ anV.sort = b.dataset.srt; closePopover(); anRefreshList(); }));
+    });
+    pop.querySelector('[data-alm="group"]').addEventListener('click', ()=>{
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        <button data-grp="1" class="${anV.group?'nb-on':''}">${t('anAuto')}</button>
+        <button data-grp="0" class="${anV.group?'':'nb-on'}">${t('anOffLbl')}</button>
+      </div>`);
+      p2.querySelectorAll('[data-grp]').forEach(b=>b.addEventListener('click', ()=>{ anV.group = b.dataset.grp==='1'; closePopover(); anRefreshList(); }));
+    });
+    pop.querySelector('[data-alm="att"]').addEventListener('click', ()=>anAttPop(anchor, anNotesIn(anV.folder)));
+  }
+  /* anexos (de uma nota ou da pasta inteira) */
+  function anAttPop(anchor, notes){
+    const items = [];
+    notes.forEach(n=>{
+      const d = document.createElement('div'); d.innerHTML = n.html||'';
+      d.querySelectorAll('img,audio,video,a.nb-an-file').forEach(el=>{
+        if(el.tagName==='IMG') items.push(`<img src="${esc(el.getAttribute('src'))}">`);
+        else if(el.tagName==='A') items.push(`<span class="nb-an-attfile">📄 ${esc(el.textContent.replace('📄','').trim())}</span>`);
+        else items.push(`<span class="nb-an-attfile">${el.tagName==='AUDIO'?'🎙':'🎞'} ${el.tagName.toLowerCase()}</span>`);
+      });
+    });
+    openPopover(anchor, `<div><strong class="nb-pop-title">${t('anAttOfNote')}</strong>
+      ${items.length?`<div class="nb-an-attgrid">${items.join('')}</div>`:`<div class="nb-cpick-empty">${t('anNoAtt')}</div>`}</div>`, {cls:'nb-pop-anatt'});
+  }
+
+  /* ---------- coluna 3: a nota ---------- */
+  function anNoteColHtml(cur, inTrash){
+    if(!cur) return `<div class="nb-an-emptynote"><span>📝</span><p>${t('anEmpty')}</p></div>`;
+    return `
+      ${inTrash?`<div class="nb-an-trashbar">
+        <button class="nb-btn" id="anRestore">↩ ${t('anRestore')}</button>
+        <button class="nb-btn nb-btn-danger" id="anDelForever">🗑 ${t('anDelForever')}</button>
+      </div>`:''}
+      <div class="nb-an-ndate">${anDateLong(cur.updated)}</div>
+      <div class="nb-an-body" id="anEditor" contenteditable="${inTrash?'false':'true'}" data-ph="${t('notePh')}"></div>`;
+  }
+  function anFlush(n, ed){
+    clearTimeout(saveTimer);
+    if(n && ed && !n.deletedAt){ n.html = ed.innerHTML; anPersist(); }
+  }
+  function anWireNote(cur, inTrash){
+    const ed = root.querySelector('#anEditor'); if(!ed) return;
+    ed.innerHTML = cur.html||'';
+    if(inTrash){
+      root.querySelector('#anRestore').addEventListener('click', ()=>{ cur.deletedAt = null; anPersist(); anV.folder='all'; render(); });
+      root.querySelector('#anDelForever').addEventListener('click', ()=>{
+        if(!confirm(t('anConfirmDelForever'))) return;
+        deleteRemoteImages(cur.html);
+        AN.notes = AN.notes.filter(n=>n.id!==cur.id);
+        anPersist(); anV.noteId = null; anSyncUrl(); render();
+      });
+      return;
+    }
+    const schedule = ()=>{
+      const st = root.querySelector('#anSaveState'); if(st) st.textContent = t('saving');
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(()=>{
+        cur.html = ed.innerHTML; cur.updated = Date.now(); anPersist();
+        const s2 = root.querySelector('#anSaveState'); if(s2) s2.textContent = t('saved');
+        anTouchListItem(cur);
+      }, 500);
+    };
+    anWireNote.schedule = schedule; // usado pela toolbar
+    try{ document.execCommand('styleWithCSS', false, true); }catch(e){}
+    try{ document.execCommand('defaultParagraphSeparator', false, 'p'); }catch(e){}
+    ed.addEventListener('input', schedule);
+    ed.addEventListener('blur', ()=>anFlush(cur, ed));
+    ed.addEventListener('click', e=>{
+      const li = e.target.closest('li.nb-check-item');
+      if(li && e.offsetX < 26){ li.classList.toggle('nb-checked'); schedule(); }
+    });
+    ed.addEventListener('paste', async e=>{
+      const items = (e.clipboardData||{}).items || [];
+      for(const it of items){
+        if(it.kind==='file' && /^image\//.test(it.type)){
+          e.preventDefault();
+          const url = await uploadImage(it.getAsFile());
+          if(url){ ed.focus(); document.execCommand('insertImage', false, url); schedule(); }
+          return;
+        }
+      }
+    });
+  }
+
+  /* ---------- casca: sidebar + toolbar ---------- */
+  function anWireShell(cur, inTrash){
+    const ed = () => root.querySelector('#anEditor');
+    const exec = (cmd, val)=>{ const e = ed(); if(!e) return; e.focus(); document.execCommand(cmd, false, val); if(anWireNote.schedule) anWireNote.schedule(); };
+    const insertHtml = html => exec('insertHTML', html);
+    root.querySelector('#anSideTgl').addEventListener('click', ()=>{ anV.sidebar = !anV.sidebar; render(); });
+    root.querySelector('#anBack').addEventListener('click', ()=>{ anFlush(cur, ed()); anV.noteId = null; anSyncUrl(); render(); });
+    root.querySelectorAll('[data-anf]').forEach(b=>b.addEventListener('click', e=>{
+      if(e.target.closest('[data-anfm]')) return;
+      anFlush(cur, ed());
+      anV.folder = b.dataset.anf; anV.noteId = null; anSyncUrl(); render();
+    }));
+    root.querySelectorAll('[data-anfm]').forEach(i=>i.addEventListener('click', e=>{
+      e.stopPropagation();
+      const f = anFolderById(i.dataset.anfm); if(!f) return;
+      const pop = openPopover(i, `<div class="nb-pop-list">
+        <button data-afm="ren">✎ ${t('anRenameFolder')}</button>
+        <button data-afm="del" class="nb-pm-danger">🗑 ${t('anDelFolder')}</button></div>`);
+      pop.querySelector('[data-afm="ren"]').addEventListener('click', ()=>{ closePopover(); anFolderModal(f); });
+      pop.querySelector('[data-afm="del"]').addEventListener('click', ()=>{
+        closePopover();
+        if(!confirm(t('anConfirmDelFolder'))) return;
+        AN.notes.forEach(n=>{ if(n.folderId===f.id) n.folderId = null; });
+        AN.folders = AN.folders.filter(x=>x.id!==f.id);
+        if(anV.folder===f.id) anV.folder = 'all';
+        anPersist(); render();
+      });
+    }));
+    root.querySelector('#anNewFolderBtn').addEventListener('click', ()=>anFolderModal(null));
+    root.querySelector('#anNewNote').addEventListener('click', ()=>{
+      anFlush(cur, ed());
+      const f = anFolderById(anV.folder);
+      const nn = { id:uid(), folderId:(f && !f.smart)?f.id:null, html:'', created:Date.now(), updated:Date.now(), pinned:false, deletedAt:null };
+      AN.notes.push(nn); anPersist();
+      if(anV.folder==='trash') anV.folder = 'all';
+      anV.noteId = nn.id; anSyncUrl(); render();
+      const e2 = root.querySelector('#anEditor'); if(e2) e2.focus();
+    });
+    const need = fn => e => { if(cur && !inTrash) fn(e); };
+    root.querySelector('#anAaBtn').addEventListener('click', need(e=>anOpenAa(e.currentTarget, exec)));
+    root.querySelector('#anCheckBtn').addEventListener('click', need(()=>insertHtml('<ul class="nb-checklist"><li class="nb-check-item">&nbsp;</li></ul>')));
+    root.querySelector('#anTableBtn').addEventListener('click', need(()=>insertHtml(
+      '<table class="nb-an-table"><tbody><tr><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td></tr></tbody></table><p><br></p>')));
+    root.querySelector('#anClipBtn').addEventListener('click', need(e=>anClipPop(e.currentTarget, insertHtml)));
+    root.querySelector('#anShareBtn').addEventListener('click', need(e=>{
+      const pop = openPopover(e.currentTarget, `<div><strong class="nb-pop-title">${t('anSendCopy')}</strong>
+        <div class="nb-pop-list"><button data-ash="copy">⧉ ${t('anCopy')}</button></div></div>`);
+      pop.querySelector('[data-ash="copy"]').addEventListener('click', ()=>{
+        closePopover();
+        const txt = anBlocks(cur).join('\n');
+        const done = ()=>toast(t('anCopied'));
+        if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(done);
+        else done();
+      });
+    }));
+    root.querySelector('#anMoreBtn').addEventListener('click', e=>{ if(cur) anNoteMenu(e.currentTarget, cur, inTrash); });
+    const si = root.querySelector('#anSearchInp');
+    si.addEventListener('input', ()=>{ anV.search = si.value; anRefreshList(); });
+  }
+
+  /* ---------- diálogo Nova Pasta (com Pasta Inteligente) ---------- */
+  function anFolderModal(f){
+    const m = openModal(`
+      <h3>${f?t('anRenameFolder'):t('anNewFolderBtn')}</h3>
+      <div class="nb-field"><label>${t('anFolderName')}</label>
+        <input type="text" id="anFName" maxlength="40" value="${esc(f?f.name:'')}" placeholder="${t('anFolderName')}"></div>
+      ${f?'':`<label class="nb-gt-check"><input type="checkbox" id="anFSmart"> ${t('anSmartChk')}</label>
+      <div class="nb-field" id="anFTagsWrap" hidden style="margin-top:10px"><label>${t('anSmartTags')}</label>
+        <input type="text" id="anFTags" placeholder="#prova, #anki"></div>`}
+      <div class="nb-modal-foot">
+        <button class="nb-btn nb-btn-ghost" id="anFCancel">${t('cancel')}</button>
+        <button class="nb-btn nb-btn-primary" id="anFOk">OK</button>
+      </div>`);
+    const chk = m.querySelector('#anFSmart');
+    if(chk) chk.addEventListener('change', ()=>{ m.querySelector('#anFTagsWrap').hidden = !chk.checked; });
+    m.querySelector('#anFCancel').addEventListener('click', closeModal);
+    const okIt = ()=>{
+      const name = m.querySelector('#anFName').value.trim(); if(!name) return;
+      if(f){ f.name = name; }
+      else {
+        const smart = chk && chk.checked;
+        const tags = smart ? m.querySelector('#anFTags').value.split(',').map(s=>s.trim().replace(/^#/,'')).filter(Boolean) : [];
+        AN.folders.push({ id:uid(), name, smart:!!smart, tags });
+      }
+      anPersist(); closeModal(); render();
+    };
+    m.querySelector('#anFOk').addEventListener('click', okIt);
+    m.querySelector('#anFName').addEventListener('keydown', e=>{ if(e.key==='Enter') okIt(); });
+    m.querySelector('#anFName').focus();
+  }
+
+  /* ---------- painel Aa: estilos + B/I/U/S + caneta de realce (5 cores) ---------- */
+  function anOpenAa(anchor, exec){
+    const pop = openPopover(anchor, `
+      <div class="nb-an-aa">
+        <div class="nb-pop-list">
+          <button data-aas="h1" class="nb-an-s-h1">${t('anStyleTitle')}</button>
+          <button data-aas="h2" class="nb-an-s-h2">${t('anStyleHeading')}</button>
+          <button data-aas="h3" class="nb-an-s-h3">${t('anStyleSub')}</button>
+          <button data-aas="p">${t('anStyleBody')}</button>
+          <button data-aas="pre" class="nb-an-s-mono">${t('anStyleMono')}</button>
+          <button data-aal="ul">• ${t('anStyleBullet')}</button>
+          <button data-aal="dash">– ${t('anStyleDash')}</button>
+          <button data-aal="ol">1. ${t('anStyleNum')}</button>
+          <button data-aas="blockquote">▏${t('anStyleQuote')}</button>
+        </div>
+        <div class="nb-an-aa-row">
+          <button data-aab="bold"><b>B</b></button>
+          <button data-aab="italic"><i>I</i></button>
+          <button data-aab="underline"><u>U</u></button>
+          <button data-aab="strikeThrough"><s>S</s></button>
+        </div>
+        <div class="nb-an-aa-row">
+          ${AN_HILITES.map(c=>`<button class="nb-gt-dot" data-aah="${c}" style="background:${c}"></button>`).join('')}
+        </div>
+      </div>`, {cls:'nb-pop-anaa'});
+    pop.querySelectorAll('button').forEach(b=>b.addEventListener('mousedown', e=>e.preventDefault()));
+    pop.querySelectorAll('[data-aas]').forEach(b=>b.addEventListener('click', ()=>{ exec('formatBlock','<'+b.dataset.aas+'>'); closePopover(); }));
+    pop.querySelectorAll('[data-aal]').forEach(b=>b.addEventListener('click', ()=>{
+      const k = b.dataset.aal;
+      if(k==='ol') exec('insertOrderedList');
+      else {
+        exec('insertUnorderedList');
+        if(k==='dash'){
+          const s = window.getSelection();
+          let n = s && s.anchorNode; if(n && n.nodeType===3) n = n.parentElement;
+          const ul = n && n.closest ? n.closest('ul') : null;
+          if(ul) ul.classList.add('nb-an-dash');
+        }
+      }
+      closePopover();
+    }));
+    pop.querySelectorAll('[data-aab]').forEach(b=>b.addEventListener('click', ()=>exec(b.dataset.aab)));
+    pop.querySelectorAll('[data-aah]').forEach(b=>b.addEventListener('click', ()=>{ exec('hiliteColor', b.dataset.aah); closePopover(); }));
+  }
+
+  /* ---------- clipe: foto/vídeo, gravar áudio, anexar arquivo ---------- */
+  function anClipPop(anchor, insertHtml){
+    if(anRec){ anRec.stop(); return; } // clicar de novo para a gravação em curso
+    const pop = openPopover(anchor, `
+      <div class="nb-pop-list">
+        <button data-ac="pv">🖼 ${t('anPhotoVideo')}</button>
+        <button data-ac="rec">🎙 ${t('anRecAudio')}</button>
+        <button data-ac="file">📄 ${t('anAttachFile')}</button>
+      </div>
+      <input type="file" id="anPvInp" accept="image/*,video/*" hidden>
+      <input type="file" id="anFileInp" hidden>`);
+    const attach = async f => {
+      if(!f) return;
+      if(/^image\//.test(f.type)){ const u = await uploadImage(f); if(u) insertHtml(`<img src="${esc(u)}">`); return; }
+      if(f.size > 8*1024*1024){ toast(t('imgTooBig'), true); return; }
+      const u = await blobToDataURL(f);
+      if(/^video\//.test(f.type)) insertHtml(`<video controls src="${u}"></video>`);
+      else insertHtml(`<a class="nb-an-file" download="${esc(f.name)}" href="${u}">📄 ${esc(f.name)}</a>`);
+    };
+    pop.querySelector('[data-ac="pv"]').addEventListener('click', ()=>pop.querySelector('#anPvInp').click());
+    pop.querySelector('#anPvInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
+    pop.querySelector('[data-ac="file"]').addEventListener('click', ()=>pop.querySelector('#anFileInp').click());
+    pop.querySelector('#anFileInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
+    pop.querySelector('[data-ac="rec"]').addEventListener('click', ()=>{
+      closePopover();
+      if(!navigator.mediaDevices || !window.MediaRecorder){ toast(t('anRecFail'), true); return; }
+      navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+        const mr = new MediaRecorder(stream); const chunks = [];
+        mr.ondataavailable = e=>{ if(e.data && e.data.size) chunks.push(e.data); };
+        mr.onstop = ()=>{
+          stream.getTracks().forEach(tk=>tk.stop()); anRec = null;
+          const blob = new Blob(chunks, {type: mr.mimeType||'audio/webm'});
+          if(blob.size > 8*1024*1024){ toast(t('imgTooBig'), true); return; }
+          blobToDataURL(blob).then(u=>insertHtml(`<audio controls src="${u}"></audio>`));
+        };
+        mr.start(); anRec = mr; toast(t('anRecording'), true);
+      }).catch(()=>toast(t('anRecFail'), true));
+    });
+  }
+
+  /* ---------- menu ⋯ da nota ---------- */
+  function anNoteMenu(anchor, n, inTrash){
+    if(inTrash){ anAttPop(anchor, [n]); return; }
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-am="pin">📌 ${n.pinned?t('anUnpin'):t('anPin')}</button>
+      <button data-am="find">🔍 ${t('anFind')}</button>
+      <button data-am="move">📁 ${t('anMoveTo')} ›</button>
+      <button data-am="recent">🕘 ${t('anRecent')} ›</button>
+      <button data-am="calc">🟰 ${t('anCalc')} ›</button>
+      <button data-am="att">🖼 ${t('anAttOfNote')} ›</button>
+      <button data-am="del" class="nb-pm-danger">🗑 ${t('anDelNote')}</button>
+    </div>`);
+    pop.querySelector('[data-am="pin"]').addEventListener('click', ()=>{ n.pinned = !n.pinned; anPersist(); closePopover(); render(); });
+    pop.querySelector('[data-am="find"]').addEventListener('click', ()=>{
+      const p2 = openPopover(anchor, `<div class="nb-renpop">
+        <input id="anFindInp" placeholder="${t('anFind')}...">
+        <button class="nb-btn nb-btn-primary" id="anFindOk">🔍</button></div>`);
+      const inp = p2.querySelector('#anFindInp'); inp.focus();
+      const go = ()=>{ const q = inp.value.trim(); if(q) anFindInNote(q); };
+      p2.querySelector('#anFindOk').addEventListener('click', go);
+      inp.addEventListener('keydown', e=>{ if(e.key==='Enter') go(); });
+    });
+    pop.querySelector('[data-am="move"]').addEventListener('click', ()=>{
+      const opts = [{id:null, name:t('anNotes')}].concat(AN.folders.filter(f=>!f.smart));
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        ${opts.map((f,i)=>`<button data-mv="${i}" class="${(n.folderId||null)===(f.id||null)?'nb-on':''}">📁 ${esc(f.name)}</button>`).join('')}
+      </div>`);
+      p2.querySelectorAll('[data-mv]').forEach(b=>b.addEventListener('click', ()=>{
+        n.folderId = opts[+b.dataset.mv].id || null; n.updated = Date.now();
+        anPersist(); closePopover(); render();
+      }));
+    });
+    pop.querySelector('[data-am="recent"]').addEventListener('click', ()=>{
+      const rec = AN.notes.filter(x=>!x.deletedAt).sort((a,b)=>(b.updated||0)-(a.updated||0)).slice(0,5);
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        ${rec.map(x=>`<button data-rc="${x.id}">${esc(anTitleOf(x))}</button>`).join('')||`<div class="nb-cpick-empty">—</div>`}
+      </div>`);
+      p2.querySelectorAll('[data-rc]').forEach(b=>b.addEventListener('click', ()=>{ closePopover(); anV.noteId = b.dataset.rc; anSyncUrl(); render(); }));
+    });
+    pop.querySelector('[data-am="calc"]').addEventListener('click', ()=>{
+      const res = anCalcResults(n);
+      openPopover(anchor, `<div><strong class="nb-pop-title">${t('anCalc')}</strong>
+        ${res.length?`<div class="nb-pop-list">${res.map(r=>`<button class="nb-an-calcrow">${esc(r)}</button>`).join('')}</div>`
+                    :`<div class="nb-cpick-empty">${t('anNoCalc')}</div>`}</div>`);
+    });
+    pop.querySelector('[data-am="att"]').addEventListener('click', ()=>anAttPop(anchor, [n]));
+    pop.querySelector('[data-am="del"]').addEventListener('click', ()=>{
+      n.deletedAt = Date.now(); n.pinned = false; anPersist();
+      closePopover(); anV.noteId = null; anSyncUrl(); render();
+    });
+  }
+  /* Resultados de Cálculos: expressões "2+2=" no texto viram resultados (versão simples) */
+  function anCalcResults(n){
+    const out = [];
+    const tx = anBlocks(n).join('\n');
+    const re = /([0-9][0-9+\-*/().,\s]{0,60}?)\s*=(?![0-9=])/g;
+    let m;
+    while((m = re.exec(tx))){
+      const e = m[1].replace(/,/g,'.').replace(/[^0-9+\-*/().]/g,'');
+      if(!/[+\-*/]/.test(e)) continue;
+      try{
+        const v = Function('"use strict";return ('+e+')')();
+        if(typeof v==='number' && isFinite(v)) out.push(e+' = '+(Math.round(v*1e6)/1e6));
+      }catch(err){}
+    }
+    return out.slice(0,12);
+  }
+  /* Buscar na Nota: seleciona e rola até a primeira ocorrência */
+  function anFindInNote(q){
+    const ed = root.querySelector('#anEditor'); if(!ed) return;
+    const walker = document.createTreeWalker(ed, NodeFilter.SHOW_TEXT);
+    const ql = q.toLowerCase();
+    let node;
+    while((node = walker.nextNode())){
+      const i = node.textContent.toLowerCase().indexOf(ql);
+      if(i>=0){
+        const r = document.createRange();
+        r.setStart(node, i); r.setEnd(node, i+q.length);
+        const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        (node.parentElement||ed).scrollIntoView({block:'center', behavior:'smooth'});
+        closePopover(); return;
+      }
+    }
+    toast(t('noResults'), true);
+  }
+
   /* ---------- URL / deep links ---------- */
   function syncUrl(){
     const u = new URL(location.href);

@@ -23,7 +23,16 @@ EXCETO os itens marcados como "fora". Tudo bilíngue EN+PT no mesmo commit.
   "Afixar ferramenta de texto", prefs em `couplemed_nb_tools`. Os toolbars
   antigos (textToolbar/drawToolbar) continuam só na visão legada de nota.
 - [x] **Fase 4 — Exportar/Imprimir** (embutida na Fase 2: openSharePop/exportBookPages)
-- [ ] **Fase 5 — Notes = clone do Apple Notes** (itens 21–29)
+- [x] **Fase 5 — Notes = clone do Apple Notes** (itens 21–29): app próprio em
+  `page=notes`, dados em `couplemed_notes_${user}` (independente do Workspace).
+  3 colunas (sidebar iCloud/Notas/Apagadas/pastas+Pasta Inteligente, lista com
+  Fixadas colapsável + agrupamento por data + galeria/lista, nota com
+  data/título=1ª linha/corpo rico). Toolbar: nova nota, Aa (estilos + B/I/U/S +
+  realce 5 cores), checklist, tabela, clipe (foto/vídeo, gravar áudio, anexar
+  arquivo), Enviar Cópia (só Copiar), menu ⋯ (Fixar, Buscar na Nota, Mover
+  para, Notas Recentes, Resultados de Cálculos, Visualização dos Anexos,
+  Apagar → lixeira com recuperar/apagar-em-definitivo, purga automática em 30
+  dias). Busca global e provider próprio (window.CMSearchProviders.notesApp).
 
 ## Arquivos
 - `public/js/notebook.js` — módulo My Workspace (dados em localStorage `couplemed_nb_${user}`)

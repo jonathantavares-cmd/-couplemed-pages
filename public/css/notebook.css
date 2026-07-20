@@ -658,3 +658,115 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
   .nb-gt{min-width:34px;height:34px}
   .nb-gt-hint{display:none}
 }
+
+/* ====================================================================
+   v6 — Fase 5: app "Notes" = clone do Apple Notes (page=notes).
+   3 colunas: sidebar iCloud / lista / nota. Prefixo .nb-an-.
+   ==================================================================== */
+#internalContent.nb-wide .internal-card:has(.nb-an){max-width:1380px}
+.nb-an{display:flex;flex-direction:column;gap:10px;min-height:74vh}
+.nb-an-bar{display:flex;align-items:center;gap:3px;border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:12px;padding:6px 8px;flex-wrap:wrap}
+.nb-an-dis{opacity:.35;pointer-events:none}
+.nb-an-search{flex:none;width:min(240px,40vw);height:34px}
+.nb-an-back{display:none}
+.nb-an-cols{flex:1;display:flex;gap:0;border:1px solid var(--nb-line);border-radius:14px;overflow:hidden;background:var(--nb-card);min-height:66vh;position:relative}
+/* --- coluna 1: sidebar --- */
+.nb-an-side{flex:none;width:200px;background:var(--nb-card2);border-right:1px solid var(--nb-line);padding:12px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.nb-an-side[hidden]{display:none!important}
+.nb-an-sidecap{font-size:10.5px;font-weight:800;letter-spacing:.06em;color:var(--nb-muted);text-transform:uppercase;padding:4px 10px 6px}
+.nb-an-sidecap2{margin-top:10px}
+.nb-an-srow{position:relative;display:flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--nb-text);border-radius:9px;padding:8px 10px;font-size:13px;cursor:pointer;text-align:left;width:100%}
+.nb-an-srow:hover{background:var(--nb-chip)}
+.nb-an-srow.nb-on{background:var(--nb-blue);color:#fff}
+.nb-an-srow.nb-on em{color:rgba(255,255,255,.8)}
+.nb-an-sico{flex:none;font-size:14px}
+.nb-an-slbl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.nb-an-srow em{font-style:normal;font-size:11.5px;color:var(--nb-muted)}
+.nb-an-fmenu{flex:none;color:inherit;opacity:0;font-size:13px;padding:0 2px;cursor:pointer}
+.nb-an-srow:hover .nb-an-fmenu{opacity:.8}
+.nb-an-newfolder{margin-top:auto;border:0;background:transparent;color:var(--nb-blue);font-size:12.5px;font-weight:700;cursor:pointer;padding:12px 10px 4px;text-align:left}
+/* --- coluna 2: lista --- */
+.nb-an-listcol{flex:none;width:290px;border-right:1px solid var(--nb-line);display:flex;flex-direction:column;min-width:0}
+.nb-an-listhead{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 0}
+.nb-an-listhead strong{font-size:17px}
+.nb-an-count{font-size:11px;color:var(--nb-muted);padding:2px 12px 8px}
+.nb-an-trashhint{font-size:10.5px;color:var(--nb-muted);padding:0 12px 8px;line-height:1.4}
+.nb-an-scroll{flex:1;overflow-y:auto;padding:0 8px 12px;scrollbar-width:thin}
+.nb-an-gcap{display:flex;align-items:center;gap:5px;border:0;background:transparent;color:var(--nb-muted);font-size:11px;font-weight:800;letter-spacing:.03em;padding:12px 6px 6px;cursor:pointer;text-align:left;width:100%}
+.nb-an-gcap b{font-weight:800}
+.nb-an-gcap-date{cursor:default}
+.nb-an-row{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;color:var(--nb-text);border-radius:10px;padding:9px 10px;cursor:pointer;text-align:left}
+.nb-an-row:hover{background:var(--nb-chip)}
+.nb-an-row.nb-on{background:var(--nb-blue);color:#fff}
+.nb-an-row.nb-on .nb-an-rowsub,.nb-an-row.nb-on .nb-an-date{color:rgba(255,255,255,.85)}
+.nb-an-rowmain{flex:1;min-width:0}
+.nb-an-row strong{display:block;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-an-rowsub{display:flex;gap:7px;font-size:11.5px;color:var(--nb-muted);margin-top:3px;min-width:0}
+.nb-an-rowsub .nb-an-snip{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-an-date{font-style:normal;flex:none}
+.nb-an-thumb{flex:none;width:38px;height:38px;border-radius:6px;object-fit:cover}
+.nb-an-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px;padding:4px 2px}
+.nb-an-card{border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:10px;padding:0 0 8px;cursor:pointer;display:flex;flex-direction:column;gap:5px;overflow:hidden;text-align:left;color:var(--nb-text)}
+.nb-an-card.nb-on{border-color:var(--nb-blue);box-shadow:0 0 0 2px rgba(61,132,255,.3)}
+.nb-an-cardprev{display:block;height:92px;background:var(--nb-card);border-bottom:1px solid var(--nb-line);overflow:hidden}
+.nb-an-cardprev img{width:100%;height:100%;object-fit:cover;display:block}
+.nb-an-cardtxt{display:block;padding:8px;font-size:9.5px;line-height:1.5;color:var(--nb-muted)}
+.nb-an-card strong{font-size:11.5px;padding:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-an-card em{font-style:normal;font-size:10px;color:var(--nb-muted);padding:0 8px}
+.nb-an-emptylist{text-align:center;color:var(--nb-muted);font-size:13px;padding:60px 10px}
+/* --- coluna 3: nota --- */
+.nb-an-notecol{flex:1;min-width:0;display:flex;flex-direction:column;overflow-y:auto}
+.nb-an-ndate{text-align:center;font-size:11px;color:var(--nb-muted);padding:14px 10px 0}
+.nb-an-body{flex:1;outline:0;padding:10px 30px 80px;font-size:14.5px;line-height:1.65;color:var(--nb-text);word-wrap:break-word}
+.nb-an-body:empty::before{content:attr(data-ph);color:var(--nb-muted);opacity:.6;pointer-events:none}
+.nb-an-body::first-line{font-size:23px;font-weight:700} /* 1ª linha = título (como no Apple Notes) */
+.nb-an-body h1{font-size:22px;margin:12px 0 6px}
+.nb-an-body h2{font-size:17.5px;margin:11px 0 5px}
+.nb-an-body h3{font-size:15px;margin:10px 0 5px;color:var(--nb-muted)}
+.nb-an-body pre{font-family:'Courier New',monospace;font-size:13px;background:rgba(120,140,180,.14);padding:10px 12px;border-radius:8px;overflow:auto;white-space:pre-wrap}
+.nb-an-body blockquote{border-left:3px solid var(--nb-line);margin:8px 0;padding:2px 14px;color:var(--nb-muted)}
+.nb-an-body ul,.nb-an-body ol{padding-left:26px}
+.nb-an-body ul.nb-an-dash{list-style:none;padding-left:8px}
+.nb-an-body ul.nb-an-dash li{position:relative;padding-left:18px}
+.nb-an-body ul.nb-an-dash li::before{content:'–';position:absolute;left:0}
+.nb-an-body img{max-width:100%;height:auto;border-radius:8px;display:block;margin:8px 0}
+.nb-an-body video{max-width:100%;border-radius:8px;display:block;margin:8px 0}
+.nb-an-body audio{display:block;margin:8px 0;max-width:100%}
+.nb-an-body a{color:var(--nb-blue)}
+.nb-an-body .nb-an-file{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:9px;padding:7px 12px;font-size:12.5px;text-decoration:none;margin:6px 0}
+.nb-an-body table.nb-an-table{border-collapse:collapse;width:100%;margin:8px 0}
+.nb-an-body table.nb-an-table td{border:1px solid var(--nb-line);padding:6px 9px;min-width:44px;font-size:13.5px}
+.nb-an-body ul.nb-checklist{list-style:none;padding-left:4px}
+.nb-an-body ul.nb-checklist li.nb-check-item{position:relative;padding-left:28px;margin:3px 0}
+.nb-an-body ul.nb-checklist li.nb-check-item::before{content:'';position:absolute;left:2px;top:3px;width:16px;height:16px;border:2px solid var(--nb-muted);border-radius:50%;cursor:pointer}
+.nb-an-body ul.nb-checklist li.nb-checked::before{content:'✓';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;background:#f5a623;border-color:#f5a623}
+.nb-an-body ul.nb-checklist li.nb-checked{color:var(--nb-muted)}
+.nb-an-emptynote{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--nb-muted)}
+.nb-an-emptynote span{font-size:40px}
+.nb-an-trashbar{display:flex;justify-content:center;gap:10px;padding:14px 10px 0}
+/* --- popovers do Notes --- */
+.nb-pop-anaa{width:250px}
+.nb-an-aa .nb-pop-list button{font-size:13px}
+.nb-an-s-h1{font-size:16px!important;font-weight:800}
+.nb-an-s-h2{font-weight:800}
+.nb-an-s-h3{font-weight:700;color:var(--nb-muted)!important}
+.nb-an-s-mono{font-family:'Courier New',monospace}
+.nb-an-aa-row{display:flex;gap:6px;border-top:1px solid var(--nb-line);margin-top:8px;padding-top:9px;justify-content:center}
+.nb-an-aa-row button{border:1px solid var(--nb-line);background:var(--nb-card2);color:var(--nb-text);border-radius:8px;min-width:36px;height:34px;cursor:pointer;font-size:14px}
+.nb-an-aa-row button:hover{background:var(--nb-chip)}
+.nb-pop-anatt{width:300px}
+.nb-an-attgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.nb-an-attgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
+.nb-an-attfile{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border:1px solid var(--nb-line);border-radius:8px;font-size:11px;color:var(--nb-muted);padding:4px;text-align:center;word-break:break-word}
+.nb-an-calcrow{cursor:default!important;font-family:'Courier New',monospace}
+/* --- responsivo Notes --- */
+@media(max-width:1024px){
+  .nb-an-side{position:absolute;left:0;top:0;bottom:0;z-index:30;box-shadow:14px 0 34px rgba(0,0,0,.3)}
+}
+@media(max-width:760px){
+  .nb-an-listcol{width:100%;border-right:0}
+  .nb-an-hasnote .nb-an-listcol{display:none}
+  .nb-an:not(.nb-an-hasnote) .nb-an-notecol{display:none}
+  .nb-an-hasnote .nb-an-back{display:inline-grid}
+  .nb-an-search{width:100%;order:9}
+}
