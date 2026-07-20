@@ -472,6 +472,21 @@ body:not(.light) .fc-guide-cover{border-bottom-color:rgba(255,255,255,.10)}
 body:not(.light) .fc-guide-chapter-title{color:#f0f5fc}
 @media(max-width:560px){.fc-guide-cover{flex-direction:column;align-items:flex-start;gap:10px}}
 
+/* FLASHCARDS v8 — manual visual e navegável */
+.fc-guide-cover{position:relative;justify-content:space-between;overflow:hidden;padding:34px 38px;margin-top:2px;border:0;border-radius:22px;background:radial-gradient(circle at 86% 16%,rgba(81,151,255,.28),transparent 34%),linear-gradient(135deg,#07172d,#123a70);box-shadow:0 22px 55px rgba(5,24,55,.18)}
+.fc-guide-cover .fc-title{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.03em;color:#fff}.fc-guide-cover .fc-hero-sub{color:#c5d8f4;line-height:1.6;max-width:630px}
+body.light .fc-guide-cover .fc-title{color:#fff}body.light .fc-guide-cover .fc-hero-sub{color:#c5d8f4}
+.fc-guide-kicker{font-size:10px;font-weight:800;letter-spacing:.14em;color:#78adff}
+.fc-guide-cover-badge{width:96px;height:96px;border-radius:26px;color:#fff;font-size:34px;font-weight:800;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);box-shadow:none;transform:rotate(3deg)}
+.fc-guide-flow{margin:20px 0 28px;padding:20px;border:1px solid #e0e9f5;border-radius:18px;background:#f8fbff}.fc-guide-flow h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#66788f;margin:0 0 14px}
+.fc-guide-flow>div{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.fc-guide-flow article{display:flex;gap:10px;align-items:flex-start}.fc-guide-flow article>b{width:28px;height:28px;flex:none;border-radius:9px;display:grid;place-items:center;background:#1268ff;color:#fff;font-size:12px}.fc-guide-flow article span{display:flex;flex-direction:column;gap:3px}.fc-guide-flow article strong{font-size:12.5px;color:#0b1930}.fc-guide-flow article small{font-size:11px;line-height:1.4;color:#66788f}
+.fc-guide-pro{margin:22px 0 30px;padding:18px 20px;border:1px solid #f0d59c;border-radius:16px;background:linear-gradient(145deg,#fff9eb,#fffdf8)}.fc-guide-pro b{font-size:13px;color:#0b1930}.fc-guide-pro p{font-size:12.5px;line-height:1.55;color:#66788f;margin:6px 0 0}
+.fc-guide-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:30px}.fc-guide-nav-card{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid #e0e9f5;border-radius:15px;background:#fff;color:#0b1930;text-decoration:none;transition:.18s}.fc-guide-nav-card:hover{transform:translateY(-2px);border-color:#9fc2ff;box-shadow:0 12px 28px rgba(11,25,48,.08)}.fc-guide-nav-card>span{font-size:21px}.fc-guide-nav-card b{font-size:12.5px}.fc-guide-nav-card small{font-size:10.5px;color:#66788f}
+.fc-guide-chapter{scroll-margin-top:20px;margin:0 0 26px;padding:21px;border:1px solid #e0e9f5;border-radius:18px;background:#fbfdff}.fc-guide-chapter-title{margin-top:0!important}
+body:not(.light) .fc-guide-flow,body:not(.light) .fc-guide-chapter,body:not(.light) .fc-guide-nav-card{background:#0d1e36;border-color:rgba(255,255,255,.1)}body:not(.light) .fc-guide-flow h2,body:not(.light) .fc-guide-flow article small,body:not(.light) .fc-guide-nav-card small{color:#9db1cc}body:not(.light) .fc-guide-flow article strong,body:not(.light) .fc-guide-nav-card b{color:#f0f5fc}body:not(.light) .fc-guide-pro{background:rgba(249,182,74,.08);border-color:rgba(249,182,74,.25)}body:not(.light) .fc-guide-pro b{color:#f0f5fc}body:not(.light) .fc-guide-pro p{color:#9db1cc}
+@media(max-width:760px){.fc-guide-flow>div,.fc-guide-nav{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.fc-guide-cover{padding:25px 21px}.fc-guide-cover-badge{display:none}.fc-guide-flow>div,.fc-guide-nav{grid-template-columns:1fr}}
+
 /* Medical Library — lista vertical de pastas (uma embaixo da outra), ordem fixa */
 .lib-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
 .lib-book{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 18px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#dbe6f5;font-size:14px;font-weight:600;text-decoration:none;transition:transform .15s ease,border-color .15s ease,background .15s ease}

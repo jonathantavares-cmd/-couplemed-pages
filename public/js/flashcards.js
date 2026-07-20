@@ -629,33 +629,49 @@
   /* ---------- GUIA / MANUAL (página própria, gerada de QUICKSTART/FEATURES/GUIDE_CATS) ---------- */
   function renderGuide(){
     const L = lang();
+    const G = L==='pt' ? {
+      badge:'GUIA DE ESTUDO', intro:'Crie um sistema de memória sustentável — da captura da ideia à revisão no momento certo.',
+      flow:'Seu fluxo ideal', flowItems:[['1','Capture','Crie ou importe uma ideia por card.'],['2','Organize','Use decks, tags e filtros por tema.'],['3','Revise','Responda antes de revelar e avalie com honestidade.'],['4','Ajuste','Acompanhe retenção, fila e estatísticas.']],
+      contents:'Navegue por categoria', pro:'Regra de ouro', proText:'Cards curtos testam memória. Cards longos testam leitura. Prefira uma pergunta específica e uma resposta objetiva.'
+    } : {
+      badge:'STUDY GUIDE', intro:'Build a sustainable memory system — from capturing an idea to reviewing it at the right time.',
+      flow:'Your ideal workflow', flowItems:[['1','Capture','Create or import one idea per card.'],['2','Organize','Use decks, tags, and topic filters.'],['3','Review','Answer before revealing and rate honestly.'],['4','Adjust','Watch retention, queues, and statistics.']],
+      contents:'Browse by category', pro:'Golden rule', proText:'Short cards test memory. Long cards test reading. Prefer one specific question and one objective answer.'
+    };
     const steps = QUICKSTART[L].map((s,i) => `<div class="fc-step"><b>${i+1}</b><span>${s}</span></div>`).join('');
     const chapters = GUIDE_CATS.map(cat => {
       const items = FEATURES.filter(f => f.cat === cat.id);
       if(!items.length) return '';
       const feats = items.map(f => `<div class="fc-feat"><span class="fc-feat-i">${f.i}</span>
         <div><strong>${f[L][0]}</strong><p>${f[L][1]}</p></div></div>`).join('');
-      return `<div class="fc-guide-chapter">
+      return `<section class="fc-guide-chapter" id="fc-guide-${cat.id}">
         <h3 class="fc-guide-chapter-title"><span class="fc-guide-chapter-i">${cat.i}</span>${cat[L]}</h3>
         <div class="fc-feats">${feats}</div>
-      </div>`;
+      </section>`;
     }).join('');
+    const nav = GUIDE_CATS.map(cat=>`<a class="fc-guide-nav-card" href="#fc-guide-${cat.id}"><span>${cat.i}</span><b>${cat[L]}</b><small>${FEATURES.filter(f=>f.cat===cat.id).length} ${L==='pt'?'recursos':'features'}</small></a>`).join('');
     root.innerHTML = `
       <button class="fc-btn fc-back" data-act="back">${t('back')}</button>
       <div class="fc-guide-cover">
-        <span class="fc-guide-cover-badge">📘</span>
         <div>
+          <span class="fc-guide-kicker">${G.badge}</span>
           <h1 class="fc-title">${t('guideTitle')}</h1>
-          <p class="fc-hero-sub">${t('guideSub')}</p>
+          <p class="fc-hero-sub">${G.intro}</p>
         </div>
+        <span class="fc-guide-cover-badge" aria-hidden="true">Aa</span>
+      </div>
+
+      <div class="fc-guide-flow">
+        <h2>${G.flow}</h2>
+        <div>${G.flowItems.map(x=>`<article><b>${x[0]}</b><span><strong>${x[1]}</strong><small>${x[2]}</small></span></article>`).join('')}</div>
       </div>
 
       <div class="fc-guide-section">
-        <h2 class="fc-sub">${t('quickTitle')}</h2>
-        <div class="fc-steps">${steps}</div>
+        <h2 class="fc-sub">${t('quickTitle')}</h2><div class="fc-steps">${steps}</div>
       </div>
-
+      <aside class="fc-guide-pro"><b>💡 ${G.pro}</b><p>${G.proText}</p></aside>
       <div class="fc-guide-section">
+        <h2 class="fc-sub">${G.contents}</h2><nav class="fc-guide-nav">${nav}</nav>
         <h2 class="fc-sub">${t('featTitle')}</h2>
         ${chapters}
       </div>`;

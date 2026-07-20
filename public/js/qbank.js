@@ -9387,6 +9387,7 @@
     else if(view.name==='test') renderTest();
     else if(view.name==='results') renderResults();
     else if(view.name==='analytics') renderAnalytics();
+    else if(view.name==='guide') renderGuide();
     translateVisibleQuestionTexts();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
@@ -9536,6 +9537,7 @@
       <div class="qb">
         <div class="qb-top">
           <h1>${esc(t('home'))}</h1>
+          <div class="qb-top-actions"><button class="qb-btn ghost qb-guide-open" data-act="guide">ⓘ ${esc(lang()==='pt'?'Guia completo':'Complete guide')}</button></div>
         </div>
 
         <div class="qb-stepper">${stepHTML}</div>
@@ -9543,6 +9545,62 @@
         ${body}
         ${createSection}
       </div>`;
+    wire();
+  }
+
+  /* ============================== GUIA ==============================
+     Manual visual do QBank. Mantê-lo atualizado quando uma função visível
+     mudar, seguindo a mesma regra de manutenção do guia de Flashcards. */
+  function renderGuide(){
+    const pt=lang()==='pt';
+    const copy=pt?{
+      title:'Guia completo do QBank 1', sub:'Do primeiro bloco à revisão dirigida: entenda cada ferramenta e transforme erros em um plano de estudo.',
+      badge:'MANUAL PRÁTICO', start:'Comece em 4 passos', contents:'Explore o guia', tipTitle:'Uma rotina que funciona', tip:'Faça blocos curtos, leia toda a explicação e registre a causa do erro. A consistência entre as passadas vale mais do que um bloco enorme.',
+      steps:['Escolha sua passada ativa','Filtre sistema, status e dificuldade','Defina Tutor e Temporizador','Gere o bloco e revise os erros'],
+      chapters:[
+        ['passes','01','🧭','Passadas e progresso','Organize o banco em ciclos de aprendizagem, consolidação e domínio.',[
+          ['1ª Passada — Aprendizado','Resolva todas as questões pela primeira vez. O objetivo é ampliar repertório e reconhecer padrões.'],
+          ['2ª e 3ª Passadas','São desbloqueadas após 100% da anterior. Compare sua evolução e refine pontos fracos.'],
+          ['Passada Dirigida','Reúne questões erradas ou marcadas para uma revisão curta, focada e de alto impacto.']]],
+        ['build','02','⚙️','Como montar um teste','Combine filtros sem perder de vista quantas questões continuam disponíveis.',[
+          ['Status e dificuldade','Use questões não usadas para avançar; erradas e marcadas para revisar. Ajuste fácil, média ou difícil.'],
+          ['Sistemas e tópicos','Abra cada sistema, selecione tópicos específicos ou marque o sistema inteiro. Os contadores atualizam a disponibilidade.'],
+          ['Quantidade','Escolha o tamanho do bloco dentro do total disponível. Blocos de 10–20 questões facilitam revisão cuidadosa.']]],
+        ['modes','03','⏱️','Tutor e Temporizador','Escolha a experiência certa para o momento do estudo.',[
+          ['Modo Tutor','Mostra a explicação logo após responder. Ideal para primeira exposição e correção imediata.'],
+          ['Modo Cronometrado','Adiciona contagem regressiva por questão. Use para ritmo de prova e tomada de decisão.'],
+          ['Combinação livre','Ative os dois, apenas um ou nenhum. Sem Tutor, a revisão completa aparece ao fim do bloco.']]],
+        ['solve','04','🩺','Durante a questão','Ferramentas para raciocinar, marcar dúvidas e manter o fluxo.',[
+          ['Eliminar alternativas','Use o ✕ para riscar opções improváveis antes de responder.'],
+          ['Marcar e navegar','A bandeira guarda questões importantes; a grade permite ir diretamente a qualquer item do bloco.'],
+          ['Valores laboratoriais','Abra Valores Lab para consultar referências comuns e faixas específicas da questão.'],
+          ['Suspender ou encerrar','Suspender salva o bloco para retomar. Encerrar registra itens sem resposta como omitidos.']]],
+        ['learn','05','📚','Explicação e retenção','A resposta é o início da revisão, não o fim.',[
+          ['Explicação completa','Revise a justificativa correta, as alternativas incorretas, imagens e o objetivo educacional.'],
+          ['Comparação com colegas','As barras mostram a distribuição das respostas e ajudam a identificar distratores fortes.'],
+          ['Causa do erro','Classifique por que errou; esse dado alimenta análises e a Passada Dirigida.'],
+          ['Flashcard e Caderno','Transforme uma ideia em card de recuperação ativa ou salve uma anotação vinculada à questão.']]],
+        ['results','06','📈','Resultados e estratégia','Use os dados para decidir o próximo bloco.',[
+          ['Resultado do bloco','Confira nota, desempenho por sistema e revise todas as respostas.'],
+          ['Análises','Compare sistemas, passadas e causas de erro; procure tendências, não apenas uma nota isolada.'],
+          ['Revisão Cirúrgica','Gera um teste focado na causa de erro mais frequente para corrigir o gargalo atual.']]]
+      ]
+    }:{
+      title:'QBank 1 complete guide', sub:'From your first block to directed review: understand every tool and turn mistakes into a study plan.',
+      badge:'PRACTICAL MANUAL', start:'Start in 4 steps', contents:'Explore the guide', tipTitle:'A routine that works', tip:'Use short blocks, read the full explanation, and record the cause of each miss. Consistency across passes matters more than one huge block.',
+      steps:['Choose your active pass','Filter system, status, and difficulty','Set Tutor and Timer','Generate the block and review mistakes'],
+      chapters:[
+        ['passes','01','🧭','Passes and progress','Organize the bank into learning, consolidation, and mastery cycles.',[['Pass 1 — Learning','Answer every question for the first time to build pattern recognition.'],['Passes 2 and 3','They unlock after completing 100% of the previous pass. Compare progress and refine weak areas.'],['Directed Pass','Collects missed or flagged questions for a short, high-impact review.']]],
+        ['build','02','⚙️','Build a test','Combine filters while keeping the available-question count in view.',[['Status and difficulty','Use unused questions to advance; missed and flagged questions to review.'],['Systems and topics','Open each system, select topics, or select the full system. Counts update automatically.'],['Question count','Choose a block size within the available total. Blocks of 10–20 make careful review easier.']]],
+        ['modes','03','⏱️','Tutor and Timer','Choose the right experience for the current study phase.',[['Tutor mode','Reveals the explanation immediately after each answer.'],['Timed mode','Adds a countdown per question for exam pacing.'],['Mix freely','Enable both, either one, or neither. Without Tutor, review appears after the block.']]],
+        ['solve','04','🩺','While answering','Tools for reasoning, marking uncertainty, and maintaining flow.',[['Eliminate choices','Use ✕ to strike unlikely options before answering.'],['Flag and navigate','Flags save key questions; the grid jumps directly to any item.'],['Lab values','Open Lab Values for common and question-specific reference ranges.'],['Suspend or end','Suspend saves progress. End records unanswered items as omitted.']]],
+        ['learn','05','📚','Explanation and retention','The answer begins the review; it does not end it.',[['Full explanation','Review the correct rationale, incorrect choices, images, and educational objective.'],['Peer comparison','Distribution bars expose strong distractors.'],['Root cause','Record why you missed; it powers analytics and Directed Pass.'],['Flashcard and Notebook','Turn one idea into active recall or save a linked note.']]],
+        ['results','06','📈','Results and strategy','Use data to choose your next block.',[['Block results','Check score, system performance, and review every answer.'],['Analytics','Compare systems, passes, and error causes; look for trends.'],['Surgical Review','Builds a test around your most frequent error cause.']]]
+      ]
+    };
+    const nav=copy.chapters.map(c=>`<a class="qb-guide-nav-card" href="#qb-guide-${c[0]}"><span>${c[1]}</span><b>${c[2]} ${esc(c[3])}</b><small>${esc(c[4])}</small></a>`).join('');
+    const chapters=copy.chapters.map(c=>`<section class="qb-guide-chapter" id="qb-guide-${c[0]}"><div class="qb-guide-chapter-head"><span class="qb-guide-num">${c[1]}</span><span class="qb-guide-icon">${c[2]}</span><div><h2>${esc(c[3])}</h2><p>${esc(c[4])}</p></div></div><div class="qb-guide-items">${c[5].map((x,i)=>`<article><span>${String(i+1).padStart(2,'0')}</span><div><h3>${esc(x[0])}</h3><p>${esc(x[1])}</p></div></article>`).join('')}</div></section>`).join('');
+    root.innerHTML=`<div class="qb qb-guide"><button class="qb-link" data-act="home">${esc(t('back'))}</button><header class="qb-guide-hero"><div><span class="qb-guide-kicker">${copy.badge}</span><h1>${copy.title}</h1><p>${copy.sub}</p></div><div class="qb-guide-mark" aria-hidden="true"><span>Q</span><small>1</small></div></header><section class="qb-guide-quick"><div><span class="qb-guide-eyebrow">${copy.start}</span><div class="qb-guide-steps">${copy.steps.map((s,i)=>`<div><b>${i+1}</b><span>${esc(s)}</span></div>`).join('')}</div></div><aside><b>💡 ${copy.tipTitle}</b><p>${copy.tip}</p></aside></section><h2 class="qb-guide-section-title">${copy.contents}</h2><nav class="qb-guide-nav">${nav}</nav>${chapters}<button class="qb-btn primary big qb-guide-cta" data-act="home">${pt?'Voltar ao QBank e começar':'Return to QBank and start'} →</button></div>`;
     wire();
   }
 
@@ -10063,6 +10121,7 @@
     if(['count','count-num','secs'].includes(act)) return;
     switch(act){
       case 'home': go({name:'home'}); break;
+      case 'guide': go({name:'guide'}); break;
       case 'analytics': go({name:'analytics'}); break;
       case 'create': go({name:'create'}); break;
       case 'flagged': { view.f={systems:[],disciplines:[],subjects:[],status:'marked',pass:'all',difficulty:'all',tutor:true,timed:false,secs:90,count:Math.max(1,Object.keys(store.raw.flags).length)}; if(!filterPool(view.f).length){toast(t('flaggedEmpty'));break;} go({name:'create',f:view.f}); break; }
