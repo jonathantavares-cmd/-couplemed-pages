@@ -33,6 +33,10 @@ EXCETO os itens marcados como "fora". Tudo bilíngue EN+PT no mesmo commit.
   para, Notas Recentes, Resultados de Cálculos, Visualização dos Anexos,
   Apagar → lixeira com recuperar/apagar-em-definitivo, purga automática em 30
   dias). Busca global e provider próprio (window.CMSearchProviders.notesApp).
+- [x] **Fase 6 — Retoques pedidos pelo Jonathan (jul/2026)**, ver seção própria
+  abaixo: Lixeira de pastas/cadernos, filtro/visão/menu do item na página
+  Notebooks, "Notes" como item de menu separado, e ajustes no app Notes
+  (clipe, marca-texto em bolinhas, ícones, menu de pasta, Apagadas).
 
 ## Arquivos
 - `public/js/notebook.js` — módulo My Workspace (dados em localStorage `couplemed_nb_${user}`)
@@ -72,8 +76,8 @@ FORA: duplicar-ao-lado, apagar elementos, seção DEFINIÇÕES inteira.
 Aba superior com nome do caderno ⌄ + botão home.
 
 ## Fase 3 — Barra de ferramentas do editor (itens 6–15)
-Ferramentas (nesta ordem): **Laço · Caneta · Borracha · Texto · Imagem · Nota
-adesiva · Ponteiro laser**. FORA: figurinhas/adesivos, formas, microfone.
+Ferramentas (nesta ordem, ajustada na Fase 6): **Caneta · Marca-texto · Borracha ·
+Laço · Texto · Imagem · Nota adesiva · Ponteiro laser**. FORA: figurinhas/adesivos, formas, microfone.
 - Laço (V): popover "Ferramenta de laço" → Retangular / Mão livre.
 - Caneta (P): sub-barra com estilos (tinteiro/esferográfica/pincel…), 3 espessuras,
   3 slots de cor rápida + "+" → popover "Cor da caneta" (3 fileiras: vivas, escuras,
@@ -112,6 +116,48 @@ só Copiar); menu ⋯ da nota: Fixar Nota, Buscar na Nota, Mover para ›, Notas
 Recentes ›, Resultados de Cálculos ›, Visualização dos Anexos ›, Apagar Nota.
 FORA: Bloquear Nota, Mail/Mensagens/todas as extensões de share.
 Campo Buscar à direita.
+
+## Fase 6 — Retoques pedidos pelo Jonathan (jul/2026)
+Rodada de ajustes sobre as fases 1–5, já concluídos e testados:
+- **Menu lateral**: "Notes" virou item próprio no submenu My Workspace, entre
+  Notebooks e Study Planner (`app.html?page=notes`). Saiu do popover "+ Novo"
+  do caderno (que agora só tem Pasta/Notebook).
+- **Página Meus Cadernos — cabeçalho**: sem mais a migalha de pão duplicando
+  o título. Abaixo do título, filtro **"▾ Tudo"** (funil) com Tudo/Pastas/
+  Cadernos/Favoritos/Partilhados (nesta ordem; "Partilhados" é só placeholder,
+  nada implementado ainda). Ao lado do "+ Novo": ícone de visualização
+  (mostra ☰ em Lista / ⊞ em Galeria, abre Grelha↔Lista + "Ordenar por" com
+  Tipo/Data de criação/Última modificação/Nome + Ascendente/Descendente) e
+  ícone "⋯" (só com "Caixote do lixo" por enquanto). Preferências
+  (`nbUI` = modo/ordenar/filtro) persistem em `couplemed_nb_ui_${user}`.
+- **Cada card de pasta/caderno**: ★ favorito (fica amarela; alimenta o filtro
+  Favoritos) e um menu (⋯ na Galeria, ⌄ na Lista) com **Editar, Duplicar,
+  Mover, Exportar, Partilhar (sem ação — decisão futura do Jonathan), Mover
+  para o lixo**. Duplicar pasta é recursivo (subpastas + cadernos, sufixo
+  " cópia"/" copy"). Exportar pasta reúne todos os cadernos num só PDF/impressão.
+- **Lixeira** (pastas e cadernos excluídos, `folder.deletedAt`/`book.deletedAt`,
+  purga automática em 30 dias): botão "Selecionar" com Recuperar/Apagar dos
+  marcados, e "Apagar tudo" sem precisar selecionar (fica por último). Excluir
+  pelo modal de edição (folderModal/bookModal) agora também manda pra lixeira
+  em vez de apagar direto.
+- **Pasta aberta**: mesma paridade da raiz (filtro, +Novo, visão/menu, estrela
+  +menu por card) mais o botão de voltar.
+- Emojis de ícone de pasta ampliados (~64 opções); capa **"Percurso"** removida
+  das opções (fica só de leitura em cadernos antigos que já tinham essa capa).
+- **App Notes**: popover do clipe (📎) ficou só com "Escolher Foto" (photo
+  picker nativo) e "Anexar Arquivo" — sem Gravar Áudio nem Vídeo. Marca-texto
+  do painel **Aa** virou lista com bolinha + nome (Roxo/Rosa/Laranja/Menta/
+  Azul, estilo Apple Notes) e o botão Aa ganhou um pontinho indicando a
+  última cor usada. Sidebar sem o rótulo "iCloud". Botão de nova nota trocou
+  o ✎ por um ícone quadrado com lápis; ganhou um botão irmão de nova pasta
+  ao lado (mesmo ícone da imagem de referência); os dois em destaque azul
+  (`nb-gt-cta`) pra ficarem mais evidentes. O menu ⋯ de cada linha da sidebar
+  (inclusive "Notas", que antes não tinha) ganhou Renomear Pasta/Apagar Pasta
+  (só pastas personalizadas), Nova Pasta, Compartilhar Pasta (sem ação),
+  Ordenar por › e Agrupar por Data ›. "Apagadas": o menu ⋯ da lista perdeu Ver
+  Galeria/Ordenar por/Agrupar por Data/Ver Anexos e ganhou só **Selecionar**
+  (Recuperar/Apagar das marcadas) e **Apagar tudo**; abrir uma nota apagada
+  individualmente continua igual (Recuperar/Apagar Agora).
 
 ## Como testar (sem deploy)
 ```

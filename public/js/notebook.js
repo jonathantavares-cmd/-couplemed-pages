@@ -271,7 +271,7 @@
       anICloud:'iCloud', anNotes:'Notes', anDeleted:'Recently Deleted',
       anNewFolderBtn:'New Folder', anFolderName:'Name',
       anSmartChk:'Make into Smart Folder', anSmartTags:'Tags (comma separated)',
-      anRenameFolder:'Rename Folder', anDelFolder:'Delete Folder',
+      anRenameFolder:'Rename Folder', anDelFolder:'Delete Folder', anShareFolder:'Share Folder',
       anConfirmDelFolder:'Delete this folder? Its notes go back to Notes.',
       anPinned:'Pinned', anToday:'Today', anYesterday:'Yesterday',
       anLast7:'Previous 7 Days', anLast30:'Previous 30 Days',
@@ -291,10 +291,31 @@
       anStyleTitle:'Title', anStyleHeading:'Heading', anStyleSub:'Subheading',
       anStyleBody:'Body', anStyleMono:'Monostyled', anStyleBullet:'Bulleted List',
       anStyleDash:'Dashed List', anStyleNum:'Numbered List', anStyleQuote:'Block Quote',
-      anTable:'Table', anPhotoVideo:'Choose Photo or Video', anRecAudio:'Record Audio',
-      anRecording:'Recording… click the clip again to stop.', anRecFail:'Microphone unavailable.',
+      anTable:'Table', anChoosePhoto:'Choose Photo',
       anAttachFile:'Attach File', anSearchPh:'Search',
-      anNoCalc:'No calculations in this note.', anNoAtt:'No attachments.'
+      hiPurple:'Purple', hiPink:'Pink', hiOrange:'Orange', hiMint:'Mint', hiBlue:'Blue',
+      anSelectLbl:'Select', anDoneLbl:'Done', anNSelected:'{n} selected',
+      anDeleteSelLbl:'Delete', anDeleteAllLbl:'Delete All',
+      anConfirmDeleteSel:'Permanently delete the selected notes?',
+      anConfirmDeleteAll:'Permanently delete all notes in Recently Deleted?',
+      anNoCalc:'No calculations in this note.', anNoAtt:'No attachments.',
+      /* --- v6: Notebooks page — filter, sort, view, trash, item menu --- */
+      nbFilterAll:'All', nbFilterFolders:'Folders', nbFilterNotebooks:'Notebooks',
+      nbFilterFav:'Favorites', nbFilterShared:'Shared',
+      nbSortByLbl:'Sort By', nbSortType:'Type', nbSortCreated:'Date Created',
+      nbSortUpdated:'Last Modified', nbSortName:'Name', nbAsc:'Ascending', nbDesc:'Descending',
+      nbViewTip:'View', nbMoreTip:'More', nbTrashLbl:'Trash',
+      nbTrashTitle:'Trash', nbTrashHint2:'Items in the trash are permanently deleted after 30 days.',
+      nbTrashEmpty:'Trash is empty.', nbSelectLbl:'Select', nbDoneLbl:'Done',
+      nbNSelected:'{n} selected', nbRestoreLbl:'Recover', nbDeleteLbl:'Delete', nbDeleteAllLbl:'Delete All',
+      nbConfirmDeleteSel:'Permanently delete the selected items?',
+      nbConfirmDeleteAll:'Permanently delete everything in the trash?',
+      nbItemDup:'Duplicate', nbItemMove:'Move', nbItemExport:'Export', nbItemShare:'Share',
+      nbItemTrash:'Move to Trash', nbMoveTitle:'Move to', nbDupSuffix:' copy',
+      nbConfirmTrashFolder:'Move this folder to the trash?',
+      nbConfirmTrashBook:'Move this notebook to the trash?',
+      nbEmptyFav:'No favorites yet. Star a folder or notebook to pin it here.',
+      nbEmptyShared:'Nothing shared yet.', nbTypeLbl:'Type'
     },
     pt:{
       title:'Meus Cadernos', titleNotes:'Todas as Notas', home:'Início',
@@ -411,7 +432,7 @@
       anICloud:'iCloud', anNotes:'Notas', anDeleted:'Apagadas',
       anNewFolderBtn:'Nova Pasta', anFolderName:'Nome',
       anSmartChk:'Transformar em Pasta Inteligente', anSmartTags:'Etiquetas (separadas por vírgula)',
-      anRenameFolder:'Renomear Pasta', anDelFolder:'Apagar Pasta',
+      anRenameFolder:'Renomear Pasta', anDelFolder:'Apagar Pasta', anShareFolder:'Compartilhar Pasta',
       anConfirmDelFolder:'Apagar esta pasta? As notas dela voltam para Notas.',
       anPinned:'Fixadas', anToday:'Hoje', anYesterday:'Ontem',
       anLast7:'Últimos 7 Dias', anLast30:'Últimos 30 Dias',
@@ -431,10 +452,31 @@
       anStyleTitle:'Título', anStyleHeading:'Cabeçalho', anStyleSub:'Subtítulo',
       anStyleBody:'Corpo', anStyleMono:'Estilo Fixo', anStyleBullet:'Lista de Marcadores',
       anStyleDash:'Lista com Travessões', anStyleNum:'Lista Numerada', anStyleQuote:'Citação em Bloco',
-      anTable:'Tabela', anPhotoVideo:'Escolher Foto ou Vídeo', anRecAudio:'Gravar Áudio',
-      anRecording:'Gravando… clique no clipe de novo para parar.', anRecFail:'Microfone indisponível.',
+      anTable:'Tabela', anChoosePhoto:'Escolher Foto',
+      hiPurple:'Roxo', hiPink:'Rosa', hiOrange:'Laranja', hiMint:'Menta', hiBlue:'Azul',
+      anSelectLbl:'Selecionar', anDoneLbl:'Concluído', anNSelected:'{n} selecionadas',
+      anDeleteSelLbl:'Apagar', anDeleteAllLbl:'Apagar tudo',
+      anConfirmDeleteSel:'Apagar em definitivo as notas selecionadas?',
+      anConfirmDeleteAll:'Apagar em definitivo todas as notas da lixeira?',
       anAttachFile:'Anexar Arquivo', anSearchPh:'Buscar',
-      anNoCalc:'Nenhum cálculo nesta nota.', anNoAtt:'Nenhum anexo.'
+      anNoCalc:'Nenhum cálculo nesta nota.', anNoAtt:'Nenhum anexo.',
+      /* --- v6: página Notebooks — filtro, ordenar, visão, lixeira, menu do item --- */
+      nbFilterAll:'Tudo', nbFilterFolders:'Pastas', nbFilterNotebooks:'Cadernos',
+      nbFilterFav:'Favoritos', nbFilterShared:'Partilhados',
+      nbSortByLbl:'Ordenar por', nbSortType:'Tipo', nbSortCreated:'Data de criação',
+      nbSortUpdated:'Última modificação', nbSortName:'Nome', nbAsc:'Ascendente', nbDesc:'Descendente',
+      nbViewTip:'Visualização', nbMoreTip:'Mais', nbTrashLbl:'Caixote do lixo',
+      nbTrashTitle:'Lixeira', nbTrashHint2:'Os itens na lixeira são apagados em definitivo após 30 dias.',
+      nbTrashEmpty:'A lixeira está vazia.', nbSelectLbl:'Selecionar', nbDoneLbl:'Concluído',
+      nbNSelected:'{n} selecionados', nbRestoreLbl:'Recuperar', nbDeleteLbl:'Apagar', nbDeleteAllLbl:'Apagar tudo',
+      nbConfirmDeleteSel:'Apagar em definitivo os itens selecionados?',
+      nbConfirmDeleteAll:'Apagar em definitivo tudo o que está na lixeira?',
+      nbItemDup:'Duplicar', nbItemMove:'Mover', nbItemExport:'Exportar', nbItemShare:'Partilhar',
+      nbItemTrash:'Mover para o lixo', nbMoveTitle:'Mover para', nbDupSuffix:' cópia',
+      nbConfirmTrashFolder:'Mover esta pasta para o lixo?',
+      nbConfirmTrashBook:'Mover este caderno para o lixo?',
+      nbEmptyFav:'Nenhum favorito ainda. Marque uma pasta ou caderno com a estrela para fixá-lo aqui.',
+      nbEmptyShared:'Nada partilhado ainda.', nbTypeLbl:'Tipo'
     }
   };
   const lang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
@@ -500,8 +542,18 @@
   ];
   // emojis visuais/chamativos para memorização de estudo (pedido do Jonathan — nada de ícones de linha)
   const GN_FOLDER_EMOJIS = [
+    // médicos / anatomia
     '🧠','🫀','🫁','🦴','🩸','💊','💉','🦠','🧬','🩺','🔬','🧪','🏥','🚑','🥼',
-    '📚','📖','📝','✏️','📌','⭐','❤️','🔥','💡','🎯','🏆','⏰','😊','🌙','🎨','🎵','⚖️','🌍'
+    '🦷','👁️','👂','🫄','🧫','🧻','🩹','🩻','⚕️','☣️','🧑‍⚕️','👨‍⚕️','👩‍⚕️','🧑‍🔬',
+    // estudo / escola
+    '📚','📖','📕','📗','📘','📙','📔','📓','📒','📝','✏️','🖊️','🖋️','📌','📍','📋',
+    '📄','📑','🗂️','🗃️','🗄️','✂️','🖇️','📎','📐','📏','🔖','🏷️','🧮','💻','🖥️','⌨️',
+    // motivação / status
+    '⭐','🌟','✨','❤️','💛','💚','💙','💜','🖤','🤍','🔥','💡','🎯','🏆','🥇','🏅',
+    '⏰','⏳','⌛','📅','📆','🗓️','🚩','✅','☑️','❗','❓','💯','🚀','🎓','🧑‍🎓',
+    // humor / natureza / diversos
+    '😊','😴','😅','🤓','🥳','🌙','☀️','🌈','☕','🍀','🌍','🌎','🌏','⚖️','🎨','🎵',
+    '🎧','🎬','⚽','🏀','✈️','🚗','🏠','💼','🔒','🔑','🧩','🎲','🐝','🦋','🌸','🍁'
   ];
   // papéis "Essenciais" (ids legados ruled-m/grid-s/grid-l continuam válidos no CSS p/ cadernos antigos)
   const GN_PAPERS = [
@@ -535,7 +587,6 @@
   ];
   const GN_COVER_MODELS = [
     {id:'claras',  k:'cmClaras'},
-    {id:'percurso',k:'cmPercurso'},
     {id:'simples', k:'cmSimples'},
     {id:'solida',  k:'cmSolida'},
     {id:'liso',    k:'cmLiso'}
@@ -603,18 +654,81 @@
   const folderById = id => DB.folders.find(f=>f.id===id);
   const bookById = id => DB.notebooks.find(n=>n.id===id);
   const noteById = id => DB.notes.find(n=>n.id===id);
-  const booksIn = fid => DB.notebooks.filter(n=>n.folderId===fid);
+  const booksIn = fid => DB.notebooks.filter(n=>n.folderId===fid && !n.deletedAt);
+  const rootBooks = () => DB.notebooks.filter(n=>!n.folderId && !n.deletedAt);
   const notesIn = nbid => DB.notes.filter(n=>n.notebookId===nbid).sort((a,b)=>(b.updated||0)-(a.updated||0));
   /* v2: helpers de páginas / favoritos / subpastas / referências */
   const notePages = nt => Array.isArray(nt.pages) && nt.pages.length ? nt.pages : (nt.pages=[{id:uid(),html:nt.html||'',strokes:Array.isArray(nt.strokes)?nt.strokes:[]}]);
   const noteText = nt => notePages(nt).map(p=>stripHtml(p.html||'')).join(' ').replace(/\s+/g,' ').trim();
-  const subfoldersOf = pid => DB.folders.filter(f=>(f.parentId||null)===(pid||null));
-  const rootFolders = () => DB.folders.filter(f=>!f.parentId);
+  const subfoldersOf = pid => DB.folders.filter(f=>(f.parentId||null)===(pid||null) && !f.deletedAt);
+  const rootFolders = () => DB.folders.filter(f=>!f.parentId && !f.deletedAt);
   const favNotes = () => DB.notes.filter(n=>n.fav).sort((a,b)=>(b.updated||0)-(a.updated||0));
+  /* v6: pastas/cadernos favoritados e itens na lixeira (usados pelo filtro e pela Lixeira) */
+  const favFoldersAndBooks = () => [
+    ...DB.folders.filter(f=>f.fav && !f.deletedAt).map(f=>({kind:'folder', obj:f})),
+    ...DB.notebooks.filter(b=>b.fav && !b.deletedAt).map(b=>({kind:'book', obj:b}))
+  ];
+  const trashedItems = () => [
+    ...DB.folders.filter(f=>f.deletedAt).map(f=>({kind:'folder', obj:f})),
+    ...DB.notebooks.filter(b=>b.deletedAt).map(b=>({kind:'book', obj:b}))
+  ].sort((a,b)=>(b.obj.deletedAt||0)-(a.obj.deletedAt||0));
+  function nbPurgeTrash(){
+    const cut = Date.now() - 30*864e5;
+    let touched = false;
+    DB.folders.filter(f=>f.deletedAt && f.deletedAt < cut).forEach(f=>{
+      const ids = allDescendantFolderIds(f.id);
+      ids.forEach(fid=>{
+        DB.notebooks.filter(b=>b.folderId===fid).forEach(b=>deleteRemoteImages(pagesHtmlOf(b)));
+        DB.notebooks = DB.notebooks.filter(b=>b.folderId!==fid);
+      });
+      DB.folders = DB.folders.filter(x=>!ids.includes(x.id));
+      touched = true;
+    });
+    const beforeLen = DB.notebooks.length;
+    DB.notebooks.filter(b=>b.deletedAt && b.deletedAt < cut).forEach(b=>deleteRemoteImages(pagesHtmlOf(b)));
+    DB.notebooks = DB.notebooks.filter(b=>!(b.deletedAt && b.deletedAt < cut));
+    if(DB.notebooks.length !== beforeLen) touched = true;
+    if(touched) save();
+  }
+  const pagesHtmlOf = b => (Array.isArray(b.pages)?b.pages:[]).map(p=>p.html||'').join('');
   function allDescendantFolderIds(fid){
     const out=[fid]; let frontier=[fid];
     while(frontier.length){ const next=[]; frontier.forEach(id=>subfoldersOf(id).forEach(f=>{out.push(f.id);next.push(f.id);})); frontier=next; }
     return out;
+  }
+
+  /* ---------- v6: preferências de visualização da página Notebooks
+     (filtro, ordenar, grelha/lista) — persistem entre sessões ---------- */
+  const NBUI_KEY = `couplemed_nb_ui_${USER}`;
+  let nbUI = Object.assign({ mode:'grid', sort:'type', sortDir:'asc', filter:'all' }, (function(){
+    try{ const o = JSON.parse(localStorage.getItem(NBUI_KEY)); return (o && typeof o==='object') ? o : {}; }catch(e){ return {}; }
+  })());
+  const saveNbUI = () => { try{ localStorage.setItem(NBUI_KEY, JSON.stringify(nbUI)); }catch(e){} };
+  const nbNameOf = x => x.kind==='folder' ? (x.obj.name||'') : (x.obj.title||'');
+  /* itens diretos de uma pasta (ou raiz, se folderId=null), como {kind, obj}[] */
+  function nbScopeItems(folderId){
+    const folders = folderId ? subfoldersOf(folderId) : rootFolders();
+    const books = folderId ? booksIn(folderId) : rootBooks();
+    return [...folders.map(f=>({kind:'folder', obj:f})), ...books.map(b=>({kind:'book', obj:b}))];
+  }
+  /* aplica o filtro (Tudo/Pastas/Cadernos/Favoritos/Partilhados) + ordenação atuais */
+  function nbApplyFilterSort(folderId){
+    let items;
+    if(nbUI.filter==='fav') items = favFoldersAndBooks();
+    else if(nbUI.filter==='shared') items = []; // recurso ainda não implementado
+    else {
+      items = nbScopeItems(folderId);
+      if(nbUI.filter==='folders') items = items.filter(x=>x.kind==='folder');
+      else if(nbUI.filter==='notebooks') items = items.filter(x=>x.kind==='book');
+    }
+    const dir = nbUI.sortDir==='desc' ? -1 : 1;
+    const cmps = {
+      type: (a,b)=> (a.kind===b.kind?0:(a.kind==='folder'?-1:1)) || nbNameOf(a).localeCompare(nbNameOf(b)),
+      created: (a,b)=> (a.obj.created||0)-(b.obj.created||0),
+      updated: (a,b)=> (a.obj.updated||a.obj.created||0)-(b.obj.updated||b.obj.created||0),
+      name: (a,b)=> nbNameOf(a).localeCompare(nbNameOf(b))
+    };
+    return items.slice().sort((a,b)=>(cmps[nbUI.sort]||cmps.type)(a,b)*dir);
   }
 
   function toast(msg, warn){
@@ -805,10 +919,11 @@
     if(!root) return;
     if(CM) CM.bumpToken();
     if(PAGE==='notes') renderNotesApp();          // v6: app estilo Apple Notes
-    else if(view.name==='folders') renderFolders();
-    else if(view.name==='folder') renderFolder();
+    else if(view.name==='folders') renderScope(null);
+    else if(view.name==='folder') renderScope(view.folderId);
+    else if(view.name==='trash') renderTrash();
     else if(view.name==='notebook') renderNotebook();
-    else { view = { name:'folders' }; renderFolders(); } // rotas legadas (note/allnotes/favorites)
+    else { view = { name:'folders' }; renderScope(null); } // rotas legadas (note/allnotes/favorites)
     if(CM) CM.translateAllVisible(root);
   }
 
@@ -841,65 +956,308 @@
           <span class="nb-newpop-ico">${bookCoverHtml({icon:'', cover:{on:true, model:'claras', colorHex:'#55c6e4'}})}</span>
           <em>${t('ctNotebook')}</em>
         </button>
-        <button data-nn="notes">
-          <span class="nb-newpop-ico"><span class="nb-newpop-note"></span></span>
-          <em>${t('ctNotes')}</em>
-        </button>
       </div>`, {cls:'nb-pop-new'});
     pop.querySelector('[data-nn="folder"]').addEventListener('click', ()=>{ closePopover(); folderModal(null, folderId||null); });
     pop.querySelector('[data-nn="notebook"]').addEventListener('click', ()=>{ closePopover(); bookModal(null, folderId||null); });
-    pop.querySelector('[data-nn="notes"]').addEventListener('click', ()=>{ closePopover(); location.href = `app.html?page=notes&u=${encodeURIComponent(USER)}`; });
   }
-  function folderCardHtml(f, openAttr, menuAttr){
+  function folderInnerHtml(f){
     const nBooks = booksIn(f.id).length;
     const nSub = subfoldersOf(f.id).length;
     const sub = nSub?`${nSub} ${t('folders').toLowerCase()} · `:'';
-    return `<button class="nb-folder" data-${openAttr}="${f.id}">
-      <span class="nb-item-menu" data-${menuAttr}="${f.id}" role="button" tabindex="0" aria-label="menu">⋯</span>
-      ${folderIconHtml(f)}
-      <strong>${cmSpan(f.name)}</strong>
-      <small>${sub}${nBooks} ${t('notebooks')}</small>
-    </button>`;
+    return `${folderIconHtml(f)}<strong>${cmSpan(f.name)}</strong><small>${sub}${nBooks} ${t('notebooks')}</small>`;
   }
-  function bookCardHtml(b){
+  function bookInnerHtml(b){
     const n = (Array.isArray(b.pages)?b.pages.length:0) || 1;
-    return `<button class="nb-book" data-open="${b.id}">
-      <span class="nb-item-menu" data-menu="${b.id}" role="button" tabindex="0" aria-label="menu">⋯</span>
-      ${bookCoverHtml(b)}
-      <span class="nb-book-body"><strong>${cmSpan(b.title)}</strong><small>${n} ${t('pages').toLowerCase()}</small></span>
-    </button>`;
+    return `${bookCoverHtml(b)}<span class="nb-book-body"><strong>${cmSpan(b.title)}</strong><small>${n} ${t('pages').toLowerCase()}</small></span>`;
   }
-  function renderFolders(){
-    const parts = [{label:t('title')}];
-    const fav = favNotes();
-    const roots = rootFolders();
-    const rootBooks = DB.notebooks.filter(n=>!n.folderId);
+  /* v6: card de pasta/caderno com ★ favorito e ⋯/⌄ menu de ações — mesma
+     marcação serve para a grade (Galeria) e para a Lista, variando o layout. */
+  function nbItemCardHtml(item){
+    const { kind, obj } = item;
+    const key = kind+':'+obj.id;
+    const fav = !!obj.fav;
+    const starHtml = `<span class="nb-card-star ${fav?'nb-on':''}" role="button" tabindex="0" data-star="${key}" title="${fav?t('unfavorite'):t('favorite')}">${fav?'★':'☆'}</span>`;
+    const menuHtml = `<span class="nb-card-menu" role="button" tabindex="0" data-cmenu="${key}" title="⋯">${nbUI.mode==='list'?'⌄':'⋯'}</span>`;
+    if(nbUI.mode==='list'){
+      const name = kind==='folder' ? obj.name : obj.title;
+      const thumb = kind==='folder' ? folderIconHtml(obj) : bookCoverHtml(obj);
+      return `<div class="nb-nbrow">
+        <button class="nb-nbrow-open" data-open2="${key}">
+          <span class="nb-nbrow-ico nb-nbrow-ico-${kind}">${thumb}</span>
+          <span class="nb-nbrow-main"><strong>${cmSpan(name||'')}</strong><small>${fmtDate(obj.updated||obj.created)}</small></span>
+        </button>
+        <span class="nb-nbrow-actions">${menuHtml}${starHtml}</span>
+      </div>`;
+    }
+    return `<div class="nb-cardwrap">
+      <button class="${kind==='folder'?'nb-folder':'nb-book'}" data-open2="${key}">
+        ${kind==='folder'?folderInnerHtml(obj):bookInnerHtml(obj)}
+      </button>
+      ${starHtml}${menuHtml}
+    </div>`;
+  }
+  const NB_ICO_FUNNEL = '<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M4 5h16l-6 7v6l-4 2v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+  const NB_ICO_LIST = '<svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  const NB_ICO_GRID = '<svg viewBox="0 0 24 24" fill="none" width="16" height="16"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.4" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.4" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.4" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.4" stroke="currentColor" stroke-width="1.8"/></svg>';
+  const NB_FILTER_OPTS = [['all','nbFilterAll'],['folders','nbFilterFolders'],['notebooks','nbFilterNotebooks'],['fav','nbFilterFav'],['shared','nbFilterShared']];
+
+  /* v6: visão unificada — raiz "Meus Cadernos" (folderId=null) e pasta aberta
+     (folderId) compartilham cabeçalho, filtro, +Novo, Grelha/Lista e o menu
+     de cada card (mesma funcionalidade nos dois lugares). */
+  function renderScope(folderId){
+    const folder = folderId ? folderById(folderId) : null;
+    if(folderId && !folder){ view = { name:'folders' }; return render(); }
+    const titleHtml = folder ? cmSpan(folder.name) : esc(t('title'));
+    const items = nbApplyFilterSort(folderId);
+    const filterKey = NB_FILTER_OPTS.find(([id])=>id===nbUI.filter) ? nbUI.filter : 'all';
+    const filterLbl = t(NB_FILTER_OPTS.find(([id])=>id===filterKey)[1]);
+    const emptyMsg = nbUI.filter==='fav' ? t('nbEmptyFav') : nbUI.filter==='shared' ? t('nbEmptyShared') : (folder? t('emptyBooks') : t('emptyFolders'));
+    const emptyIco = nbUI.filter==='fav' ? '★' : (nbUI.filter==='shared' ? '🔗' : (folder?'📘':'📂'));
     root.innerHTML = `
-      <div class="nb-head">
-        <div><h1>${t('title')}</h1>${crumbs(parts)}</div>
+      <div class="nb-head nb-head2">
+        <div class="nb-head2-left">
+          <div class="nb-head2-top">
+            ${folder?`<button class="nb-btn nb-btn-ghost nb-backbtn" id="nbBackBtn">${t('back')}</button>`:''}
+            <h1>${titleHtml}</h1>
+          </div>
+          <button class="nb-filterbtn" id="nbFilterBtn">${NB_ICO_FUNNEL}<span>${filterLbl}</span><b>⌄</b></button>
+        </div>
         <div class="nb-actions">
-          ${fav.length?`<button class="nb-btn" id="nbGoFav">★ ${t('favorites')}</button>`:''}
           <button class="nb-btn nb-btn-primary" id="nbPlusNew">${t('plusNew')}</button>
+          <button class="nb-gt" id="nbViewBtn" title="${t('nbViewTip')}">${nbUI.mode==='list'?NB_ICO_LIST:NB_ICO_GRID}</button>
+          <button class="nb-gt" id="nbMoreVBtn" title="${t('nbMoreTip')}">⋯</button>
         </div>
       </div>
-      ${(roots.length||rootBooks.length) ? `<div class="nb-grid">${
-        roots.map(f=>folderCardHtml(f,'open','menu-f')).join('') + rootBooks.map(bookCardHtml).join('')
-      }</div>`
-      : `<div class="nb-empty"><span class="nb-empty-ico">📂</span>${t('emptyFolders')}</div>`}`;
-    root.querySelector('#nbPlusNew').addEventListener('click', e=>openNewMenu(e.currentTarget, null));
-    const gf = root.querySelector('#nbGoFav'); if(gf) gf.addEventListener('click', ()=>{ view={name:'favorites'}; syncUrl(); render(); });
-    root.querySelectorAll('[data-open]').forEach(el=>el.addEventListener('click', e=>{
-      if(e.target.closest('[data-menu-f],[data-menu]')) return;
-      const id = el.dataset.open;
-      view = folderById(id) ? { name:'folder', folderId:id } : { name:'notebook', nbId:id };
+      ${items.length ? `<div class="${nbUI.mode==='list'?'nb-nblist':'nb-grid'}">${items.map(nbItemCardHtml).join('')}</div>`
+      : `<div class="nb-empty"><span class="nb-empty-ico">${emptyIco}</span>${emptyMsg}</div>`}`;
+    root.querySelector('#nbPlusNew').addEventListener('click', e=>openNewMenu(e.currentTarget, folderId));
+    root.querySelector('#nbFilterBtn').addEventListener('click', e=>nbOpenFilterPop(e.currentTarget, folderId));
+    root.querySelector('#nbViewBtn').addEventListener('click', e=>nbOpenViewPop(e.currentTarget, folderId));
+    root.querySelector('#nbMoreVBtn').addEventListener('click', e=>nbOpenMorePop(e.currentTarget));
+    const back = root.querySelector('#nbBackBtn');
+    if(back) back.addEventListener('click', ()=>{
+      view = folder.parentId ? { name:'folder', folderId:folder.parentId } : { name:'folders' };
+      syncUrl(); render();
+    });
+    root.querySelectorAll('[data-open2]').forEach(el=>el.addEventListener('click', ()=>{
+      const [kind,id] = el.dataset.open2.split(':');
+      view = kind==='folder' ? { name:'folder', folderId:id } : { name:'notebook', nbId:id };
       syncUrl(); render();
     }));
-    root.querySelectorAll('[data-menu-f]').forEach(el=>el.addEventListener('click', e=>{
-      e.stopPropagation(); const f = folderById(el.dataset.menuF); folderModal(f, f.parentId||null);
+    root.querySelectorAll('[data-star]').forEach(el=>el.addEventListener('click', e=>{
+      e.stopPropagation();
+      const [kind,id] = el.dataset.star.split(':');
+      const obj = kind==='folder' ? folderById(id) : bookById(id);
+      if(!obj) return;
+      obj.fav = !obj.fav; obj.updated = Date.now(); save(); render();
     }));
-    root.querySelectorAll('[data-menu]').forEach(el=>el.addEventListener('click', e=>{
-      e.stopPropagation(); const b = bookById(el.dataset.menu); if(b) bookModal(b, b.folderId||null);
+    root.querySelectorAll('[data-cmenu]').forEach(el=>el.addEventListener('click', e=>{
+      e.stopPropagation();
+      const [kind,id] = el.dataset.cmenu.split(':');
+      const obj = kind==='folder' ? folderById(id) : bookById(id);
+      if(obj) nbOpenItemMenu(el, kind, obj, folderId);
     }));
+  }
+  /* filtro: Tudo / Pastas / Cadernos / Favoritos / Partilhados */
+  function nbOpenFilterPop(anchor, folderId){
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      ${NB_FILTER_OPTS.map(([id,k])=>`<button data-nbf="${id}" class="${nbUI.filter===id?'nb-on':''}">${nbUI.filter===id?'✓ ':''}${t(k)}</button>`).join('')}
+    </div>`);
+    pop.querySelectorAll('[data-nbf]').forEach(b=>b.addEventListener('click', ()=>{
+      nbUI.filter = b.dataset.nbf; saveNbUI(); closePopover(); renderScope(folderId);
+    }));
+  }
+  /* Grelha/Lista + Ordenar por (Tipo/Criação/Modificação/Nome + Ascendente/Descendente) */
+  function nbOpenViewPop(anchor, folderId){
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-nbv="grid" class="${nbUI.mode==='grid'?'nb-on':''}">${NB_ICO_GRID} ${t('viewGrid')}</button>
+      <button data-nbv="list" class="${nbUI.mode==='list'?'nb-on':''}">${NB_ICO_LIST} ${t('viewList')}</button>
+      <span class="nb-pop-sep"></span>
+      <button data-nbv="sort">↕ ${t('nbSortByLbl')} ›</button>
+    </div>`);
+    pop.querySelectorAll('[data-nbv="grid"],[data-nbv="list"]').forEach(b=>b.addEventListener('click', ()=>{
+      nbUI.mode = b.dataset.nbv; saveNbUI(); closePopover(); renderScope(folderId);
+    }));
+    pop.querySelector('[data-nbv="sort"]').addEventListener('click', ()=>{
+      const opts = [['type','nbSortType'],['created','nbSortCreated'],['updated','nbSortUpdated'],['name','nbSortName']];
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        ${opts.map(([id,k])=>`<button data-nbs="${id}" class="${nbUI.sort===id?'nb-on':''}">${nbUI.sort===id?'✓ ':''}${t(k)}</button>`).join('')}
+        <span class="nb-pop-sep"></span>
+        <button data-nbd="asc" class="${nbUI.sortDir!=='desc'?'nb-on':''}">${nbUI.sortDir!=='desc'?'✓ ':''}${t('nbAsc')}</button>
+        <button data-nbd="desc" class="${nbUI.sortDir==='desc'?'nb-on':''}">${nbUI.sortDir==='desc'?'✓ ':''}${t('nbDesc')}</button>
+      </div>`);
+      p2.querySelectorAll('[data-nbs]').forEach(b=>b.addEventListener('click', ()=>{ nbUI.sort=b.dataset.nbs; saveNbUI(); closePopover(); renderScope(folderId); }));
+      p2.querySelectorAll('[data-nbd]').forEach(b=>b.addEventListener('click', ()=>{ nbUI.sortDir=b.dataset.nbd; saveNbUI(); closePopover(); renderScope(folderId); }));
+    });
+  }
+  /* "..." — só o Caixote do lixo por enquanto */
+  function nbOpenMorePop(anchor){
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-nbm="trash">🗑 ${t('nbTrashLbl')}</button>
+    </div>`);
+    pop.querySelector('[data-nbm="trash"]').addEventListener('click', ()=>{ closePopover(); view = { name:'trash' }; render(); });
+  }
+  /* menu ⋯/⌄ de cada card: Editar, Duplicar, Mover, Exportar, Partilhar (sem ação), Mover para o lixo */
+  function nbOpenItemMenu(anchor, kind, obj, folderId){
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-nim="edit">✎ ${t('editLbl')}</button>
+      <button data-nim="dup">⧉ ${t('nbItemDup')}</button>
+      <button data-nim="move">➜ ${t('nbItemMove')}</button>
+      <button data-nim="export">⬆ ${t('nbItemExport')}</button>
+      <button data-nim="share">👤 ${t('nbItemShare')}</button>
+      <span class="nb-pop-sep"></span>
+      <button data-nim="trash" class="nb-pm-danger">🗑 ${t('nbItemTrash')}</button>
+    </div>`);
+    pop.querySelector('[data-nim="edit"]').addEventListener('click', ()=>{
+      closePopover(); if(kind==='folder') folderModal(obj, obj.parentId||null); else bookModal(obj, obj.folderId||null);
+    });
+    pop.querySelector('[data-nim="dup"]').addEventListener('click', ()=>{
+      closePopover();
+      if(kind==='folder') nbDuplicateFolder(obj); else nbDuplicateBook(obj);
+      renderScope(folderId);
+    });
+    pop.querySelector('[data-nim="move"]').addEventListener('click', ()=>{ closePopover(); nbMovePop(anchor, kind, obj, folderId); });
+    pop.querySelector('[data-nim="export"]').addEventListener('click', ()=>{
+      closePopover();
+      if(kind==='folder') exportFolderPrint(obj); else exportBookPages(obj, bookPages(obj));
+    });
+    pop.querySelector('[data-nim="share"]').addEventListener('click', ()=>closePopover()); // sem função por enquanto
+    pop.querySelector('[data-nim="trash"]').addEventListener('click', ()=>{
+      closePopover();
+      if(kind==='folder'){
+        if(!confirm(t('nbConfirmTrashFolder'))) return;
+        obj.deletedAt = Date.now(); obj.fav = false;
+      } else {
+        if(!confirm(t('nbConfirmTrashBook'))) return;
+        obj.deletedAt = Date.now(); obj.fav = false;
+      }
+      save(); renderScope(folderId);
+    });
+  }
+  function nbDuplicateBook(b){
+    const nb = JSON.parse(JSON.stringify(b));
+    nb.id = uid(); nb.title = (b.title||t('nbUntitledPh')) + t('nbDupSuffix');
+    nb.created = Date.now(); nb.updated = Date.now(); nb.fav = false; nb.deletedAt = null;
+    DB.notebooks.push(nb); save();
+    return nb;
+  }
+  function nbDuplicateFolder(orig, newParentId){
+    const nf = { id:uid(), name:(orig.name||t('untitledFolder'))+t('nbDupSuffix'), color:orig.color, icon:orig.icon,
+                 parentId: newParentId!==undefined ? newParentId : (orig.parentId||null), created:Date.now(), fav:false };
+    DB.folders.push(nf);
+    booksIn(orig.id).forEach(b=>{
+      const nb = JSON.parse(JSON.stringify(b));
+      nb.id = uid(); nb.folderId = nf.id; nb.created = Date.now(); nb.updated = Date.now(); nb.fav = false;
+      DB.notebooks.push(nb);
+    });
+    subfoldersOf(orig.id).forEach(sf=>nbDuplicateFolder(sf, nf.id));
+    save();
+    return nf;
+  }
+  /* "Mover" — escolher pasta de destino (raiz ou outra pasta; nunca a própria pasta/descendentes) */
+  function nbMovePop(anchor, kind, obj, curFolderId){
+    const excludeIds = kind==='folder' ? new Set(allDescendantFolderIds(obj.id)) : new Set();
+    const opts = [{id:null, name:t('none')}].concat(DB.folders.filter(f=>!f.deletedAt && !excludeIds.has(f.id)));
+    const pop = openPopover(anchor, `<div>
+      <strong class="nb-pop-title">${t('nbMoveTitle')}</strong>
+      <div class="nb-pop-list nb-pop-scroll">${opts.map((f,i)=>`<button data-mvto="${i}">📁 ${esc(f.name)}</button>`).join('')}</div>
+    </div>`, {cls:'nb-pop-move'});
+    pop.querySelectorAll('[data-mvto]').forEach(b=>b.addEventListener('click', ()=>{
+      const target = opts[+b.dataset.mvto];
+      if(kind==='folder') obj.parentId = target.id||null; else obj.folderId = target.id||null;
+      save(); closePopover(); renderScope(curFolderId);
+    }));
+  }
+
+  /* ---------- Lixeira (pastas e cadernos excluídos) ---------- */
+  let nbTrashSel = false, nbTrashPicked = [];
+  function renderTrash(){
+    const items = trashedItems();
+    const row = it => {
+      const { kind, obj } = it;
+      const name = kind==='folder' ? obj.name : (obj.title||t('nbUntitledPh'));
+      const key = kind+':'+obj.id;
+      const picked = nbTrashPicked.includes(key);
+      return `<div class="nb-nbrow ${nbTrashSel?'':''}">
+        <button class="nb-nbrow-open" data-trashrow="${key}" ${nbTrashSel?'':'disabled'}>
+          ${nbTrashSel?`<span class="nb-an-chk ${picked?'nb-on':''}"></span>`:''}
+          <span class="nb-nbrow-ico nb-nbrow-ico-${kind}">${kind==='folder'?folderIconHtml(obj):bookCoverHtml(obj)}</span>
+          <span class="nb-nbrow-main"><strong>${cmSpan(name)}</strong><small>${fmtDate(obj.deletedAt)}</small></span>
+        </button>
+      </div>`;
+    };
+    root.innerHTML = `
+      <div class="nb-head">
+        <div class="nb-head2-top">
+          <button class="nb-btn nb-btn-ghost nb-backbtn" id="nbTrashBack">${t('back')}</button>
+          <h1>${t('nbTrashTitle')}</h1>
+        </div>
+        <div class="nb-actions">
+          ${nbTrashSel?`<button class="nb-btn" id="nbTrashDoneBtn">${t('nbDoneLbl')}</button>`:`<button class="nb-btn" id="nbTrashSelBtn">☑ ${t('nbSelectLbl')}</button>`}
+          <button class="nb-btn nb-btn-danger" id="nbTrashAllBtn" ${items.length?'':'disabled'}>🗑 ${t('nbDeleteAllLbl')}</button>
+        </div>
+      </div>
+      <div class="nb-an-trashhint">${t('nbTrashHint2')}</div>
+      ${nbTrashSel?`<div class="nb-an-selbar">
+        <span>${t('nbNSelected',{n:nbTrashPicked.length})}</span>
+        <span class="nb-gnflex"></span>
+        <button class="nb-btn" id="nbTrashRestoreBtn" ${nbTrashPicked.length?'':'disabled'}>↩ ${t('nbRestoreLbl')}</button>
+        <button class="nb-btn nb-btn-danger" id="nbTrashDelBtn" ${nbTrashPicked.length?'':'disabled'}>🗑 ${t('nbDeleteLbl')}</button>
+      </div>`:''}
+      ${items.length ? `<div class="nb-nblist">${items.map(row).join('')}</div>`
+      : `<div class="nb-empty"><span class="nb-empty-ico">🗑</span>${t('nbTrashEmpty')}</div>`}`;
+    root.querySelector('#nbTrashBack').addEventListener('click', ()=>{ nbTrashSel=false; nbTrashPicked=[]; view={name:'folders'}; syncUrl(); render(); });
+    const selBtn = root.querySelector('#nbTrashSelBtn');
+    if(selBtn) selBtn.addEventListener('click', ()=>{ nbTrashSel=true; nbTrashPicked=[]; render(); });
+    const doneBtn = root.querySelector('#nbTrashDoneBtn');
+    if(doneBtn) doneBtn.addEventListener('click', ()=>{ nbTrashSel=false; nbTrashPicked=[]; render(); });
+    root.querySelectorAll('[data-trashrow]').forEach(b=>b.addEventListener('click', ()=>{
+      const key = b.dataset.trashrow;
+      const i = nbTrashPicked.indexOf(key);
+      if(i>=0) nbTrashPicked.splice(i,1); else nbTrashPicked.push(key);
+      render();
+    }));
+    const restoreBtn = root.querySelector('#nbTrashRestoreBtn');
+    if(restoreBtn) restoreBtn.addEventListener('click', ()=>{
+      if(!nbTrashPicked.length) return;
+      nbTrashPicked.forEach(key=>{
+        const [kind,id] = key.split(':');
+        const obj = kind==='folder' ? folderById(id) : bookById(id);
+        if(obj) obj.deletedAt = null;
+      });
+      nbTrashPicked=[]; nbTrashSel=false; save(); render();
+    });
+    const delBtn = root.querySelector('#nbTrashDelBtn');
+    if(delBtn) delBtn.addEventListener('click', ()=>{
+      if(!nbTrashPicked.length) return;
+      if(!confirm(t('nbConfirmDeleteSel'))) return;
+      nbTrashPicked.forEach(key=>{
+        const [kind,id] = key.split(':');
+        if(kind==='folder') nbPurgeFolderNow(id); else nbPurgeBookNow(id);
+      });
+      nbTrashPicked=[]; nbTrashSel=false; save(); render();
+    });
+    const allBtn = root.querySelector('#nbTrashAllBtn');
+    if(allBtn) allBtn.addEventListener('click', ()=>{
+      if(!items.length) return;
+      if(!confirm(t('nbConfirmDeleteAll'))) return;
+      items.forEach(it=> it.kind==='folder' ? nbPurgeFolderNow(it.obj.id) : nbPurgeBookNow(it.obj.id));
+      nbTrashPicked=[]; nbTrashSel=false; save(); render();
+    });
+  }
+  /* apaga em definitivo (usado pela Lixeira: item selecionado ou "Apagar tudo") */
+  function nbPurgeFolderNow(fid){
+    const ids = allDescendantFolderIds(fid);
+    ids.forEach(id=>{
+      DB.notebooks.filter(b=>b.folderId===id).forEach(b=>deleteRemoteImages(pagesHtmlOf(b)));
+      DB.notebooks = DB.notebooks.filter(b=>b.folderId!==id);
+    });
+    DB.folders = DB.folders.filter(f=>!ids.includes(f.id));
+  }
+  function nbPurgeBookNow(bid){
+    const b = bookById(bid);
+    if(b) deleteRemoteImages(pagesHtmlOf(b));
+    DB.notebooks = DB.notebooks.filter(x=>x.id!==bid);
   }
   /* v3 — diálogo de pasta estilo GoodNotes: preview grande, nome no meio,
      abas Cor/Ícone; cores em 3 fileiras + arco-íris (cor personalizada);
@@ -961,60 +1319,14 @@
     });
     const del = m.querySelector('#nbFDel');
     if(del) del.addEventListener('click', ()=>{
-      if(!confirm(t('confirmDelFolder'))) return;
-      // apaga recursivamente subpastas, cadernos e notas
-      const ids = allDescendantFolderIds(folder.id);
-      ids.forEach(fid=>{
-        booksIn(fid).forEach(b=>{ notesIn(b.id).forEach(nt=>notePages(nt).forEach(p=>deleteRemoteImages(p.html))); DB.notes = DB.notes.filter(n=>n.notebookId!==b.id); });
-        DB.notebooks = DB.notebooks.filter(n=>n.folderId!==fid);
-      });
-      DB.folders = DB.folders.filter(f=>!ids.includes(f.id));
-      save(); closeModal(); view = { name:'folders' }; syncUrl(); render();
+      // v6: excluir agora move para a Lixeira (recuperável), em vez de apagar em definitivo
+      if(!confirm(t('nbConfirmTrashFolder'))) return;
+      folder.deletedAt = Date.now(); folder.fav = false;
+      save(); closeModal();
+      view = folder.parentId ? { name:'folder', folderId:folder.parentId } : { name:'folders' };
+      syncUrl(); render();
     });
     m.querySelector('#nbGnfName').focus();
-  }
-
-  /* ================= VISÃO: CADERNOS DA PASTA ================= */
-  function renderFolder(){
-    const folder = folderById(view.folderId);
-    if(!folder){ view = { name:'folders' }; return render(); }
-    // trilha completa até a raiz (subpastas)
-    const chain = []; let cur = folder;
-    while(cur){ chain.unshift(cur); cur = cur.parentId ? folderById(cur.parentId) : null; }
-    const parts = [{ label:t('title'), act:()=>{ view={name:'folders'}; syncUrl(); render(); } }];
-    chain.forEach((f,i)=>{
-      const last = i===chain.length-1;
-      parts.push({ label:cmSpan(f.name), raw:true, act: last?null:()=>{ view={name:'folder', folderId:f.id}; syncUrl(); render(); } });
-    });
-    const subs = subfoldersOf(folder.id);
-    const books = booksIn(folder.id);
-    const subHtml = subs.map(f=>folderCardHtml(f,'openf','menuf')).join('');
-    const bookHtml = books.map(bookCardHtml).join('');
-    root.innerHTML = `
-      <div class="nb-head">
-        <div><h1>${cmSpan(folder.name)}</h1>${crumbs(parts)}</div>
-        <div class="nb-actions">
-          <button class="nb-btn nb-btn-primary" id="nbPlusNew">${t('plusNew')}</button>
-        </div>
-      </div>
-      ${(subs.length||books.length) ? `<div class="nb-grid">${subHtml}${bookHtml}</div>`
-      : `<div class="nb-empty"><span class="nb-empty-ico">📘</span>${t('emptyBooks')}</div>`}`;
-    root.querySelector('#nbPlusNew').addEventListener('click', e=>openNewMenu(e.currentTarget, folder.id));
-    root.querySelectorAll('[data-openf]').forEach(el=>el.addEventListener('click', e=>{
-      if(e.target.closest('[data-menuf]')) return;
-      view = { name:'folder', folderId: el.dataset.openf }; syncUrl(); render();
-    }));
-    root.querySelectorAll('[data-menuf]').forEach(el=>el.addEventListener('click', e=>{
-      e.stopPropagation(); const f=folderById(el.dataset.menuf); folderModal(f, f.parentId||null);
-    }));
-    root.querySelectorAll('[data-open]').forEach(el=>el.addEventListener('click', e=>{
-      if(e.target.closest('[data-menu]')) return;
-      view = { name:'notebook', nbId: el.dataset.open }; syncUrl(); render();
-    }));
-    root.querySelectorAll('[data-menu]').forEach(el=>el.addEventListener('click', e=>{
-      e.stopPropagation(); bookModal(bookById(el.dataset.menu), folder.id);
-    }));
-    wireCrumbs(parts);
   }
 
   /* v3 — modal "Novo caderno" estilo GoodNotes: X/✓ no cabeçalho, previews de
@@ -1205,10 +1517,9 @@
     });
     const del = m.querySelector('#nbBDel');
     if(del) del.addEventListener('click', ()=>{
-      if(!confirm(t('confirmDelBook'))) return;
-      notesIn(book.id).forEach(nt=>notePages(nt).forEach(p=>deleteRemoteImages(p.html)));
-      DB.notes = DB.notes.filter(n=>n.notebookId!==book.id);
-      DB.notebooks = DB.notebooks.filter(n=>n.id!==book.id);
+      // v6: excluir agora move para a Lixeira (recuperável), em vez de apagar em definitivo
+      if(!confirm(t('nbConfirmTrashBook'))) return;
+      book.deletedAt = Date.now(); book.fav = false;
       save(); closePopover(); closeModal(); render();
     });
     m.querySelector('#nbGnbName').focus();
@@ -1680,25 +1991,20 @@
       else exportBookPages(book, bookPages(book));
     }));
   }
-  function exportBookPages(book, pages){
-    const pagesHtml = pages.map(p=>{
-      let canvasImg = '';
-      if(p.strokes && p.strokes.length){
-        const ori = book.orientation==='landscape'?'landscape':'portrait';
-        const cv = document.createElement('canvas'); cv.width=CANVAS_W[ori]; cv.height=CANVAS_H[ori];
-        const ctx = cv.getContext('2d');
-        if(ctx){ p.strokes.forEach(s=>drawStroke(ctx,s)); try{ canvasImg = `<img class="ink" src="${cv.toDataURL('image/png')}" />`; }catch(e){} }
-      }
-      const objsHtml = (Array.isArray(p.objs)?p.objs:[]).map(o=> o.type==='img'
-        ? `<img class="obj" src="${esc(o.src)}" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%">`
-        : `<div class="obj obj-sticky" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%;height:${+o.h||8}%;background:${esc(o.color)}">${esc(o.text||'')}</div>`).join('');
-      return `<section class="pg${book.orientation==='landscape'?' pg-l':''}">${canvasImg}${objsHtml}<div class="body">${p.html||''}</div></section>`;
-    }).join('');
-    const title = book.title||t('nbUntitledPh');
-    const w = window.open('', '_blank');
-    if(!w){ toast(t('storageFull'), true); return; }
-    w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title>
-      <style>@page{margin:16mm} body{font-family:'Helvetica Neue',Arial,sans-serif;color:#182233;line-height:1.6}
+  function nbPageExportHtml(book, p){
+    let canvasImg = '';
+    if(p.strokes && p.strokes.length){
+      const ori = book.orientation==='landscape'?'landscape':'portrait';
+      const cv = document.createElement('canvas'); cv.width=CANVAS_W[ori]; cv.height=CANVAS_H[ori];
+      const ctx = cv.getContext('2d');
+      if(ctx){ p.strokes.forEach(s=>drawStroke(ctx,s)); try{ canvasImg = `<img class="ink" src="${cv.toDataURL('image/png')}" />`; }catch(e){} }
+    }
+    const objsHtml = (Array.isArray(p.objs)?p.objs:[]).map(o=> o.type==='img'
+      ? `<img class="obj" src="${esc(o.src)}" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%">`
+      : `<div class="obj obj-sticky" style="left:${+o.x||0}%;top:${+o.y||0}%;width:${+o.w||10}%;height:${+o.h||8}%;background:${esc(o.color)}">${esc(o.text||'')}</div>`).join('');
+    return `<section class="pg${book.orientation==='landscape'?' pg-l':''}">${canvasImg}${objsHtml}<div class="body">${p.html||''}</div></section>`;
+  }
+  const NB_EXPORT_STYLE = `@page{margin:16mm} body{font-family:'Helvetica Neue',Arial,sans-serif;color:#182233;line-height:1.6}
       h1,h2,h3{line-height:1.3} .pg{position:relative;page-break-after:always;padding-bottom:12px;aspect-ratio:1/1.35;overflow:hidden}
       .pg.pg-l{aspect-ratio:1.35/1}
       .pg:last-child{page-break-after:auto} .pg .ink{position:absolute;inset:0;width:100%;height:auto;pointer-events:none;z-index:3}
@@ -1707,7 +2013,32 @@
       img{max-width:100%} blockquote{border-left:3px solid #3d84ff;margin:10px 0;padding:4px 14px;color:#445}
       pre{background:#f4f6fa;padding:12px;border-radius:8px;overflow:auto} ul.nb-checklist{list-style:none;padding-left:4px}
       ul.nb-checklist li{position:relative;padding-left:26px} ul.nb-checklist li:before{content:'☐';position:absolute;left:0}
-      ul.nb-checklist li.nb-checked:before{content:'☑'} ul.nb-checklist li.nb-checked{text-decoration:line-through;color:#889}</style>
+      ul.nb-checklist li.nb-checked:before{content:'☑'} ul.nb-checklist li.nb-checked{text-decoration:line-through;color:#889}`;
+  /* exporta todos os cadernos de uma pasta (recursivo, via "Exportar" do menu do item) */
+  function exportFolderPrint(folder){
+    const ids = allDescendantFolderIds(folder.id);
+    const books = DB.notebooks.filter(b=>ids.includes(b.folderId) && !b.deletedAt);
+    if(!books.length){ toast(t('emptyBooks'), true); return; }
+    const sections = books.map(b=>{
+      const pagesHtml = bookPages(b).map(p=>nbPageExportHtml(b,p)).join('');
+      return `<h1>${esc(b.title||t('nbUntitledPh'))}</h1>${pagesHtml}`;
+    }).join('');
+    const title = folder.name||t('untitledFolder');
+    const w = window.open('', '_blank');
+    if(!w){ toast(t('storageFull'), true); return; }
+    w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title>
+      <style>${NB_EXPORT_STYLE}</style>
+      </head><body><h1>${esc(title)}</h1>${sections}</body></html>`);
+    w.document.close(); w.focus();
+    setTimeout(()=>{ w.print(); }, 350);
+  }
+  function exportBookPages(book, pages){
+    const pagesHtml = pages.map(p=>nbPageExportHtml(book,p)).join('');
+    const title = book.title||t('nbUntitledPh');
+    const w = window.open('', '_blank');
+    if(!w){ toast(t('storageFull'), true); return; }
+    w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title>
+      <style>${NB_EXPORT_STYLE}</style>
       </head><body><h1>${esc(title)}</h1>${pagesHtml}</body></html>`);
     w.document.close(); w.focus();
     setTimeout(()=>{ w.print(); }, 350);
@@ -2101,10 +2432,10 @@
   function gnToolbar(){
     const tool = gnT.tool;
     const tools = [
-      ['lasso',  t('lassoTitle'),   'V'],
       ['pen',    t('penTool'),      'P'],
       ['marker', t('highlighter'),  '' ],
       ['eraser', t('eraserTool'),   'E'],
+      ['lasso',  t('lassoTitle'),   'V'],
       ['text',   t('textTool'),     '' ],
       ['image',  t('imageTool'),    'I'],
       ['sticky', t('stickyTool'),   'N'],
@@ -3097,9 +3428,15 @@
   (function(){ const cut = Date.now()-30*864e5; const n0 = AN.notes.length;
     AN.notes = AN.notes.filter(n=>!(n.deletedAt && n.deletedAt < cut));
     if(AN.notes.length !== n0) anPersist(); })();
-  let anV = { folder:'all', noteId:null, sidebar:window.innerWidth>1024, gallery:false, sort:'edited', group:true, pinnedOpen:true, search:'' };
-  let anRec = null, anBootNote = params.get('note');
-  const AN_HILITES = ['#d9c8f6','#f6c9dd','#f8d9b0','#c8f0dd','#c9e2f9']; // Roxo, Rosa, Laranja, Menta, Azul
+  let anV = { folder:'all', noteId:null, sidebar:window.innerWidth>1024, gallery:false, sort:'edited', group:true, pinnedOpen:true, search:'', trashSel:false, trashPicked:[] };
+  let anBootNote = params.get('note');
+  const AN_HILITES = [ // Roxo, Rosa, Laranja, Menta, Azul (estilo Apple Notes)
+    {c:'#d9c8f6', k:'hiPurple'}, {c:'#f6c9dd', k:'hiPink'}, {c:'#f8d9b0', k:'hiOrange'},
+    {c:'#c8f0dd', k:'hiMint'}, {c:'#c9e2f9', k:'hiBlue'}
+  ];
+  let anHiliteColor = AN_HILITES[0].c;
+  const AN_ICO_NEWNOTE = '<svg viewBox="0 0 24 24" fill="none" width="17" height="17"><rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M9 15.2l.9-3 5.1-5.1a1.1 1.1 0 011.6 0l.3.3a1.1 1.1 0 010 1.6l-5.1 5.1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  const AN_ICO_NEWFOLDER = '<svg viewBox="0 0 24 24" fill="none" width="17" height="17"><path d="M4 7.2a1 1 0 011-1h4.2l1.4 1.8H19a1 1 0 011 1V17a1 1 0 01-1 1H5a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M15 11.5v4M13 13.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 
   const anById = id => AN.notes.find(n=>n.id===id);
   const anFolderById = id => AN.folders.find(f=>f.id===id);
@@ -3174,9 +3511,10 @@
         <div class="nb-an-bar">
           <button class="nb-gt ${anV.sidebar?'nb-on':''}" id="anSideTgl" title="Sidebar">◧</button>
           <button class="nb-gt nb-an-back" id="anBack">‹ ${t('anNotes')}</button>
-          <button class="nb-gt" id="anNewNote" title="${t('anNewNote')}">✎</button>
+          <button class="nb-gt nb-gt-cta" id="anNewNote" title="${t('anNewNote')}">${AN_ICO_NEWNOTE}</button>
+          <button class="nb-gt nb-gt-cta" id="anNewFolderTopBtn" title="${t('anNewFolderBtn')}">${AN_ICO_NEWFOLDER}</button>
           <span class="nb-tb-sep"></span>
-          <button class="nb-gt ${dis}" id="anAaBtn" title="Aa"><b>Aa</b></button>
+          <button class="nb-gt ${dis}" id="anAaBtn" title="Aa"><b>Aa</b><span class="nb-aa-dot" id="anAaDot" style="background:${esc(anHiliteColor)}"></span></button>
           <button class="nb-gt ${dis}" id="anCheckBtn" title="${t('tipCheck')}">☑</button>
           <button class="nb-gt ${dis}" id="anTableBtn" title="${t('anTable')}">⊞</button>
           <button class="nb-gt ${dis}" id="anClipBtn" title="${t('anAttachFile')}">📎</button>
@@ -3194,8 +3532,7 @@
         </div>
         <div class="nb-an-cols">
           <aside class="nb-an-side" id="anSide" ${anV.sidebar?'':'hidden'}>
-            <div class="nb-an-sidecap">${t('anICloud')}</div>
-            ${srow('all','📁',t('anNotes'), anNotesIn('all').length)}
+            ${srow('all','📁',t('anNotes'), anNotesIn('all').length, true)}
             ${srow('trash','🗑',t('anDeleted'), anNotesIn('trash').length)}
             ${AN.folders.length?`<div class="nb-an-sidecap nb-an-sidecap2">${t('folders')}</div>`:''}
             ${AN.folders.map(f=>srow(f.id, f.smart?'⚙️':'📁', esc(f.name), anNotesIn(f.id).length, true)).join('')}
@@ -3226,8 +3563,10 @@
     list.sort(sorters[anV.sort]||sorters.edited);
     const pinned = inTrash ? [] : list.filter(n=>n.pinned);
     const rest = inTrash ? list : list.filter(n=>!n.pinned);
+    const selMode = inTrash && anV.trashSel;
     const row = n => `
-      <button class="nb-an-row ${n.id===anV.noteId?'nb-on':''}" data-annote="${n.id}">
+      <button class="nb-an-row ${n.id===anV.noteId?'nb-on':''} ${selMode&&anV.trashPicked.includes(n.id)?'nb-an-row-picked':''}" data-annote="${n.id}">
+        ${selMode?`<span class="nb-an-chk ${anV.trashPicked.includes(n.id)?'nb-on':''}"></span>`:''}
         <span class="nb-an-rowmain">
           <strong>${esc(anTitleOf(n))}</strong>
           <span class="nb-an-rowsub"><em class="nb-an-date">${anDateShort(anV.sort==='created'?n.created:n.updated)}</em>
@@ -3240,11 +3579,12 @@
         <span class="nb-an-cardprev">${anThumbOf(n)?`<img src="${esc(anThumbOf(n))}">`:`<span class="nb-an-cardtxt">${esc(anTextOf(n).slice(0,180)||t('anNoText'))}</span>`}</span>
         <strong>${esc(anTitleOf(n))}</strong><em>${anDateShort(n.updated)}</em>
       </button>`;
-    const item = anV.gallery ? card : row;
+    const gallery = inTrash ? false : anV.gallery;
+    const item = gallery ? card : row;
     let body = '';
     if(pinned.length){
       body += `<button class="nb-an-gcap" id="anPinTgl"><b>${anV.pinnedOpen?'⌄':'›'}</b> 📌 ${t('anPinned')}</button>`;
-      if(anV.pinnedOpen) body += `<div class="${anV.gallery?'nb-an-cards':''}">${pinned.map(item).join('')}</div>`;
+      if(anV.pinnedOpen) body += `<div class="${gallery?'nb-an-cards':''}">${pinned.map(item).join('')}</div>`;
     }
     if(anV.group && anV.sort!=='title'){
       let lastG = null;
@@ -3253,32 +3593,84 @@
         const g = anGroupOf(anV.sort==='created'?n.created:n.updated);
         if(g!==lastG){
           if(open) body += '</div>';
-          body += `<div class="nb-an-gcap nb-an-gcap-date">${g}</div><div class="${anV.gallery?'nb-an-cards':''}">`;
+          body += `<div class="nb-an-gcap nb-an-gcap-date">${g}</div><div class="${gallery?'nb-an-cards':''}">`;
           lastG = g; open = true;
         }
         body += item(n);
       });
       if(open) body += '</div>';
-    } else body += `<div class="${anV.gallery?'nb-an-cards':''}">${rest.map(item).join('')}</div>`;
+    } else body += `<div class="${gallery?'nb-an-cards':''}">${rest.map(item).join('')}</div>`;
     if(!list.length) body = `<div class="nb-an-emptylist">${t('anEmpty')}</div>`;
+    const trashHeadBtn = anV.trashSel
+      ? `<button class="nb-btn" id="anTrashDone">${t('anDoneLbl')}</button>`
+      : `<button class="nb-gt" id="anTrashMoreBtn" title="⋯">⋯</button>`;
+    const selBar = (inTrash && anV.trashSel) ? `
+      <div class="nb-an-selbar">
+        <span>${t('anNSelected',{n:anV.trashPicked.length})}</span>
+        <span class="nb-gnflex"></span>
+        <button class="nb-btn" id="anSelRestore" ${anV.trashPicked.length?'':'disabled'}>↩ ${t('anRestore')}</button>
+        <button class="nb-btn nb-btn-danger" id="anSelDelete" ${anV.trashPicked.length?'':'disabled'}>🗑 ${t('anDeleteSelLbl')}</button>
+      </div>` : '';
     return `
       <div class="nb-an-listhead">
         <strong>${title}</strong>
-        <button class="nb-gt" id="anListMenu" title="⋯">⋯</button>
+        ${inTrash ? trashHeadBtn : `<button class="nb-gt" id="anListMenu" title="⋯">⋯</button>`}
       </div>
       <div class="nb-an-count">${anCountLbl(list.length)}</div>
       ${inTrash?`<div class="nb-an-trashhint">${t('anTrashHint')}</div>`:''}
+      ${selBar}
       <div class="nb-an-scroll">${body}</div>`;
   }
   function anWireListCol(){
     const col = root.querySelector('#anListCol'); if(!col) return;
+    const inTrash = anV.folder==='trash';
     col.querySelectorAll('[data-annote]').forEach(b=>b.addEventListener('click', ()=>{
+      if(inTrash && anV.trashSel){
+        const id = b.dataset.annote;
+        const i = anV.trashPicked.indexOf(id);
+        if(i>=0) anV.trashPicked.splice(i,1); else anV.trashPicked.push(id);
+        anRefreshList();
+        return;
+      }
       anV.noteId = b.dataset.annote; anSyncUrl(); render();
     }));
     const pt = col.querySelector('#anPinTgl');
     if(pt) pt.addEventListener('click', ()=>{ anV.pinnedOpen = !anV.pinnedOpen; anRefreshList(); });
     const lm = col.querySelector('#anListMenu');
     if(lm) lm.addEventListener('click', e=>anOpenListMenu(e.currentTarget));
+    const tm = col.querySelector('#anTrashMoreBtn');
+    if(tm) tm.addEventListener('click', e=>anOpenTrashMenu(e.currentTarget));
+    const td = col.querySelector('#anTrashDone');
+    if(td) td.addEventListener('click', ()=>{ anV.trashSel=false; anV.trashPicked=[]; anRefreshList(); });
+    const rb = col.querySelector('#anSelRestore');
+    if(rb) rb.addEventListener('click', ()=>{
+      if(!anV.trashPicked.length) return;
+      anV.trashPicked.forEach(id=>{ const n=anById(id); if(n) n.deletedAt=null; });
+      anV.trashPicked=[]; anV.trashSel=false; anPersist(); anRefreshList();
+    });
+    const db = col.querySelector('#anSelDelete');
+    if(db) db.addEventListener('click', ()=>{
+      if(!anV.trashPicked.length) return;
+      if(!confirm(t('anConfirmDeleteSel'))) return;
+      anV.trashPicked.forEach(id=>{ const n=anById(id); if(n){ deleteRemoteImages(n.html); AN.notes = AN.notes.filter(x=>x.id!==id); } });
+      anV.trashPicked=[]; anV.trashSel=false; anPersist(); anRefreshList();
+    });
+  }
+  /* menu ⋯ da lista "Apagadas": só Selecionar (Recuperar/Apagar) e Apagar tudo */
+  function anOpenTrashMenu(anchor){
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-atm="sel">☑ ${t('anSelectLbl')}</button>
+      <button data-atm="all" class="nb-pm-danger">🗑 ${t('anDeleteAllLbl')}</button>
+    </div>`);
+    pop.querySelector('[data-atm="sel"]').addEventListener('click', ()=>{ closePopover(); anV.trashSel=true; anV.trashPicked=[]; anRefreshList(); });
+    pop.querySelector('[data-atm="all"]').addEventListener('click', ()=>{
+      closePopover();
+      const list = anNotesIn('trash'); if(!list.length) return;
+      if(!confirm(t('anConfirmDeleteAll'))) return;
+      list.forEach(n=>deleteRemoteImages(n.html));
+      AN.notes = AN.notes.filter(n=>!n.deletedAt);
+      anV.trashSel=false; anV.trashPicked=[]; anPersist(); anRefreshList();
+    });
   }
   function anRefreshList(){
     const col = root.querySelector('#anListCol'); if(!col) return;
@@ -3388,6 +3780,53 @@
     });
   }
 
+  /* menu ⋯ de cada linha da sidebar (Notas ou Pasta) — Renomear/Apagar/Nova
+     Pasta/Compartilhar (sem ação) ficam só nas pastas personalizadas; Nova
+     Pasta/Ordenar por/Agrupar por Data aparecem também em "Notas". */
+  function anOpenFolderMenu(anchor, folderId){
+    const isBuiltin = folderId==='all';
+    const f = isBuiltin ? null : anFolderById(folderId);
+    if(!isBuiltin && !f) return;
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      ${isBuiltin?'':`<button data-afm="ren">✎ ${t('anRenameFolder')}</button>`}
+      ${isBuiltin?'':`<button data-afm="del" class="nb-pm-danger">🗑 ${t('anDelFolder')}</button>`}
+      <button data-afm="new">📁 ${t('anNewFolderBtn')}</button>
+      ${isBuiltin?'':`<button data-afm="share">⤴ ${t('anShareFolder')}</button>`}
+      <button data-afm="sort">↕ ${t('anSortBy')} ›</button>
+      <button data-afm="group">📅 ${t('anGroup')} ›</button>
+    </div>`);
+    if(!isBuiltin){
+      pop.querySelector('[data-afm="ren"]').addEventListener('click', ()=>{ closePopover(); anFolderModal(f); });
+      pop.querySelector('[data-afm="del"]').addEventListener('click', ()=>{
+        closePopover();
+        if(!confirm(t('anConfirmDelFolder'))) return;
+        AN.notes.forEach(n=>{ if(n.folderId===f.id) n.folderId = null; });
+        AN.folders = AN.folders.filter(x=>x.id!==f.id);
+        if(anV.folder===f.id) anV.folder = 'all';
+        anPersist(); render();
+      });
+      pop.querySelector('[data-afm="share"]').addEventListener('click', ()=>closePopover());
+    }
+    pop.querySelector('[data-afm="new"]').addEventListener('click', ()=>{ closePopover(); anFolderModal(null); });
+    pop.querySelector('[data-afm="sort"]').addEventListener('click', ()=>{
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        ${[['edited','anSortEdited'],['created','anSortCreated'],['title','anSortTitle']].map(([v,k])=>`<button data-srt="${v}" class="${anV.sort===v?'nb-on':''}">${t(k)}</button>`).join('')}
+      </div>`);
+      p2.querySelectorAll('[data-srt]').forEach(b=>b.addEventListener('click', ()=>{
+        anV.sort = b.dataset.srt; closePopover(); anV.folder = folderId; anV.noteId = null; anSyncUrl(); render();
+      }));
+    });
+    pop.querySelector('[data-afm="group"]').addEventListener('click', ()=>{
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        <button data-grp="1" class="${anV.group?'nb-on':''}">${t('anAuto')}</button>
+        <button data-grp="0" class="${anV.group?'':'nb-on'}">${t('anOffLbl')}</button>
+      </div>`);
+      p2.querySelectorAll('[data-grp]').forEach(b=>b.addEventListener('click', ()=>{
+        anV.group = b.dataset.grp==='1'; closePopover(); anV.folder = folderId; anV.noteId = null; anSyncUrl(); render();
+      }));
+    });
+  }
+
   /* ---------- casca: sidebar + toolbar ---------- */
   function anWireShell(cur, inTrash){
     const ed = () => root.querySelector('#anEditor');
@@ -3398,25 +3837,14 @@
     root.querySelectorAll('[data-anf]').forEach(b=>b.addEventListener('click', e=>{
       if(e.target.closest('[data-anfm]')) return;
       anFlush(cur, ed());
+      anV.trashSel = false; anV.trashPicked = [];
       anV.folder = b.dataset.anf; anV.noteId = null; anSyncUrl(); render();
     }));
     root.querySelectorAll('[data-anfm]').forEach(i=>i.addEventListener('click', e=>{
-      e.stopPropagation();
-      const f = anFolderById(i.dataset.anfm); if(!f) return;
-      const pop = openPopover(i, `<div class="nb-pop-list">
-        <button data-afm="ren">✎ ${t('anRenameFolder')}</button>
-        <button data-afm="del" class="nb-pm-danger">🗑 ${t('anDelFolder')}</button></div>`);
-      pop.querySelector('[data-afm="ren"]').addEventListener('click', ()=>{ closePopover(); anFolderModal(f); });
-      pop.querySelector('[data-afm="del"]').addEventListener('click', ()=>{
-        closePopover();
-        if(!confirm(t('anConfirmDelFolder'))) return;
-        AN.notes.forEach(n=>{ if(n.folderId===f.id) n.folderId = null; });
-        AN.folders = AN.folders.filter(x=>x.id!==f.id);
-        if(anV.folder===f.id) anV.folder = 'all';
-        anPersist(); render();
-      });
+      e.stopPropagation(); anOpenFolderMenu(i, i.dataset.anfm);
     }));
     root.querySelector('#anNewFolderBtn').addEventListener('click', ()=>anFolderModal(null));
+    root.querySelector('#anNewFolderTopBtn').addEventListener('click', ()=>anFolderModal(null));
     root.querySelector('#anNewNote').addEventListener('click', ()=>{
       anFlush(cur, ed());
       const f = anFolderById(anV.folder);
@@ -3500,8 +3928,8 @@
           <button data-aab="underline"><u>U</u></button>
           <button data-aab="strikeThrough"><s>S</s></button>
         </div>
-        <div class="nb-an-aa-row">
-          ${AN_HILITES.map(c=>`<button class="nb-gt-dot" data-aah="${c}" style="background:${c}"></button>`).join('')}
+        <div class="nb-an-hilist">
+          ${AN_HILITES.map(h=>`<button class="nb-an-hirow-item ${h.c.toLowerCase()===anHiliteColor.toLowerCase()?'nb-on':''}" data-aah="${h.c}"><span class="nb-gt-dot" style="background:${h.c}"></span>${t(h.k)}</button>`).join('')}
         </div>
       </div>`, {cls:'nb-pop-anaa'});
     pop.querySelectorAll('button').forEach(b=>b.addEventListener('mousedown', e=>e.preventDefault()));
@@ -3521,47 +3949,32 @@
       closePopover();
     }));
     pop.querySelectorAll('[data-aab]').forEach(b=>b.addEventListener('click', ()=>exec(b.dataset.aab)));
-    pop.querySelectorAll('[data-aah]').forEach(b=>b.addEventListener('click', ()=>{ exec('hiliteColor', b.dataset.aah); closePopover(); }));
+    pop.querySelectorAll('[data-aah]').forEach(b=>b.addEventListener('click', ()=>{
+      anHiliteColor = b.dataset.aah; exec('hiliteColor', anHiliteColor); closePopover();
+      const dot = root.querySelector('#anAaDot'); if(dot) dot.style.background = anHiliteColor;
+    }));
   }
 
   /* ---------- clipe: foto/vídeo, gravar áudio, anexar arquivo ---------- */
   function anClipPop(anchor, insertHtml){
-    if(anRec){ anRec.stop(); return; } // clicar de novo para a gravação em curso
     const pop = openPopover(anchor, `
       <div class="nb-pop-list">
-        <button data-ac="pv">🖼 ${t('anPhotoVideo')}</button>
-        <button data-ac="rec">🎙 ${t('anRecAudio')}</button>
+        <button data-ac="photo">🖼 ${t('anChoosePhoto')}</button>
         <button data-ac="file">📄 ${t('anAttachFile')}</button>
       </div>
-      <input type="file" id="anPvInp" accept="image/*,video/*" hidden>
+      <input type="file" id="anPvInp" accept="image/*" hidden>
       <input type="file" id="anFileInp" hidden>`);
     const attach = async f => {
       if(!f) return;
       if(/^image\//.test(f.type)){ const u = await uploadImage(f); if(u) insertHtml(`<img src="${esc(u)}">`); return; }
       if(f.size > 8*1024*1024){ toast(t('imgTooBig'), true); return; }
       const u = await blobToDataURL(f);
-      if(/^video\//.test(f.type)) insertHtml(`<video controls src="${u}"></video>`);
-      else insertHtml(`<a class="nb-an-file" download="${esc(f.name)}" href="${u}">📄 ${esc(f.name)}</a>`);
+      insertHtml(`<a class="nb-an-file" download="${esc(f.name)}" href="${u}">📄 ${esc(f.name)}</a>`);
     };
-    pop.querySelector('[data-ac="pv"]').addEventListener('click', ()=>pop.querySelector('#anPvInp').click());
+    pop.querySelector('[data-ac="photo"]').addEventListener('click', ()=>pop.querySelector('#anPvInp').click());
     pop.querySelector('#anPvInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
     pop.querySelector('[data-ac="file"]').addEventListener('click', ()=>pop.querySelector('#anFileInp').click());
     pop.querySelector('#anFileInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
-    pop.querySelector('[data-ac="rec"]').addEventListener('click', ()=>{
-      closePopover();
-      if(!navigator.mediaDevices || !window.MediaRecorder){ toast(t('anRecFail'), true); return; }
-      navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
-        const mr = new MediaRecorder(stream); const chunks = [];
-        mr.ondataavailable = e=>{ if(e.data && e.data.size) chunks.push(e.data); };
-        mr.onstop = ()=>{
-          stream.getTracks().forEach(tk=>tk.stop()); anRec = null;
-          const blob = new Blob(chunks, {type: mr.mimeType||'audio/webm'});
-          if(blob.size > 8*1024*1024){ toast(t('imgTooBig'), true); return; }
-          blobToDataURL(blob).then(u=>insertHtml(`<audio controls src="${u}"></audio>`));
-        };
-        mr.start(); anRec = mr; toast(t('anRecording'), true);
-      }).catch(()=>toast(t('anRecFail'), true));
-    });
   }
 
   /* ---------- menu ⋯ da nota ---------- */
@@ -3707,6 +4120,7 @@
     host.classList.add('nb');
     host.innerHTML = '<div id="nbRoot" class="nb"></div>';
     root = host.querySelector('#nbRoot');
+    nbPurgeTrash();
     view = initialView();
     render();
     // limpa o `?prefill=` da URL depois de criar a nota, senão um F5 duplicaria a captura

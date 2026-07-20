@@ -751,9 +751,15 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
 .nb-an-s-h2{font-weight:800}
 .nb-an-s-h3{font-weight:700;color:var(--nb-muted)!important}
 .nb-an-s-mono{font-family:'Courier New',monospace}
-.nb-an-aa-row{display:flex;gap:6px;border-top:1px solid var(--nb-line);margin-top:8px;padding-top:9px;justify-content:center}
-.nb-an-aa-row button{border:1px solid var(--nb-line);background:var(--nb-card2);color:var(--nb-text);border-radius:8px;min-width:36px;height:34px;cursor:pointer;font-size:14px}
-.nb-an-aa-row button:hover{background:var(--nb-chip)}
+.nb-an-aa-row{display:flex;gap:6px;border-top:1px solid var(--nb-line);margin-top:8px;padding-top:9px;justify-content:center;align-items:center}
+.nb-an-aa-row button:not(.nb-gt-dot){border:1px solid var(--nb-line);background:var(--nb-card2);color:var(--nb-text);border-radius:8px;min-width:36px;height:34px;cursor:pointer;font-size:14px}
+.nb-an-aa-row button:not(.nb-gt-dot):hover{background:var(--nb-chip)}
+.nb-an-aa-row .nb-gt-dot{width:26px;height:26px}
+.nb-an-aa-hirow{display:flex;flex-direction:column;gap:2px}
+.nb-an-hilist{display:flex;flex-direction:column;gap:1px}
+.nb-an-hirow-item{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--nb-text);text-align:left;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:13px}
+.nb-an-hirow-item:hover{background:var(--nb-chip)}
+.nb-an-hirow-item .nb-gt-dot{pointer-events:none}
 .nb-pop-anatt{width:300px}
 .nb-an-attgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .nb-an-attgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
@@ -770,3 +776,58 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
   .nb-an-hasnote .nb-an-back{display:inline-grid}
   .nb-an-search{width:100%;order:9}
 }
+
+/* dot indicador de cor no botão Aa (última cor de marca-texto usada) */
+.nb-aa-dot{position:absolute;top:5px;right:4px;width:7px;height:7px;border-radius:50%;border:1px solid rgba(0,0,0,.15);pointer-events:none}
+
+/* botões "nova nota"/"nova pasta" mais evidentes no Notes (destaque azul) */
+.nb-gt-cta{background:rgba(61,132,255,.14);color:var(--nb-blue)}
+.nb-gt-cta:hover{background:rgba(61,132,255,.24)}
+
+/* --- Apagadas: modo de seleção (checkbox + barra Restaurar/Apagar) --- */
+.nb-an-selbar{display:flex;align-items:center;gap:10px;padding:6px 12px 8px;font-size:12px;color:var(--nb-muted)}
+.nb-an-chk{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--nb-muted);margin-right:2px}
+.nb-an-chk.nb-on{background:var(--nb-blue);border-color:var(--nb-blue);position:relative}
+.nb-an-chk.nb-on::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:900}
+.nb-an-row-picked{background:rgba(61,132,255,.1)}
+
+/* ====================================================================
+   v6 — Notebooks: filtro/visão/lixeira/estrela+menu no card, lista.
+   ==================================================================== */
+.nb-head2{align-items:flex-start}
+.nb-head2-left{display:flex;flex-direction:column;gap:8px}
+.nb-head2-top{display:flex;align-items:center;gap:10px}
+.nb-backbtn{padding:8px 12px}
+.nb-filterbtn{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--nb-line);background:var(--nb-card2);color:var(--nb-text);border-radius:9px;padding:7px 12px;font-size:12.5px;font-weight:600;cursor:pointer}
+.nb-filterbtn:hover{border-color:rgba(120,168,255,.45)}
+.nb-filterbtn b{font-weight:400;opacity:.6;margin-left:2px}
+.nb-pop-sep{display:block;height:1px;background:var(--nb-line);margin:5px 2px}
+.nb-pop-move{width:260px}
+.nb-pop-scroll{max-height:280px;overflow-y:auto}
+
+/* --- card (Galeria): estrela + menu sobrepostos --- */
+.nb-cardwrap{position:relative}
+.nb-cardwrap .nb-folder,.nb-cardwrap .nb-book{width:100%}
+.nb-card-star{position:absolute;top:8px;right:8px;z-index:5;width:26px;height:26px;border-radius:50%;background:rgba(10,20,35,.35);color:#fff;display:grid;place-items:center;font-size:15px;cursor:pointer;backdrop-filter:blur(2px)}
+.nb-card-star.nb-on{color:#f5b301}
+.nb-card-star:hover{background:rgba(10,20,35,.55)}
+.nb-card-menu{position:absolute;top:38px;right:8px;z-index:5;width:26px;height:26px;border-radius:50%;background:var(--nb-chip);color:var(--nb-muted);display:grid;place-items:center;font-size:14px;cursor:pointer}
+.nb-card-menu:hover{background:var(--nb-line);color:var(--nb-text)}
+
+/* --- visão em Lista --- */
+.nb-nblist{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.nb-nbrow{display:flex;align-items:center;gap:10px;border:1px solid var(--nb-line);background:var(--nb-card2);border-radius:12px;padding:8px 14px;transition:border-color .16s}
+.nb-nbrow:hover{border-color:rgba(120,168,255,.4)}
+.nb-nbrow-open{flex:1;display:flex;align-items:center;gap:14px;border:0;background:transparent;text-align:left;cursor:pointer;min-width:0;padding:6px 0;color:inherit}
+.nb-nbrow-open[disabled]{cursor:default}
+.nb-nbrow-ico{flex:none;width:42px;height:54px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.nb-nbrow-ico-folder{width:56px;height:44px}
+.nb-nbrow-ico > *{transform:scale(.62);transform-origin:center;flex:none}
+.nb-nbrow-ico-folder > *{transform:scale(.82)}
+.nb-nbrow-main{flex:1;min-width:0}
+.nb-nbrow-main strong{display:block;font-size:13.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-nbrow-main small{color:var(--nb-muted);font-size:11px}
+.nb-nbrow-actions{flex:none;display:flex;align-items:center;gap:14px;padding-right:4px}
+.nb-nbrow-actions .nb-card-menu,.nb-nbrow-actions .nb-card-star{position:static;background:transparent;color:var(--nb-muted);width:auto;height:auto;font-size:17px}
+.nb-nbrow-actions .nb-card-star.nb-on{color:#f5b301}
+.nb-nbrow-actions .nb-card-menu:hover,.nb-nbrow-actions .nb-card-star:hover{color:var(--nb-text)}
