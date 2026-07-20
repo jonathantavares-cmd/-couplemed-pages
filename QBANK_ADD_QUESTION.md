@@ -1,7 +1,7 @@
 # CoupleMed QBank — Documentação Completa
 
 > Referência definitiva do módulo QBank: como adicionar questões, como todos os sistemas funcionam, e como cada funcionalidade se conecta com o resto do site.
-> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "incluir questões" (ou variações, incluindo "incluir questões novas"), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 0 passo 1, Seção 0.3), e sem parar pra pedir aprovação de comando ou de conteúdo (permissões em bypass global + commit/push automáticos, Seção 0.3). Última auditoria completa contra o código real: 2026-07-11.
+> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "incluir questões" (ou variações, incluindo "incluir questões novas"), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 0 passo 1, Seção 0.3), e sem parar pra pedir aprovação de comando ou de conteúdo (permissões em bypass global + commit/push automáticos, Seção 0.3). Última auditoria completa contra o código real: 2026-07-11 (seção 16b — algoritmo de `labs` — reauditada e reescrita em 2026-07-20 após achar 203/248 questões sem o campo).
 
 ---
 
@@ -16,7 +16,7 @@
    b. Definir `system` / `discipline` / `category` usando a Seção 5 (TAXONOMY). Se o subtópico não existir, registrar antes na Seção 6.
    c. Transcrever vignette/q/options/correct/explC/explI/objective/peer **exatamente como enviado** (Seção 0.1).
    c2. Calcular `difficulty` a partir do `peer` da alternativa correta (Seção 0.2) — nunca estimar "no olho".
-   c3. Se a questão mencionar/depender de algum exame laboratorial clinicamente relevante, escolher (com autonomia total, sem aprovação do usuário) quais exames incluir e pesquisar (WebSearch) a faixa de referência apropriada ao paciente daquela questão específica (idade/sexo/gravidez/condição), preenchendo o campo opcional `labs` (Seção 16b) — **única exceção à Regra de Fidelidade (Seção 0.1)**: aqui, e só aqui, você pesquisa/decide sozinho, sem checar com o usuário antes ou depois. Todo o resto da questão continua proibido de ser inventado/alterado (transcrição verbatim).
+   c3. Rodar o **algoritmo de `labs`** (Seção 16b.1) em toda questão, sem exceção: Passo 1 é obrigatório — todo exame/valor já citado na vinheta/explicação vira entrada em `labs`, sempre, não é uma escolha; Passo 2 é discricionário — no máximo 1–2 exames adicionais, pertinentes ao que `objective` ensina, mesmo sem estar citado no material. Pesquisar (WebSearch) a faixa de referência apropriada ao paciente daquela questão específica (idade/sexo/gravidez/condição) é a única parte em que você decide sozinho, sem aprovação do usuário — **única exceção à Regra de Fidelidade (Seção 0.1)**. Todo o resto da questão continua proibido de ser inventado/alterado (transcrição verbatim).
    d. Escrever `ptTranslation` completo no mesmo passo (Seção 17) — nunca deixar para depois.
    e. Se houver imagem: processar segundo a Seção 19 (crop/resize/nome/local) **antes** de referenciar no campo `img`.
    f. Inserir o objeto dentro do `// BATCH` correspondente em `SEED` (`public/js/qbank.js`), preservando a organização por sistema. Criar novo `// BATCH` só se não existir um para aquele sistema.
@@ -774,38 +774,77 @@ Bilíngue EN/PT, igual para toda questão — editar o array `rows` dentro de `o
 | Platelets | 150–400 ×10³/mm³ |
 | TSH | 0.4–4.0 µU/mL |
 
-### 16b. Valores pertinentes por questão (campo opcional `labs`, implementado em 2026-07-11)
+### 16b. Valores pertinentes por questão (campo opcional `labs`) — algoritmo obrigatório
 
 Além da lista fixa acima, cada questão pode ter um campo opcional `labs` — um array de exames/valores **especificamente relevantes àquela questão** (ex.: amônia numa questão de ciclo da ureia, vitamina C numa questão de escorbuto). Quando presente, esses valores aparecem em destaque (fundo azul claro) no **topo** do popup, acima da lista fixa, sob o rótulo "Relevant to this question" / "Relevante para esta questão".
 
-**Formato** (mesma convenção da lista fixa — array de tuplas `[termo, faixa_EN, faixa_PT, significado_EN, significado_PT]`):
+**Auditoria de 2026-07-20 encontrou o problema que motivou reescrever esta seção:** de 248 questões no `SEED`, só 45 (18%) tinham `labs` preenchido — e todas concentradas em só 3 sistemas (`biochemistry`, `genetics`, `microbiology`). Sistemas inteiros como `cardiovascular`, `male_repro`, `pathology`, `renal_urinary`, `heme_onc`, `endocrine` etc. tinham **zero** questões com `labs`, mesmo quando a própria vinheta já trazia valores numéricos de exame. Três exemplos confirmados lendo o código real (linhas indicadas na versão do arquivo em 2026-07-20):
+- `CMQ-STEP1-CVS-0001` (~linha 306): a vinheta já traz "Total cholesterol 155 mg/dL, HDL 27 mg/dL, triglycerides 92 mg/dL" e a questão inteira gira em torno de interpretar esses números — não tinha `labs`.
+- `CMQ-STEP1-MRS-0001` (~linha 163): a vinheta já traz um painel de urinálise completo (densidade, pH, sangue, esterase leucocitária, nitritos) que É o dado usado para responder — não tinha `labs`.
+- `CMQ-STEP1-MRS-0010` (~linha 289): a vinheta diz "Serum LDH and AFP are markedly elevated", o próprio mecanismo da resposta — não tinha `labs`.
+
+Isso prova que a versão antiga desta seção não deixava claro que exame **já citado no material** tem prioridade absoluta — o campo estava sendo tratado como "extra opcional bonito" em vez de "captura obrigatória do que a questão já usa". A reescrita abaixo corrige isso com um algoritmo em ordem fixa, para que qualquer modelo (inclusive um menos capaz que analise as questões sozinho, sem supervisão passo a passo) chegue ao resultado certo em qualquer questão, de qualquer sistema, sem exceção.
+
+**⚠️ Lembrete da exceção à Regra de Fidelidade (Seção 0.1):** o material do usuário (UWorld/prints) não traz valores de *referência* (faixa normal) prontos — só, às vezes, o *resultado* do paciente. Pesquisar (WebSearch) e escolher a faixa de referência e quais exames adicionar é a única parte deste processo em que você decide sozinho, sem aprovação prévia nem posterior. Isso não inclui inventar resultado, sintoma ou dado clínico que não esteja na vinheta — só a faixa normal de comparação e, quando pertinente, exames adicionais que um médico pediria.
+
+#### 16b.1 — Algoritmo (seguir NESTA ordem, para toda questão nova E toda questão já existente que for reaberta/auditada)
+
+**Passo 1 — Varredura obrigatória de exames já citados (PRIORIDADE MÁXIMA, não é escolha).**
+Leia `vignette`, `q`, `explC` e todo `explI` procurando qualquer exame, valor numérico, ou achado laboratorial já mencionado — mesmo que só uma palavra ("AFP elevada", "urinálise com nitritos positivos", "TC 155 mg/dL", "leucocitose", "troponina positiva"). Todo item encontrado aqui entra em `labs`, sem exceção e sem precisar "valer a pena" — se o material já usa o exame para a questão fazer sentido, o campo captura exatamente isso. Esta é a diferença central desta reescrita: antes o campo era tratado como bônus; a partir de agora, exame já citado no material = entrada obrigatória em `labs`, do mesmo jeito que `peer`/`correct` são obrigatórios quando existem no material.
+
+**Passo 2 — Avaliação discricionária de exames NÃO citados, mas clinicamente pertinentes.**
+Só depois do Passo 1, pergunte-se: *"dado o diagnóstico/mecanismo que `objective` está ensinando, existe 1–2 exame(s) clássico(s) que um médico pediria neste cenário e cujo resultado reforça diretamente o aprendizado, mesmo que o material não tenha citado o número?"* (ex.: uma questão sobre torção testicular pode não precisar de nenhum exame; uma questão sobre cetoacidose diabética se beneficia de mostrar glicemia + beta-hidroxibutirato + pH mesmo que a vinheta só diga "hálito cetótico"). Adicione no máximo 1–2 exames aqui — este passo é para reforçar o ensino, não para preencher o popup. Nunca adicione um exame "decorativo" que não ajuda a fixar o conceito da questão.
+
+**Passo 3 — Quando NÃO incluir `labs`.**
+Se depois dos Passos 1 e 2 nada surgir — questões puramente anatômicas, embriológicas, farmacológicas de mecanismo, éticas/comportamentais, ou de raciocínio fisiológico sem nenhum dado clínico-laboratorial (ex.: `CMQ-STEP1-CVS-0002`, sopro de canal arterial; `CMQ-STEP1-MRS-0006`, barreira hemato-testicular) — omita o campo. Continua sendo o padrão da maioria das questões; a mudança não é "forçar labs em tudo", é "nunca pular quando o material já usa um exame".
+
+**Passo 4 — Checagem anti-repetição/anti-preguiça antes de escrever cada entrada.**
+Não existe um conjunto padrão de exames por sistema ou por doença. Antes de finalizar cada tupla, pergunte-se: *"se eu trocasse o paciente desta questão por outro (idade/sexo/gravidez diferentes), a faixa que escrevi mudaria?"* Se a resposta é sim e você não ajustou, volte e pesquise a faixa certa para ESTE paciente. Nunca copie uma tupla de outra questão só porque o tema é parecido — cada entrada precisa ter sido pensada para o caso específico em mãos, mesmo que o exame (ex.: troponina) se repita entre questões diferentes de infarto. Repetir o **exame** entre questões de temas parecidos é normal e esperado; repetir a **tupla inteira sem reconferir o paciente** é o erro a evitar.
+
+**Passo 5 — Redigir cada entrada com foco pedagógico (não só a faixa numérica).**
+Formato (mesma convenção da lista fixa — array de tuplas `[termo, faixa_EN, faixa_PT, significado_EN, significado_PT]`):
 ```js
 labs:[
   ['Ammonia (venous)', '15–45 µg/dL (≈9–26 µmol/L)', '15–45 µg/dL (≈9–26 µmol/L)',
-   'Elevated in urea cycle disorders (eg, OTC deficiency) due to impaired ammonia clearance',
-   'Elevada nos distúrbios do ciclo da ureia (ex.: deficiência de OTC) por depuração prejudicada de amônia'],
+   '↑ Elevated in urea cycle disorders (eg, OTC deficiency) due to impaired ammonia clearance — distinguishes from other causes of altered mental status with normal ammonia',
+   '↑ Elevada nos distúrbios do ciclo da ureia (ex.: deficiência de OTC) por depuração prejudicada de amônia — diferencia de outras causas de alteração do estado mental com amônia normal'],
 ],
 ```
+Cada campo de significado (`meaning_EN`/`meaning_PT`) deve, nesta ordem, dentro de 1–2 frases:
+1. **Símbolo + direção esperada NESTE paciente primeiro**: prefixo `↑` (elevado), `↓` (diminuído) ou `→` (dentro da faixa, mas clinicamente relevante mesmo normal — ex.: TC 155 mg/dL "normal" do CVS-0001, que ainda assim não muda a indicação de estatina) — visual, para reconhecer de relance ao estudar.
+2. **Mecanismo breve** de por que está alterado (ou não) nesse diagnóstico.
+3. **Diferenciação/pérola clínica**, quando existir — o que esse resultado ajuda a descartar ou confirmar frente a diagnósticos parecidos (é o que constrói raciocínio de exame físico/laboratorial reaproveitável no Step 2, não só decorar a faixa).
 
-**⚠️ ÚNICA EXCEÇÃO à Regra de Fidelidade (Seção 0.1) (definido por ele em 2026-07-11):**
+**Passo 6 — Não duplicar a lista fixa (Seção 16a)** a menos que a faixa específica da questão (por idade/sexo/gravidez/condição) seja diferente da faixa genérica já exibida.
 
-- O material do usuário (UWorld/prints) **não traz** valores de referência laboratoriais. Ele pediu explicitamente que você (Claude) **pesquise e preencha** esse campo por conta própria, e delegou **total autonomia** a você sobre: (1) quais exames incluir em cada questão, e (2) quais valores de referência usar para cada um. **Você não precisa da aprovação dele para essas duas escolhas** — nem exame por exame, nem faixa por faixa. Isso é diferente do resto do processo: vignette/options/peer/explicações continuam exigindo transcrição verbatim (Seção 0.1) — a diferença é só essa fidelidade de conteúdo; desde 2026-07-13 não existe mais etapa de aprovação geral do usuário antes de commitar (Seção 0.3), então isso deixou de ser exceção nesse sentido para qualquer campo.
+**Passo 7 — Faixas não padronizadas.** Quando não houver valor único amplamente aceito (comum em exames menos padronizados, ex.: ácido orótico urinário), é preferível indicar isso ("varia por laboratório/método") a inventar uma precisão falsa.
 
-- **Como decidir quais exames incluir em cada questão** — analise a questão como um todo (vinheta + achados clínicos + o que está sendo perguntado + `objective`/objetivo de aprendizado) e pergunte-se: *"que exame(s) um médico pediria nesse caso, e qual resultado ajudaria o usuário a fixar o conceito sendo testado?"*. Considere especificamente, sempre que estiverem presentes na vinheta:
-  - O **caso clínico e a anamnese** descritos — sintomas, queixa principal, história da doença atual.
-  - **Sinais clínicos e achados de exame físico** mencionados.
-  - **Sexo do paciente** (homem/mulher) — várias faixas de referência mudam por sexo (ex.: hemoglobina, creatinina, ácido orótico urinário).
-  - **Faixa etária** — recém-nascido, criança, adulto, idoso — várias faixas mudam com a idade (ex.: amônia neonatal é mais alta que a do adulto; função renal e hormônios mudam com a idade).
-  - **Gravidez**, quando aplicável — várias faixas mudam nesse estado fisiológico (ex.: fosfatase alcalina, D-dímero, hemoglobina, TSH).
-  - **Histórico pessoal e familiar de doenças** mencionado na vinheta.
-  - **O diagnóstico/mecanismo que a questão está de fato ensinando** (`objective`) — o exame escolhido deve reforçar diretamente esse aprendizado, não ser genérico ou decorativo.
-  - Nem toda questão precisa de `labs` — só inclua quando a vinheta de fato menciona ou depende de achado(s) laboratorial(is) relevante(s) ao raciocínio clínico. Não force um exame artificial numa questão puramente mecanística/bioquímica sem nenhum dado clínico laboratorial no enunciado.
+#### 16b.2 — Exemplo completo aplicando o algoritmo (`CMQ-STEP1-CVS-0001`, um dos 3 casos confirmados sem `labs`)
 
-- **Faixas de referência NÃO são padronizadas — atenção redobrada ao pesquisar:** diferente da lista fixa global (Seção 16a, que usa faixas genéricas de "adulto saudável"), a faixa escolhida em `labs` deve refletir **o perfil do paciente daquela questão específica** sempre que idade/sexo/gravidez/condição afetarem significativamente o valor normal — não aplique cegamente uma faixa-padrão de adulto a uma criança, idoso, gestante etc. Pesquise (WebSearch) a faixa mais apropriada para aquele perfil. Quando não houver um valor único amplamente aceito (comum em exames menos padronizados, ex.: ácido orótico urinário), é preferível indicar isso ("varia por laboratório/método") a inventar uma precisão falsa.
+Vinheta: homem, 53 anos, pós-IAM, obeso, "Total cholesterol 155 mg/dL, HDL 27 mg/dL, triglycerides 92 mg/dL". Passo 1 (exames já citados) captura os 3 valores citados; Passo 2 acrescenta LDL calculado (Friedewald), pois `objective`/`explC` giram em torno de indicação de estatina independente do perfil lipídico:
+```js
+labs:[
+  ['Total cholesterol','<200 mg/dL (desirable)','<200 mg/dL (desejável)',
+   '→ This patient (155 mg/dL) is already within the desirable range, yet statin is still indicated — secondary prevention in known ASCVD is independent of baseline LDL/TC',
+   '→ Neste paciente (155 mg/dL) já está na faixa desejável, mas a estatina continua indicada — prevenção secundária em DASCV conhecida independe do LDL/CT basal'],
+  ['HDL cholesterol','≥40 mg/dL (M) / ≥50 mg/dL (F)','≥40 mg/dL (H) / ≥50 mg/dL (M)',
+   '↓ This patient\'s HDL (27 mg/dL) is low — an independent cardiovascular risk factor, though statins do not reliably raise HDL',
+   '↓ O HDL deste paciente (27 mg/dL) está baixo — um fator de risco cardiovascular independente, embora estatinas não elevem o HDL de forma confiável'],
+  ['Triglycerides','<150 mg/dL','<150 mg/dL',
+   '→ Normal in this patient (92 mg/dL) — rules out hypertriglyceridemia as a contributing factor here',
+   '→ Normal neste paciente (92 mg/dL) — afasta hipertrigliceridemia como fator contribuinte aqui'],
+  ['LDL cholesterol (calculated, Friedewald)','<100 mg/dL (optimal, secondary prevention)','<100 mg/dL (ótimo, prevenção secundária)',
+   '→ Estimated ~110 mg/dL here (TC − HDL − TG/5) — near goal, but statin indication in this patient comes from established ASCVD, not from the LDL number itself',
+   '→ Estimado em ~110 mg/dL aqui (CT − HDL − TG/5) — próximo da meta, mas a indicação de estatina neste paciente vem da DASCV estabelecida, não do valor de LDL em si'],
+],
+```
+Note que nenhuma dessas 4 entradas é genérica — cada `meaning` está amarrado ao número real da vinheta e ao raciocínio da questão (por que estatina é indicada mesmo com lipídios "quase normais"), exatamente o padrão a repetir em qualquer sistema.
 
-- **Mencionar a alteração esperada no INÍCIO do campo de significado** (campos 4 e 5 da tupla — `meaning_EN`/`meaning_PT`): antes de explicar o que o exame mede, diga primeiro se ele está esperado alto, baixo, ou alterado de que forma **naquele diagnóstico/questão específica** — ex.: começar com "Elevated in…" / "Decreased in…" / "Elevada em…" / "Diminuída em…". Assim, ao abrir o popup durante o estudo, o usuário vê de imediato qual é a alteração esperada para aquele caso, não só a faixa normal isolada.
+#### 16b.3 — Auditoria retroativa (mesma lógica da Seção 19.4c para `explImg`)
 
-- **Não duplicar** um exame que já está na lista fixa (Seção 16a) a menos que a faixa específica da questão (por idade/sexo/condição) seja diferente da faixa genérica já exibida.
+Como o campo só foi aplicado de forma consistente em `biochemistry`/`genetics`/`microbiology`, qualquer questão de outro sistema (ou dessas 3 disciplinas sem `labs`) deve ser tratada como candidata a revisão, não como "já resolvida":
+1. Ao reabrir/editar qualquer questão existente por outro motivo, rodar o Passo 1 do algoritmo (16b.1) nela — se a vinheta/explicação já cita exame e o campo `labs` está ausente, adicionar como correção de lacuna, sem precisar de pedido explícito do usuário para essa questão específica (mesmo princípio da Seção 19.4c, item 2).
+2. Uma varredura completa das ~200 questões restantes (todos os sistemas fora de `biochemistry`/`genetics`/`microbiology`, mais as ~150 dessas 3 disciplinas que também não têm `labs`) é um projeto grande à parte — não iniciar essa varredura completa sozinho sem o usuário pedir explicitamente, dado o volume de pesquisa (WebSearch por exame/faixa) envolvido; mas qualquer questão tocada por outro motivo deve ser corrigida no mesmo commit.
 
 ---
 
@@ -1039,7 +1078,7 @@ Lista de todo ponto de contato encontrado no código entre o QBank e outros mód
 - [ ] `correct` é uma das letras em `options`
 - [ ] `difficulty` calculado a partir de `peer[correct]` pela tabela da Seção 0.2 (não escolhido no olho)
 - [ ] `explI` cobre TODAS as alternativas incorretas
-- [ ] Se a questão menciona/depende de exame laboratorial relevante: campo `labs` preenchido, exame/faixa escolhidos com autonomia por você — Claude, sem necessidade de aprovação do usuário para essa escolha (Seção 16b, única exceção à Seção 0.1)
+- [ ] `labs` — Passo 1 do algoritmo (Seção 16b.1) rodado sem exceção: todo exame/valor já citado na vinheta/explicação está capturado em `labs` (não é opcional quando o material já usa o exame); Passo 2 avaliado (0–2 exames extra pertinentes ao `objective`); faixas pesquisadas para o perfil específico do paciente (idade/sexo/gravidez), com autonomia sem aprovação do usuário (única exceção à Seção 0.1)
 - [ ] `ptTranslation` incluída com todos os campos, fiel ao original (Seção 17)
 - [ ] Se tiver imagem no ENUNCIADO: processada segundo a Seção 19.3/19.4 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`), campo `img`
 - [ ] Checar também a aba "Explanation" do material de origem: se houver imagem/diagrama/tabela lá, processar do mesmo jeito e incluir via campo `explImg` (Seção 19.4b) — não é só o enunciado que pode ter imagem
