@@ -837,3 +837,8 @@ body.light .nb-gnbar{box-shadow:0 8px 22px rgba(30,60,110,.25)}
 .nb-gnb-covprev.nb-gnb-prev-landscape .nb-book-cover{width:138px;height:104px;border-radius:6px 10px 10px 6px}
 .nb-gnb-paperth.nb-gnb-prev-landscape{width:132px;height:104px}
 .nb-gnb-covth.nb-gnb-prev-landscape .nb-book-cover{width:132px;height:104px}
+
+/* chevron "›" — indicador clicável (abre menu rápido: Favoritar/Fixar/Mover/Compartilhar/Apagar) */
+.nb-an-chev{flex:none;color:var(--nb-muted);opacity:.55;font-size:19px;font-style:normal;line-height:1;padding:0 2px;cursor:pointer;margin-left:2px}
+.nb-an-srow:hover .nb-an-chev,.nb-an-row:hover .nb-an-chev{opacity:.9}
+.nb-an-row.nb-an-row-picked .nb-an-chev,.nb-an-row.nb-on .nb-an-chev{color:rgba(255,255,255,.85)}

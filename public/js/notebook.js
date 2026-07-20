@@ -269,6 +269,7 @@
       delSel:'Delete selection',
       /* --- v6: app Notes (clone do Apple Notes, Fase 5) --- */
       anICloud:'iCloud', anNotes:'Notes', anDeleted:'Recently Deleted',
+      anFavLbl:'Favorites', anSharedLbl:'Shared',
       anNewFolderBtn:'New Folder', anFolderName:'Name',
       anSmartChk:'Make into Smart Folder', anSmartTags:'Tags (comma separated)',
       anRenameFolder:'Rename Folder', anDelFolder:'Delete Folder', anShareFolder:'Share Folder',
@@ -430,6 +431,7 @@
       delSel:'Apagar seleção',
       /* --- v6: app Notes (clone do Apple Notes, Fase 5) --- */
       anICloud:'iCloud', anNotes:'Notas', anDeleted:'Apagadas',
+      anFavLbl:'Favoritos', anSharedLbl:'Partilhados',
       anNewFolderBtn:'Nova Pasta', anFolderName:'Nome',
       anSmartChk:'Transformar em Pasta Inteligente', anSmartTags:'Etiquetas (separadas por vírgula)',
       anRenameFolder:'Renomear Pasta', anDelFolder:'Apagar Pasta', anShareFolder:'Compartilhar Pasta',
@@ -3437,8 +3439,11 @@
     {c:'#c8f0dd', k:'hiMint'}, {c:'#c9e2f9', k:'hiBlue'}
   ];
   let anHiliteColor = AN_HILITES[0].c;
+  let anHilitePresets = [];
   const AN_ICO_NEWNOTE = '<svg viewBox="0 0 24 24" fill="none" width="17" height="17"><rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M9 15.2l.9-3 5.1-5.1a1.1 1.1 0 011.6 0l.3.3a1.1 1.1 0 010 1.6l-5.1 5.1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
   const AN_ICO_NEWFOLDER = '<svg viewBox="0 0 24 24" fill="none" width="17" height="17"><path d="M4 7.2a1 1 0 011-1h4.2l1.4 1.8H19a1 1 0 011 1V17a1 1 0 01-1 1H5a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M15 11.5v4M13 13.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  /* pasta colorida (cor escolhida no diálogo Nova Pasta) usada como ícone na sidebar */
+  const anFolderIco = c => `<svg viewBox="0 0 24 24" width="15" height="15" fill="${esc(c||'#3d84ff')}"><path d="M3 6.5a1.5 1.5 0 011.5-1.5h4.4l1.7 2H19.5A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/></svg>`;
 
   const anById = id => AN.notes.find(n=>n.id===id);
   const anFolderById = id => AN.folders.find(f=>f.id===id);
@@ -3456,6 +3461,8 @@
     if(fid==='trash') return AN.notes.filter(n=>n.deletedAt);
     const live = AN.notes.filter(n=>!n.deletedAt);
     if(fid==='all') return live;
+    if(fid==='fav') return live.filter(n=>n.fav);
+    if(fid==='shared') return []; // recurso ainda não implementado
     const f = anFolderById(fid); if(!f) return live;
     if(f.smart){
       const tags = (f.tags||[]).map(x=>('#'+String(x).replace(/^#/,'')).toLowerCase());
@@ -3503,10 +3510,10 @@
     if(anV.noteId && !cur) anV.noteId = null;
     const inTrash = anV.folder==='trash';
     const dis = (!cur || inTrash) ? 'nb-an-dis' : '';
-    const srow = (id, ico, label, count, menu) => `
+    const srow = (id, ico, label, count, menu, chev) => `
       <button class="nb-an-srow ${anV.folder===id?'nb-on':''}" data-anf="${id}">
         <span class="nb-an-sico">${ico}</span><span class="nb-an-slbl">${label}</span>
-        ${menu?`<i class="nb-an-fmenu" data-anfm="${id}">⋯</i>`:''}<em>${count}</em>
+        ${menu?`<i class="nb-an-fmenu" data-anfm="${id}">⋯</i>`:''}${chev?`<i class="nb-an-chev" data-anfchev="${id}">›</i>`:''}<em>${count}</em>
       </button>`;
     root.innerHTML = `
       <div class="nb-an ${cur?'nb-an-hasnote':''}">
@@ -3520,6 +3527,9 @@
           <button class="nb-gt ${dis}" id="anCheckBtn" title="${t('tipCheck')}">☑</button>
           <button class="nb-gt ${dis}" id="anTableBtn" title="${t('anTable')}">⊞</button>
           <button class="nb-gt ${dis}" id="anClipBtn" title="${t('anAttachFile')}">📎</button>
+          <span class="nb-tb-sep"></span>
+          <button class="nb-gt ${dis}" id="anUndoBtn" title="${t('tipUndo')}">↩</button>
+          <button class="nb-gt ${dis}" id="anRedoBtn" title="${t('tipRedo')}">↪</button>
           <span class="nb-tb-sep"></span>
           <button class="nb-gt ${dis}" id="anShareBtn" title="${t('anSendCopy')}">
             <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 14V3M12 3L8 7M12 3l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 11v9h14v-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3535,10 +3545,11 @@
         <div class="nb-an-cols">
           <aside class="nb-an-side" id="anSide" ${anV.sidebar?'':'hidden'}>
             ${srow('all','📁',t('anNotes'), anNotesIn('all').length, true)}
-            ${srow('trash','🗑',t('anDeleted'), anNotesIn('trash').length)}
             ${AN.folders.length?`<div class="nb-an-sidecap nb-an-sidecap2">${t('folders')}</div>`:''}
-            ${AN.folders.map(f=>srow(f.id, f.smart?'⚙️':'📁', esc(f.name), anNotesIn(f.id).length, true)).join('')}
-            <button class="nb-an-newfolder" id="anNewFolderBtn">⊕ ${t('anNewFolderBtn')}</button>
+            ${AN.folders.map(f=>srow(f.id, f.smart?'⚙️':anFolderIco(f.color), esc(f.name), anNotesIn(f.id).length, true, true)).join('')}
+            ${srow('fav','⭐',t('anFavLbl'), anNotesIn('fav').length)}
+            ${srow('shared','👤',t('anSharedLbl'), anNotesIn('shared').length)}
+            ${srow('trash','🗑',t('anDeleted'), anNotesIn('trash').length)}
           </aside>
           <section class="nb-an-listcol" id="anListCol">${anListColHtml()}</section>
           <section class="nb-an-notecol">${anNoteColHtml(cur, inTrash)}</section>
@@ -3575,6 +3586,7 @@
           <span class="nb-an-snip">${esc(anSnippetOf(n))}</span></span>
         </span>
         ${anThumbOf(n)?`<img class="nb-an-thumb" src="${esc(anThumbOf(n))}">`:''}
+        ${!inTrash?`<i class="nb-an-chev" data-nchev="${n.id}">›</i>`:''}
       </button>`;
     const card = n => `
       <button class="nb-an-card ${n.id===anV.noteId?'nb-on':''}" data-annote="${n.id}">
@@ -3635,6 +3647,12 @@
         return;
       }
       anV.noteId = b.dataset.annote; anSyncUrl(); render();
+    }));
+    if(!inTrash) col.querySelectorAll('[data-annote]').forEach(b=>b.addEventListener('contextmenu', e=>{
+      e.preventDefault(); anQuickMenu(b, 'note', b.dataset.annote);
+    }));
+    col.querySelectorAll('[data-nchev]').forEach(b=>b.addEventListener('click', e=>{
+      e.stopPropagation(); anQuickMenu(b, 'note', b.dataset.nchev);
     }));
     const pt = col.querySelector('#anPinTgl');
     if(pt) pt.addEventListener('click', ()=>{ anV.pinnedOpen = !anV.pinnedOpen; anRefreshList(); });
@@ -3785,6 +3803,54 @@
   /* menu ⋯ de cada linha da sidebar (Notas ou Pasta) — Renomear/Apagar/Nova
      Pasta/Compartilhar (sem ação) ficam só nas pastas personalizadas; Nova
      Pasta/Ordenar por/Agrupar por Data aparecem também em "Notas". */
+  /* menu rápido (clique no "›" ou botão direito) — Favoritar/Fixar/Mover/
+     Compartilhar/Apagar — funciona igual para notas e para pastas. */
+  function anQuickMenu(anchor, kind, id){
+    const obj = kind==='note' ? anById(id) : anFolderById(id);
+    if(!obj) return;
+    const pop = openPopover(anchor, `<div class="nb-pop-list">
+      <button data-aqm="fav">${obj.fav?'★':'☆'} ${obj.fav?t('unfavorite'):t('favorite')}</button>
+      <button data-aqm="pin">📌 ${obj.pinned?t('anUnpin'):t('anPin')}</button>
+      ${kind==='note'?`<button data-aqm="move">📁 ${t('anMoveTo')}</button>`:''}
+      <button data-aqm="share">👤 ${t('nbItemShare')}</button>
+      <button data-aqm="del" class="nb-pm-danger">🗑 ${t('del')}</button>
+    </div>`);
+    pop.querySelector('[data-aqm="fav"]').addEventListener('click', ()=>{
+      obj.fav = !obj.fav; if(kind==='note') obj.updated = Date.now();
+      anPersist(); closePopover(); render();
+    });
+    pop.querySelector('[data-aqm="pin"]').addEventListener('click', ()=>{
+      obj.pinned = !obj.pinned; if(kind==='note') obj.updated = Date.now();
+      anPersist(); closePopover(); render();
+    });
+    const mv = pop.querySelector('[data-aqm="move"]');
+    if(mv) mv.addEventListener('click', ()=>{
+      closePopover();
+      const opts = [{id:null, name:t('anNotes')}].concat(AN.folders.filter(f=>!f.smart));
+      const p2 = openPopover(anchor, `<div class="nb-pop-list">
+        ${opts.map((f,i)=>`<button data-mv2="${i}">📁 ${esc(f.name)}</button>`).join('')}
+      </div>`);
+      p2.querySelectorAll('[data-mv2]').forEach(b=>b.addEventListener('click', ()=>{
+        obj.folderId = opts[+b.dataset.mv2].id || null; obj.updated = Date.now();
+        anPersist(); closePopover(); render();
+      }));
+    });
+    pop.querySelector('[data-aqm="share"]').addEventListener('click', ()=>closePopover()); // sem função por enquanto
+    pop.querySelector('[data-aqm="del"]').addEventListener('click', ()=>{
+      closePopover();
+      if(kind==='note'){
+        obj.deletedAt = Date.now(); obj.pinned = false; anPersist();
+        if(anV.noteId===obj.id){ anV.noteId = null; anSyncUrl(); }
+        render();
+      } else {
+        if(!confirm(t('anConfirmDelFolder'))) return;
+        AN.notes.forEach(n=>{ if(n.folderId===obj.id) n.folderId = null; });
+        AN.folders = AN.folders.filter(x=>x.id!==obj.id);
+        if(anV.folder===obj.id) anV.folder = 'all';
+        anPersist(); render();
+      }
+    });
+  }
   function anOpenFolderMenu(anchor, folderId){
     const isBuiltin = folderId==='all';
     const f = isBuiltin ? null : anFolderById(folderId);
@@ -3792,7 +3858,7 @@
     const pop = openPopover(anchor, `<div class="nb-pop-list">
       ${isBuiltin?'':`<button data-afm="ren">✎ ${t('anRenameFolder')}</button>`}
       ${isBuiltin?'':`<button data-afm="del" class="nb-pm-danger">🗑 ${t('anDelFolder')}</button>`}
-      <button data-afm="new">📁 ${t('anNewFolderBtn')}</button>
+      ${isBuiltin?'':`<button data-afm="new">📁 ${t('anNewFolderBtn')}</button>`}
       ${isBuiltin?'':`<button data-afm="share">⤴ ${t('anShareFolder')}</button>`}
       <button data-afm="sort">↕ ${t('anSortBy')} ›</button>
       <button data-afm="group">📅 ${t('anGroup')} ›</button>
@@ -3808,8 +3874,8 @@
         anPersist(); render();
       });
       pop.querySelector('[data-afm="share"]').addEventListener('click', ()=>closePopover());
+      pop.querySelector('[data-afm="new"]').addEventListener('click', ()=>{ closePopover(); anFolderModal(null); });
     }
-    pop.querySelector('[data-afm="new"]').addEventListener('click', ()=>{ closePopover(); anFolderModal(null); });
     pop.querySelector('[data-afm="sort"]').addEventListener('click', ()=>{
       const p2 = openPopover(anchor, `<div class="nb-pop-list">
         ${[['edited','anSortEdited'],['created','anSortCreated'],['title','anSortTitle']].map(([v,k])=>`<button data-srt="${v}" class="${anV.sort===v?'nb-on':''}">${t(k)}</button>`).join('')}
@@ -3837,20 +3903,27 @@
     root.querySelector('#anSideTgl').addEventListener('click', ()=>{ anV.sidebar = !anV.sidebar; render(); });
     root.querySelector('#anBack').addEventListener('click', ()=>{ anFlush(cur, ed()); anV.noteId = null; anSyncUrl(); render(); });
     root.querySelectorAll('[data-anf]').forEach(b=>b.addEventListener('click', e=>{
-      if(e.target.closest('[data-anfm]')) return;
+      if(e.target.closest('[data-anfm],[data-anfchev]')) return;
       anFlush(cur, ed());
       anV.trashSel = false; anV.trashPicked = [];
       anV.folder = b.dataset.anf; anV.noteId = null; anSyncUrl(); render();
     }));
+    root.querySelectorAll('[data-anf]').forEach(b=>b.addEventListener('contextmenu', e=>{
+      const id = b.dataset.anf;
+      if(id==='all'||id==='fav'||id==='shared'||id==='trash') return; // só pastas de verdade
+      e.preventDefault(); anQuickMenu(b, 'folder', id);
+    }));
     root.querySelectorAll('[data-anfm]').forEach(i=>i.addEventListener('click', e=>{
       e.stopPropagation(); anOpenFolderMenu(i, i.dataset.anfm);
     }));
-    root.querySelector('#anNewFolderBtn').addEventListener('click', ()=>anFolderModal(null));
+    root.querySelectorAll('[data-anfchev]').forEach(i=>i.addEventListener('click', e=>{
+      e.stopPropagation(); anQuickMenu(i, 'folder', i.dataset.anfchev);
+    }));
     root.querySelector('#anNewFolderTopBtn').addEventListener('click', ()=>anFolderModal(null));
     root.querySelector('#anNewNote').addEventListener('click', ()=>{
       anFlush(cur, ed());
       const f = anFolderById(anV.folder);
-      const nn = { id:uid(), folderId:(f && !f.smart)?f.id:null, html:'', created:Date.now(), updated:Date.now(), pinned:false, deletedAt:null };
+      const nn = { id:uid(), folderId:(f && !f.smart)?f.id:null, html:'', created:Date.now(), updated:Date.now(), pinned:false, fav:false, deletedAt:null };
       AN.notes.push(nn); anPersist();
       if(anV.folder==='trash') anV.folder = 'all';
       anV.noteId = nn.id; anSyncUrl(); render();
@@ -3862,9 +3935,15 @@
     root.querySelector('#anTableBtn').addEventListener('click', need(()=>insertHtml(
       '<table class="nb-an-table"><tbody><tr><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td></tr></tbody></table><p><br></p>')));
     root.querySelector('#anClipBtn').addEventListener('click', need(e=>anClipPop(e.currentTarget, insertHtml)));
+    root.querySelector('#anUndoBtn').addEventListener('click', need(()=>exec('undo')));
+    root.querySelector('#anRedoBtn').addEventListener('click', need(()=>exec('redo')));
     root.querySelector('#anShareBtn').addEventListener('click', need(e=>{
-      const pop = openPopover(e.currentTarget, `<div><strong class="nb-pop-title">${t('anSendCopy')}</strong>
-        <div class="nb-pop-list"><button data-ash="copy">⧉ ${t('anCopy')}</button></div></div>`);
+      const pop = openPopover(e.currentTarget, `<div class="nb-pop-list">
+        <button data-ash="copy">⧉ ${t('anCopy')}</button>
+        <button data-ash="share">👤 ${t('nbItemShare')}</button>
+        <button data-ash="export">⬆ ${t('exportNote')}</button>
+        <button data-ash="print">🖨 ${t('exportPrint')}</button>
+      </div>`);
       pop.querySelector('[data-ash="copy"]').addEventListener('click', ()=>{
         closePopover();
         const txt = anBlocks(cur).join('\n');
@@ -3872,6 +3951,9 @@
         if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(done);
         else done();
       });
+      pop.querySelector('[data-ash="share"]').addEventListener('click', ()=>closePopover()); // sem função por enquanto
+      pop.querySelector('[data-ash="export"]').addEventListener('click', ()=>{ closePopover(); anExportNote(cur); });
+      pop.querySelector('[data-ash="print"]').addEventListener('click', ()=>{ closePopover(); anPrintNote(cur); });
     }));
     root.querySelector('#anMoreBtn').addEventListener('click', e=>{ if(cur) anNoteMenu(e.currentTarget, cur, inTrash); });
     const si = root.querySelector('#anSearchInp');
@@ -3880,28 +3962,34 @@
 
   /* ---------- diálogo Nova Pasta (com Pasta Inteligente) ---------- */
   function anFolderModal(f){
+    let color = (f && f.color) || GN_FOLDER_COLORS[1][4];
     const m = openModal(`
       <h3>${f?t('anRenameFolder'):t('anNewFolderBtn')}</h3>
       <div class="nb-field"><label>${t('anFolderName')}</label>
         <input type="text" id="anFName" maxlength="40" value="${esc(f?f.name:'')}" placeholder="${t('anFolderName')}"></div>
-      ${f?'':`<label class="nb-gt-check"><input type="checkbox" id="anFSmart"> ${t('anSmartChk')}</label>
-      <div class="nb-field" id="anFTagsWrap" hidden style="margin-top:10px"><label>${t('anSmartTags')}</label>
-        <input type="text" id="anFTags" placeholder="#prova, #anki"></div>`}
+      <div class="nb-field"><label>${t('color')}</label>
+        <div id="anFColorRows"></div></div>
       <div class="nb-modal-foot">
         <button class="nb-btn nb-btn-ghost" id="anFCancel">${t('cancel')}</button>
         <button class="nb-btn nb-btn-primary" id="anFOk">OK</button>
       </div>`);
-    const chk = m.querySelector('#anFSmart');
-    if(chk) chk.addEventListener('change', ()=>{ m.querySelector('#anFTagsWrap').hidden = !chk.checked; });
+    const isPreset = c => GN_FOLDER_COLORS.some(row=>row.some(x=>x.toLowerCase()===String(c).toLowerCase()));
+    function renderColors(){
+      const wrap = m.querySelector('#anFColorRows');
+      wrap.innerHTML = GN_FOLDER_COLORS.map((row,ri)=>`<div class="nb-gnf-crow">${
+        row.map(c=>`<button class="nb-gnf-dot ${c.toLowerCase()===color.toLowerCase()?'nb-on':''}" data-fc="${c}" style="background:${c}">${c.toLowerCase()===color.toLowerCase()?'✓':''}</button>`).join('')
+      }${ri===2?`<button class="nb-gnf-dot nb-gnf-rainbow ${!isPreset(color)?'nb-on':''}" id="anFColorCustom">${!isPreset(color)?'✓':''}</button>`:''}</div>`).join('');
+      wrap.querySelectorAll('[data-fc]').forEach(b=>b.addEventListener('click',()=>{ color = b.dataset.fc; renderColors(); }));
+      wrap.querySelector('#anFColorCustom').addEventListener('click', e=>{
+        openColorPicker(e.currentTarget, { hex: color, onPick: hex=>{ color = hex; renderColors(); } });
+      });
+    }
+    renderColors();
     m.querySelector('#anFCancel').addEventListener('click', closeModal);
     const okIt = ()=>{
       const name = m.querySelector('#anFName').value.trim(); if(!name) return;
-      if(f){ f.name = name; }
-      else {
-        const smart = chk && chk.checked;
-        const tags = smart ? m.querySelector('#anFTags').value.split(',').map(s=>s.trim().replace(/^#/,'')).filter(Boolean) : [];
-        AN.folders.push({ id:uid(), name, smart:!!smart, tags });
-      }
+      if(f){ f.name = name; f.color = color; }
+      else AN.folders.push({ id:uid(), name, color, smart:false, tags:[] });
       anPersist(); closeModal(); render();
     };
     m.querySelector('#anFOk').addEventListener('click', okIt);
@@ -3932,6 +4020,8 @@
         </div>
         <div class="nb-an-hilist">
           ${AN_HILITES.map(h=>`<button class="nb-an-hirow-item ${h.c.toLowerCase()===anHiliteColor.toLowerCase()?'nb-on':''}" data-aah="${h.c}"><span class="nb-gt-dot" style="background:${h.c}"></span>${t(h.k)}</button>`).join('')}
+          ${anHilitePresets.map(c=>`<button class="nb-an-hirow-item ${c.toLowerCase()===anHiliteColor.toLowerCase()?'nb-on':''}" data-aah="${c}"><span class="nb-gt-dot" style="background:${c}"></span>${esc(c.toUpperCase())}</button>`).join('')}
+          <button class="nb-an-hirow-item" id="anHiliteCustomBtn"><span class="nb-gt-dot nb-gt-dot-add">+</span>${t('pickerCustom')}</button>
         </div>
       </div>`, {cls:'nb-pop-anaa'});
     pop.querySelectorAll('button').forEach(b=>b.addEventListener('mousedown', e=>e.preventDefault()));
@@ -3955,6 +4045,14 @@
       anHiliteColor = b.dataset.aah; exec('hiliteColor', anHiliteColor); closePopover();
       const dot = root.querySelector('#anAaDot'); if(dot) dot.style.background = anHiliteColor;
     }));
+    pop.querySelector('#anHiliteCustomBtn').addEventListener('click', e=>{
+      openColorPicker(e.currentTarget, { hex: anHiliteColor, onPick: hex=>{
+        anHiliteColor = hex;
+        if(!anHilitePresets.some(c=>c.toLowerCase()===hex.toLowerCase())){ anHilitePresets.unshift(hex); anHilitePresets = anHilitePresets.slice(0,6); }
+        exec('hiliteColor', hex); closePopover();
+        const dot = root.querySelector('#anAaDot'); if(dot) dot.style.background = hex;
+      }});
+    });
   }
 
   /* ---------- clipe: foto/vídeo, gravar áudio, anexar arquivo ---------- */
@@ -3977,6 +4075,36 @@
     pop.querySelector('#anPvInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
     pop.querySelector('[data-ac="file"]').addEventListener('click', ()=>pop.querySelector('#anFileInp').click());
     pop.querySelector('#anFileInp').addEventListener('change', e=>{ const f=e.target.files[0]; closePopover(); attach(f); });
+  }
+
+  /* ---------- exportar / imprimir uma nota do Notes ---------- */
+  function anExportNote(nt){
+    const title = anTitleOf(nt);
+    const doc = `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title>
+      <style>body{font-family:'Helvetica Neue',Arial,sans-serif;max-width:820px;margin:24px auto;padding:0 20px;color:#182233;line-height:1.6}
+      h1,h2,h3{line-height:1.3} img{max-width:100%} blockquote{border-left:3px solid #3d84ff;margin:10px 0;padding:4px 14px;color:#445}
+      table{border-collapse:collapse} td{border:1px solid #ccc;padding:6px 9px}
+      ul.nb-checklist{list-style:none;padding-left:4px} ul.nb-checklist li{position:relative;padding-left:26px}
+      ul.nb-checklist li:before{content:'☐';position:absolute;left:0} ul.nb-checklist li.nb-checked:before{content:'☑'}
+      ul.nb-checklist li.nb-checked{text-decoration:line-through;color:#889}</style>
+      </head><body>${nt.html||''}</body></html>`;
+    const blob = new Blob([doc], {type:'text/html'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = (title||'note').replace(/[^\w\-]+/g,'_')+'.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+  }
+  function anPrintNote(nt){
+    const title = anTitleOf(nt);
+    const w = window.open('', '_blank');
+    if(!w){ toast(t('storageFull'), true); return; }
+    w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title>
+      <style>@page{margin:16mm} body{font-family:'Helvetica Neue',Arial,sans-serif;color:#182233;line-height:1.6}
+      h1,h2,h3{line-height:1.3} img{max-width:100%} blockquote{border-left:3px solid #3d84ff;margin:10px 0;padding:4px 14px;color:#445}
+      table{border-collapse:collapse} td{border:1px solid #ccc;padding:6px 9px}</style>
+      </head><body>${nt.html||''}</body></html>`);
+    w.document.close(); w.focus();
+    setTimeout(()=>{ w.print(); }, 350);
   }
 
   /* ---------- menu ⋯ da nota ---------- */

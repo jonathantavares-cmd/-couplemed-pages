@@ -158,6 +158,39 @@ Rodada de ajustes sobre as fases 1–5, já concluídos e testados:
   Galeria/Ordenar por/Agrupar por Data/Ver Anexos e ganhou só **Selecionar**
   (Recuperar/Apagar das marcadas) e **Apagar tudo**; abrir uma nota apagada
   individualmente continua igual (Recuperar/Apagar Agora).
+- **Correção**: prévia do "Novo caderno" (caixa grande + miniaturas da galeria
+  de papel/capa) não acompanhava a orientação — ficava vertical mesmo com
+  "A4, Horizontal" selecionado. Corrigido (classe `nb-gnb-prev-landscape`).
+- **Botão redondo "‹ voltar"** (`#cmBackHome`, `public/js/site.js`): aparece
+  acima do conteúdo em toda página interna do site (não só Notebooks/Notes),
+  um único elemento em `#internalContent`. Comportamento final: `history.back()`
+  quando `document.referrer` é do próprio site (usuário realmente veio
+  navegando de outra página interna); senão (aba nova, link direto, referrer
+  externo) cai na Home — nunca sai do site nem volta pra uma página em branco.
+
+## Fase 7 — Segunda rodada de ajustes (jul/2026)
+- **App Notes — sidebar**: ordem final **Notas, Pastas (personalizadas),
+  Favoritos, Partilhados, Apagadas** (Apagadas sempre por último). Botão
+  "⊕ Nova Pasta" do rodapé removido (redundante com o ícone da toolbar).
+  Menu ⋯ da linha "Notas" perdeu "Nova Pasta" (só pastas de verdade têm essa
+  opção; "Notas" fica só com Ordenar por/Agrupar por Data).
+- **Diálogo "Nova Pasta"**: removido o checkbox "Transformar em Pasta
+  Inteligente" (campo `smart`/`tags` continua no modelo de dados só por
+  compatibilidade com pastas antigas). Incluído um seletor de cor
+  (`GN_FOLDER_COLORS` + "+" abre `openColorPicker`) — a cor escolhida
+  (`folder.color`) aparece no ícone da pasta na sidebar (`anFolderIco`).
+- **Marca-texto (painel Aa)**: além das 5 cores fixas, ganhou um "+" que abre
+  `openColorPicker` para cor personalizada (guarda até 6 predefinições da
+  sessão, `anHilitePresets`).
+- **Chevron "›" + menu rápido**: toda nota (na lista) e toda pasta personalizada
+  (na sidebar) ganham um "›" no final; clicar nele — ou clicar com o **botão
+  direito** em cima da nota/pasta — abre um menu rápido: **Favoritar** (campo
+  `fav`, novo e separado de `pinned`), **Fixar** (`pinned`, mesmo campo já
+  usado em "Fixadas"), **Mover** (só notas — pastas não têm "mover" porque
+  a estrutura é de um nível só), **Compartilhar** (sem ação) e **Apagar**.
+- **Compartilhar/Enviar Cópia**: sem mais o título "Enviar Cópia" — lista
+  direta **Copiar, Compartilhar (sem ação), Exportar (baixa .html), Imprimir**.
+- **Toolbar**: ganhou botões de **Desfazer (↩) e Refazer (↪)**.
 
 ## Como testar (sem deploy)
 ```

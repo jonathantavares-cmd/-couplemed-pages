@@ -1480,6 +1480,17 @@
       const savedLight=STG_LIGHT_BGS.includes(prefs.theme)?prefs.theme:'light';
       applyAppearance(document.body.classList.contains('light')?savedDark:savedLight, p);
     });
+    /* "voltar" real (histórico do navegador) — só cai na Home quando a página
+       anterior de fato foi a Home. Só usa history.back() quando o referrer é
+       do próprio site (ou seja, o usuário realmente veio navegando de outra
+       página interna); caso contrário (aba nova, link direto, referrer externo)
+       cai na Home, pra nunca sair do site ou voltar pra uma página em branco. */
+    const backBtn=$('#cmBackHome'); if(backBtn)backBtn.addEventListener('click',e=>{
+      e.preventDefault();
+      let sameOrigin=false;
+      try{ sameOrigin = document.referrer && new URL(document.referrer).origin===location.origin; }catch(err){}
+      if(sameOrigin && history.length>1) history.back(); else location.href=backBtn.getAttribute('href');
+    });
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',async e=>{
       e.preventDefault();
