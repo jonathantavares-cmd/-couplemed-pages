@@ -73,6 +73,7 @@ body.light .qb .qb-guide-hero p{color:#c5d8f4}
 .qb-guide-cta{display:block;margin:30px auto 0}
 @media(max-width:760px){.qb-guide-hero{padding:28px}.qb-guide-mark{display:none}.qb-guide-quick{grid-template-columns:1fr}.qb-guide-steps{grid-template-columns:repeat(2,1fr)}.qb-guide-nav{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.qb-guide-hero{padding:24px 20px;border-radius:18px}.qb-guide-steps,.qb-guide-nav,.qb-guide-items{grid-template-columns:1fr}.qb-guide-chapter{padding:18px}.qb-guide-chapter-head{align-items:flex-start}.qb-guide-num{display:none}}
+
 .qb-perf{display:flex;align-items:center;gap:28px;margin-top:18px;padding:22px;border:1px solid var(--qb-line);border-radius:16px;background:var(--qb-card2)}
 .qb-donut{--pct:0;width:120px;height:120px;border-radius:50%;flex:none;display:grid;place-items:center;
   background:conic-gradient(var(--qb-blue) calc(var(--pct)*1%),rgba(140,160,190,.18) 0)}
@@ -424,3 +425,14 @@ body:not(.light) .qb-lab-tip::after{border-top-color:#1b3a63}
   .qb-question-image img{max-height:300px}
   .qb-question-image figcaption{display:none}
 }
+
+/* QBank — toolbar de resolução premium e compacta */
+.qb-test-head{padding:7px 9px;margin-bottom:16px;border:1px solid var(--qb-line);border-radius:10px;background:linear-gradient(180deg,var(--qb-card2),color-mix(in srgb,var(--qb-card2) 94%,#000 6%));box-shadow:0 3px 12px rgba(3,15,35,.07)}
+.qb-head-tools{gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.qb-head-tools::-webkit-scrollbar{display:none}
+.qb-tool{min-height:29px;padding:5px 9px;border-radius:7px;border-color:transparent;background:transparent;color:var(--qb-muted);font-size:10.5px;font-weight:650;white-space:nowrap}
+.qb-tool:hover{color:var(--qb-text);background:var(--qb-card);border-color:var(--qb-line);box-shadow:0 2px 7px rgba(3,15,35,.08)}
+.qb-tool.on{background:color-mix(in srgb,var(--qb-om) 18%,var(--qb-card));border-color:color-mix(in srgb,var(--qb-om) 36%,transparent);color:var(--qb-om)}
+.qb-timer{height:29px;display:inline-flex;align-items:center;padding:4px 9px;border-radius:7px;font-size:11px;background:var(--qb-card);color:var(--qb-text)}
+.qb-qnum{font-size:11px;color:var(--qb-muted);white-space:nowrap}.qb-tool:focus-visible{outline:2px solid color-mix(in srgb,var(--qb-blue) 40%,transparent);outline-offset:1px}
+@media(max-width:640px){.qb-test-head{flex-wrap:nowrap}.qb-head-tools{width:auto;flex:1}.qb-tool{font-size:9.5px;padding:5px 7px}.qb-timer{font-size:10px}}
+.platform-page.internal .qb-guide>.qb-link{display:none!important}

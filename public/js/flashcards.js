@@ -123,10 +123,10 @@
              pt:['Repetição espaçada (SM-2)','Errei / Difícil / Bom / Fácil agendam cada card no momento ideal, com learning steps (1m → 10m → 1d) igual ao Anki.']},
     {i:'📄', cat:'create', en:['Guided bulk import','Upload .txt/.csv/.md or paste structured text, preview the valid-card count, then choose whether cards start suspended or shared.'],
              pt:['Importação em lote guiada','Envie .txt/.csv/.md ou cole texto estruturado, confira o total de cards válidos e escolha se começam suspensos ou compartilhados.']},
-    {i:'🖼️', cat:'create', en:['Rich, responsive editor','Format text, build tables, upload from files or paste an image. Desktop and iPad show both sides; phones use a simple front/back switch.'],
-             pt:['Editor rico e responsivo','Formate texto, crie tabelas, envie arquivos ou cole imagens. Desktop e iPad mostram os dois lados; no celular, alterne entre frente e verso.']},
-    {i:'✂️', cat:'create', en:['Cloze deletion','Use {{c1::hidden text}} to hide words inside a sentence.'],
-             pt:['Cloze (lacunas)','Use {{c1::texto oculto}} para esconder palavras dentro de uma frase.']},
+    {i:'🖼️', cat:'create', en:['Rich, responsive editor','Format text, build tables, upload, paste, or take a photo on either side of the card. Large screens show both sides; iPad and phones use a focused front/back switch.'],
+             pt:['Editor rico e responsivo','Formate texto, crie tabelas, envie, cole ou fotografe uma imagem em qualquer lado do cartão. Telas grandes mostram os dois lados; iPad e celular usam uma alternância focada entre frente e verso.']},
+    {i:'✂️', cat:'create', en:['Cloze deletion','Select a word or phrase and use the […] command to create {{c1::hidden text}} without typing the syntax manually.'],
+             pt:['Cloze (lacunas)','Selecione uma palavra ou frase e use o comando […] para criar {{c1::texto oculto}} sem digitar a sintaxe manualmente.']},
     {i:'🔁', cat:'create', en:['Reversed card','One click also creates the B→A copy of a basic card.'],
              pt:['Card invertido','Um clique também cria a cópia B→A de um card básico.']},
     {i:'🏷️', cat:'organize', en:['Decks, tags & smart search','Organize by deck and free tags; search with deck:Cardio tag:error text.'],
@@ -167,7 +167,7 @@
       shareBannerBody:'Cards you share (created or imported) become visible to John, Alysson and every guest account — each person keeps their own review progress.',
       sharedByMe:'shared by you', sharedByOthers:'shared by others',
       reversedLbl:'Also create reversed copy (back → front)',
-      clozeHint:'Tip: use {{c1::hidden text}} for cloze deletion cards (like Anki).',
+      clozeHint:'Select the text to hide, click Cloze, and preview the card before saving.',
       sharedBadge:'shared', byOwner:o=>`by ${o}`, sharedBank:'Shared bank',
       sharedEmpty:'No shared cards from other users yet.',
       share:'Share', unshare:'Unshare',
@@ -204,12 +204,12 @@
       filterResults:n=>`${n} card(s) match the filter.`, activeFilters:'Active filters',
       systemPick:'System / Subject / Topic', systemPickSub:'Link this card to a system so it appears in the correct filter.',
       chooseSystem:'Choose a system…', chooseSubject:'Choose a subject…',
-      rtFormat:'Format', rtSize:'Size', rtNormal:'Normal', rtH1:'Heading 1', rtH2:'Heading 2',
+      rtFormat:'Format', rtSize:'Size', rtNormal:'Normal', rtH1:'Heading 1', rtH2:'Heading 2', rtSubtitle:'Subtitle', rtQuote:'Quote',
       rtBold:'Bold', rtItalic:'Italic', rtUnderline:'Underline', rtStrike:'Strikethrough', rtClear:'Clear formatting',
       rtColor:'Text color / Highlight', rtTable:'Insert table', rtOL:'Numbered list', rtUL:'Bullet list',
       rtIndentMinus:'Decrease indent', rtIndentPlus:'Increase indent', rtUndo:'Undo', rtRedo:'Redo',
       rtLeft:'Align left', rtCenter:'Align center', rtRight:'Align right', rtJustify:'Justify',
-      rtImage:'Insert image', rtPaste:'Paste image', rtRemoveColor:'Remove color', rtTextColors:'Text', rtHighlights:'Highlight',
+      rtImage:'Insert image', rtPaste:'Paste image', rtCamera:'Take photo', rtCloze:'Create Cloze', rtMore:'More formatting', rtRemoveColor:'Remove color', rtTextColors:'Text', rtHighlights:'Highlight',
       flipToBack:'Flip to Back →', flipToFront:'← Flip to Front', frontSide:'Front', backSideShort:'Back'
     },
     pt: {
@@ -232,7 +232,7 @@
       shareBannerBody:'Cards que você compartilha (criados ou importados) ficam visíveis para John, Alysson e todas as contas convidadas — cada pessoa mantém seu próprio progresso de revisão.',
       sharedByMe:'compartilhados por você', sharedByOthers:'compartilhados por outros',
       reversedLbl:'Criar também a cópia invertida (verso → frente)',
-      clozeHint:'Dica: use {{c1::texto oculto}} para cards cloze (igual ao Anki).',
+      clozeHint:'Selecione o texto que deseja ocultar, clique em Cloze e confira a prévia antes de salvar.',
       sharedBadge:'compartilhado', byOwner:o=>`por ${o}`, sharedBank:'Banco compartilhado',
       sharedEmpty:'Ainda não há cards compartilhados por outros usuários.',
       share:'Compartilhar', unshare:'Descompartilhar',
@@ -263,18 +263,18 @@
       dow:['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
       required:'Frente e verso são obrigatórios.', deckRequired:'Selecione ou crie um deck.',
       days:d=>d===1?'1d':`${d}d`, mins:m=>`${m}m`, imported:n=>`${n} cards importados.`,
-      filter:'Filtrar', filterTitle:'Filtrar flashcards', systemsLbl:'Sistemas', topicLbl:'Topic', subjectLbl:'Subject',
-      filterSearchPh:'Buscar sistemas, subjects ou topics…', collapseAll:'Recolher tudo', expandAll:'Expandir tudo',
-      applyFilter:'Aplicar filtro', clearFilter:'Limpar', noneTopic:'— Sem topic —', selectTopic:'Selecione um topic (opcional)',
-      filterResults:n=>`${n} card(s) correspondem ao filtro.`, activeFilters:'Filtros ativos',
-      systemPick:'System / Subject / Topic', systemPickSub:'Vincule este card a um sistema para ele aparecer no filtro correto.',
-      chooseSystem:'Escolha um sistema…', chooseSubject:'Escolha um subject…',
-      rtFormat:'Formato', rtSize:'Tamanho', rtNormal:'Normal', rtH1:'Título 1', rtH2:'Título 2',
+      filter:'Filtrar', filterTitle:'Filtrar flashcards', systemsLbl:'Sistemas', topicLbl:'Tópico', subjectLbl:'Disciplina',
+      filterSearchPh:'Buscar sistemas, disciplinas ou tópicos…', collapseAll:'Recolher tudo', expandAll:'Expandir tudo',
+      applyFilter:'Aplicar filtro', clearFilter:'Limpar', noneTopic:'— Sem tópico —', selectTopic:'Selecione um tópico (opcional)',
+      filterResults:n=>`${n} cartão(ões) correspondem ao filtro.`, activeFilters:'Filtros ativos',
+      systemPick:'Sistema / Disciplina / Tópico', systemPickSub:'Vincule este cartão a um sistema para que ele apareça no filtro correto.',
+      chooseSystem:'Escolha um sistema…', chooseSubject:'Escolha uma disciplina…',
+      rtFormat:'Formato', rtSize:'Tamanho', rtNormal:'Normal', rtH1:'Título 1', rtH2:'Título 2', rtSubtitle:'Subtítulo', rtQuote:'Citação',
       rtBold:'Negrito', rtItalic:'Itálico', rtUnderline:'Sublinhado', rtStrike:'Tachado', rtClear:'Limpar formatação',
       rtColor:'Cor do texto / Marca-texto', rtTable:'Inserir tabela', rtOL:'Lista numerada', rtUL:'Lista com marcadores',
       rtIndentMinus:'Diminuir recuo', rtIndentPlus:'Aumentar recuo', rtUndo:'Desfazer', rtRedo:'Refazer',
       rtLeft:'Alinhar à esquerda', rtCenter:'Centralizar', rtRight:'Alinhar à direita', rtJustify:'Justificar',
-      rtImage:'Inserir imagem', rtPaste:'Colar imagem', rtRemoveColor:'Remover cor', rtTextColors:'Texto', rtHighlights:'Marca-texto',
+      rtImage:'Inserir imagem', rtPaste:'Colar imagem', rtCamera:'Fotografar', rtCloze:'Criar Cloze', rtMore:'Mais formatação', rtRemoveColor:'Remover cor', rtTextColors:'Texto', rtHighlights:'Marca-texto',
       flipToBack:'Virar para o Verso →', flipToFront:'← Virar para a Frente', frontSide:'Frente', backSideShort:'Verso'
     }
   };
@@ -1055,8 +1055,12 @@
   }
   function renderStats(){
     const dc = dayCounters();
+    const isPt = lang()==='pt';
+    const statsDeck = view.statsDeck || '';
+    const statsSys = view.statsSys || '';
+    const scopedCards = DB.cards.filter(c => (!statsDeck || c.deckId===statsDeck) && (!statsSys || c.sys===statsSys));
     const states = {new:0, learn:0, review:0, relearn:0, susp:0};
-    DB.cards.forEach(c => c.suspended ? states.susp++ : states[c.state]++);
+    scopedCards.forEach(c => c.suspended ? states.susp++ : states[c.state]++);
     const ret = DB.stats.matTotal ? Math.round(100*DB.stats.matOk/DB.stats.matTotal) : 0;
     const range = view.statsRange || (view.statsRange = '7d');
     const data = buildRangeData(range);
@@ -1069,33 +1073,50 @@
     const matOkR = data.reduce((a,x)=>a+x.matOk,0), matTotR = data.reduce((a,x)=>a+x.matTotal,0);
     const retRange = matTotR ? Math.round(100*matOkR/matTotR) : 0;
     const avgDay = data.length ? Math.round(totalRange/(range==='7d'||range==='1m'?data.length:data.length*7)) : 0;
+    const activeDays = data.filter(x=>x.total>0).length;
+    const dueNow = scopedCards.filter(c=>!c.suspended && c.state!=='new' && (c.due||0)<=endOfToday()).length;
+    const newScoped = scopedCards.filter(c=>!c.suspended && c.state==='new').length;
+    const mastered = scopedCards.filter(c=>!c.suspended && c.state==='review' && (c.interval||0)>=21).length;
+    const learning = states.learn + states.relearn;
+    const filterLabel = [statsDeck && DB.decks.find(d=>d.id===statsDeck)?.name, statsSys && fcTxLabel(FC_SYS_NAMES[statsSys]||statsSys)].filter(Boolean).join(' · ') || (isPt?'Todos os cartões':'All cards');
+    const deckOpts = `<option value="">${isPt?'Todos os decks':'All decks'}</option>` + DB.decks.map(d=>`<option value="${d.id}" ${statsDeck===d.id?'selected':''}>${esc(d.name)}</option>`).join('');
+    const sysOpts = `<option value="">${isPt?'Todos os sistemas':'All systems'}</option>` + FC_TAXONOMY.map(s=>`<option value="${s.id}" ${statsSys===s.id?'selected':''}>${esc(fcTxLabel(s.name))}</option>`).join('');
     const rangeTabs = Object.keys(STATS_RANGES).map(k =>
       `<button class="fc-src-btn ${range===k?'on':''}" data-act="stats-range" data-range="${k}">${t('range_'+k)}</button>`).join('');
     const dows = t('dow').map((n,i) => `<label class="fc-dow"><input type="checkbox" data-dow="${i}" ${DB.prefs.easyDays.includes(i)?'checked':''}/> ${n}</label>`).join('');
     root.innerHTML = `<button class="fc-btn fc-back" data-act="back">${t('back')}</button>
-      <div class="fc-head"><div><h1 class="fc-title">${t('statsTitle')}</h1><p class="fc-bread">${t('bread')} › ${t('stats')}</p></div></div>
-      <div class="fc-stats">
-        <div class="fc-stat"><strong>${dc.total}</strong><span>${t('statsToday')} · ${t('statsReviews')}</span></div>
-        <div class="fc-stat"><strong class="fc-c-new">${dc.newDone}</strong><span>${t('newCards')}</span></div>
-        <div class="fc-stat"><strong>${ret}%</strong><span>${t('retention')}</span></div>
-        <div class="fc-stat"><strong>🔥 ${streakDays()}</strong><span>${t('streak')(streakDays()).replace(/^[\d]+[- ]?/,'')}</span></div>
-        <div class="fc-stat"><strong>${DB.cards.length}</strong><span>Cards</span></div></div>
-      <h2 class="fc-sub">${t('statsPerf')}</h2>
-      <div class="fc-src">${rangeTabs}</div>
-      <div class="fc-stats" style="margin-top:10px">
-        <div class="fc-stat"><strong>${totalRange}</strong><span>${t('statsReviews')}</span></div>
-        <div class="fc-stat"><strong>${avgDay}</strong><span>${t('statsAvgDay')}</span></div>
-        <div class="fc-stat"><strong>${okRange}</strong><span>${t('statsGoodEasy')}</span></div>
-        <div class="fc-stat"><strong>${retRange}%</strong><span>${t('retention')}</span></div>
+      <section class="fc-stats-hero">
+        <div class="fc-stats-hero-copy"><span>${isPt?'DESEMPENHO INDIVIDUAL':'INDIVIDUAL PERFORMANCE'}</span><h1>${t('statsTitle')}</h1><p>${isPt?'Transforme seu histórico de revisões em decisões claras para o próximo estudo.':'Turn your review history into clear decisions for your next study session.'}</p></div>
+        <div class="fc-stats-filters"><label>${isPt?'Deck':'Deck'}<select id="fcStatsDeck">${deckOpts}</select></label><label>${isPt?'Sistema':'System'}<select id="fcStatsSys">${sysOpts}</select></label></div>
+        <div class="fc-stats-scope"><span>${filterLabel}</span><small>${scopedCards.length} ${isPt?'cartões analisados':'cards analyzed'}</small></div>
+        <div class="fc-stats-kpis">
+          <article><i class="fc-kpi-blue">↗</i><div><strong>${dc.total}</strong><span>${isPt?'Revisões hoje':'Reviews today'}</span></div></article>
+          <article><i class="fc-kpi-violet">◇</i><div><strong>${dueNow}</strong><span>${isPt?'Pendentes agora':'Due now'}</span></div></article>
+          <article><i class="fc-kpi-green">✓</i><div><strong>${ret}%</strong><span>${t('retention')}</span></div></article>
+          <article><i class="fc-kpi-amber">◒</i><div><strong>${streakDays()}</strong><span>${isPt?'Dias de sequência':'Streak days'}</span></div></article>
+        </div>
+      </section>
+      <div class="fc-stats-layout">
+        <section class="fc-insight-card fc-activity-card"><div class="fc-card-heading"><div><span>${isPt?'ATIVIDADE':'ACTIVITY'}</span><h2>${t('statsPerf')}</h2></div><div class="fc-src">${rangeTabs}</div></div>
+          <div class="fc-mini-kpis"><span><b>${totalRange}</b>${t('statsReviews')}</span><span><b>${avgDay}</b>${t('statsAvgDay')}</span><span><b>${activeDays}</b>${isPt?'dias ativos':'active days'}</span><span><b>${retRange}%</b>${t('retention')}</span></div>
+          <div class="fc-bars fc-bars-range">${bars}</div>
+        </section>
+        <section class="fc-insight-card fc-retention-card"><div class="fc-card-heading"><div><span>${isPt?'MEMÓRIA':'MEMORY'}</span><h2>${t('retention')}</h2></div></div>
+          <div class="fc-retention-ring" style="--ret:${retRange||ret}"><div><strong>${retRange||ret}%</strong><span>${isPt?'retenção madura':'mature retention'}</span></div></div>
+          <p>${(retRange||ret)>=90 ? (isPt?'Excelente consistência. Mantenha o ritmo atual.':'Excellent consistency. Keep your current rhythm.') : (isPt?'Aumente a regularidade para fortalecer a memória de longo prazo.':'Increase regularity to strengthen long-term memory.')}</p>
+        </section>
       </div>
-      <div class="fc-bars fc-bars-range">${bars}</div>
-      <h2 class="fc-sub">${t('statsCards')}</h2>
-      <div class="fc-state-grid">
-        <div><b class="fc-c-new">${states.new}</b><span>${t('stNew')}</span></div>
-        <div><b class="fc-c-learn">${states.learn + states.relearn}</b><span>${t('stLearn')}</span></div>
-        <div><b class="fc-c-rev">${states.review}</b><span>${t('stReview')}</span></div>
-        <div><b>${states.susp}</b><span>${t('stSuspended')}</span></div></div>
-      <h2 class="fc-sub">${t('limits')}</h2>
+      <section class="fc-insight-card fc-inventory-card"><div class="fc-card-heading"><div><span>${isPt?'INVENTÁRIO':'INVENTORY'}</span><h2>${t('statsCards')}</h2></div><small>${isPt?'Estado atual do recorte selecionado':'Current state of the selected scope'}</small></div>
+        <div class="fc-state-grid">
+          <div><i class="fc-state-dot is-new"></i><b class="fc-c-new">${states.new}</b><span>${t('stNew')}</span></div>
+          <div><i class="fc-state-dot is-learn"></i><b class="fc-c-learn">${learning}</b><span>${t('stLearn')}</span></div>
+          <div><i class="fc-state-dot is-review"></i><b class="fc-c-rev">${states.review}</b><span>${t('stReview')}</span></div>
+          <div><i class="fc-state-dot is-suspended"></i><b>${states.susp}</b><span>${t('stSuspended')}</span></div>
+          <div><i class="fc-state-dot is-mastered"></i><b>${mastered}</b><span>${isPt?'Dominados':'Mastered'}</span></div>
+        </div>
+        <div class="fc-next-study"><span>${isPt?'PRÓXIMA AÇÃO':'NEXT ACTION'}</span><strong>${dueNow ? (isPt?`${dueNow} revisões prontas agora`:`${dueNow} reviews ready now`) : newScoped ? (isPt?`${Math.min(newScoped,DB.prefs.newPerDay)} novos cartões disponíveis`:`${Math.min(newScoped,DB.prefs.newPerDay)} new cards available`) : (isPt?'Tudo em dia neste recorte':'Everything is up to date in this scope')}</strong><small>${isPt?'Os filtros não alteram seu histórico; apenas refinam esta análise.':'Filters do not change your history; they only refine this analysis.'}</small></div>
+      </section>
+      <section class="fc-insight-card fc-schedule-card"><div class="fc-card-heading"><div><span>${isPt?'PLANEJAMENTO':'SCHEDULING'}</span><h2>${t('limits')}</h2></div><small>${isPt?'Ajustes salvos automaticamente':'Changes save automatically'}</small></div>
       <div class="fc-limits">
         <label>${t('newLimit')} <input id="fcNewLimit" type="number" min="0" value="${DB.prefs.newPerDay}"/></label>
         <label>${t('revLimit')} <input id="fcRevLimit" type="number" min="0" value="${DB.prefs.revPerDay}"/></label>
@@ -1109,7 +1130,9 @@
         <button class="fc-btn fc-sm" data-act="postpone">${t('postponeBtn')}</button>
         <span id="fcPostMsg" class="fc-hint"></span>
       </div>
-      <p class="fc-hint">${t('statsRetentionInfo')}</p>`;
+      <p class="fc-hint">${t('statsRetentionInfo')}</p></section>`;
+    root.querySelector('#fcStatsDeck').addEventListener('change', e => { view.statsDeck=e.target.value; renderStats(); });
+    root.querySelector('#fcStatsSys').addEventListener('change', e => { view.statsSys=e.target.value; renderStats(); });
     root.querySelector('#fcNewLimit').addEventListener('change', e => { DB.prefs.newPerDay = Math.max(0, +e.target.value||0); save(); });
     root.querySelector('#fcRevLimit').addEventListener('change', e => { DB.prefs.revPerDay = Math.max(0, +e.target.value||0); save(); });
     root.querySelector('#fcRetention').addEventListener('input', e => {
@@ -1154,21 +1177,19 @@
   function rtToolbar(side){
     return `<div class="fc-rt-toolbar" data-side="${side}">
       <select class="fc-rt-sel fc-rt-format" data-rt="format" data-side="${side}" title="${t('rtFormat')}">
-        <option value="P">${t('rtNormal')}</option><option value="H2">${t('rtH2')}</option><option value="H3">Subtitle</option><option value="BLOCKQUOTE">Quote</option>
+        <option value="P">${t('rtNormal')}</option><option value="H2">${t('rtH2')}</option><option value="H3">${t('rtSubtitle')}</option><option value="BLOCKQUOTE">${t('rtQuote')}</option>
       </select>
       <select class="fc-rt-sel fc-rt-size" data-rt="fontsize" data-side="${side}" title="${t('rtSize')}">
         <option value="3">${t('rtSize')}</option><option value="1">10</option><option value="2">12</option><option value="3">14</option><option value="4">16</option><option value="5">20</option><option value="6">24</option><option value="7">32</option>
       </select>
       <span class="fc-rt-div"></span>
-      <button type="button" class="fc-rt-btn" data-rt="undo" data-side="${side}" title="${t('rtUndo')}">↶</button>
-      <button type="button" class="fc-rt-btn" data-rt="redo" data-side="${side}" title="${t('rtRedo')}">↷</button>
+      <button type="button" class="fc-rt-btn" data-rt="undo" data-side="${side}" title="${t('rtUndo')}">←</button>
+      <button type="button" class="fc-rt-btn" data-rt="redo" data-side="${side}" title="${t('rtRedo')}">→</button>
       <span class="fc-rt-div"></span>
       <button type="button" class="fc-rt-btn" data-rt="bold" data-side="${side}" title="${t('rtBold')}"><b>B</b></button>
-      <button type="button" class="fc-rt-btn" data-rt="italic" data-side="${side}" title="${t('rtItalic')}"><i>I</i></button>
-      <button type="button" class="fc-rt-btn" data-rt="underline" data-side="${side}" title="${t('rtUnderline')}"><u>U</u></button>
-      <button type="button" class="fc-rt-btn" data-rt="strikeThrough" data-side="${side}" title="${t('rtStrike')}"><s>S</s></button>
-      <button type="button" class="fc-rt-btn" data-rt="clear" data-side="${side}" title="${t('rtClear')}">T<sub>x</sub></button>
-      <span class="fc-rt-div"></span>
+      <button type="button" class="fc-rt-btn fc-rt-secondary" data-rt="italic" data-side="${side}" title="${t('rtItalic')}"><i>I</i></button>
+      <button type="button" class="fc-rt-btn fc-rt-secondary" data-rt="underline" data-side="${side}" title="${t('rtUnderline')}"><u>U</u></button>
+      <button type="button" class="fc-rt-btn fc-rt-secondary" data-rt="strikeThrough" data-side="${side}" title="${t('rtStrike')}"><s>S</s></button>
       <div class="fc-rt-colorwrap">
         <button type="button" class="fc-rt-btn fc-rt-colorbtn" data-rt="colortoggle" data-side="${side}" title="${t('rtColor')}"><span class="fc-rt-a">A</span>▾</button>
         ${rtColorPanel(side)}
@@ -1183,25 +1204,46 @@
           <button type="button" class="fc-rt-btn" data-rt="justifyFull" data-side="${side}" title="${t('rtJustify')}">☰</button>
         </div>
       </div>
-      <button type="button" class="fc-rt-btn" data-rt="insertTable" data-side="${side}" title="${t('rtTable')}">▦</button>
       <div class="fc-rt-popwrap">
-        <button type="button" class="fc-rt-btn" data-rt="listtoggle" data-side="${side}" title="${t('rtOL')}">☰</button>
-        <div class="fc-rt-popup fc-rt-popup-up" data-popup="list_${side}" hidden>
+        <button type="button" class="fc-rt-btn" data-rt="moretoggle" data-side="${side}" title="${t('rtMore')}">•••</button>
+        <div class="fc-rt-popup fc-rt-popup-up fc-rt-popup-grid" data-popup="more_${side}" hidden>
+          <button type="button" class="fc-rt-btn fc-rt-mobile-only" data-rt="italic" data-side="${side}" title="${t('rtItalic')}"><i>I</i></button>
+          <button type="button" class="fc-rt-btn fc-rt-mobile-only" data-rt="underline" data-side="${side}" title="${t('rtUnderline')}"><u>U</u></button>
+          <button type="button" class="fc-rt-btn fc-rt-mobile-only" data-rt="strikeThrough" data-side="${side}" title="${t('rtStrike')}"><s>S</s></button>
+          <button type="button" class="fc-rt-btn" data-rt="clear" data-side="${side}" title="${t('rtClear')}">T<sub>x</sub></button>
+          <button type="button" class="fc-rt-btn" data-rt="insertTable" data-side="${side}" title="${t('rtTable')}">▦</button>
           <button type="button" class="fc-rt-btn" data-rt="insertOrderedList" data-side="${side}" title="${t('rtOL')}">1.</button>
           <button type="button" class="fc-rt-btn" data-rt="insertUnorderedList" data-side="${side}" title="${t('rtUL')}">•</button>
+          <button type="button" class="fc-rt-btn" data-rt="outdent" data-side="${side}" title="${t('rtIndentMinus')}">⇤</button>
+          <button type="button" class="fc-rt-btn" data-rt="indent" data-side="${side}" title="${t('rtIndentPlus')}">⇥</button>
+          <button type="button" class="fc-rt-btn fc-rt-cloze" data-rt="cloze" data-side="${side}" title="${t('rtCloze')}">[…]</button>
         </div>
       </div>
-      <button type="button" class="fc-rt-btn" data-rt="outdent" data-side="${side}" title="${t('rtIndentMinus')}">⇤</button>
-      <button type="button" class="fc-rt-btn" data-rt="indent" data-side="${side}" title="${t('rtIndentPlus')}">⇥</button>
       <span class="fc-rt-div"></span>
       <div class="fc-rt-popwrap">
         <button type="button" class="fc-rt-btn fc-rt-imgbtn" data-rt="imgtoggle" data-side="${side}" title="${t('rtImage')}">⊕</button>
         <div class="fc-rt-popup fc-rt-popup-up" data-popup="img_${side}" hidden>
-          <button type="button" class="fc-rt-btn fc-rt-popbtn-wide" data-rt="image" data-side="${side}">📎 Upload</button>
-          <button type="button" class="fc-rt-btn fc-rt-popbtn-wide" data-rt="pasteimg" data-side="${side}">📋 Paste</button>
+          <button type="button" class="fc-rt-btn fc-rt-popbtn-wide" data-rt="image" data-side="${side}">↑ Upload</button>
+          <button type="button" class="fc-rt-btn fc-rt-popbtn-wide" data-rt="camera" data-side="${side}">◎ ${t('rtCamera')}</button>
+          <button type="button" class="fc-rt-btn fc-rt-popbtn-wide" data-rt="pasteimg" data-side="${side}">⌘ ${t('rtPaste')}</button>
         </div>
       </div>
     </div>`;
+  }
+
+  function rtCreateCloze(side){
+    const ed = root.querySelector('#fcEditor_'+side); if(!ed) return;
+    const sel = window.getSelection && window.getSelection();
+    const selected = sel && sel.rangeCount && !sel.isCollapsed && ed.contains(sel.anchorNode) ? sel.toString() : '';
+    const token = `{{c1::${selected || (lang()==='pt'?'texto oculto':'hidden text')}}}`;
+    if(selected){
+      const range = sel.getRangeAt(0); range.deleteContents();
+      const node = document.createTextNode(token); range.insertNode(node);
+      range.setStartAfter(node); range.collapse(true); sel.removeAllRanges(); sel.addRange(range);
+    } else {
+      ed.focus(); document.execCommand('insertText', false, token);
+    }
+    ed.dispatchEvent(new Event('input', {bubbles:true}));
   }
   // aplica um comando de rich text no editor do lado (side): 'front' | 'back'
   function rtExec(side, cmd, val){
@@ -1240,11 +1282,11 @@
     sel.addEventListener('change', upd); upd();
   }
   const shareCheckbox = checked => `<label class="fc-toggle-row" id="fcShareBox">
-      <span class="fc-toggle-text">⇄ ${lang()==='pt'?'Compartilhar com todos usuários':'Share with all users'}</span>
+      <span class="fc-toggle-body"><span class="fc-toggle-text">${lang()==='pt'?'Compartilhar com todos os usuários':'Share with all users'}</span><small>${lang()==='pt'?'Disponibiliza este cartão no banco compartilhado.':'Makes this card available in the shared bank.'}</small></span>
       <span class="fc-pill-switch ${checked?'on':''}"><input type="checkbox" id="fcShare" ${checked?'checked':''}/><span class="fc-pill-knob"></span></span>
     </label>`;
   const reversedToggle = () => `<label class="fc-toggle-row" id="fcRevBox">
-      <span class="fc-toggle-text">🔁 ${t('reversedLbl')}</span>
+      <span class="fc-toggle-body"><span class="fc-toggle-text">${lang()==='pt'?'Criar cópia invertida':'Create reversed copy'}</span><small>${lang()==='pt'?'Também cria verso → frente.':'Also creates back → front.'}</small></span>
       <span class="fc-pill-switch"><input type="checkbox" id="fcReversed"/><span class="fc-pill-knob"></span></span>
     </label>`;
   // seletor System > Subject > Topic (mesma taxonomia do filtro)
@@ -1252,7 +1294,7 @@
     const sysOpts = `<option value="">${t('chooseSystem')}</option>` +
       FC_TAXONOMY.map(s=>`<option value="${s.id}" ${c.sys===s.id?'selected':''}>${esc(fcTxLabel(s.name))}</option>`).join('');
     return `<div class="fc-syspick">
-      <div class="fc-syspick-head"><strong>🗂️ ${t('systemPick')}</strong><small>${t('systemPickSub')}</small></div>
+      <div class="fc-syspick-head"><strong>${t('systemPick')}</strong><small>${t('systemPickSub')}</small></div>
       <div class="fc-syspick-grid">
         <div><label>${t('systemsLbl')}</label><select id="fcCardSys">${sysOpts}</select></div>
         <div><label>${t('subjectLbl')}</label><select id="fcCardSubj"></select></div>
@@ -1286,10 +1328,10 @@
     window.fcActiveSide = 'front';
     const isPt=lang()==='pt';
     openModal(`<div class="fc-create-head"><div><span class="fc-modal-kicker">${isPt?'EDITOR DE FLASHCARDS':'FLASHCARD EDITOR'}</span><h2>${card?t('edit'):t('create').replace('+ ','')}</h2><p>${isPt?'Crie uma pergunta clara e uma resposta objetiva. O agendamento é feito automaticamente.':'Create a clear question and an objective answer. Scheduling is automatic.'}</p></div><button type="button" class="fc-modal-x" data-act="close" aria-label="${t('cancel')}">×</button></div>
-      <section class="fc-form-section fc-card-setup"><div class="fc-form-section-head"><span>01</span><div><strong>${isPt?'Organização':'Organization'}</strong><small>${isPt?'Escolha onde este card será encontrado.':'Choose where this card will be found.'}</small></div></div>${deckPicker(c.deckId)}
+      <section class="fc-form-section fc-card-setup"><div class="fc-form-section-head"><span>01</span><div><strong>${isPt?'Organização':'Organization'}</strong><small>${isPt?'Escolha onde este cartão será encontrado.':'Choose where this card will be found.'}</small></div></div>${deckPicker(c.deckId)}
       ${systemsPicker(c)}
       <div class="fc-form-field"><label for="fcTags">${t('tags')}</label><input id="fcTags" class="fc-input-sm" value="${esc((c.tags||[]).join(', '))}" placeholder="${isPt?'Ex.: cardio, fisiologia, revisar':'E.g. cardio, physiology, review'}"/></div></section>
-      <section class="fc-form-section fc-card-content"><div class="fc-form-section-head"><span>02</span><div><strong>${isPt?'Conteúdo do card':'Card content'}</strong><small>${isPt?'Escreva, formate e adicione imagens se necessário.':'Write, format, and add images when needed.'}</small></div></div><div class="fc-editor-zone">
+      <section class="fc-form-section fc-card-content"><div class="fc-form-section-head"><span>02</span><div><strong>${isPt?'Conteúdo do cartão':'Card content'}</strong><small>${isPt?'Escreva, formate e adicione imagens se necessário.':'Write, format, and add images when needed.'}</small></div></div><div class="fc-editor-zone">
         <div class="fc-editor-col" data-side="front">
           <div class="fc-editor-toplabel"><span>${t('front')}</span>
             <button type="button" class="fc-flip-btn" data-act="fc-flip" data-to="back">${t('flipToBack')}</button></div>
@@ -1303,9 +1345,9 @@
           <div class="fc-editor" id="fcEditor_back" contenteditable="true" data-side="back">${backHtml}</div>
         </div>
       </div>
-      <div class="fc-cloze-hint"><span class="fc-cloze-hint-ico">💡</span><span>${t('clozeHint')}</span></div>
-      </section><section class="fc-form-section fc-card-options"><div class="fc-form-section-head"><span>03</span><div><strong>${isPt?'Opções':'Options'}</strong><small>${isPt?'Personalize como o card será criado e compartilhado.':'Customize how the card is created and shared.'}</small></div></div>${card?'':reversedToggle()}
-      ${shareCheckbox(c.shared)}</section>
+      <div class="fc-cloze-guide"><div class="fc-cloze-guide-head"><span>[…]</span><div><strong>${isPt?'Como criar um cartão Cloze':'How to create a Cloze card'}</strong><small>${t('clozeHint')}</small></div></div><div class="fc-cloze-steps"><span><b>1</b>${isPt?'Selecione o texto':'Select text'}</span><span><b>2</b>${isPt?'Clique em […]':'Click […]'}</span><span><b>3</b>${isPt?'Salve e revise':'Save and review'}</span></div><div class="fc-cloze-example"><code>A coronária direita irriga o <mark>{{c1::nó AV}}</mark>.</code><span>→</span><code>A coronária direita irriga o <mark>[…]</mark>.</code></div></div>
+      </section><section class="fc-form-section fc-card-options"><div class="fc-form-section-head"><span>03</span><div><strong>${isPt?'Opções':'Options'}</strong><small>${isPt?'Defina como o cartão será criado e compartilhado.':'Customize how the card is created and shared.'}</small></div></div><div class="fc-options-compact">${card?'':reversedToggle()}
+      ${shareCheckbox(c.shared)}</div></section>
       <p id="fcMsg" class="fc-msg"></p>
       <div class="fc-modal-actions fc-modal-actions-sticky"><span class="fc-save-hint">${isPt?'Frente e deck são obrigatórios':'Front and deck are required'}</span><button class="fc-btn" data-act="close">${t('cancel')}</button>
       <button class="fc-btn fc-primary" data-act="save-card" data-card="${card?card.id:''}">${t('save')}</button></div>`, true);
@@ -1320,7 +1362,7 @@
   function applyEditorLayout(){
     const zone = root.querySelector('.fc-editor-zone'); if(!zone) return;
     const box = root.querySelector('.fc-modal-box');
-    const wide = box && box.getBoundingClientRect().width >= 720;
+    const wide = box && box.getBoundingClientRect().width >= 880;
     zone.classList.toggle('fc-editor-sidebyside', wide);
     const back = root.querySelector('.fc-editor-back');
     const flips = root.querySelectorAll('.fc-flip-btn');
@@ -1342,6 +1384,7 @@
     if(except!=='color'){ const cp=modal.querySelector('#fcRtColors_'+side); if(cp) cp.hidden=true; }
     if(except!=='align'){ const ap=modal.querySelector('[data-popup="align_'+side+'"]'); if(ap) ap.hidden=true; }
     if(except!=='list'){ const lp=modal.querySelector('[data-popup="list_'+side+'"]'); if(lp) lp.hidden=true; }
+    if(except!=='more'){ const mp=modal.querySelector('[data-popup="more_'+side+'"]'); if(mp) mp.hidden=true; }
     if(except!=='img'){ const ip=modal.querySelector('[data-popup="img_'+side+'"]'); if(ip) ip.hidden=true; }
   }
   // conecta os botões da toolbar de rich text
@@ -1349,6 +1392,7 @@
     const modal = root.querySelector('#fcModal'); if(!modal) return;
     modal.querySelectorAll('[data-rt]').forEach(el => {
       const cmd = el.dataset.rt, side = el.dataset.side;
+      if(el.tagName==='BUTTON') el.addEventListener('mousedown', e=>e.preventDefault());
       if(el.tagName==='SELECT'){
         el.addEventListener('change', e => { rtExec(side, cmd, e.target.value); });
       } else if(cmd==='colortoggle'){
@@ -1357,6 +1401,8 @@
         el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = modal.querySelector('[data-popup="align_'+side+'"]'); const willShow = p && p.hidden; closeRtPopups(side, 'align'); if(p) p.hidden = !willShow; });
       } else if(cmd==='listtoggle'){
         el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = modal.querySelector('[data-popup="list_'+side+'"]'); const willShow = p && p.hidden; closeRtPopups(side, 'list'); if(p) p.hidden = !willShow; });
+      } else if(cmd==='moretoggle'){
+        el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = modal.querySelector('[data-popup="more_'+side+'"]'); const willShow = p && p.hidden; closeRtPopups(side, 'more'); if(p) p.hidden = !willShow; });
       } else if(cmd==='imgtoggle'){
         el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); const p = modal.querySelector('[data-popup="img_'+side+'"]'); const willShow = p && p.hidden; closeRtPopups(side, 'img'); if(p) p.hidden = !willShow; });
       } else if(cmd==='forecolor' || cmd==='hilite' || cmd==='removecolor'){
@@ -1369,6 +1415,10 @@
         el.addEventListener('click', e => { e.preventDefault(); window.fcImgSide = side; root.querySelector('#fcRtImageUpload').click(); closeRtPopups(side); });
       } else if(cmd==='pasteimg'){
         el.addEventListener('click', e => { e.preventDefault(); rtPasteImage(side); closeRtPopups(side); });
+      } else if(cmd==='camera'){
+        el.addEventListener('click', e => { e.preventDefault(); window.fcImgSide = side; root.querySelector('#fcRtCameraUpload').click(); closeRtPopups(side); });
+      } else if(cmd==='cloze'){
+        el.addEventListener('click', e => { e.preventDefault(); rtCreateCloze(side); closeRtPopups(side); });
       } else if(cmd!=='format' && cmd!=='fontsize'){
         el.addEventListener('click', e => { e.preventDefault(); rtExec(side, cmd, el.dataset.rtVal); });
       }
@@ -1381,20 +1431,24 @@
     let fi = root.querySelector('#fcRtImageUpload');
     if(!fi){ fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.id='fcRtImageUpload'; fi.style.display='none'; modal.appendChild(fi);
       fi.addEventListener('change', async e => { if(e.target.files[0]){ try{ const b64 = await imgToBase64(e.target.files[0]); rtInsertImage(window.fcImgSide||'front', b64); }catch(err){} e.target.value=''; } }); }
+    let cam = root.querySelector('#fcRtCameraUpload');
+    if(!cam){ cam = document.createElement('input'); cam.type='file'; cam.accept='image/*'; cam.capture='environment'; cam.id='fcRtCameraUpload'; cam.style.display='none'; modal.appendChild(cam);
+      cam.addEventListener('change', async e => { if(e.target.files[0]){ try{ const b64 = await imgToBase64(e.target.files[0]); rtInsertImage(window.fcImgSide||'front', b64); }catch(err){} e.target.value=''; } }); }
     window.addEventListener('resize', applyEditorLayout);
   }
   function importForm(){
     const isPt=lang()==='pt';
-    openModal(`<div class="fc-create-head"><div><span class="fc-modal-kicker">${isPt?'IMPORTAÇÃO EM LOTE':'BULK IMPORT'}</span><h2>${t('imp')}</h2><p>${isPt?'Adicione vários cards de uma vez por arquivo ou texto estruturado.':'Add many cards at once from a file or structured text.'}</p></div><button type="button" class="fc-modal-x" data-act="close" aria-label="${t('cancel')}">×</button></div>
+    openModal(`<div class="fc-create-head"><div><span class="fc-modal-kicker">${isPt?'IMPORTAÇÃO EM LOTE':'BULK IMPORT'}</span><h2>${t('imp')}</h2><p>${isPt?'Adicione vários cartões de uma vez por arquivo ou texto estruturado.':'Add many cards at once from a file or structured text.'}</p></div><button type="button" class="fc-modal-x" data-act="close" aria-label="${t('cancel')}">×</button></div>
+      <div class="fc-import-guide"><div><b>1</b><span><strong>${isPt?'Escolha o deck':'Choose a deck'}</strong><small>${isPt?'Use um existente ou crie um novo.':'Use an existing one or create a new one.'}</small></span></div><i></i><div><b>2</b><span><strong>${isPt?'Adicione o conteúdo':'Add content'}</strong><small>${isPt?'Envie TXT/CSV/MD ou cole o texto.':'Upload TXT/CSV/MD or paste text.'}</small></span></div><i></i><div><b>3</b><span><strong>${isPt?'Revise e importe':'Review and import'}</strong><small>${isPt?'Confira a prévia e as opções.':'Check the preview and options.'}</small></span></div></div>
       <section class="fc-form-section"><div class="fc-form-section-head"><span>01</span><div><strong>${isPt?'Deck de destino':'Destination deck'}</strong><small>${isPt?'Todos os cards importados serão adicionados aqui.':'All imported cards will be added here.'}</small></div></div>${deckPicker('')}</section>
-      <section class="fc-form-section"><div class="fc-form-section-head"><span>02</span><div><strong>${isPt?'Adicionar conteúdo':'Add content'}</strong><small>${isPt?'Use um arquivo .txt/.csv ou cole os cards abaixo.':'Use a .txt/.csv file or paste cards below.'}</small></div></div>
+      <section class="fc-form-section"><div class="fc-form-section-head"><span>02</span><div><strong>${isPt?'Adicionar conteúdo':'Add content'}</strong><small>${isPt?'Use um arquivo .txt/.csv ou cole os cartões abaixo.':'Use a .txt/.csv file or paste cards below.'}</small></div></div>
       <button class="fc-import-drop" type="button" data-act="import-file"><span>⇧</span><strong>${t('impFile')}</strong><small>${isPt?'TXT, CSV ou MD':'TXT, CSV, or MD'}</small></button>
       <p id="fcFileMsg" class="fc-file-msg" aria-live="polite"></p>
       <div class="fc-format-help"><b>${isPt?'Formato':'Format'}</b><code>${isPt?'frente :: verso :: tag1, tag2':'front :: back :: tag1, tag2'}</code><span>${isPt?'Uma linha por card. Também aceita separação por Tab.':'One card per line. Tab separation also works.'}</span></div>
-      <div class="fc-form-field"><label for="fcBatch">${isPt?'Cards para importar':'Cards to import'}</label><textarea id="fcBatch" rows="7" placeholder="${esc(t('impExample'))}"></textarea></div>
-      <div class="fc-import-summary" id="fcImportSummary"><b>0</b><span>${isPt?'cards válidos detectados':'valid cards detected'}</span></div></section>
+      <div class="fc-form-field"><label for="fcBatch">${isPt?'Cartões para importar':'Cards to import'}</label><textarea id="fcBatch" rows="7" placeholder="${esc(t('impExample'))}"></textarea></div>
+      <div class="fc-import-summary" id="fcImportSummary"><b>0</b><span>${isPt?'cartões válidos detectados':'valid cards detected'}</span></div></section>
       <section class="fc-form-section"><div class="fc-form-section-head"><span>03</span><div><strong>${isPt?'Opções de importação':'Import options'}</strong><small>${isPt?'Defina o estado inicial e a visibilidade.':'Set initial state and visibility.'}</small></div></div>
-      <label class="fc-toggle-row" id="fcSuspBox"><span class="fc-toggle-body"><span class="fc-toggle-text">🔒 ${t('impSuspended')}</span><small>${isPt?'Os cards ficam fora das revisões até você liberá-los.':'Cards stay out of reviews until you release them.'}</small></span><span class="fc-pill-switch"><input type="checkbox" id="fcImpSusp"/><span class="fc-pill-knob"></span></span></label>
+      <label class="fc-toggle-row" id="fcSuspBox"><span class="fc-toggle-body"><span class="fc-toggle-text">${t('impSuspended')}</span><small>${isPt?'Os cartões ficam fora das revisões até você liberá-los.':'Cards stay out of reviews until you release them.'}</small></span><span class="fc-pill-switch"><input type="checkbox" id="fcImpSusp"/><span class="fc-pill-knob"></span></span></label>
       ${shareCheckbox(false)}</section>
       <p id="fcMsg" class="fc-msg"></p>
       <div class="fc-modal-actions fc-modal-actions-sticky"><span class="fc-save-hint">${isPt?'Revise o total antes de importar':'Review the total before importing'}</span><button class="fc-btn" data-act="close">${t('cancel')}</button>

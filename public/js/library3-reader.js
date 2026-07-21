@@ -30,7 +30,7 @@
   'use strict';
 
   const VENDOR = '/vendor/pdfjs/';
-  const READER_CSS = '/css/library3-reader.css';
+  const READER_CSS = '/css/library3-reader.css?v=5';
   const lib3PdfUrl = key => `/api/library3/pdf/${key}`;
   const uiLang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
   const esc = s => String(s==null?'':s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -62,6 +62,10 @@
   const CURSOR_SVG = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path d="M5 3.5 19 10l-6.1 2.2L10.4 19 5 3.5Z" fill="currentColor"/>
   </svg>`;
+  const PEN_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M4 20l1.2-4.2L16.6 4.4a2 2 0 012.8 0l.2.2a2 2 0 010 2.8L8.2 18.8 4 20z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 6.5l3.5 3.5" stroke="currentColor" stroke-width="1.8"/></svg>`;
+  const MARKER_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="m6 16 8.7-11a1.8 1.8 0 0 1 2.6-.2l1.8 1.5a1.8 1.8 0 0 1 .2 2.6L10.5 20H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m13.2 7 4 3.2M4 20h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+  const STICKY_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4.5h14v10l-5 5H5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 19.5v-5h5" stroke="currentColor" stroke-width="1.7"/></svg>`;
+  const NOTE_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4.5h14v15H5z" stroke="currentColor" stroke-width="1.7"/><path d="M8 9h8M8 12.5h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
 
   const T = {
     en: { loading:'Loading PDF…', loadError:'Could not load this PDF.', download:'Download',
@@ -71,7 +75,8 @@
           customColor:'Custom color',
           eraserToggle:'Eraser options',
           eraserClick:'Click a highlight to remove it entirely',
-          eraserBrush:'Eraser — drag over a highlight to erase it, like a real eraser' },
+          eraserBrush:'Eraser — drag over a highlight to erase it, like a real eraser',
+          pen:'Write', sticky:'Post-it', annotation:'Page note', undo:'Undo', redo:'Redo', more:'More tools', colors:'Colors', navigation:'Navigation', notePrompt:'Write the note anchored to this page:' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
           matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
@@ -79,7 +84,8 @@
           customColor:'Cor personalizada',
           eraserToggle:'Opções de borracha',
           eraserClick:'Clique numa marcação pra apagar ela inteira',
-          eraserBrush:'Borracha — arraste por cima pra apagar de verdade, como uma borracha' }
+          eraserBrush:'Borracha — arraste por cima pra apagar de verdade, como uma borracha',
+          pen:'Escrever', sticky:'Post-it', annotation:'Anotação na página', undo:'Desfazer', redo:'Refazer', more:'Mais ferramentas', colors:'Cores', navigation:'Navegação', notePrompt:'Escreva a anotação vinculada a esta página:' }
   };
   const t = k => T[uiLang()][k];
 
@@ -143,6 +149,7 @@
 
   function destroyActive(){
     if(!activeReader) return;
+    try{ activeReader.uiAbort && activeReader.uiAbort.abort(); }catch(e){}
     try{ activeReader.pdfDoc && activeReader.pdfDoc.destroy(); }catch(e){}
     try{ activeReader.pageView && activeReader.pageView.destroy(); }catch(e){}
     activeReader = null;
@@ -172,6 +179,7 @@
       search:{ query:'', matches:[], idx:-1 },
       eraseMode:null, // null | 'click' (apaga marcação inteira) | 'brush' (apaga de verdade, feito canvas)
       eraseBrushRadius:0.02, _activeErase:null, eraseMenuOpen:false,
+      inkMode:false, inkColor:'#17365f', inkWidth:0.0032, annotationMode:null, _activeInk:null, redoActions:[],
       actions: normalizeActions(loadAllHighlights()[item.key])
     };
     activeReader = r;
@@ -219,6 +227,8 @@
   function itemName(it, lang){ return (lang==='pt' && it.ptName) ? it.ptName : it.name; }
 
   function renderSkeleton(r){
+    try{ r.uiAbort && r.uiAbort.abort(); }catch(e){}
+    r.uiAbort = new AbortController();
     const lang = uiLang();
     const title = `${esc(itemName(r.folder, lang))} · ${esc(itemName(r.item, lang))}`;
     r.hostEl.innerHTML = `
@@ -235,6 +245,8 @@
         <div class="l3r-body">
           <div class="l3r-toolbar l3r-toolbar-bottom">
             <div class="l3r-group l3r-marktools">
+              <button type="button" class="l3r-ic l3r-pen" id="l3rPenBtn" aria-label="${esc(t('pen'))}" title="${esc(t('pen'))}">${PEN_SVG}</button>
+              <button type="button" class="l3r-ic l3r-highlighter" id="l3rHighlightBtn" aria-label="${esc(t('hl'))}" title="${esc(t('hl'))}">${MARKER_SVG}</button>
               ${HL_COLORS.map(c=>`<button type="button" class="l3r-swatch" data-color="${c.v}" style="background:${c.v}" title="${esc(t('hl'))}"></button>`).join('')}
               <button type="button" class="l3r-swatch l3r-swatch-add" id="l3rCustomColorBtn" title="${esc(t('customColor'))}">+</button>
               <input type="color" id="l3rCustomColor" class="l3r-custom-color-input" value="#ff8a3d" tabindex="-1" aria-hidden="true" />
@@ -247,9 +259,23 @@
                 <button type="button" class="l3r-erasedot l3r-erasedot-l" id="l3rEraseL" data-radius="0.036" title="${esc(t('eraserBrush'))}"></button>
               </span>
               <span class="l3r-marktools-sep"></span>
-              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotebookBtn">📓 ${esc(t('notebook'))}</button>
-              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotesBtn">📝 ${esc(t('notes'))}</button>
-              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rFlashcardBtn">🃏 ${esc(t('flashcard'))}</button>
+              <button type="button" class="l3r-ic" id="l3rUndo" aria-label="${esc(t('undo'))}" title="${esc(t('undo'))}">←</button>
+              <button type="button" class="l3r-ic" id="l3rRedo" aria-label="${esc(t('redo'))}" title="${esc(t('redo'))}">→</button>
+              <button type="button" class="l3r-ic" id="l3rStickyBtn" aria-label="${esc(t('sticky'))}" title="${esc(t('sticky'))}">${STICKY_SVG}</button>
+              <button type="button" class="l3r-ic" id="l3rPageNoteBtn" aria-label="${esc(t('annotation'))}" title="${esc(t('annotation'))}">${NOTE_SVG}</button>
+              <span class="l3r-marktools-sep"></span>
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotebookBtn"><i>N</i>${esc(t('notebook'))}</button>
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rNotesBtn"><i>≣</i>${esc(t('notes'))}</button>
+              <button type="button" class="l3r-btn l3r-marktools-btn" id="l3rFlashcardBtn"><i>F</i>${esc(t('flashcard'))}</button>
+              <button type="button" class="l3r-ic l3r-more-btn" id="l3rMoreBtn" aria-label="${esc(t('more'))}" title="${esc(t('more'))}">•••</button>
+              <div class="l3r-more-menu" id="l3rMoreMenu" hidden>
+                <strong>${esc(t('colors'))}</strong>
+                <div class="l3r-more-colors">${HL_COLORS.map(c=>`<button type="button" class="l3r-swatch" data-more-color="${c.v}" style="background:${c.v}" title="${esc(t('hl'))}"></button>`).join('')}<button type="button" class="l3r-swatch l3r-swatch-add" data-more-custom title="${esc(t('customColor'))}">+</button></div>
+                <strong>${esc(t('navigation'))}</strong>
+                <div class="l3r-more-nav"><button type="button" data-more-nav="prev">←</button><input type="number" min="1" value="1" data-more-page><span>${esc(t('of'))} <b data-more-count>—</b></span><button type="button" data-more-nav="next">→</button></div>
+                <div class="l3r-more-zoom"><button type="button" data-more-zoom="out">−</button><span data-more-zoom-label>130%</span><button type="button" data-more-zoom="in">+</button></div>
+                <div class="l3r-more-dest"><button type="button" data-more-dest="notebook"><i>N</i>${esc(t('notebook'))}</button><button type="button" data-more-dest="notes"><i>≣</i>${esc(t('notes'))}</button><button type="button" data-more-dest="flashcard"><i>F</i>${esc(t('flashcard'))}</button></div>
+              </div>
             </div>
             <div class="l3r-group l3r-nav">
               <button type="button" class="l3r-ic" id="l3rPrev" aria-label="prev">‹</button>
@@ -327,13 +353,27 @@
     // atual, senão não haveria o que marcar/mandar quando o click() realmente disparar.
     r.hostEl.querySelectorAll('.l3r-swatch[data-color]').forEach(btn=>{
       btn.addEventListener('mousedown', e=>e.preventDefault());
-      btn.addEventListener('click', ()=> addHighlightFromSelection(r, btn.dataset.color));
+      btn.addEventListener('click', ()=>{
+        if(r.inkMode){ r.inkColor=btn.dataset.color; r.hostEl.querySelectorAll('.l3r-swatch[data-color]').forEach(x=>x.classList.toggle('l3r-swatch-active',x===btn)); }
+        else addHighlightFromSelection(r, btn.dataset.color);
+      });
     });
     const customInput = r.hostEl.querySelector('#l3rCustomColor');
     r.hostEl.querySelector('#l3rCustomColorBtn').addEventListener('mousedown', e=>e.preventDefault());
     r.hostEl.querySelector('#l3rCustomColorBtn').addEventListener('click', ()=> customInput.click());
     customInput.addEventListener('input', e=>e.stopPropagation());
-    customInput.addEventListener('change', ()=> addHighlightFromSelection(r, customInput.value));
+    customInput.addEventListener('change', ()=>{ if(r.inkMode) r.inkColor=customInput.value; else addHighlightFromSelection(r, customInput.value); });
+    r.hostEl.querySelector('#l3rPenBtn').addEventListener('click', ()=>setReaderTool(r,r.inkMode?null:'pen'));
+    r.hostEl.querySelector('#l3rHighlightBtn').addEventListener('mousedown',e=>e.preventDefault());
+    r.hostEl.querySelector('#l3rHighlightBtn').addEventListener('click',()=>addHighlightFromSelection(r,'#ffe600'));
+    r.hostEl.querySelector('#l3rStickyBtn').addEventListener('click', ()=>setReaderTool(r,r.annotationMode==='sticky'?null:'sticky'));
+    r.hostEl.querySelector('#l3rPageNoteBtn').addEventListener('click', ()=>setReaderTool(r,r.annotationMode==='note'?null:'note'));
+    r.hostEl.querySelector('#l3rUndo').addEventListener('click', ()=>{
+      if(!r.actions.length)return; r.redoActions.push(r.actions.pop());persistHighlights(r);renderHighlightsForPage(r);updateReaderHistory(r);
+    });
+    r.hostEl.querySelector('#l3rRedo').addEventListener('click', ()=>{
+      if(!r.redoActions.length)return;r.actions.push(r.redoActions.pop());persistHighlights(r);renderHighlightsForPage(r);updateReaderHistory(r);
+    });
     // Duas ferramentas de apagar, pedido explícito pra manter as duas opções: (1) clique
     // numa marcação = some ela inteira; (2) arraste com um círculo (3 tamanhos, estilo
     // GoodNotes) = apaga só o pedaço que o círculo tocar, como uma borracha de verdade —
@@ -362,8 +402,23 @@
     r.hostEl.querySelector('#l3rNotesBtn').addEventListener('click', ()=> sendSelectionTo(r, 'notes'));
     r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('mousedown', e=>e.preventDefault());
     r.hostEl.querySelector('#l3rFlashcardBtn').addEventListener('click', ()=> sendSelectionTo(r, 'flashcard'));
+    const moreBtn=r.hostEl.querySelector('#l3rMoreBtn'), moreMenu=r.hostEl.querySelector('#l3rMoreMenu');
+    moreBtn.addEventListener('click', e=>{e.stopPropagation();moreMenu.hidden=!moreMenu.hidden;moreBtn.classList.toggle('l3r-ic-active',!moreMenu.hidden);});
+    moreMenu.addEventListener('click', e=>e.stopPropagation());
+    document.addEventListener('click', ()=>{if(!moreMenu.hidden){moreMenu.hidden=true;moreBtn.classList.remove('l3r-ic-active');}}, {signal:r.uiAbort.signal});
+    moreMenu.querySelectorAll('[data-more-color]').forEach(btn=>btn.addEventListener('click',()=>{if(r.inkMode)r.inkColor=btn.dataset.moreColor;else addHighlightFromSelection(r,btn.dataset.moreColor);}));
+    moreMenu.querySelector('[data-more-custom]').addEventListener('click',()=>customInput.click());
+    moreMenu.querySelectorAll('[data-more-dest]').forEach(btn=>btn.addEventListener('click',()=>sendSelectionTo(r,btn.dataset.moreDest)));
+    moreMenu.querySelectorAll('[data-more-nav]').forEach(btn=>btn.addEventListener('click',()=>goToPage(r,r.currentPage+(btn.dataset.moreNav==='next'?1:-1))));
+    const morePage=moreMenu.querySelector('[data-more-page]');
+    morePage.addEventListener('change',()=>goToPage(r,parseInt(morePage.value,10)||1));
+    morePage.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();goToPage(r,parseInt(morePage.value,10)||1);morePage.blur();}});
+    moreMenu.querySelectorAll('[data-more-zoom]').forEach(btn=>btn.addEventListener('click',()=>setScale(r,r.scale+(btn.dataset.moreZoom==='in'?.15:-.15))));
+    r.el.pageInputs.push(morePage);r.el.pageCounts.push(moreMenu.querySelector('[data-more-count]'));r.el.zoomLabels.push(moreMenu.querySelector('[data-more-zoom-label]'));
     setEraseMode(r, r.eraseMode); // reaplica o estado visual (o DOM é reconstruído do zero aqui)
     r.el.eraseMenu.classList.toggle('l3r-erase-menu-open', r.eraseMenuOpen);
+    setReaderTool(r,r.inkMode?'pen':r.annotationMode);
+    updateReaderHistory(r);
   }
 
   function setLoading(r, on, error){
@@ -374,6 +429,18 @@
   }
   function updatePageCount(r){ if(r.el) r.el.pageCounts.forEach(el=>el.textContent = String(r.pageCount)); }
   function updateZoomLabel(r){ if(r.el) r.el.zoomLabels.forEach(el=>el.textContent = Math.round(r.scale*100) + '%'); }
+  function updateReaderHistory(r){
+    const u=r.hostEl.querySelector('#l3rUndo'), d=r.hostEl.querySelector('#l3rRedo');
+    if(u)u.disabled=!r.actions.length;if(d)d.disabled=!r.redoActions.length;
+  }
+  function pushReaderAction(r,action){r.actions.push(action);r.redoActions=[];persistHighlights(r);renderHighlightsForPage(r);updateReaderHistory(r);}
+  function setReaderTool(r,tool){
+    r.inkMode=tool==='pen';r.annotationMode=(tool==='sticky'||tool==='note')?tool:null;
+    if(tool && r.eraseMode) setEraseMode(r,null);
+    const pen=r.hostEl.querySelector('#l3rPenBtn'),sticky=r.hostEl.querySelector('#l3rStickyBtn'),note=r.hostEl.querySelector('#l3rPageNoteBtn');
+    if(pen)pen.classList.toggle('l3r-ic-active',r.inkMode);if(sticky)sticky.classList.toggle('l3r-ic-active',r.annotationMode==='sticky');if(note)note.classList.toggle('l3r-ic-active',r.annotationMode==='note');
+    if(r.el&&r.el.hiLayer){r.el.hiLayer.classList.toggle('l3r-erase-active',!!r.eraseMode||r.inkMode||!!r.annotationMode);r.el.hiLayer.style.cursor=r.inkMode?'crosshair':r.annotationMode?'copy':'';if(r.eraseMode)updateEraserCursor(r);}
+  }
 
   /* ---------------------------- navegação de página ---------------------------- */
   function goToPage(r, n){
@@ -456,7 +523,7 @@
         const dpr = window.devicePixelRatio || 1;
         const hiLayer = document.createElement('canvas');
         hiLayer.id = 'l3rHiLayer';
-        hiLayer.className = 'l3r-hilayer' + (r.eraseMode ? ' l3r-erase-active' : '');
+        hiLayer.className = 'l3r-hilayer' + ((r.eraseMode||r.inkMode||r.annotationMode) ? ' l3r-erase-active' : '');
         hiLayer.style.left = (canvasBox.left-pvBox.left)+'px';
         hiLayer.style.top = (canvasBox.top-pvBox.top)+'px';
         hiLayer.style.width = canvasBox.width+'px';
@@ -468,6 +535,7 @@
         r.el.hiLayer = hiLayer;
         attachEraserHandlers(r, hiLayer);
         updateEraserCursor(r);
+        setReaderTool(r,r.inkMode?'pen':r.annotationMode);
 
         renderHighlightsForPage(r);
       });
@@ -598,9 +666,7 @@
       w:rc.width/host.width, h:rc.height/host.height
     })).filter(rc=>rc.w>0 && rc.h>0);
     if(!rects.length) return;
-    r.actions.push({ id:genId(), type:'highlight', page:r.currentPage, color:colorHex, rects, text, ts:Date.now() });
-    persistHighlights(r);
-    renderHighlightsForPage(r);
+    pushReaderAction(r,{ id:genId(), type:'highlight', page:r.currentPage, color:colorHex, rects, text, ts:Date.now() });
     sel.removeAllRanges();
   }
 
@@ -612,7 +678,7 @@
       if(a.type!=='highlight' || a.page!==r.currentPage) continue;
       const hit = a.rects.some(rc =>
         xFrac>=rc.x-0.002 && xFrac<=rc.x+rc.w+0.002 && yFrac>=rc.y-0.002 && yFrac<=rc.y+rc.h+0.002);
-      if(hit){ r.actions.splice(i,1); persistHighlights(r); renderHighlightsForPage(r); return true; }
+      if(hit){ r.actions.splice(i,1); r.redoActions=[]; persistHighlights(r); renderHighlightsForPage(r); updateReaderHistory(r); return true; }
     }
     return false;
   }
@@ -650,6 +716,20 @@
         ctx.restore();
         return;
       }
+      if(a.type==='ink'){
+        const pts=a.points||[];if(pts.length<2)return;
+        ctx.save();ctx.strokeStyle=a.color||'#17365f';ctx.lineCap='round';ctx.lineJoin='round';
+        for(let i=1;i<pts.length;i++){const p0=pts[i-1],p1=pts[i],pr=Math.max(.1,Math.min(1,p1.pressure||.5));ctx.lineWidth=Math.max(1,(a.width||.0032)*W*(.55+pr*.9));ctx.beginPath();ctx.moveTo(p0.x*W,p0.y*H);ctx.lineTo(p1.x*W,p1.y*H);ctx.stroke();}
+        ctx.restore();return;
+      }
+      if(a.type==='sticky'){
+        const x=a.x*W,y=a.y*H,w=(a.w||.22)*W,h=(a.h||.13)*H;
+        ctx.save();ctx.shadowColor='rgba(15,35,65,.18)';ctx.shadowBlur=10;ctx.fillStyle=a.color||'#fff3a3';ctx.fillRect(x,y,w,h);ctx.shadowColor='transparent';ctx.fillStyle='#24334a';ctx.font=`${Math.max(10,W*.012)}px system-ui`;ctx.textBaseline='top';
+        const words=String(a.text||'').split(/\s+/),lines=[];let line='';for(const word of words){const test=line?line+' '+word:word;if(ctx.measureText(test).width>w-18){if(line)lines.push(line);line=word;}else line=test;}if(line)lines.push(line);lines.slice(0,5).forEach((ln,i)=>ctx.fillText(ln,x+9,y+9+i*Math.max(13,W*.015),w-18));ctx.restore();return;
+      }
+      if(a.type==='note'){
+        const x=a.x*W,y=a.y*H,rad=Math.max(9,W*.014);ctx.save();ctx.fillStyle='#2768ff';ctx.shadowColor='rgba(39,104,255,.3)';ctx.shadowBlur=8;ctx.beginPath();ctx.arc(x,y,rad,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font=`700 ${Math.max(10,rad)}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('i',x,y);ctx.restore();return;
+      }
       const color = HL_COLOR_MAP[a.color] || a.color || HL_COLORS[0].v; // ids antigos continuam OK
       ctx.save();
       ctx.globalCompositeOperation = 'source-over';
@@ -671,8 +751,9 @@
      normalmente ignora — pointer-events:none — pra não atrapalhar a seleção de texto). */
   function setEraseMode(r, mode){
     r.eraseMode = mode;
+    if(mode){r.inkMode=false;r.annotationMode=null;['#l3rPenBtn','#l3rStickyBtn','#l3rPageNoteBtn'].forEach(s=>r.hostEl.querySelector(s)?.classList.remove('l3r-ic-active'));}
     if(r.el.hiLayer){
-      r.el.hiLayer.classList.toggle('l3r-erase-active', !!mode);
+      r.el.hiLayer.classList.toggle('l3r-erase-active', !!mode||r.inkMode||!!r.annotationMode);
       updateEraserCursor(r);
     }
     r.el.eraserToggleBtn.classList.toggle('l3r-ic-active', !!mode); // ícone-gatilho acende quando QUALQUER ferramenta de apagar está ativa, mesmo com o menu fechado
@@ -709,32 +790,45 @@
   function attachEraserHandlers(r, canvas){
     let dragging = false;
     canvas.addEventListener('pointerdown', e=>{
-      if(!r.eraseMode) return;
+      if(!r.eraseMode && !r.inkMode && !r.annotationMode) return;
+      if(e.pointerType==='touch'&&((e.width||0)>25||(e.height||0)>25))return;
+      e.preventDefault();
       const box = canvas.getBoundingClientRect();
       const xFrac = (e.clientX-box.left)/box.width, yFrac = (e.clientY-box.top)/box.height;
+      if(r.annotationMode){
+        const existing=[...r.actions].reverse().find(a=>a.page===r.currentPage&&a.type===r.annotationMode&&Math.hypot((a.x-xFrac)*box.width,(a.y-yFrac)*box.height)<36);
+        const text=prompt(t('notePrompt'),existing?existing.text:'');if(text===null)return;
+        if(existing){existing.text=text.trim();persistHighlights(r);renderHighlightsForPage(r);}
+        else pushReaderAction(r,{id:genId(),type:r.annotationMode,page:r.currentPage,x:xFrac,y:yFrac,w:.22,h:.13,color:r.annotationMode==='sticky'?'#fff3a3':'#2768ff',text:text.trim(),ts:Date.now()});
+        return;
+      }
+      if(r.inkMode){
+        dragging=true;const action={id:genId(),type:'ink',page:r.currentPage,color:r.inkColor,width:r.inkWidth,points:[{x:xFrac,y:yFrac,pressure:e.pointerType==='pen'?Math.max(.1,e.pressure||.45):.5}],ts:Date.now()};r.actions.push(action);r.redoActions=[];r._activeInk=action;renderHighlightsForPage(r);try{canvas.setPointerCapture(e.pointerId);}catch(err){}return;
+      }
       if(r.eraseMode==='click'){ removeHighlightAtPoint(r, xFrac, yFrac); return; }
       dragging = true;
       const action = { id:genId(), type:'erase', page:r.currentPage, radius:r.eraseBrushRadius, points:[{x:xFrac,y:yFrac}], ts:Date.now() };
       r.actions.push(action);
+      r.redoActions=[];
       r._activeErase = action;
       renderHighlightsForPage(r);
       try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
     });
     canvas.addEventListener('pointermove', e=>{
-      if(!dragging || !r._activeErase) return;
+      if(!dragging) return;
       const box = canvas.getBoundingClientRect();
-      const xFrac = (e.clientX-box.left)/box.width, yFrac = (e.clientY-box.top)/box.height;
-      const pts = r._activeErase.points;
-      const last = pts[pts.length-1];
-      if(!last || Math.hypot((xFrac-last.x)*box.width, (yFrac-last.y)*box.height) > 2){
-        pts.push({x:xFrac,y:yFrac});
-        renderHighlightsForPage(r);
-      }
+      const events=typeof e.getCoalescedEvents==='function'?e.getCoalescedEvents():[e];
+      (events.length?events:[e]).forEach(ev=>{
+        const xFrac=(ev.clientX-box.left)/box.width,yFrac=(ev.clientY-box.top)/box.height;
+        const target=r._activeInk||r._activeErase;if(!target)return;const pts=target.points,last=pts[pts.length-1];
+        if(!last||Math.hypot((xFrac-last.x)*box.width,(yFrac-last.y)*box.height)>1.2)pts.push({x:xFrac,y:yFrac,pressure:ev.pointerType==='pen'?Math.max(.1,ev.pressure||.45):.5});
+      });
+      renderHighlightsForPage(r);
     });
     const endDrag = ()=>{
       if(!dragging) return;
-      dragging = false; r._activeErase = null;
-      persistHighlights(r);
+      dragging = false; r._activeErase = null;r._activeInk=null;
+      persistHighlights(r);updateReaderHistory(r);
     };
     canvas.addEventListener('pointerup', endDrag);
     canvas.addEventListener('pointercancel', endDrag);

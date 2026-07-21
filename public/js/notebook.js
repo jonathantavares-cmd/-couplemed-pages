@@ -43,6 +43,21 @@
 
   /* ---------- dados ---------- */
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  /* Menu de contexto unificado: botão direito no desktop e pressão longa em
+     iPad/mobile. A mesma ação é usada pelos botões ⋯, sem duplicar funções. */
+  function wireContextAction(el, callback){
+    if(!el) return;
+    el.addEventListener('contextmenu', e=>{ e.preventDefault(); e.stopPropagation(); callback(e); });
+    let timer=0, sx=0, sy=0;
+    const cancel=()=>{ if(timer){ clearTimeout(timer); timer=0; } };
+    el.addEventListener('pointerdown', e=>{
+      if(e.pointerType==='mouse'||e.pointerType==='pen') return;
+      sx=e.clientX; sy=e.clientY; cancel();
+      timer=setTimeout(()=>{ timer=0; if(navigator.vibrate) try{navigator.vibrate(12);}catch(err){} callback(e); },560);
+    });
+    el.addEventListener('pointermove', e=>{ if(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10) cancel(); });
+    el.addEventListener('pointerup', cancel); el.addEventListener('pointercancel', cancel);
+  }
   function load(){
     try{
       const d = JSON.parse(localStorage.getItem(KEY));
@@ -302,6 +317,8 @@
       recUploadFail:'Could not save the recording (upload failed).', recFail:'Microphone unavailable.',
       recUploading:'Uploading recording…', recSaved:'Recording saved!', recStarted:'Recording started…',
       newRecFolder:'New Folder', recUnfiled:'Unfiled', confirmDelRec:'Delete this recording permanently?',
+      recPause:'Pause', recResume:'Resume', recRename:'Rename', recTranscribe:'Transcribe', recShare:'Share', recDelete:'Delete',
+      recTranscript:'Transcript', recCopyAll:'Copy all', recNoTranscript:'No transcript is available for this recording.', recLiveTranscript:'Live transcription',
       eraserOnlyMarker:'Erase highlighter only',
       laserPoint:'Point', laserLine:'Line',
       spacingLbl:'Spacing', boxBorder:'Text box border',
@@ -473,6 +490,8 @@
       recUploadFail:'Não foi possível salvar a gravação (falha no envio).', recFail:'Microfone indisponível.',
       recUploading:'Enviando gravação…', recSaved:'Gravação salva!', recStarted:'Gravando…',
       newRecFolder:'Nova Pasta', recUnfiled:'Sem pasta', confirmDelRec:'Apagar esta gravação em definitivo?',
+      recPause:'Pausar', recResume:'Retomar', recRename:'Renomear', recTranscribe:'Transcrever', recShare:'Compartilhar', recDelete:'Apagar',
+      recTranscript:'Transcrição', recCopyAll:'Copiar tudo', recNoTranscript:'Não há transcrição disponível para esta gravação.', recLiveTranscript:'Transcrição ao vivo',
       eraserOnlyMarker:'Apagar apenas marca-texto',
       laserPoint:'Ponto', laserLine:'Linha',
       spacingLbl:'Espaçamento', boxBorder:'Borda da caixa de texto',
@@ -1803,6 +1822,11 @@
     DB.recentTpls.unshift({paper,bg});
     DB.recentTpls = DB.recentTpls.slice(0,2);
   }
+  function nbReadingIcon(reading){
+    return reading
+      ? '<svg viewBox="0 0 24 24" fill="none" width="17" height="17" aria-hidden="true"><path d="M4 20l1.2-4.2L16.6 4.4a2 2 0 012.8 0l.2.2a2 2 0 010 2.8L8.2 18.8 4 20z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 6.5l3.5 3.5" stroke="currentColor" stroke-width="1.8"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true"><path d="M2.8 12s3.4-5.5 9.2-5.5 9.2 5.5 9.2 5.5-3.4 5.5-9.2 5.5S2.8 12 2.8 12z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.8" stroke="currentColor" stroke-width="1.7"/></svg>';
+  }
 
   function renderNotebook(){
     const book = bookById(view.nbId);
@@ -1827,7 +1851,7 @@
           <button class="nb-gnicon" id="nbSearchBtn" title="${t('searchDocTip')}">
             <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </button>
-          <button class="nb-gnicon ${reading?'nb-on':''}" id="nbReadTgl" title="${reading?t('editModeTip'):t('readModeTip')}">${reading?'✎':'👁'}</button>
+          <button class="nb-gnicon ${reading?'nb-on':''}" id="nbReadTgl" title="${reading?t('editModeTip'):t('readModeTip')}">${nbReadingIcon(reading)}</button>
           ${reading?`<span class="nb-gnro">${t('readOnly')}</span>`:''}
           <span class="nb-gnflex"></span>
           <span class="nb-savestate nb-gnsave" id="nbSaveState">${t('saved')}</span>
@@ -1888,6 +1912,11 @@
 
     const goto = i=>{ flushPage(book, editor, pg); view.page = Math.max(0, Math.min(i, pages.length-1)); syncUrl(); render(); };
     root.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click', ()=>goto(+b.dataset.goto)));
+    root.querySelectorAll('[data-goto]').forEach(b=>wireContextAction(b, ()=>{
+      flushPage(book, editor, pg);
+      const i = Math.max(0, Math.min(+b.dataset.goto, pages.length-1));
+      view.page = i; openPageMenu(b, book, pages[i]);
+    }));
     root.querySelector('#nbPgPrev').addEventListener('click', ()=>{ if(view.page>0) goto(view.page-1); });
     root.querySelector('#nbPgNext').addEventListener('click', ()=>{ if(view.page<pages.length-1) goto(view.page+1); });
     root.querySelector('#nbThumbAdd').addEventListener('click', ()=>{ flushPage(book, editor, pg); insertPageAt(book,'last',{}); });
@@ -1914,6 +1943,7 @@
     root.querySelector('#nbAddPgBtn').addEventListener('click', e=>{ flushPage(book, editor, pg); openAddPage(e.currentTarget, book, pg); });
     root.querySelector('#nbShareBtn').addEventListener('click', e=>{ flushPage(book, editor, pg); openSharePop(e.currentTarget, book, pg); });
     root.querySelector('#nbPgMoreBtn').addEventListener('click', e=>{ flushPage(book, editor, pg); openPageMenu(e.currentTarget, book, pg); });
+    wireContextAction(root.querySelector('#nbPage'), ()=>{ flushPage(book, editor, pg); openPageMenu(root.querySelector('#nbPgMoreBtn'), book, pg); });
 
     renderObjLayer(book, pg, !reading);   // imagens móveis + notas adesivas
     setupInk(book, pg, inking, tool);     // sempre redesenha os traços (inclusive no modo leitura)
@@ -2070,6 +2100,12 @@
           <span class="${pageClass(book,pg,'nb-pgmenu-mini')}" ${pageStyleAttr(book,pg)}></span>
         </div>
         <div class="nb-pop-list">
+          <button data-pm="panel">▤ ${t('pagesLbl')}</button>
+          <button data-pm="search">⌕ ${t('searchTitle')}</button>
+          <button data-pm="read">◉ ${view.reading?t('editModeTip'):t('readModeTip')}</button>
+          <button data-pm="add">＋ ${t('addPage')}</button>
+          <button data-pm="share">⇧ ${t('shareExport')}</button>
+          <span class="nb-pop-sep"></span>
           <button data-pm="fav"><span style="color:#f5b301">${pg.fav?'★':'☆'}</span> ${pg.fav?t('rmFav'):t('addFav')}</button>
           <button data-pm="copy">⧉ ${t('copyPage')}</button>
           <button data-pm="dup">⿻ ${t('dupPage')}</button>
@@ -2086,7 +2122,8 @@
       </div>`, {cls:'nb-pop-pgmenu'});
     pop.querySelectorAll('[data-pm]').forEach(b=>b.addEventListener('click', ()=>{
       const act = b.dataset.pm;
-      if(act==='fav'){ pg.fav = !pg.fav; book.updated=Date.now(); save(); closePopover(); render(); }
+      if(['panel','search','read','add','share'].includes(act)){const map={panel:'#nbPanelBtn',search:'#nbSearchBtn',read:'#nbReadTgl',add:'#nbAddPgBtn',share:'#nbShareBtn'};closePopover();setTimeout(()=>root.querySelector(map[act])?.click(),0);}
+      else if(act==='fav'){ pg.fav = !pg.fav; book.updated=Date.now(); save(); closePopover(); render(); }
       else if(act==='copy'){ closePopover(); nbCopyPageToPop(anchor, book, pg); }
       else if(act==='dup'){
         const clone = JSON.parse(JSON.stringify(pg)); clone.id = uid();
@@ -2375,7 +2412,7 @@
           <button id="nbModeType" class="${drawing?'':'nb-on'}">${t('typeMode')}</button>
           <button id="nbModeDraw" class="${drawing?'nb-on':''}">${t('drawMode')}</button>
         </div>
-        <button class="nb-btn" id="nbReadBtn" title="${t('readMode')}">👁</button>
+        <button class="nb-btn nb-read-mode-btn" id="nbReadBtn" title="${t('readMode')}">${nbReadingIcon(false)}</button>
         <div class="nb-menu-wrap">
           <button class="nb-btn" id="nbMoreBtn" title="${t('insertMenu')}">⋯</button>
           <div class="nb-menu-pop" id="nbMorePop" hidden>
@@ -2612,11 +2649,15 @@
     return `
     <div class="nb-gntools" id="nbGnTools">
       <div class="nb-gt-row">
-        ${tools.map(([id,tt,k])=>`<button class="nb-gt ${tool===id?'nb-on':''}" data-gt="${id}" title="${tt}${k?' ('+k+')':''}">${gnIco[id]}</button>`).join('')}
-        <button class="nb-gt ${(gnRulerState||gnRecState)?'nb-on':''}" id="nbGnAccBtn" title="${t('accessories')}">${gnIco.accessories}</button>
+        ${tools.slice(0,3).map(([id,tt,k])=>`<button class="nb-gt ${tool===id?'nb-on':''}" data-gt="${id}" title="${tt}${k?' ('+k+')':''}">${gnIco[id]}</button>`).join('')}
+        <span class="nb-tb-sep nb-gt-history-sep"></span>
+        <button class="nb-gt nb-gt-history" id="nbGnUndo" title="${t('tipUndo')}">←</button>
+        <button class="nb-gt nb-gt-history" id="nbGnRedo" title="${t('tipRedo')}">→</button>
+        <span class="nb-tb-sep"></span>
+        ${tools.slice(3).map(([id,tt,k])=>`<button class="nb-gt nb-gt-advanced ${tool===id?'nb-on':''}" data-gt="${id}" title="${tt}${k?' ('+k+')':''}">${gnIco[id]}</button>`).join('')}
+        <button class="nb-gt nb-gt-advanced ${(gnRulerState||gnRecState)?'nb-on':''}" id="nbGnAccBtn" title="${t('accessories')}">${gnIco.accessories}</button>
+        <button class="nb-gt nb-gt-more ${tools.slice(3).some(x=>x[0]===tool)?'nb-on':''}" id="nbGnMore" title="${t('accessories')}">•••</button>
         <span class="nb-gnflex"></span>
-        <button class="nb-gt" id="nbGnUndo" title="${t('tipUndo')}">↩</button>
-        <button class="nb-gt" id="nbGnRedo" title="${t('tipRedo')}">↪</button>
       </div>
       ${gnSubbar(tool)}
       ${gnT.textPinned && tool!=='text' ? gnTextSub(true) : ''}
@@ -2740,6 +2781,28 @@
       book.updated = Date.now(); save(); renderObjLayer(book, pg, true);
     });
     root.querySelector('#nbGnAccBtn').addEventListener('click', e=>openAccessoriesPop(e.currentTarget, book, pg));
+    root.querySelector('#nbGnMore').addEventListener('click', e=>{
+      const moreTools=[['lasso',t('lassoTitle')],['text',t('textTool')],['image',t('imageTool')],['photo',t('photoTool')],['sticky',t('stickyTool')],['laser',t('laserTool')]];
+      const textMore=gnT.tool==='text'?`<span class="nb-pop-sep"></span><div class="nb-gn-more-selects"><select data-gntxfont aria-label="${t('fontDefault')}"><option value="">${t('fontDefault')}</option>${FONTS.map(x=>`<option value="${x}">${x}</option>`).join('')}</select><select data-gntxsize aria-label="${t('sizeLbl')}"><option value="">${t('sizeLbl')}</option>${SIZES.map(s=>`<option value="${s.v}">${s.l}</option>`).join('')}</select></div><button data-gntxmore="bold"><b>B</b><span>${t('tipBold')}</span></button><button data-gntxmore="italic"><i>I</i><span>${t('tipItalic')}</span></button><button data-gntxmore="underline"><u>U</u><span>${t('tipUnder')}</span></button><button data-gntxmore="strikeThrough"><s>S</s><span>${t('tipStrike')}</span></button><button data-gntxmore="hilite">▰<span>${t('tipHilite')}</span></button><button data-gntxmore="justifyLeft">←<span>${t('tipLeft')}</span></button><button data-gntxmore="justifyCenter">↔<span>${t('tipCenter')}</span></button><button data-gntxmore="justifyRight">→<span>${t('tipRight')}</span></button><button data-gntxmore="insertUnorderedList">•<span>${t('tipUl')}</span></button><button data-gntxmore="insertOrderedList">1.<span>${t('tipOl')}</span></button><button data-gntxmore="check">☑<span>${t('tipCheck')}</span></button><button data-gntxmore="box">□<span>${t('boxBorder')}</span></button><button data-gntxmore="pin">⌖<span>${t('pinText')}</span></button>`:'';
+      const p=openPopover(e.currentTarget,`<div class="nb-pop-list nb-gn-more-list">${moreTools.map(([id,tt])=>`<button data-gnmore="${id}">${gnIco[id]}<span>${tt}</span></button>`).join('')}<button data-gnmore="accessories">${gnIco.accessories}<span>${t('accessories')}</span></button>${textMore}</div>`);
+      p.querySelectorAll('[data-gnmore]').forEach(b=>b.addEventListener('click',()=>{
+        const id=b.dataset.gnmore;
+        if(id==='accessories'){closePopover();openAccessoriesPop(root.querySelector('#nbGnMore'),book,pg);return;}
+        flushPage(book,editor,pg);gnT.tool=id;saveTools();closePopover();render();
+        if(id==='image'||id==='photo')setTimeout(()=>root.querySelector(id==='image'?'#nbGnImgFile':'#nbGnPhotoFile')?.click(),60);
+      }));
+      p.querySelectorAll('[data-gntxmore]').forEach(b=>b.addEventListener('click',()=>{
+        const cmd=b.dataset.gntxmore;editor.focus();
+        if(cmd==='hilite')document.execCommand('hiliteColor',false,gnT.textHilite||'#fff176');
+        else if(cmd==='check')root.querySelector('#nbTxCheck')?.click();
+        else if(cmd==='box')root.querySelector('#nbTxBox')?.click();
+        else if(cmd==='pin')root.querySelector('#nbTxPin')?.click();
+        else document.execCommand(cmd,false,null);
+        closePopover();
+      }));
+      p.querySelector('[data-gntxfont]')?.addEventListener('change',ev=>{if(!ev.target.value)return;editor.focus();document.execCommand('fontName',false,ev.target.value);});
+      p.querySelector('[data-gntxsize]')?.addEventListener('change',ev=>{if(!ev.target.value)return;editor.focus();document.execCommand('fontSize',false,ev.target.value);});
+    });
     wireRuler(book, pg);
     /* sub-barras */
     const tool = gnT.tool;
@@ -2758,12 +2821,16 @@
      v7 — Acessórios: Gravar e resumir, Mostrar gravações, Régua.
      ================================================================ */
   function openAccessoriesPop(anchor, book, pg){
+    const recAction = gnRecState
+      ? `<button data-acc="pause">${gnRecState.paused?'▶':'Ⅱ'} ${gnRecState.paused?t('recResume'):t('recPause')}</button><button data-acc="rec"><span class="nb-rec-stop-ico"></span> ${t('recStop')}</button>`
+      : `<button data-acc="rec"><span class="nb-rec-mic-ico"></span> ${t('recStart')}</button>`;
     const pop = openPopover(anchor, `<div class="nb-pop-list">
-      <button data-acc="rec">${gnRecState?'⏺ '+t('recStop'):'🎙 '+t('recStart')}</button>
-      <button data-acc="lib">🗂 ${t('showRecordings')}</button>
-      <button data-acc="ruler">📐 ${t('rulerTool')}${gnRulerState?' ✓':''}</button>
+      ${recAction}
+      <button data-acc="lib"><span class="nb-rec-folder-ico"></span> ${t('showRecordings')}</button>
+      <button data-acc="ruler"><span class="nb-ruler-menu-ico"></span> ${t('rulerTool')}${gnRulerState?' ✓':''}</button>
     </div>`);
     pop.querySelector('[data-acc="rec"]').addEventListener('click', ()=>{ closePopover(); toggleRecording(); });
+    const pause = pop.querySelector('[data-acc="pause"]'); if(pause) pause.addEventListener('click', ()=>{ closePopover(); pauseRecording(); });
     pop.querySelector('[data-acc="lib"]').addEventListener('click', ()=>{ closePopover(); openRecordingsLibrary(); });
     pop.querySelector('[data-acc="ruler"]').addEventListener('click', ()=>{
       closePopover();
@@ -2823,9 +2890,35 @@
   }
 
   /* ---------- Gravar e resumir: MediaRecorder sem limite de tempo (só de tamanho, 100MB) ---------- */
-  let gnRecState = null; // {recorder, chunks, startedAt, timerEl}
+  let gnRecState = null; // {recorder, chunks, startedAt, recognition, transcript, segments, paused}
+  let gnRecTicker = 0;
+  function recElapsed(){ return gnRecState ? Math.max(0,Math.round((Date.now()-gnRecState.startedAt-(gnRecState.pausedMs||0)-(gnRecState.pausedAt?Date.now()-gnRecState.pausedAt:0))/1000)) : 0; }
+  function startLiveTranscription(state){
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR) return;
+    try{
+      const recognition = new SR();
+      recognition.lang = lang()==='pt' ? 'pt-BR' : 'en-US'; recognition.continuous = true; recognition.interimResults = true;
+      recognition.onresult = ev=>{
+        if(!gnRecState || gnRecState!==state) return;
+        let interim='';
+        for(let i=ev.resultIndex;i<ev.results.length;i++){
+          const txt=(ev.results[i][0]&&ev.results[i][0].transcript||'').trim(); if(!txt) continue;
+          if(ev.results[i].isFinal){ state.transcript=(state.transcript?state.transcript+' ':'')+txt; state.segments.push({at:recElapsed(),text:txt}); }
+          else interim += (interim?' ':'')+txt;
+        }
+        state.interim=interim; nbUpdateRecBadge();
+      };
+      recognition.onend = ()=>{ if(gnRecState===state && !state.paused && state.recorder.state==='recording') try{recognition.start();}catch(e){} };
+      recognition.onerror = ()=>{};
+      recognition.start(); state.recognition=recognition;
+    }catch(e){}
+  }
   async function toggleRecording(){
-    if(gnRecState){ gnRecState.recorder.stop(); return; }
+    if(gnRecState){
+      try{ if(gnRecState.recognition) gnRecState.recognition.stop(); }catch(e){}
+      gnRecState.recorder.stop(); return;
+    }
     if(!navigator.mediaDevices || !window.MediaRecorder){ toast(t('recFail'), true); return; }
     try{
       const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
@@ -2834,7 +2927,8 @@
       recorder.ondataavailable = e=>{ if(e.data && e.data.size) chunks.push(e.data); };
       recorder.onstop = async ()=>{
         stream.getTracks().forEach(tk=>tk.stop());
-        const startedAt = gnRecState.startedAt;
+        const state = gnRecState;
+        const startedAt = state.startedAt, durationSec=recElapsed();
         gnRecState = null; nbUpdateRecBadge();
         const blob = new Blob(chunks, { type: recorder.mimeType||'audio/webm' });
         toast(t('recUploading'));
@@ -2842,21 +2936,88 @@
         if(!up) return;
         DB.recordings.push({
           id: uid(), name: fmtDate(startedAt), url: up.url, key: up.key,
-          createdAt: startedAt, durationSec: Math.round((Date.now()-startedAt)/1000), folderId: null
+          createdAt: startedAt, durationSec, folderId: null,
+          transcript:(state.transcript||'').trim(), transcriptSegments:state.segments||[]
         });
         save(); toast(t('recSaved'));
       };
-      recorder.start();
-      gnRecState = { recorder, chunks, startedAt: Date.now() };
+      recorder.start(1000);
+      gnRecState = { recorder, chunks, startedAt: Date.now(), transcript:'', interim:'', segments:[], paused:false, pausedMs:0, pausedAt:0, recognition:null };
+      startLiveTranscription(gnRecState);
       nbUpdateRecBadge();
       toast(t('recStarted'));
     }catch(e){ toast(t('recFail'), true); }
   }
+  function pauseRecording(){
+    const s=gnRecState; if(!s) return;
+    try{
+      if(s.paused){
+        s.pausedMs += Date.now()-(s.pausedAt||Date.now()); s.pausedAt=0; s.paused=false;
+        s.recorder.resume(); if(s.recognition) try{s.recognition.start();}catch(e){}
+      }else{
+        s.paused=true; s.pausedAt=Date.now(); s.recorder.pause(); if(s.recognition) try{s.recognition.stop();}catch(e){}
+      }
+      nbUpdateRecBadge();
+    }catch(e){}
+  }
   function nbUpdateRecBadge(){
     const btn = root.querySelector('#nbGnAccBtn'); if(btn) btn.classList.toggle('nb-on', !!gnRecState || !!gnRulerState);
+    let hud=root.querySelector('#nbRecHud');
+    if(!gnRecState){ if(hud) hud.remove(); if(gnRecTicker){clearInterval(gnRecTicker);gnRecTicker=0;} return; }
+    if(!hud){
+      hud=document.createElement('div'); hud.id='nbRecHud'; hud.className='nb-rec-hud';
+      const tools=root.querySelector('#nbGnTools'); if(tools) tools.appendChild(hud);
+    }
+    hud.innerHTML=`<span class="nb-rec-live-dot ${gnRecState.paused?'is-paused':''}"></span><strong>${gnRecState.paused?t('recPause'):t('recLiveTranscript')}</strong><time>${fmtDur(recElapsed())}</time><span class="nb-rec-live-text">${esc(gnRecState.interim||gnRecState.transcript.slice(-90)||'…')}</span><button type="button" data-rec-hud="pause">${gnRecState.paused?'▶':'Ⅱ'}</button><button type="button" data-rec-hud="stop">■</button>`;
+    hud.querySelector('[data-rec-hud="pause"]').onclick=pauseRecording; hud.querySelector('[data-rec-hud="stop"]').onclick=toggleRecording;
+    if(!gnRecTicker) gnRecTicker=setInterval(()=>{ if(gnRecState) nbUpdateRecBadge(); },1000);
   }
 
-  /* ---------- Mostrar gravações: lista por data/hora, renomear, mover pra pastas ---------- */
+  async function shareRecording(r){
+    try{
+      const resp=await fetch(r.url), blob=await resp.blob();
+      const ext=(blob.type||'audio/webm').includes('mp4')?'m4a':'webm';
+      const file=new File([blob], (r.name||'recording')+'.'+ext, {type:blob.type||'audio/webm'});
+      if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){ await navigator.share({title:r.name,files:[file]}); return; }
+    }catch(e){}
+    try{ await navigator.clipboard.writeText(r.url); toast(lang()==='pt'?'Link da gravação copiado.':'Recording link copied.'); }
+    catch(e){ const a=document.createElement('a');a.href=r.url;a.download=r.name||'recording';a.click(); }
+  }
+  function openRecordingTranscript(r){
+    closeModal();
+    const segs=(r.transcriptSegments&&r.transcriptSegments.length)?r.transcriptSegments:[{at:0,text:r.transcript||''}];
+    const m=openModal(`<div class="nb-transcript-head"><div><span>${t('recTranscript')}</span><h3>${esc(r.name)}</h3><p>${lang()==='pt'?'Selecione qualquer trecho para copiar ou edite o texto diretamente.':'Select any passage to copy or edit the text directly.'}</p></div><button class="nb-modal-x" id="nbTranscriptClose">×</button></div>
+      <audio class="nb-transcript-audio" controls src="${esc(r.url)}"></audio>
+      <div class="nb-transcript-tools"><button class="nb-btn" id="nbTranscriptCopy">⧉ ${t('recCopyAll')}</button><button class="nb-btn" id="nbTranscriptShare">↗ ${t('recShare')}</button></div>
+      <div class="nb-transcript-editor" id="nbTranscriptEditor" aria-label="${t('recTranscript')}">${segs.map(s=>`<p><time>${fmtDur(s.at||0)}</time><span contenteditable="true">${esc(s.text||'')}</span></p>`).join('')}</div>
+      ${r.transcript?'' : `<p class="nb-transcript-empty">${t('recNoTranscript')}</p>`}
+      <div class="nb-modal-foot"><button class="nb-btn" id="nbTranscriptBack">${t('back')}</button><button class="nb-btn nb-btn-primary" id="nbTranscriptSave">${t('saveBtn')}</button></div>`);
+    const text=()=>Array.from(m.querySelectorAll('#nbTranscriptEditor span')).map(x=>x.innerText.trim()).filter(Boolean).join(' ');
+    m.querySelector('#nbTranscriptCopy').addEventListener('click',async()=>{ try{await navigator.clipboard.writeText(text());toast(lang()==='pt'?'Transcrição copiada.':'Transcript copied.');}catch(e){} });
+    m.querySelector('#nbTranscriptShare').addEventListener('click',()=>shareRecording(r));
+    const saveTranscript=()=>{ const rows=Array.from(m.querySelectorAll('#nbTranscriptEditor p')); r.transcriptSegments=rows.map(p=>{const tm=((p.querySelector('time')||{}).textContent||'0:00').split(':').map(Number);return {at:Math.max(0,(tm.length>1?tm[0]*60+tm[1]:tm[0])||0),text:(p.querySelector('span')?.innerText||'').trim()};}); r.transcript=text(); save(); };
+    m.querySelector('#nbTranscriptSave').addEventListener('click',()=>{saveTranscript();toast(t('saved'));});
+    const back=()=>{saveTranscript();closeModal();openRecordingsLibrary();};
+    m.querySelector('#nbTranscriptBack').addEventListener('click',back); m.querySelector('#nbTranscriptClose').addEventListener('click',back);
+  }
+  function deleteRecording(r, onChange){
+    if(!confirm(t('confirmDelRec'))) return;
+    if(r.key) try{ fetch('/api/notebook/audio/'+r.key, {method:'DELETE'}); }catch(e){}
+    DB.recordings=DB.recordings.filter(x=>x.id!==r.id); save(); onChange();
+  }
+  function openRecordingMenu(anchor,r,onChange){
+    const p=openPopover(anchor,`<div class="nb-pop-list nb-rec-action-menu">
+      <button data-ra="rename">✎ ${t('recRename')}</button><button data-ra="transcribe">≣ ${t('recTranscribe')}</button><button data-ra="share">↗ ${t('recShare')}</button><button data-ra="delete" class="nb-pm-danger">⌫ ${t('recDelete')}</button></div>`);
+    p.querySelectorAll('[data-ra]').forEach(b=>b.addEventListener('click',()=>{
+      const act=b.dataset.ra; closePopover();
+      if(act==='rename'){const name=prompt(t('recRename'),r.name);if(name&&name.trim()){r.name=name.trim();save();onChange();}}
+      else if(act==='transcribe') openRecordingTranscript(r);
+      else if(act==='share') shareRecording(r);
+      else if(act==='delete') deleteRecording(r,onChange);
+    }));
+  }
+
+  /* ---------- Mostrar gravações: reprodução, pastas e menu completo por item ---------- */
   function openRecordingsLibrary(){
     const m = openModal(`
       <h3>${t('showRecordings')}</h3>
@@ -2877,13 +3038,13 @@
           ${items.length?items.map(r=>`
             <div class="nb-rec-row" data-recid="${r.id}">
               <button class="nb-rec-play" data-recplay="${r.id}">▶</button>
-              <input class="nb-rec-name" data-recname="${r.id}" value="${esc(r.name)}">
+              <div class="nb-rec-meta"><strong>${esc(r.name)}</strong><span>${new Date(r.createdAt||Date.now()).toLocaleString(lang()==='pt'?'pt-BR':'en-US',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}${r.transcript?' · '+t('recTranscript'):''}</span></div>
               <span class="nb-rec-dur">${fmtDur(r.durationSec)}</span>
               <select class="nb-tb-select nb-rec-move" data-recmove="${r.id}">
                 <option value="">${t('recUnfiled')}</option>
                 ${DB.recFolders.map(f=>`<option value="${f.id}" ${r.folderId===f.id?'selected':''}>${esc(f.name)}</option>`).join('')}
               </select>
-              <button class="nb-rec-del" data-recdel="${r.id}">🗑</button>
+              <button class="nb-rec-more" data-recmenu="${r.id}" aria-label="Menu">•••</button>
             </div>`).join(''):`<div class="nb-cpick-empty">—</div>`}
         </div>`;
       }).join('');
@@ -2893,17 +3054,12 @@
         const audio = document.createElement('audio'); audio.className='nb-rec-audio'; audio.controls=true; audio.src=r.url; audio.autoplay=true;
         b.closest('.nb-rec-row').appendChild(audio);
       }));
-      body.querySelectorAll('[data-recname]').forEach(inp=>inp.addEventListener('change', ()=>{
-        const r = DB.recordings.find(x=>x.id===inp.dataset.recname); if(r){ r.name = inp.value.trim()||r.name; save(); }
-      }));
+      body.querySelectorAll('[data-recmenu]').forEach(b=>{
+        b.addEventListener('click',()=>{const r=DB.recordings.find(x=>x.id===b.dataset.recmenu);if(r)openRecordingMenu(b,r,renderBody);});
+        wireContextAction(b.closest('.nb-rec-row'),()=>{const r=DB.recordings.find(x=>x.id===b.dataset.recmenu);if(r)openRecordingMenu(b,r,renderBody);});
+      });
       body.querySelectorAll('[data-recmove]').forEach(sel=>sel.addEventListener('change', ()=>{
         const r = DB.recordings.find(x=>x.id===sel.dataset.recmove); if(r){ r.folderId = sel.value||null; save(); renderBody(); }
-      }));
-      body.querySelectorAll('[data-recdel]').forEach(b=>b.addEventListener('click', ()=>{
-        const r = DB.recordings.find(x=>x.id===b.dataset.recdel); if(!r) return;
-        if(!confirm(t('confirmDelRec'))) return;
-        if(r.key) try{ fetch('/api/notebook/audio/'+r.key, {method:'DELETE'}); }catch(e){}
-        DB.recordings = DB.recordings.filter(x=>x.id!==r.id); save(); renderBody();
       }));
       body.querySelectorAll('[data-recfdel]').forEach(b=>b.addEventListener('click', ()=>{
         const fid = b.dataset.recfdel;
@@ -3327,6 +3483,15 @@
       return false;
     };
     let cur = null, lassoPath = null, dragSel = null, erasing = false, strokeErased = false;
+    let activePointerId = null, penGuardUntil = 0;
+    const pointerAllowed = e=>{
+      /* Rejeição de palma: mantém a Apple Pencil soberana e ignora contatos
+         largos de mão/palma. Um toque de dedo continua disponível quando não
+         há caneta ativa, preservando o uso em celulares e tablets sem stylus. */
+      if(e.pointerType==='pen'){ penGuardUntil = performance.now()+700; return true; }
+      if(e.pointerType==='touch' && (performance.now()<penGuardUntil || (e.width||0)>24 || (e.height||0)>24)) return false;
+      return true;
+    };
     const eraseWholeStrokes = (x,y)=>{
       const rad = Math.max(gnT.eraserWidth, 12);
       const before = pg.strokes.length;
@@ -3360,6 +3525,8 @@
     };
 
     canvas.addEventListener('pointerdown', e=>{
+      if(activePointerId!==null || !pointerAllowed(e)) return;
+      activePointerId = e.pointerId;
       e.preventDefault(); canvas.setPointerCapture(e.pointerId);
       const [x,y] = pos(e);
       if(tool==='laser'){ st.laser = [{x, y, t:performance.now()}]; st.laserOn = true; st.laserUp = 0; laserLoop(st); return; }
@@ -3374,11 +3541,12 @@
         w: tool==='eraser' ? gnT.eraserWidth : (isM ? gnT.markerWidth : gnT.penWidth),
         e: tool==='eraser' ? 1 : 0,
         m: isM ? 1 : 0,
-        p: [Math.round(x), Math.round(y)]
+        p: [Math.round(x), Math.round(y)],
+        pr: [e.pointerType==='pen' ? Math.max(.08,e.pressure||.45) : .5]
       };
       if(tool==='pen' && gnT.penStyle!=='fountain') cur.st = gnT.penStyle;
     });
-    canvas.addEventListener('pointermove', e=>{
+    const movePointer = e=>{
       const [x,y] = pos(e);
       if(tool==='laser'){ if(st.laserOn) st.laser.push({x, y, t:performance.now()}); return; }
       if(tool==='lasso'){
@@ -3409,9 +3577,19 @@
       const n = cur.p.length, xi = Math.round(x), yi = Math.round(y);
       if(n>=2 && Math.abs(cur.p[n-2]-xi)<2 && Math.abs(cur.p[n-1]-yi)<2) return;
       cur.p.push(xi, yi);
+      cur.pr.push(e.pointerType==='pen' ? Math.max(.08,e.pressure||.45) : .5);
       drawStroke(ctx, cur, n-2);
+    };
+    canvas.addEventListener('pointermove', e=>{
+      if(e.pointerId!==activePointerId) return;
+      e.preventDefault();
+      const events = typeof e.getCoalescedEvents==='function' ? e.getCoalescedEvents() : [e];
+      (events.length?events:[e]).forEach(movePointer);
     });
-    const end = ()=>{
+    const end = e=>{
+      if(e && e.pointerId!==activePointerId) return;
+      if(e && e.pointerType==='pen') penGuardUntil = performance.now()+700;
+      activePointerId = null;
       if(tool==='laser'){ st.laserOn = false; st.laserUp = performance.now(); return; }
       if(tool==='lasso'){
         if(dragSel){ const mv = dragSel.moved; dragSel = null; if(mv){ book.updated = Date.now(); save(); } return; }
@@ -3461,8 +3639,8 @@
   function textToolbar(swatchPop){
     return `
     <div class="nb-toolbar" id="nbToolbar">
-      <button class="nb-tb" data-cmd="undo" title="${t('tipUndo')}">↩</button>
-      <button class="nb-tb" data-cmd="redo" title="${t('tipRedo')}">↪</button>
+      <button class="nb-tb" data-cmd="undo" title="${t('tipUndo')}">←</button>
+      <button class="nb-tb" data-cmd="redo" title="${t('tipRedo')}">→</button>
       <span class="nb-tb-sep"></span>
       <select class="nb-tb-select" id="nbFmtBlock">
         <option value="p">${t('fmtP')}</option><option value="h1">${t('fmtH1')}</option>
@@ -3528,7 +3706,7 @@
         ${widths.map(w=>`<button class="nb-wbtn" data-w="${w.v}" title="${t(w.k)}"><span style="width:${Math.min(22,w.v+8)}px;height:${Math.max(2,Math.round(w.v/2))}px"></span></button>`).join('')}
       </div>
       <span class="nb-tb-sep"></span>
-      <button class="nb-btn" id="nbUndoStroke" title="${t('undoStroke')}">↩</button>
+      <button class="nb-btn" id="nbUndoStroke" title="${t('undoStroke')}">←</button>
       <button class="nb-btn nb-btn-danger" id="nbClearDraw">${t('clearDraw')}</button>
     </div>`;
   }
@@ -3765,6 +3943,18 @@
       ctx.restore(); return;
     }
     const start = Math.max(0, fromIdx||0);
+    /* Pressão real da caneta (Pointer Events): cada segmento recebe a largura
+       correspondente ao ponto coletado. Strokes antigos, sem `pr`, continuam
+       sendo desenhados exatamente como antes. */
+    if(Array.isArray(s.pr) && s.pr.length>1 && !s.m && !s.e && p.length>=4){
+      const base = ctx.lineWidth;
+      for(let i=Math.max(2,start+2); i<p.length; i+=2){
+        const pressure = Math.max(.08, Math.min(1, Number(s.pr[i/2])||.5));
+        ctx.lineWidth = Math.max(.65, base*(.48+pressure*.92));
+        ctx.beginPath(); ctx.moveTo(p[i-2],p[i-1]); ctx.lineTo(p[i],p[i+1]); ctx.stroke();
+      }
+      ctx.restore(); return;
+    }
     ctx.beginPath();
     ctx.moveTo(p[start], p[start+1]);
     for(let i=start+2; i<p.length; i+=2) ctx.lineTo(p[i], p[i+1]);
@@ -3850,7 +4040,7 @@
   (function(){ const cut = Date.now()-30*864e5; const n0 = AN.notes.length;
     AN.notes = AN.notes.filter(n=>!(n.deletedAt && n.deletedAt < cut));
     if(AN.notes.length !== n0) anPersist(); })();
-  let anV = { folder:'all', noteId:null, sidebar:window.innerWidth>1024, gallery:false, sort:'edited', group:true, pinnedOpen:true, search:'', trashSel:false, trashPicked:[], foldersOpen:true };
+  let anV = { folder:'all', noteId:null, sidebar:window.innerWidth>1024, gallery:false, sort:'edited', group:true, pinnedOpen:true, search:'', trashSel:false, trashPicked:[], foldersOpen:false };
   let anBootNote = params.get('note');
   const AN_HILITES = [ // Roxo, Rosa, Laranja, Menta, Azul (estilo Apple Notes)
     {c:'#d9c8f6', k:'hiPurple'}, {c:'#f6c9dd', k:'hiPink'}, {c:'#f8d9b0', k:'hiOrange'},
@@ -3946,8 +4136,8 @@
           <button class="nb-gt ${dis}" id="anTableBtn" title="${t('anTable')}">⊞</button>
           <button class="nb-gt ${dis}" id="anClipBtn" title="${t('anAttachFile')}">📎</button>
           <span class="nb-tb-sep"></span>
-          <button class="nb-gt ${dis}" id="anUndoBtn" title="${t('tipUndo')}">↩</button>
-          <button class="nb-gt ${dis}" id="anRedoBtn" title="${t('tipRedo')}">↪</button>
+          <button class="nb-gt ${dis}" id="anUndoBtn" title="${t('tipUndo')}">←</button>
+          <button class="nb-gt ${dis}" id="anRedoBtn" title="${t('tipRedo')}">→</button>
           <span class="nb-tb-sep"></span>
           <button class="nb-gt ${dis}" id="anShareBtn" title="${t('anSendCopy')}">
             <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 14V3M12 3L8 7M12 3l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 11v9h14v-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -4066,9 +4256,7 @@
       }
       anV.noteId = b.dataset.annote; anSyncUrl(); render();
     }));
-    if(!inTrash) col.querySelectorAll('[data-annote]').forEach(b=>b.addEventListener('contextmenu', e=>{
-      e.preventDefault(); anQuickMenu(b, 'note', b.dataset.annote);
-    }));
+    if(!inTrash) col.querySelectorAll('[data-annote]').forEach(b=>wireContextAction(b, ()=>anQuickMenu(b, 'note', b.dataset.annote)));
     col.querySelectorAll('[data-nchev]').forEach(b=>b.addEventListener('click', e=>{
       e.stopPropagation(); anQuickMenu(b, 'note', b.dataset.nchev);
     }));
@@ -4333,10 +4521,10 @@
       anV.trashSel = false; anV.trashPicked = [];
       anV.folder = b.dataset.anf; anV.noteId = null; anSyncUrl(); render();
     }));
-    root.querySelectorAll('[data-anf]').forEach(b=>b.addEventListener('contextmenu', e=>{
+    root.querySelectorAll('[data-anf]').forEach(b=>wireContextAction(b, ()=>{
       const id = b.dataset.anf;
       if(id==='all'||id==='fav'||id==='shared'||id==='trash') return; // só pastas de verdade
-      e.preventDefault(); anQuickMenu(b, 'folder', id);
+      anQuickMenu(b, 'folder', id);
     }));
     root.querySelectorAll('[data-anfm]').forEach(i=>i.addEventListener('click', e=>{
       e.stopPropagation(); anOpenFolderMenu(i, i.dataset.anfm);

@@ -1175,7 +1175,9 @@
 
   /* ---------------- Admin: gestão de usuários ---------------- */
   function stgUsers(panel,u,lang,t){
-    let html=`<div class="stg-card">${stgHead('users',t.stgSecUsers,'','violet')}`;
+    const isPt=lang==='pt';
+    let html=`<div class="stg-card">${stgHead('users',t.stgSecUsers,isPt?'Gerencie acessos e dados com uma visão objetiva.':'Manage access and data with a focused view.','violet')}
+      <div class="stg-user-tools"><label><span>⌕</span><input id="stgUserSearch" type="search" placeholder="${isPt?'Buscar usuário ou login…':'Search user or login…'}"></label><select id="stgUserStatus"><option value="all">${isPt?'Todos os acessos':'All access'}</option><option value="enabled">${t.settingsEnabled}</option><option value="blocked">${t.settingsBlocked}</option></select><small id="stgUserCount"></small></div>`;
     Object.keys(USER_META).forEach(uid=>{
       if(uid===u)return;
       const meta=USER_META[uid];
@@ -1185,7 +1187,7 @@
       const curLogin=custom&&custom.login?custom.login:meta.originalLogin;
 
       const last=stgFmtDate(getLastAccess(uid),lang)||t.stgNever;
-      html+=`<div class="stg-user-card" data-uid="${uid}">
+      html+=`<div class="stg-user-card" data-uid="${uid}" data-search="${stgEsc((displayName+' '+curLogin).toLowerCase())}" data-status="${blocked?'blocked':'enabled'}">
         <div class="stg-user-header">
           ${stgAvatar(uid,44)}
           <div class="stg-user-id">
@@ -1199,8 +1201,10 @@
               <span class="stg-toggle-label">${blocked?t.settingsBlocked:t.settingsEnabled}</span>
             </button>
             <button class="stg-btn stg-btn-reset stg-btn-ico" data-action="reset" data-uid="${uid}">${stgSvg('refresh')}${t.settingsReset}</button>
+            <button class="stg-btn stg-btn-details" data-action="details-user" data-uid="${uid}">${isPt?'Detalhes':'Details'} <span>⌄</span></button>
           </div>
         </div>
+        <div class="stg-user-details" id="stgUserDetails_${uid}" hidden>
         <div class="stg-user-metrics">
           <div><span class="stg-metric-ico">${stgSvg('clock')}</span><i>${stgEsc(t.stgLastAccess)}</i><b>${stgEsc(last)}</b></div>
           <div><span class="stg-metric-ico">${stgSvg('cards')}</span><i>${stgEsc(t.stgAccessCount)}</i><b>${getAccessCount(uid)}</b></div>
@@ -1211,6 +1215,7 @@
         <div class="stg-user-passes"><i>${stgEsc(t.stgPassCol)}</i><div class="stg-pass-chips">${stgPassSummary(uid,lang)}</div></div>
         <div class="stg-view-block" id="stgUserView_${uid}">
           <div class="stg-info-row"><span class="stg-label">${t.settingsPassword}</span><span class="stg-value">••••••••</span></div>
+        </div>
         </div>
         <div class="stg-edit-form" id="stgUserEdit_${uid}" hidden>
           <div class="stg-field"><label>${t.settingsDisplayName}</label><input type="text" id="stgUName_${uid}" value="${stgEsc(displayName)}" /></div>
@@ -1226,6 +1231,10 @@
     });
     html+=`</div>`;
     panel.innerHTML=html;
+
+    const applyUserFilter=()=>{const q=($('#stgUserSearch')?.value||'').toLowerCase().trim(),status=$('#stgUserStatus')?.value||'all';let n=0;panel.querySelectorAll('.stg-user-card').forEach(c=>{const on=(!q||c.dataset.search.includes(q))&&(status==='all'||c.dataset.status===status);c.hidden=!on;if(on)n++;});const count=$('#stgUserCount');if(count)count.textContent=(isPt?`${n} usuário(s)`:`${n} user(s)`);};
+    $('#stgUserSearch')?.addEventListener('input',applyUserFilter);$('#stgUserStatus')?.addEventListener('change',applyUserFilter);applyUserFilter();
+    panel.querySelectorAll('[data-action="details-user"]').forEach(btn=>btn.addEventListener('click',()=>{const box=$('#stgUserDetails_'+btn.dataset.uid);if(!box)return;box.hidden=!box.hidden;btn.classList.toggle('on',!box.hidden);btn.querySelector('span').textContent=box.hidden?'⌄':'⌃';}));
 
     panel.querySelectorAll('[data-action="toggle"]').forEach(btn=>btn.addEventListener('click',async ()=>{
       try{ await setUserBlocked(btn.dataset.uid,!isUserBlocked(btn.dataset.uid)); }
@@ -1353,7 +1362,7 @@
     const title=$('#internalTitle');
     if(title){const key=PAGE_TITLE_KEYS[p]; title.textContent=(key&&I18N[lang][key])?I18N[lang][key]:p.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');}
   }
-  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); updateDynamicContent(lang); window.dispatchEvent(new CustomEvent('couplemed:langchange',{detail:{lang}}));}
+  function setLang(lang){sessionStorage.setItem(`couplemed_lang_current_${user()}`,lang); document.documentElement.lang=lang==='pt'?'pt-BR':'en'; $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[lang][k]!==undefined)el.textContent=I18N[lang][k];}); $$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml; if(I18N[lang][k]!==undefined)el.innerHTML=I18N[lang][k];}); const bl=$('#cmBackLabel');if(bl)bl.textContent=lang==='pt'?'Voltar':'Back'; updateDynamicContent(lang); window.dispatchEvent(new CustomEvent('couplemed:langchange',{detail:{lang}}));}
   /* ============================== STUDY STREAK (v49) ==============================
      Sequencia de estudos 100% derivada de dados reais do usuario logado:
      - QBank: dias com >=1 attempt (couplemed_qb_<uid>.attempts[].created_at)
@@ -1572,6 +1581,17 @@
     },CM_TICK*1000);
   }
 
+  function cmEnhanceBreadcrumbs(scope){
+    const map={home:'home',flashcards:'flashcards','qbank 1':'qbank-1','banco de questões 1':'qbank-1',notebooks:'notebooks',cadernos:'notebooks',notes:'notes','anotações':'notes','library 1':'library-1','library 2':'library-2','library 3':'library-3',estudos:'flashcards',study:'flashcards'};
+    $$('.fc-bread,.qb-bread,.cm-breadcrumb,.nb-breadcrumb',scope||document).forEach(el=>{
+      if(el.dataset.cmBreadcrumb==='1'||!el.textContent.includes('›'))return;
+      const parts=el.textContent.split('›').map(x=>x.trim()).filter(Boolean);if(parts.length<2)return;
+      el.textContent='';el.classList.add('cm-clickable-breadcrumb');
+      parts.forEach((label,i)=>{if(i){const sep=document.createElement('span');sep.textContent='›';sep.className='cm-bread-sep';el.appendChild(sep);}const key=label.toLowerCase();const target=map[key];if(i<parts.length-1&&target){const a=document.createElement('a');a.textContent=label;a.href=`app.html?page=${target}&u=${encodeURIComponent(user())}`;el.appendChild(a);}else{const s=document.createElement('span');s.textContent=label;if(i===parts.length-1)s.setAttribute('aria-current','page');el.appendChild(s);}});
+      el.dataset.cmBreadcrumb='1';
+    });
+  }
+
   function initPlatform(){if(!document.body.classList.contains('platform-page'))return; preserveUserLinks(); buildBooks(); updateRoundLabels(); const p=page(); document.body.dataset.page=p; if(p!=='home'){document.body.classList.add('internal'); $('#homeDashboard').hidden=true; $('#internalContent').hidden=false; const ld=$('#cmLoader'); if(ld)ld.remove();
     const isQBank=QBANK_PAGES.includes(p);
     const isCS=COMING_SOON_PAGES.includes(p);
@@ -1583,8 +1603,10 @@
     else if(isCS){if(cs)cs.hidden=false; if(rp)rp.hidden=true;}
     else{if(rp)rp.hidden=false;}
   } else {document.body.classList.remove('internal');}
-    $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle); if(el)el.classList.toggle('open');}));
-    $$('[data-page-link]').forEach(a=>{if(a.dataset.pageLink===p){a.classList.add('active'); let anc=a.closest('.submenu'); while(anc){anc.classList.add('open'); anc=anc.parentElement?anc.parentElement.closest('.submenu'):null;}}});
+    const menuStateKey=`couplemed_sidebar_open_${user()}`; const storedOpen=localStorage.getItem(menuStateKey)||'';
+    $$('.submenu').forEach(s=>s.classList.toggle('open',s.id===storedOpen));
+    $$('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const el=$('#'+btn.dataset.toggle);if(!el)return;const willOpen=!el.classList.contains('open');$$('.submenu').forEach(s=>s.classList.remove('open'));if(willOpen)el.classList.add('open');try{localStorage.setItem(menuStateKey,willOpen?el.id:'');}catch(e){}}));
+    $$('[data-page-link]').forEach(a=>{if(a.dataset.pageLink===p)a.classList.add('active');});
     // itens de menu que são link (navegam) E toggle (abrem submenu) ao mesmo tempo: ao navegar
     // para a própria página do item, o submenu deve ficar aberto, já que o data-page-link acima
     // só cobre os links FILHOS do submenu, não o pai que os contém. (Step 1 é toggle puro; esta
@@ -1619,6 +1641,9 @@
       try{ sameOrigin = document.referrer && new URL(document.referrer).origin===location.origin; }catch(err){}
       if(sameOrigin && history.length>1) history.back(); else location.href=backBtn.getAttribute('href');
     });
+    const backLabel=$('#cmBackLabel');if(backLabel)backLabel.textContent=cmLang()==='pt'?'Voltar':'Back';
+    cmEnhanceBreadcrumbs(document);
+    const crumbRoot=$('#regularPage');if(crumbRoot&&!window.__cmBreadcrumbObserver){window.__cmBreadcrumbObserver=new MutationObserver(()=>cmEnhanceBreadcrumbs(crumbRoot));window.__cmBreadcrumbObserver.observe(crumbRoot,{childList:true,subtree:true});}
     const mobile=$('#mobileMenuButton'), side=$('#sidebar'), scrim=$('#sidebarScrim'); if(mobile)mobile.addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('open')}); if(scrim)scrim.addEventListener('click',()=>{side.classList.remove('open');scrim.classList.remove('open')});
     const logout=$('#logoutLink'); if(logout)logout.addEventListener('click',async e=>{
       e.preventDefault();
