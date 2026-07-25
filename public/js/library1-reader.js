@@ -216,7 +216,10 @@
           </div>
           <div class="l1r-pagewrap" id="l1rPageWrap">
             <div class="l3r-loading" id="l1rLoading">${esc(t('loading'))}</div>
-            <article class="l1r-article" id="l1rArticle"></article>
+            <div class="l1r-columns">
+              <article class="l1r-article" id="l1rArticle"></article>
+              <aside class="l1r-aside" id="l1rAside"></aside>
+            </div>
           </div>
         </div>
       </div>`;
@@ -225,6 +228,7 @@
       root: r.hostEl.querySelector('#l1rRoot'),
       loading: r.hostEl.querySelector('#l1rLoading'),
       article: r.hostEl.querySelector('#l1rArticle'),
+      aside: r.hostEl.querySelector('#l1rAside'),
       searchInput: r.hostEl.querySelector('#l1rSearchInput'),
       searchCount: r.hostEl.querySelector('#l1rSearchCount'),
       fontLabel: r.hostEl.querySelector('#l1rFontLabel'),
@@ -299,14 +303,23 @@
     on('#l1rNotesBtn','click',     ()=> sendSelectionTo(r,'notes'));
     on('#l1rFlashcardBtn','click', ()=> sendSelectionTo(r,'flashcard'));
 
-    /* ---- clique no artigo: apagar marcação (borracha) ou ampliar imagem ---- */
+    /* ---- clique no artigo: apagar marcação (borracha), referência ou imagem ---- */
     r.el.article.addEventListener('click', e=>{
       if(r.eraseMode==='click'){
         const mark = e.target.closest && e.target.closest('.l1r-hl');
         if(mark){ removeHighlight(r, mark.dataset.hlId); return; }
       }
-      const img = e.target.closest && e.target.closest('img');
-      if(img) openLightbox(r, img);
+      // referência inline no texto: "image 1", "figure 2", "table 3"
+      const ref = e.target.closest && e.target.closest('[data-ref]');
+      if(ref){ e.preventDefault(); openLightbox(r, ref.dataset.ref); return; }
+      const img = e.target.closest && e.target.closest('img[data-asset]');
+      if(img) openLightbox(r, img.dataset.asset);
+    }, { signal: r.uiAbort.signal });
+
+    /* ---- clique numa miniatura do painel lateral ---- */
+    r.el.aside && r.el.aside.addEventListener('click', e=>{
+      const th = e.target.closest && e.target.closest('[data-asset]');
+      if(th) openLightbox(r, th.dataset.asset);
     }, { signal: r.uiAbort.signal });
 
     updateFontLabel(r);
@@ -315,31 +328,83 @@
 
   /* ---------------------------- imagem ampliada (lightbox) ----------------------------
      O material da Library 1 vem de prints e traz muita figura que é conteúdo de verdade
-     (diagramas, algoritmos, fotos clínicas, tabelas em imagem). Em tamanho de página elas
-     ficam pequenas demais para estudar, então clicar abre a imagem inteira por cima.
-     Fecha com clique fora, com o X ou com Esc.
+     (diagramas, algoritmos, fotos clínicas, tabelas em imagem). No original elas moram num
+     painel lateral e são abertas clicando na referência do texto ("image 1", "figure 2") —
+     aqui é igual, e o lightbox sempre mostra a versão do IDIOMA CORRENTE. Trocar EN/PT com
+     a imagem aberta troca a imagem na hora.
+     Fecha com clique fora, com o ✕ ou com Esc; ‹ › andam entre os itens do mesmo grupo.
   ------------------------------------------------------------------------------------- */
-  function openLightbox(r, img){
+  function assetList(r, kind){
+    const all = (r.content && r.content.assets) || {};
+    return Object.keys(all)
+      .filter(k => !kind || all[k].kind === kind)
+      .sort((a,b) => (all[a].n||0) - (all[b].n||0));
+  }
+  function assetSrc(r, key, lang){
+    const a = (r.content && r.content.assets && r.content.assets[key]) || null;
+    if(!a) return null;
+    return a[lang] || a.en || a.pt || null;
+  }
+
+  function openLightbox(r, refKey){
+    const a = (r.content && r.content.assets && r.content.assets[refKey]) || null;
+    if(!a) return;
     closeLightbox(r);
     const box = document.createElement('div');
     box.className = 'l1r-lightbox';
     box.innerHTML = `
       <button type="button" class="l1r-lb-close" aria-label="${esc(t('close'))}" title="${esc(t('close'))}">✕</button>
-      <img src="${esc(img.getAttribute('src'))}" alt="${esc(img.getAttribute('alt')||'')}" />
-      ${img.getAttribute('alt') ? `<figcaption>${esc(img.getAttribute('alt'))}</figcaption>` : ''}`;
+      <button type="button" class="l1r-lb-nav l1r-lb-prev" data-lb-nav="-1" aria-label="prev">‹</button>
+      <button type="button" class="l1r-lb-nav l1r-lb-next" data-lb-nav="1" aria-label="next">›</button>
+      <img alt="" /><figcaption></figcaption>`;
     box.addEventListener('click', e=>{
+      const nav = e.target.closest('[data-lb-nav]');
+      if(nav){ stepLightbox(r, Number(nav.dataset.lbNav)); return; }
       if(e.target===box || e.target.closest('.l1r-lb-close')) closeLightbox(r);
     });
     document.body.appendChild(box);
     r.lightbox = box;
+    r.lightboxKey = refKey;
+    paintLightbox(r);
     if(!r.lbKeyHandler){
-      r.lbKeyHandler = e=>{ if(e.key==='Escape') closeLightbox(r); };
+      r.lbKeyHandler = e=>{
+        if(!r.lightbox) return;
+        if(e.key==='Escape') closeLightbox(r);
+        else if(e.key==='ArrowRight') stepLightbox(r, 1);
+        else if(e.key==='ArrowLeft')  stepLightbox(r, -1);
+      };
       document.addEventListener('keydown', r.lbKeyHandler);
     }
+  }
+  // Repinta com o idioma corrente — é o que faz a imagem trocar junto com o texto.
+  function paintLightbox(r){
+    if(!r.lightbox || !r.lightboxKey) return;
+    const a = r.content.assets[r.lightboxKey];
+    const v = assetSrc(r, r.lightboxKey, r.lang);
+    if(!v) return;
+    const img = r.lightbox.querySelector('img');
+    img.setAttribute('src', v.src);
+    img.setAttribute('alt', v.alt || '');
+    const cap = r.lightbox.querySelector('figcaption');
+    cap.textContent = v.alt || '';
+    cap.hidden = !v.alt;
+    const group = assetList(r, a.kind);
+    const many = group.length > 1;
+    r.lightbox.querySelectorAll('.l1r-lb-nav').forEach(b=> b.hidden = !many);
+  }
+  function stepLightbox(r, dir){
+    if(!r.lightboxKey) return;
+    const a = r.content.assets[r.lightboxKey];
+    const group = assetList(r, a.kind);
+    const i = group.indexOf(r.lightboxKey);
+    if(i < 0 || group.length < 2) return;
+    r.lightboxKey = group[(i + dir + group.length) % group.length];
+    paintLightbox(r);
   }
   function closeLightbox(r){
     if(r.lightbox && r.lightbox.parentNode) r.lightbox.parentNode.removeChild(r.lightbox);
     r.lightbox = null;
+    r.lightboxKey = null;
     if(r.lbKeyHandler){ document.removeEventListener('keydown', r.lbKeyHandler); r.lbKeyHandler = null; }
   }
 
@@ -356,6 +421,7 @@
     r.lang = lang;
     syncLangButtons(r);
     renderArticle(r);
+    paintLightbox(r);   // imagem aberta troca de idioma junto com o texto
   }
   function syncLangButtons(r){
     r.hostEl.querySelectorAll('.l1r-langbtn').forEach(b=>
@@ -388,7 +454,36 @@
     r.el.article.style.fontSize = (r.fontScale*100)+'%';
     r.baseHtml = r.el.article.innerHTML;
     applyAllHighlights(r);
+    renderAside(r);
     if(r.el.searchInput.value.trim()) runSearch(r, r.el.searchInput.value);
+  }
+
+  /* Painel lateral com as miniaturas, agrupadas como no material de origem
+     (IMAGES / FIGURES / TABLES). Miniatura e rótulo seguem o idioma corrente. */
+  function renderAside(r){
+    if(!r.el.aside) return;
+    const groups = [
+      { kind:'image',  label: r.lang==='pt' ? 'Imagens' : 'Images',  item: r.lang==='pt' ? 'imagem' : 'image' },
+      { kind:'figure', label: r.lang==='pt' ? 'Figuras' : 'Figures', item: r.lang==='pt' ? 'figura' : 'figure' },
+      { kind:'table',  label: r.lang==='pt' ? 'Tabelas' : 'Tables',  item: r.lang==='pt' ? 'tabela' : 'table' }
+    ];
+    let html = '';
+    groups.forEach(g=>{
+      const keys = assetList(r, g.kind);
+      if(!keys.length) return;
+      html += `<h4 class="l1r-aside-h">${esc(g.label)}</h4><div class="l1r-thumbs">` +
+        keys.map(k=>{
+          const v = assetSrc(r, k, r.lang);
+          if(!v) return '';
+          const n = r.content.assets[k].n;
+          return `<button type="button" class="l1r-thumb" data-asset="${esc(k)}" title="${esc(v.alt||'')}">
+            <img src="${esc(v.src)}" alt="${esc(v.alt||'')}" loading="lazy" />
+            <span>${esc(g.item)} ${n}</span>
+          </button>`;
+        }).join('') + `</div>`;
+    });
+    r.el.aside.innerHTML = html;
+    r.el.aside.hidden = !html;
   }
 
   /* ---------------------------- marcação (highlight) ----------------------------

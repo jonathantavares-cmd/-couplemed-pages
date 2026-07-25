@@ -251,14 +251,24 @@ Duas consequências que importam:
 - **A marcação é por idioma.** Os textos EN e PT têm tamanhos diferentes, então cada versão guarda seus próprios deslocamentos. Marcar em inglês não faz aparecer marca no português — comportamento intencional e testado.
 - **Reescrever um conteúdo já publicado desloca as marcações antigas daquele tópico.** Evitar reescrever conteúdo já revisado sem necessidade.
 
-### 7.5 Imagens do conteúdo — abrem ampliadas ao clicar
+### 7.5 Mídia bilíngue — painel lateral, referências clicáveis e troca de idioma
 
-O material vem de prints e traz muita figura que **é** conteúdo (diagrama, algoritmo, foto clínica, tabela em imagem). No tamanho da página essas figuras ficam pequenas demais para estudar, então:
+O material de origem não mostra as figuras dentro do texto: elas ficam num **painel lateral** (IMAGES / FIGURES / TABLES) e são abertas clicando na **referência inline** ("image 1", "figure 2", "table 3"). O leitor reproduz exatamente isso.
 
-- Toda `<img>` dentro do artigo é clicável (cursor de lupa) e abre **em tela cheia**, por cima da página.
-- Fecha de três formas: botão ✕, tecla **Esc**, ou clique no fundo.
-- O `alt` da imagem vira a **legenda** da versão ampliada — por isso o `alt` precisa existir e estar traduzido nas duas versões (EN e PT), como qualquer outro texto (Seção 6).
-- Consequência prática ao recortar: **guardar na resolução original**, sem reduzir para "caber na página". O CSS já encaixa a imagem no texto; a versão ampliada é que precisa dos pixels.
+**Regra do usuário (2026-07-25):** cada imagem, figura e tabela vem na subpasta **em inglês E em português**. As duas versões são recortadas e gravadas, e **a imagem troca junto com o idioma** — inclusive com ela já aberta na tela.
+
+Como funciona:
+- O registro do tópico tem um bloco `assets`, com `kind` (image/figure/table), `n` (o número exibido) e as versões `en` e `pt`, cada uma com `src` e `alt`.
+- No texto, a referência é `<a class="l1r-ref" data-ref="image-1">image 1</a>`. Os dois idiomas **referenciam as mesmas chaves**; só muda o texto visível ("figure 1" / "figura 1").
+- O painel lateral é **gerado automaticamente** a partir de `assets` — agrupado e rotulado no idioma corrente (Images/Figures/Tables ↔ Imagens/Figuras/Tabelas). Não é escrito à mão.
+- A imagem ampliada fecha com ✕, **Esc** ou clique no fundo, e as setas ‹ › andam **dentro do mesmo grupo** (image 1 → image 2, sem pular para as tabelas).
+- O `alt` é a **legenda** da imagem ampliada — precisa existir e estar traduzido.
+
+Convenções de arquivo (verificadas no primeiro tópico incluído):
+- Caminho: `public/assets/library1/<subject-slug>/<topic-slug>/`
+- Nomes: `image-N-en.jpg` / `image-N-pt.jpg`, e o mesmo para `figure-N-*` e `table-N-*`.
+- **Fotos e diagramas em JPEG** (qualidade 92); **tabelas em PNG** (texto fica nítido e o arquivo é menor).
+- Recortar a borda branca em volta, mas **nunca reduzir a resolução** — quem precisa dos pixels é a versão ampliada.
 
 ### 7.6 Estado de verificação
 
@@ -393,4 +403,6 @@ A fonte da verdade é sempre o **conteúdo publicado**, não o ✅ — por isso 
 | 2026-07-25 | **Regra de fidelidade reforçada pelo usuário** e detalhada em tabela de proibições (§1): proibido parafrasear, resumir, expandir, reordenar ou "corrigir" o material. Única liberdade editorial é a tradução PT. |
 | 2026-07-25 | **Modo automático formalizado** (§2.3): bypass de permissões + commit/push automáticos também neste fluxo, como já vale no QBank. |
 | 2026-07-25 | **Imagens abrem ampliadas ao clicar** (§7.5), com legenda vinda do `alt` nos dois idiomas; recortar preservando a resolução original. |
+| 2026-07-25 | **Primeiro tópico incluído** (Allergy & Immunology › Acute rheumatic fever), a partir de 30 prints: 6 páginas de texto EN, 1 página PT, e 10 mídias × 2 idiomas. Confirmado o padrão do material e as convenções de arquivo (§7.5). |
+| — | ⚠️ **Peso das imagens — decisão de arquitetura pendente.** O primeiro tópico gerou **2,5 MB** de imagens. Na mesma proporção, 1.838 tópicos passariam de **4 GB**, o que é inviável para um repositório git (o GitHub recomenda ficar abaixo de 1 GB). A saída natural é servir as imagens do R2, como já se faz com os PDFs da Library 3 ([[project_library3_pdfs]]). Decidir antes de passar de ~100 tópicos. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

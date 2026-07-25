@@ -59,6 +59,48 @@
 /* imagem do conteúdo: clicável para ampliar (ver lightbox abaixo) */
 .l1r-article img{ cursor:zoom-in }
 
+/* ---------------------------- referências inline ----------------------------
+   "image 1", "figure 2", "table 3" no meio do texto — mesmo comportamento do
+   material de origem: clicar abre a figura correspondente, no idioma corrente. */
+.l1r-ref{
+  color:var(--l3r-blue); cursor:pointer; text-decoration:none;
+  border-bottom:1px dotted color-mix(in srgb, var(--l3r-blue) 55%, transparent);
+  white-space:nowrap;
+}
+.l1r-ref:hover{ border-bottom-style:solid }
+.l1r-ref::before{ content:'▤'; font-size:.8em; margin-right:3px; opacity:.85 }
+.l1r-ref[data-ref^="figure"]::before{ content:'📈' }
+.l1r-ref[data-ref^="table"]::before{ content:'▦' }
+
+/* ---------------------------- painel lateral (miniaturas) ---------------------------- */
+.l1r-columns{ display:flex; gap:22px; align-items:flex-start; width:100%; max-width:1180px }
+.l1r-columns > .l1r-article{ flex:1 1 auto; min-width:0 }
+.l1r-aside{
+  flex:0 0 218px; width:218px;
+  border-left:1px solid var(--l3r-line);
+  padding-left:18px;
+  position:sticky; top:0;
+}
+.l1r-aside[hidden]{ display:none }
+.l1r-aside-h{
+  margin:18px 0 8px; font-size:12px; font-weight:800; letter-spacing:.04em;
+  text-transform:uppercase; color:var(--l3r-text);
+}
+.l1r-aside-h:first-child{ margin-top:0 }
+.l1r-thumbs{ display:flex; flex-wrap:wrap; gap:10px }
+.l1r-thumb{
+  width:96px; border:0; padding:0; background:transparent; cursor:pointer;
+  display:flex; flex-direction:column; gap:4px; align-items:center;
+  font-family:inherit;
+}
+.l1r-thumb img{
+  width:96px; height:70px; object-fit:cover; object-position:top center;
+  border:1px solid var(--l3r-line); border-radius:5px; background:#fff;
+  transition:.14s;
+}
+.l1r-thumb:hover img{ border-color:var(--l3r-blue); transform:scale(1.04) }
+.l1r-thumb span{ font-size:10.5px; color:var(--l3r-muted); line-height:1.2; text-align:center }
+
 /* ---------------------------- imagem ampliada (lightbox) ---------------------------- */
 .l1r-lightbox{
   position:fixed; inset:0; z-index:9999;
@@ -88,6 +130,28 @@
   display:grid; place-items:center;
 }
 .l1r-lb-close:hover{ background:rgba(255,255,255,.20) }
+.l1r-lb-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.10); color:#fff;
+  font-size:24px; line-height:1; cursor:pointer;
+  display:grid; place-items:center;
+}
+.l1r-lb-nav:hover{ background:rgba(255,255,255,.22) }
+.l1r-lb-nav[hidden]{ display:none }
+.l1r-lb-prev{ left:18px } .l1r-lb-next{ right:18px }
+@media (max-width:640px){
+  .l1r-lb-nav{ width:34px; height:34px; font-size:18px }
+  .l1r-lb-prev{ left:6px } .l1r-lb-next{ right:6px }
+}
+
+/* ---------------------------- tags do fim do artigo ---------------------------- */
+.l1r-tags{ display:flex; flex-wrap:wrap; gap:8px; margin:0 }
+.l1r-tags span{
+  font-size:12px; padding:5px 12px; border-radius:999px;
+  background:var(--l3r-chip); color:var(--l3r-muted); border:1px solid var(--l3r-line);
+}
 
 /* ---------------------------- estado vazio ---------------------------- */
 .l1r-empty{
@@ -134,6 +198,14 @@ body.light .l1r-hl{ color:#0b1830 }
 @media (max-width:820px){
   .l1r-pagewrap{ padding:16px 12px 30px; border-radius:10px }
   .l1r-article{ line-height:1.62 }
+  /* o painel deixa de ser coluna e vira uma faixa no fim do artigo */
+  .l1r-columns{ flex-direction:column; gap:16px }
+  .l1r-aside{
+    flex:1 1 auto; width:100%; position:static;
+    border-left:0; border-top:1px solid var(--l3r-line);
+    padding-left:0; padding-top:14px;
+  }
+  .l1r-thumbs{ gap:12px }
 }
 @media (max-width:520px){
   .l1r-pagewrap{ padding:12px 10px 24px }
