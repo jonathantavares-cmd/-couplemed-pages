@@ -2,7 +2,9 @@
 
 > Referência definitiva do módulo **Medical Library › Library 1**: como incluir o material de estudo nas pastas/tópicos que já existem no site, como o conteúdo é armazenado, e como a Library 1 se conecta ao QBank 1.
 >
-> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "adicionar Library 1" (ou variação), leia este arquivo do início ao fim antes de agir.
+> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "adicionar Library 1" (ou variação), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem reexplorar o site a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 2), e **sem parar para pedir aprovação de comando ou de conteúdo** (bypass de permissões + commit/push automáticos, Seção 2.3).
+>
+> 🔒 **A Seção 1 (Regra de Fidelidade) manda em tudo o mais.** O conteúdo publicado tem de ser exatamente o que está nas imagens enviadas — é proibido parafrasear, resumir, expandir, reordenar ou "corrigir". Autonomia de execução nunca vira liberdade editorial.
 >
 > ⚠️ **Este arquivo é DIFERENTE e INDEPENDENTE do `QBANK_ADD_QUESTION.md`.** São dois fluxos de trabalho distintos, com funções e tarefas diferentes, que rodam **ao mesmo tempo em sessões/chats separados** (regra do usuário, 2026-07-25 — ainda faltam +3.000 questões a adicionar no QBank). Nunca misture os dois procedimentos, nunca edite os arquivos do outro fluxo, e nunca trate um como continuação do outro. Ver **Seção 10 (Trabalho concorrente)** — é a seção que evita que as duas sessões briguem por arquivo/commit.
 >
@@ -26,15 +28,32 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 
 ---
 
-## 1. REGRA DE FIDELIDADE
+## 1. REGRA DE FIDELIDADE — a regra mais importante deste arquivo
+
+> **Reforçada explicitamente pelo usuário em 2026-07-25:** *"muita atenção à regra: deverá ser exatamente colocado e incluído fielmente ao conteúdo que irei encaminhar nas imagens. É PROIBIDO mudar o conteúdo ou transcrevê-lo de outra forma."*
 
 Idêntica em espírito à do QBank (`QBANK_ADD_QUESTION.md` §0.1), e vale integralmente aqui:
 
 - **Todo material enviado é conteúdo próprio/original do usuário.** Este é o site e o material de estudo pessoal dele — não pode haver nada errado.
-- Transcrever **verbatim**: não parafrasear, não resumir, não "melhorar" a redação, não reordenar tópicos.
+- A página publicada tem de ser **o que está na imagem**, na mesma ordem, com os mesmos títulos, as mesmas listas, as mesmas tabelas e os mesmos destaques.
 - **Nunca inventar** conteúdo médico, valores, tabelas ou referências que não estejam no material.
-- Se algum dado estiver ilegível/ausente, **perguntar ao usuário** em vez de supor.
-- A única liberdade editorial permitida é a **tradução PT-BR** (Seção 6), que é obrigatória e deve ser fiel ao original.
+- Se algum trecho estiver ilegível ou faltando, **perguntar ao usuário** — nunca completar por conta própria, nem "deduzir" pelo conhecimento médico geral. Essa é uma das poucas exceções ao modo automático (Seção 2.3).
+
+**É PROIBIDO — mesmo que pareça uma melhoria:**
+
+| Proibido | Por quê |
+|---|---|
+| Parafrasear ou reescrever com outras palavras | descaracteriza o material do usuário |
+| Resumir, encurtar, "enxugar" | perde conteúdo que ele quer estudar |
+| Expandir, acrescentar explicação, completar raciocínio | insere conteúdo que não é dele |
+| Reordenar seções, listas ou linhas de tabela | a ordem do material é a ordem de estudo |
+| Corrigir o que parece erro/typo no material | não cabe a nós julgar; se parecer erro, perguntar |
+| Trocar termo técnico por sinônimo | muda o vocabulário que ele decorou |
+| Unificar/desmembrar tópicos por conta própria | a estrutura é a do site (Seção 4) |
+
+**A ÚNICA liberdade editorial permitida** é a **tradução PT-BR** (Seção 6) — obrigatória, e ela mesma tem de ser fiel ao original em inglês, sem adaptar nem melhorar.
+
+Marcação em HTML (`<h2>`, `<ul>`, `<table>`…) **não é reescrita**: é só dar ao mesmo texto a mesma forma que ele tem na imagem. O texto em si permanece caractere por caractere.
 
 ---
 
@@ -67,12 +86,27 @@ Dentro de cada subpasta de tópico o usuário coloca **prints (screenshots) e im
 - **Ordem de leitura:** ordenar os arquivos pelo nome (print 1, print 2, …) — a numeração do usuário é a ordem do conteúdo. Se a ordem não estiver clara pelos nomes, deduzir pela continuidade do texto entre as imagens.
 - **Figuras/diagramas dentro do print:** quando o print contém uma figura que é conteúdo (diagrama, algoritmo, foto clínica, tabela como imagem), recortar e salvar como imagem em `public/assets/library1/<subject-slug>/` e referenciar no HTML — não tentar redesenhar em texto. Mesmo processo de recorte/redimensionamento já usado no QBank (`QBANK_ADD_QUESTION.md` §19).
 - **Texto que dá para transcrever, transcreve.** Só vira imagem o que é genuinamente gráfico.
+- **Toda imagem publicada abre ampliada ao clicar** (Seção 7.5) — então recortar preservando a resolução original, sem reduzir para "caber na página". O `alt` vira a legenda da imagem ampliada e precisa existir nos dois idiomas.
 
 ### 2.2 Subpasta vazia = material ainda não colocado
 
 Regra do usuário (2026-07-25): quando uma subpasta de tópico está **vazia, é porque ele ainda não colocou o material** — não é erro, não é conteúdo faltando, não é para perguntar.
 
-**Comportamento correto:** pular a subpasta em silêncio e seguir para a próxima. Nunca marcar ✅ (Seção 10) numa pasta vazia, e nunca criar registro de conteúdo vazio para ela. No site, um tópico sem conteúdo publicado abre normalmente e mostra o aviso de "conteúdo ainda não incluído" — comportamento já implementado e testado.
+**Comportamento correto:** pular a subpasta em silêncio e seguir para a próxima. Nunca marcar ✅ (Seção 11) numa pasta vazia, e nunca criar registro de conteúdo vazio para ela. No site, um tópico sem conteúdo publicado abre normalmente e mostra o aviso de "conteúdo ainda não incluído" — comportamento já implementado e testado.
+
+### 2.3 MODO AUTOMÁTICO — bypass de permissões, commit e push sem aprovação
+
+Regra do usuário (2026-07-25), **igual à que já vale no QBank** (`QBANK_ADD_QUESTION.md` §0.3):
+
+- **Bypass de permissões ativo** neste fluxo: comandos de terminal, leitura e escrita de arquivo rodam sem pedir aprovação individual, do início ao fim da leva.
+- **`git add` / `git commit` / `git push` automáticos**, sem esperar resposta e sem pedido explícito por leva. O usuário confere depois direto no site publicado.
+- **Não** enviar preview para aprovação nem parar para perguntar "posso continuar?" entre lotes. Processar a pasta inteira, quantos tópicos forem.
+- No `git add`, sempre **caminhos específicos** — nunca `git add -A` / `git add .`, que arrastaria o trabalho da sessão paralela do QBank (Seção 10).
+
+**As únicas situações que ainda exigem parar e perguntar:**
+1. Trecho ilegível ou faltando no print (Seção 1 — nunca completar por conta própria).
+2. Imagem corrompida ou que não abre.
+3. Print que claramente não pertence ao tópico da subpasta onde está.
 
 ---
 
@@ -202,6 +236,7 @@ O que **não** é compartilhado automaticamente é o comportamento em JS (os doi
 | Zoom do canvas (%) | existe | vira **tamanho da fonte** (A− / A+), mesma posição e mesmo visual |
 | Download | o PDF original | **dois botões: EN e PT** |
 | Idioma | não traduz (só por seleção) | **botões EN/PT**, troca instantânea |
+| Imagem ampliada ao clicar | não (o PDF já dá zoom) | **sim** — toda imagem do conteúdo abre em tela cheia (Seção 7.5) |
 | Caneta livre, Post-it, anotação de página | existe | **ainda não** — dependem de camada de desenho sobre canvas; ficam para uma fase seguinte |
 
 ### 7.3 Tradução — a diferença essencial em relação à Library 3
@@ -216,9 +251,18 @@ Duas consequências que importam:
 - **A marcação é por idioma.** Os textos EN e PT têm tamanhos diferentes, então cada versão guarda seus próprios deslocamentos. Marcar em inglês não faz aparecer marca no português — comportamento intencional e testado.
 - **Reescrever um conteúdo já publicado desloca as marcações antigas daquele tópico.** Evitar reescrever conteúdo já revisado sem necessidade.
 
-### 7.5 Estado de verificação
+### 7.5 Imagens do conteúdo — abrem ampliadas ao clicar
 
-Testado em 2026-07-25 com DOM real (jsdom), 35 verificações, todas passando: montagem da toolbar, render bilíngue, troca de idioma, tamanho de fonte, marcação (criação, cor, persistência, isolamento por idioma), desfazer/refazer, borracha, busca (ocorrências, contador, integridade do texto ao limpar), download EN e PT com nomes distintos, botão voltar e o estado de "tópico ainda sem conteúdo".
+O material vem de prints e traz muita figura que **é** conteúdo (diagrama, algoritmo, foto clínica, tabela em imagem). No tamanho da página essas figuras ficam pequenas demais para estudar, então:
+
+- Toda `<img>` dentro do artigo é clicável (cursor de lupa) e abre **em tela cheia**, por cima da página.
+- Fecha de três formas: botão ✕, tecla **Esc**, ou clique no fundo.
+- O `alt` da imagem vira a **legenda** da versão ampliada — por isso o `alt` precisa existir e estar traduzido nas duas versões (EN e PT), como qualquer outro texto (Seção 6).
+- Consequência prática ao recortar: **guardar na resolução original**, sem reduzir para "caber na página". O CSS já encaixa a imagem no texto; a versão ampliada é que precisa dos pixels.
+
+### 7.6 Estado de verificação
+
+Testado em 2026-07-25 com DOM real (jsdom), **43 verificações, todas passando**: montagem da toolbar, render bilíngue, troca de idioma, tamanho de fonte, marcação (criação, cor, persistência, isolamento por idioma), desfazer/refazer, borracha, busca (ocorrências, contador, integridade do texto ao limpar), download EN e PT com nomes distintos, imagem ampliada (abrir, legenda pelo `alt`, legenda traduzida, fechar por ✕/Esc/fundo), botão voltar e o estado de "tópico ainda sem conteúdo".
 
 Um bug real foi encontrado e corrigido nesse teste: quando a seleção começava num **elemento** em vez de num nó de texto (parágrafo inteiro, triplo-clique, arrasto começando antes da primeira letra), o deslocamento nunca casava e a marcação falhava em silêncio. A medição passou a ser feita com um `Range` auxiliar (`offsetOfPoint`), que trata os dois casos.
 
@@ -280,7 +324,8 @@ Checklist antes de commitar:
 - [ ] `node --check` em todo arquivo `.js` alterado.
 - [ ] O tópico abre e mostra o conteúdo, nos **dois** idiomas (botões EN/PT).
 - [ ] Download EN e PT gera arquivo com o conteúdo certo.
-- [ ] Conteúdo confere **verbatim** com os prints de origem (Seção 1).
+- [ ] Conteúdo confere **exatamente** com os prints de origem, sem paráfrase, corte ou acréscimo (Seção 1).
+- [ ] Imagens abrem ampliadas e têm `alt` nos dois idiomas (Seção 7.5).
 - [ ] Versão PT presente no mesmo commit (Seção 6).
 - [ ] ✅ aplicado nas subpastas concluídas (Seção 11).
 - [ ] Nenhum arquivo do fluxo do QBank foi tocado (Seção 10).
@@ -345,4 +390,7 @@ A fonte da verdade é sempre o **conteúdo publicado**, não o ✅ — por isso 
 | 2026-07-25 | **Armazenamento definido e implementado:** um arquivo por Subject em `public/js/library1-content/`, carregado sob demanda, com EN+PT no mesmo registro (§5). |
 | 2026-07-25 | **Leitor de página implementado** com a toolbar espelhada da Library 3, CSS compartilhado, tradução instantânea EN/PT e download nos dois idiomas (§7). 35 testes em jsdom passando; corrigido bug de seleção iniciada em elemento. |
 | 2026-07-25 | **Marcação de progresso ✅ implementada** em `tools/library1-progress.js`, com `status`/`mark`/`sync`; `stripCheck()` incorporado à regra de normalização (§3, §11). |
+| 2026-07-25 | **Regra de fidelidade reforçada pelo usuário** e detalhada em tabela de proibições (§1): proibido parafrasear, resumir, expandir, reordenar ou "corrigir" o material. Única liberdade editorial é a tradução PT. |
+| 2026-07-25 | **Modo automático formalizado** (§2.3): bypass de permissões + commit/push automáticos também neste fluxo, como já vale no QBank. |
+| 2026-07-25 | **Imagens abrem ampliadas ao clicar** (§7.5), com legenda vinda do `alt` nos dois idiomas; recortar preservando a resolução original. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

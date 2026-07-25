@@ -60,7 +60,7 @@
           notebook:'Notebook', notes:'Notes', back:'Back', customColor:'Custom color',
           eraserToggle:'Eraser options', eraserClick:'Click a highlight to remove it',
           undo:'Undo', redo:'Redo', more:'More tools', colors:'Colors',
-          fontSmaller:'Smaller text', fontBigger:'Bigger text', language:'Language',
+          fontSmaller:'Smaller text', fontBigger:'Bigger text', language:'Language', close:'Close',
           empty:'Content for this topic has not been added yet.',
           emptyHint:'It will appear here as soon as the material is included.' },
     pt: { loading:'Carregando…', loadError:'Este tópico ainda não tem conteúdo.',
@@ -69,7 +69,7 @@
           notebook:'Notebook', notes:'Notes', back:'Voltar', customColor:'Cor personalizada',
           eraserToggle:'Opções de borracha', eraserClick:'Clique numa marcação pra apagar',
           undo:'Desfazer', redo:'Refazer', more:'Mais ferramentas', colors:'Cores',
-          fontSmaller:'Diminuir texto', fontBigger:'Aumentar texto', language:'Idioma',
+          fontSmaller:'Diminuir texto', fontBigger:'Aumentar texto', language:'Idioma', close:'Fechar',
           empty:'O conteúdo deste tópico ainda não foi incluído.',
           emptyHint:'Ele aparecerá aqui assim que o material for adicionado.' }
   };
@@ -116,6 +116,7 @@
   let activeReader = null;
   function destroyActive(){
     if(!activeReader) return;
+    try{ closeLightbox(activeReader); }catch(e){}
     try{ activeReader.uiAbort && activeReader.uiAbort.abort(); }catch(e){}
     activeReader = null;
   }
@@ -298,16 +299,48 @@
     on('#l1rNotesBtn','click',     ()=> sendSelectionTo(r,'notes'));
     on('#l1rFlashcardBtn','click', ()=> sendSelectionTo(r,'flashcard'));
 
-    /* ---- clique numa marcação com a borracha ativa ---- */
+    /* ---- clique no artigo: apagar marcação (borracha) ou ampliar imagem ---- */
     r.el.article.addEventListener('click', e=>{
-      if(r.eraseMode!=='click') return;
-      const mark = e.target.closest && e.target.closest('.l1r-hl');
-      if(!mark) return;
-      removeHighlight(r, mark.dataset.hlId);
+      if(r.eraseMode==='click'){
+        const mark = e.target.closest && e.target.closest('.l1r-hl');
+        if(mark){ removeHighlight(r, mark.dataset.hlId); return; }
+      }
+      const img = e.target.closest && e.target.closest('img');
+      if(img) openLightbox(r, img);
     }, { signal: r.uiAbort.signal });
 
     updateFontLabel(r);
     updateHistoryButtons(r);
+  }
+
+  /* ---------------------------- imagem ampliada (lightbox) ----------------------------
+     O material da Library 1 vem de prints e traz muita figura que é conteúdo de verdade
+     (diagramas, algoritmos, fotos clínicas, tabelas em imagem). Em tamanho de página elas
+     ficam pequenas demais para estudar, então clicar abre a imagem inteira por cima.
+     Fecha com clique fora, com o X ou com Esc.
+  ------------------------------------------------------------------------------------- */
+  function openLightbox(r, img){
+    closeLightbox(r);
+    const box = document.createElement('div');
+    box.className = 'l1r-lightbox';
+    box.innerHTML = `
+      <button type="button" class="l1r-lb-close" aria-label="${esc(t('close'))}" title="${esc(t('close'))}">✕</button>
+      <img src="${esc(img.getAttribute('src'))}" alt="${esc(img.getAttribute('alt')||'')}" />
+      ${img.getAttribute('alt') ? `<figcaption>${esc(img.getAttribute('alt'))}</figcaption>` : ''}`;
+    box.addEventListener('click', e=>{
+      if(e.target===box || e.target.closest('.l1r-lb-close')) closeLightbox(r);
+    });
+    document.body.appendChild(box);
+    r.lightbox = box;
+    if(!r.lbKeyHandler){
+      r.lbKeyHandler = e=>{ if(e.key==='Escape') closeLightbox(r); };
+      document.addEventListener('keydown', r.lbKeyHandler);
+    }
+  }
+  function closeLightbox(r){
+    if(r.lightbox && r.lightbox.parentNode) r.lightbox.parentNode.removeChild(r.lightbox);
+    r.lightbox = null;
+    if(r.lbKeyHandler){ document.removeEventListener('keydown', r.lbKeyHandler); r.lbKeyHandler = null; }
   }
 
   function setLoading(r, on, error){
