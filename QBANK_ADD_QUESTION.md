@@ -1,15 +1,15 @@
 # CoupleMed QBank — Documentação Completa
 
 > Referência definitiva do módulo QBank: como adicionar questões, como todos os sistemas funcionam, e como cada funcionalidade se conecta com o resto do site.
-> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "incluir questões" (ou variações, incluindo "incluir questões novas"), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 0 passo 1, Seção 0.3), e sem parar pra pedir aprovação de comando ou de conteúdo (permissões em bypass global + commit/push automáticos, Seção 0.3). Última auditoria completa contra o código real: 2026-07-11 (seção 16b — algoritmo de `labs` — reauditada e reescrita em 2026-07-20 após achar 203/248 questões sem o campo).
+> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "adicionar questões novas" (ou variações, incluindo "incluir questões" e "incluir questões novas"), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 0 passo 1, Seção 0.3), e sem parar pra pedir aprovação de comando ou de conteúdo (permissões em bypass global + commit/push automáticos, Seção 0.3). Última auditoria completa contra o código real: 2026-07-11 (seção 16b — algoritmo de `labs` — reauditada e reescrita em 2026-07-20 após achar 203/248 questões sem o campo).
 
 ---
 
-## 0. PROCEDIMENTO PADRÃO — o que fazer quando o usuário disser "incluir questões"
+## 0. PROCEDIMENTO PADRÃO — o que fazer quando o usuário disser "adicionar questões novas" / "incluir questões"
 
 1. **Determinar a origem do material:**
    - Se o usuário já colou/anexou o material (foto/print/texto) na própria mensagem, usar isso diretamente. Confirmar se é sistema/disciplina conhecidos ou se você deve identificar pelo conteúdo.
-   - Se ele disser apenas **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente), **sem colar/anexar nada na mensagem** — ir direto para a **Seção 0.3** e varrer `/Users/jonathan/Desktop/Questões novas/`. Não pedir o material antes de checar a pasta; só pedir explicitamente se a pasta estiver vazia, não existir, ou já tiver sido totalmente processada (nenhum arquivo novo desde a última leva).
+   - Se ele disser apenas **"adicionar questões novas"**, **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente), **sem colar/anexar nada na mensagem** — ir direto para a **Seção 0.3** e varrer `/Users/jonathan/Desktop/Questões Novas QBank 1/`. Não pedir o material antes de checar a pasta; só pedir explicitamente se a pasta estiver vazia, não existir, ou já tiver sido totalmente processada (nenhum arquivo novo desde a última leva).
 2. **Aplicar a Regra de Fidelidade (Seção 0.1)** — transcrição verbatim, sem exceções, pois todo o material é conteúdo próprio do usuário.
 3. Para cada questão:
    a. Definir `id` seguindo a Seção 3 e checar duplicidade: `grep -n "'CMQ-STEP1-{SIGLA}-" public/js/qbank.js`.
@@ -59,11 +59,11 @@ Não existe modo "reescrever" para essas questões — isso só se aplicaria se 
 
 ---
 
-## 0.3 GATILHO "incluir questões" / "incluir questões novas" sem material anexado — varredura automática de pasta e processamento em lote (implementado 2026-07-13, ampliado 2026-07-13)
+## 0.3 GATILHO "adicionar questões novas" / "incluir questões" / "incluir questões novas" sem material anexado — varredura automática de pasta e processamento em lote (implementado 2026-07-13, ampliado 2026-07-13, pasta renomeada 2026-07-25)
 
-Quando o usuário disser **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente) **sem colar/anexar o material direto na mensagem**, o procedimento é diferente do passo 1a da Seção 0 (que só se aplica quando o material vem colado na própria mensagem):
+Quando o usuário disser **"adicionar questões novas"**, **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente) **sem colar/anexar o material direto na mensagem**, o procedimento é diferente do passo 1a da Seção 0 (que só se aplica quando o material vem colado na própria mensagem). O fluxo obrigatório é sempre o mesmo, nesta ordem: **(1)** ler este arquivo (`QBANK_ADD_QUESTION.md`) do início ao fim; **(2)** varrer a pasta `/Users/jonathan/Desktop/Questões Novas QBank 1/` e visualizar o conteúdo de cada arquivo encontrado; **(3)** processar tudo conforme os passos abaixo.
 
-1. **Localizar a pasta**: `/Users/jonathan/Desktop/Questões novas/`. Varrer **recursivamente** — pode haver múltiplas subpastas dentro dela, com nomes/localizações diferentes a cada leva (por tema, por data, por lote enviado etc.), em qualquer profundidade. Listar todo arquivo de imagem (screenshot/foto de questão) encontrado.
+1. **Localizar a pasta**: `/Users/jonathan/Desktop/Questões Novas QBank 1/` (nome atualizado pelo usuário em 2026-07-25; a pasta antiga `Questões novas/` foi renomeada e não existe mais). Varrer **recursivamente** — pode haver múltiplas subpastas dentro dela, com nomes/localizações diferentes a cada leva (por tema, por data, por lote enviado etc.), em qualquer profundidade. Listar todo arquivo de imagem (screenshot/foto de questão) encontrado.
 2. **Processar TODAS as questões encontradas, independente da quantidade** — 50, 100, 200, 300 ou mais. Nunca parar no meio nem perguntar se deve continuar para o próximo lote. Trabalhar em lotes menores (5 questões por vez é o padrão sugerido, mas outro tamanho pode ser usado se ajudar a manter a qualidade da transcrição) e seguir automaticamente lote após lote, aplicando o procedimento completo da Seção 0 (fidelidade 0.1, dificuldade 0.2, labs 16b, tradução 17, imagem 19, taxonomia/dedup de ID Seção 3) em cada questão, até que **a pasta inteira** tenha sido incluída no SEED.
 3. **Exceções que ainda exigem parar e perguntar ao usuário** (não cobertas pela autonomia deste modo): dado realmente ausente no material (Seção 0.1 — nunca inventar), imagem corrompida/ilegível, ou ambiguidade de taxonomia que não seja resolvível sozinho consultando a Seção 5/6.
 4. Rodar `node --check public/js/qbank.js` ao final de cada lote (pega erro de sintaxe cedo) e novamente ao final da pasta inteira.
@@ -86,7 +86,7 @@ Quando o usuário disser **"incluir questões"** ou **"incluir questões novas"*
 - Ao **iniciar** uma leva grande pela Seção 0.3 (ou assim que perceber que acabou de atingir o limite de uso, se ainda houver uma chamada de ferramenta disponível antes de ficar sem capacidade), armar um job recorrente com a ferramenta `CronCreate`:
   - `cron`: um horário não-cheio a cada hora, ex. `"7 * * * *"` (evita o minuto `:00`, por causa de carga simultânea de todos os usuários — recomendação da própria ferramenta).
   - `recurring`: `true`.
-  - `prompt`: instrução objetiva pra retomar exatamente o processamento desta Seção 0.3 de onde parou — ex.: *"Retomar o processamento de /Users/jonathan/Desktop/Questões novas/ (QBANK_ADD_QUESTION.md §0.3) de onde parou. Checar duplicidade de ID (Seção 3) antes de inserir qualquer questão. Se ainda estiver limitado por uso, essa tentativa falha e a próxima (1h depois) tenta de novo, sem precisar do usuário digitar nada."*
+  - `prompt`: instrução objetiva pra retomar exatamente o processamento desta Seção 0.3 de onde parou — ex.: *"Retomar o processamento de /Users/jonathan/Desktop/Questões Novas QBank 1/ (QBANK_ADD_QUESTION.md §0.3) de onde parou. Checar duplicidade de ID (Seção 3) antes de inserir qualquer questão. Se ainda estiver limitado por uso, essa tentativa falha e a próxima (1h depois) tenta de novo, sem precisar do usuário digitar nada."*
   - Ao terminar de processar **toda a pasta**, apagar o job com `CronDelete` — não deixar rodando à toa depois que não há mais nada para retomar.
 - **Limitações honestas desse mecanismo** (conferidas na própria especificação da ferramenta, não presumidas):
   - O job é **só desta sessão** — fica em memória, não é salvo em disco; se a sessão/terminal for fechada, o job some junto. Por isso continua valendo o ponto acima: manter a sessão do Claude Code aberta.
