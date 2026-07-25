@@ -191,6 +191,42 @@ Razões da escolha (todas verificadas):
 3. **Sob demanda**: 1.838 tópicos num arquivo só seria inviável (o `qbank.js` já tem ~1,7 MB).
 4. **EN + PT no mesmo registro** (Seção 6), o que torna a troca de idioma instantânea.
 
+### 5.1 PESO DA MÍDIA — WebP agora, R2 quando passar do limite
+
+O conteúdo é transcrito de prints e cada tópico traz a mídia **em dois idiomas**, então o volume de imagem é o fator que decide onde tudo isso mora. Medido no primeiro tópico incluído:
+
+| | Por tópico | Projeção (1.838 tópicos) |
+|---|---|---|
+| JPEG q92 + PNG (formato inicial) | 2,48 MB | **4,4 GB** — inviável |
+| **WebP misto (adotado)** | **0,92 MB** | **1,65 GB** |
+
+**WebP misto** significa escolher, arquivo a arquivo, o menor entre WebP com perdas (q82) e sem perdas — medindo de verdade, não por regra fixa. Na prática as fotos e diagramas ficam com perdas e as **tabelas ficam sem perdas** (texto nítido *e* menor que o PNG original). Ganho medido: **63%**.
+
+**Onde a mídia mora — ponto único de virada.** Os registros guardam só a **chave relativa** (`<subject>/<topic>/<arquivo>.webp`), nunca uma URL. Quem monta a URL é o leitor:
+
+```js
+const ASSET_BASE = window.LIBRARY1_ASSET_BASE || '/assets/library1/';
+```
+
+- **Hoje:** a mídia é servida da própria pasta `public/assets/library1/`, junto com o site. Simples, sem infraestrutura, e funciona offline no teste local.
+- **Virada para o R2:** definir `window.LIBRARY1_ASSET_BASE = '/api/library1/img/lib1/'` antes de carregar o leitor. **Nenhum arquivo de conteúdo muda** — comportamento verificado por teste com o conteúdo real.
+
+**Infraestrutura de R2 já está pronta** (não usada ainda, não atrapalha nada):
+- `wrangler.toml`: binding `LIB1_STORAGE` → bucket `couplemed-library1` (criar com `wrangler r2 bucket create couplemed-library1` antes do primeiro deploy com esse binding).
+- `worker.js`, `handleLibrary1()`: `GET /api/library1/img/<key>` serve com cache de edge e `Cache-Control: immutable`; `PUT /api/library1/admin/put?key=…` grava, protegido por `X-Admin-Secret` (`env.LIB1_ADMIN_SECRET`), mesmo padrão do `/admin/` da Library 3.
+- `tools/library1-assets.js upload` envia a pasta inteira por esse endpoint.
+
+**Quando virar:** rodar `node tools/library1-assets.js report` — ele mostra a média real por tópico e quantos tópicos ainda cabem antes de 1 GB (limite recomendado pelo GitHub). Na medição atual cabem **~1.114 tópicos**, ou seja, dá para ir mais da metade do caminho sem R2. Migrar antes disso é opcional; depois é obrigatório.
+
+**Ferramentas:**
+```bash
+node tools/library1-assets.js report            # peso atual + projeção + quando migrar
+node tools/library1-assets.js convert <dir>     # converte uma pasta já publicada para WebP
+node tools/library1-assets.js upload [subject]  # envia para o R2 (precisa de LIB1_ADMIN_SECRET)
+```
+
+---
+
 **Regras de formato** (detalhadas no `_TEMPLATE.js`): sem `<h1>` no corpo (o leitor desenha o título a partir de `title`); sem `style=` inline, `<script>` ou `<style>`; imagens em `public/assets/library1/<subject-slug>/` referenciadas por caminho absoluto; escapar crase e `${` dentro do template literal; rodar `node --check` no arquivo ao terminar.
 
 ---
@@ -267,7 +303,7 @@ Como funciona:
 Convenções de arquivo (verificadas no primeiro tópico incluído):
 - Caminho: `public/assets/library1/<subject-slug>/<topic-slug>/`
 - Nomes: `image-N-en.jpg` / `image-N-pt.jpg`, e o mesmo para `figure-N-*` e `table-N-*`.
-- **Fotos e diagramas em JPEG** (qualidade 92); **tabelas em PNG** (texto fica nítido e o arquivo é menor).
+- **Formato: WebP**, escolhido arquivo a arquivo entre com perdas (q82) e sem perdas — o menor vence (§5.1). Na prática fotos/diagramas ficam com perdas e tabelas sem perdas. Use `node tools/library1-assets.js convert <dir>`; não gerar JPEG/PNG à mão.
 - Recortar a borda branca em volta, mas **nunca reduzir a resolução** — quem precisa dos pixels é a versão ampliada.
 
 ### 7.6 Estado de verificação
@@ -404,5 +440,5 @@ A fonte da verdade é sempre o **conteúdo publicado**, não o ✅ — por isso 
 | 2026-07-25 | **Modo automático formalizado** (§2.3): bypass de permissões + commit/push automáticos também neste fluxo, como já vale no QBank. |
 | 2026-07-25 | **Imagens abrem ampliadas ao clicar** (§7.5), com legenda vinda do `alt` nos dois idiomas; recortar preservando a resolução original. |
 | 2026-07-25 | **Primeiro tópico incluído** (Allergy & Immunology › Acute rheumatic fever), a partir de 30 prints: 6 páginas de texto EN, 1 página PT, e 10 mídias × 2 idiomas. Confirmado o padrão do material e as convenções de arquivo (§7.5). |
-| — | ⚠️ **Peso das imagens — decisão de arquitetura pendente.** O primeiro tópico gerou **2,5 MB** de imagens. Na mesma proporção, 1.838 tópicos passariam de **4 GB**, o que é inviável para um repositório git (o GitHub recomenda ficar abaixo de 1 GB). A saída natural é servir as imagens do R2, como já se faz com os PDFs da Library 3 ([[project_library3_pdfs]]). Decidir antes de passar de ~100 tópicos. |
+| 2026-07-25 | ✅ **Peso das imagens resolvido** (§5.1): mídia passa a WebP misto — 2,48 MB → **0,92 MB por tópico (63% menor)**, projeção de 4,4 GB → 1,65 GB. A URL da mídia passou a ser resolvida num ponto único (`ASSET_BASE`), com os registros guardando só a chave relativa, e a infraestrutura de R2 (bucket, rota no worker, endpoint de upload, script) ficou pronta para virar a chave sem editar conteúdo. Cabem ~1.114 tópicos no git antes de precisar migrar. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

@@ -28,8 +28,17 @@
   'use strict';
 
   const SHARED_CSS  = '/css/library3-reader.css?v=5';   // toolbar compartilhada com a Library 3
-  const PAGE_CSS    = '/css/library1-reader.css?v=1';   // específico do modo página
+  const PAGE_CSS    = '/css/library1-reader.css?v=2';   // específico do modo página
   const CONTENT_DIR = '/js/library1-content/';
+
+  /* ONDE A MÍDIA MORA — ponto único de virada.
+     Hoje a mídia é servida do próprio site (pasta public/assets/library1/). Quando o volume
+     exigir (ver `node tools/library1-assets.js report`), basta definir
+       window.LIBRARY1_ASSET_BASE = '/api/library1/img/lib1/'
+     antes deste script para tudo passar a vir do R2, sem tocar em nenhum conteúdo — os
+     registros guardam só a CHAVE relativa (<subject>/<topic>/<arquivo>.webp), nunca a URL. */
+  const ASSET_BASE = window.LIBRARY1_ASSET_BASE || '/assets/library1/';
+  const assetUrl = key => /^(https?:)?\/\//.test(key) || key.startsWith('/') ? key : ASSET_BASE + key;
 
   const uiLang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
   const esc = s => String(s==null?'':s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -340,10 +349,13 @@
       .filter(k => !kind || all[k].kind === kind)
       .sort((a,b) => (all[a].n||0) - (all[b].n||0));
   }
-  function assetSrc(r, key, lang){
-    const a = (r.content && r.content.assets && r.content.assets[key]) || null;
+  // Devolve {src, alt} já com a URL resolvida (a chave crua vira caminho do site ou do R2).
+  function assetSrc(r, refKey, lang){
+    const a = (r.content && r.content.assets && r.content.assets[refKey]) || null;
     if(!a) return null;
-    return a[lang] || a.en || a.pt || null;
+    const v = a[lang] || a.en || a.pt || null;
+    if(!v) return null;
+    return { src: assetUrl(v.key || v.src), alt: v.alt || '' };
   }
 
   function openLightbox(r, refKey){

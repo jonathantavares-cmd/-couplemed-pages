@@ -11,7 +11,8 @@
 'use strict';
 window.LIBRARY1_CONTENT = window.LIBRARY1_CONTENT || {};
 
-const A1 = '/assets/library1/allergy-and-immunology/';
+// chave relativa: o leitor resolve para o site ou para o R2 (ver ASSET_BASE)
+const A1 = 'allergy-and-immunology/';
 
 window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
 
@@ -24,35 +25,35 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
 
     assets: {
       'image-1': { kind:'image', n:1,
-        en:{ src:A1+'acute-rheumatic-fever/image-1-en.jpg', alt:'Acute rheumatic heart disease' },
-        pt:{ src:A1+'acute-rheumatic-fever/image-1-pt.jpg', alt:'Doença cardíaca reumática aguda' } },
+        en:{ key:A1+'acute-rheumatic-fever/image-1-en.webp', alt:'Acute rheumatic heart disease' },
+        pt:{ key:A1+'acute-rheumatic-fever/image-1-pt.webp', alt:'Doença cardíaca reumática aguda' } },
       'image-2': { kind:'image', n:2,
-        en:{ src:A1+'acute-rheumatic-fever/image-2-en.jpg', alt:'Erythema marginatum' },
-        pt:{ src:A1+'acute-rheumatic-fever/image-2-pt.jpg', alt:'Eritema marginal' } },
+        en:{ key:A1+'acute-rheumatic-fever/image-2-en.webp', alt:'Erythema marginatum' },
+        pt:{ key:A1+'acute-rheumatic-fever/image-2-pt.webp', alt:'Eritema marginal' } },
       'image-3': { kind:'image', n:3,
-        en:{ src:A1+'acute-rheumatic-fever/image-3-en.jpg', alt:'Henoch-Schönlein purpura' },
-        pt:{ src:A1+'acute-rheumatic-fever/image-3-pt.jpg', alt:'Purpura Henoch-Schönlein' } },
+        en:{ key:A1+'acute-rheumatic-fever/image-3-en.webp', alt:'Henoch-Schönlein purpura' },
+        pt:{ key:A1+'acute-rheumatic-fever/image-3-pt.webp', alt:'Purpura Henoch-Schönlein' } },
       'image-4': { kind:'image', n:4,
-        en:{ src:A1+'acute-rheumatic-fever/image-4-en.jpg', alt:'Erythema migrans' },
-        pt:{ src:A1+'acute-rheumatic-fever/image-4-pt.jpg', alt:'Eritema migrans' } },
+        en:{ key:A1+'acute-rheumatic-fever/image-4-en.webp', alt:'Erythema migrans' },
+        pt:{ key:A1+'acute-rheumatic-fever/image-4-pt.webp', alt:'Eritema migrans' } },
       'image-5': { kind:'image', n:5,
-        en:{ src:A1+'acute-rheumatic-fever/image-5-en.jpg', alt:'Erythema infectiosum (fifth disease)' },
-        pt:{ src:A1+'acute-rheumatic-fever/image-5-pt.jpg', alt:'Eritema infeccioso (cinta doença)' } },
+        en:{ key:A1+'acute-rheumatic-fever/image-5-en.webp', alt:'Erythema infectiosum (fifth disease)' },
+        pt:{ key:A1+'acute-rheumatic-fever/image-5-pt.webp', alt:'Eritema infeccioso (cinta doença)' } },
       'figure-1': { kind:'figure', n:1,
-        en:{ src:A1+'acute-rheumatic-fever/figure-1-en.jpg', alt:'Pathophysiology of acute rheumatic fever' },
-        pt:{ src:A1+'acute-rheumatic-fever/figure-1-pt.jpg', alt:'Fisiopatologia da febre reumática aguda' } },
+        en:{ key:A1+'acute-rheumatic-fever/figure-1-en.webp', alt:'Pathophysiology of acute rheumatic fever' },
+        pt:{ key:A1+'acute-rheumatic-fever/figure-1-pt.webp', alt:'Fisiopatologia da febre reumática aguda' } },
       'figure-2': { kind:'figure', n:2,
-        en:{ src:A1+'acute-rheumatic-fever/figure-2-en.jpg', alt:'Mitral valve calcification' },
-        pt:{ src:A1+'acute-rheumatic-fever/figure-2-pt.jpg', alt:'Calcificação da válvula mitral' } },
+        en:{ key:A1+'acute-rheumatic-fever/figure-2-en.webp', alt:'Mitral valve calcification' },
+        pt:{ key:A1+'acute-rheumatic-fever/figure-2-pt.webp', alt:'Calcificação da válvula mitral' } },
       'table-1': { kind:'table', n:1,
-        en:{ src:A1+'acute-rheumatic-fever/table-1-en.png', alt:'Antibiotic prophylaxis for secondary prevention of rheumatic fever' },
-        pt:{ src:A1+'acute-rheumatic-fever/table-1-pt.png', alt:'Profilaxia antibiótica para prevenção secundária de febre reumática' } },
+        en:{ key:A1+'acute-rheumatic-fever/table-1-en.webp', alt:'Antibiotic prophylaxis for secondary prevention of rheumatic fever' },
+        pt:{ key:A1+'acute-rheumatic-fever/table-1-pt.webp', alt:'Profilaxia antibiótica para prevenção secundária de febre reumática' } },
       'table-2': { kind:'table', n:2,
-        en:{ src:A1+'acute-rheumatic-fever/table-2-en.png', alt:'Streptococcal pharyngitis' },
-        pt:{ src:A1+'acute-rheumatic-fever/table-2-pt.png', alt:'Faringite estreptocócica' } },
+        en:{ key:A1+'acute-rheumatic-fever/table-2-en.webp', alt:'Streptococcal pharyngitis' },
+        pt:{ key:A1+'acute-rheumatic-fever/table-2-pt.webp', alt:'Faringite estreptocócica' } },
       'table-3': { kind:'table', n:3,
-        en:{ src:A1+'acute-rheumatic-fever/table-3-en.png', alt:'Acute rheumatic fever' },
-        pt:{ src:A1+'acute-rheumatic-fever/table-3-pt.png', alt:'Febre reumática aguda' } }
+        en:{ key:A1+'acute-rheumatic-fever/table-3-en.webp', alt:'Acute rheumatic fever' },
+        pt:{ key:A1+'acute-rheumatic-fever/table-3-pt.webp', alt:'Febre reumática aguda' } }
     },
 
     en: {

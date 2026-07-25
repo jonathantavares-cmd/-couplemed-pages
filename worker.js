@@ -126,6 +126,11 @@ export default {
       return handleLibrary3(request, env, url, ctx);
     }
 
+    /* ---------- rotas Library 1 (R2 — imagens do conteúdo) ---------- */
+    if (url.pathname.startsWith('/api/library1')) {
+      return handleLibrary1(request, env, url, ctx);
+    }
+
     /* ---------- arquivos estáticos (public/) ---------- */
     return env.ASSETS.fetch(request);
   }
@@ -708,6 +713,87 @@ async function handleNotebook(request, env, url) {
  * Endpoints:
  *   GET /api/library3/pdf/<key>  → serve o PDF (cache imutável de 1 ano, inline no navegador)
  */
+/**
+ * Router da Library 1 sobre Cloudflare R2 (binding esperado: env.LIB1_STORAGE).
+ *
+ * POR QUE EXISTE: o conteúdo da Library 1 é transcrito de prints e cada tópico
+ * traz ~20 imagens (as mesmas figuras em inglês E em português). O primeiro
+ * tópico incluído gerou 0,92 MB já em WebP; nessa proporção, os 1.838 tópicos
+ * passariam de 1,5 GB — grande demais para um repositório git servido por
+ * Pages. Esta rota permite mover a mídia para o R2 sem tocar em nenhum
+ * conteúdo: os registros guardam só a chave relativa e o leitor monta a URL a
+ * partir de window.LIBRARY1_ASSET_BASE (ver public/js/library1-reader.js).
+ *
+ * Endpoints:
+ *   GET /api/library1/img/<key>   → serve a imagem (cache imutável de 1 ano)
+ *   PUT /api/library1/admin/put?key=<key>  → grava no bucket
+ *        Gate por env.LIB1_ADMIN_SECRET no header X-Admin-Secret. Mesmo padrão
+ *        do /admin/ da Library 3: usado por script, nunca pelo site.
+ */
+async function handleLibrary1(request, env, url, ctx) {
+  const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,HEAD,PUT,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,X-Admin-Secret' };
+  if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+
+  const reply = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', ...cors } });
+  const path = url.pathname.replace(/^\/api\/library1/, '') || '/';
+  const bucket = env.LIB1_STORAGE;
+
+  if (path === '/health' || path === '/') {
+    return reply({ ok: true, r2Ready: !!bucket });
+  }
+
+  // ---- leitura pública ----
+  if (path.startsWith('/img/') && (request.method === 'GET' || request.method === 'HEAD')) {
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const key = decodeURIComponent(path.slice(5));
+    // A chave é sempre lib1/<subject>/<topic>/<arquivo>; recusar qualquer outra coisa
+    // evita que o prefixo vire um caminho arbitrário dentro do bucket.
+    if (!key.startsWith('lib1/') || key.includes('..')) return reply({ error: 'Invalid key' }, 400);
+
+    const ext = key.slice(key.lastIndexOf('.') + 1).toLowerCase();
+    const type = ext === 'webp' ? 'image/webp' : ext === 'png' ? 'image/png'
+               : (ext === 'jpg' || ext === 'jpeg') ? 'image/jpeg' : 'application/octet-stream';
+    const headers = {
+      'Content-Type': type,
+      // A chave muda quando o conteúdo muda (arquivo novo = nome novo), então o
+      // cache pode ser imutável — mesma lógica dos PDFs da Library 3.
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      ...cors
+    };
+
+    const cache = caches.default;
+    const cacheKey = new Request(url.toString(), { method: 'GET' });
+    const hit = await cache.match(cacheKey);
+    if (hit) return request.method === 'HEAD'
+      ? new Response(null, { status: 200, headers: { ...headers, 'X-Lib1-Cache': 'HIT' } })
+      : new Response(hit.body, { status: 200, headers: { ...headers, 'X-Lib1-Cache': 'HIT' } });
+
+    const obj = await bucket.get(key);
+    if (!obj) return reply({ error: 'Not found', key }, 404);
+    if (request.method === 'HEAD') return new Response(null, { status: 200, headers });
+
+    const body = await obj.arrayBuffer();
+    ctx.waitUntil(cache.put(cacheKey, new Response(body, { headers })));
+    return new Response(body, { status: 200, headers });
+  }
+
+  // ---- escrita (script de publicação) ----
+  if (path === '/admin/put' && request.method === 'PUT') {
+    if (!env.LIB1_ADMIN_SECRET || request.headers.get('X-Admin-Secret') !== env.LIB1_ADMIN_SECRET) {
+      return reply({ error: 'forbidden' }, 403);
+    }
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const key = url.searchParams.get('key');
+    if (!key || !key.startsWith('lib1/') || key.includes('..')) return reply({ error: 'Invalid key' }, 400);
+    await bucket.put(key, request.body, {
+      httpMetadata: { contentType: request.headers.get('Content-Type') || 'application/octet-stream' }
+    });
+    return reply({ ok: true, key });
+  }
+
+  return reply({ error: 'Not found' }, 404);
+}
+
 async function handleLibrary3(request, env, url, ctx) {
   const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,Range' };
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });

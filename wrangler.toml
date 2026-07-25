@@ -16,6 +16,15 @@ bucket_name = "couplemed-notebook"
 binding = "LIB3_STORAGE"
 bucket_name = "couplemed-library3"
 
+# ---- Library 1 R2 (imagens do conteúdo) ----
+# Só entra em uso quando window.LIBRARY1_ASSET_BASE apontar para /api/library1/img/lib1/.
+# Enquanto isso, a mídia é servida da própria pasta public/assets/library1/.
+# Criar o bucket antes do primeiro deploy com este binding:
+#   wrangler r2 bucket create couplemed-library1
+[[r2_buckets]]
+binding = "LIB1_STORAGE"
+bucket_name = "couplemed-library1"
+
 # ---- D1: sincronizacao entre aparelhos (v52) ----
 [[d1_databases]]
 binding = "QBANK_DB"
