@@ -536,6 +536,10 @@
     history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}`);
     renderLibrary(id,lang);
   }
+  function libOpenTopic(id,lang,slug,topicSlug){
+    history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}&topic=${topicSlug}`);
+    renderLibrary(id,lang);
+  }
   function libOpenPdf(id,lang,slug,key){
     history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}&pdf=${encodeURIComponent(key)}`);
     renderLibrary(id,lang);
@@ -554,11 +558,22 @@
       const lib1Name = item => (lang==='pt' && item.ptName) ? item.ptName : item.name;
       const openFolder = folderSlug ? LIBRARY1_STRUCTURE.find(f=>slugify(f.name)===folderSlug) : null;
       if(openFolder){
-        const items=openFolder.items.map(topic=>
-          `<a class="lib-book lib-topic" href="#" data-no-nav>${wsEsc(lib1Name(topic))}</a>`
-        ).join('');
+        // 3º nível: o tópico abre como PÁGINA dentro do site (public/js/library1-reader.js),
+        // com a mesma toolbar da Library 3. Deep link por &topic= suporta refresh/link direto.
+        const topicSlug = params().get('topic');
+        const openTopic = topicSlug ? openFolder.items.find(tp=>slugify(tp.name)===topicSlug) : null;
+        if(openTopic && window.CMLibrary1Reader){
+          window.CMLibrary1Reader.open(rp, openTopic, openFolder, ()=>libOpenFolder(id,lang,folderSlug));
+          return;
+        }
+        const items=openFolder.items.map(topic=>{
+          const tslug=slugify(topic.name);
+          return `<a class="lib-book lib-topic" href="app.html?page=${id}&u=${user()}&folder=${folderSlug}&topic=${tslug}" data-topic-slug="${tslug}">${wsEsc(lib1Name(topic))}</a>`;
+        }).join('');
         rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${wsEsc(lib1Name(openFolder))}</h1><div class="lib-list">${items}</div>`;
-        rp.querySelectorAll('.lib-topic[data-no-nav]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
+        rp.querySelectorAll('.lib-topic[data-topic-slug]').forEach(a=>{
+          a.addEventListener('click',e=>{e.preventDefault(); libOpenTopic(id,lang,folderSlug,a.dataset.topicSlug);});
+        });
         $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
         return;
       }
