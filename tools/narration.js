@@ -8,7 +8,8 @@
    USO
      node tools/narration.js build lib1 <subject-slug> [topic-slug]
      node tools/narration.js build lib1 --all
-     node tools/narration.js build lib3 <pdf-key|--all>
+     node tools/narration.js inspect lib3 <pdf-key> [--from=N --to=N]  # CONFERIR antes
+     node tools/narration.js build   lib3 <pdf-key> [--from=N --to=N]
      node tools/narration.js upload [--only=lib1/...]     # manda o que foi gerado ao R2
      node tools/narration.js report                       # o que existe / o que falta
      node tools/narration.js voices                       # confere se as vozes estão instaladas
@@ -191,11 +192,74 @@ function buildLib1(subjectSlug, topicSlug, opts){
 }
 
 /* ------------------------------------------------------ fonte: Library 3 ----
-   PDF: o texto vem do próprio arquivo via pdftotext (poppler) se existir, ou do
-   PDF.js vendorizado. Library 3 é só inglês — o material é só em inglês. */
-function buildLib3(pdfKey, opts){
-  die('Library 3 ainda não implementada nesta versão — ver LIBRARY1_ADD_CONTENT.md §17.6.\n' +
-      '     A Library 1 já funciona: node tools/narration.js build lib1 <subject> [topic]');
+   PDF, e SÓ EM INGLÊS (o material só existe em inglês — narrar em português com o
+   destaque sobre o texto inglês descasaria o que se ouve do que se lê).
+
+   Uma narração por PÁGINA, não por livro: o leitor mostra uma página por vez, e um
+   livro inteiro num arquivo só seria dezenas de horas de áudio para o usuário
+   baixar antes de ouvir a primeira frase.
+
+   O texto sai de tools/lib/pdf-text.js, que reordena o layout para ordem de
+   leitura — sem isso a narração vira salada de palavras nas páginas de tabela.
+--------------------------------------------------------------------------- */
+function lib3PdfPath(key){
+  // aceita o caminho de um arquivo local OU uma key do R2 já baixada em .narration-build/.pdf/
+  if (fs.existsSync(key)) return key;
+  const cached = path.join(BUILD, '.pdf', key.replace(/[\/]/g, '__'));
+  if (fs.existsSync(cached)) return cached;
+  return null;
+}
+
+async function buildLib3(pdfKeyOrPath, opts){
+  const { extractPdfText } = require('./lib/pdf-text.js');
+
+  const file = lib3PdfPath(pdfKeyOrPath);
+  if (!file){
+    die(`PDF não encontrado: ${pdfKeyOrPath}\n` +
+        `     Baixe primeiro (o R2 é a fonte):\n` +
+        `       mkdir -p ${path.relative(ROOT, path.join(BUILD, '.pdf'))}\n` +
+        `       wrangler r2 object get "couplemed-library3/${pdfKeyOrPath}" \\\n` +
+        `         --file ${path.relative(ROOT, path.join(BUILD, '.pdf', String(pdfKeyOrPath).replace(/[\/]/g,'__')))} --remote`);
+  }
+
+  const stem = String(pdfKeyOrPath).replace(/^.*?(lib3\/)/, '$1').replace(/\.pdf$/i, '');
+  log(`\n▸ ${stem}\n   extraindo texto de ${path.basename(file)} …`);
+
+  const from = opts.from || 1, to = opts.to || 0;
+  const doc = await extractPdfText(file, { from, to: to || undefined });
+  const pages = doc.pages.filter(p => p.text && p.text.replace(/[^A-Za-z]/g,'').length > 120);
+  log(`   ${doc.numPages} página(s) no PDF · ${pages.length} com texto para narrar · ${pages.filter(p=>p.table).length} em layout de tabela`);
+  if (!pages.length){ log('   nada a narrar (páginas só de imagem?)'); return; }
+
+  let made = 0, skipped = 0, totalDur = 0, totalBytes = 0;
+  for (const pg of pages){
+    const scopeKey = `${stem}/p${String(pg.page).padStart(4,'0')}`;
+    const sentences = S.splitSentences(pg.text);
+    if (!sentences.length) continue;
+    for (const voice of S.voicesFor('en')){
+      const t0 = Date.now();
+      const r = buildOne(scopeKey, 'en', voice, sentences, opts);
+      if (!r) continue;
+      if (r.skipped){ skipped++; continue; }
+      made++; totalDur += r.duration; totalBytes += r.bytes;
+      log(`   p${String(pg.page).padStart(3)} ${voice.id.padEnd(9)} ${String(r.count).padStart(3)} frases  ${fmtDur(r.duration).padStart(6)}  ${fmtMB(r.bytes).padStart(8)}  (${((Date.now()-t0)/1000).toFixed(1)}s)`);
+    }
+  }
+  log(`\n${made} áudio(s) gravado(s), ${skipped} já existia(m) · ${fmtDur(totalDur)} · ${fmtMB(totalBytes)}`);
+  if (made) log('Agora suba para o R2:  node tools/narration.js upload --only=lib3');
+}
+
+/* Só extrai e imprime o texto — para CONFERIR a ordem de leitura antes de gastar
+   tempo gerando áudio de uma página que sairia embaralhada. */
+async function inspectLib3(pdfKeyOrPath, opts){
+  const { extractPdfText } = require('./lib/pdf-text.js');
+  const file = lib3PdfPath(pdfKeyOrPath);
+  if (!file) die(`PDF não encontrado: ${pdfKeyOrPath}`);
+  const doc = await extractPdfText(file, { from: opts.from || 1, to: opts.to || undefined, debug: !!opts.debug });
+  for (const pg of doc.pages){
+    log(`\n───── página ${pg.page}${pg.table ? ' [tabela]' : ' [texto corrido]'} ─────`);
+    log(pg.text.slice(0, opts.full ? 1e9 : 900) || '(sem texto)');
+  }
 }
 
 /* ----------------------------------------------------------------- upload --- */
@@ -305,7 +369,9 @@ function voices(){
 /* -------------------------------------------------------------------- CLI --- */
 function main(){
   const [cmd, ...rest] = process.argv.slice(2);
-  const opts = { force: rest.includes('--force') };
+  const num = f => { const a = rest.find(x => x.startsWith('--'+f+'=')); return a ? parseInt(a.split('=')[1],10) : 0; };
+  const opts = { force: rest.includes('--force'), full: rest.includes('--full'),
+                 debug: rest.includes('--debug'), from: num('from'), to: num('to') };
   const args = rest.filter(a => !a.startsWith('--'));
 
   switch (cmd){
@@ -316,13 +382,21 @@ function main(){
         if (rest.includes('--all')) { for (const s of lib1Subjects()) buildLib1(s, null, opts); }
         else if (args[1]) buildLib1(args[1], args[2] || null, opts);
         else die('uso: build lib1 <subject-slug> [topic-slug]   ou   build lib1 --all');
-      } else if (which === 'lib3'){ buildLib3(args[1], opts); }
+      } else if (which === 'lib3'){
+        if (!args[1]) die('uso: build lib3 <pdf-key ou caminho> [--from=N] [--to=N]');
+        buildLib3(args[1], opts);
+      }
       else die('uso: build lib1|lib3 …');
       break;
     }
     case 'upload': {
       const only = (rest.find(a => a.startsWith('--only=')) || '').slice(7) || null;
       upload(only);
+      break;
+    }
+    case 'inspect': {
+      if (args[0] !== 'lib3' || !args[1]) die('uso: inspect lib3 <pdf-key ou caminho> [--from=N] [--to=N] [--full]');
+      inspectLib3(args[1], opts);
       break;
     }
     case 'report':  report(); break;

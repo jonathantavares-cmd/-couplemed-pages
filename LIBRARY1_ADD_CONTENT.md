@@ -479,6 +479,7 @@ JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-count.js       # quant
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js  # os 20 flashcards do tópico (§11.4)
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards-i18n.js  # tradução dos cards, inclusive os formatados
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-narrator.js     # narração: vozes, player e casamento frase↔DOM (§17)
+node tools/tests/test-pdf-text.js                                        # ordem de leitura do PDF da Library 3 (§17.6)
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-assetbase.js   # prova a virada da mídia para o R2
 ```
 
@@ -1056,18 +1057,41 @@ Hoje a Library 2 é só título e placeholder: não há leitor, logo não há to
 
 Se o conteúdo for bilíngue como o da Library 1, `langs: ['en','pt']` e as 6 vozes valem. O gerador aceita o escopo `lib2/…` sem mudança — só falta o ramo `build lib2` em `tools/narration.js`, que é uma cópia de `buildLib1` apontando para a fonte de conteúdo da Library 2.
 
-#### Library 3 — front pronto, geração pendente
+#### Library 3 — ✅ IMPLEMENTADO (2026-07-26)
 
-**Só em inglês** (decisão do usuário, 2026-07-26: o material só existe em inglês, e narrar em português com o destaque sobre o texto inglês descasaria o que se ouve do que se lê). Usa as 4 vozes de inglês.
+**Só em inglês** (o material só existe em inglês, e narrar em português com o destaque sobre o texto inglês descasaria o que se ouve do que se lê). Usa as 4 vozes de inglês. Narra **uma página por vez** — um livro inteiro num arquivo só seria dezenas de horas antes da primeira frase.
 
-Já funciona: botão na toolbar, texto extraído do próprio PDF (`page.getTextContent()`), destaque sobre a camada de texto do PDF.js, narração **página por página** (`lib3/<pdf sem extensão>/pNNNN`) — um livro inteiro num arquivo só seria dezenas de horas. Hoje toca pela voz do aparelho, porque **não há áudio gravado**.
+```bash
+# 1) baixar o PDF do R2 (a fonte é o R2, não o repositório)
+mkdir -p .narration-build/.pdf
+wrangler r2 object get "couplemed-library3/lib3/psychiatry/03-pharmacology.pdf" \
+  --file .narration-build/.pdf/lib3__psychiatry__03-pharmacology.pdf --remote
 
-Falta a geração em massa. `build lib3` é hoje um stub que avisa. **Antes de escrevê-lo, resolver estes dois pontos — não sair gerando:**
+# 2) CONFERIR A ORDEM DE LEITURA ANTES DE GERAR — passo obrigatório, ver abaixo
+node tools/narration.js inspect lib3 lib3/psychiatry/03-pharmacology.pdf --from=3 --to=3
 
-1. **Ordem de leitura.** `getTextContent()` devolve os fragmentos na ordem em que o PDF os declara, que **não é a ordem de leitura** num layout de duas colunas — e o First Aid é todo assim, com tabelas e mnemônicos. Narrado cru, sai salada de palavras em boa parte das páginas. Precisa agrupar os itens por coordenada (`item.transform[4]` = x, `[5]` = y): detectar as colunas por faixa de x, ordenar por y dentro de cada coluna, e descartar cabeçalho/rodapé (y nos extremos, texto repetido entre páginas). **Validar numa página de duas colunas antes de gerar qualquer coisa** — ler o texto extraído em voz alta e ver se faz sentido.
-2. **Volume e banda.** São 84 PDFs de tópico + o livro completo (392 MB), todos no R2. Baixar tudo para extrair texto gasta banda (ver a advertência de banda da Library 3). A geração em si é rápida: o `say` roda a ~85× tempo real. Preferir começar por **um PDF pequeno**, ouvir o resultado, e só então soltar o lote.
+# 3) gerar e subir
+node tools/narration.js build lib3 lib3/psychiatry/03-pharmacology.pdf
+node tools/narration.js upload --only=lib3
+```
 
-Enquanto isso não existe, a Library 3 **não fica sem narração** — cai na voz do aparelho, que lê o mesmo texto extraído. A diferença é qualidade e consistência entre aparelhos, não disponibilidade.
+Chave no R2: `narration/lib3/<pdf sem extensão>/pNNNN/en-<voz>.m4a`, que é exatamente o que `narrationScopeKey()` monta em `library3-reader.js`. Medido: uma página densa dá ~2 min por voz, ~0,7 MB, ~8 s para gerar.
+
+**⚠️ SEMPRE rodar o `inspect` antes do `build`.** O texto de um PDF não sai na ordem em que se lê, e gerar áudio de uma página embaralhada desperdiça tempo e enche o R2 de lixo. O `inspect` imprime o que seria narrado; leia e veja se faz sentido.
+
+##### O que `tools/lib/pdf-text.js` resolve (e como isso foi descoberto)
+
+Extrair texto de PDF parece trivial e não é. Três coisas quebram a narração, e todas só aparecem quando se **ouve** o resultado:
+
+1. **Ordem.** O First Aid é uma TABELA (rótulo à esquerda, conteúdo à direita) — não duas colunas de texto corrido, como se supunha antes de medir. A armadilha real é que rótulo e conteúdo dividem a mesma linha física, então agrupar por `y` funde as colunas antes de dar para separá-las. Enquanto o rótulo cabe numa linha ninguém percebe; quando ocupa duas, o conteúdo entra no meio dele (`"Selective serotonin Fluoxetine… reuptake inhibitors"`). Por isso a separação em colunas acontece nos **itens**, antes de formar linha, e cada bloco de rótulo leva junto o conteúdo da faixa vertical dele.
+
+2. **Glifos.** As setas do First Aid saem como letras: `q`=↑ (narrado "increased"), `r`=↓ ("decreased"), `p`=→ ("leads to"). E as ligaduras saem como pontuação — mas **o mapa varia de arquivo para arquivo**: o mesmo `!` é "ff" no PDF de psiquiatria (`Korsako!` = Korsakoff) e "fi" no de bioquímica (`el!n` = elfin). Como o PDF não diz qual é qual, a escolha é feita por palavra: primeiro um dicionário de termos médicos com ligadura, e fora dele pela fonética ("fl" só antes de vogal, "ff" entre vogais). Sem isso a narração lê "de-cifrão-ciency" e "fiuvoxamine".
+
+3. **Moldura.** Cabeçalho, número de página e rodapé de arquivo (`FAS1_2025_13-Psych.indd`) se repetem em toda página e viram ruído a cada virada. Saem por posição **e** por repetição entre páginas — e a remoção acontece antes da detecção de colunas, senão eles envenenam a conta.
+
+##### Limitação conhecida
+
+Páginas de **três** colunas (rótulo | conteúdo | notas laterais) ainda podem sair intercaladas: a detecção acha as colunas quando há um vão vertical nítido, mas quando as linhas de conteúdo encostam na coluna de notas ela cai na leitura linha a linha. Medido no PDF de bioquímica: 5 de 8 páginas reconhecidas como tabela; a de Vitamina A é o caso que ainda mistura. **É por isso que o `inspect` é obrigatório** — dá para ver antes de gastar geração. Quem for melhorar: o caminho é reconhecer a coluna de notas pela largura menor e pelo estilo, não só pelo vão.
 
 ### 17.7 Arquivos
 
@@ -1077,6 +1101,8 @@ Enquanto isso não existe, a Library 3 **não fica sem narração** — cai na v
 | `public/js/cm-narrator.js` | o player: barra, configurações, destaque sincronizado, fallback |
 | `public/css/cm-narrator.css` | estilo da barra e do destaque (herda o tema do leitor; responsivo em 1180/820/590) |
 | `tools/narration.js` | gerador: grava com `say`, monta a tabela de tempos, sobe para o R2 |
+| `tools/lib/pdf-text.js` | extrai o texto do PDF da Library 3 em **ordem de leitura** (colunas, glifos, moldura) |
+| `tools/tests/test-pdf-text.js` | teste da extração — os layouts vieram do PDF real |
 | `tools/tests/test-narrator.js` | teste em jsdom — catálogo, abertura, **casamento frase↔DOM** e segmentação |
 | `worker.js` → `handleNarration` | serve o áudio do R2 com **Range** (o Safari não toca `<audio>` sem isso) e recebe o upload |
 
