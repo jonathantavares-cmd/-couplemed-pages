@@ -477,12 +477,35 @@ Checklist antes de commitar:
 - [ ] Download EN e PT gera arquivo com o conteúdo certo.
 - [ ] Conteúdo confere **exatamente** com os prints de origem, sem paráfrase, corte ou acréscimo (Seção 1).
 - [ ] **`node tools/library1-audit.js` saiu ✅** (Seção 11.1) — inegociável.
+- [ ] Se `library1-reader.js` ou `library1-reader.css` mudaram: **`node tools/library1-cachecheck.js` saiu ✅** (Seção 9.1) — senão o navegador serve o arquivo velho.
 - [ ] Imagens abrem ao clicar no nome, nos dois idiomas, e a página não mostra imagem aberta (Seção 7.5).
 - [ ] Clicar na bandeira do topo traduz texto E imagens (Seção 7.3).
 - [ ] Versão PT presente no mesmo commit (Seção 6).
 - [ ] ✅ aplicado nas subpastas concluídas (Seção 11).
 - [ ] Nenhum arquivo do fluxo do QBank foi tocado (Seção 10).
 - [ ] Se a toolbar mudou: a mesma mudança foi aplicada na Library 3 (Seção 7.1).
+
+### 9.1 ⚠️ SUBIR A VERSÃO DE CACHE AO MEXER NO LEITOR
+
+O leitor e o CSS são servidos com `?v=N` para furar o cache do navegador:
+
+| Arquivo | Onde a versão é declarada |
+|---|---|
+| `public/js/library1-reader.js` | `public/app.html`, na lista `CM_APP_SCRIPTS` |
+| `public/css/library1-reader.css` | `public/js/library1-reader.js`, na constante `PAGE_CSS` |
+
+**Se o arquivo muda e o `N` não muda, o navegador continua servindo a versão velha.** O sintoma é traiçoeiro: o código está certo no repositório, os testes passam, e **nada muda na tela do usuário** — parece que a implementação não funcionou.
+
+Isso já aconteceu **duas vezes**:
+1. o CSS do visualizador foi publicado como `v=2` já sem o estilo do modal, e o `v=2` anterior (bom) ficou em cache → a imagem abria em tamanho natural, escorrendo pela tela;
+2. as figuras do Create Test entraram no JS e no CSS **sem subir o `v=`** → as imagens simplesmente não apareciam nas questões, e eu só descobri porque o usuário insistiu que não aparecia.
+
+**Guarda automático:**
+```bash
+node tools/library1-cachecheck.js            # reclama se o conteúdo mudou e o v= não
+node tools/library1-cachecheck.js --accept   # grava o estado atual (rodar DEPOIS de subir o v=)
+```
+Ele guarda o hash de cada arquivo ao lado da versão publicada em `tools/.cache-versions.json`. Rodar **antes de commitar** sempre que o leitor ou o CSS tiverem sido tocados.
 
 ---
 
@@ -701,4 +724,5 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 | 2026-07-25 | **Regra corrigida a pedido do usuário (§11.2):** TODA imagem que vem no print da questão entra sempre — do enunciado (`img`) e da explicação (`explImg`) — **independente de estar referenciada no artigo**. A regra anterior da auditoria (toda mídia tinha de ser citada no artigo) empurrou para a decisão errada de deixar as imagens da Q3 de fora. A auditoria passou a considerar artigo **e** questões, e a aceitar `singleLang:true` para figura que veio só num idioma. |
 | 2026-07-25 | **§10.1 registra um conflito real:** duas sessões trabalharam no mesmo tópico ao mesmo tempo e quase duplicaram a mídia da Q3. Regras novas: `git status` antes de editar conteúdo, nunca reverter arquivo com trabalho não commitado alheio, e desfazer o próprio pedaço cirurgicamente. |
 | 2026-07-25 | **Imagens do Create Test passam a ser EXIBIDAS na página da questão** (§11.2), no mesmo padrão do QBank 1 — `img` após a vinheta e `explImg` no topo da explicação —, ao contrário da página do tópico, onde a mídia só abre no clique. Continuam clicáveis para ampliar e trocam de idioma junto com o texto. |
+| 2026-07-25 | **As figuras do Create Test não apareciam** apesar do código estar correto: JS e CSS foram alterados **sem subir o `?v=`**, então o navegador servia os arquivos em cache. Versões subidas (js v=4, css v=5) e criado `tools/library1-cachecheck.js` + §9.1 para o erro não acontecer uma terceira vez — ele compara o hash do arquivo com a versão publicada. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

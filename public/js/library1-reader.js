@@ -28,7 +28,7 @@
   'use strict';
 
   const SHARED_CSS  = '/css/library3-reader.css?v=5';   // toolbar compartilhada com a Library 3
-  const PAGE_CSS    = '/css/library1-reader.css?v=4';   // específico do modo página
+  const PAGE_CSS    = '/css/library1-reader.css?v=5';   // específico do modo página
   const CONTENT_DIR = '/js/library1-content/';
 
   /* ONDE A MÍDIA MORA — ponto único de virada.
