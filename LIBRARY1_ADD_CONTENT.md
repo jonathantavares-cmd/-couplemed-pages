@@ -504,6 +504,18 @@ Checklist antes de commitar:
 4. Ver commits "aparecendo sozinhos" no `git log` é **esperado**, não é bug: é a outra sessão trabalhando.
 5. Se um arquivo realmente precisar ser tocado pelos dois (ex.: `site.js` para o link das tags, Seção 7), fazer a alteração **num só lado** e em commit isolado e pequeno, para reduzir a janela de conflito.
 
+### 10.1 Duas sessões na MESMA Library — caso real, 2026-07-25
+
+A Seção 10 previa duas sessões em fluxos diferentes (QBank × Library 1). Aconteceu algo pior: **duas sessões na mesma Library, no mesmo tópico, ao mesmo tempo**. Uma transcrevia as questões; a outra (esta) corrigia a regra da mídia de questão. As duas foram mexer na Q3 de `allergy-and-immunology.js` simultaneamente.
+
+**Como terminou bem:** o mesmo diretório de trabalho é compartilhado, então `git status` mostrou as alterações **não commitadas** da outra sessão. Foi possível ver que ela já havia resolvido a Q3 (criando `image-6`/`figure-3`, recorte **byte a byte idêntico** ao que esta sessão tinha acabado de fazer) e **desfazer a duplicação** em vez de commitar em cima.
+
+**Regras que saem daí — valem para qualquer sessão desta Library:**
+1. **Antes de editar um arquivo de conteúdo, rodar `git status`.** Se ele aparecer como `M` sem que você o tenha alterado, **outra sessão está trabalhando nele agora**. Não edite: leia o que ela fez.
+2. **Nunca `git checkout`/`git restore` num arquivo com trabalho não commitado da outra sessão** — isso apaga o trabalho dela sem aviso. Para desfazer o *seu* pedaço, remova-o cirurgicamente (edição pontual), nunca por reversão do arquivo inteiro.
+3. **Ao commitar, listar só os arquivos que você mesmo alterou** — e conferir o `git diff` deles antes, para não levar de carona o trabalho pela metade da outra sessão.
+4. **Se as duas fizeram a mesma coisa, a que chegou depois desfaz a sua.** Duplicar mídia (dois arquivos idênticos com nomes diferentes) e duplicar declaração em `assets` é pior que perder o trabalho de recorte, que custa segundos.
+
 ---
 
 ## 11. MARCAÇÃO DE PROGRESSO NA PASTA DO DESKTOP (✅)
@@ -553,7 +565,7 @@ A fonte da verdade é sempre o **conteúdo publicado**, não o ✅ — por isso 
 | # | Verificação | Por que importa |
 |---|---|---|
 | 1 | Toda mídia tem as versões **EN e PT** e os arquivos existem em disco | uma versão faltando quebra a troca de idioma |
-| 2 | Toda mídia é **referenciada no texto**, nos dois idiomas | mídia sem referência é inalcançável (não há painel lateral) |
+| 2 | Toda mídia é **referenciada** — no texto do artigo (nos dois idiomas) **ou** em `img`/`explImg` de alguma questão do Create Test (§11.2) | mídia do artigo sem referência é inalcançável; mídia de questão entra sempre, mesmo sem citação no artigo |
 | 3 | EN e PT referenciam **o mesmo conjunto** de mídias | referência só no EN some ao traduzir |
 | 4 | Toda referência aponta para uma mídia **que existe** | link morto no meio do texto |
 | 5 | `alt` preenchido e **diferente** entre EN e PT | é a legenda; alt igual quase sempre é tradução esquecida |
@@ -586,6 +598,19 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 > | Escopo | banco inteiro, passadas, analytics | **só aquele tópico** |
 >
 > Há teste automatizado que grava estado de QBank, roda um teste inteiro da Library 1 e confirma **byte a byte** que nada do QBank foi criado ou alterado.
+
+> ## ⚠️ TODA IMAGEM DA QUESTÃO ENTRA — SEMPRE
+>
+> **Regra do usuário (2026-07-25), corrigindo uma decisão errada minha:** *"independente de ter sido referenciada a mídia ou o conteúdo da questão teste, deve ser implantada nas questões teste exatamente como enviadas; portanto todas as imagens, tanto das questões teste como das explicações, devem ser sempre incluídas."*
+>
+> - **Imagem no enunciado do print → campo `img`.**
+> - **Imagem na explicação do print → campo `explImg`.**
+> - **As duas entram sempre**, mesmo que a figura não apareça em lugar nenhum do artigo. A mídia da questão **pertence à questão**, não ao artigo.
+> - Não reaproveitar "o que já existe no artigo" como substituto de uma imagem que veio no print da questão. Se veio no print, entra.
+>
+> **O que deu errado antes:** a auditoria exigia que *toda* mídia declarada estivesse referenciada no texto do artigo. Quando a Q3 trouxe uma imagem no enunciado e outra na explicação, a regra empurrou para a decisão de **não incluí-las** — o oposto do que o usuário quer. A auditoria foi corrigida: mídia usada por uma questão é válida **sem** referência no artigo, e a checagem de "mídia inalcançável" passou a considerar artigo **e** questões.
+>
+> **Mídia de questão pode vir em um só idioma.** Os prints das questões costumam vir só em inglês. Nesse caso, declarar `en` e `pt` apontando para o **mesmo arquivo** — a imagem entra de todo modo — e **avisar o usuário** de que aquela figura não tem versão PT. Nunca deixar de incluir por falta do par.
 
 **Formato das questões:** o **mesmo schema de campos do QBank** (`vignette`, `q`, `options`, `correct`, `peer`, `difficulty`, `explC`, `explI`, `objective`, `ptTranslation`) — inclusive a **regra de dificuldade** (`peer[correct]` ≥70 = easy, 50-69 = medium, <50 = hard), que a auditoria confere. O `id` usa o prefixo **`L1Q-`** para nunca colidir com um id do QBank. Campo opcional `img` aponta uma chave de `assets`, e a imagem abre por clique como no resto da página.
 
@@ -653,4 +678,6 @@ Ao terminar cada uma: rodar a auditoria (§11.1), depois o ✅ (§11), depois co
 | 2026-07-25 | **Q1 do tópico Acute rheumatic fever transcrita** (de 5 identificadas nos 14 prints). Faltam Q2–Q5 — ver Seção 12. |
 | 2026-07-25 | **Testes movidos para `tools/tests/`** (antes viviam num scratchpad temporário e se perderiam), com README de como rodar. §6.1/6.2 passam a registrar que o texto PT vem incompleto e que as inconsistências da tradução do usuário são preservadas. |
 | 2026-07-25 | **Retomada automática por hora documentada** (§2.4), a pedido do usuário: quando o limite de uso bate e ele **não troca de conta**, arma-se `CronCreate` de hora em hora (minuto não-cheio) para tentar retomar sozinho, e apaga-se com `CronDelete` ao terminar — ou imediatamente, se houver troca de conta (senão duas sessões trabalham no mesmo tópico). Parâmetros e limitações conferidos na especificação real da ferramenta, incluindo dois pontos que o doc do QBank não registra: `durable` **não tem efeito** e tarefas recorrentes têm jitter de até 10% do período. |
+| 2026-07-25 | **Regra corrigida a pedido do usuário (§11.2):** TODA imagem que vem no print da questão entra sempre — do enunciado (`img`) e da explicação (`explImg`) — **independente de estar referenciada no artigo**. A regra anterior da auditoria (toda mídia tinha de ser citada no artigo) empurrou para a decisão errada de deixar as imagens da Q3 de fora. A auditoria passou a considerar artigo **e** questões, e a aceitar `singleLang:true` para figura que veio só num idioma. |
+| 2026-07-25 | **§10.1 registra um conflito real:** duas sessões trabalharam no mesmo tópico ao mesmo tempo e quase duplicaram a mídia da Q3. Regras novas: `git status` antes de editar conteúdo, nunca reverter arquivo com trabalho não commitado alheio, e desfazer o próprio pedaço cirurgicamente. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

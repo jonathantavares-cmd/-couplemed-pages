@@ -726,8 +726,11 @@
     if(revealed){
       const wrong = Object.entries(qField(item, r.lang, 'explI') || {})
         .map(([k,v])=>`<li><b>${k}.</b> ${esc(v)}</li>`).join('');
+      const explImgHtml = item.explImg && r.content.assets && r.content.assets[item.explImg]
+        ? `<p class="l1r-q-img"><a class="l1r-ref" data-ref="${esc(item.explImg)}">${esc(r.lang==='pt'?'ver imagem':'view image')}</a></p>` : '';
       explHtml = `<div class="l1r-q-expl">
         <h4>${esc(chosen === item.correct ? L.ctCorrect : L.ctIncorrect)}</h4>
+        ${explImgHtml}
         <p>${esc(qField(item, r.lang, 'explC') || '')}</p>
         ${wrong ? `<ul class="l1r-q-wrong">${wrong}</ul>` : ''}
         ${qField(item, r.lang, 'objective') ? `<div class="l1r-q-obj"><b>${esc(L.ctObjective)}</b> ${esc(qField(item, r.lang, 'objective'))}</div>` : ''}

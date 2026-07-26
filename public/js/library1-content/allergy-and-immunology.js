@@ -39,12 +39,22 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
       'image-5': { kind:'image', n:5,
         en:{ key:A1+'acute-rheumatic-fever/image-5-en.webp', alt:'Erythema infectiosum (fifth disease)' },
         pt:{ key:A1+'acute-rheumatic-fever/image-5-pt.webp', alt:'Eritema infeccioso (cinta doença)' } },
+      /* image-6 e figure-3: exclusivas da Q3 do Create Test (§11.2). Sem versão PT
+         enviada pelo usuário para essas duas — mesmo arquivo (em inglês) usado nos
+         dois slots até ele mandar o print em português; singleLang:true documenta
+         isso e silencia o aviso de "alt idêntico" (ver aviso ao final da sessão). */
+      'image-6': { kind:'image', n:6, singleLang:true,
+        en:{ key:A1+'acute-rheumatic-fever/image-6-en.webp', alt:'Myocardial biopsy showing an interstitial granuloma with giant cells' },
+        pt:{ key:A1+'acute-rheumatic-fever/image-6-pt.webp', alt:'Myocardial biopsy showing an interstitial granuloma with giant cells' } },
       'figure-1': { kind:'figure', n:1,
         en:{ key:A1+'acute-rheumatic-fever/figure-1-en.webp', alt:'Pathophysiology of acute rheumatic fever' },
         pt:{ key:A1+'acute-rheumatic-fever/figure-1-pt.webp', alt:'Fisiopatologia da febre reumática aguda' } },
       'figure-2': { kind:'figure', n:2,
         en:{ key:A1+'acute-rheumatic-fever/figure-2-en.webp', alt:'Mitral valve calcification' },
         pt:{ key:A1+'acute-rheumatic-fever/figure-2-pt.webp', alt:'Calcificação da válvula mitral' } },
+      'figure-3': { kind:'figure', n:3, singleLang:true,
+        en:{ key:A1+'acute-rheumatic-fever/figure-3-en.webp', alt:'Acute rheumatic carditis — Aschoff body, Aschoff giant cell, Anitschkow cells' },
+        pt:{ key:A1+'acute-rheumatic-fever/figure-3-pt.webp', alt:'Acute rheumatic carditis — Aschoff body, Aschoff giant cell, Anitschkow cells' } },
       'table-1': { kind:'table', n:1,
         en:{ key:A1+'acute-rheumatic-fever/table-1-en.webp', alt:'Antibiotic prophylaxis for secondary prevention of rheumatic fever' },
         pt:{ key:A1+'acute-rheumatic-fever/table-1-pt.webp', alt:'Profilaxia antibiótica para prevenção secundária de febre reumática' } },
@@ -53,7 +63,8 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
         pt:{ key:A1+'acute-rheumatic-fever/table-2-pt.webp', alt:'Faringite estreptocócica' } },
       'table-3': { kind:'table', n:3,
         en:{ key:A1+'acute-rheumatic-fever/table-3-en.webp', alt:'Acute rheumatic fever' },
-        pt:{ key:A1+'acute-rheumatic-fever/table-3-pt.webp', alt:'Febre reumática aguda' } }
+        pt:{ key:A1+'acute-rheumatic-fever/table-3-pt.webp', alt:'Febre reumática aguda' } },
+
     },
 
     /* ---- CREATE TEST: questões de treino DESTE tópico ----
@@ -163,6 +174,8 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
         correct: 'B',
         peer: { A:0, B:48, C:1, D:4, E:16, F:28 },
         difficulty: 'hard',
+        img: 'image-6',
+        explImg: 'figure-3',
         explC: "Acute rheumatic fever (ARF) is an immune-mediated complication of an untreated group A streptococcal pharyngeal infection.  The most serious manifestation of ARF is pancarditis, which can cause nonspecific fever, fatigue, and anorexia as well as altered vital signs (tachycardia, tachypnea, hypotension).  Endocardial involvement resulting in valvular dysfunction (specifically acute mitral valve regurgitation) is the most likely cause of the patient's new holosystolic murmur.\n\nThis patient's myocardial biopsy shows a lesion consisting of lymphocytes and macrophages as well as scattered multinucleated giant cells.  This interstitial myocardial granuloma, or Aschoff body, is pathognomonic for ARF-related myocarditis.  Plump macrophages with abundant cytoplasm and central, slender chromatin ribbons called Anitschkow (or caterpillar) cells are also often present.  Over subsequent years, Aschoff bodies are replaced by fibrous scar tissue, leading to chronic mitral valve stenosis and regurgitation.",
         explI: {
           A: 'Hypersensitivity myocarditis, which results from an autoimmune reaction to a medication, is characterized by an interstitial infiltrate of eosinophils.  Many classes of drugs, including diuretics (eg, furosemide, hydrochlorothiazide) and antibiotics (eg, ampicillin, azithromycin), can cause this hypersensitivity reaction.',

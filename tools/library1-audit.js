@@ -5,9 +5,13 @@
    Confere o que o olho não pega numa página longa e bilíngue:
 
      1. Toda mídia declarada tem os DOIS idiomas e os arquivos existem em disco.
-     2. Toda mídia é REFERENCIADA no texto — se ninguém a cita, ela é
-        inalcançável, porque a imagem só abre clicando no nome dela.
-     3. EN e PT referenciam exatamente o mesmo conjunto de mídias.
+     2. Toda mídia é REFERENCIADA — no texto do artigo OU em alguma questão do
+        Create Test (`img`/`explImg`). Mídia do Create Test é AUTOSSUFICIENTE:
+        entra sempre que o print trouxer imagem no enunciado ou na explicação,
+        MESMO que o artigo nunca a cite — não depende de referência no texto
+        (regra do usuário, reforçada 2026-07-25; ver LIBRARY1_ADD_CONTENT.md §11.2).
+     3. EN e PT referenciam exatamente o mesmo conjunto de mídias (quando a
+        referência vem do texto do artigo).
      4. Toda referência aponta para uma mídia que existe (sem link morto).
      5. As legendas (alt) estão preenchidas e diferentes entre EN e PT — alt
         igual nos dois idiomas quase sempre é tradução esquecida.
@@ -15,7 +19,9 @@
         no PT é sinal de tradução incompleta.
      7. O HTML não traz <img> solta: a página é só texto (a mídia abre no clique).
      8. Create Test: id único, correct válida, difficulty coerente com peer (mesma
-        regra do QBank), explicações e tradução PT completas.
+        regra do QBank), explicações e tradução PT completas, e TODA imagem do
+        enunciado (`img`) e da explicação (`explImg`) incluída — nunca omitida
+        por não estar referenciada em outro lugar.
 
    Uso:
      node tools/library1-audit.js                      # tudo que já foi publicado
@@ -66,16 +72,23 @@ function auditTopic(subjectSlug, topicSlug, rec){
       if(!v.alt) problems.push(`${k}.${lang}: alt vazio (é a legenda da imagem ampliada)`);
     }
     // 5. alt traduzido
-    if(a.en && a.pt && a.en.alt && a.pt.alt && a.en.alt === a.pt.alt)
-      warnings.push(`${k}: alt idêntico em EN e PT ("${a.en.alt}") — tradução esquecida?`);
+    if(a.en && a.pt && a.en.alt && a.pt.alt && a.en.alt === a.pt.alt && !a.singleLang)
+      warnings.push(`${k}: alt idêntico em EN e PT ("${a.en.alt}") — tradução esquecida? (se a figura veio só num idioma, marque singleLang:true)`);
   }
 
-  // 2/3/4. referências
+  // 2/3/4. referências — no texto do artigo OU nas questões do Create Test (img/explImg).
+  // Mídia do Create Test é AUTOSSUFICIENTE: entra sempre, mesmo que o artigo nunca a cite
+  // (regra do usuário, reforçada 2026-07-25 — ver LIBRARY1_ADD_CONTENT.md §11.2).
+  const quizPre = Array.isArray(rec.quiz) ? rec.quiz : [];
+  const quizRefs = new Set();
+  quizPre.forEach(it => { if(it.img) quizRefs.add(it.img); if(it.explImg) quizRefs.add(it.explImg); });
+
   const rEn = refsOf(rec.en && rec.en.html), rPt = refsOf(rec.pt && rec.pt.html);
   const setEn = new Set(rEn), setPt = new Set(rPt);
   for(const k of keys){
-    if(!setEn.has(k)) problems.push(`${k}: NÃO é referenciada no texto EN — fica inalcançável`);
-    if(!setPt.has(k)) problems.push(`${k}: NÃO é referenciada no texto PT — fica inalcançável`);
+    if(quizRefs.has(k)) continue;   // garantida pelo Create Test — não depende do texto do artigo
+    if(!setEn.has(k)) problems.push(`${k}: NÃO é referenciada no texto EN nem em nenhuma questão do Create Test — fica inalcançável`);
+    if(!setPt.has(k)) problems.push(`${k}: NÃO é referenciada no texto PT nem em nenhuma questão do Create Test — fica inalcançável`);
   }
   for(const r of setEn) if(!assets[r]) problems.push(`EN referencia "${r}", que não existe em assets`);
   for(const r of setPt) if(!assets[r]) problems.push(`PT referencia "${r}", que não existe em assets`);
@@ -97,7 +110,7 @@ function auditTopic(subjectSlug, topicSlug, rec){
   }
 
   /* 8. CREATE TEST — questões do tópico (separadas do QBank 1) */
-  const quiz = Array.isArray(rec.quiz) ? rec.quiz : [];
+  const quiz = quizPre;
   const seenIds = new Set();
   const LETTERS = ['A','B','C','D','E','F','G','H'];
   quiz.forEach((it, i)=>{
@@ -124,6 +137,7 @@ function auditTopic(subjectSlug, topicSlug, rec){
     if(!it.explC) problems.push(`${tag}: sem explicação da correta (explC)`);
     if(!it.objective) warnings.push(`${tag}: sem objetivo educacional`);
     if(it.img && !assets[it.img]) problems.push(`${tag}: img "${it.img}" não existe em assets`);
+    if(it.explImg && !assets[it.explImg]) problems.push(`${tag}: explImg "${it.explImg}" não existe em assets`);
     // tradução PT obrigatória
     const p = it.ptTranslation;
     if(!p) problems.push(`${tag}: sem ptTranslation (bilíngue é obrigatório)`);
