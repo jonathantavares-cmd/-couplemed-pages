@@ -86,6 +86,7 @@ Dentro de cada subpasta de tópico o usuário coloca **prints (screenshots) e im
 **A tarefa é transcrever esses prints para uma página**, de modo que ao clicar no tópico no site abra uma página **igual ao que está nas imagens**: mesma sequência de seções, mesmos títulos, mesmas tabelas, mesmas listas, mesmos destaques. A página é a transcrição fiel do print, não um resumo dele (Seção 1).
 
 - **Ordem de leitura:** ordenar os arquivos pelo nome (print 1, print 2, …) — a numeração do usuário é a ordem do conteúdo. Se a ordem não estiver clara pelos nomes, deduzir pela continuidade do texto entre as imagens.
+- **A quantidade de material varia por tópico** — de páginas de texto, de figuras e de questões. Não existe número padrão: transcrever exatamente o que estiver na pasta (ver o aviso da §11.2 sobre a quantidade de questões).
 - **Figuras/diagramas dentro do print:** quando o print contém uma figura que é conteúdo (diagrama, algoritmo, foto clínica, tabela como imagem), recortar e gravar em **`public/assets/library1/<subject-slug>/<topic-slug>/`** e declarar em `assets` — nunca redesenhar em texto e **nunca colocar `<img>` no HTML** (a mídia abre por clique na referência, §7.5).
 - **Texto que dá para transcrever, transcreve.** Só vira imagem o que é genuinamente gráfico.
 - **Toda imagem publicada abre ampliada ao clicar** (Seção 7.5) — então recortar preservando a resolução original, sem reduzir para "caber na página". O `alt` vira a legenda da imagem ampliada e precisa existir nos dois idiomas.
@@ -468,6 +469,7 @@ JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-reader.js      # leito
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-quiz.js        # Create Test, incl. isolamento do QBank
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read.js        # marca "já lido" na Library 1
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read-lib3.js   # marca "já lido" na Library 3
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-count.js       # quantidade de questões é livre (1, 2, 9, nenhuma)
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-assetbase.js   # prova a virada da mídia para o R2
 ```
 
@@ -677,6 +679,18 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 >
 > **Mídia de questão pode vir em um só idioma.** Os prints das questões costumam vir só em inglês. Nesse caso, declarar `en` e `pt` apontando para o **mesmo arquivo** — a imagem entra de todo modo — e **avisar o usuário** de que aquela figura não tem versão PT. Nunca deixar de incluir por falta do par.
 
+> ## ⚠️ A QUANTIDADE DE QUESTÕES VARIA POR TÓPICO — 5 NÃO É PADRÃO
+>
+> **Regra do usuário (2026-07-25):** *"a quantidade de 5 questões teste em cada tópico não é um padrão, pode ser mais ou menos; deve-se sempre considerar a quantidade de questões que estiverem dentro de cada pasta (tópico)."*
+>
+> O primeiro tópico incluído (Acute rheumatic fever) teve **5** questões. Isso é um fato daquele tópico, **não um número a repetir**.
+>
+> - **A quantidade certa é a que estiver na pasta.** Contar as questões pelos prints daquela subpasta, e transcrever **todas** — sejam 2, 5, 9 ou 30.
+> - **Nunca parar em 5** porque "foi assim no primeiro", e **nunca completar até 5** inventando ou reaproveitando questão de outro tópico (isso violaria a Seção 1).
+> - **Um tópico pode não ter nenhuma questão.** Nesse caso o campo `quiz` simplesmente não existe e o botão Create Test **não aparece** — comportamento já implementado e testado, não é erro.
+> - Como um print costuma cobrir só parte de uma questão (vinheta num, explicação noutro), **o número de arquivos não é o número de questões**. Agrupar por questão antes de contar: a mesma questão pode ocupar 2, 3 ou 5 prints.
+> - A auditoria (§11.1) valida **cada** questão que existir e não exige quantidade nenhuma — de propósito. E `tools/tests/test-count.js` exercita o Create Test com **1, 2, 9 e nenhuma** questão, para essa liberdade não regredir.
+
 **Formato das questões:** o **mesmo schema de campos do QBank** (`vignette`, `q`, `options`, `correct`, `peer`, `difficulty`, `explC`, `explI`, `objective`, `ptTranslation`) — inclusive a **regra de dificuldade** (`peer[correct]` ≥70 = easy, 50-69 = medium, <50 = hard), que a auditoria confere. O `id` usa o prefixo **`L1Q-`** para nunca colidir com um id do QBank. Campo opcional `img` aponta uma chave de `assets`, e a imagem abre por clique como no resto da página.
 
 **Comportamento:**
@@ -744,7 +758,7 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 |---|---|
 | Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 12 mídias ✅ (10 do artigo × 2 idiomas + 2 exclusivas da Q3, ver aviso singleLang abaixo) · **5 de 5 questões** transcritas |
 
-**Tópico CONCLUÍDO.** As 5 questões do Create Test estão publicadas:
+**Tópico CONCLUÍDO.** As 5 questões do Create Test estão publicadas — **5 é o que havia nesta pasta, não um padrão** (§11.2):
 
 | Questão | Prints | Assunto | Estado |
 |---|---|---|---|
@@ -754,7 +768,7 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 | Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ✅ (`L1Q-ARF-004`) |
 | Q5 | Imagem 13, 14 | coreia de Sydenham | ✅ (`L1Q-ARF-005`) |
 
-`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os cinco testes de `tools/tests/` passam.
+`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os seis testes de `tools/tests/` passam.
 
 > ⚠️ **Pendência de tradução:** `image-6` e `figure-3` (mídia exclusiva da Q3) estão marcadas `singleLang:true` — o print da questão só veio em inglês, então a versão "pt" aponta para o mesmo arquivo em inglês. Quando o usuário mandar esses dois prints em português, recortar e trocar a `key` de `pt` em `public/js/library1-content/allergy-and-immunology.js`.
 >
@@ -796,4 +810,5 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 | 2026-07-25 | **Marca "já lido" estendida à Library 3** (§11.3), a pedido do usuário: ✓ na lista de PDFs (nas duas variantes, embutido e nova aba) e botão na toolbar do leitor de PDF. API virou `window.CMLibRead(lib, id)`, com chaves separadas por biblioteca. |
 | 2026-07-25 | **Revisão completa do doc contra o código** (pedida pelo usuário). Encontradas e corrigidas 4 citações de linha envelhecidas pelas próprias edições desta sessão no `site.js` (renderLibrary 543→592, busca global 1703→1782, setLang 1380→1444, e as linhas 558/561 do histórico, que não existem mais), além de "três testes" onde já são cinco, e da §9 que listava só 3 dos 5 arquivos de teste. |
 | 2026-07-25 | **Criado `tools/library1-doccheck.js` (§9.2)**: 78 verificações do doc contra o código — arquivos citados, citações de linha apontando para a linha certa, ferramentas/testes citados, subcomandos existentes, referências de seção e coerência nos pontos que já causaram bug. Este tipo de defasagem não deve mais passar em silêncio. |
+| 2026-07-25 | **Registrado que 5 questões não é padrão** (§11.2, a pedido do usuário): a quantidade certa é a que estiver na pasta do tópico — pode ser mais, menos, ou nenhuma. Nunca parar em 5 nem completar até 5. A auditoria não exige quantidade, de propósito. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
