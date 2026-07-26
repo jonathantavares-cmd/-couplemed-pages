@@ -76,7 +76,8 @@
           eraserToggle:'Eraser options',
           eraserClick:'Click a highlight to remove it entirely',
           eraserBrush:'Eraser — drag over a highlight to erase it, like a real eraser',
-          pen:'Write', sticky:'Post-it', annotation:'Page note', undo:'Undo', redo:'Redo', more:'More tools', colors:'Colors', navigation:'Navigation', notePrompt:'Write the note anchored to this page:' },
+          pen:'Write', sticky:'Post-it', annotation:'Page note', undo:'Undo', redo:'Redo', more:'More tools', colors:'Colors', navigation:'Navigation', notePrompt:'Write the note anchored to this page:',
+          markRead:'Mark as read', markedRead:'Read ✓', markReadHint:'Mark this PDF as read', markedReadHint:'Read — click to unmark' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
           matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
@@ -85,7 +86,8 @@
           eraserToggle:'Opções de borracha',
           eraserClick:'Clique numa marcação pra apagar ela inteira',
           eraserBrush:'Borracha — arraste por cima pra apagar de verdade, como uma borracha',
-          pen:'Escrever', sticky:'Post-it', annotation:'Anotação na página', undo:'Desfazer', redo:'Refazer', more:'Mais ferramentas', colors:'Cores', navigation:'Navegação', notePrompt:'Escreva a anotação vinculada a esta página:' }
+          pen:'Escrever', sticky:'Post-it', annotation:'Anotação na página', undo:'Desfazer', redo:'Refazer', more:'Mais ferramentas', colors:'Cores', navigation:'Navegação', notePrompt:'Escreva a anotação vinculada a esta página:',
+          markRead:'Marcar como lido', markedRead:'Lido ✓', markReadHint:'Marcar este PDF como lido', markedReadHint:'Lido — clique para desmarcar' }
   };
   const t = k => T[uiLang()][k];
 
@@ -240,6 +242,7 @@
             <input type="text" id="l3rSearchInput" placeholder="${esc(t('search'))}" />
             <span id="l3rSearchCount" class="l3r-searchcount"></span>
           </div>
+          <button type="button" class="l3r-btn l3r-readbtn" id="l3rReadBtn"></button>
           <a class="l3r-btn l3r-download" id="l3rDownloadLink" download>⬇ ${esc(t('download'))}</a>
         </div>
         <div class="l3r-body">
@@ -323,6 +326,28 @@
     updateZoomLabel(r);
 
     r.hostEl.querySelector('#l3rBack').addEventListener('click', ()=>{ destroyActive(); if(r.onBack) r.onBack(); });
+
+    /* ---- marca "já lido" (pedido do usuário, 2026-07-25) ----
+       Mesmo mecanismo da Library 1: estado em window.CMLibRead (site.js), aqui com lib=3 e
+       id = a `key` do PDF. Marcar aqui reflete no ✓ da lista de PDFs e vice-versa. */
+    const syncReadBtn = ()=>{
+      const btn = r.hostEl.querySelector('#l3rReadBtn');
+      if(!btn) return;
+      const read = window.CMLibRead ? window.CMLibRead.isRead(3, r.item.key) : false;
+      btn.textContent = read ? t('markedRead') : ('○ ' + t('markRead'));
+      btn.title = read ? t('markedReadHint') : t('markReadHint');
+      btn.setAttribute('aria-pressed', read ? 'true' : 'false');
+      btn.classList.toggle('l3r-read-on', read);
+    };
+    r.hostEl.querySelector('#l3rReadBtn').addEventListener('click', ()=>{
+      if(!window.CMLibRead) return;
+      window.CMLibRead.toggle(3, r.item.key);
+      syncReadBtn();
+    }, { signal: r.uiAbort.signal });
+    window.addEventListener('storage', e=>{
+      if(e.key && e.key.indexOf('couplemed_lib3read_')===0) syncReadBtn();
+    }, { signal: r.uiAbort.signal });
+    syncReadBtn();
     ['l3rPrev','l3rSidePrev'].forEach(id=>
       r.hostEl.querySelector('#'+id).addEventListener('click', ()=> goToPage(r, r.currentPage-1)));
     ['l3rNext','l3rSideNext'].forEach(id=>

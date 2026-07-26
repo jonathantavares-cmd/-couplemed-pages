@@ -511,6 +511,28 @@ body.light .lib-book:hover{background:#eaf1ff;border-color:#bcd3ff}
 .lib-book.is-read .lib-topic-name{opacity:.62}
 body.light .lib-read{border-color:#cfdcee;color:#9fb0c7}
 body.light .lib-book.is-read{border-color:rgba(47,191,113,.45)}
+/* o mesmo marcador vale para a Library 3 (PDFs), tanto os do leitor embutido
+   quanto os que abrem em nova aba */
+.lib-book.lib-pdf.is-read .lib-topic-name{opacity:.62}
+/* Botão "já lido" na toolbar do leitor da Library 3. Mora AQUI, e não em
+   library3-reader.css, porque aquele arquivo tinha alteração não commitada de outra
+   sessão quando isto foi escrito (ver §10.1 do LIBRARY1_ADD_CONTENT.md) — separar
+   evitou commitar trabalho alheio pela metade. Se um dia for consolidado, o lugar
+   natural é junto dos outros .l3r-*. */
+.l3r-readbtn{
+  font-size:10.5px;font-weight:800;white-space:nowrap;
+  border-color:var(--l3r-line);color:var(--l3r-muted);
+}
+.l3r-readbtn:hover{border-color:#2fbf71;color:#2fbf71}
+.l3r-readbtn.l3r-read-on{
+  background:#2fbf71;border-color:#2fbf71;color:#fff;
+  box-shadow:0 3px 9px rgba(47,191,113,.25);
+}
+.l3r-readbtn.l3r-read-on:hover{filter:brightness(1.06);color:#fff}
+@media (max-width:590px){
+  .l3r-readbtn{width:30px;padding:0;justify-content:center;font-size:0}
+  .l3r-readbtn::before{content:'✓';font-size:13px}
+}
 .lib-book.lib-pdf::before{content:'📄'}
 .lib-book-featured{border-color:rgba(120,168,255,.5);background:rgba(120,168,255,.1)}
 .lib-book-featured::before{content:'📘'}

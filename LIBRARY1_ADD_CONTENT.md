@@ -684,7 +684,20 @@ Detalhes que importam:
 - Um `storage` listener mantém o botão coerente se o estado mudar **em outra aba**, sem precisar reabrir o tópico.
 - Como todo o resto da Library 1, a chave é própria — **não encosta em nada do QBank** (verificado em teste).
 
-> Nota: a marca **não** foi replicada na Library 3. A regra de espelhamento da §7.1 vale para a *toolbar compartilhada*; esta é uma função de conteúdo da Library 1 (marcar artigo lido), e a Library 3 é um acervo de PDFs. Se o usuário quiser lá também, é uma tarefa separada.
+#### Também na Library 3 (pedido do usuário, 2026-07-25)
+
+A marca foi estendida à Library 3, com o mesmo comportamento e **chaves separadas**:
+
+| | Library 1 | Library 3 |
+|---|---|---|
+| Chave | `couplemed_lib1read_<user>` | `couplemed_lib3read_<user>` |
+| Id do item | `<subject-slug>/<topic-slug>` | a **`key` do PDF** |
+| ✓ na lista | `renderLibrary()`, bloco `library-1` | idem, bloco `library-3` — vale nas duas variantes: PDF do leitor embutido **e** PDF que abre em nova aba |
+| Botão na toolbar | `#l1rReadBtn` em `library1-reader.js` | `#l3rReadBtn` em `library3-reader.js` |
+
+A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, id)`** (`site.js`), com `window.CMLib1Read` mantido como atalho para o que já chamava por lá. Cada biblioteca tem sua chave, então marcar na 1 não afeta a 3 — verificado em teste.
+
+> ⚠️ O CSS do botão da toolbar da Library 3 (`.l3r-readbtn`) ficou em **`styles.css`**, não em `library3-reader.css`, porque aquele arquivo tinha alteração não commitada de outra sessão no momento (§10.1) e separar evitou commitar trabalho alheio pela metade. Está comentado no próprio CSS; se um dia for consolidado, o lugar natural é junto dos outros `.l3r-*`.
 
 ---
 
@@ -753,4 +766,5 @@ Detalhes que importam:
 | 2026-07-25 | **Imagens do Create Test passam a ser EXIBIDAS na página da questão** (§11.2), no mesmo padrão do QBank 1 — `img` após a vinheta e `explImg` no topo da explicação —, ao contrário da página do tópico, onde a mídia só abre no clique. Continuam clicáveis para ampliar e trocam de idioma junto com o texto. |
 | 2026-07-25 | **As figuras do Create Test não apareciam** apesar do código estar correto: JS e CSS foram alterados **sem subir o `?v=`**, então o navegador servia os arquivos em cache. Versões subidas (js v=4, css v=5) e criado `tools/library1-cachecheck.js` + §9.1 para o erro não acontecer uma terceira vez — ele compara o hash do arquivo com a versão publicada. |
 | 2026-07-25 | **Marca "já lido" por tópico** (§11.3): ✓ ao final da caixa na lista de tópicos + botão na toolbar do leitor, compartilhando o mesmo estado (`couplemed_lib1read_<user>`). O ✓ fica dentro do link do tópico, então marcar não abre o tópico. Não replicado na Library 3 (é função de conteúdo, não de toolbar). |
+| 2026-07-25 | **Marca "já lido" estendida à Library 3** (§11.3), a pedido do usuário: ✓ na lista de PDFs (nas duas variantes, embutido e nova aba) e botão na toolbar do leitor de PDF. API virou `window.CMLibRead(lib, id)`, com chaves separadas por biblioteca. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

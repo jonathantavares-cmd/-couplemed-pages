@@ -536,22 +536,50 @@
     history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}`);
     renderLibrary(id,lang);
   }
-  /* ---- Library 1: marca "já lido" por tópico ----------------------------------
-     Uma só fonte de verdade, compartilhada entre a lista de tópicos (aqui) e o botão da
-     toolbar do leitor (public/js/library1-reader.js). Chave própria da Library 1 — não
-     encosta em nada do QBank. */
-  const LIB1_READ_KEY = () => `couplemed_lib1read_${user()}`;
-  function lib1ReadAll(){
-    try{ return JSON.parse(localStorage.getItem(LIB1_READ_KEY())||'{}')||{}; }catch(e){ return {}; }
+  /* ---- marca "já lido" — Library 1 e Library 3 --------------------------------
+     Uma só fonte de verdade por biblioteca, compartilhada entre a lista de itens (aqui) e
+     o botão na toolbar do leitor correspondente (library1-reader.js / library3-reader.js).
+     Chaves próprias de cada Library — nenhuma encosta em nada do QBank.
+
+       Library 1 → couplemed_lib1read_<user>, id = "<subject-slug>/<topic-slug>"
+       Library 3 → couplemed_lib3read_<user>, id = a `key` do PDF
+
+     A Library 1 veio primeiro; `CMLib1Read` continua exposto como atalho para não quebrar
+     o que já chama por lá. */
+  const libReadKey = lib => `couplemed_lib${lib}read_${user()}`;
+  function libReadAll(lib){
+    try{ return JSON.parse(localStorage.getItem(libReadKey(lib))||'{}')||{}; }catch(e){ return {}; }
   }
-  function lib1IsRead(folderSlug,topicSlug){ return !!lib1ReadAll()[`${folderSlug}/${topicSlug}`]; }
-  function lib1ToggleRead(folderSlug,topicSlug){
-    const all=lib1ReadAll(), k=`${folderSlug}/${topicSlug}`;
-    if(all[k]) delete all[k]; else all[k]=Date.now();
-    try{ localStorage.setItem(LIB1_READ_KEY(),JSON.stringify(all)); }catch(e){}
-    return !!all[k];
+  function libIsRead(lib,id){ return !!libReadAll(lib)[id]; }
+  function libToggleRead(lib,id){
+    const all=libReadAll(lib);
+    if(all[id]) delete all[id]; else all[id]=Date.now();
+    try{ localStorage.setItem(libReadKey(lib),JSON.stringify(all)); }catch(e){}
+    return !!all[id];
   }
+  const lib1IsRead = (folderSlug,topicSlug) => libIsRead(1,`${folderSlug}/${topicSlug}`);
+  const lib1ToggleRead = (folderSlug,topicSlug) => libToggleRead(1,`${folderSlug}/${topicSlug}`);
+  window.CMLibRead  = { isRead: libIsRead, toggle: libToggleRead };
   window.CMLib1Read = { isRead: lib1IsRead, toggle: lib1ToggleRead };
+
+  // O ✓ que vai ao final da caixa de cada item, na lista de qualquer Library.
+  function libReadMark(lib,id,lang,done){
+    const title = lang==='pt' ? 'Marcar como lido' : 'Mark as read';
+    return `<button type="button" class="lib-read" data-read-lib="${lib}" data-read-id="${wsEsc(id)}"`
+      + ` title="${title}" aria-label="${title}" aria-pressed="${done?'true':'false'}">✓</button>`;
+  }
+  // Intercepta o clique no ✓ dentro de uma lista: marca e NÃO abre o item.
+  function libWireReadMarks(root){
+    root.querySelectorAll('.lib-read[data-read-id]').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.preventDefault(); e.stopPropagation();
+        const now=libToggleRead(Number(btn.dataset.readLib), btn.dataset.readId);
+        const box=btn.closest('.lib-book');
+        if(box) box.classList.toggle('is-read',now);
+        btn.setAttribute('aria-pressed',now?'true':'false');
+      });
+    });
+  }
 
   function libOpenTopic(id,lang,slug,topicSlug){
     history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}&topic=${topicSlug}`);
@@ -583,29 +611,21 @@
           window.CMLibrary1Reader.open(rp, openTopic, openFolder, ()=>libOpenFolder(id,lang,folderSlug));
           return;
         }
-        // Marca "já lido" por tópico — um clique no ✓ ao final da caixa. Mesmo estado que o
-        // botão da toolbar do leitor (lib1Read* abaixo), então os dois sempre concordam.
-        const readTitle = lang==='pt' ? 'Marcar como lido' : 'Mark as read';
+        // Marca "já lido" por tópico — um clique no ✓ ao final da caixa (Seção 11.3 do
+        // LIBRARY1_ADD_CONTENT.md). Mesmo estado do botão na toolbar do leitor.
         const items=openFolder.items.map(topic=>{
           const tslug=slugify(topic.name);
           const done=lib1IsRead(folderSlug,tslug);
           return `<a class="lib-book lib-topic${done?' is-read':''}" href="app.html?page=${id}&u=${user()}&folder=${folderSlug}&topic=${tslug}" data-topic-slug="${tslug}">`
             + `<span class="lib-topic-name">${wsEsc(lib1Name(topic))}</span>`
-            + `<button type="button" class="lib-read" data-read-topic="${tslug}" title="${readTitle}" aria-label="${readTitle}" aria-pressed="${done?'true':'false'}">✓</button>`
+            + libReadMark(1,`${folderSlug}/${tslug}`,lang,done)
             + `</a>`;
         }).join('');
         rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${wsEsc(lib1Name(openFolder))}</h1><div class="lib-list">${items}</div>`;
+        libWireReadMarks(rp);   // o ✓ marca e não abre o tópico
         rp.querySelectorAll('.lib-topic[data-topic-slug]').forEach(a=>{
           a.addEventListener('click',e=>{
-            // o ✓ vive DENTRO do link: marcar não pode abrir o tópico
-            const mark=e.target.closest('.lib-read');
-            if(mark){
-              e.preventDefault(); e.stopPropagation();
-              const now=lib1ToggleRead(folderSlug,mark.dataset.readTopic);
-              a.classList.toggle('is-read',now);
-              mark.setAttribute('aria-pressed',now?'true':'false');
-              return;
-            }
+            if(e.target.closest('.lib-read')) return;   // já tratado por libWireReadMarks
             e.preventDefault(); libOpenTopic(id,lang,folderSlug,a.dataset.topicSlug);
           });
         });
@@ -638,16 +658,25 @@
           window.CMLibrary3Reader.open(rp, openItem, openFolder, ()=>libOpenFolder(id,lang,folderSlug));
           return;
         }
+        // Marca "já lido" também aqui (pedido do usuário, 2026-07-25). O id é a `key` do PDF.
+        // Vale nas DUAS variantes: PDF do piloto (abre embutido) e PDF em nova aba.
         const items=openFolder.items.map(topic=>{
+          const done=libIsRead(3,topic.key);
+          const mark=libReadMark(3,topic.key,lang,done);
+          const label=`<span class="lib-topic-name">${wsEsc(lib3Name(topic))}</span>`;
           if(LIBRARY3_READER_PILOT.has(topic.key)){
-            return `<a class="lib-book lib-pdf" href="#" data-open-reader="${wsEsc(topic.key)}">${wsEsc(lib3Name(topic))}</a>`;
+            return `<a class="lib-book lib-pdf${done?' is-read':''}" href="#" data-open-reader="${wsEsc(topic.key)}">${label}${mark}</a>`;
           }
-          return `<a class="lib-book lib-pdf" href="${lib3PdfUrl(topic.key)}" target="_blank" rel="noopener">${wsEsc(lib3Name(topic))}</a>`;
+          return `<a class="lib-book lib-pdf${done?' is-read':''}" href="${lib3PdfUrl(topic.key)}" target="_blank" rel="noopener">${label}${mark}</a>`;
         }).join('');
         rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${wsEsc(lib3Name(openFolder))}</h1><div class="lib-list">${items}</div>`;
         $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
+        libWireReadMarks(rp);   // o ✓ marca e não abre o PDF (nem nesta aba, nem em nova)
         rp.querySelectorAll('.lib-list a[data-open-reader]').forEach(a=>{
-          a.addEventListener('click',e=>{e.preventDefault(); libOpenPdf(id,lang,folderSlug,a.dataset.openReader);});
+          a.addEventListener('click',e=>{
+            if(e.target.closest('.lib-read')) return;
+            e.preventDefault(); libOpenPdf(id,lang,folderSlug,a.dataset.openReader);
+          });
         });
         return;
       }
