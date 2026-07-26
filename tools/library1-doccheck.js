@@ -114,6 +114,30 @@ if(exists(FC_DIR)){
   const required = m ? Number(m[1]) : null;
   required ? pass() : fail('o doc não declara claramente quantos flashcards por tópico');
 
+  /* Nenhum OUTRO número de flashcards pode aparecer no doc nem no README dos testes.
+     Motivo: a quantidade subiu de 20 para 30 e o "20" sobreviveu em pontos soltos
+     ("Ele confere as 20 unidades", "os 20 flashcards por tópico"), mandando a sessão
+     seguinte criar a quantidade errada. Achado na auditoria de 2026-07-26. */
+  if(required){
+    const TESTS_README = 'tools/tests/README.md';
+    const scan = [[DOC, md]];
+    if(exists(TESTS_README)) scan.push([TESTS_README, read(TESTS_README)]);
+    scan.forEach(([nome, texto])=>{
+      texto.split('\n').forEach((linha, i)=>{
+        // o espaço é obrigatório: sem ele, casaria dentro de identificadores
+        // como `seedLibrary1Cards()`, que não é uma afirmação de quantidade.
+        const re = /(?<![A-Za-z0-9])(\d+)\**\s+\**(flashcards|cards|unidades)\b/gi;
+        let m;
+        while((m = re.exec(linha))){
+          const n = Number(m[1]);
+          if(n === required || n === 0) { pass(); continue; }
+          fail(`${nome}:${i+1} diz "${m[0]}", mas a quantidade obrigatória é ${required}`,
+               linha.trim().slice(0, 120));
+        }
+      });
+    });
+  }
+
   fs.readdirSync(path.join(REPO, FC_DIR)).filter(f=>f.endsWith('.js') && !f.startsWith('_')).forEach(file=>{
     const rel = FC_DIR + '/' + file;
     md.includes(rel) || md.includes(FC_DIR) ? pass() : fail(`${rel} existe mas o doc não fala da pasta`);

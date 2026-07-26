@@ -866,7 +866,7 @@ A semeadura é **idempotente** (o `id` é a chave) e **preserva o progresso**: s
 ```bash
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js
 ```
-Ele confere as 20 unidades, ids únicos com prefixo, `sys`/`subj`/`topic` preenchidos e existentes na taxonomia, uso de cloze, imagens apontando para arquivos que **existem em disco**, e a semeadura (não duplica, preserva progresso, não mexe nos cards do usuário).
+Ele confere as **30** unidades, ids únicos com prefixo, `sys`/`subj`/`topic` preenchidos e existentes na taxonomia, uso de cloze, imagens apontando para arquivos que **existem em disco**, e a semeadura (não duplica, preserva progresso, não mexe nos cards do usuário).
 
 > ⚠️ Lembrar de **carregar o novo pacote em `public/app.html`**, antes de `flashcards.js` na ordem de boot — senão os cards daquele Subject nunca são semeados. É o passo mais fácil de esquecer.
 
