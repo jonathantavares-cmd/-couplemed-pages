@@ -85,7 +85,7 @@ Dentro de cada subpasta de tópico o usuário coloca **prints (screenshots) e im
 **A tarefa é transcrever esses prints para uma página**, de modo que ao clicar no tópico no site abra uma página **igual ao que está nas imagens**: mesma sequência de seções, mesmos títulos, mesmas tabelas, mesmas listas, mesmos destaques. A página é a transcrição fiel do print, não um resumo dele (Seção 1).
 
 - **Ordem de leitura:** ordenar os arquivos pelo nome (print 1, print 2, …) — a numeração do usuário é a ordem do conteúdo. Se a ordem não estiver clara pelos nomes, deduzir pela continuidade do texto entre as imagens.
-- **Figuras/diagramas dentro do print:** quando o print contém uma figura que é conteúdo (diagrama, algoritmo, foto clínica, tabela como imagem), recortar e salvar como imagem em `public/assets/library1/<subject-slug>/` e referenciar no HTML — não tentar redesenhar em texto. Mesmo processo de recorte/redimensionamento já usado no QBank (`QBANK_ADD_QUESTION.md` §19).
+- **Figuras/diagramas dentro do print:** quando o print contém uma figura que é conteúdo (diagrama, algoritmo, foto clínica, tabela como imagem), recortar e gravar em **`public/assets/library1/<subject-slug>/<topic-slug>/`** e declarar em `assets` — nunca redesenhar em texto e **nunca colocar `<img>` no HTML** (a mídia abre por clique na referência, §7.5).
 - **Texto que dá para transcrever, transcreve.** Só vira imagem o que é genuinamente gráfico.
 - **Toda imagem publicada abre ampliada ao clicar** (Seção 7.5) — então recortar preservando a resolução original, sem reduzir para "caber na página". O `alt` vira a legenda da imagem ampliada e precisa existir nos dois idiomas.
 
@@ -228,7 +228,7 @@ node tools/library1-assets.js upload [subject]  # envia para o R2 (precisa de LI
 
 ---
 
-**Regras de formato** (detalhadas no `_TEMPLATE.js`): sem `<h1>` no corpo (o leitor desenha o título a partir de `title`); sem `style=` inline, `<script>` ou `<style>`; imagens em `public/assets/library1/<subject-slug>/` referenciadas por caminho absoluto; escapar crase e `${` dentro do template literal; rodar `node --check` no arquivo ao terminar.
+**Regras de formato** (detalhadas no `_TEMPLATE.js`): sem `<h1>` no corpo (o leitor desenha o título a partir de `title`); sem `style=` inline, `<script>` ou `<style>`; mídia declarada em `assets` com **chave relativa** `<subject-slug>/<topic-slug>/<arquivo>.webp` (nunca URL — §5.1), e **nenhuma `<img>` no HTML**; escapar crase e `${` dentro do template literal; rodar `node --check` no arquivo ao terminar.
 
 ---
 
@@ -279,6 +279,10 @@ Se o usuário pedir para padronizar, aí sim se padroniza — a decisão é dele
 A toolbar da Library 1 usa **exatamente as mesmas classes `.l3r-*`** da Library 3 e **o mesmo arquivo CSS**. Isso não é coincidência de estilo: é o mecanismo que faz a regra do usuário se cumprir sozinha — qualquer ajuste visual em `library3-reader.css` aparece nas duas na mesma hora, sem ninguém precisar lembrar.
 
 O que **não** é compartilhado automaticamente é o comportamento em JS (os dois leitores têm arquivos próprios, porque um é PDF e o outro é HTML). **Portanto: ao mexer no comportamento de um botão da toolbar, aplicar a mesma mudança nos dois arquivos, no mesmo commit.** Os ícones SVG, as 4 cores de marca-texto e os rótulos traduzidos estão duplicados nos dois arquivos justamente para ficarem visíveis lado a lado — se mudar num, mudar no outro.
+
+**A única exceção deliberada ao CSS compartilhado** está em `library1-reader.css`, no seletor **`.l1r .l3r-toolbar-bottom`**: o CSS da Library 3 monta a barra de baixo num grid de **3 colunas** (ferramentas · navegação de página · zoom), e a Library 1 não tem navegação de página. Com 2 grupos num grid de 3, o alinhamento quebrava e os botões se sobrepunham. A correção fica **escopada em `.l1r`** justamente para **não afetar a Library 3**.
+
+> ⚠️ Consequência prática: se algum dia a barra da Library 3 mudar de número de colunas, esse seletor tem de ser revisto. É o único ponto em que as duas divergem de propósito — todo o resto do visual vem do arquivo comum. O `<div>` raiz do leitor tem `class="l3r l1r"` exatamente para permitir esse escopo.
 
 ### 7.2 O que é igual e o que muda (e por quê)
 
@@ -354,9 +358,15 @@ Como o download é montado:
 
 ### 7.6 Estado de verificação
 
-Testado em 2026-07-25 com DOM real (jsdom), **60 verificações, todas passando**: montagem da toolbar, render bilíngue, troca de idioma, tamanho de fonte, marcação (criação, cor, persistência, isolamento por idioma), desfazer/refazer, borracha, busca (ocorrências, contador, integridade do texto ao limpar), download EN e PT com nomes distintos, imagem ampliada (abrir, legenda pelo `alt`, legenda traduzida, fechar por ✕/Esc/fundo), botão voltar e o estado de "tópico ainda sem conteúdo".
+Testado em 2026-07-25 com DOM real (jsdom) — os testes vivem em **`tools/tests/`** (Seção 9) e rodam o arquivo real do repositório:
 
-Um bug real foi encontrado e corrigido nesse teste: quando a seleção começava num **elemento** em vez de num nó de texto (parágrafo inteiro, triplo-clique, arrasto começando antes da primeira letra), o deslocamento nunca casava e a marcação falhava em silêncio. A medição passou a ser feita com um `Range` auxiliar (`offsetOfPoint`), que trata os dois casos.
+| Teste | Verificações | Cobre |
+|---|---|---|
+| `test-reader.js` | **60** | toolbar; página só com texto; imagem abrindo só ao clicar no nome; janela do visualizador com zoom −/+/⟳; tradução pelo tradutor global (texto, rótulos, legendas e imagens juntos, inclusive com a imagem aberta); marcação isolada por idioma; desfazer/refazer; borracha; busca; download com imagens embutidas |
+| `test-quiz.js` | **41** | Create Test completo + **isolamento do QBank 1** comparado byte a byte |
+| `test-assetbase.js` | **5** | a virada da mídia para o R2 sem editar conteúdo, usando o conteúdo real |
+
+Um bug real foi encontrado e corrigido nesse processo: quando a seleção começava num **elemento** em vez de num nó de texto (parágrafo inteiro, triplo-clique, arrasto começando antes da primeira letra), o deslocamento nunca casava e a marcação falhava em silêncio. A medição passou a ser feita com um `Range` auxiliar (`offsetOfPoint`), que trata os dois casos.
 
 ---
 
