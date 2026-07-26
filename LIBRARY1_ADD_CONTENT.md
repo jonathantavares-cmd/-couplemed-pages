@@ -8,7 +8,7 @@
 >
 > ⚠️ **Este arquivo é DIFERENTE e INDEPENDENTE do `QBANK_ADD_QUESTION.md`.** São dois fluxos de trabalho distintos, com funções e tarefas diferentes, que rodam **ao mesmo tempo em sessões/chats separados** (regra do usuário, 2026-07-25 — ainda faltam +3.000 questões a adicionar no QBank). Nunca misture os dois procedimentos, nunca edite os arquivos do outro fluxo, e nunca trate um como continuação do outro. Ver **Seção 10 (Trabalho concorrente)** — é a seção que evita que as duas sessões briguem por arquivo/commit.
 >
-> Última auditoria contra o código real: 2026-07-25 (criação do arquivo + leitor de página implementado e testado).
+> Última auditoria contra o código real: **2026-07-25**. **Comece pela Seção 12 (ESTADO ATUAL)** para saber exatamente onde paramos e qual é a próxima tarefa.
 
 ---
 
@@ -238,7 +238,26 @@ Regra vigente para **todo** o site (QBank, Flashcards, Medical Library): o conte
 
 - Nomes de Subject/tópico já têm `ptName` pré-gravado em `library1-structure.js` — reaproveitar, não retraduzir.
 - O corpo do conteúdo precisa de tradução PT-BR fiel, gravada junto (não depender de tradução ao vivo).
-- Imagem em PT só quando o usuário fornecer a versão em português; caso contrário, usar a imagem original.
+- **Mídia**: o usuário fornece cada imagem/figura/tabela nos dois idiomas; ambas são gravadas (§7.5).
+
+### 6.1 O texto PT costuma vir INCOMPLETO — e isso é esperado
+
+Observado no 1º tópico incluído: o usuário mandou **6 páginas de texto em inglês e apenas 1 em português**. A regra dele é clara: *"o conteúdo que irei colocar estará todo em inglês, mas você deve colocá-lo já nos 2 idiomas"*. Logo:
+
+- **Onde ele forneceu PT, transcrever verbatim** — é material dele (Seção 1).
+- **Onde não forneceu, traduzir**, seguindo o mesmo vocabulário e estilo da parte que ele forneceu.
+- **Ao terminar, dizer ao usuário de qual ponto em diante a tradução é nossa.** Ele precisa saber o que revisar.
+
+### 6.2 Inconsistências na tradução fornecida são PRESERVADAS
+
+A tradução que vem no material é automática e às vezes tem defeitos. Pela Regra de Fidelidade (Seção 1), **não corrigimos** — apenas avisamos o usuário. Exemplos reais preservados no 1º tópico:
+
+| No material dele | Observação |
+|---|---|
+| alterna "ARF" e "IRA" para a mesma doença | mantido como está; a parte traduzida por nós usa "ARF", que é o termo dominante no material |
+| "Eritema infeccioso (cinta doença)" | tradução ruim de "fifth disease"; mantida verbatim na legenda da imagem |
+
+Se o usuário pedir para padronizar, aí sim se padroniza — a decisão é dele, não nossa.
 
 ---
 
@@ -391,7 +410,15 @@ public/app.html?page=library-1&u=guest1&folder=allergy-and-immunology
 public/app.html?page=library-1&u=guest1&folder=allergy-and-immunology&topic=anaphylaxis
 ```
 
-Também dá para exercitar o leitor sem browser, num DOM real, com o mesmo teste usado na implementação (jsdom, 35 verificações) — útil quando a mudança é de comportamento da toolbar e não de conteúdo.
+**Testes automatizados do leitor** (DOM real, sem browser) vivem em **`tools/tests/`** — ver `tools/tests/README.md` para rodar (o `jsdom` fica fora do repo, apontado por `JSDOM_PATH`):
+
+```bash
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-reader.js     # leitor — 60 verificações
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-quiz.js       # Create Test — 41, inclui isolamento do QBank
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-assetbase.js  # prova a virada para o R2
+```
+
+Rodar os três sempre que mexer no comportamento do leitor. Para conferir **conteúdo incluído**, o que vale é a auditoria da Seção 11.1.
 
 Checklist antes de commitar:
 - [ ] `node --check` em todo arquivo `.js` alterado.
@@ -494,7 +521,7 @@ Sem argumento, `node tools/library1-audit.js` audita **tudo** que já foi public
 
 ---
 
-## 11.2 CREATE TEST — questões de treino do tópico
+### 11.2 CREATE TEST — questões de treino do tópico
 
 Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. Abre as questões de treino daquele tópico.
 
@@ -520,14 +547,46 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 
 ---
 
-## 12. HISTÓRICO DE DECISÕES
+## 12. ESTADO ATUAL (onde paramos)
+
+**Último trabalho: 2026-07-25.** Tudo abaixo está commitado e publicado.
+
+**Infraestrutura — pronta:**
+- Leitor de página com toolbar espelhada da Library 3 (§7), tradução pelo tradutor global (§7.3), mídia abrindo em janela com zoom só ao clicar no nome (§7.5), download com imagens embutidas (§7.5b).
+- Armazenamento por Subject (§5) e mídia em WebP com a virada para R2 pronta (§5.1).
+- Create Test por tópico, isolado do QBank 1 (§11.2).
+- Ferramentas: `library1-progress.js` (✅ nas pastas), `library1-assets.js` (WebP/report/upload), `library1-audit.js` (auditoria obrigatória), `tools/tests/` (testes do leitor).
+
+**Conteúdo — 1 de 1.838 tópicos:**
+
+| Tópico | Estado |
+|---|---|
+| Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 10 mídias × 2 idiomas ✅ · **1 de 5 questões** transcrita |
+
+**A PRÓXIMA TAREFA é terminar as questões desse tópico.** Os 14 prints estão em `~/Desktop/Adicionar Library 1/Allergy & Immunology/Acute rheumatic fever ✅/` e se distribuem assim:
+
+| Questão | Prints | Assunto | Estado |
+|---|---|---|---|
+| Q1 | Imagem 1, 2 | saúde pública / penicilina empírica (gabarito D, 52%) | ✅ transcrita (`L1Q-ARF-001`) |
+| Q2 | Imagem 3, 4, 5 | fisiopatologia / mimetismo molecular | ⏳ falta |
+| Q3 | Imagem 6, 7, 8, 9, 10 | menino de 10 anos, biópsia (corpos de Aschoff) | ⏳ falta |
+| Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ⏳ falta |
+| Q5 | Imagem 13, 14 | coreia de Sydenham | ⏳ falta |
+
+Ao terminar cada uma: rodar a auditoria (§11.1), depois o ✅ (§11), depois commit e push.
+
+> ⚠️ **Atenção:** o usuário substituiu o conteúdo daquela subpasta pelos prints das QUESTÕES — os prints do texto do artigo não estão mais lá. O texto já está publicado, então isso não é problema; só não tente reconferir o artigo pela pasta.
+
+---
+
+## 13. HISTÓRICO DE DECISÕES
 
 | Data | Decisão / achado |
 |---|---|
 | 2026-07-25 | Arquivo criado. Verificado: pasta de origem espelha 1838/1838 tópicos; tópicos no site eram links mortos (`site.js:558,561`); vocabulários de QBank e Library 1 divergem (só 9 systems e 9 topics coincidem). |
 | 2026-07-25 | **Formato do material definido:** prints e imagens dentro de cada subpasta, a transcrever para página fiel ao print (§2.1). Subpasta vazia = material ainda não colocado, pular em silêncio (§2.2). |
 | 2026-07-25 | **Armazenamento definido e implementado:** um arquivo por Subject em `public/js/library1-content/`, carregado sob demanda, com EN+PT no mesmo registro (§5). |
-| 2026-07-25 | **Leitor de página implementado** com a toolbar espelhada da Library 3, CSS compartilhado, tradução instantânea EN/PT e download nos dois idiomas (§7). 35 testes em jsdom passando; corrigido bug de seleção iniciada em elemento. |
+| 2026-07-25 | **Leitor de página implementado** com a toolbar espelhada da Library 3, CSS compartilhado, tradução instantânea EN/PT e download nos dois idiomas (§7). testes em jsdom passando (hoje em `tools/tests/`); corrigido bug de seleção iniciada em elemento. |
 | 2026-07-25 | **Marcação de progresso ✅ implementada** em `tools/library1-progress.js`, com `status`/`mark`/`sync`; `stripCheck()` incorporado à regra de normalização (§3, §11). |
 | 2026-07-25 | **Regra de fidelidade reforçada pelo usuário** e detalhada em tabela de proibições (§1): proibido parafrasear, resumir, expandir, reordenar ou "corrigir" o material. Única liberdade editorial é a tradução PT. |
 | 2026-07-25 | **Modo automático formalizado** (§2.3): bypass de permissões + commit/push automáticos também neste fluxo, como já vale no QBank. |
@@ -540,5 +599,6 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 | 2026-07-25 | **Visualizador refeito como janela centrada com zoom** (§7.5). O CSS do visualizador havia sido apagado por engano numa limpeza, e sem ele a imagem saía em tamanho natural escorrendo para fora da tela — foi o que o usuário viu. Reescrito no modelo do material de origem, com cabeçalho, contador, legenda e zoom −/+/⟳. |
 | 2026-07-25 | **Download passa a embutir a mídia no corpo** (§7.5b), em data URI, posicionada após o bloco que a referencia, cada idioma com as suas imagens — no arquivo salvo não há clique. |
 | 2026-07-25 | **Create Test implementado** (§11.2): questões de treino por tópico, no fim do conteúdo acima das tags, com performance individual e isolamento verificado do QBank 1. Auditoria estendida para conferir as questões (id, correct, difficulty × peer, tradução). |
-| 2026-07-25 | **Q1 do tópico Acute rheumatic fever transcrita** (de 5 identificadas nos 14 prints). Faltam Q2–Q5. |
+| 2026-07-25 | **Q1 do tópico Acute rheumatic fever transcrita** (de 5 identificadas nos 14 prints). Faltam Q2–Q5 — ver Seção 12. |
+| 2026-07-25 | **Testes movidos para `tools/tests/`** (antes viviam num scratchpad temporário e se perderiam), com README de como rodar. §6.1/6.2 passam a registrar que o texto PT vem incompleto e que as inconsistências da tradução do usuário são preservadas. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
