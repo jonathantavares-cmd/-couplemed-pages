@@ -56,6 +56,56 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
         pt:{ key:A1+'acute-rheumatic-fever/table-3-pt.webp', alt:'Febre reumática aguda' } }
     },
 
+    /* ---- CREATE TEST: questões de treino DESTE tópico ----
+       Transcritas dos prints em ~/Desktop/.../Acute rheumatic fever/ (Imagem 1-14).
+       ⚠️ SEPARADAS do QBank 1: não entram no SEED nem na performance dele
+       (LIBRARY1_ADD_CONTENT.md §11.2). Mesmo schema de campos do QBank. */
+    quiz: [
+      {
+        id: 'L1Q-ARF-001',
+        vignette: 'The public health department of a developing country performs an epidemiologic study to assess the nationwide incidence of upper respiratory infections among children.  The data show a high rate of childhood bacterial pharyngitis.  Current practice guidelines indicate that a rapid test should be performed in children to identify the presence of bacterial antigens.  If this test is negative, a throat culture, the gold standard for definitive diagnosis, is then performed.  To offset cost and avoid losing patients to follow-up, the department is considering recommending the empiric use of penicillin for the treatment of suspected bacterial pharyngitis.',
+        q: 'Which of the following would be expected to decrease after long-term implementation of this guideline?',
+        options: [
+          'Deaths associated with diarrheal illness',
+          'Diagnoses of serum sickness-like reactions',
+          'Incidence of nephritic syndrome',
+          'Need for cardiac surgery',
+          'Use of broad-spectrum antibiotics'
+        ],
+        correct: 'D',
+        peer: { A:2, B:3, C:31, D:52, E:11 },
+        difficulty: 'medium',
+        explC: 'Early penicillin treatment of group A streptococcal pharyngitis is important for the prevention of acute rheumatic fever (ARF), a major cause of cardiovascular death in many developing nations.  ARF primarily affects the heart and central nervous system because host antibodies produced in response to streptococcal antigens cross-react with host antigens in these organs.  Chronic cardiac inflammation can progress to rheumatic heart disease, specifically valvular disease.  The mitral valve is the most commonly affected and gradually thickens, fibroses, and calcifies, eventually requiring valvotomy or more invasive surgical intervention.\n\nEmpiric therapy for a condition must be considered in the context of the host characteristics, pre-test probability of the disease, benefits/risks of waiting for a definitive diagnosis, and cost of therapy versus its potential complications.  If all cases of acute streptococcal pharyngitis were treated empirically, the incidence of rheumatic heart disease and associated cardiac procedures would likely decrease.',
+        explI: {
+          A: 'Antibiotic use can promote diarrhea by altering the gut microbial milieu.  This alteration can lead to overgrowth of Clostridium difficile, a gram-positive bacterium that can cause profuse, watery diarrhea and life-threatening fulminant colitis.  Therefore, increasing antibiotic use would likely result in increased diarrheal illness and potential complications.',
+          B: 'Serum sickness-like reactions are associated with certain infections (eg, hepatitis B) and antibiotics (eg, penicillin).  The development of circulating drug-specific immune complexes may cause fever, rash, and arthritis.  If penicillin was used more frequently, serum sickness-like reactions would potentially increase, not decrease.',
+          C: 'Post-streptococcal glomerulonephritis (PSGN) is the most common cause of nephritic syndrome in children worldwide.  It is caused by deposition of immune complexes in glomeruli following pharyngitis or skin infections with group A Streptococcus.  Although early antibiotics are effective in preventing ARF, they have not been shown to reduce the risk of PSGN.',
+          E: 'Empiric use of potentially unnecessary antibiotics may cause an increase in antibiotic resistance, thereby increasing the need for broad-spectrum antibiotics.  For example, methicillin-resistant Staphylococcus aureus (MRSA) evolved from methicillin-sensitive S aureus via alteration of the protein binding site for beta-lactam antibiotics.  As a result, broad-spectrum antibiotics (eg, vancomycin, daptomycin) are required for MRSA infections.'
+        },
+        objective: 'Acute rheumatic fever is a complication of untreated group A streptococcal pharyngitis.  Rheumatic heart disease is the most common cause of acquired valvular heart disease and cardiovascular death in developing countries.  The incidence of acute rheumatic fever and rheumatic heart disease has been reduced in industrialized nations with prompt treatment of streptococcal pharyngitis with penicillin.',
+        tags: { subject:'Microbiology', system:'Infectious Diseases', topic:'Rheumatic fever' },
+        ptTranslation: {
+          vignette: 'O departamento de saúde pública de um país em desenvolvimento realiza um estudo epidemiológico para avaliar a incidência nacional de infecções respiratórias superiores em crianças. Os dados mostram uma alta taxa de faringite bacteriana na infância. As diretrizes atuais indicam que um teste rápido deve ser realizado em crianças para identificar a presença de antígenos bacterianos. Se esse teste for negativo, realiza-se então uma cultura de garganta, o padrão-ouro para o diagnóstico definitivo. Para compensar o custo e evitar a perda de pacientes no seguimento, o departamento está considerando recomendar o uso empírico de penicilina para o tratamento da faringite bacteriana suspeita.',
+          q: 'Qual dos seguintes seria esperado diminuir após a implementação a longo prazo dessa diretriz?',
+          options: [
+            'Mortes associadas a doença diarreica',
+            'Diagnósticos de reações semelhantes à doença do soro',
+            'Incidência de síndrome nefrítica',
+            'Necessidade de cirurgia cardíaca',
+            'Uso de antibióticos de amplo espectro'
+          ],
+          explC: 'O tratamento precoce com penicilina da faringite estreptocócica do grupo A é importante para a prevenção da febre reumática aguda (ARF), uma causa importante de morte cardiovascular em muitas nações em desenvolvimento. A ARF afeta principalmente o coração e o sistema nervoso central porque os anticorpos do hospedeiro produzidos em resposta aos antígenos estreptocócicos reagem cruzadamente com antígenos do hospedeiro nesses órgãos. A inflamação cardíaca crônica pode progredir para doença cardíaca reumática, especificamente doença valvular. A válvula mitral é a mais comumente afetada e gradualmente espessa, fibrosa e calcifica, eventualmente requerendo valvotomia ou intervenção cirúrgica mais invasiva.\n\nA terapia empírica para uma condição deve ser considerada no contexto das características do hospedeiro, da probabilidade pré-teste da doença, dos benefícios/riscos de aguardar um diagnóstico definitivo e do custo da terapia versus suas complicações potenciais. Se todos os casos de faringite estreptocócica aguda fossem tratados empiricamente, a incidência de doença cardíaca reumática e os procedimentos cardíacos associados provavelmente diminuiriam.',
+          explI: {
+            A: 'O uso de antibióticos pode promover diarreia por alterar o meio microbiano intestinal. Essa alteração pode levar ao supercrescimento de Clostridium difficile, uma bactéria gram-positiva que pode causar diarreia profusa e aquosa e colite fulminante potencialmente fatal. Portanto, aumentar o uso de antibióticos provavelmente resultaria em aumento da doença diarreica e de complicações potenciais.',
+            B: 'As reações semelhantes à doença do soro estão associadas a certas infecções (por exemplo, hepatite B) e antibióticos (por exemplo, penicilina). O desenvolvimento de imunocomplexos circulantes específicos do fármaco pode causar febre, erupção cutânea e artrite. Se a penicilina fosse usada com mais frequência, as reações semelhantes à doença do soro potencialmente aumentariam, e não diminuiriam.',
+            C: 'A glomerulonefrite pós-estreptocócica (GNPE) é a causa mais comum de síndrome nefrítica em crianças no mundo. É causada pela deposição de imunocomplexos nos glomérulos após faringite ou infecções de pele por Streptococcus do grupo A. Embora os antibióticos precoces sejam eficazes na prevenção da ARF, não foi demonstrado que reduzam o risco de GNPE.',
+            E: 'O uso empírico de antibióticos potencialmente desnecessários pode causar aumento da resistência antibiótica, aumentando assim a necessidade de antibióticos de amplo espectro. Por exemplo, o Staphylococcus aureus resistente à meticilina (MRSA) evoluiu do S aureus sensível à meticilina por alteração do sítio de ligação proteica para antibióticos beta-lactâmicos. Como resultado, antibióticos de amplo espectro (por exemplo, vancomicina, daptomicina) são necessários para infecções por MRSA.'
+          },
+          objective: 'A febre reumática aguda é uma complicação da faringite estreptocócica do grupo A não tratada. A doença cardíaca reumática é a causa mais comum de doença valvular cardíaca adquirida e de morte cardiovascular em países em desenvolvimento. A incidência de febre reumática aguda e de doença cardíaca reumática foi reduzida em nações industrializadas com o tratamento imediato da faringite estreptocócica com penicilina.'
+        }
+      }
+    ],
+
     en: {
       title: 'Acute rheumatic fever',
       html: `

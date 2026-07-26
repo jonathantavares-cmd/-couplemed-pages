@@ -14,6 +14,8 @@
      6. EN e PT têm a mesma estrutura (seções, listas, tabelas) — seção a menos
         no PT é sinal de tradução incompleta.
      7. O HTML não traz <img> solta: a página é só texto (a mídia abre no clique).
+     8. Create Test: id único, correct válida, difficulty coerente com peer (mesma
+        regra do QBank), explicações e tradução PT completas.
 
    Uso:
      node tools/library1-audit.js                      # tudo que já foi publicado
@@ -94,7 +96,49 @@ function auditTopic(subjectSlug, topicSlug, rec){
       problems.push(`${lang.toUpperCase()}: há <img> no HTML — a página é só texto; a mídia entra em assets e abre no clique`);
   }
 
-  return { problems, warnings, assets: keys.length, refs: rEn.length };
+  /* 8. CREATE TEST — questões do tópico (separadas do QBank 1) */
+  const quiz = Array.isArray(rec.quiz) ? rec.quiz : [];
+  const seenIds = new Set();
+  const LETTERS = ['A','B','C','D','E','F','G','H'];
+  quiz.forEach((it, i)=>{
+    const tag = `quiz[${i}]${it.id?' '+it.id:''}`;
+    if(!it.id) problems.push(`${tag}: sem id`);
+    else if(seenIds.has(it.id)) problems.push(`${tag}: id repetido`);
+    else seenIds.add(it.id);
+    if(!it.vignette) problems.push(`${tag}: sem vignette`);
+    if(!it.q) problems.push(`${tag}: sem enunciado (q)`);
+    const opts = Array.isArray(it.options) ? it.options : [];
+    if(opts.length < 2) problems.push(`${tag}: menos de 2 alternativas`);
+    const ci = LETTERS.indexOf(it.correct);
+    if(ci < 0 || ci >= opts.length) problems.push(`${tag}: correct "${it.correct}" fora das alternativas`);
+    // peer + dificuldade pela MESMA regra do QBank (§0.2 daquele doc)
+    if(it.peer && it.peer[it.correct] != null){
+      const p = it.peer[it.correct];
+      const should = p >= 70 ? 'easy' : p >= 50 ? 'medium' : 'hard';
+      if(it.difficulty && it.difficulty !== should)
+        problems.push(`${tag}: difficulty "${it.difficulty}" não bate com peer[${it.correct}]=${p}% (deveria ser "${should}")`);
+      if(!it.difficulty) warnings.push(`${tag}: sem difficulty (peer diz "${should}")`);
+    } else if(it.peer){
+      problems.push(`${tag}: peer não tem a alternativa correta (${it.correct})`);
+    }
+    if(!it.explC) problems.push(`${tag}: sem explicação da correta (explC)`);
+    if(!it.objective) warnings.push(`${tag}: sem objetivo educacional`);
+    if(it.img && !assets[it.img]) problems.push(`${tag}: img "${it.img}" não existe em assets`);
+    // tradução PT obrigatória
+    const p = it.ptTranslation;
+    if(!p) problems.push(`${tag}: sem ptTranslation (bilíngue é obrigatório)`);
+    else {
+      ['vignette','q','explC','objective'].forEach(f=>{
+        if(it[f] && !p[f]) problems.push(`${tag}: ptTranslation.${f} faltando`);
+      });
+      const po = Array.isArray(p.options) ? p.options : [];
+      if(po.length !== opts.length) problems.push(`${tag}: ptTranslation.options tem ${po.length}, EN tem ${opts.length}`);
+      const a = Object.keys(it.explI||{}).sort().join(','), b = Object.keys(p.explI||{}).sort().join(',');
+      if(a !== b) problems.push(`${tag}: explI difere entre EN (${a||'—'}) e PT (${b||'—'})`);
+    }
+  });
+
+  return { problems, warnings, assets: keys.length, refs: rEn.length, quiz: quiz.length };
 }
 
 /* ---------- execução ---------- */
@@ -112,10 +156,10 @@ for(const s of subjects){
   const topics = Object.keys(all[s]).filter(t => !topicArg || t === slugify(topicArg));
   for(const t of topics){
     n++;
-    const { problems, warnings, assets, refs } = auditTopic(s, t, all[s][t]);
+    const { problems, warnings, assets, refs, quiz } = auditTopic(s, t, all[s][t]);
     totalP += problems.length; totalW += warnings.length;
     const status = problems.length ? '❌' : warnings.length ? '⚠️ ' : '✅';
-    console.log(`\n${status} ${s} › ${t}   (${assets} mídias, ${refs} referências)`);
+    console.log(`\n${status} ${s} › ${t}   (${assets} mídias, ${refs} referências, ${quiz} questões)`);
     problems.forEach(p => console.log(`     ❌ ${p}`));
     warnings.forEach(w => console.log(`     ⚠️  ${w}`));
   }

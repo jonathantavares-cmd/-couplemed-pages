@@ -494,6 +494,32 @@ Sem argumento, `node tools/library1-audit.js` audita **tudo** que já foi public
 
 ---
 
+## 11.2 CREATE TEST — questões de treino do tópico
+
+Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. Abre as questões de treino daquele tópico.
+
+> ### ⚠️ REGRA ABSOLUTA: são SEPARADAS do QBank 1
+> Pedido explícito do usuário (2026-07-25). Estas questões **não entram no `SEED` do QBank**, não aparecem nos filtros dele e **não contam na performance dele, em hipótese alguma**.
+>
+> | | QBank 1 | Create Test da Library 1 |
+> |---|---|---|
+> | Onde ficam | `SEED` em `public/js/qbank.js` | campo `quiz` do registro do tópico |
+> | Resultado | chaves do QBank | `couplemed_lib1quiz_<user>` |
+> | Escopo | banco inteiro, passadas, analytics | **só aquele tópico** |
+>
+> Há teste automatizado que grava estado de QBank, roda um teste inteiro da Library 1 e confirma **byte a byte** que nada do QBank foi criado ou alterado.
+
+**Formato das questões:** o **mesmo schema de campos do QBank** (`vignette`, `q`, `options`, `correct`, `peer`, `difficulty`, `explC`, `explI`, `objective`, `ptTranslation`) — inclusive a **regra de dificuldade** (`peer[correct]` ≥70 = easy, 50-69 = medium, <50 = hard), que a auditoria confere. O `id` usa o prefixo **`L1Q-`** para nunca colidir com um id do QBank. Campo opcional `img` aponta uma chave de `assets`, e a imagem abre por clique como no resto da página.
+
+**Comportamento:**
+- Uma questão por vez; escolher → **Responder** → explicação da correta, por que as outras estão erradas, objetivo educacional e o **% dos colegas** (revelado só depois de responder, como no QBank).
+- No fim, **Finalizar teste** mostra percentual, acertos e erros.
+- Depois de feito, o tópico passa a exibir **"Teste concluído"** com acertos, erros e %, mais **Rever respostas** e **Refazer teste** (que zera o resultado daquele tópico).
+- **Cada tópico tem a sua própria performance**, independente dos outros.
+- Trocar o idioma no meio do teste traduz a própria questão e **preserva** a resposta já marcada.
+
+---
+
 ## 12. HISTÓRICO DE DECISÕES
 
 | Data | Decisão / achado |
@@ -513,4 +539,6 @@ Sem argumento, `node tools/library1-audit.js` audita **tudo** que já foi public
 | 2026-07-25 | **Auditoria obrigatória criada** (`tools/library1-audit.js`, §11.1): 7 verificações por tópico, com destaque para mídia não referenciada — que sem painel lateral fica inalcançável e invisível. |
 | 2026-07-25 | **Visualizador refeito como janela centrada com zoom** (§7.5). O CSS do visualizador havia sido apagado por engano numa limpeza, e sem ele a imagem saía em tamanho natural escorrendo para fora da tela — foi o que o usuário viu. Reescrito no modelo do material de origem, com cabeçalho, contador, legenda e zoom −/+/⟳. |
 | 2026-07-25 | **Download passa a embutir a mídia no corpo** (§7.5b), em data URI, posicionada após o bloco que a referencia, cada idioma com as suas imagens — no arquivo salvo não há clique. |
+| 2026-07-25 | **Create Test implementado** (§11.2): questões de treino por tópico, no fim do conteúdo acima das tags, com performance individual e isolamento verificado do QBank 1. Auditoria estendida para conferir as questões (id, correct, difficulty × peer, tradução). |
+| 2026-07-25 | **Q1 do tópico Acute rheumatic fever transcrita** (de 5 identificadas nos 14 prints). Faltam Q2–Q5. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
