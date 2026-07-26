@@ -27,8 +27,10 @@ Todo o resto do site (My Workspace, Flashcards, QBank, Notebook, AI Tutor, Setti
 | 70 | `max-width:1180px` | Global (sidebar/dashboard) | Ver Seção 0 |
 | 71 | `max-width:820px` | Global (menu hambúrguer) | Ver Seção 0 |
 | 72 | `max-width:520px` | Global (padding/cards) | Ver Seção 0 |
-| 146 | `max-width:820px` | Flashcards | `.fc-stats` e `.fc-rates` viram grid 2 colunas; `.fc-deck` empilha em coluna; `.fc-row` quebra linha |
-| 212 | `max-width:820px` | Flashcards (deck/browse) | `.fc-deck-header`/`.fc-deck-row` reorganiza colunas; `.fc-browse-bar` vira 1 coluna; `.fc-state-grid` vira 2 colunas |
+| 146 | `max-width:820px` | Flashcards | `.fc-stats` e `.fc-rates` viram grid 2 colunas; `.fc-deck` empilha em coluna |
+| 155 | `max-width:820px` | Flashcards (Navegar/Browse) | `.fc-row` empilha (texto em cima, ações embaixo) e `.fc-row-actions` quebra linha — os até 6 botões da linha (🚩/enterrar/suspender/compartilhar/editar/excluir), com rótulos longos em PT, não cabem ao lado do texto |
+| 160 | `max-width:520px` | Flashcards (Navegar/Browse + tela de estudo) | `.fc-row-actions .fc-btn` vira grade flexível (`flex:1 1 auto`); `.fc-card` (tela de estudo) reduz padding/fonte; `.fc-review-tools` quebra linha |
+| 233 | `max-width:820px` | Flashcards (deck/browse) | `.fc-deck-header`/`.fc-deck-row` reorganiza colunas; `.fc-browse-bar` vira 1 coluna; `.fc-state-grid` vira 2 colunas |
 | 243 | `max-width:820px` | Flashcards (hero) | `.fc-hero` alinha ao início; `.fc-perf-row .fc-review` ocupa 100% da largura |
 | 278 | `max-width:820px` | Flashcards (compartilhado) | `.fc-share-banner` empilha em coluna; `.fc-share-counts` troca borda esquerda por borda superior |
 | 302 | `max-width:820px` | Flashcards (taxonomia) | `.fc-tax` vira 1 coluna (`column-count:1`) |
