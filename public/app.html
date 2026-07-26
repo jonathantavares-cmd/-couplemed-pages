@@ -140,6 +140,12 @@
   <script src="js/library1-flashcards/allergy-and-immunology.js?v=2"></script>
   <script src="js/library3-structure.js?v=4"></script>
   <script src="js/i18n-content.js?v=1"></script>
+  <!-- Narrador das libraries. `shared` PRIMEIRO: traz o catálogo de vozes e a
+       segmentação de frases que o player usa (e que o gerador em tools/narration.js
+       usa do outro lado). Só leem localStorage quando o player abre, então podem
+       vir antes da sincronização, junto com as estruturas. -->
+  <script src="js/cm-narration-shared.js?v=1"></script>
+  <script src="js/cm-narrator.js?v=1"></script>
 
   <!--
     Ordem de boot da v52.
@@ -150,8 +156,8 @@
   -->
   <script>
     window.CM_APP_SCRIPTS = [
-      'js/library3-reader.js?v=23',
-      'js/library1-reader.js?v=5',
+      'js/library3-reader.js?v=24',
+      'js/library1-reader.js?v=6',
       'js/site.js?v=70',
       'js/flashcards.js?v=36',
       'js/qbank.js?v=41',

@@ -2,3 +2,6 @@ seed_users.sql
 
 # wrangler dev — estado/temp local (cache do R2, etc), nunca versionar
 .wrangler/
+
+# narração gerada localmente (áudio grande; o destino final é o R2)
+.narration-build/

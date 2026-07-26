@@ -127,6 +127,10 @@ export default {
     }
 
     /* ---------- rotas Library 1 (R2 — imagens do conteúdo) ---------- */
+    if (url.pathname.startsWith('/api/narration')) {
+      return handleNarration(request, env, url, ctx);
+    }
+
     if (url.pathname.startsWith('/api/library1')) {
       return handleLibrary1(request, env, url, ctx);
     }
@@ -789,6 +793,119 @@ async function handleLibrary1(request, env, url, ctx) {
       httpMetadata: { contentType: request.headers.get('Content-Type') || 'application/octet-stream' }
     });
     return reply({ ok: true, key });
+  }
+
+  return reply({ error: 'Not found' }, 404);
+}
+
+/* ---------- narração (áudio de leitura das Libraries 1/2/3) ----------
+   Um bucket só para as três libraries: o áudio não é conteúdo da library, é um
+   derivado dela, e juntar tudo num lugar deixa auditar e limpar num comando.
+   As chaves são narration/<lib>/<...>/<lang>-<voz>.m4a|.json — geradas por
+   tools/narration.js (ver LIBRARY1_ADD_CONTENT.md §17).
+
+   RANGE É OBRIGATÓRIO AQUI: o Safari (iPhone/iPad/Mac) não toca um <audio> servido
+   sem `Accept-Ranges`/206 — ele pede um pedaço para descobrir a duração antes de
+   começar. Sem isso o player abriria com duração vazia e o seek não funcionaria,
+   justamente nos aparelhos onde o destaque sincronizado mais importa. */
+async function handleNarration(request, env, url, ctx) {
+  const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,HEAD,PUT,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,Range,X-Admin-Secret' };
+  if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+
+  const reply = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', ...cors } });
+  const path = url.pathname.replace(/^\/api\/narration/, '') || '/';
+  const bucket = env.NAR_STORAGE;
+
+  if (path === '/health' || path === '/') return reply({ ok: true, r2Ready: !!bucket });
+
+  // ---- leitura pública ----
+  if (path.startsWith('/audio/') && (request.method === 'GET' || request.method === 'HEAD')) {
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const key = decodeURIComponent(path.slice(7));
+    if (!key.startsWith('narration/') || key.includes('..')) return reply({ error: 'Invalid key' }, 400);
+
+    const isJson = key.endsWith('.json');
+    if (!isJson && !key.endsWith('.m4a')) return reply({ error: 'Invalid key' }, 400);
+
+    const baseHeaders = {
+      'Content-Type': isJson ? 'application/json' : 'audio/mp4',
+      // O nome do arquivo embute idioma+voz, e o conteúdo de um tópico só muda por
+      // regravação explícita (que troca tudo junto) — então cache longo é seguro.
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Accept-Ranges': 'bytes',
+      ...cors
+    };
+
+    const rangeHeader = request.method === 'GET' ? request.headers.get('Range') : null;
+
+    if (rangeHeader) {
+      const head = await bucket.head(key);
+      if (!head) return reply({ error: 'Not found', key }, 404);
+      const size = head.size;
+      const m = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader.trim());
+      if (!m || (!m[1] && !m[2])) {
+        return new Response(null, { status: 416, headers: { ...baseHeaders, 'Content-Range': `bytes */${size}` } });
+      }
+      let start, end;
+      if (m[1] === '') { start = Math.max(0, size - parseInt(m[2], 10)); end = size - 1; }
+      else { start = parseInt(m[1], 10); end = m[2] === '' ? size - 1 : Math.min(parseInt(m[2], 10), size - 1); }
+      if (!(start <= end) || start >= size) {
+        return new Response(null, { status: 416, headers: { ...baseHeaders, 'Content-Range': `bytes */${size}` } });
+      }
+      const obj = await bucket.get(key, { range: { offset: start, length: end - start + 1 } });
+      if (!obj) return reply({ error: 'Not found', key }, 404);
+      return new Response(obj.body, { status: 206, headers: {
+        ...baseHeaders,
+        'Content-Range': `bytes ${start}-${end}/${size}`,
+        'Content-Length': String(end - start + 1)
+      }});
+    }
+
+    if (request.method === 'HEAD') {
+      const head = await bucket.head(key);
+      if (!head) return reply({ error: 'Not found', key }, 404);
+      return new Response(null, { status: 200, headers: { ...baseHeaders, 'Content-Length': String(head.size) } });
+    }
+
+    // Resposta inteira: só aqui vale usar o edge cache (a Cache API rejeita 206,
+    // ver o comentário equivalente em handleLibrary3).
+    const cache = caches.default;
+    const cacheKey = new Request(url.toString(), { method: 'GET' });
+    const hit = await cache.match(cacheKey);
+    if (hit) return new Response(hit.body, { status: 200, headers: { ...baseHeaders, 'X-Nar-Cache': 'HIT' } });
+
+    const obj = await bucket.get(key);
+    if (!obj) return reply({ error: 'Not found', key }, 404);
+    const body = await obj.arrayBuffer();
+    ctx.waitUntil(cache.put(cacheKey, new Response(body, { headers: baseHeaders })));
+    return new Response(body, { status: 200, headers: baseHeaders });
+  }
+
+  // ---- escrita (tools/narration.js upload) ----
+  if (path === '/admin/put' && request.method === 'PUT') {
+    const secret = env.NARRATION_ADMIN_SECRET || env.LIB1_ADMIN_SECRET;
+    if (!secret || request.headers.get('X-Admin-Secret') !== secret) return reply({ error: 'forbidden' }, 403);
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const key = url.searchParams.get('key');
+    if (!key || !key.startsWith('narration/') || key.includes('..')) return reply({ error: 'Invalid key' }, 400);
+    if (!/\.(m4a|json)$/.test(key)) return reply({ error: 'Invalid extension' }, 400);
+    await bucket.put(key, request.body, {
+      httpMetadata: { contentType: request.headers.get('Content-Type') || 'application/octet-stream' }
+    });
+    return reply({ ok: true, key });
+  }
+
+  // ---- inventário (tools/narration.js report --remote) ----
+  if (path === '/admin/list' && request.method === 'GET') {
+    const secret = env.NARRATION_ADMIN_SECRET || env.LIB1_ADMIN_SECRET;
+    if (!secret || request.headers.get('X-Admin-Secret') !== secret) return reply({ error: 'forbidden' }, 403);
+    if (!bucket) return reply({ error: 'R2 not bound', r2Ready: false }, 503);
+    const prefix = url.searchParams.get('prefix') || 'narration/';
+    const listed = await bucket.list({ prefix, limit: 1000, cursor: url.searchParams.get('cursor') || undefined });
+    return reply({
+      ok: true, truncated: listed.truncated, cursor: listed.truncated ? listed.cursor : null,
+      objects: listed.objects.map(o => ({ key: o.key, size: o.size, uploaded: o.uploaded }))
+    });
   }
 
   return reply({ error: 'Not found' }, 404);

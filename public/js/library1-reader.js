@@ -61,6 +61,8 @@
     <path d="M5 3.5 19 10l-6.1 2.2L10.4 19 5 3.5Z" fill="currentColor"/>
   </svg>`;
   const MARKER_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="m6 16 8.7-11a1.8 1.8 0 0 1 2.6-.2l1.8 1.5a1.8 1.8 0 0 1 .2 2.6L10.5 20H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m13.2 7 4 3.2M4 20h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+  /* Alto-falante do botão de narração — igual na Library 3 (mesma toolbar). */
+  const SPEAKER_SVG = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" aria-hidden="true"><path d="M4 9.5h3L11.5 6v12L7 14.5H4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M15 9.2a4 4 0 0 1 0 5.6M17.6 6.6a7.6 7.6 0 0 1 0 10.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 
   const T = {
     en: { loading:'Loading…', loadError:'This topic has no content yet.',
@@ -81,6 +83,7 @@
           ctCorrect:'Correct', ctIncorrect:'Incorrect', ctObjective:'Educational objective:',
           ctBackToTopic:'Back to topic', ctResultTitle:'Test completed',
           ctScope:'Topic-only test · does not count toward QBank 1',
+          narrate:'Listen', narrateStop:'Stop narration',
           markRead:'Mark as read', markedRead:'Read ✓', markReadHint:'Mark this topic as read',
           markedReadHint:'Read — click to unmark' },
     pt: { loading:'Carregando…', loadError:'Este tópico ainda não tem conteúdo.',
@@ -101,6 +104,7 @@
           ctCorrect:'Correto', ctIncorrect:'Incorreto', ctObjective:'Objetivo educacional:',
           ctBackToTopic:'Voltar ao tópico', ctResultTitle:'Teste concluído',
           ctScope:'Teste só deste tópico · não conta no QBank 1',
+          narrate:'Ouvir', narrateStop:'Parar narração',
           markRead:'Marcar como lido', markedRead:'Lido ✓', markReadHint:'Marcar este tópico como lido',
           markedReadHint:'Lido — clique para desmarcar' }
   };
@@ -211,6 +215,7 @@
             <span id="l1rSearchCount" class="l3r-searchcount"></span>
           </div>
           <button type="button" class="l3r-btn l1r-readbtn" id="l1rReadBtn"></button>
+          <button type="button" class="l3r-btn l3r-narrate" id="l1rNarrateBtn" title="${esc(t('narrate'))}">${SPEAKER_SVG}${esc(t('narrate'))}</button>
           <div class="l3r-group l1r-dl-group">
             <button type="button" class="l3r-btn l3r-download l1r-dl" id="l1rDownloadEn" title="${esc(t('downloadEn'))}">⬇ EN</button>
             <button type="button" class="l3r-btn l3r-download l1r-dl" id="l1rDownloadPt" title="${esc(t('downloadPt'))}">⬇ PT</button>
@@ -242,6 +247,10 @@
               <button type="button" class="l3r-ic" id="l1rFontUp" aria-label="${esc(t('fontBigger'))}" title="${esc(t('fontBigger'))}">A+</button>
             </div>
           </div>
+          <!-- A barra do narrador entra aqui: FORA do .l1r-pagewrap de propósito, senão
+               rolaria junto com o texto e o usuário perderia os controles de vista
+               justamente enquanto acompanha a leitura. -->
+          <div id="l1rNarratorHost"></div>
           <div class="l1r-pagewrap" id="l1rPageWrap">
             <div class="l3r-loading" id="l1rLoading">${esc(t('loading'))}</div>
             <article class="l1r-article" id="l1rArticle"></article>
@@ -295,6 +304,14 @@
       const lang = (e.detail && e.detail.lang) || uiLang();
       setLang(r, lang);
     }, { signal: r.uiAbort.signal });
+
+    /* ---- narração ----
+       O narrador (public/js/cm-narrator.js) é o MESMO das outras libraries. Aqui só
+       dizemos de onde vem o texto e para onde o destaque vai. Library 1 tem o
+       conteúdo gravado nos dois idiomas, então oferece narração em EN e PT; se o
+       usuário trocar o idioma no painel do narrador, a página troca junto (senão o
+       destaque estaria sobre um texto que não é o que está sendo falado). */
+    on('#l1rNarrateBtn','click', ()=> toggleNarrator(r));
 
     /* ---- tamanho da fonte (equivalente ao zoom do PDF) ---- */
     on('#l1rFontDown','click', ()=> setFontScale(r, r.fontScale-0.1));
@@ -565,6 +582,16 @@
     if(r.quiz) renderQuiz(r);
     else renderArticle(r);
     paintLightbox(r);          // imagem aberta troca de idioma junto com o texto
+
+    // Narração segue o idioma da página: o áudio do outro idioma é outro arquivo, então
+    // não basta reencontrar as frases — tem de trocar a gravação. Reabrir resolve os dois
+    // (o narrador já guarda voz/velocidade nas preferências, nada se perde).
+    // (quando a troca partiu do painel do próprio narrador, ele já está no idioma novo
+    // e cuida da própria gravação — reabrir aqui só criaria um laço)
+    if (window.CMNarrator && window.CMNarrator.isOpen() && window.CMNarrator.currentLang() !== lang){
+      window.CMNarrator.close();
+      toggleNarrator(r);
+    }
   }
   // Só os rótulos da toolbar; não remonta a barra (perderia o estado das ferramentas).
   function renderSkeletonLabels(r){
@@ -600,6 +627,42 @@
   function articleBody(r, lang){
     if(!r.content) return null;
     return r.content[lang] || r.content.en || r.content.pt || null;
+  }
+
+  /* ---------------------------- narração ----------------------------
+     Liga/desliga a barra do narrador. O escopo (`scopeKey`) é o caminho do áudio
+     gravado no R2 e tem de bater EXATAMENTE com o que tools/narration.js gerou —
+     lib1/<subject>/<topic>, os mesmos slugs usados no resto do leitor.
+  -------------------------------------------------------------------- */
+  function toggleNarrator(r){
+    if (!window.CMNarrator) return;
+    const btn = r.hostEl.querySelector('#l1rNarrateBtn');
+    if (window.CMNarrator.isOpen()){
+      window.CMNarrator.close();
+      if (btn) btn.classList.remove('l3r-btn-active');
+      return;
+    }
+    const host = r.hostEl.querySelector('#l1rNarratorHost');
+    if (!host || !r.el.article) return;
+
+    // só oferece os idiomas que realmente têm texto gravado neste tópico
+    const langs = ['en','pt'].filter(l => {
+      const b = articleBody(r, l);
+      return !!(b && b.html);
+    });
+    if (!langs.length) return;
+
+    window.CMNarrator.open({
+      host,
+      contentEl: r.el.article,
+      scopeKey: `lib1/${r.folderSlug}/${r.topicSlug}`,
+      title: itemName(r.topic, r.lang),
+      lang: r.lang,
+      langs,
+      onLangChange: lang => setLang(r, lang),
+      onClose: () => { if (btn) btn.classList.remove('l3r-btn-active'); }
+    });
+    if (btn) btn.classList.add('l3r-btn-active');
   }
 
   function renderArticle(r){
@@ -987,6 +1050,11 @@
         return span;
       });
     });
+    // Este é o ponto único onde o innerHTML do artigo é reescrito (marcação, busca,
+    // undo/redo, troca de idioma e re-render passam todos por aqui), então é aqui que
+    // o narrador precisa reencontrar as frases — senão o destaque que acompanha a
+    // leitura fica apontando para nós de texto que já não existem.
+    if (window.CMNarrator && window.CMNarrator.isOpen()) window.CMNarrator.refresh();
   }
 
   function setEraseMode(r, mode){

@@ -79,7 +79,22 @@ Todo o resto do site (My Workspace, Flashcards, QBank, Notebook, AI Tutor, Setti
 
 ---
 
-## 5. Como usar isto ao criar/ajustar UI
+## 5. `public/css/cm-narrator.css` — Narrador (barra de leitura das Libraries 1/2/3)
+
+Acompanha os cortes do leitor (`library3-reader.css`), porque a barra vive dentro dele.
+
+| Linha | Breakpoint | O que acontece |
+|---|---|---|
+| 163 | `max-width:1180px` | Reduz o `gap` e o padding da barra; botão de play 42→38px; ícones 32→29px |
+| 168 | `max-width:820px` | Barra mais compacta (`border-radius:10px`); play 36px; rótulo da frase 11,5px; **o painel de configurações passa a ocupar a largura toda** (`left/right:8px`) em vez de flutuar à direita — num iPad em retrato o painel de 290px estourava a borda |
+| 176 | `max-width:590px` | **O rótulo da frase some** (`display:none`): no celular o espaço é curto e o essencial são os controles + a barra de progresso, que é o que permite acompanhar a leitura. Chips do painel reduzem para 11px |
+
+Note que o narrador usa **590px** e não 520px: é onde a toolbar do leitor já quebra
+(`library3-reader.css` linha 186), e a barra tem de virar junto com ela.
+
+---
+
+## 6. Como usar isto ao criar/ajustar UI
 
 - **Antes de adicionar um componente novo**, verificar se ele precisa de ajuste nos 3 breakpoints estruturais (1180/820/520 — Seção 0) e, se for específico de um módulo (QBank/Notebook/Flashcards/AI Tutor/Settings/My Workspace), seguir o padrão de breakpoint já usado naquele arquivo em vez de inventar um valor novo.
 - **820px é o breakpoint mais importante do site** — é onde o menu lateral vira hambúrguer com scrim. Qualquer elemento fixo/posicionado (como `.mobile-menu-button` ou os botões flutuantes do AI Tutor) precisa considerar esse breakpoint para não sobrepor o botão do menu.

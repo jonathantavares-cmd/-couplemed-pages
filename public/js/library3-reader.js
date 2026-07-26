@@ -64,11 +64,15 @@
   </svg>`;
   const PEN_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M4 20l1.2-4.2L16.6 4.4a2 2 0 012.8 0l.2.2a2 2 0 010 2.8L8.2 18.8 4 20z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 6.5l3.5 3.5" stroke="currentColor" stroke-width="1.8"/></svg>`;
   const MARKER_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="m6 16 8.7-11a1.8 1.8 0 0 1 2.6-.2l1.8 1.5a1.8 1.8 0 0 1 .2 2.6L10.5 20H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m13.2 7 4 3.2M4 20h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
-  const STICKY_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4.5h14v10l-5 5H5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 19.5v-5h5" stroke="currentColor" stroke-width="1.7"/></svg>`;
+
+  /* Alto-falante do botao de narracao — o MESMO da Library 1 (toolbar compartilhada:
+     mexeu numa, mexe na outra). */
+  const SPEAKER_SVG = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" aria-hidden="true"><path d="M4 9.5h3L11.5 6v12L7 14.5H4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M15 9.2a4 4 0 0 1 0 5.6M17.6 6.6a7.6 7.6 0 0 1 0 10.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`;  const STICKY_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4.5h14v10l-5 5H5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 19.5v-5h5" stroke="currentColor" stroke-width="1.7"/></svg>`;
   const NOTE_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4.5h14v15H5z" stroke="currentColor" stroke-width="1.7"/><path d="M8 9h8M8 12.5h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
 
   const T = {
     en: { loading:'Loading PDF…', loadError:'Could not load this PDF.', download:'Download',
+          narrate:'Listen',
           page:'Page', of:'of', search:'Search in this document…', noMatches:'0 results',
           matchOf:m=>`${m.i} of ${m.n}`, hl:'Highlight', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Zoom in', zoomOut:'Zoom out', back:'Back',
@@ -79,6 +83,7 @@
           pen:'Write', sticky:'Post-it', annotation:'Page note', undo:'Undo', redo:'Redo', more:'More tools', colors:'Colors', navigation:'Navigation', notePrompt:'Write the note anchored to this page:',
           markRead:'Mark as read', markedRead:'Read ✓', markReadHint:'Mark this PDF as read', markedReadHint:'Read — click to unmark' },
     pt: { loading:'Carregando PDF…', loadError:'Não foi possível carregar este PDF.', download:'Baixar',
+          narrate:'Ouvir',
           page:'Página', of:'de', search:'Buscar neste documento…', noMatches:'0 resultados',
           matchOf:m=>`${m.i} de ${m.n}`, hl:'Marcar', flashcard:'Flashcard', notebook:'Notebook', notes:'Notes',
           zoomIn:'Aumentar', zoomOut:'Diminuir', back:'Voltar',
@@ -243,6 +248,7 @@
             <span id="l3rSearchCount" class="l3r-searchcount"></span>
           </div>
           <button type="button" class="l3r-btn l3r-readbtn" id="l3rReadBtn"></button>
+          <button type="button" class="l3r-btn l3r-narrate" id="l3rNarrateBtn" title="${esc(t('narrate'))}">${SPEAKER_SVG}${esc(t('narrate'))}</button>
           <a class="l3r-btn l3r-download" id="l3rDownloadLink" download>⬇ ${esc(t('download'))}</a>
         </div>
         <div class="l3r-body">
@@ -292,6 +298,8 @@
               <button type="button" class="l3r-ic" id="l3rZoomIn" aria-label="${esc(t('zoomIn'))}">+</button>
             </div>
           </div>
+          <!-- Barra do narrador: FORA do .l3r-pagewrap, senao rolaria junto com a pagina. -->
+          <div id="l3rNarratorHost"></div>
           <div class="l3r-pagewrap" id="l3rPageWrap">
             <div class="l3r-loading" id="l3rLoading">${esc(t('loading'))}</div>
             <button type="button" class="l3r-sidearrow l3r-sidearrow-prev" id="l3rSidePrev" aria-label="prev">‹</button>
@@ -348,6 +356,20 @@
       if(e.key && e.key.indexOf('couplemed_lib3read_')===0) syncReadBtn();
     }, { signal: r.uiAbort.signal });
     syncReadBtn();
+
+    /* ---- narração ----
+       Mesmo narrador da Library 1 (public/js/cm-narrator.js). Duas diferenças vêm de
+       ser PDF e não página:
+         • narra UMA PÁGINA por vez — o texto vem do próprio arquivo
+           (page.getTextContent), e o destaque cai sobre a camada de texto que o
+           PDF.js já desenha por cima do canvas (a mesma que permite selecionar
+           texto e marcar trecho hoje);
+         • SÓ EM INGLÊS (decisão do usuário, 2026-07-26): o material da Library 3 só
+           existe em inglês, e narrar em português enquanto o destaque fica sobre o
+           texto inglês descasaria o que se ouve do que se lê. */
+    r.hostEl.querySelector('#l3rNarrateBtn').addEventListener('click', ()=> toggleNarrator(r),
+      { signal: r.uiAbort.signal });
+
     ['l3rPrev','l3rSidePrev'].forEach(id=>
       r.hostEl.querySelector('#'+id).addEventListener('click', ()=> goToPage(r, r.currentPage-1)));
     ['l3rNext','l3rSideNext'].forEach(id=>
@@ -468,6 +490,61 @@
   }
 
   /* ---------------------------- navegação de página ---------------------------- */
+  /* ---------------------------- narração ----------------------------
+     Escopo é a PÁGINA: um livro inteiro num arquivo de áudio só seria dezenas de
+     horas (e o usuário lê uma página por vez de qualquer forma). A chave no R2 fica
+     lib3/<pdf sem extensão>/pNNNN, com o número preenchido com zeros para ordenar.
+  -------------------------------------------------------------------- */
+  function narrationScopeKey(r, pageNo){
+    const stem = String(r.item.key).replace(/\.pdf$/i, '');
+    return `${stem}/p${String(pageNo).padStart(4,'0')}`;
+  }
+
+  /* Texto da página atual, na ordem em que o PDF o declara. `hasEOL` marca fim de
+     linha: sem respeitá-lo, palavras de linhas diferentes grudariam ("thepatient"). */
+  async function pageSentences(r, pageNo){
+    const S = window.CMNarrationShared;
+    if (!S) return [];
+    const page = await r.pdfDoc.getPage(pageNo);
+    const tc = await page.getTextContent();
+    let text = '';
+    for (const it of tc.items){
+      text += it.str || '';
+      if (it.hasEOL) text += ' ';
+    }
+    return S.splitSentences(text.replace(/\s+/g, ' ').trim());
+  }
+
+  async function toggleNarrator(r){
+    if (!window.CMNarrator) return;
+    const btn = r.hostEl.querySelector('#l3rNarrateBtn');
+    if (window.CMNarrator.isOpen()){
+      window.CMNarrator.close();
+      if (btn) btn.classList.remove('l3r-btn-active');
+      return;
+    }
+    const host = r.hostEl.querySelector('#l3rNarratorHost');
+    // O destaque é desenhado sobre a camada de texto DESTA página — por isso o
+    // conteúdo é o pv.div da página corrente, não o container do visualizador.
+    const content = r.pageView && r.pageView.div;
+    if (!host || !content) return;
+
+    const sentences = await pageSentences(r, r.currentPage);
+    if (!sentences.length) return;      // página só de imagem: não há o que narrar
+
+    window.CMNarrator.open({
+      host,
+      contentEl: content,
+      scopeKey: narrationScopeKey(r, r.currentPage),
+      title: `${itemName(r.item, uiLang())} · ${r.currentPage}/${r.pageCount}`,
+      lang: 'en',
+      langs: ['en'],
+      sentences,                        // o PDF é a fonte do texto, não o R2
+      onClose: () => { if (btn) btn.classList.remove('l3r-btn-active'); }
+    });
+    if (btn) btn.classList.add('l3r-btn-active');
+  }
+
   function goToPage(r, n){
     if(!r.pdfDoc) return;
     n = Math.max(1, Math.min(r.pageCount, n));
@@ -563,6 +640,15 @@
         setReaderTool(r,r.inkMode?'pen':r.annotationMode);
 
         renderHighlightsForPage(r);
+
+        // Trocou de pagina: o narrador esta preso ao texto e a camada da pagina ANTERIOR
+        // (que o PDF.js acabou de destruir). Reabrir aqui religa tudo na pagina nova —
+        // texto, audio e destaque — em vez de deixar o player tocando algo que nao esta
+        // mais na tela. Voz e velocidade sobrevivem (ficam nas preferencias).
+        if (window.CMNarrator && window.CMNarrator.isOpen()){
+          window.CMNarrator.close();
+          toggleNarrator(r);
+        }
       });
     }).catch(err=>console.error('[library3-reader] page render', err));
   }

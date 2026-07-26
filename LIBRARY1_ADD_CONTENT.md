@@ -24,9 +24,15 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 6. **Gravar o conteúdo** no arquivo de destino correspondente (Seção 5), sempre **bilíngue EN + PT no mesmo commit** (Seção 6).
 7. **Validar**: `node --check` no(s) arquivo(s) alterado(s) + conferir que o tópico abre no site (Seção 9).
 8. **AUDITAR (obrigatório, Seção 11.1)**: `node tools/library1-audit.js "<Subject>" "<Tópico>"`. Tem de sair ✅ — se sair ❌, corrigir e rodar de novo antes de qualquer outra coisa.
-9. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
-10. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
-11. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
+9. **GRAVAR AS NARRAÇÕES (obrigatório, Seção 17)** — o áudio de leitura faz parte do conteúdo, exatamente como as versões EN e PT do texto e as imagens `-en`/`-pt`. Um tópico **não está pronto** sem ele:
+   ```bash
+   node tools/narration.js build lib1 "<subject-slug>" "<topic-slug>"   # grava as 6 vozes
+   node tools/narration.js upload                                       # sobe para o R2
+   ```
+   São as 6 vozes padrão (4 em inglês + 2 em português, Seção 17.1), gravadas de uma vez. Leva ~5 min e ~29 MB por tópico. Não escolher vozes nem inventar variação: o catálogo é fixo e mora em `public/js/cm-narration-shared.js`.
+10. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
+11. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
+12. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
 
 ---
 
@@ -841,9 +847,6 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 ### Distribuição no primeiro tópico (Acute rheumatic fever)
 
 11 `recall` · 7 `contrast` · 4 `image` · 3 `cloze` · 2 `why` · 2 `case` · 1 `mnemonic` = **30**, todos bilíngues, 8 com imagem, todos com `why`.
-
----
-
 ## 12. ESTADO ATUAL (onde paramos)
 
 **Último trabalho: 2026-07-25.** Tudo abaixo está commitado e publicado.
@@ -919,3 +922,141 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 | 2026-07-25 | **Flashcards refeitos: 30 por tópico, BILÍNGUES, padrão "Anki melhorado"** (§11.4/§11.5). Schema passou a `en`/`pt` com `front`/`back`/`hint`/`why`, mais `kind` (7 tipos pedagógicos com cor e emoji fixos) e `img` com legenda bilíngue. Deck agora é **um por tópico, com o nome do tópico**, traduzido. O tradutor global do site troca o card inteiro. |
 | 2026-07-26 | **Página Navegar (Browse) dos Flashcards alinhada aos 3 breakpoints estruturais** (`public/css/styles.css`, RESPONSIVE_BREAKPOINTS.md §1): `.fc-row` empilha em iPad/celular e `.fc-row-actions` quebra em grade — os até 6 botões da linha (🚩/enterrar/suspender/compartilhar/editar/excluir), com rótulos longos em PT ("Descompartilhar", "Desenterrar"), estouravam a largura da tela sem essa regra. Conferida também a tela de estudo (`.fc-card` reduz padding/fonte em celular) e o padrão visual dos cards por `kind` (§11.5), que já tinha as próprias regras em 820/520px. `styles.css` subiu para `v=71` (§9.1). |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
+
+---
+
+## 17. NARRAÇÃO (áudio de leitura) — ✅ IMPLEMENTADO (2026-07-26)
+
+Toda página da Library 1 pode ser **narrada em voz alta**, com o trecho que está sendo lido **destacado na tela** para o usuário acompanhar. A barra de controle fica na toolbar do leitor e vale para as **três** libraries — a toolbar é compartilhada (ver o cabeçalho de `public/js/library1-reader.js`: mexeu numa, mexe na outra).
+
+**REGRA CENTRAL: o áudio é conteúdo, não um extra.** Do mesmo jeito que um tópico só está completo com o texto em EN **e** PT e as imagens `-en`/`-pt`, ele só está completo com as **narrações gravadas e salvas**. O Passo 9 do Procedimento Padrão (Seção 0) é obrigatório.
+
+### 17.1 As 6 vozes padrão — fixas, definidas pelo usuário
+
+| Idioma | Femininas | Masculinas |
+|---|---|---|
+| **Inglês** | `Ava (Premium)` · `Samantha (Enhanced)` | `Alex` · `Tom (Enhanced)` |
+| **Português** | `Fernanda (Enhanced)` | `Felipe (Enhanced)` |
+
+São vozes **Aprimoradas/Premium da Apple**, instaladas no Mac de produção. O catálogo mora em **um lugar só**: `public/js/cm-narration-shared.js`. Não duplicar essa lista em nenhum outro arquivo, e **não trocar voz por conta própria** — o `id` de cada voz entra no nome do arquivo no R2, então renomear um id torna órfão todo o áudio já gravado com ele.
+
+Conferir se estão instaladas no Mac antes de gravar uma leva:
+
+```bash
+node tools/narration.js voices
+```
+
+Se faltar alguma: **Ajustes do Sistema → Acessibilidade → Conteúdo Falado → Voz do Sistema → (idioma) →** baixar a variante *Aprimorada*/*Premium*. Não existe comando de terminal para isso no macOS; é clique na interface.
+
+**Por que `say` do macOS e não uma API paga (OpenAI/Azure/Google):** custo zero por caractere, e mesmo assim o áudio fica **gravado em arquivo** — o que dá as três coisas que importam: as 6 vozes ficam **idênticas em todo aparelho** (quem abre no Windows ou Android ouve as vozes da Apple, porque é um MP4 servido, não o sintetizador do aparelho), o destaque fica **exato até no Safari/iPhone**, e não há gasto recorrente. Uma API neural soaria mais humana, e a arquitetura permite trocar depois **sem tocar na interface** (só o gerador muda), mas a decisão de 2026-07-26 foi ficar no gratuito.
+
+### 17.2 Onde o áudio é salvo — R2, bucket próprio
+
+Bucket **`couplemed-narration`** (binding `NAR_STORAGE` em `wrangler.toml`), servido por `/api/narration/audio/…`.
+
+```
+narration/lib1/<subject-slug>/<topic-slug>/<lang>-<voiceId>.m4a    áudio completo do tópico
+narration/lib1/<subject-slug>/<topic-slug>/<lang>-<voiceId>.json   tabela de tempos das frases
+narration/lib3/<pdf-sem-extensão>/pNNNN/en-<voiceId>.m4a           Library 3: uma página por vez
+```
+
+**Por que R2 e não o repositório:** o áudio de um único tópico são ~29 MB nas 6 vozes; os 1.838 tópicos dariam ~53 GB — inviável no git e além do limite do Pages. No R2 custa ~$0,80/mês **e a saída de dados é gratuita** (egress zero), então os alunos podem ouvir à vontade sem custo de transferência. É a mesma razão pela qual os PDFs da Library 3 já moram lá.
+
+**Por que um bucket separado dos de conteúdo:** o áudio é *derivado* do conteúdo, não conteúdo. Num bucket próprio dá para auditar, medir e limpar tudo num comando, sem risco de esbarrar nas imagens (`couplemed-library1`) ou nos PDFs (`couplemed-library3`).
+
+Criar o bucket uma única vez, antes do primeiro deploy:
+
+```bash
+wrangler r2 bucket create couplemed-narration
+wrangler secret put NARRATION_ADMIN_SECRET      # segredo do upload (aceita LIB1_ADMIN_SECRET como alternativa)
+```
+
+### 17.3 Como gravar (o Passo 9 do Procedimento Padrão)
+
+```bash
+# um tópico (o caso normal, ao incluir conteúdo novo)
+node tools/narration.js build lib1 allergy-and-immunology acute-rheumatic-fever
+
+# um Subject inteiro / tudo
+node tools/narration.js build lib1 allergy-and-immunology
+node tools/narration.js build lib1 --all
+
+# regravar por cima (só quando o TEXTO do tópico mudou)
+node tools/narration.js build lib1 <subject> <topic> --force
+
+# subir para o R2 (sempre depois de gravar)
+node tools/narration.js upload
+node tools/narration.js upload --only=lib1/allergy-and-immunology
+
+# inventário: vozes exigidas, o que já foi gravado, cobertura por Subject
+node tools/narration.js report
+```
+
+Sai em `.narration-build/` (fora do git, ver `.gitignore`). O destino final é o R2 — **a pasta local é só oficina**, pode apagar depois do upload.
+
+Números medidos no tópico real `acute-rheumatic-fever` (~10.900 caracteres em EN):
+
+| | Por voz | Por tópico (6 vozes) |
+|---|---|---|
+| Duração | 12–15 min | ~1h20 de áudio |
+| Tamanho | 4–5 MB | **~29 MB** |
+| Tempo para gravar | ~55 s | **~5 min** |
+
+⚠️ **Se o texto de um tópico for corrigido depois, o áudio fica velho.** Ele continua tocando, mas a frase corrigida sai na versão antiga e o destaque pode escorregar naquele trecho. Regravar com `--force` sempre que mexer no `html` de um tópico já narrado. Para descobrir o que está desatualizado, `report` compara a segmentação atual com a gravada.
+
+### 17.4 Como o destaque fica sincronizado (e por que não é estimativa)
+
+O `say` não informa em que instante cada palavra é falada. Em vez de adivinhar pelo número de letras — que é o defeito do narrador nativo do navegador, e que desanda em textos de 14 minutos —, o gerador:
+
+1. quebra o texto em frases (`blocksFromHtml` → `splitSentences`, em `cm-narration-shared.js`);
+2. grava **um arquivo por frase** e mede a duração exata de cada um;
+3. cola todos num único `.m4a`, com 0,28 s de respiro entre frases;
+4. salva ao lado o `.json` com `{ i, start, end, text }` de cada frase.
+
+No leitor, `timeupdate` diz o instante, a tabela diz a frase, e o destaque vai para ela — exato em qualquer navegador, e continua exato quando o usuário muda a velocidade ou arrasta a barra.
+
+**O destaque não toca o DOM.** Os leitores reescrevem o `innerHTML` do conteúdo para aplicar marcação de texto e busca; se o narrador embrulhasse frases em `<span>`, as duas coisas se atropelariam. Ele mede os retângulos da frase (`Range.getClientRects`) e desenha numa camada própria por cima (`.cm-nar-layer`, com `mix-blend-mode:multiply` para a letra continuar legível). Quando o leitor re-renderiza, chama `CMNarrator.refresh()` e as frases são reencontradas.
+
+As frases são localizadas no DOM **por texto normalizado**, não por índice — assim o casamento sobrevive a marcação do usuário, ao bloco "Create Test" inserido no meio e a entidades HTML. O teste prova 105/105 frases localizadas no tópico real.
+
+### 17.5 O que o usuário vê
+
+Botão **Ouvir / Listen** na toolbar. A barra abre abaixo dela (fora da área que rola, para os controles não saírem de vista) com: voltar 10 s · play/pause · avançar 10 s · a frase que está sendo lida · barra de progresso · tempo · engrenagem · fechar.
+
+Na engrenagem: **Velocidade** (0,75× a 2×) · **Voz do narrador** (as do idioma) · **Idioma da narração** (só quando há mais de um) · **O que narrar** (conteúdo inteiro ou somente o texto selecionado).
+
+Voz, velocidade e escopo ficam salvos por usuário (`localStorage`) e seguem entre tópicos e libraries. Trocar o idioma na engrenagem **troca a página junto** — senão o destaque estaria sobre um texto diferente do que está sendo falado.
+
+**Sem áudio gravado, nada trava:** cai para a voz do próprio aparelho (`speechSynthesis`), com um aviso na barra. É o que acontece num tópico recém-incluído antes do `upload`, e é o que atende o modo "somente o selecionado" quando o trecho não casa com nenhuma frase gravada.
+
+### 17.6 Libraries 2 e 3
+
+**Library 2** — usa **as mesmas 6 vozes**. Nada a fazer: quando o leitor da Library 2 existir, ele nasce com a toolbar compartilhada e ganha o botão de narração de graça. Basta chamar `CMNarrator.open()` com `scopeKey` começando em `lib2/` e gerar o áudio pelo mesmo `tools/narration.js`.
+
+**Library 3** — **só em inglês** (decisão do usuário, 2026-07-26: o material só existe em inglês, e narrar em português com o destaque sobre o texto inglês descasaria o que se ouve do que se lê). Usa as 4 vozes de inglês.
+
+Estado: o **front está pronto** — botão na toolbar, texto extraído do próprio PDF (`page.getTextContent()`), destaque sobre a camada de texto que o PDF.js já desenha, e narração **página por página** (um livro inteiro num arquivo só seria dezenas de horas). Hoje ele funciona pela voz do aparelho, porque ainda **não há áudio gravado**.
+
+Falta a **geração em massa** (`build lib3`, hoje um stub que avisa). Antes de rodá-la, dois problemas reais precisam de decisão:
+
+1. **Ordem do texto extraído.** O First Aid é esquemático — colunas, tabelas, mnemônicos. `getTextContent()` devolve os fragmentos na ordem em que o PDF os declara, que **não é a ordem de leitura** num layout de duas colunas. Narrado cru, sai salada em parte das páginas. Precisa de reordenação por coordenada (agrupar por coluna/linha) e de descartar cabeçalho/rodapé.
+2. **Volume.** São 84 PDFs de tópico + o livro completo (392 MB). Baixar tudo do R2 para extrair texto gasta banda, e a geração são horas de CPU (viável: o `say` gera a ~85× tempo real, então ~1h20 de áudio sai em ~1 min).
+
+### 17.7 Arquivos
+
+| Arquivo | Papel |
+|---|---|
+| `public/js/cm-narration-shared.js` | catálogo das 6 vozes + segmentação de frases. **Carregado nos dois lados** (navegador e gerador em Node) de propósito: se o gerador e o leitor quebrassem as frases de formas diferentes, o destaque sairia deslocado do áudio |
+| `public/js/cm-narrator.js` | o player: barra, configurações, destaque sincronizado, fallback |
+| `public/css/cm-narrator.css` | estilo da barra e do destaque (herda o tema do leitor; responsivo em 1180/820/590) |
+| `tools/narration.js` | gerador: grava com `say`, monta a tabela de tempos, sobe para o R2 |
+| `tools/tests/test-narrator.js` | teste em jsdom — catálogo, abertura, **casamento frase↔DOM** e segmentação |
+| `worker.js` → `handleNarration` | serve o áudio do R2 com **Range** (o Safari não toca `<audio>` sem isso) e recebe o upload |
+
+Rodar o teste:
+
+```bash
+JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-narrator.js
+```
+
+---

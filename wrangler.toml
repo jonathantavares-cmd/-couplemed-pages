@@ -25,6 +25,15 @@ bucket_name = "couplemed-library3"
 binding = "LIB1_STORAGE"
 bucket_name = "couplemed-library1"
 
+# ---- Narração R2 (áudio de leitura das Libraries 1/2/3) ----
+# Um bucket para as três: o áudio é derivado do conteúdo, não conteúdo, e num lugar
+# só dá pra auditar/limpar de uma vez. Gerado por tools/narration.js e servido em
+# /api/narration/audio/. Criar o bucket antes do primeiro deploy com este binding:
+#   wrangler r2 bucket create couplemed-narration
+[[r2_buckets]]
+binding = "NAR_STORAGE"
+bucket_name = "couplemed-narration"
+
 # ---- D1: sincronizacao entre aparelhos (v52) ----
 [[d1_databases]]
 binding = "QBANK_DB"
