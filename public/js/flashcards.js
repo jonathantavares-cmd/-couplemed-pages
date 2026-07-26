@@ -361,6 +361,8 @@
   const CLOZE_RE = /\{\{c\d+::(.+?)\}\}/;
   const fcLang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
   const L1_DECK = slug => 'deck_l1_' + slug;
+  // decks da Library 1 são bilíngues (name/namePt); decks criados pelo usuário só têm `name`.
+  const fcDeckName = d => (fcLang()==='pt' && d.namePt) ? d.namePt : d.name;
 
   /* Um card da Library 1 é BILÍNGUE: guarda os dois idiomas e a face renderizada é
      escolhida na hora (fcL1Face). Assim o tradutor global do site troca o card inteiro
