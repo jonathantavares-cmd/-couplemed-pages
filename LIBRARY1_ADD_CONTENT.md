@@ -150,6 +150,12 @@ Dentro de cada subpasta de tópico o usuário coloca **prints (screenshots) e im
 - **Texto que dá para transcrever, transcreve.** Só vira imagem o que é genuinamente gráfico.
 - **Toda imagem publicada abre ampliada ao clicar** (Seção 7.5) — então recortar preservando a resolução original, sem reduzir para "caber na página". O `alt` vira a legenda da imagem ampliada e precisa existir nos dois idiomas.
 
+### 2.1b Pode haver um TERCEIRO nível de pasta — é do mesmo tópico
+
+Observado em 2026-07-26: as questões do 2º tópico vinham numa subpasta chamada `pasta sem título` **dentro** da subpasta do tópico. A regra dos dois níveis (§2) continua valendo para *classificar*; o que muda é a varredura.
+
+**Comportamento correto:** varrer recursivamente e tratar todo arquivo abaixo da subpasta do tópico como material **daquele tópico**, qualquer que seja a profundidade ou o nome da pasta intermediária. Não criar tópico novo a partir de um terceiro nível, e não ignorá-lo — foi ali que estavam as 5 questões do Create Test.
+
 ### 2.2 Subpasta vazia = material ainda não colocado
 
 Regra do usuário (2026-07-25): quando uma subpasta de tópico está **vazia, é porque ele ainda não colocou o material** — não é erro, não é conteúdo faltando, não é para perguntar.
@@ -842,6 +848,8 @@ window.LIBRARY1_FLASHCARDS['allergy-and-immunology'] = {
 | `case` | ~2 | vinheta clínica curta, no formato do Step 1 |
 | `mnemonic` | ~1 | o mnemônico do próprio material, quando existir |
 
+> ⚠️ **Se o material do tópico não tiver mnemônico, não existe card `mnemonic`.** §1 proíbe inventar, e um mnemônico fabricado é conteúdo inventado. Nesse caso o slot vira `recall` e a distribuição fica, por exemplo, **12 recall** em vez de 11 + 1 mnemonic (foi o caso do 2º tópico, §12.1). A mistura é uma forma, não uma cota.
+
 **Todo card leva `why`** (o porquê da resposta) — sem exceção. É o que diferencia este baralho de um Anki comum: ao errar, o aluno lê a razão, não só a resposta certa.
 
 | Campo | Regra |
@@ -939,11 +947,45 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 - **Narração (§17)** — leitura em voz alta com o trecho destacado acompanhando, nas três libraries. 6 vozes gratuitas do `say` do macOS gravadas em arquivo e servidas do R2 (`couplemed-narration`), então soam iguais em qualquer aparelho. Library 3 já gera (extração de PDF em ordem de leitura, §17.6); Library 2 herda quando o leitor dela existir.
 - Ferramentas: `library1-progress.js` (✅ nas pastas), `library1-assets.js` (WebP/report/upload), `library1-audit.js` (auditoria obrigatória), `narration.js` (grava e sobe os áudios), `tools/tests/` (testes do leitor, do narrador, da tradução dos flashcards e da extração de PDF).
 
-**Conteúdo — 1 de 1.838 tópicos:**
+**Conteúdo — 2 de 1.838 tópicos:**
 
 | Tópico | Estado |
 |---|---|
 | Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 12 mídias ✅ (10 do artigo × 2 idiomas + 2 exclusivas da Q3, ver aviso singleLang abaixo) · **5 de 5 questões** transcritas · **30 flashcards bilíngues** ✅ (§11.4) · **6 narrações** ✅ (4 EN + 2 PT, no R2, §17) |
+| Allergy & Immunology › Allergic/irritant contact dermatitis | texto EN+PT ✅ (PT **fornecido completo** pelo usuário) · 24 mídias ✅ (21 do artigo × 2 idiomas + 3 de enunciado de questão) · **5 de 5 questões** transcritas · **30 flashcards bilíngues** ✅ · **6 narrações** ✅ |
+
+### 12.1 O 2º tópico — Allergic/irritant contact dermatitis (2026-07-26)
+
+71 prints, o dobro do primeiro tópico. O mapa da pasta, que valeu a pena montar antes de transcrever:
+
+| Prints | Conteúdo |
+|---|---|
+| 1, 3-8 | texto EN (7 páginas) |
+| 9-29 | 21 mídias EN — figure 1, images 1-18, figure 2, table 1 |
+| 30-37 | texto PT **completo** (diferente do 1º tópico, §6.1) |
+| 38-58 | as mesmas 21 mídias em PT |
+| `pasta sem título`/1,3-13 | as 5 questões do Create Test |
+
+**Novidade de formato: um TERCEIRO nível de pasta.** As questões vinham numa subpasta chamada `pasta sem título` dentro da subpasta do tópico. A §2 só previa 2 níveis; na prática, tratar qualquer subpasta abaixo do tópico como material **do mesmo tópico** resolve.
+
+**As mídias EN vieram com a moldura da janela "Exhibit Display" e as PT já recortadas.** O recorte automático das EN está em `tools/library1-crop-exhibit.py` (detecta a banda de cinza do header, a linha divisória acima da barra de ícones e o bbox do conteúdo por projeção). Conferir o resultado numa **folha de contato** antes de publicar sai muito mais barato — em contexto e em tempo — que abrir 21 prints um a um; foi assim que os 21 títulos das mídias (que viram `alt`) saíram de uma única leitura.
+
+| Questão | Assunto | Gabarito | Mídia |
+|---|---|---|---|
+| `L1Q-AICD-001` | pulso / relógio de níquel | C (76%, easy) | `img` image-19 + `explImg` table-1 |
+| `L1Q-AICD-002` | coxas / creme analgésico | E (50%, medium) | `img` image-20 |
+| `L1Q-AICD-003` | tintura de cabelo | A (43%, hard) | `explImg` figure-1 |
+| `L1Q-AICD-004` | hera venenosa (**6 opções**, A-F) | F (54%, medium) | `img` image-21 + `explImg` figure-1 |
+| `L1Q-AICD-005` | patch testing | D (32%, hard) | `explImg` figure-1 |
+
+> ⚠️ **Três defeitos nos prints de origem, todos registrados e nenhum inventado:**
+> 1. **`image-3-en`**: o print (Imagem 12) veio com uma **notificação do macOS** sobreposta, cobrindo o título da imagem e o topo da foto. O recorte publicado começa abaixo dela — é a única mídia do tópico sem o título embutido (a legenda vem do `alt`, e o título saiu do par PT). Reenviar o print limpo permite trocar só esse arquivo.
+> 2. **A foto da Q4** estava dividida entre dois prints (9 e 10) e foi **costurada** por correlação de linha; o print 10 também tinha uma notificação, fora da área da foto.
+> 3. **Q3 e Q5 citam "shown in the exhibit"** e esse exhibit não veio na pasta. As duas ficaram sem `img` de enunciado — não se atribuiu uma mídia do artigo por palpite (§1).
+>
+> ⚠️ **`image-19/20/21`** (fotos dos enunciados) são `singleLang:true`: os prints das questões só vieram em inglês (§11.2).
+>
+> ⚠️ **A tradução PT do usuário alterna CDI/CID e ACD/DCA** para as mesmas duas doenças, e traz "Tinea corporal", "testes de remendo" e "teste de correção" (patch testing). Tudo **preservado verbatim** por §6.2 — se ele quiser padronizar, a decisão é dele.
 
 **Tópico CONCLUÍDO.** As 5 questões do Create Test estão publicadas — **5 é o que havia nesta pasta, não um padrão** (§11.2):
 
@@ -963,7 +1005,7 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 >
 > ⚠️ **Atenção:** o usuário substituiu o conteúdo daquela subpasta pelos prints das QUESTÕES — os prints do texto do artigo não estão mais lá. O texto já está publicado, então isso não é problema; só não tente reconferir o artigo pela pasta.
 
-**A PRÓXIMA TAREFA é escolher o próximo tópico** (de qualquer Subject, Seção 0) e repetir o procedimento — este foi o primeiro tópico e serviu para validar o fluxo inteiro (armazenamento, leitor, auditoria, Create Test).
+**A PRÓXIMA TAREFA é escolher o próximo tópico** (de qualquer Subject, Seção 0) e repetir o procedimento. Em 2026-07-26 a pasta do Desktop tinha material em **2 subpastas** e as duas estão publicadas; a próxima leva depende de o usuário preencher novas subpastas.
 
 ---
 
@@ -1014,6 +1056,9 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 | 2026-07-26 | **Extração de PDF em ordem de leitura (§17.6).** Achado ao medir: o First Aid não é de duas colunas de texto corrido e sim TABELA, e as colunas dividem a mesma linha física — por isso a separação passou a ser nos itens, antes de formar linha. Glifos do First Aid viram palavra (`q`=↑, `r`=↓, `p`=→) e as ligaduras são decididas por palavra, porque o mesmo caractere é "ff" num PDF e "fi" noutro. Limitação: páginas de 3 colunas ainda podem intercalar — daí o `inspect` obrigatório antes de gerar. |
 | 2026-07-26 | **Três bugs de extração corrigidos com o lote da Library 3 PARADO antes de gerar (§17.6).** O `inspect` obrigatório pagou-se no primeiro uso: o PDF de psiquiatria (o único já aprovado de ouvido) saía limpo, mas bioquímica e micologia saíam com palavra corrompida. (1) Fonte de símbolo era decidida por contagem de fragmentos — heurística de sorte: onde a fonte do corpo vem picada letra por letra, todo `r` do texto virava "decreased" (*"Histones are decreased ge"*, frase plausível e errada, o pior defeito possível aqui). Hoje a régua é o repertório de caracteres, numa passada de reconhecimento antes de extrair. (2) O mesmo caractere é travessão, ligadura de dois glifos, ligadura de três ou espaço fino **no mesmo PDF** — quem diz é a largura do glifo (~1,0 / ~0,55 / ~0,28 em), e fixar um papel só apagava letras ("uconazole" por fluconazole) ou trocava palavras ("Lö — er" por Löffler). (3) Decisão do usuário: consertar antes de rodar o lote, em vez de gerar 84 PDFs de áudio para regravar depois. |
 | 2026-07-26 | **Áudio aprovado pelo usuário nas duas libraries**, ouvindo as amostras: Library 1 (6 vozes, tópico de febre reumática) e Library 3 (4 vozes, First Aid Psychiatry/Pharmacology p3). Ritmo (180 wpm), pausa entre frases (0,28 s) e a leitura das setas como "increased/decreased" ficam como estão — mudar qualquer um destes obriga a regravar tudo o que já existe. |
+| 2026-07-26 | **2º tópico incluído: Allergy & Immunology › Allergic/irritant contact dermatitis** (§12.1), de 71 prints. Texto EN+PT (o PT veio **completo** desta vez), 21 mídias × 2 idiomas + 3 fotos de enunciado, 5 questões, 30 flashcards, 6 narrações. Três achados novos: **terceiro nível de pasta** na origem (§2.1b), **recorte automático da janela Exhibit Display** (`tools/library1-crop-exhibit.py`, conferido por folha de contato) e **prints com notificação do macOS sobreposta** — o de `image-3` cobria o título, o da Q4 não (a foto dela veio dividida em dois prints e foi costurada). |
+| 2026-07-26 | **Sem mnemônico no material → sem card `mnemonic`** (§11.4): a distribuição dos 30 é forma, não cota, e inventar um mnemônico violaria §1. |
+| 2026-07-26 | **Dois hardcodes do `test-flashcards.js` corrigidos** — os mesmos que a §0 já denunciava em outro ponto do arquivo: o caminho das imagens era fixo em `acute-rheumatic-fever` (um tópico novo passava ✅ com a imagem do tópico velho) e a semeadura esperava 30 cards no banco em vez de **30 por tópico publicado** (falharia em todo tópico a partir do segundo). |
 | 2026-07-26 | **Bug de tradução dos flashcards corrigido (§11.5).** O editor envolve o texto em `<p>`, o ramo de conteúdo "rico" renderizava sem marcação de tradução, e por isso TODO card criado pelo editor ficava preso no idioma original — enquanto os importados em texto puro traduziam, o que fazia parecer aleatório. |
 ## 17. NARRAÇÃO (áudio de leitura) — ✅ IMPLEMENTADO (2026-07-26)
 
