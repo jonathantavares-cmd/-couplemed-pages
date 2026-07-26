@@ -51,6 +51,22 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 
 ---
 
+### ✅ O QUE UM TÓPICO CONCLUÍDO TEM — confira antes de dizer que acabou
+
+Um tópico só está pronto quando **todos os cinco** existem. Não é uma lista de desejos: cada linha já foi esquecida uma vez.
+
+| # | Entrega | Onde fica | Como confere |
+|---|---|---|---|
+| 1 | **Texto EN + PT** | `public/js/library1-content/<subject>.js` | `node --check` + abrir o tópico |
+| 2 | **Mídia EN + PT** | `public/assets/library1/<subject>/<topic>/` | `library1-audit.js` |
+| 3 | **Questões do Create Test** | mesmo arquivo do texto | `library1-audit.js` |
+| 4 | **30 flashcards bilíngues** | `public/js/library1-flashcards/<subject>.js` | `test-flashcards.js` |
+| 5 | **6 narrações** (4 EN + 2 PT) | R2 `couplemed-narration` | `narration.js report` |
+
+Os cinco são **bilíngues por obrigação** (regra do site inteiro, §6): texto, legenda de imagem, flashcard e áudio existem nos dois idiomas, gravados no mesmo commit. A única exceção documentada é mídia que o usuário só forneceu em inglês (`singleLang:true`).
+
+---
+
 ## 1. REGRA DE FIDELIDADE — a regra mais importante deste arquivo
 
 > **Reforçada explicitamente pelo usuário em 2026-07-25:** *"muita atenção à regra: deverá ser exatamente colocado e incluído fielmente ao conteúdo que irei encaminhar nas imagens. É PROIBIDO mudar o conteúdo ou transcrevê-lo de outra forma."*
@@ -791,6 +807,20 @@ window.LIBRARY1_FLASHCARDS['allergy-and-immunology'] = {
   ]
 };
 ```
+
+**A MISTURA DOS 30** — proporção do tópico `Acute rheumatic fever`, que o usuário aprovou e que serve de gabarito. Não precisa bater na unidade, mas a forma tem de ser esta: o grosso em `recall`, um bloco forte de `contrast` (é o que separa diagnóstico parecido), e os demais como tempero. Um baralho só de `recall` vira decoreba; só de `case` cansa.
+
+| Tipo | Quantos | Para que serve |
+|---|---|---|
+| `recall` | ~11 | pergunta direta de fato — a espinha do baralho |
+| `contrast` | ~7 | "X vs Y": diferencia o que se confunde na prova |
+| `image` | ~4 | imagem do próprio tópico (dual coding) |
+| `cloze` | ~3 | lacuna `{{c1::…}}` em definição ou critério |
+| `why` | ~2 | mecanismo: força explicar a causa, não só citar |
+| `case` | ~2 | vinheta clínica curta, no formato do Step 1 |
+| `mnemonic` | ~1 | o mnemônico do próprio material, quando existir |
+
+**Todo card leva `why`** (o porquê da resposta) — sem exceção. É o que diferencia este baralho de um Anki comum: ao errar, o aluno lê a razão, não só a resposta certa.
 
 | Campo | Regra |
 |---|---|
