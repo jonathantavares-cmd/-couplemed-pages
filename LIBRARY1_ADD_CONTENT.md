@@ -26,7 +26,13 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 8. **AUDITAR (obrigatório, Seção 11.1)**: `node tools/library1-audit.js "<Subject>" "<Tópico>"`. Tem de sair ✅ — se sair ❌, corrigir e rodar de novo antes de qualquer outra coisa.
 9. **CRIAR OS 30 FLASHCARDS (obrigatório, Seção 11.4)** — bilíngues EN+PT, em `public/js/library1-flashcards/<subject-slug>.js`, seguindo o padrão da Seção 11.5 (todo card com `why`, mistura de tipos, imagens do próprio tópico). São **30**, não 20 — a contradição no doc foi corrigida em 2026-07-26. Conferir com:
    ```bash
-   JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js
+   JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js "<subject-slug>" "<topic-slug>"
+   ```
+   ⚠️ **Passar o subject e o tópico.** Sem argumento o teste varre tudo — e até 2026-07-26 ele conferia sempre `acute-rheumatic-fever` fixo, saindo ✅ mesmo com o tópico novo sem card nenhum.
+
+   ⚠️ **Subject NOVO: registrar o pacote em `public/app.html`.** O conteúdo carrega sob demanda, mas os flashcards são `<script>` estático. Sem essa linha os cards nunca são semeados para ninguém — é o passo mais fácil de esquecer (§11.4):
+   ```html
+   <script src="js/library1-flashcards/<subject-slug>.js?v=1"></script>
    ```
 10. **GRAVAR AS NARRAÇÕES (obrigatório, Seção 17)** — o áudio de leitura faz parte do conteúdo, exatamente como as versões EN e PT do texto e as imagens `-en`/`-pt`. Um tópico **não está pronto** sem ele:
    ```bash
@@ -53,15 +59,15 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 
 ### ✅ O QUE UM TÓPICO CONCLUÍDO TEM — confira antes de dizer que acabou
 
-Um tópico só está pronto quando **todos os cinco** existem. Não é uma lista de desejos: cada linha já foi esquecida uma vez.
+Um tópico só está pronto quando existem **as cinco** — com uma ressalva: as questões (item 3) só entram **se a pasta de origem trouxer questões**. Um tópico sem questão nenhuma é válido; o campo `quiz` simplesmente não existe e o botão Create Test não aparece (§11.2). Todo o resto é obrigatório. Cada linha desta tabela já foi esquecida uma vez.
 
 | # | Entrega | Onde fica | Como confere |
 |---|---|---|---|
 | 1 | **Texto EN + PT** | `public/js/library1-content/<subject>.js` | `node --check` + abrir o tópico |
 | 2 | **Mídia EN + PT** | `public/assets/library1/<subject>/<topic>/` | `library1-audit.js` |
-| 3 | **Questões do Create Test** | mesmo arquivo do texto | `library1-audit.js` |
+| 3 | **Questões do Create Test** — *só quando houver questões na pasta de origem* | mesmo arquivo do texto | `library1-audit.js` |
 | 4 | **30 flashcards bilíngues** | `public/js/library1-flashcards/<subject>.js` | `test-flashcards.js` |
-| 5 | **6 narrações** (4 EN + 2 PT) | R2 `couplemed-narration` | `narration.js report` |
+| 5 | **6 narrações** (4 EN + 2 PT) | R2 `couplemed-narration` | `narration.js report` — ⚠️ mede a **oficina local**, ver abaixo |
 
 Os cinco são **bilíngues por obrigação** (regra do site inteiro, §6): texto, legenda de imagem, flashcard e áudio existem nos dois idiomas, gravados no mesmo commit. A única exceção documentada é mídia que o usuário só forneceu em inglês (`singleLang:true`).
 
@@ -1076,6 +1082,13 @@ node tools/narration.js report
 ```
 
 Sai em `.narration-build/` (fora do git, ver `.gitignore`). O destino final é o R2 — **a pasta local é só oficina**, pode apagar depois do upload.
+
+> ⚠️ **`report` mede a oficina local, NÃO o R2.** Se você apagar `.narration-build/` depois de subir, o `report` passa a mostrar `0/6` num tópico que está completo e publicado — e regravar tudo à toa é o erro fácil de cometer aí. Para conferir o que está **publicado de verdade**:
+> ```bash
+> export PATH="$HOME/.npm-global/bin:$PATH"
+> wrangler r2 object list couplemed-narration --prefix "narration/lib1/<subject>/<topic>/" --remote
+> ```
+> Devem aparecer 12 objetos: 6 `.m4a` + 6 `.json`. Enquanto isso não estiver automatizado, na dúvida **confie no R2, não no report**.
 
 Números medidos no tópico real `acute-rheumatic-fever` (~10.900 caracteres em EN):
 

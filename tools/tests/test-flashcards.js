@@ -13,10 +13,44 @@ const ok = (l,c,e)=>{ console.log((c?'  ✅ ':'  ❌ ')+l+(c?'':'  <-- '+(e||'')
 
 /* ---------- 1. o pacote de cards, lido como dado puro ---------- */
 console.log('\n== PACOTE DE CARDS ==');
+/* Qual tópico conferir. Sem argumento, VARRE TODOS os pacotes — antes isto era
+   fixo em allergy-and-immunology/acute-rheumatic-fever, e como o §0 manda rodar
+   este teste para validar o tópico que acabou de entrar, ele saía ✅ conferindo o
+   tópico velho mesmo que o novo estivesse com zero flashcards.
+     node tools/tests/test-flashcards.js                        # todos
+     node tools/tests/test-flashcards.js <subject-slug> [topic-slug]  */
+const argSubject = process.argv[2] || null;
+const argTopic   = process.argv[3] || null;
+
+const PACK_DIR = REPO + '/public/js/library1-flashcards';
+const packFiles = fs.readdirSync(PACK_DIR).filter(f => f.endsWith('.js') && !f.startsWith('_'))
+                    .filter(f => !argSubject || f === argSubject + '.js');
+if (!packFiles.length){
+  console.log(`\n❌ nenhum pacote de flashcards encontrado${argSubject ? ' para ' + argSubject : ''} em public/js/library1-flashcards/`);
+  process.exit(1);
+}
+
 const sandbox = { window:{} };
-new Function('window', fs.readFileSync(REPO + '/public/js/library1-flashcards/allergy-and-immunology.js','utf8'))(sandbox.window);
+for (const f of packFiles) new Function('window', fs.readFileSync(PACK_DIR + '/' + f,'utf8'))(sandbox.window);
 const packs = sandbox.window.LIBRARY1_FLASHCARDS;
-const cards = packs['allergy-and-immunology']['acute-rheumatic-fever'];
+
+/* lista de (subject, topic) a conferir */
+const alvos = [];
+for (const subj of Object.keys(packs || {})){
+  if (argSubject && subj !== argSubject) continue;
+  for (const top of Object.keys(packs[subj] || {})){
+    if (argTopic && top !== argTopic) continue;
+    alvos.push([subj, top]);
+  }
+}
+if (!alvos.length){
+  console.log(`\n❌ nada a conferir: ${argSubject||'(todos)'} / ${argTopic||'(todos)'} não existe nos pacotes`);
+  process.exit(1);
+}
+console.log(`   conferindo ${alvos.length} tópico(s): ${alvos.map(a=>a[1]).join(', ')}`);
+
+const [SUBJ, TOP] = alvos[0];
+const cards = packs[SUBJ][TOP];
 
 ok('pacote existe', !!cards);
 ok('tem exatamente 30 cards', cards.length===30, `${cards.length} cards`);

@@ -167,6 +167,22 @@ if(exists(FC_DIR)){
 }
 
 console.log();
+/* 8. pacote de flashcards registrado no app.html
+   O conteúdo da Library 1 carrega sob demanda, mas os flashcards são <script>
+   estático. Um Subject novo sem a linha no app.html tem os cards no repositório e
+   invisíveis para todo mundo — e nenhum teste pegava isso, porque o pacote existe,
+   só não é carregado. A §11.4 chama de "o passo mais fácil de esquecer". */
+console.log('8. pacote de flashcards carregado no app.html');
+{
+  const dir = path.join(REPO, 'public/js/library1-flashcards');
+  const html = fs.readFileSync(path.join(REPO, 'public/app.html'), 'utf8');
+  for (const f of fs.readdirSync(dir).filter(x => x.endsWith('.js') && !x.startsWith('_'))){
+    if (html.includes('library1-flashcards/' + f)) pass();
+    else fail(`${f} existe mas NÃO está carregado em public/app.html`,
+              'sem essa linha os cards nunca são semeados para ninguém (§11.4)');
+  }
+}
+
 console.log(`${checks} verificação(ões) ok, ${problems} divergência(s)`);
 if(problems){
   console.log('\n❌ o doc está fora de sincronia com o código — corrigir antes de commitar.');
