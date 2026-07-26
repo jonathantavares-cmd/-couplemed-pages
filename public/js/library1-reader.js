@@ -365,7 +365,10 @@
         else if(act === 'exit') exitQuiz(r);
         return;
       }
-      // a página não mostra imagem aberta; só a referência abre (regra do usuário)
+      // no ARTIGO a página não mostra imagem (só a referência abre). Já dentro do Create Test
+      // a figura é exibida e clicar nela amplia — igual ao QBank 1 (§11.2).
+      const qfig = e.target.closest && e.target.closest('figure[data-asset]');
+      if(qfig){ openLightbox(r, qfig.dataset.asset); return; }
     }, { signal: r.uiAbort.signal });
 
     updateFontLabel(r);
@@ -719,15 +722,25 @@
       </button>`;
     }).join('');
 
-    const imgHtml = item.img && r.content.assets && r.content.assets[item.img]
-      ? `<p class="l1r-q-img"><a class="l1r-ref" data-ref="${esc(item.img)}">${esc(r.lang==='pt'?'ver imagem':'view image')}</a></p>` : '';
+    /* Imagem da questão: no Create Test ela é EXIBIDA na página da questão, ao contrário da
+       página do tópico (onde só abre no clique). É o mesmo padrão das questões do QBank 1
+       (`renderQImage`/`renderExplImage` em qbank.js) — regra do usuário, §11.2. Continua
+       clicável para ampliar. */
+    const quizFigure = (key, extraClass) => {
+      const v = key && assetSrc(r, key, r.lang);
+      if(!v) return '';
+      return `<figure class="l1r-q-figure${extraClass?' '+extraClass:''}" data-asset="${esc(key)}">
+        <img src="${esc(v.src)}" alt="${esc(v.alt)}" loading="lazy" decoding="async" />
+        ${v.alt ? `<figcaption>${esc(v.alt)}</figcaption>` : ''}
+      </figure>`;
+    };
+    const imgHtml = quizFigure(item.img);
 
     let explHtml = '';
     if(revealed){
       const wrong = Object.entries(qField(item, r.lang, 'explI') || {})
         .map(([k,v])=>`<li><b>${k}.</b> ${esc(v)}</li>`).join('');
-      const explImgHtml = item.explImg && r.content.assets && r.content.assets[item.explImg]
-        ? `<p class="l1r-q-img"><a class="l1r-ref" data-ref="${esc(item.explImg)}">${esc(r.lang==='pt'?'ver imagem':'view image')}</a></p>` : '';
+      const explImgHtml = quizFigure(item.explImg, 'l1r-q-figure-expl');
       explHtml = `<div class="l1r-q-expl">
         <h4>${esc(chosen === item.correct ? L.ctCorrect : L.ctIncorrect)}</h4>
         ${explImgHtml}

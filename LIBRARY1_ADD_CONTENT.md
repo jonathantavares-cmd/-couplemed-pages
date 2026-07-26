@@ -610,6 +610,21 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 >
 > **O que deu errado antes:** a auditoria exigia que *toda* mídia declarada estivesse referenciada no texto do artigo. Quando a Q3 trouxe uma imagem no enunciado e outra na explicação, a regra empurrou para a decisão de **não incluí-las** — o oposto do que o usuário quer. A auditoria foi corrigida: mídia usada por uma questão é válida **sem** referência no artigo, e a checagem de "mídia inalcançável" passou a considerar artigo **e** questões.
 >
+> ### As imagens do Create Test são EXIBIDAS na página da questão
+>
+> **Regra do usuário (2026-07-25):** *"as imagens no Create Test devem ser incluídas na página da questão, diferente de como ocorre na página do tópico; as questões do Create Test devem seguir o mesmo padrão das questões do QBank 1, incluir imagens tanto nos enunciados como nas explicações."*
+>
+> Ou seja, **o comportamento aqui é o OPOSTO do da página do tópico**:
+>
+> | | Página do tópico (artigo) | Questão do Create Test |
+> |---|---|---|
+> | A imagem aparece? | **não** — só abre ao clicar no nome (§7.5) | **sim, exibida na própria questão** |
+> | Padrão seguido | material de origem do artigo | **o mesmo do QBank 1** (`renderQImage` / `renderExplImage` em `qbank.js`) |
+> | Onde entra | — | `img` logo após a vinheta; `explImg` no topo da explicação, antes do texto |
+> | Clicar amplia? | sim | sim (continua abrindo a janela com zoom) |
+>
+> Cada figura sai com a legenda vinda do `alt`, com `loading="lazy"` e altura máxima para não empurrar as alternativas para fora da tela. E, como todo o resto, **troca de idioma junto com o texto**.
+>
 > **Mídia de questão pode vir em um só idioma.** Os prints das questões costumam vir só em inglês. Nesse caso, declarar `en` e `pt` apontando para o **mesmo arquivo** — a imagem entra de todo modo — e **avisar o usuário** de que aquela figura não tem versão PT. Nunca deixar de incluir por falta do par.
 
 **Formato das questões:** o **mesmo schema de campos do QBank** (`vignette`, `q`, `options`, `correct`, `peer`, `difficulty`, `explC`, `explI`, `objective`, `ptTranslation`) — inclusive a **regra de dificuldade** (`peer[correct]` ≥70 = easy, 50-69 = medium, <50 = hard), que a auditoria confere. O `id` usa o prefixo **`L1Q-`** para nunca colidir com um id do QBank. Campo opcional `img` aponta uma chave de `assets`, e a imagem abre por clique como no resto da página.
@@ -680,4 +695,5 @@ Ao terminar cada uma: rodar a auditoria (§11.1), depois o ✅ (§11), depois co
 | 2026-07-25 | **Retomada automática por hora documentada** (§2.4), a pedido do usuário: quando o limite de uso bate e ele **não troca de conta**, arma-se `CronCreate` de hora em hora (minuto não-cheio) para tentar retomar sozinho, e apaga-se com `CronDelete` ao terminar — ou imediatamente, se houver troca de conta (senão duas sessões trabalham no mesmo tópico). Parâmetros e limitações conferidos na especificação real da ferramenta, incluindo dois pontos que o doc do QBank não registra: `durable` **não tem efeito** e tarefas recorrentes têm jitter de até 10% do período. |
 | 2026-07-25 | **Regra corrigida a pedido do usuário (§11.2):** TODA imagem que vem no print da questão entra sempre — do enunciado (`img`) e da explicação (`explImg`) — **independente de estar referenciada no artigo**. A regra anterior da auditoria (toda mídia tinha de ser citada no artigo) empurrou para a decisão errada de deixar as imagens da Q3 de fora. A auditoria passou a considerar artigo **e** questões, e a aceitar `singleLang:true` para figura que veio só num idioma. |
 | 2026-07-25 | **§10.1 registra um conflito real:** duas sessões trabalharam no mesmo tópico ao mesmo tempo e quase duplicaram a mídia da Q3. Regras novas: `git status` antes de editar conteúdo, nunca reverter arquivo com trabalho não commitado alheio, e desfazer o próprio pedaço cirurgicamente. |
+| 2026-07-25 | **Imagens do Create Test passam a ser EXIBIDAS na página da questão** (§11.2), no mesmo padrão do QBank 1 — `img` após a vinheta e `explImg` no topo da explicação —, ao contrário da página do tópico, onde a mídia só abre no clique. Continuam clicáveis para ampliar e trocam de idioma junto com o texto. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

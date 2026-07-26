@@ -217,6 +217,27 @@
 .l1r-q-vig{ margin:0 0 12px; line-height:1.7 }
 .l1r-q-stem{ margin:0 0 14px }
 .l1r-q-img{ margin:0 0 12px }
+/* Figura DENTRO da questão do Create Test — exibida na página, como no QBank 1
+   (na página do tópico é o contrário: só abre no clique). Clicar amplia. */
+.l1r-q-figure{
+  margin:14px 0; padding:10px;
+  border:1px solid var(--l3r-line); border-radius:10px;
+  background:var(--l3r-card);
+  display:flex; flex-direction:column; gap:8px; align-items:center;
+  cursor:zoom-in;
+}
+.l1r-q-figure:hover{ border-color:color-mix(in srgb, var(--l3r-blue) 45%, var(--l3r-line)) }
+.l1r-q-figure img{
+  max-width:100%; max-height:460px; width:auto; height:auto;
+  border-radius:6px; background:#fff; margin:0;
+}
+.l1r-q-figure figcaption{
+  font-size:.84em; line-height:1.45; color:var(--l3r-muted); text-align:center; max-width:70ch;
+}
+/* a da explicação vem logo abaixo do título "Correto/Incorreto", antes do texto */
+.l1r-q-figure-expl{ margin-top:4px }
+@media (max-width:520px){ .l1r-q-figure img{ max-height:320px } }
+
 .l1r-q-opts{ display:flex; flex-direction:column; gap:8px }
 .l1r-q-opt{
   display:flex; align-items:flex-start; gap:10px; width:100%;

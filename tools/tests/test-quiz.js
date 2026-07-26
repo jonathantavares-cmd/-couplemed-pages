@@ -30,8 +30,12 @@ document.createElement = function(tag){
   if(tag==='link') setTimeout(()=>el.dispatchEvent(new window.Event('load')),0);
   if(tag==='script') setTimeout(()=>{
     window.LIBRARY1_CONTENT = { 'allergy-and-immunology': { 'arf': {
-      assets: { 'image-1': { kind:'image', n:1,
-        en:{key:'x/i1-en.webp',alt:'Histology'}, pt:{key:'x/i1-pt.webp',alt:'Histologia'} } },
+      assets: {
+        'image-1': { kind:'image', n:1,
+          en:{key:'x/i1-en.webp',alt:'Histology'}, pt:{key:'x/i1-pt.webp',alt:'Histologia'} },
+        'image-2': { kind:'image', n:2,
+          en:{key:'x/i2-en.webp',alt:'Carditis'}, pt:{key:'x/i2-pt.webp',alt:'Cardite'} }
+      },
       quiz: [
         { id:'L1Q-ARF-001',
           vignette:'A 10-year-old boy has dyspnea and palpitations.', q:'Which most likely preceded this?',
@@ -41,6 +45,7 @@ document.createElement = function(tag){
           explI:{A:'Not related.', C:'No chemo history.'},
           objective:'ARF is an immune-mediated complication of GAS pharyngitis.',
           img:'image-1',
+          explImg:'image-2',
           ptTranslation:{ vignette:'Um menino de 10 anos tem dispneia e palpitacoes.', q:'O que mais provavelmente precedeu?',
             options:['Exposicao a antibiotico','Infeccao bacteriana','Quimioterapia'],
             explC:'A ARF segue faringite por GAS nao tratada.',
@@ -97,7 +102,8 @@ setTimeout(()=>{
   ok('3 alternativas', host.querySelectorAll('[data-q-opt]').length===3);
   ok('não mostra % antes de responder', !host.querySelector('.l1r-q-peer'));
   ok('Responder desabilitado sem escolha', q('[data-q="submit"]').disabled);
-  ok('imagem da questão abre por referência', !!q('.l1r-q-img [data-ref="image-1"]'));
+  ok('imagem do ENUNCIADO é EXIBIDA na página da questão (padrão QBank)', !!q('.l1r-q-figure img') && q('.l1r-q-figure img').getAttribute('src')==='/assets/library1/x/i1-en.webp', q('.l1r-q-figure') ? q('.l1r-q-figure img').getAttribute('src') : 'nenhuma figura');
+  ok('imagem do enunciado tem legenda', /Histology/.test(q('.l1r-q-figure figcaption').textContent));
 
   click(host.querySelector('[data-q-opt="C"]'));
   ok('escolha marcada', host.querySelector('[data-q-opt="C"]').classList.contains('l1r-q-opt-chosen'));
@@ -109,6 +115,10 @@ setTimeout(()=>{
   ok('explicação da correta', /follows untreated GAS/.test(q('.l1r-q-expl').textContent));
   ok('por que as outras estão erradas', /Not related/.test(q('.l1r-q-wrong').textContent));
   ok('objetivo educacional', /immune-mediated complication/.test(q('.l1r-q-obj').textContent));
+  ok('imagem da EXPLICAÇÃO é exibida depois de responder', !!q('.l1r-q-figure-expl img') && q('.l1r-q-figure-expl img').getAttribute('src')==='/assets/library1/x/i2-en.webp', q('.l1r-q-figure-expl')?'src errado':'nenhuma figura de explicação');
+  ok('as duas figuras (enunciado + explicação) na mesma tela', host.querySelectorAll('.l1r-q-figure').length===2, host.querySelectorAll('.l1r-q-figure').length+' figuras');
+  ok('clicar na figura amplia', (host.querySelector('.l1r-q-figure').dispatchEvent(new window.Event('click',{bubbles:true})), !!document.querySelector('.l1r-lightbox')));
+  document.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape'}));
   ok('não dá para trocar depois de responder', host.querySelector('[data-q-opt="A"]').disabled);
 
   console.log('\n== TRADUÇÃO DENTRO DO TESTE ==');
@@ -117,6 +127,7 @@ setTimeout(()=>{
   ok('alternativas traduzem', /Infeccao bacteriana/.test(host.querySelector('[data-q-opt="B"]').textContent));
   ok('explicação traduz', /faringite por GAS nao tratada/.test(q('.l1r-q-expl').textContent));
   ok('resposta escolhida se mantém', host.querySelector('[data-q-opt="C"]').classList.contains('l1r-q-opt-wrong'));
+  ok('figuras da questão trocam de idioma', q('.l1r-q-figure img').getAttribute('src')==='/assets/library1/x/i1-pt.webp' && /Histologia/.test(q('.l1r-q-figure figcaption').textContent), q('.l1r-q-figure img').getAttribute('src'));
   globalLang('en');
 
   console.log('\n== NAVEGAÇÃO E FIM ==');
