@@ -70,8 +70,11 @@ const cloze = cards.filter(c=>/\{\{c\d+::/.test(c.en.front));
 ok('usa cloze no padrão Anki em parte dos cards', cloze.length>=3, `${cloze.length} cloze`);
 const withImg = cards.filter(c=>!!c.img);
 ok('aproveita imagens do tópico', withImg.length>=3, `${withImg.length} com imagem`);
+// o caminho é derivado do tópico auditado — estava fixo em acute-rheumatic-fever
+// até 2026-07-26, então passava ✅ com a imagem de OUTRO tópico.
+const IMG_BASE = `/assets/library1/${SUBJ}/${TOP}/`;
 ok('imagens apontam para assets publicados da Library 1',
-   withImg.every(c=>/^\/assets\/library1\/allergy-and-immunology\/acute-rheumatic-fever\//.test(c.img)));
+   withImg.every(c=>c.img.startsWith(IMG_BASE)), IMG_BASE);
 
 console.log('\n== AS IMAGENS REFERENCIADAS EXISTEM EM DISCO ==');
 const srcs = [...new Set(cards.filter(c=>c.img).map(c=>c.img))];
@@ -114,7 +117,11 @@ function boot(prevDB){
 
 const db1 = boot(null);
 const seeded = (db1.cards||[]).filter(c=>c.source==='library1');
-ok('semeia os 30 cards no primeiro boot', seeded.length===30, `${(db1.cards||[]).length} cards no total, ${seeded.length} da Library 1`);
+// a semeadura cobre TODOS os tópicos publicados, não só o auditado: 30 por tópico
+const TOPICOS = Object.values(packs).reduce((a,p)=>a+Object.keys(p).length, 0);
+const ESPERADO = 30 * TOPICOS;
+ok(`semeia 30 cards por tópico no primeiro boot (${TOPICOS} tópico(s) = ${ESPERADO})`,
+   seeded.length===ESPERADO, `${(db1.cards||[]).length} cards no total, ${seeded.length} da Library 1`);
 ok('marcados com source:"library1"', seeded.every(c=>c.source==='library1'));
 ok('deck criado com o NOME DO TÓPICO', (db1.decks||[]).some(d=>d.name==='Acute rheumatic fever'), (db1.decks||[]).map(d=>d.name).join(','));
 ok('deck tem nome em português também', (db1.decks||[]).some(d=>d.namePt==='Febre reumática aguda'));
@@ -130,7 +137,7 @@ const target = touched.cards.find(c=>c.id==='L1FC-ARF-001');
 target.reps = 7; target.state = 'review'; target.interval = 12; target.ease = 2.7;
 const db2 = boot(touched);
 const seeded2 = (db2.cards||[]).filter(c=>c.source==='library1');
-ok('segundo boot NÃO duplica', seeded2.length===30, `${seeded2.length} cards`);
+ok('segundo boot NÃO duplica', seeded2.length===ESPERADO, `${seeded2.length} cards`);
 const after = db2.cards.find(c=>c.id==='L1FC-ARF-001');
 ok('progresso de estudo preservado', after.reps===7 && after.state==='review' && after.interval===12,
    `reps=${after.reps} state=${after.state}`);

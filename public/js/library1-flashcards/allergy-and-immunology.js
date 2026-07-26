@@ -311,3 +311,298 @@ window.LIBRARY1_FLASHCARDS['allergy-and-immunology'] = {
   ]
 };
 })();
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TÓPICO 2 — Allergic/irritant contact dermatitis
+   Dermatite de contato alérgica/irritativa                  (2026-07-26)
+
+   30 cards bilíngues, mesma regra da §11.4. Distribuição:
+     12 recall · 7 contrast · 4 image · 3 cloze · 2 why · 2 case
+   Sem card `mnemonic`: o material deste tópico NÃO traz mnemônico, e §1
+   proíbe inventar conteúdo que não está no artigo — o card virou recall.
+   IIFE própria: as constantes do tópico anterior não valem aqui.
+   ════════════════════════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
+const A = '/assets/library1/allergy-and-immunology/allergic-irritant-contact-dermatitis/';
+const SYS   = 'allergy_immunology';
+const SUBJ  = 'allergy_immunology::principles_immunology';   // hipersensibilidade tipo IV
+const TOPIC = { en:'Allergic/irritant contact dermatitis', pt:'Dermatite de contato alérgica/irritativa' };
+const TAGS  = ['Library1','ContactDermatitis','Step1','ACD','ICD'];
+let n = 0;
+const card = (kind, en, pt, extra) => Object.assign({
+  id: `L1FC-AICD-${String(++n).padStart(3,'0')}`,
+  kind, en, pt, tags: TAGS, sys: SYS, subj: SUBJ, topic: TOPIC
+}, extra || {});
+
+window.LIBRARY1_FLASHCARDS['allergy-and-immunology']['allergic-irritant-contact-dermatitis'] = [
+
+  /* ═══════════ MECANISMO ═══════════ */
+  card('recall',
+    { front:'Contact dermatitis has 2 forms. Name them and the mechanism of each.',
+      back:'<b>Irritant (ICD)</b> — an irritant <b>disrupts the skin barrier</b>, causing nonspecific inflammation.<br><b>Allergic (ACD)</b> — an allergen causes a <b>type IV (delayed-type) hypersensitivity</b> reaction.',
+      why:'The two overlap clinically and are virtually indistinguishable histologically, so the mechanism — not the rash — is what separates them on the exam.' },
+    { front:'A dermatite de contato tem 2 formas. Cite-as e o mecanismo de cada uma.',
+      back:'<b>Irritante (CDI)</b> — um irritante <b>rompe a barreira da pele</b>, causando inflamação inespecífica.<br><b>Alérgica (ACD)</b> — um alérgeno causa uma reação de <b>hipersensibilidade do tipo IV (tipo retardado)</b>.',
+      why:'As duas se sobrepõem clinicamente e são praticamente indistinguíveis na histologia, então é o mecanismo — não a erupção — que as separa na prova.' }),
+
+  card('cloze',
+    { front:'ACD is a type {{c1::IV}} (delayed-type) hypersensitivity reaction that occurs in {{c2::2}} distinct phases: {{c3::sensitization}} and {{c4::elicitation}}.',
+      back:'Type IV · 2 phases · sensitization then elicitation.',
+      why:'Every question about timing (10-14 days vs 2-3 days) hangs on knowing which phase is being described.' },
+    { front:'A ACD é uma reação de hipersensibilidade do tipo {{c1::IV}} (tipo retardado) que ocorre em {{c2::2}} fases distintas: {{c3::sensibilização}} e {{c4::elicitação}}.',
+      back:'Tipo IV · 2 fases · sensibilização e depois elicitação.',
+      why:'Toda questão sobre tempo (10-14 dias vs 2-3 dias) depende de saber qual fase está sendo descrita.' }),
+
+  card('recall',
+    { front:'How long does the sensitization phase of ACD take, and does it produce a rash?',
+      back:'<b>10-14 days</b> — and it produces <b>no cutaneous lesions</b>.',
+      hint:'Think about what is happening in the lymph node, not in the skin.',
+      why:'This is why a patient can be exposed and stay asymptomatic: the first encounter only builds the hapten-specific T-cell clone.' },
+    { front:'Quanto tempo leva a fase de sensibilização da ACD, e ela produz erupção?',
+      back:'<b>10-14 dias</b> — e <b>não produz lesões cutâneas</b>.',
+      hint:'Pense no que acontece no linfonodo, não na pele.',
+      why:'É por isso que o paciente pode ser exposto e ficar assintomático: o primeiro contato apenas constrói o clone de células T específicas do hapteno.' }),
+
+  card('recall',
+    { front:'After reexposure to a sensitized allergen, when do the lesions of acute ACD appear?',
+      back:'<b>24-72 hours</b> (range <b>4-96 hr</b>); the elicitation phase typically occurs within <b>2-3 days</b>.',
+      why:'The delay is the fingerprint of type IV. A reaction in minutes is type I (mast cells/IgE), not ACD.' },
+    { front:'Após a reexposição a um alérgeno já sensibilizado, quando aparecem as lesões da ACD aguda?',
+      back:'<b>24-72 horas</b> (variando de <b>4 a 96 horas</b>); a fase de elicitação normalmente ocorre em <b>2-3 dias</b>.',
+      why:'O atraso é a impressão digital do tipo IV. Reação em minutos é tipo I (mastócitos/IgE), não ACD.' }),
+
+  card('recall',
+    { front:'Which cutaneous cell takes up the hapten in ACD, and on which molecules does it present it?',
+      back:'The cutaneous dendritic (<b>Langerhans</b>) cell — presenting the hapten on <b>MHC-I and MHC-II</b> as hapten-conjugated peptides, then travelling to the draining lymph nodes.',
+      why:'Presenting on both MHC classes is why <i>both</i> CD4+ and CD8+ T cells get activated and clonally expanded.' },
+    { front:'Qual célula cutânea capta o hapteno na ACD e em quais moléculas o apresenta?',
+      back:'A célula dendrítica cutânea (de <b>Langerhans</b>) — apresentando o hapteno em <b>MHC-I e MHC-II</b> como peptídeos conjugados com hapteno, e então viajando para os linfonodos drenantes.',
+      why:'Apresentar nas duas classes de MHC é o motivo de <i>ambas</i> as células T CD4+ e CD8+ serem ativadas e expandidas clonalmente.' }),
+
+  card('recall',
+    { front:'In urushiol-induced contact dermatitis (poison ivy), which cell is the primary effector and what does it do?',
+      back:'<b>CD8+ T cells</b> — they <b>directly destroy keratinocytes</b> expressing haptenated proteins.',
+      hint:'Direct killing or indirect, via macrophages?',
+      why:'Contact dermatitis can be CD8+-driven (direct) or CD4+ Th1-driven (indirect, by activating macrophages); poison ivy is the CD8+ example.' },
+    { front:'Na dermatite de contato induzida por urushiol (hera venenosa), qual célula é a efetora primária e o que ela faz?',
+      back:'As <b>células T CD8+</b> — elas <b>destroem diretamente os queratinócitos</b> que expressam proteínas haptenadas.',
+      hint:'Morte direta ou indireta, via macrófagos?',
+      why:'A dermatite de contato pode ser conduzida por CD8+ (direta) ou por Th1 CD4+ (indireta, ativando macrófagos); a hera venenosa é o exemplo de CD8+.' }),
+
+  card('why',
+    { front:'Why can ICD appear on the very first exposure, while ACD cannot?',
+      back:'ICD is a <b>nonspecific</b> inflammatory response to barrier damage — no immune memory needed. ACD requires a prior <b>sensitization</b> phase (10-14 days) to create hapten-specific T cells.',
+      why:'The exception that proves the rule: a highly antigenic antigen (eg, urushiol) can sensitize and then elicit after a single first exposure.' },
+    { front:'Por que a CDI pode aparecer já na primeira exposição, e a ACD não?',
+      back:'A CDI é uma resposta inflamatória <b>inespecífica</b> ao dano de barreira — não precisa de memória imune. A ACD exige uma fase prévia de <b>sensibilização</b> (10-14 dias) para criar células T específicas do hapteno.',
+      why:'A exceção que confirma a regra: um antígeno altamente antigênico (por exemplo, urushiol) pode sensibilizar e depois elicitar após uma única primeira exposição.' }),
+
+  card('image',
+    { front:'This figure shows the 2 phases of urushiol-induced contact dermatitis. What happens in each?',
+      back:'<b>Sensitization</b>: Langerhans cells take up urushiol and transport the hapten to the lymph node, activating hapten-specific CD4+ (Th1) and CD8+ T cells.<br><b>Elicitation</b>: on reexposure, CD8+ T cell-induced keratinocyte apoptosis and release of inflammatory mediators.',
+      why:'Seeing where the hapten goes (skin → node → back to skin) fixes the sequence better than memorizing the phase names.' },
+    { front:'Esta figura mostra as 2 fases da dermatite de contato induzida por urushiol. O que acontece em cada uma?',
+      back:'<b>Sensibilização</b>: as células de Langerhans captam o urushiol e transportam o hapteno ao linfonodo, ativando células T CD4+ (Th1) e CD8+ específicas do hapteno.<br><b>Elicitação</b>: na reexposição, apoptose de queratinócitos induzida por células T CD8+ e liberação de mediadores inflamatórios.',
+      why:'Ver para onde o hapteno vai (pele → linfonodo → volta à pele) fixa a sequência melhor que decorar o nome das fases.' },
+    { img: A+'figure-1-en.webp',
+      imgAlt:{ en:'Urushiol-induced contact dermatitis', pt:'Dermatite de contato induzida por Urushiol' } }),
+
+  /* ═══════════ ALÉRGENOS E APRESENTAÇÃO ═══════════ */
+  card('recall',
+    { front:'Name the common allergens that cause ACD.',
+      back:'<b>Nickel</b> (jewelry, belt buckles), <b>fragrances</b>, <b>preservatives</b> (cosmetics, skin care products), <b>topical medications</b>, <b>dyes</b>, <b>latex</b>, <b>rubber</b>, <b>formaldehyde</b> (artificial nails), and <b>urushiol</b> (poison ivy, oak, sumac).',
+      why:'The vignette rarely says "allergen": it says watch, belt buckle, hair dye, artificial nails, or a walk in the woods.' },
+    { front:'Cite os alérgenos comuns que causam ACD.',
+      back:'<b>Níquel</b> (joias, fivelas de cinto), <b>fragrâncias</b>, <b>conservantes</b> (cosméticos, produtos para a pele), <b>medicamentos tópicos</b>, <b>corantes</b>, <b>látex</b>, <b>borracha</b>, <b>formaldeído</b> (unhas artificiais) e <b>urushiol</b> (hera venenosa, carvalho e sumagre venenosos).',
+      why:'A vinheta raramente diz "alérgeno": ela diz relógio, fivela de cinto, tintura de cabelo, unhas artificiais ou uma caminhada no bosque.' }),
+
+  card('recall',
+    { front:'Nickel-induced ACD causes symptoms at which characteristic locations?',
+      back:'<b>Medial beltline</b> (belt buckles), <b>wrists</b> (watches, bracelets), <b>earlobes</b> (earrings), and <b>perioral areas</b> (musical instruments).',
+      why:'Distribution is the diagnosis here: the rash maps the metal, not the immune system.' },
+    { front:'A ACD induzida por níquel causa sintomas em quais locais característicos?',
+      back:'<b>Linha do cinto medial</b> (fivelas), <b>pulsos</b> (relógios, pulseiras), <b>lóbulos das orelhas</b> (brincos) e <b>áreas periorais</b> (instrumentos musicais).',
+      why:'Aqui a distribuição é o diagnóstico: a erupção mapeia o metal, não o sistema imune.' }),
+
+  card('why',
+    { front:'Why does a nickel watch cause dermatitis, mechanistically?',
+      back:'<b>Corrosion of the metal alloy by electrolytes in sweat</b> releases <b>soluble metal ions</b>, which trigger the hypersensitivity reaction.',
+      hint:'What has to happen to solid metal before the immune system can see it?',
+      why:'Solid nickel is inert to the immune system — it is the dissolved ion acting as a hapten that gets presented.' },
+    { front:'Mecanisticamente, por que um relógio de níquel causa dermatite?',
+      back:'A <b>corrosão da liga metálica por eletrólitos do suor</b> libera <b>íons metálicos solúveis</b>, que desencadeiam a reação de hipersensibilidade.',
+      hint:'O que precisa acontecer com o metal sólido antes de o sistema imune conseguir vê-lo?',
+      why:'O níquel sólido é inerte para o sistema imune — é o íon dissolvido, agindo como hapteno, que é apresentado.' }),
+
+  card('contrast',
+    { front:'Acute vs chronic ICD: what exposure causes each, and how does each look?',
+      back:'<b>Acute</b>: a <b>single</b> exposure to a <b>strong</b> irritant (eg, bleach) → burning or painful erythema, edema, vesicles, bullae.<br><b>Chronic</b>: <b>repeated</b> exposure to a <b>mild</b> irritant (eg, water, detergent) over weeks to months → scaling, lichenification, fissuring, most commonly on the <b>hands</b>.',
+      why:'One strong hit blisters; many weak hits thicken. The occupational history tells you which.' },
+    { front:'CDI aguda vs crônica: qual exposição causa cada uma e como cada uma se apresenta?',
+      back:'<b>Aguda</b>: exposição <b>única</b> a um irritante <b>forte</b> (por exemplo, alvejante) → eritema ardente ou doloroso, edema, vesículas, bolhas.<br><b>Crônica</b>: exposição <b>repetida</b> a um irritante <b>leve</b> (por exemplo, água, detergente) por semanas a meses → descamação, liquenificação, fissura, mais comumente nas <b>mãos</b>.',
+      why:'Um golpe forte forma bolha; muitos golpes leves espessam. A história ocupacional diz qual é.' }),
+
+  card('contrast',
+    { front:'Acute vs chronic ACD: which lesions distinguish them?',
+      back:'<b>Acute</b>: intensely pruritic, erythematous, <b>indurated plaques with vesicles</b>, bullae, mild scaling.<br><b>Chronic</b>: pruritus, <b>lichenification and fissuring</b> — the vesicles and bullae are <b>typically not seen</b>.',
+      why:'"No vesicles" does not rule out ACD — it points to the chronic form.' },
+    { front:'ACD aguda vs crônica: quais lesões as distinguem?',
+      back:'<b>Aguda</b>: placas intensamente pruriginosas, eritematosas e <b>endurecidas, com vesículas</b>, bolhas e descamação leve.<br><b>Crônica</b>: prurido, <b>liquenificação e fissura</b> — as vesículas e bolhas <b>normalmente não são vistas</b>.',
+      why:'"Sem vesículas" não exclui ACD — aponta para a forma crônica.' }),
+
+  card('image',
+    { front:'This is the hallmark histologic finding of acute contact dermatitis. Name it and describe what is happening.',
+      back:'<b>Spongiosis</b> — dermal edema from leaky vessels seeps into the <b>epidermal intercellular spaces</b>, pulling apart the desmosomes and sometimes forming <b>intraepidermal vesicles</b>. Epidermal thickness is <b>normal</b>.',
+      why:'Widened space between keratinocytes with stretched intercellular bridges is the microscopic version of the clinical vesicle.' },
+    { front:'Este é o achado histológico marcante da dermatite de contato aguda. Nomeie-o e descreva o que está acontecendo.',
+      back:'<b>Espongiose</b> — o edema dérmico de vasos permeáveis infiltra-se nos <b>espaços intercelulares epidérmicos</b>, separando os desmossomos e às vezes formando <b>vesículas intraepidérmicas</b>. A espessura da epiderme é <b>normal</b>.',
+      why:'O espaço alargado entre queratinócitos com pontes intercelulares esticadas é a versão microscópica da vesícula clínica.' },
+    { img: A+'image-7-en.webp',
+      imgAlt:{ en:'Spongiosis', pt:'Espongiose' } }),
+
+  card('recall',
+    { front:'With chronic antigen or irritant exposure, which 3 histologic features become prominent?',
+      back:'<b>Acanthosis</b> (epidermal thickening), <b>hyperkeratosis</b> (stratum corneum thickening), and <b>hypergranulosis</b> (stratum granulosum thickening) — while spongiosis and the inflammatory infiltrate become <b>minimal</b>.',
+      hint:'Chronic = thick, not wet.',
+      why:'Acute is edema; chronic is thickening. Same disease, opposite microscopic emphasis.' },
+    { front:'Com exposição crônica a antígeno ou irritante, quais 3 achados histológicos tornam-se proeminentes?',
+      back:'<b>Acantose</b> (espessamento epidérmico), <b>hiperqueratose</b> (espessamento do estrato córneo) e <b>hipergranulose</b> (espessamento do estrato granuloso) — enquanto a espongiose e o infiltrado inflamatório tornam-se <b>mínimos</b>.',
+      hint:'Crônico = espesso, não úmido.',
+      why:'Agudo é edema; crônico é espessamento. Mesma doença, ênfase microscópica oposta.' }),
+
+  card('recall',
+    { front:'ICD and ACD are diagnosed how? Name the 3 diagnostic aspects that matter.',
+      back:'<b>Clinically</b>, by history and physical: (1) <b>distribution</b> of the rash reflecting contact areas; (2) <b>resolution</b> on withdrawal and <b>recurrence</b> on reexposure; (3) the <b>temporal relationship</b> — 2-3 day delay for ACD, immediate eruption after a strong irritant for ICD.',
+      why:'A rash in a noncontact area should raise suspicion for an alternate diagnosis — distribution is the first filter.' },
+    { front:'Como se diagnosticam a CDI e a ACD? Cite os 3 aspectos diagnósticos que importam.',
+      back:'<b>Clinicamente</b>, por história e exame físico: (1) <b>distribuição</b> da erupção refletindo as áreas de contato; (2) <b>resolução</b> na retirada e <b>recorrência</b> na reexposição; (3) a <b>relação temporal</b> — atraso de 2-3 dias na ACD, erupção imediata após irritante forte na CDI.',
+      why:'Uma erupção em área sem contato deve levantar suspeita de diagnóstico alternativo — a distribuição é o primeiro filtro.' }),
+
+  card('image',
+    { front:'What test is shown, and when is the skin read after the patches are removed?',
+      back:'<b>Patch testing</b> — the skin is examined for <b>erythema and vesicles 48 hours after patch removal</b>, because ACD is a delayed-type reaction. The associated compound is then identified as the allergen and should be avoided.',
+      why:'Reading it immediately would miss the reaction entirely: the whole point of "delayed-type" is that the T cells need time.' },
+    { front:'Qual exame está mostrado, e quando a pele é avaliada após a remoção dos adesivos?',
+      back:'<b>Teste de contato (patch testing)</b> — a pele é examinada quanto a <b>eritema e vesículas 48 horas após a remoção do adesivo</b>, porque a ACD é uma reação do tipo retardado. O composto associado é então identificado como o alérgeno e deve ser evitado.',
+      why:'Ler imediatamente perderia a reação por completo: o sentido de "tipo retardado" é que as células T precisam de tempo.' },
+    { img: A+'image-9-en.webp',
+      imgAlt:{ en:'Patch testing', pt:'Teste de patch' } }),
+
+  card('contrast',
+    { front:'ACD/ICD vs <b>atopic dermatitis</b>: what distinguishes them?',
+      back:'Atopic dermatitis has a characteristic <b>bilateral flexural distribution</b> in adults (antecubital and popliteal fossae) with <b>no allergen/irritant exposure</b>, plus a <b>family history of atopic dermatitis or personal history of atopy</b> (allergic rhinitis, asthma). It is caused by immune dysregulation and genetic barrier dysfunction (eg, <b>filaggrin mutation</b>).',
+      why:'The eczematous rash itself can be indistinguishable — the distribution and the atopic history do the work.' },
+    { front:'ACD/CDI vs <b>dermatite atópica</b>: o que as distingue?',
+      back:'A dermatite atópica tem <b>distribuição flexural bilateral</b> característica em adultos (fossas antecubitais e poplíteas), <b>sem exposição a alérgeno/irritante</b>, além de <b>história familiar de dermatite atópica ou pessoal de atopia</b> (rinite alérgica, asma). É causada por desregulação imune e disfunção genética de barreira (por exemplo, <b>mutação da filagrina</b>).',
+      why:'A erupção eczematosa em si pode ser indistinguível — a distribuição e a história atópica é que resolvem.' }),
+
+  card('contrast',
+    { front:'ACD/ICD vs <b>psoriasis</b>: which findings settle it?',
+      back:'Psoriasis: mildly pruritic erythematous plaques with <b>thick, silvery scales</b> on <b>bilateral extensor</b> surfaces (elbows, knees) — where contact is unlikely. <b>Nail changes</b> (pitting, onycholysis, oil spots) and <b>psoriatic arthritis</b> can coexist with psoriasis but <b>not</b> with ACD or ICD.',
+      why:'Silvery scales are never seen in ACD/ICD, and the nails/joints give you a second, independent clue.' },
+    { front:'ACD/CDI vs <b>psoríase</b>: quais achados resolvem?',
+      back:'Psoríase: placas eritematosas levemente pruriginosas com <b>escamas espessas e prateadas</b> em superfícies <b>extensoras bilaterais</b> (cotovelos, joelhos) — onde o contato é improvável. <b>Alterações nas unhas</b> (pitting, onicólise, manchas de óleo) e <b>artrite psoriática</b> podem coexistir com psoríase, mas <b>não</b> com ACD ou CDI.',
+      why:'Escamas prateadas nunca são vistas na ACD/CDI, e as unhas/articulações dão uma segunda pista independente.' }),
+
+  card('contrast',
+    { front:'ACD/ICD vs <b>seborrheic dermatitis</b>: scale, site, and what is absent?',
+      back:'Seborrheic dermatitis: erythematous patches/plaques with <b>greasy scales</b> in <b>oily areas</b> — scalp (dandruff) and central face (eyebrows, nose, nasolabial folds). <b>Vesicles, bullae, and skin edema are not present</b>.',
+      why:'Greasy vs silvery vs vesicular: the quality of the surface change is a cheap and reliable discriminator.' },
+    { front:'ACD/CDI vs <b>dermatite seborreica</b>: escama, sítio e o que está ausente?',
+      back:'Dermatite seborreica: manchas/placas eritematosas com <b>escamas gordurosas</b> em <b>áreas oleosas</b> — couro cabeludo (caspa) e face central (sobrancelhas, nariz, dobras nasolabiais). <b>Vesículas, bolhas e edema cutâneo não estão presentes</b>.',
+      why:'Gordurosa vs prateada vs vesicular: a qualidade da alteração de superfície é um discriminador barato e confiável.' }),
+
+  card('contrast',
+    { front:'ACD/ICD vs <b>tinea corporis</b>: morphology and confirmatory test?',
+      back:'Tinea corporis: <b>scaly, erythematous, annular</b> patches or plaques — a morphology <b>inconsistent</b> with ACD and ICD. Confirmed by a <b>potassium hydroxide (KOH) skin test showing fungal hyphae</b>.',
+      why:'Annular with an advancing edge is a fungus until KOH says otherwise; contact dermatitis follows contact, not a ring.' },
+    { front:'ACD/CDI vs <b>tinea corporis</b>: morfologia e teste confirmatório?',
+      back:'Tinea corporis: manchas ou placas <b>escamosas, eritematosas e anulares</b> — morfologia <b>inconsistente</b> com ACD e CDI. Confirmada por <b>teste cutâneo de hidróxido de potássio (KOH) mostrando hifas fúngicas</b>.',
+      why:'Anular com borda em avanço é fungo até o KOH dizer o contrário; a dermatite de contato segue o contato, não um anel.' }),
+
+  /* ═══════════ TRATAMENTO ═══════════ */
+  card('recall',
+    { front:'Beyond avoidance, what are the first management steps in ICD?',
+      back:'<b>Gloves and barrier creams</b> when the irritant cannot be avoided; <b>emollients and moisturizers multiple times a day</b> to restore the skin barrier; and <b>topical corticosteroid therapy</b> to reduce inflammation.',
+      why:'ICD is a barrier disease first — restoring the barrier is treatment, not comfort care.' },
+    { front:'Além da evitação, quais são os primeiros passos do tratamento na CDI?',
+      back:'<b>Luvas e cremes de barreira</b> quando o irritante não pode ser evitado; <b>emolientes e hidratantes várias vezes ao dia</b> para restaurar a barreira; e <b>terapia tópica com corticosteroides</b> para reduzir a inflamação.',
+      why:'A CDI é antes de tudo uma doença de barreira — restaurar a barreira é tratamento, não conforto.' }),
+
+  card('cloze',
+    { front:'Topical corticosteroid potency: {{c1::high}}-potency for areas with <b>thicker</b> skin (hands, feet) or severe dermatitis; {{c2::low- or medium}}-potency for areas with <b>thinner</b> skin (face, eyelids, flexural areas) or mild dermatitis.',
+      back:'Thick skin → high potency. Thin skin → low/medium potency.',
+      why:'Potency is chosen by skin thickness and severity, because thin skin is where atrophy and hypopigmentation happen.' },
+    { front:'Potência do corticosteroide tópico: potência {{c1::alta}} para áreas de pele <b>mais espessa</b> (mãos, pés) ou dermatite grave; potência {{c2::baixa ou média}} para áreas de pele <b>mais fina</b> (rosto, pálpebras, áreas flexurais) ou dermatite leve.',
+      back:'Pele espessa → alta potência. Pele fina → baixa/média potência.',
+      why:'A potência é escolhida pela espessura da pele e pela gravidade, porque é na pele fina que ocorrem atrofia e hipopigmentação.' }),
+
+  card('cloze',
+    { front:'In ACD, topical corticosteroid is used when the rash covers {{c1::&lt;20%}} of total body surface area, for no longer than {{c2::2-4 weeks}}; systemic (oral) corticosteroid is indicated when it covers {{c3::&gt;20%}} of BSA and is usually given for {{c4::2-3 weeks}}.',
+      back:'&lt;20% BSA → topical, ≤2-4 weeks. &gt;20% BSA → systemic, 2-3 weeks.',
+      why:'The topical ceiling exists to prevent skin atrophy and hypopigmentation; the systemic course length exists to prevent rebound dermatitis.' },
+    { front:'Na ACD, o corticosteroide tópico é usado quando a erupção cobre {{c1::&lt;20%}} da área de superfície corporal total, por não mais de {{c2::2-4 semanas}}; o corticosteroide sistêmico (oral) é indicado quando cobre {{c3::&gt;20%}} da ASC e é geralmente dado por {{c4::2-3 semanas}}.',
+      back:'&lt;20% ASC → tópico, ≤2-4 semanas. &gt;20% ASC → sistêmico, 2-3 semanas.',
+      why:'O teto do tópico existe para prevenir atrofia e hipopigmentação; a duração do sistêmico existe para prevenir dermatite de rebote.' }),
+
+  card('contrast',
+    { front:'Topical <b>tacrolimus</b> vs topical <b>corticosteroid</b> in ACD: when and why choose tacrolimus?',
+      back:'Tacrolimus is a <b>calcineurin inhibitor</b> reserved for ACD of the <b>face and intertriginous areas</b> when <b>extended therapy (&gt;2 weeks)</b> is needed. Unlike steroids it causes <b>no skin atrophy or hypopigmentation</b> even with extended use, and its onset is <b>shorter</b>; but it is <b>more expensive</b>.',
+      why:'The whole reason it exists in this algorithm is the site + duration combination that steroids handle badly.' },
+    { front:'<b>Tacrolimus</b> tópico vs <b>corticosteroide</b> tópico na ACD: quando e por que escolher o tacrolimus?',
+      back:'O tacrolimus é um <b>inibidor da calcineurina</b> reservado para ACD de <b>face e áreas intertriginosas</b> quando é necessária <b>terapia prolongada (&gt;2 semanas)</b>. Ao contrário dos corticoides, <b>não causa atrofia cutânea nem hipopigmentação</b> mesmo com uso prolongado, e seu início de ação é <b>mais curto</b>; porém é <b>mais caro</b>.',
+      why:'A razão de ele existir neste algoritmo é justamente a combinação sítio + duração que os corticoides toleram mal.' }),
+
+  card('recall',
+    { front:'After contact with poison ivy, what 2 steps reduce post-exposure spread?',
+      back:'<b>Remove contaminated clothing</b> and <b>wash the area of contact with soap and water</b>, to prevent secondary spread of the allergen (eg, through scratching).',
+      why:'The allergen is still on the skin and the clothes: the rash can keep appearing in new places without any new plant.' },
+    { front:'Após contato com hera venenosa, quais 2 medidas reduzem a propagação pós-exposição?',
+      back:'<b>Remover a roupa contaminada</b> e <b>lavar a área de contato com água e sabão</b>, para evitar a propagação secundária do alérgeno (por exemplo, por arranhões).',
+      why:'O alérgeno ainda está na pele e na roupa: a erupção pode continuar surgindo em novos locais sem nenhuma planta nova.' }),
+
+  /* ═══════════ COMPLICAÇÕES E PROGNÓSTICO ═══════════ */
+  card('image',
+    { front:'Yellow crusts appear on a patient\'s contact dermatitis. What complication is this, and what is the treatment?',
+      back:'<b>Secondary bacterial infection</b> (eg, <i>Staphylococcus aureus</i>) — yellow crusts indicate <b>impetigo</b>. Treatment: <b>topical or systemic antibiotics</b>.',
+      hint:'Also suspect it when the rash resists standard therapy.',
+      why:'Barrier disruption plus scratching inoculates the organism — the infection is a consequence of the dermatitis, not a separate disease.' },
+    { front:'Crostas amarelas aparecem sobre a dermatite de contato de um paciente. Qual é essa complicação e qual o tratamento?',
+      back:'<b>Infecção bacteriana secundária</b> (por exemplo, <i>Staphylococcus aureus</i>) — crostas amarelas indicam <b>impetigo</b>. Tratamento: <b>antibióticos tópicos ou sistêmicos</b>.',
+      hint:'Suspeite também quando a erupção resiste à terapia padrão.',
+      why:'A ruptura da barreira somada ao ato de coçar inocula o agente — a infecção é consequência da dermatite, não uma doença separada.' },
+    { img: A+'image-18-en.webp',
+      imgAlt:{ en:'Impetiginized hand dermatitis', pt:'Dermatite de mão impetiginizada' } }),
+
+  card('case',
+    { front:'A 30-year-old man has a 3-week itching, burning rash limited to the left wrist. No new skin products; he has been wearing a watch bought on a recent trip. What is the diagnosis, and what would histology show?',
+      back:'<b>Chronic allergic contact dermatitis</b> from <b>nickel</b> in the watch. Histology: <b>intercellular epidermal edema (spongiosis) with lymphocytes and eosinophils</b>; chronic lesions also show epidermal hyperplasia (acanthosis).',
+      hint:'What is under the watch band, chemically?',
+      why:'A rash whose border is the object that touches it is contact dermatitis by distribution alone.' },
+    { front:'Homem de 30 anos com erupção pruriginosa e ardente há 3 semanas, limitada ao pulso esquerdo. Sem produtos novos para a pele; usa um relógio comprado em viagem recente. Qual o diagnóstico e o que mostraria a histologia?',
+      back:'<b>Dermatite alérgica de contato crônica</b> pelo <b>níquel</b> do relógio. Histologia: <b>edema epidérmico intercelular (espongiose) com linfócitos e eosinófilos</b>; lesões crônicas também mostram hiperplasia epidérmica (acantose).',
+      hint:'O que há sob a pulseira do relógio, quimicamente?',
+      why:'Uma erupção cujo contorno é o objeto que a toca é dermatite de contato só pela distribuição.' }),
+
+  card('case',
+    { front:'A 34-year-old lineman returns from a repair job in a wooded area with an intensely pruritic rash on the right leg, with papules and vesicles in linear streaks. Which cell causes the tissue damage?',
+      back:'<b>T lymphocytes</b> — specifically <b>CD8+ T cells</b>, the primary effector cells in urushiol-induced (poison ivy) contact dermatitis, which directly destroy haptenated keratinocytes.',
+      hint:'Type IV means cell-mediated, not antibody- or mast cell-mediated.',
+      why:'Mast cells, basophils, eosinophils, neutrophils, and plasma cells are all distractors from types I, II and III — the linear streaks plus the wilderness exposure point to type IV.' },
+    { front:'Eletricista de 34 anos volta de um serviço em área arborizada com erupção intensamente pruriginosa na perna direita, com pápulas e vesículas em listras lineares. Qual célula causa o dano tecidual?',
+      back:'<b>Linfócitos T</b> — especificamente as <b>células T CD8+</b>, as células efetoras primárias na dermatite de contato induzida por urushiol (hera venenosa), que destroem diretamente os queratinócitos haptenados.',
+      hint:'Tipo IV significa mediada por células, não por anticorpos nem por mastócitos.',
+      why:'Mastócitos, basófilos, eosinófilos, neutrófilos e plasmócitos são todos distratores dos tipos I, II e III — as listras lineares somadas à exposição no bosque apontam para o tipo IV.' }),
+
+  /* ═══════════ FATORES DE RISCO ═══════════ */
+  card('recall',
+    { front:'Age affects ICD and ACD in opposite directions. How?',
+      back:'<b>ICD</b>: <b>younger</b> patients are more likely, due to a heightened inflammatory response.<br><b>ACD</b>: <b>adults</b> are more likely, because they have had more time for allergen <b>sensitization</b>.',
+      why:'Sensitization takes exposure over years — so the allergic form skews older while the irritant form skews younger.' },
+    { front:'A idade afeta CDI e ACD em direções opostas. Como?',
+      back:'<b>CDI</b>: pacientes <b>mais jovens</b> são mais propensos, pela resposta inflamatória aumentada.<br><b>ACD</b>: <b>adultos</b> são mais propensos, porque tiveram mais tempo para a <b>sensibilização</b> ao alérgeno.',
+      why:'A sensibilização exige exposição ao longo de anos — então a forma alérgica pesa mais em adultos e a irritativa em jovens.' }),
+
+];
+})();
