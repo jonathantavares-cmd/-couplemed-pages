@@ -92,7 +92,78 @@ console.log('\n5) ligaduras: o mesmo glifo é "ff" num PDF e "fi" noutro');
   eq(c(`speci${L}cally`), 'specifically', 'desconhecida antes de consoante → "fi"');
 }
 
-console.log('\n6) limpeza para leitura em voz alta');
+/* Os três casos abaixo saíram do PDF real: os fragmentos são exatamente o que o
+   PDF.js entrega (fonte, string e x/largura conferidos item por item), porque foi
+   olhando para eles que se descobriu que o defeito não estava na ordem de leitura e
+   sim nas palavras — o pior tipo de erro aqui, porque a frase sai plausível. */
+const item = (str, font, x, y, w) =>
+  ({ str, fontName: font, width: w != null ? w : str.length * 5, height: 9,
+     transform: [9, 0, 0, 9, x, y] });
+const textOf = items => P.cleanForSpeech(
+  P.groupIntoLines(P.toParts(items, P.classifyFonts(items), 0)).map(l => l.text).join(' '));
+
+console.log('\n6) fonte de corpo picada em pedacinhos NÃO é fonte de símbolo (bioquímica p2)');
+{
+  // Medido: no PDF de bioquímica a fonte do corpo entrega "larg", "l", "arg", "H",
+  // "c", "h" — 22 fragmentos, um só "longo". A heurística de contagem a dava por
+  // símbolo e "Chromatin structure" era narrado "Ch decreased omatin st decreased …".
+  const items = [
+    item('Ch', 'f10', 70, 700, 12), item('r', 'f10', 82, 700, 5),
+    item('omatin', 'f10', 87, 700, 30), item('st', 'f10', 120, 700, 9),
+    item('r', 'f10', 129, 700, 5), item('uctu', 'f10', 134, 700, 20),
+    item('r', 'f10', 154, 700, 5), item('e', 'f10', 159, 700, 5)
+  ];
+  ok(P.classifyFonts(items).has('f10'), 'fonte que emite "H"/"c"/"omatin" é de texto, ainda que picada');
+  eq(textOf(items), 'Chromatin structure', 'letra normal continua letra ("decreased" só sai de seta)');
+}
+
+console.log('\n7) a fonte de ícone de verdade continua sendo traduzida (psiquiatria p3)');
+{
+  // Mesma página, outra fonte: esta só emite `q r p # e é ela que carrega as setas.
+  const items = [
+    item('Affects neurotransmission (', 'f7', 182, 700, 111),
+    item('r', 'f2', 292, 700, 4.8), item('#', 'f8', 297, 700, 2.5),
+    item('excitatory,', 'f7', 299, 700, 41),
+    item('q', 'f2', 343, 700, 4.8), item('#', 'f8', 347, 700, 2.5),
+    item('inhibitory)', 'f7', 350, 700, 40)
+  ];
+  ok(!P.classifyFonts(items).has('f2'), 'fonte que só emite q/r/p é de símbolo');
+  const t = textOf(items);
+  ok(/decreased excitatory/.test(t), '↓ antes da palavra vira "decreased" (veio: ' + t + ')');
+  ok(/increased inhibitory/.test(t), '↑ antes da palavra vira "increased"');
+}
+
+console.log('\n8) "#" solto é ligadura, não espaço fino (micologia p2)');
+{
+  // Aqui o "#" não vem depois de seta: é o glifo "fl". Mapeado como espaço, a
+  // narração dizia "uconazole" e "uorescent" — a letra desaparecia sem deixar rastro.
+  const items = [
+    item('Treatment: oral', 'f9', 181, 700, 63),
+    item('#', 'f10', 247, 700, 5.6),
+    item('uconazole/topical azoles for vaginal.', 'f9', 252, 700, 200)
+  ];
+  ok(/fluconazole/.test(textOf(items)), 'oral #uconazole → fluconazole (veio: ' + textOf(items) + ')');
+
+  // A mesma fonte de ligaduras também emite `"` e `!`. Enquanto a régua era uma lista
+  // fechada de símbolos, esse `"` a jogava para o lado das fontes de texto — e o "#"
+  // voltava a ser narrado como "#". Pontuação não decide nada: só letra ou dígito.
+  const ligFont = [item('#', 'f10', 247, 700, 5.6), item('!', 'f10', 300, 690, 5.6),
+                   item('"', 'f10', 320, 680, 5.6)];
+  ok(!P.classifyFonts(ligFont).has('f10'), 'fonte de ligadura que emite `"` continua de símbolo');
+}
+
+console.log('\n9) na fonte de display o glifo é TRAVESSÃO, não ligadura (cabeçalho)');
+{
+  const c = t => P.cleanForSpeech(t);
+  const L = P.LIG;
+  eq(c(`BIOCHEMISTRY${L}MOLECULAR`), 'BIOCHEMISTRY—MOLECULAR', 'título: travessão, não "fi"');
+  eq(c(`IMMUNOLOGY${L}LYMPHOID`),    'IMMUNOLOGY—LYMPHOID',    'vale para qualquer Subject');
+  eq(c(`H I G H ${L} Y I E L D`),    'H I G H — Y I E L D',    'glifo solto entre espaços também é travessão');
+  // e a ligadura de verdade em caixa alta continua ligadura: um dos lados é curto
+  eq(c(`E${L}ECTS`), 'EFFECTS', 'EFFECTS em caixa alta não vira "E—ECTS"');
+}
+
+console.log('\n10) limpeza para leitura em voz alta');
 {
   const c = P.cleanForSpeech;
   ok(!/https?:/.test(c('Veja https://ebookmed.ir agora')), 'URL de marca d’água não é narrada');

@@ -23,9 +23,15 @@
         r → ↓ (decreased)      % → ligadura "fl"
         p → → (leads to)       ! → ligadura "ff"
       O mapa só é aplicado a itens que estão numa fonte de SÍMBOLO — senão um "$"
-      de verdade (cifrão) viraria "fi". As fontes de símbolo são detectadas por
-      página, não pelo nome: o PDF.js nomeia fontes por documento (`g_d0_f2`), e
-      esse nome muda de arquivo para arquivo.
+      de verdade (cifrão) viraria "fi" e, pior, o "r" de "large" viraria
+      "decreased". Fonte de símbolo é a que SÓ emite caracteres do repertório de
+      ícone (ver SYMBOL_CHARS/classifyFonts); não se conta fragmento, porque o
+      mesmo texto vem inteiro num PDF e picado letra por letra no outro. A
+      detecção é pelo repertório e não pelo nome porque o PDF.js nomeia fontes por
+      documento (`g_d0_f2`), e esse nome muda de arquivo para arquivo.
+      Dois glifos são ambíguos e se resolvem pelo contexto: "#" é espaço fino
+      depois de seta e ligadura fora dela (applyGlyphs), e o "!" da fonte de
+      display é o travessão do título, não ligadura (resolveLigatures).
 
    3) MOLDURA. Cabeçalho ("SECTION III · PSYCHIATRY · PHARMACOLOGY"), número de
       página e rodapé de arquivo ("FAS1_2025_13-Psych.indd", "12/19/24") se repetem
@@ -86,21 +92,48 @@ const GLYPHS = {
   'q': ' increased ',      // ↑
   'r': ' decreased ',      // ↓
   'p': ' leads to ',       // →
-  '`': ' ',                // separador decorativo do cabeçalho
-  '#': ' '                 // espaço fino que a fonte de ícones insere depois da seta
+  '`': ' '                 // separador decorativo do cabeçalho
 };
 
-/* Marcador temporário para "aqui havia uma ligadura desconhecida". */
-const LIG = '\u0001';
-const LIG_CHARS = new Set(['$', '%', '!', '&', "'"]);
+/* As setas — os únicos glifos de significado fixo. */
+const ARROWS = new Set(['q', 'r', 'p']);
+
+/* Marcadores temporários para "aqui havia uma ligadura desconhecida". Dois, porque a
+   largura já diz de quantos glifos ela é: LIG são as de dois (fi/fl/ff) e LIG3 as de
+   três (ffi/ffl), que são largas — tão largas quanto o travessão do título, e é só o
+   entorno que separa as duas ("Lö⟦?⟧er" = Löffler, "CARDIOVASCULAR⟦?⟧PATHOLOGY" = —). */
+const LIG  = '\u0001';
+const LIG3 = '\u0002';
+/* Os caracteres AMBÍGUOS da fonte de ícone. Cada um deles é três coisas diferentes no
+   mesmo PDF, e quem diz qual é a LARGURA do glifo em relação ao corpo da letra —
+   medido item por item em bioquímica, cardiovascular, micologia e rapid-review:
+
+     ~1,0 em   travessão OU ligadura de três glifos (decidido por palavra, ver LIG3)
+     ~0,55 em  ligadura fi/fl/ff     'in"uenzae' = influenzae     → resolvida por palavra
+     ~0,28 em  espaço fino ou hífen  'q"in RV' = "↑ in RV"        → espaço
+
+   Fixar um papel só era o que apagava letras: com "#" preso em espaço a narração dizia
+   "uconazole" (fluconazole) e "uorescent" (fluorescent); com "!" preso em ligadura o
+   título saía "BIOCHEMISTRYfiMOLECULAR". */
+const LIG_CHARS = new Set(['$', '%', '!', '&', "'", '#', '"']);
+const WIDE_EM   = 0.8;    // daqui para cima, glifo largo: travessão ou ffi/ffl
+const THIN_EM   = 0.4;    // daqui para baixo, espaço fino
+
+/* A prova de que uma fonte é de TEXTO: ela emitiu letra ou dígito que nenhuma fonte
+   de ícone do First Aid sabe desenhar. As setas ocupam as posições de `q`, `r` e `p`,
+   então só essas três letras não valem como prova. Pontuação não vale: as fontes de
+   ícone emitem justamente `# ! $ % " \`` (ver classifyFonts). */
+function provesTextFont(ch){
+  if (ARROWS.has(ch)) return false;
+  return /[0-9]/.test(ch) || /\p{L}/u.test(ch);
+}
 
 /* Palavras com ligadura que aparecem de fato em texto médico. A lista existe para
    decidir ENTRE as candidatas (fi/fl/ff/ffi/ffl) — não para corrigir ortografia.
    Fora dela, "fi" é o palpite padrão: é a ligadura mais comum em inglês médico
    (deficiency, specific, classification, fibrosis…). */
-const LIG_WORDS = [
-  'fi','fl','ff','ffi','ffl'
-];
+const LIG_WORDS  = ['fi','fl','ff'];        // glifo de largura normal
+const LIG3_WORDS = ['ffl','ffi'];           // glifo largo
 const LIG_KNOWN = new Set([
   'deficiency','deficient','deficits','deficit','specific','specifically','specificity',
   'identify','identified','identification','classification','classified','fibrosis','fibrous',
@@ -113,59 +146,111 @@ const LIG_KNOWN = new Set([
   'fluphenazine','conflict','afflicted','effect','effects','effective','affect','affected','affects',
   'different','differentiation','differential','differences','diffuse','diffusion','sufficient',
   'suffer','suffering','efficacy','efficiency','offspring','stiffness','korsakoff','staffing',
-  'affinity','afferent','efferent','buffer','diffusely'
+  'affinity','afferent','efferent','buffer','diffusely','löffler','loffler'
 ]);
 
 /* Troca cada marcador de ligadura pela candidata que produz uma palavra conhecida.
    Roda sobre o texto já montado, porque a decisão depende da palavra inteira — e a
    palavra pode ter sido partida em vários fragmentos pelo PDF. */
 function resolveLigatures(text){
-  if (text.indexOf(LIG) < 0) return text;
-  return text.replace(/[A-Za-zÀ-ÿ\u0001-]*\u0001[A-Za-zÀ-ÿ\u0001-]*/g, token => {
-    for (const cand of LIG_WORDS){
-      const tryWord = token.split(LIG).join(cand);
+  if (text.indexOf(LIG) < 0 && text.indexOf(LIG3) < 0) return text;
+  return text.replace(/[A-Za-zÀ-ÿ\u0001\u0002-]*[\u0001\u0002][A-Za-zÀ-ÿ\u0001\u0002-]*/g, token => {
+    const marks = /[\u0001\u0002]/g;
+    const wide  = token.indexOf(LIG3) >= 0;
+    // a ligadura entra na caixa da palavra em volta: em "ADVERSE E⟦?⟧ECTS" o que falta é
+    // "FF", não "ff" — senão o `say` lê "EffECTS" trocando de tom no meio da palavra
+    const caseOf = s => /[a-zà-ÿ]/.test(token) ? s : s.toUpperCase();
+    const fill = c => token.replace(marks, caseOf(c));
+    // a largura já disse de quantos glifos é a ligadura; a outra lista fica como segunda
+    // tentativa, para o caso de o PDF não ter informado a largura do glifo
+    const first = wide ? LIG3_WORDS : LIG_WORDS;
+    for (const cand of first.concat(wide ? LIG_WORDS : LIG3_WORDS)){
+      const tryWord = fill(cand);
       if (LIG_KNOWN.has(tryWord.toLowerCase().replace(/[^a-zà-ÿ]/g,''))) return tryWord;
     }
-    // Fora do dicionário, decide pelo som: "fl" só ocorre antes de vogal
-    // (fluvoxamine, inflammation) e "ff" entre vogais (different, Korsakoff).
-    // Sem isto, "fl uvoxamine" virava "fiuvoxamine".
-    const at = token.indexOf(LIG);
+    // Na fonte de DISPLAY o glifo largo não é ligadura nenhuma: é o travessão que separa
+    // as duas metades do título ("BIOCHEMISTRY–MOLECULAR"). Sem isto o cabeçalho era
+    // narrado "BIOCHEMISTRYfiMOLECULAR". O que denuncia o travessão é o entorno em CAIXA
+    // ALTA com palavra inteira de cada lado — numa ligadura de verdade algum lado é curto
+    // ("E⟦?⟧ECTS" = EFFECTS) ou há minúscula em volta ("Lö⟦?⟧er" = Löffler).
+    const sides = token.split(marks);
+    const letters = s => s.replace(/[^A-Za-zÀ-ÿ]/g, '').length;
+    if (sides.every(s => s === '')) return '—';
+    if (!/[a-zà-ÿ]/.test(token) && sides.every(s => letters(s) >= 2) && sides.some(s => letters(s) >= 3)){
+      return sides.join('—');
+    }
+    // Fora do dicionário, decide pelo som. Nas de dois glifos: "fl" só ocorre antes de
+    // vogal (fluvoxamine, inflammation) e "ff" entre vogais (different, Korsakoff) — sem
+    // isto "fl uvoxamine" virava "fiuvoxamine". Nas de três: "ffl" leva vogal depois
+    // (Löffler) e "ffi" leva consoante (sufficient, affiliate).
+    const at   = token.search(marks);
     const prev = (token[at - 1] || '').toLowerCase();
     const next = (token[at + 1] || '').toLowerCase();
-    let guess = 'fi';
-    if (/[uoa]/.test(next) && !/[aeiou]/.test(prev)) guess = 'fl';
-    else if (/[aeiou]/.test(prev) && (next === '' || /[aeiou]/.test(next))) guess = 'ff';
-    return token.split(LIG).join(guess);
+    let guess;
+    if (wide){
+      guess = /[aeiouà-ÿ]/.test(next) ? 'ffl' : 'ffi';
+    } else {
+      guess = 'fi';
+      if (/[uoa]/.test(next) && !/[aeiou]/.test(prev)) guess = 'fl';
+      else if (/[aeiou]/.test(prev) && (next === '' || /[aeiou]/.test(next))) guess = 'ff';
+    }
+    return fill(guess);
   });
 }
 
-/* Uma fonte é "de texto" quando produz palavras de verdade. Tudo o mais (ícones,
-   ligaduras avulsas, numeração decorativa) é tratado como símbolo. */
-function classifyFonts(items){
-  const stat = {};
+/* Quais fontes da página são de TEXTO (o mapa de glifos não as toca) e quais são de
+   SÍMBOLO (aí sim `r` é ↓).
+
+   A régua é o repertório de caracteres, não a contagem: basta a fonte emitir UMA letra
+   ou dígito que uma fonte de ícone não teria (ver provesTextFont) para ela ser de
+   texto. Não se exige que o repertório dela caiba numa lista fechada de símbolos, e
+   isso é deliberado: a fonte de ligaduras da micologia emite `#`, `!` e `"`, e uma
+   lista fechada deixaria o `"` de fora e mandaria a fonte para o lado errado.
+
+   A versão anterior contava fragmentos "longos" (≥4 caracteres com 3 letras) e dava
+   a fonte por símbolo quando achava menos de dois. Isso dependia de sorte: o PDF de
+   psiquiatria passou porque a fonte do corpo emitia 20 fragmentos longos, e o de
+   bioquímica corrompeu porque lá a MESMA fonte de corpo vem picada em pedaços de uma
+   letra ("larg", "l", "arg", "H", "c", "h" — 22 fragmentos, 1 longo). Resultado:
+   "Chromatin structure" era narrado "Ch decreased omatin st decreased uctu decreased e".
+   Frase plausível e errada é pior que frase embaralhada — o aluno não desconfia. */
+function classifyFonts(items, into){
+  const symbol = {};
   for (const it of items){
     const s = (it.str || '').trim();
     if (!s) continue;
     const f = it.fontName || '?';
-    stat[f] = stat[f] || { long: 0, total: 0 };
-    stat[f].total++;
-    if (s.length >= 4 && /[a-zA-Z]{3}/.test(s)) stat[f].long++;
+    if (!(f in symbol)) symbol[f] = true;   // símbolo até emitir algo que prove o contrário
+    if (!symbol[f]) continue;
+    for (const ch of s){
+      if (provesTextFont(ch)){ symbol[f] = false; break; }
+    }
   }
-  const textFonts = new Set();
-  for (const [f, d] of Object.entries(stat)){
-    // basta um punhado de fragmentos com palavras para a fonte ser de texto
-    if (d.long >= 2 || (d.long === 1 && d.total <= 3)) textFonts.add(f);
-  }
+  const textFonts = into || new Set();
+  for (const [f, isSymbol] of Object.entries(symbol)) if (!isSymbol) textFonts.add(f);
   return textFonts;
 }
 
-function applyGlyphs(str, isSymbolFont){
+/* Papel de um caractere ambíguo, pela largura dele em "em" (ver LIG_CHARS).
+   `em` = 0 quando o PDF não informa largura: aí o contexto decide — depois de seta é o
+   espaço fino que a fonte de ícone insere, e fora dela o palpite seguro é ligadura,
+   porque ligadura errada troca uma palavra e espaço errado apaga letras. */
+function ambiguousGlyph(em, afterArrow){
+  if (em >= WIDE_EM) return LIG3;
+  if (em > 0 && em <= THIN_EM) return ' ';
+  if (!em && afterArrow) return ' ';
+  return LIG;                                     // decidida depois, por palavra
+}
+
+function applyGlyphs(str, isSymbolFont, em, afterArrow){
   if (!isSymbolFont) return str;
   let out = '';
+  let prevArrow = !!afterArrow;
   for (const ch of str){
     if (ch in GLYPHS) out += GLYPHS[ch];
-    else if (LIG_CHARS.has(ch)) out += LIG;      // decidido depois, por palavra
+    else if (LIG_CHARS.has(ch)) out += ambiguousGlyph(em, prevArrow);
     else out += ch;
+    if (!/\s/.test(ch)) prevArrow = ARROWS.has(ch);
   }
   return out;
 }
@@ -198,6 +283,7 @@ function toParts(items, textFonts, height){
   const parts = [];
   const topBand = height ? height * 0.90 : Infinity;
   const bottomBand = height ? height * 0.07 : -Infinity;
+  let afterArrow = false;     // ver applyGlyphs: é o que distingue "#" espaço de "#" ligadura
   for (const it of items){
     const raw = it.str;
     if (!raw || !raw.trim()) continue;
@@ -206,7 +292,13 @@ function toParts(items, textFonts, height){
     // detecção de colunas (foi o que fez a tabela não ser reconhecida na 1ª versão)
     if (y >= topBand || y <= bottomBand) continue;
     const isSym = !textFonts.has(it.fontName);
-    const text = applyGlyphs(raw, isSym);
+    // largura do glifo em "em": o corpo da letra é a escala do próprio item
+    const size = Math.abs(it.transform[0]) || it.height || 0;
+    const glyphs = raw.trim().length || 1;
+    const em = size ? (it.width || 0) / (size * glyphs) : 0;
+    const text = applyGlyphs(raw, isSym, em, afterArrow);
+    const lastCh = raw.trim().slice(-1);
+    afterArrow = isSym && ARROWS.has(lastCh);
     if (!text.trim()) continue;
     parts.push({ text, x: it.transform[4], y,
                  w: it.width || 0, h: it.height || Math.abs(it.transform[3]) || 10 });
@@ -437,6 +529,16 @@ async function extractPdfText(fileOrBuffer, opts){
   const from = Math.max(1, opts.from || 1);
   const to   = Math.min(doc.numPages, opts.to || doc.numPages);
 
+  // Passada de reconhecimento das fontes ANTES de extrair, sobre todas as páginas
+  // pedidas. O PDF.js nomeia fonte por documento (g_d1_f7), então uma página em que a
+  // fonte do corpo só aparece num "r" solto a daria por símbolo — e "r" viraria
+  // "decreased" ali. Vendo o intervalo inteiro primeiro, a fonte já entra classificada
+  // como texto. Custa uma segunda leitura do texto, barato ao lado de gerar o áudio.
+  const textFonts = new Set();
+  for (let n = from; n <= to; n++){
+    classifyFonts((await (await doc.getPage(n)).getTextContent()).items, textFonts);
+  }
+
   const pages = [];
   let height = 0;
   for (let n = from; n <= to; n++){
@@ -444,7 +546,6 @@ async function extractPdfText(fileOrBuffer, opts){
     const vp = page.getViewport({ scale: 1 });
     height = Math.max(height, vp.height);
     const tc = await page.getTextContent();
-    const textFonts = classifyFonts(tc.items);
     const built = itemsToLines(tc.items, textFonts, vp.height);
     pages.push({ page: n, lines: built.lines, table: built.table });
   }
@@ -459,4 +560,5 @@ async function extractPdfText(fileOrBuffer, opts){
 }
 
 module.exports = { extractPdfText, GLYPHS, cleanForSpeech,
-                   /* expostos para os testes */ detectColumns, orderTableLines, groupIntoLines, joinLine };
+                   /* expostos para os testes */ detectColumns, orderTableLines, groupIntoLines, joinLine,
+                   classifyFonts, toParts, LIG };
