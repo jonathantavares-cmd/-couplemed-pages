@@ -140,7 +140,7 @@
 
     const r = sameTopic ? activeReader : {
       hostEl, topic, folder, onBack, folderSlug, topicSlug,
-      lang: uiLang(),
+      lang: uiLang(),   // segue o idioma global do site desde a abertura
       fontScale: 1,
       actions: [], redoActions: [],
       hlColor: HL_COLORS[0].v,
@@ -213,10 +213,6 @@
               <button type="button" class="l3r-btn l3r-marktools-btn" id="l1rNotesBtn"><i>≣</i>${esc(t('notes'))}</button>
               <button type="button" class="l3r-btn l3r-marktools-btn" id="l1rFlashcardBtn"><i>F</i>${esc(t('flashcard'))}</button>
             </div>
-            <div class="l3r-group l1r-lang" id="l1rLangGroup" title="${esc(t('language'))}">
-              <button type="button" class="l3r-ic l1r-langbtn" data-lang="en">EN</button>
-              <button type="button" class="l3r-ic l1r-langbtn" data-lang="pt">PT</button>
-            </div>
             <div class="l3r-group l3r-zoom">
               <button type="button" class="l3r-ic" id="l1rFontDown" aria-label="${esc(t('fontSmaller'))}" title="${esc(t('fontSmaller'))}">A−</button>
               <span id="l1rFontLabel">100%</span>
@@ -225,10 +221,7 @@
           </div>
           <div class="l1r-pagewrap" id="l1rPageWrap">
             <div class="l3r-loading" id="l1rLoading">${esc(t('loading'))}</div>
-            <div class="l1r-columns">
-              <article class="l1r-article" id="l1rArticle"></article>
-              <aside class="l1r-aside" id="l1rAside"></aside>
-            </div>
+            <article class="l1r-article" id="l1rArticle"></article>
           </div>
         </div>
       </div>`;
@@ -237,7 +230,6 @@
       root: r.hostEl.querySelector('#l1rRoot'),
       loading: r.hostEl.querySelector('#l1rLoading'),
       article: r.hostEl.querySelector('#l1rArticle'),
-      aside: r.hostEl.querySelector('#l1rAside'),
       searchInput: r.hostEl.querySelector('#l1rSearchInput'),
       searchCount: r.hostEl.querySelector('#l1rSearchCount'),
       fontLabel: r.hostEl.querySelector('#l1rFontLabel'),
@@ -256,11 +248,15 @@
 
     on('#l1rBack','click', ()=>{ destroyActive(); if(r.onBack) r.onBack(); });
 
-    /* ---- idioma: troca instantânea (conteúdo já gravado nos dois idiomas) ---- */
-    r.hostEl.querySelectorAll('.l1r-langbtn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{ setLang(r, btn.dataset.lang); }, { signal: r.uiAbort.signal });
-    });
-    syncLangButtons(r);
+    /* ---- idioma: segue o tradutor GLOBAL do site ----
+       O conteúdo não tem botão de idioma próprio: ele obedece às bandeiras do topo, como
+       todo o resto do site. `setLang()` (site.js) dispara 'couplemed:langchange' ao trocar,
+       e aqui a página inteira — texto, imagens, figuras e tabelas — troca junto, na hora,
+       porque as duas versões já estão gravadas (nenhuma tradução ao vivo). */
+    window.addEventListener('couplemed:langchange', e=>{
+      const lang = (e.detail && e.detail.lang) || uiLang();
+      setLang(r, lang);
+    }, { signal: r.uiAbort.signal });
 
     /* ---- tamanho da fonte (equivalente ao zoom do PDF) ---- */
     on('#l1rFontDown','click', ()=> setFontScale(r, r.fontScale-0.1));
@@ -321,14 +317,7 @@
       // referência inline no texto: "image 1", "figure 2", "table 3"
       const ref = e.target.closest && e.target.closest('[data-ref]');
       if(ref){ e.preventDefault(); openLightbox(r, ref.dataset.ref); return; }
-      const img = e.target.closest && e.target.closest('img[data-asset]');
-      if(img) openLightbox(r, img.dataset.asset);
-    }, { signal: r.uiAbort.signal });
-
-    /* ---- clique numa miniatura do painel lateral ---- */
-    r.el.aside && r.el.aside.addEventListener('click', e=>{
-      const th = e.target.closest && e.target.closest('[data-asset]');
-      if(th) openLightbox(r, th.dataset.asset);
+      // a página não mostra imagem aberta; só a referência abre (regra do usuário)
     }, { signal: r.uiAbort.signal });
 
     updateFontLabel(r);
@@ -431,13 +420,27 @@
   function setLang(r, lang){
     if(r.lang===lang) return;
     r.lang = lang;
-    syncLangButtons(r);
-    renderArticle(r);
-    paintLightbox(r);   // imagem aberta troca de idioma junto com o texto
+    renderSkeletonLabels(r);   // rótulos da própria toolbar
+    renderArticle(r);          // texto + imagens/figuras/tabelas embutidas
+    paintLightbox(r);          // imagem aberta troca de idioma junto com o texto
   }
-  function syncLangButtons(r){
-    r.hostEl.querySelectorAll('.l1r-langbtn').forEach(b=>
-      b.classList.toggle('l3r-ic-active', b.dataset.lang===r.lang));
+  // Só os rótulos da toolbar; não remonta a barra (perderia o estado das ferramentas).
+  function renderSkeletonLabels(r){
+    const lang = r.lang;
+    const set = (sel, txt) => { const el = r.hostEl.querySelector(sel); if(el) el.textContent = txt; };
+    set('#l1rBack', '‹ ' + T[lang].back);
+    set('#l1rTitle', `${itemName(r.folder, lang)} · ${itemName(r.topic, lang)}`);
+    const si = r.hostEl.querySelector('#l1rSearchInput');
+    if(si) si.setAttribute('placeholder', T[lang].search);
+    set('#l1rNotebookBtn', T[lang].notebook);
+    set('#l1rNotesBtn', T[lang].notes);
+    set('#l1rFlashcardBtn', T[lang].flashcard);
+    // os <i> dos botões são reescritos pelo textContent acima — repõe o marcador
+    const ic = { l1rNotebookBtn:'N', l1rNotesBtn:'≣', l1rFlashcardBtn:'F' };
+    Object.entries(ic).forEach(([id, ch])=>{
+      const b = r.hostEl.querySelector('#'+id);
+      if(b && !b.querySelector('i')) b.insertAdjacentHTML('afterbegin', `<i>${ch}</i>`);
+    });
   }
 
   /* ---------------------------- fonte ---------------------------- */
@@ -466,37 +469,18 @@
     r.el.article.style.fontSize = (r.fontScale*100)+'%';
     r.baseHtml = r.el.article.innerHTML;
     applyAllHighlights(r);
-    renderAside(r);
     if(r.el.searchInput.value.trim()) runSearch(r, r.el.searchInput.value);
   }
 
-  /* Painel lateral com as miniaturas, agrupadas como no material de origem
-     (IMAGES / FIGURES / TABLES). Miniatura e rótulo seguem o idioma corrente. */
-  function renderAside(r){
-    if(!r.el.aside) return;
-    const groups = [
-      { kind:'image',  label: r.lang==='pt' ? 'Imagens' : 'Images',  item: r.lang==='pt' ? 'imagem' : 'image' },
-      { kind:'figure', label: r.lang==='pt' ? 'Figuras' : 'Figures', item: r.lang==='pt' ? 'figura' : 'figure' },
-      { kind:'table',  label: r.lang==='pt' ? 'Tabelas' : 'Tables',  item: r.lang==='pt' ? 'tabela' : 'table' }
-    ];
-    let html = '';
-    groups.forEach(g=>{
-      const keys = assetList(r, g.kind);
-      if(!keys.length) return;
-      html += `<h4 class="l1r-aside-h">${esc(g.label)}</h4><div class="l1r-thumbs">` +
-        keys.map(k=>{
-          const v = assetSrc(r, k, r.lang);
-          if(!v) return '';
-          const n = r.content.assets[k].n;
-          return `<button type="button" class="l1r-thumb" data-asset="${esc(k)}" title="${esc(v.alt||'')}">
-            <img src="${esc(v.src)}" alt="${esc(v.alt||'')}" loading="lazy" />
-            <span>${esc(g.item)} ${n}</span>
-          </button>`;
-        }).join('') + `</div>`;
-    });
-    r.el.aside.innerHTML = html;
-    r.el.aside.hidden = !html;
-  }
+  /* ------------------- mídia: abre SÓ ao clicar na referência -------------------
+     Regra do usuário (2026-07-25): a imagem NÃO aparece aberta na página. A página é só o
+     texto; imagens, figuras e tabelas abrem em tela cheia quando se clica no nome delas no
+     meio do texto ("image 1", "figure 2", "table 3") — igual ao material de origem.
+
+     Por isso o que importa na transcrição é a REFERÊNCIA estar no ponto certo do texto,
+     exatamente onde o material a cita. Mídia que não for referenciada em nenhum lugar fica
+     inalcançável — é justamente isso que `node tools/library1-audit.js` acusa (§11.1).
+  ------------------------------------------------------------------------------- */
 
   /* ---------------------------- marcação (highlight) ----------------------------
      Em PDF a marcação é geométrica (retângulos sobre o canvas). Aqui o conteúdo é

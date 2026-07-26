@@ -22,9 +22,10 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 4. **Aplicar a Regra de Fidelidade (Seção 1)** — o material é conteúdo próprio do usuário; transcrever verbatim.
 5. **Gravar o conteúdo** no arquivo de destino correspondente (Seção 5), sempre **bilíngue EN + PT no mesmo commit** (Seção 6).
 6. **Validar**: `node --check` no(s) arquivo(s) alterado(s) + conferir que o tópico abre no site (Seção 9).
-7. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
-8. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
-9. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
+7. **AUDITAR (obrigatório, Seção 11.1)**: `node tools/library1-audit.js "<Subject>" "<Tópico>"`. Tem de sair ✅ — se sair ❌, corrigir e rodar de novo antes de qualquer outra coisa.
+8. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
+9. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
+10. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
 
 ---
 
@@ -271,13 +272,24 @@ O que **não** é compartilhado automaticamente é o comportamento em JS (os doi
 | Navegação de página (‹ 1 de N ›) | existe | **não existe** — página única, rolagem contínua |
 | Zoom do canvas (%) | existe | vira **tamanho da fonte** (A− / A+), mesma posição e mesmo visual |
 | Download | o PDF original | **dois botões: EN e PT** |
-| Idioma | não traduz (só por seleção) | **botões EN/PT**, troca instantânea |
-| Imagem ampliada ao clicar | não (o PDF já dá zoom) | **sim** — toda imagem do conteúdo abre em tela cheia (Seção 7.5) |
+| Idioma | não traduz (só por seleção) | segue o **tradutor global** do site; texto e imagens trocam juntos (Seção 7.3) |
+| Mídia | páginas do PDF | **não aparece na página**; abre em tela cheia ao clicar no nome (Seção 7.5) |
 | Caneta livre, Post-it, anotação de página | existe | **ainda não** — dependem de camada de desenho sobre canvas; ficam para uma fase seguinte |
 
-### 7.3 Tradução — a diferença essencial em relação à Library 3
+### 7.3 Tradução — vem do TRADUTOR GLOBAL do site
 
-A Library 3 é um **arquivo PDF pronto** e por decisão do usuário não traduz a página inteira (só tradução por seleção). A Library 1 é **página**, então funciona ao contrário: o material de origem vem em inglês e é **gravado nos dois idiomas no momento da inclusão** (Seção 6). Trocar de idioma no leitor apenas troca qual versão é exibida — **instantâneo, sem chamada de tradução ao vivo**, e sem depender de rede.
+A Library 3 é um **arquivo PDF pronto** e por decisão do usuário não traduz a página inteira (só tradução por seleção). A Library 1 é **página**, então funciona ao contrário: o material vem em inglês e é **gravado nos dois idiomas no momento da inclusão** (Seção 6).
+
+**O leitor não tem botão de idioma próprio** — ele obedece às bandeiras do topo, como todo o resto do site. `setLang()` (`site.js:1380`) dispara o evento `couplemed:langchange`, o leitor escuta e troca **tudo de uma vez**:
+
+- o texto do artigo e o título;
+- o título na toolbar, o botão Voltar e o placeholder da busca;
+- **as imagens, figuras e tabelas** — inclusive uma que já esteja aberta na tela, que troca de idioma na hora;
+- as legendas das imagens.
+
+Tudo instantâneo, **sem nenhuma chamada de tradução ao vivo** e sem depender de rede, porque as duas versões já estão gravadas. O tópico abre no idioma em que o site está.
+
+> Bug corrigido em 2026-07-25: o leitor tinha botões EN/PT próprios e ignorava o tradutor do site, então clicar na bandeira não traduzia o conteúdo. Os botões locais foram removidos e o leitor passou a escutar `couplemed:langchange`.
 
 ### 7.4 Marcação sobre texto (diferente do PDF)
 
@@ -287,23 +299,26 @@ Duas consequências que importam:
 - **A marcação é por idioma.** Os textos EN e PT têm tamanhos diferentes, então cada versão guarda seus próprios deslocamentos. Marcar em inglês não faz aparecer marca no português — comportamento intencional e testado.
 - **Reescrever um conteúdo já publicado desloca as marcações antigas daquele tópico.** Evitar reescrever conteúdo já revisado sem necessidade.
 
-### 7.5 Mídia bilíngue — painel lateral, referências clicáveis e troca de idioma
+### 7.5 Mídia bilíngue — a página é só texto; a imagem abre no clique
 
-O material de origem não mostra as figuras dentro do texto: elas ficam num **painel lateral** (IMAGES / FIGURES / TABLES) e são abertas clicando na **referência inline** ("image 1", "figure 2", "table 3"). O leitor reproduz exatamente isso.
+**Regra do usuário (2026-07-25), em duas partes:**
 
-**Regra do usuário (2026-07-25):** cada imagem, figura e tabela vem na subpasta **em inglês E em português**. As duas versões são recortadas e gravadas, e **a imagem troca junto com o idioma** — inclusive com ela já aberta na tela.
+1. **A imagem NÃO aparece aberta na página.** A página mostra apenas o texto. Imagens, figuras e tabelas abrem em tela cheia **só quando se clica no nome delas** no meio do texto — "image 1", "figure 2", "table 3" — exatamente como no material de origem. Não existe painel lateral de miniaturas (foi implementado e **removido a pedido**), e não se embute a figura no corpo do artigo.
+2. **Cada mídia vem em inglês E em português** na subpasta, e as duas versões são recortadas e gravadas. A imagem segue o idioma corrente e troca junto com o texto.
+
+**O que "posicionar corretamente" significa aqui:** como a mídia não é exibida, o que precisa estar no lugar certo é a **referência**. Ela tem de aparecer exatamente no mesmo ponto do texto em que o material a cita — mesmo parágrafo, mesma frase, mesma posição na frase. É isso que a auditoria (Seção 11.1) confere.
 
 Como funciona:
-- O registro do tópico tem um bloco `assets`, com `kind` (image/figure/table), `n` (o número exibido) e as versões `en` e `pt`, cada uma com `src` e `alt`.
+- O registro do tópico tem um bloco `assets`, com `kind` (image/figure/table), `n` (o número exibido) e as versões `en` e `pt`, cada uma com `key` e `alt`.
 - No texto, a referência é `<a class="l1r-ref" data-ref="image-1">image 1</a>`. Os dois idiomas **referenciam as mesmas chaves**; só muda o texto visível ("figure 1" / "figura 1").
-- O painel lateral é **gerado automaticamente** a partir de `assets` — agrupado e rotulado no idioma corrente (Images/Figures/Tables ↔ Imagens/Figuras/Tabelas). Não é escrito à mão.
 - A imagem ampliada fecha com ✕, **Esc** ou clique no fundo, e as setas ‹ › andam **dentro do mesmo grupo** (image 1 → image 2, sem pular para as tabelas).
 - O `alt` é a **legenda** da imagem ampliada — precisa existir e estar traduzido.
+- **Mídia que não for referenciada em lugar nenhum fica inalcançável.** Não há segunda porta de entrada. A auditoria trata isso como erro, não como aviso.
 
-Convenções de arquivo (verificadas no primeiro tópico incluído):
+Convenções de arquivo:
 - Caminho: `public/assets/library1/<subject-slug>/<topic-slug>/`
-- Nomes: `image-N-en.jpg` / `image-N-pt.jpg`, e o mesmo para `figure-N-*` e `table-N-*`.
-- **Formato: WebP**, escolhido arquivo a arquivo entre com perdas (q82) e sem perdas — o menor vence (§5.1). Na prática fotos/diagramas ficam com perdas e tabelas sem perdas. Use `node tools/library1-assets.js convert <dir>`; não gerar JPEG/PNG à mão.
+- Nomes: `image-N-en.webp` / `image-N-pt.webp`, e o mesmo para `figure-N-*` e `table-N-*`.
+- **Formato: WebP**, escolhido arquivo a arquivo entre com perdas (q82) e sem perdas — o menor vence (§5.1). Use `node tools/library1-assets.js convert <dir>`; não gerar JPEG/PNG à mão.
 - Recortar a borda branca em volta, mas **nunca reduzir a resolução** — quem precisa dos pixels é a versão ampliada.
 
 ### 7.6 Estado de verificação
@@ -371,7 +386,9 @@ Checklist antes de commitar:
 - [ ] O tópico abre e mostra o conteúdo, nos **dois** idiomas (botões EN/PT).
 - [ ] Download EN e PT gera arquivo com o conteúdo certo.
 - [ ] Conteúdo confere **exatamente** com os prints de origem, sem paráfrase, corte ou acréscimo (Seção 1).
-- [ ] Imagens abrem ampliadas e têm `alt` nos dois idiomas (Seção 7.5).
+- [ ] **`node tools/library1-audit.js` saiu ✅** (Seção 11.1) — inegociável.
+- [ ] Imagens abrem ao clicar no nome, nos dois idiomas, e a página não mostra imagem aberta (Seção 7.5).
+- [ ] Clicar na bandeira do topo traduz texto E imagens (Seção 7.3).
 - [ ] Versão PT presente no mesmo commit (Seção 6).
 - [ ] ✅ aplicado nas subpastas concluídas (Seção 11).
 - [ ] Nenhum arquivo do fluxo do QBank foi tocado (Seção 10).
@@ -409,7 +426,7 @@ Checklist antes de commitar:
 3. **Nunca** marcar pasta vazia (Seção 2.2) — vazia significa material ainda não colocado, não tópico pronto.
 4. O ✅ é **sufixo**, nunca prefixo: preserva a ordem alfabética da pasta e é removido por `stripCheck()` em toda comparação de nome (Seção 3).
 
-**Ferramenta:** `tools/library1-progress.js` (no repo), que faz isso sem risco de errar o nome da pasta:
+**Ferramenta:** `tools/library1-progress.js` (no repo), que faz isso sem risco de errar o nome da pasta — **mas só depois da auditoria da Seção 11.1 passar**:
 
 ```bash
 node tools/library1-progress.js status
@@ -427,6 +444,44 @@ A fonte da verdade é sempre o **conteúdo publicado**, não o ✅ — por isso 
 
 ---
 
+# ⚠️⚠️⚠️ 11.1 AUDITORIA OBRIGATÓRIA AO FIM DE CADA TÓPICO ⚠️⚠️⚠️
+
+> ## **NENHUM TÓPICO É DADO POR CONCLUÍDO SEM ESTA AUDITORIA.**
+>
+> Exigida explicitamente pelo usuário (2026-07-25). Ela roda **depois** de gravar o conteúdo e **antes** de marcar o ✅ e de commitar:
+>
+> ```bash
+> node tools/library1-audit.js "<Subject>" "<Tópico>"
+> ```
+>
+> **Se sair qualquer ❌, corrigir e rodar de novo. Não seguir para o próximo tópico com erro pendente.**
+
+**Por que existe:** a página é longa, bilíngue, e a mídia **não aparece na tela** — ela só abre clicando no nome. Isso torna invisível a olho nu justamente o erro mais provável: uma imagem gravada mas nunca citada no texto fica **inalcançável para sempre**, sem nada na página indicando que ela existe. A auditoria é a única coisa que pega isso.
+
+**O que ela confere, item a item:**
+
+| # | Verificação | Por que importa |
+|---|---|---|
+| 1 | Toda mídia tem as versões **EN e PT** e os arquivos existem em disco | uma versão faltando quebra a troca de idioma |
+| 2 | Toda mídia é **referenciada no texto**, nos dois idiomas | mídia sem referência é inalcançável (não há painel lateral) |
+| 3 | EN e PT referenciam **o mesmo conjunto** de mídias | referência só no EN some ao traduzir |
+| 4 | Toda referência aponta para uma mídia **que existe** | link morto no meio do texto |
+| 5 | `alt` preenchido e **diferente** entre EN e PT | é a legenda; alt igual quase sempre é tradução esquecida |
+| 6 | EN e PT com a **mesma estrutura** (seções, listas, tabelas, parágrafos) | seção a menos no PT = tradução incompleta |
+| 7 | **Nenhuma `<img>` solta** no HTML | a página é só texto; a mídia entra em `assets` |
+
+Os itens 1 a 4 e 7 são **erros** (❌) e travam o fluxo; 5 e 6 são **avisos** (⚠️) e pedem conferência — uma diferença de contagem pode ser legítima (o português às vezes quebra um parágrafo a mais), mas tem de ser verificada, não ignorada.
+
+**Ordem obrigatória ao fechar um tópico:**
+1. `node --check` nos arquivos alterados
+2. **`node tools/library1-audit.js "<Subject>" "<Tópico>"` — tem de sair ✅**
+3. `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` (o ✅ na pasta)
+4. `git add` dos caminhos específicos → `commit` → `push`
+
+Sem argumento, `node tools/library1-audit.js` audita **tudo** que já foi publicado — vale rodar de tempos em tempos, porque uma edição posterior num conteúdo pode quebrar uma referência antiga.
+
+---
+
 ## 12. HISTÓRICO DE DECISÕES
 
 | Data | Decisão / achado |
@@ -441,4 +496,7 @@ A fonte da verdade é sempre o **conteúdo publicado**, não o ✅ — por isso 
 | 2026-07-25 | **Imagens abrem ampliadas ao clicar** (§7.5), com legenda vinda do `alt` nos dois idiomas; recortar preservando a resolução original. |
 | 2026-07-25 | **Primeiro tópico incluído** (Allergy & Immunology › Acute rheumatic fever), a partir de 30 prints: 6 páginas de texto EN, 1 página PT, e 10 mídias × 2 idiomas. Confirmado o padrão do material e as convenções de arquivo (§7.5). |
 | 2026-07-25 | ✅ **Peso das imagens resolvido** (§5.1): mídia passa a WebP misto — 2,48 MB → **0,92 MB por tópico (63% menor)**, projeção de 4,4 GB → 1,65 GB. A URL da mídia passou a ser resolvida num ponto único (`ASSET_BASE`), com os registros guardando só a chave relativa, e a infraestrutura de R2 (bucket, rota no worker, endpoint de upload, script) ficou pronta para virar a chave sem editar conteúdo. Cabem ~1.114 tópicos no git antes de precisar migrar. |
+| 2026-07-25 | **Tradução corrigida:** o leitor tinha botões EN/PT próprios e ignorava o tradutor global do site. Botões removidos; passou a escutar `couplemed:langchange` e traduzir texto, toolbar, legendas e imagens de uma vez (§7.3). |
+| 2026-07-25 | **Painel lateral de miniaturas removido a pedido** e a mídia **não é mais embutida na página**: a página é só texto e a imagem abre ao clicar no nome (§7.5). O que precisa estar posicionado corretamente é a **referência**. |
+| 2026-07-25 | **Auditoria obrigatória criada** (`tools/library1-audit.js`, §11.1): 7 verificações por tópico, com destaque para mídia não referenciada — que sem painel lateral fica inalcançável e invisível. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
