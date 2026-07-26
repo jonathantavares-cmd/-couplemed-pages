@@ -1197,3 +1197,71 @@ body:not(.light) .fc-insight-card{background:#0d1e36;border-color:rgba(255,255,2
 body.light .stg-user-tools{background:#f8fafe;border-color:#e3eaf3}body.light .stg-user-tools label,body.light .stg-user-tools input,body.light .stg-user-tools select{background:#fff;border-color:#dbe4ef;color:#132235}body.light .stg-user-details{border-color:#e7edf5}
 @media(max-width:780px){.stg-user-tools{grid-template-columns:1fr 135px}.stg-user-tools small{grid-column:1/-1}.stg-user-actions{width:100%;display:grid;grid-template-columns:repeat(4,1fr)}.stg-user-actions .stg-btn,.stg-user-actions .stg-toggle{width:100%;justify-content:center}.stg-user-details .stg-user-metrics{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.stg-user-tools{grid-template-columns:1fr}.stg-user-actions{grid-template-columns:1fr 1fr}.stg-user-actions .stg-toggle-label{font-size:8px}.stg-user-card{padding:11px}.stg-user-header{align-items:center}}
+
+
+/* ============================================================================
+   FLASHCARDS — "Anki melhorado" (LIBRARY1_ADD_CONTENT.md §11.5)
+   A cor e o emoji têm SIGNIFICADO FIXO por tipo de card: sinalizam qual operação
+   mental o card pede antes de virá-lo. Não é decoração — é codificação semântica,
+   que é o que a evidência apoia. Um card = um fato, então o visual precisa ser
+   calmo: sem gradiente atrás de texto, sem cor competindo com o conteúdo.
+   ============================================================================ */
+.fc-kind{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;
+  padding:4px 10px;border-radius:999px;margin-bottom:12px;
+  background:var(--fck-bg,#eef2f8);color:var(--fck-fg,#5b6c86);
+  border:1px solid var(--fck-bd,#dde6f2);
+}
+.fc-kind span{font-size:13px;line-height:1}
+/* cada tipo tem sua cor — e a MESMA cor sempre */
+.fc-k-recall  {--fck-bg:#eaf1ff;--fck-fg:#2757c4;--fck-bd:#c9dcff;--fck-bar:#3d84ff}
+.fc-k-cloze   {--fck-bg:#e8f8ee;--fck-fg:#1c7a45;--fck-bd:#bfe8ce;--fck-bar:#2fbf71}
+.fc-k-contrast{--fck-bg:#fff2e3;--fck-fg:#9a5510;--fck-bd:#ffd9ae;--fck-bar:#f59331}
+.fc-k-image   {--fck-bg:#fdeaf4;--fck-fg:#9c1f66;--fck-bd:#f8c9e2;--fck-bar:#e0459b}
+.fc-k-why     {--fck-bg:#f1ebfd;--fck-fg:#5b32b8;--fck-bd:#dccdf8;--fck-bar:#7c4dff}
+.fc-k-case    {--fck-bg:#e6f7f9;--fck-fg:#106a77;--fck-bd:#bfe8ee;--fck-bar:#17a2b8}
+.fc-k-mnemonic{--fck-bg:#fff8db;--fck-fg:#8a6100;--fck-bd:#ffe9a3;--fck-bar:#e0a800}
+/* faixa lateral no card, na cor do tipo: identificação periférica, sem roubar atenção */
+.fc-card[class*="fc-k-"]{border-left:4px solid var(--fck-bar,#dde6f2)}
+
+/* resposta: o que o recall tem de produzir. Fica visualmente primeiro. */
+.fc-l1-answer{font-size:15px;line-height:1.65}
+.fc-l1-answer b{color:#0b1930}
+/* elaboração: vem DEPOIS da resposta, e mais discreta — ajuda a consolidar sem
+   competir com o que precisa ser evocado */
+.fc-l1-why{
+  margin-top:12px;padding:10px 12px;border-radius:9px;
+  background:#f6f8fc;border-left:3px solid #b9c8de;
+  font-size:13px;line-height:1.6;color:#44566f;
+}
+.fc-l1-why b{color:#2757c4;margin-right:4px}
+/* dica: fechada por padrão — só quem precisa gasta o recurso (dificuldade desejável) */
+.fc-hint{margin-top:12px;font-size:13px}
+.fc-hint summary{cursor:pointer;color:#8a6100;font-weight:700;list-style:none}
+.fc-hint summary::-webkit-details-marker{display:none}
+.fc-hint>div{margin-top:8px;padding:9px 12px;border-radius:9px;background:#fff8db;
+  border-left:3px solid #e0a800;color:#6b5200;line-height:1.55}
+/* imagem do card (dual coding): grande o suficiente para ler, com legenda */
+.fc-l1-img{margin:12px 0 0;text-align:center}
+.fc-l1-img img{max-width:100%;max-height:300px;border-radius:10px;border:1px solid #e3ebf6;background:#fff}
+.fc-l1-img figcaption{margin-top:6px;font-size:12px;color:#6b7f9e;line-height:1.45}
+
+/* tema escuro */
+body:not(.light) .fc-l1-answer b{color:#eaf1ff}
+body:not(.light) .fc-l1-why{background:rgba(255,255,255,.05);border-left-color:rgba(255,255,255,.25);color:#c3d2e6}
+body:not(.light) .fc-l1-why b{color:#78a8ff}
+body:not(.light) .fc-hint>div{background:rgba(224,168,0,.12);color:#ffe9a3}
+body:not(.light) .fc-l1-img img{border-color:rgba(255,255,255,.12)}
+
+/* responsivo: os mesmos 3 breakpoints do site (RESPONSIVE_BREAKPOINTS.md) */
+@media (max-width:820px){
+  .fc-l1-answer{font-size:14.5px}
+  .fc-l1-img img{max-height:240px}
+}
+@media (max-width:520px){
+  .fc-kind{font-size:10px;padding:3px 8px}
+  .fc-l1-answer{font-size:14px}
+  .fc-l1-why{font-size:12.5px;padding:9px 10px}
+  .fc-l1-img img{max-height:190px}
+}

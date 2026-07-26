@@ -743,22 +743,27 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 
 ---
 
-## 11.4 ⚠️ OBRIGATÓRIO: 20 FLASHCARDS POR TÓPICO INCLUÍDO
+## 11.4 ⚠️ OBRIGATÓRIO: 30 FLASHCARDS BILÍNGUES POR TÓPICO INCLUÍDO
 
 > ### **Todo tópico incluído na Library 1 gera 20 flashcards, automaticamente.**
 >
-> **Regra do usuário (2026-07-25):** *"sempre que incluir um tópico na Library 1, deve então também criar automaticamente 20 flashcards sobre o tópico e assunto discutido no tópico, na plataforma de flashcards"* — padrão **Anki**, foco **USMLE Step 1**, disponíveis **para todos os usuários**.
+> **Regra do usuário (2026-07-25):** *"sempre que incluir um tópico na Library 1, deve então também criar automaticamente flashcards sobre o tópico"* — **30 por tópico** (confirmado em 2026-07-25; antes eram 20), **sempre em inglês E português** — padrão **Anki**, foco **USMLE Step 1**, disponíveis **para todos os usuários**.
 >
-> Isto **não é opcional** e **não espera pedido**: faz parte de concluir um tópico, como a auditoria e o ✅. A quantidade **é 20** (confirmada pelo usuário).
+> Isto **não é opcional** e **não espera pedido**: faz parte de concluir um tópico, como a auditoria e o ✅. A quantidade **é 30** (confirmada pelo usuário; começou como 20 e foi elevada).
 
 **Onde os cards moram:** `public/js/library1-flashcards/<subject-slug>.js`, um arquivo por Subject — mesma granularidade do conteúdo (§5), pelo mesmo motivo de conflito entre sessões.
 
 ```js
 window.LIBRARY1_FLASHCARDS['allergy-and-immunology'] = {
   'acute-rheumatic-fever': [
-    { id:'L1FC-ARF-001', front:'…', back:'…', tags:[…],
-      sys:'allergy_immunology', subj:'allergy_immunology::autoimmune_diseases',
-      topic:'Acute rheumatic fever' }, …
+    { id:'L1FC-ARF-001', kind:'contrast',
+      en:{ front:'…', back:'…', hint:'…', why:'…' },
+      pt:{ front:'…', back:'…', hint:'…', why:'…' },
+      img:'/assets/library1/…/figure-1-en.webp',
+      imgAlt:{ en:'…', pt:'…' },
+      tags:[…], sys:'allergy_immunology',
+      subj:'allergy_immunology::autoimmune_diseases',
+      topic:{ en:'Acute rheumatic fever', pt:'Febre reumática aguda' } }, …
   ]
 };
 ```
@@ -766,11 +771,14 @@ window.LIBRARY1_FLASHCARDS['allergy-and-immunology'] = {
 | Campo | Regra |
 |---|---|
 | `id` | **estável e único**, prefixo `L1FC-`. É o que torna a semeadura idempotente — sem ele, cada abertura duplicaria os cards. |
-| `front` / `back` | HTML simples. **Cloze no padrão Anki**: `{{c1::texto}}` — o `type` é derivado disso automaticamente. |
+| `en` / `pt` | **BILÍNGUE OBRIGATÓRIO.** Cada lado tem `front`, `back`, e opcionalmente `hint` e `why`. O leitor escolhe o idioma na hora — o tradutor global do site troca o card inteiro, sem tradução ao vivo. O PT nunca é cópia do EN (a auditoria confere). |
+| `kind` | tipo pedagógico: `recall`, `cloze`, `contrast`, `image`, `why`, `case`, `mnemonic` — define cor e emoji (§11.5). |
+| `front` | HTML simples. **Cloze no padrão Anki**: `{{c1::texto}}`. |
+| `img` / `imgAlt` | imagem do tópico (dual coding) + legenda bilíngue. |
 | `tags` | inclui sempre `Library1` e o tópico, para dar busca por texto. |
 | `sys` | id do sistema no `FC_TAXONOMY` de `flashcards.js` (ex.: `allergy_immunology`). |
 | `subj` | `<sys>::<slug>`. **Se o assunto não existir na lista da plataforma, usar `<sys>::misc` (Others)** — regra explícita do usuário. |
-| `topic` | o nome do tópico da Library 1 (texto livre), que é o 3º nível do filtro. |
+| `topic` | `{en, pt}` — o nome do tópico da Library 1. **É também o nome do deck** (pedido do usuário): um deck por tópico, que aparece em Navegar no idioma do site. |
 
 **Como chegam a todos os usuários:** os cards são **dados versionados no repositório** e `flashcards.js` os **semeia** no banco de cada usuário no primeiro boot (`seedLibrary1Cards()`), com `source:'library1'`.
 
@@ -778,7 +786,7 @@ Por que semear em vez de manter numa lista separada:
 - **o progresso do SRS é individual** — cada usuário tem seu próprio agendamento, o que é o comportamento correto de flashcard;
 - eles entram **de graça** na busca, nos filtros por sistema/subject/topic, nos decks e nas estatísticas, sem caso especial em nenhuma tela.
 
-A semeadura é **idempotente** (o `id` é a chave) e **preserva o progresso**: se o texto do card for corrigido no repositório, o texto é atualizado e o histórico de estudo permanece. Cards criados pelo usuário nunca são tocados. Todos vão para o deck **"Medical Library · Library 1"**.
+A semeadura é **idempotente** (o `id` é a chave) e **preserva o progresso**: se o texto do card for corrigido no repositório, o texto é atualizado e o histórico de estudo permanece. Cards criados pelo usuário nunca são tocados. Cada tópico ganha **seu próprio deck, com o nome do tópico** (`deck_l1_<topic-slug>`), bilíngue.
 
 **Imagens:** autorizado usar as imagens já publicadas do tópico — referenciar por caminho (`<img src="/assets/library1/<subject>/<topic>/…webp">`), **nunca** re-embutir em base64.
 
@@ -791,6 +799,48 @@ JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js
 Ele confere as 20 unidades, ids únicos com prefixo, `sys`/`subj`/`topic` preenchidos e existentes na taxonomia, uso de cloze, imagens apontando para arquivos que **existem em disco**, e a semeadura (não duplica, preserva progresso, não mexe nos cards do usuário).
 
 > ⚠️ Lembrar de **carregar o novo pacote em `public/app.html`**, antes de `flashcards.js` na ordem de boot — senão os cards daquele Subject nunca são semeados. É o passo mais fácil de esquecer.
+
+---
+
+## 11.5 O PADRÃO DOS FLASHCARDS — "ANKI MELHORADO", BASEADO EM EVIDÊNCIA
+
+**Pedido do usuário (2026-07-25):** *"quero que o padrão do flashcards seja um Anki melhorado, que permita um melhor aprendizado e memorização... com base no que a ciência classifica como método eficaz de aprendizado"* — na forma dos cards **e** no layout da plataforma.
+
+### Os princípios aplicados (e como cada um aparece na tela)
+
+| Princípio | O que a evidência diz | Como está implementado |
+|---|---|---|
+| **Recall ativo** | recuperar é muito superior a reler | a frente **sempre** pede uma resposta; nada de card que só afirma |
+| **Atomicidade / chunking** | um item por vez reduz carga cognitiva | **um fato por card**, card curto. Card que virava lista longa foi cortado na revisão |
+| **Repetição espaçada** | intervalos crescentes fixam melhor | o SRS que já existia; os cards entram como `new` e têm progresso **individual** |
+| **Cloze** | lacuna força recuperação do termo exato | `{{c1::…}}`, padrão Anki |
+| **Dual coding** | texto + imagem juntos memorizam mais que texto só | campo `img`, com a imagem **do próprio tópico** e legenda bilíngue |
+| **Elaboração** | explicar "por quê" consolida | campo `why`, exibido **depois** da resposta, mais discreto — elaborar antes do recall não ajuda |
+| **Dificuldade desejável** | esforço na hora certa fortalece a memória | `hint` em `<details>` **fechado**: só quem precisa gasta o recurso |
+| **Discriminação** | comparar confundíveis evita interferência | tipo `contrast` — 7 dos 30 cards deste tópico, cada um separando duas entidades parecidas |
+| **Aplicação / transferência** | recuperar em contexto clínico prepara para a prova | tipo `case` — mini-vinheta no formato do Step 1 |
+| **Interleaving de formatos** | variar o formato evita resposta automática | 7 tipos de card misturados no mesmo baralho |
+| **Codificação semântica da cor** | cor com significado ajuda; cor decorativa atrapalha | cada `kind` tem **cor e emoji fixos**, sempre os mesmos, com faixa lateral no card |
+
+### Os 7 tipos de card
+
+| | Tipo | Pede do estudante |
+|---|---|---|
+| ⚡ | `recall` | evocar um fato direto |
+| 🧩 | `cloze` | completar o termo exato |
+| ⚖️ | `contrast` | separar duas coisas confundíveis |
+| 🔬 | `image` | interpretar a imagem |
+| 🧠 | `why` | explicar o mecanismo |
+| 🩺 | `case` | aplicar numa vinheta clínica |
+| 🔑 | `mnemonic` | recuperar via mnemônico (ex.: JONES) |
+
+### O que deliberadamente NÃO foi feito
+
+Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem cor competindo com o conteúdo que precisa ser lido: sobrecarga visual atrapalha justamente o que se quer treinar. A cor identifica o tipo pela periferia (faixa + etiqueta) e o miolo do card fica calmo.
+
+### Distribuição no primeiro tópico (Acute rheumatic fever)
+
+11 `recall` · 7 `contrast` · 4 `image` · 3 `cloze` · 2 `why` · 2 `case` · 1 `mnemonic` = **30**, todos bilíngues, 8 com imagem, todos com `why`.
 
 ---
 
@@ -864,4 +914,5 @@ Ele confere as 20 unidades, ids únicos com prefixo, `sys`/`subj`/`topic` preenc
 | 2026-07-25 | **Criado `tools/library1-doccheck.js` (§9.2)**: 78 verificações do doc contra o código — arquivos citados, citações de linha apontando para a linha certa, ferramentas/testes citados, subcomandos existentes, referências de seção e coerência nos pontos que já causaram bug. Este tipo de defasagem não deve mais passar em silêncio. |
 | 2026-07-25 | **Registrado que 5 questões não é padrão** (§11.2, a pedido do usuário): a quantidade certa é a que estiver na pasta do tópico — pode ser mais, menos, ou nenhuma. Nunca parar em 5 nem completar até 5. A auditoria não exige quantidade, de propósito. |
 | 2026-07-25 | **§11.4: 20 flashcards por tópico, obrigatórios** (regra do usuário). Padrão Anki, foco Step 1, dados em `public/js/library1-flashcards/<subject>.js`, semeados por `flashcards.js` no banco de cada usuário (idempotente, progresso preservado, deck "Medical Library · Library 1"). Entram nos filtros por sistema/subject/topic; subject fora da lista vai para Others (`misc`). Os 20 do tópico Acute rheumatic fever já criados. |
-| — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
+| 2026-07-25 | **Flashcards refeitos: 30 por tópico, BILÍNGUES, padrão "Anki melhorado"** (§11.4/§11.5). Schema passou a `en`/`pt` com `front`/`back`/`hint`/`why`, mais `kind` (7 tipos pedagógicos com cor e emoji fixos) e `img` com legenda bilíngue. Deck agora é **um por tópico, com o nome do tópico**, traduzido. O tradutor global do site troca o card inteiro. |
+| — | **Pendentes:** alinhamento responsivo da página **Navegar** dos Flashcards (pedido em 2026-07-25, ainda não feito); estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

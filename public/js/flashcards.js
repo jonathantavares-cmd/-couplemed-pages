@@ -356,10 +356,51 @@
      Um card semeado tem source:'library1' — é o que permite distinguir do que o
      usuário criou à mão, e atualizar o texto sem perder o histórico.
   ========================================================================== */
-  const L1_DECK_ID = 'deck_library1';
   // mesma detecção de isCloze() (definido mais abaixo no arquivo); repetida aqui porque a
   // semeadura roda no boot, ANTES daquela definição — sem isto, o módulo quebra inteiro.
   const CLOZE_RE = /\{\{c\d+::(.+?)\}\}/;
+  const fcLang = () => document.documentElement.lang === 'pt-BR' ? 'pt' : 'en';
+  const L1_DECK = slug => 'deck_l1_' + slug;
+
+  /* Um card da Library 1 é BILÍNGUE: guarda os dois idiomas e a face renderizada é
+     escolhida na hora (fcL1Face). Assim o tradutor global do site troca o card inteiro
+     — frente, verso, dica e elaboração — sem nenhuma chamada de tradução ao vivo. */
+  function fcL1Face(card, side){
+    const L = card.l1 && (card.l1[fcLang()] || card.l1.en || card.l1.pt);
+    if(!L) return side === 'front' ? card.front : card.back;
+    if(side === 'front') return L.front || '';
+    // o verso monta resposta + dica + elaboração, na ordem que a ciência recomenda:
+    // resposta primeiro, o "porquê" depois (elaboração só ajuda após o recall)
+    let html = `<div class="fc-l1-answer">${L.back || ''}</div>`;
+    if(card.img){
+      const alt = (card.imgAlt && (card.imgAlt[fcLang()] || card.imgAlt.en)) || '';
+      html += `<figure class="fc-l1-img"><img src="${card.img}" alt="${esc(alt)}" loading="lazy">`
+            + (alt ? `<figcaption>${esc(alt)}</figcaption>` : '') + `</figure>`;
+    }
+    if(L.why) html += `<div class="fc-l1-why"><b>${fcLang()==='pt'?'Por quê':'Why'}</b> ${L.why}</div>`;
+    return html;
+  }
+
+  /* ==========================================================================
+     CARDS DA PLATAFORMA — gerados a partir da Library 1
+     --------------------------------------------------------------------------
+     Regra do usuário (2026-07-25): ao incluir cada tópico na Library 1, **30
+     flashcards bilíngues** daquele tópico entram no banco **de todos os
+     usuários** (LIBRARY1_ADD_CONTENT.md §11.4/§11.5).
+
+     Os cards são DADOS versionados no repositório
+     (public/js/library1-flashcards/<subject-slug>.js → window.LIBRARY1_FLASHCARDS)
+     e aqui são semeados no banco de cada usuário no primeiro boot. Semear em vez
+     de manter lista à parte porque:
+       • o progresso do SRS é individual;
+       • entram de graça na busca, nos filtros (sys/subj/topic), nos decks e nas
+         estatísticas, sem caso especial em nenhuma tela.
+     Idempotente pelo `id` (prefixo L1FC-): rodar de novo não duplica e o
+     progresso acumulado é preservado. `source:'library1'` distingue do que o
+     usuário criou à mão.
+
+     O DECK é por TÓPICO e leva o NOME do tópico (pedido do usuário), bilíngue.
+  ========================================================================== */
   function seedLibrary1Cards(){
     const packs = window.LIBRARY1_FLASHCARDS;
     if(!packs) return 0;
@@ -368,26 +409,46 @@
 
     Object.keys(packs).forEach(subject=>{
       Object.keys(packs[subject]).forEach(topicSlug=>{
-        (packs[subject][topicSlug] || []).forEach(src=>{
-          if(!src || !src.id || !src.front) return;
+        const list = packs[subject][topicSlug] || [];
+        if(!list.length) return;
+        const deckId = L1_DECK(topicSlug);
+        // nome do deck = nome do tópico, nos dois idiomas
+        const tp = list[0].topic;
+        const deckName   = (tp && (tp.en || tp)) || topicSlug;
+        const deckNamePt = (tp && (tp.pt || tp.en || tp)) || topicSlug;
+        const deck = DB.decks.find(d=>d.id===deckId);
+        if(deck){ deck.name = deckName; deck.namePt = deckNamePt; deck.source = 'library1'; }
+        else DB.decks.push({ id:deckId, name:deckName, namePt:deckNamePt,
+                             source:'library1', createdAt: todayStr() });
+
+        list.forEach(src=>{
+          if(!src || !src.id) return;
+          const L = src.en || src.pt || {};
           const found = byId.get(src.id);
           if(found){
-            // conteúdo pode ter sido corrigido no repositório: atualiza o texto,
-            // preserva TODO o estado de estudo
-            if(found.front !== src.front || found.back !== src.back){
-              found.front = src.front; found.back = src.back;
-              found.type = CLOZE_RE.test(src.front) ? 'cloze' : 'basic';
-              updated++;
-            }
-            return;
+            // conteúdo pode ter sido corrigido no repositório: atualiza, preserva o estudo
+            found.l1 = { en: src.en, pt: src.pt };
+            found.img = src.img || null; found.imgAlt = src.imgAlt || null;
+            found.kind = src.kind || 'recall';
+            found.front = L.front || found.front; found.back = L.back || found.back;
+            found.type = CLOZE_RE.test(L.front||'') ? 'cloze' : 'basic';
+            found.deckId = deckId;
+            found.topic = (src.topic && (src.topic.en || src.topic)) || found.topic;
+            updated++; return;
           }
           DB.cards.push({
-            id: src.id, deckId: L1_DECK_ID,
-            front: src.front, back: src.back || '',
+            id: src.id, deckId,
+            // front/back ficam com o inglês para qualquer tela que leia o campo cru
+            // (busca, exportação); a renderização usa `l1` e segue o idioma do site.
+            front: L.front || '', back: L.back || '',
+            l1: { en: src.en, pt: src.pt },
+            kind: src.kind || 'recall',
+            img: src.img || null, imgAlt: src.imgAlt || null,
             image64: null, tags: (src.tags || []).slice(),
-            type: CLOZE_RE.test(src.front) ? 'cloze' : 'basic',
+            type: CLOZE_RE.test(L.front||'') ? 'cloze' : 'basic',
             source: 'library1', shared: false,
-            sys: src.sys || null, subj: src.subj || null, topic: src.topic || null,
+            sys: src.sys || null, subj: src.subj || null,
+            topic: (src.topic && (src.topic.en || src.topic)) || null,
             createdAt: todayStr(), state:'new', stepIdx:0, due: Date.now(), interval:0,
             ease: CFG.startEase, reps:0, lapses:0, suspended:false, flag:null, buriedUntil:0
           });
@@ -395,10 +456,6 @@
         });
       });
     });
-
-    if(added && !DB.decks.some(d=>d.id===L1_DECK_ID)){
-      DB.decks.push({ id:L1_DECK_ID, name:'Medical Library · Library 1', createdAt: todayStr() });
-    }
     return added + updated;
   }
   if(seedLibrary1Cards()) DB.cards = DB.cards.map(migrateCard);
@@ -772,7 +829,7 @@
       DB.decks.map(d => {
         const dq = queues('mine', d.id);
         return `<div class="fc-deck-row">
-          <button class="fc-deck-name" data-act="review-deck" data-deck="${d.id}">${esc(d.name)}</button>
+          <button class="fc-deck-name" data-act="review-deck" data-deck="${d.id}">${esc(fcDeckName(d))}</button>
           <b class="fc-c-new">${dq.fresh.length}</b><b class="fc-c-learn">${dq.learn.length}</b><b class="fc-c-rev">${dq.review.length}</b>
           <span class="fc-deck-tools">
             <button class="fc-btn fc-sm" data-act="browse-deck" data-deck="${d.id}">${t('view')}</button>
@@ -876,7 +933,7 @@
       <div class="fc-browse-bar">
         <input id="fcSearch" placeholder="${t('searchPh')}" value="${esc(f.q)}"/>
         <select id="fcDeckFilter"><option value="">${t('allDecks')}</option>
-          ${DB.decks.map(d=>`<option value="${d.id}" ${f.deck===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select>
+          ${DB.decks.map(d=>`<option value="${d.id}" ${f.deck===d.id?'selected':''}>${esc(fcDeckName(d))}</option>`).join('')}</select>
         <select id="fcStateFilter"><option value="">${t('allStates')}</option>
           ${[['new','stNew'],['learn','stLearn'],['review','stReview'],['relearn','stRelearn'],['suspended','stSuspended']]
             .map(([v,k])=>`<option value="${v}" ${f.state===v?'selected':''}>${t(k)}</option>`).join('')}</select>
@@ -1048,15 +1105,35 @@
     /* v51 — "verso primeiro": inverte apenas a EXIBIÇÃO. Nunca em cloze (a lacuna
        vive na frente) nem quando o verso está vazio. O agendamento não é afetado. */
     const rev = fcPrefs().reversed && !cloze && !!c.back;
-    const sideA = rev ? c.back : c.front;
-    const sideB = rev ? c.front : c.back;
+    // card da Library 1: a face vem do bloco bilíngue e segue o idioma do site (§11.5)
+    const l1A = c.l1 ? fcL1Face(c, 'front') : null;
+    const l1B = c.l1 ? fcL1Face(c, 'back')  : null;
+    const sideA = l1A != null ? (rev ? l1B : l1A) : (rev ? c.back : c.front);
+    const sideB = l1B != null ? (rev ? l1A : l1B) : (rev ? c.front : c.back);
     const frontHtml = fcHasHtml(sideA) ? `<div class="fc-rich">${fcSanitize(sideA)}</div>` : (cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(sideA));
     const backHtml = view.showBack && (!cloze || sideB) ? `<hr class="fc-sep"/><div class="fc-card-back">${fcHasHtml(sideB) ? `<div class="fc-rich">${fcSanitize(sideB)}</div>` : (cloze?esc(sideB):transSpan(sideB))}</div>` : '';
     const imgHtml = c.image64 ? `<div class="fc-card-image"><img src="${c.image64}" style="max-width:100%;max-height:200px;border-radius:8px;margin:10px 0"/></div>` : '';
+    // Etiqueta do TIPO de card: emoji + rótulo, com significado fixo (§11.5). Não é
+    // enfeite — sinaliza que operação mental o card pede antes de você virá-lo.
+    const KINDS = {
+      recall:   { i:'⚡', en:'Recall',    pt:'Evocação'   },
+      cloze:    { i:'🧩', en:'Cloze',     pt:'Lacuna'     },
+      contrast: { i:'⚖️', en:'Contrast',  pt:'Contraste'  },
+      image:    { i:'🔬', en:'Image',     pt:'Imagem'     },
+      why:      { i:'🧠', en:'Mechanism', pt:'Mecanismo'  },
+      case:     { i:'🩺', en:'Case',      pt:'Caso'       },
+      mnemonic: { i:'🔑', en:'Mnemonic',  pt:'Mnemônico'  }
+    };
+    const K = c.kind && KINDS[c.kind];
+    const kindTag = K ? `<div class="fc-kind"><span>${K.i}</span>${esc(K[fcLang()]||K.en)}</div>` : '';
+    // dica: aparece só antes de revelar (empurra o esforço em vez de entregar a resposta)
+    const l1Hint = c.l1 && (c.l1[fcLang()]||c.l1.en||{}).hint;
+    const hintHtml = (!view.showBack && l1Hint)
+      ? `<details class="fc-hint"><summary>${fcLang()==='pt'?'💡 Dica':'💡 Hint'}</summary><div>${l1Hint}</div></details>` : '';
     root.innerHTML = `<div class="fc-review-wrap">
       <div class="fc-counts"><b class="fc-c-new">${counts.n}</b> + <b class="fc-c-learn">${counts.l}</b> + <b class="fc-c-rev">${counts.r}</b> ${flagDot(s)}</div>
       ${ownerTag}
-      <div class="fc-card">${imgHtml}<div class="fc-card-front">${frontHtml}</div>${backHtml}</div>
+      <div class="fc-card${c.kind?' fc-k-'+c.kind:''}">${kindTag}${imgHtml}<div class="fc-card-front">${frontHtml}</div>${hintHtml}${backHtml}</div>
       ${view.showBack ? `<div class="fc-rates">${ratings}</div>`
         : `<button class="fc-btn fc-primary fc-show" data-act="show">${t('showAnswer')}</button>`}
       <p class="fc-kbd">${t('kbdHint')}</p>
@@ -1145,8 +1222,8 @@
     const newScoped = scopedCards.filter(c=>!c.suspended && c.state==='new').length;
     const mastered = scopedCards.filter(c=>!c.suspended && c.state==='review' && (c.interval||0)>=21).length;
     const learning = states.learn + states.relearn;
-    const filterLabel = [statsDeck && DB.decks.find(d=>d.id===statsDeck)?.name, statsSys && fcTxLabel(FC_SYS_NAMES[statsSys]||statsSys)].filter(Boolean).join(' · ') || (isPt?'Todos os cartões':'All cards');
-    const deckOpts = `<option value="">${isPt?'Todos os decks':'All decks'}</option>` + DB.decks.map(d=>`<option value="${d.id}" ${statsDeck===d.id?'selected':''}>${esc(d.name)}</option>`).join('');
+    const filterLabel = [statsDeck && fcDeckName(DB.decks.find(d=>d.id===statsDeck)), statsSys && fcTxLabel(FC_SYS_NAMES[statsSys]||statsSys)].filter(Boolean).join(' · ') || (isPt?'Todos os cartões':'All cards');
+    const deckOpts = `<option value="">${isPt?'Todos os decks':'All decks'}</option>` + DB.decks.map(d=>`<option value="${d.id}" ${statsDeck===d.id?'selected':''}>${esc(fcDeckName(d))}</option>`).join('');
     const sysOpts = `<option value="">${isPt?'Todos os sistemas':'All systems'}</option>` + FC_TAXONOMY.map(s=>`<option value="${s.id}" ${statsSys===s.id?'selected':''}>${esc(fcTxLabel(s.name))}</option>`).join('');
     const rangeTabs = Object.keys(STATS_RANGES).map(k =>
       `<button class="fc-src-btn ${range===k?'on':''}" data-act="stats-range" data-range="${k}">${t('range_'+k)}</button>`).join('');
@@ -1338,7 +1415,7 @@
       for(const item of items){ const type = item.types.find(t=>t.startsWith('image/')); if(type){ const blob = await item.getType(type); const b64 = await imgToBase64(blob); rtInsertImage(side, b64); return; } }
     }catch(e){}
   }
-  const deckOptions = sel => DB.decks.map(d=>`<option value="${d.id}" ${d.id===sel?'selected':''}>${esc(d.name)}</option>`).join('')
+  const deckOptions = sel => DB.decks.map(d=>`<option value="${d.id}" ${d.id===sel?'selected':''}>${esc(fcDeckName(d))}</option>`).join('')
       + `<option value="__new__">${t('newDeck')}</option>`;
   const deckPicker = preset => `<div class="fc-form-field fc-deck-picker"><label for="fcDeckSel">${t('deck')}</label><select id="fcDeckSel">${deckOptions(preset||'')}</select>
       <input id="fcNewDeck" placeholder="${t('deckName')}" aria-label="${t('deckName')}" style="display:none"/></div>`;
@@ -1735,4 +1812,8 @@
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
+  /* O tradutor global do site (site.js setLang → couplemed:langchange) troca a página
+     inteira; os cards da Library 1 são bilíngues, então basta re-renderizar. */
+  window.addEventListener('couplemed:langchange', ()=>{ if(IS_FLASHCARDS_PAGE) render(); });
+
 })();
