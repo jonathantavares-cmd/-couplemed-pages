@@ -28,7 +28,7 @@
   'use strict';
 
   const SHARED_CSS  = '/css/library3-reader.css?v=5';   // toolbar compartilhada com a Library 3
-  const PAGE_CSS    = '/css/library1-reader.css?v=2';   // específico do modo página
+  const PAGE_CSS    = '/css/library1-reader.css?v=3';   // específico do modo página
   const CONTENT_DIR = '/js/library1-content/';
 
   /* ONDE A MÍDIA MORA — ponto único de virada.
@@ -70,6 +70,7 @@
           eraserToggle:'Eraser options', eraserClick:'Click a highlight to remove it',
           undo:'Undo', redo:'Redo', more:'More tools', colors:'Colors',
           fontSmaller:'Smaller text', fontBigger:'Bigger text', language:'Language', close:'Close',
+          zoomIn:'Zoom in', zoomOut:'Zoom out', zoomReset:'Fit to window',
           empty:'Content for this topic has not been added yet.',
           emptyHint:'It will appear here as soon as the material is included.' },
     pt: { loading:'Carregando…', loadError:'Este tópico ainda não tem conteúdo.',
@@ -79,6 +80,7 @@
           eraserToggle:'Opções de borracha', eraserClick:'Clique numa marcação pra apagar',
           undo:'Desfazer', redo:'Refazer', more:'Mais ferramentas', colors:'Cores',
           fontSmaller:'Diminuir texto', fontBigger:'Aumentar texto', language:'Idioma', close:'Fechar',
+          zoomIn:'Aumentar', zoomOut:'Diminuir', zoomReset:'Ajustar à janela',
           empty:'O conteúdo deste tópico ainda não foi incluído.',
           emptyHint:'Ele aparecerá aqui assim que o material for adicionado.' }
   };
@@ -354,18 +356,37 @@
     const box = document.createElement('div');
     box.className = 'l1r-lightbox';
     box.innerHTML = `
-      <button type="button" class="l1r-lb-close" aria-label="${esc(t('close'))}" title="${esc(t('close'))}">✕</button>
-      <button type="button" class="l1r-lb-nav l1r-lb-prev" data-lb-nav="-1" aria-label="prev">‹</button>
-      <button type="button" class="l1r-lb-nav l1r-lb-next" data-lb-nav="1" aria-label="next">›</button>
-      <img alt="" /><figcaption></figcaption>`;
+      <div class="l1r-ex" role="dialog" aria-modal="true">
+        <div class="l1r-ex-head">
+          <span class="l1r-ex-title" data-ex-title></span>
+          <span class="l1r-ex-nav">
+            <button type="button" class="l1r-ex-btn" data-lb-nav="-1" aria-label="prev">‹</button>
+            <b data-ex-count>1/1</b>
+            <button type="button" class="l1r-ex-btn" data-lb-nav="1" aria-label="next">›</button>
+          </span>
+          <button type="button" class="l1r-ex-btn l1r-ex-close" aria-label="${esc(t('close'))}" title="${esc(t('close'))}">✕</button>
+        </div>
+        <div class="l1r-ex-body" data-ex-body><img alt="" /></div>
+        <div class="l1r-ex-cap" data-ex-cap></div>
+        <div class="l1r-ex-foot">
+          <button type="button" class="l1r-ex-btn" data-ex-zoom="-1" aria-label="${esc(t('zoomOut'))}" title="${esc(t('zoomOut'))}">−</button>
+          <span class="l1r-ex-zoomlabel" data-ex-zoomlabel>100%</span>
+          <button type="button" class="l1r-ex-btn" data-ex-zoom="1" aria-label="${esc(t('zoomIn'))}" title="${esc(t('zoomIn'))}">+</button>
+          <button type="button" class="l1r-ex-btn" data-ex-zoom="0" aria-label="${esc(t('zoomReset'))}" title="${esc(t('zoomReset'))}">⟳</button>
+        </div>
+      </div>`;
     box.addEventListener('click', e=>{
       const nav = e.target.closest('[data-lb-nav]');
       if(nav){ stepLightbox(r, Number(nav.dataset.lbNav)); return; }
-      if(e.target===box || e.target.closest('.l1r-lb-close')) closeLightbox(r);
+      const z = e.target.closest('[data-ex-zoom]');
+      if(z){ zoomLightbox(r, Number(z.dataset.exZoom)); return; }
+      // clicar FORA da janela fecha; dentro, não
+      if(e.target===box || e.target.closest('.l1r-ex-close')) closeLightbox(r);
     });
     document.body.appendChild(box);
     r.lightbox = box;
     r.lightboxKey = refKey;
+    r.lbZoom = 1;
     paintLightbox(r);
     if(!r.lbKeyHandler){
       r.lbKeyHandler = e=>{
@@ -373,25 +394,62 @@
         if(e.key==='Escape') closeLightbox(r);
         else if(e.key==='ArrowRight') stepLightbox(r, 1);
         else if(e.key==='ArrowLeft')  stepLightbox(r, -1);
+        else if(e.key==='+' || e.key==='=') zoomLightbox(r, 1);
+        else if(e.key==='-') zoomLightbox(r, -1);
       };
       document.addEventListener('keydown', r.lbKeyHandler);
     }
   }
+
+  // Zoom da janela: 1 = imagem inteira visível (proporcional ao dispositivo).
+  function zoomLightbox(r, dir){
+    if(!r.lightbox) return;
+    r.lbZoom = dir===0 ? 1 : Math.min(4, Math.max(1, Math.round((r.lbZoom + dir*0.25)*100)/100));
+    applyZoom(r);
+  }
+  function applyZoom(r){
+    if(!r.lightbox) return;
+    const body = r.lightbox.querySelector('[data-ex-body]');
+    const img  = body.querySelector('img');
+    const z = r.lbZoom || 1;
+    body.classList.toggle('l1r-ex-zoomed', z > 1);
+    if(z > 1){
+      // dimensiona de verdade (em vez de transform) para o scroll acompanhar
+      img.style.transform = 'none';
+      img.style.width = (z*100) + '%';
+      img.style.height = 'auto';
+    } else {
+      img.style.transform = 'none';
+      img.style.width = '';
+      img.style.height = '';
+    }
+    const lbl = r.lightbox.querySelector('[data-ex-zoomlabel]');
+    if(lbl) lbl.textContent = Math.round(z*100) + '%';
+  }
+
   // Repinta com o idioma corrente — é o que faz a imagem trocar junto com o texto.
   function paintLightbox(r){
     if(!r.lightbox || !r.lightboxKey) return;
     const a = r.content.assets[r.lightboxKey];
     const v = assetSrc(r, r.lightboxKey, r.lang);
     if(!v) return;
-    const img = r.lightbox.querySelector('img');
+    const img = r.lightbox.querySelector('[data-ex-body] img');
     img.setAttribute('src', v.src);
     img.setAttribute('alt', v.alt || '');
-    const cap = r.lightbox.querySelector('figcaption');
+
+    const label = { image:  r.lang==='pt' ? 'Imagem'  : 'Image',
+                    figure: r.lang==='pt' ? 'Figura'  : 'Figure',
+                    table:  r.lang==='pt' ? 'Tabela'  : 'Table' }[a.kind] || '';
+    r.lightbox.querySelector('[data-ex-title]').textContent = `${label} ${a.n}`;
+    const cap = r.lightbox.querySelector('[data-ex-cap]');
     cap.textContent = v.alt || '';
     cap.hidden = !v.alt;
+
     const group = assetList(r, a.kind);
-    const many = group.length > 1;
-    r.lightbox.querySelectorAll('.l1r-lb-nav').forEach(b=> b.hidden = !many);
+    const i = group.indexOf(r.lightboxKey);
+    r.lightbox.querySelector('[data-ex-count]').textContent = `${i+1}/${group.length}`;
+    r.lightbox.querySelectorAll('[data-lb-nav]').forEach(b=> b.hidden = group.length < 2);
+    applyZoom(r);
   }
   function stepLightbox(r, dir){
     if(!r.lightboxKey) return;
@@ -400,12 +458,14 @@
     const i = group.indexOf(r.lightboxKey);
     if(i < 0 || group.length < 2) return;
     r.lightboxKey = group[(i + dir + group.length) % group.length];
+    r.lbZoom = 1;
     paintLightbox(r);
   }
   function closeLightbox(r){
     if(r.lightbox && r.lightbox.parentNode) r.lightbox.parentNode.removeChild(r.lightbox);
     r.lightbox = null;
     r.lightboxKey = null;
+    r.lbZoom = 1;
     if(r.lbKeyHandler){ document.removeEventListener('keydown', r.lbKeyHandler); r.lbKeyHandler = null; }
   }
 
@@ -684,12 +744,76 @@
      imprime/converte pra PDF pelo próprio navegador. A Library 3 baixa o PDF
      original; aqui não existe "arquivo original", o conteúdo É a página.
   ------------------------------------------------------------------------------ */
-  function downloadArticle(r, lang){
+  // Converte a imagem em data URI para o arquivo baixado funcionar OFFLINE, sem depender
+  // do site nem do R2.
+  function toDataUrl(url){
+    return fetch(url)
+      .then(res => res.ok ? res.blob() : Promise.reject(new Error(String(res.status))))
+      .then(blob => new Promise((resolve, reject)=>{
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = reject;
+        fr.readAsDataURL(blob);
+      }))
+      .catch(()=> null);   // imagem que falhar não impede o download do texto
+  }
+
+  async function downloadArticle(r, lang){
     const body = articleBody(r, lang);
     if(!body) return;
     const title = body.title || itemName(r.topic, lang);
     const subject = itemName(r.folder, lang);
-    const doc = `<!doctype html>
+    const btn = r.hostEl.querySelector(lang==='pt' ? '#l1rDownloadPt' : '#l1rDownloadEn');
+    const label = btn && btn.textContent;
+    if(btn){ btn.disabled = true; btn.textContent = '…'; }
+
+    try{
+      // Monta o artigo num DOM solto para inserir as figuras nos lugares certos.
+      const doc = document.createElement('div');
+      doc.innerHTML = body.html || '';
+
+      const assets = (r.content && r.content.assets) || {};
+      const keys = Object.keys(assets).sort((a,b)=>(assets[a].n||0)-(assets[b].n||0));
+
+      // Baixa todas as imagens do idioma pedido de uma vez.
+      const data = {};
+      await Promise.all(keys.map(async k=>{
+        const v = assetSrc(r, k, lang);
+        if(v) data[k] = await toDataUrl(v.src);
+      }));
+
+      // No arquivo baixado NÃO existe clique: a imagem tem de estar embutida no corpo,
+      // logo depois do bloco que a referencia, no tamanho certo (regra do usuário).
+      const placed = new Set();
+      keys.forEach(k=>{
+        const v = assetSrc(r, k, lang);
+        if(!v || !data[k]) return;
+        const a = assets[k];
+        const lbl = { image:  lang==='pt' ? 'Imagem'  : 'Image',
+                      figure: lang==='pt' ? 'Figura'  : 'Figure',
+                      table:  lang==='pt' ? 'Tabela'  : 'Table' }[a.kind] || '';
+        const fig = `<figure class="fig"><img src="${data[k]}" alt="${esc(v.alt)}" />` +
+                    `<figcaption><b>${esc(lbl)} ${a.n}.</b> ${esc(v.alt)}</figcaption></figure>`;
+        const ref = doc.querySelector(`[data-ref="${k.replace(/"/g,'\\"')}"]`);
+        if(ref){
+          let block = ref;
+          while(block.parentElement && block.parentElement !== doc) block = block.parentElement;
+          block.insertAdjacentHTML('afterend', fig);
+        } else {
+          doc.insertAdjacentHTML('beforeend', fig);   // sem referência: vai para o fim
+        }
+        placed.add(k);
+      });
+
+      // As referências viram texto simples (não há para onde clicar num arquivo salvo).
+      doc.querySelectorAll('[data-ref]').forEach(el=>{
+        const span = document.createElement('span');
+        span.className = 'ref';
+        span.textContent = el.textContent;
+        el.replaceWith(span);
+      });
+
+      const html = `<!doctype html>
 <html lang="${lang==='pt'?'pt-BR':'en'}">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -699,24 +823,31 @@
   .src{color:#6b7f9e;font-size:13px;margin:0 0 28px}
   h2{font-size:19px;margin:28px 0 8px} h3{font-size:16px;margin:22px 0 6px}
   table{border-collapse:collapse;width:100%;margin:16px 0} th,td{border:1px solid #d7deea;padding:8px 10px;text-align:left;vertical-align:top}
-  th{background:#f2f5fa} img{max-width:100%;height:auto} ul,ol{padding-left:22px}
-  @media print{body{padding:0}}
+  th{background:#f2f5fa} ul,ol{padding-left:22px}
+  .ref{color:#2768ff;font-weight:600}
+  figure.fig{margin:18px 0;padding:12px;border:1px solid #dfe5ef;border-radius:8px;background:#fafbfe;text-align:center;page-break-inside:avoid;break-inside:avoid}
+  figure.fig img{max-width:100%;height:auto;border-radius:4px}
+  figure.fig figcaption{margin-top:8px;font-size:12.5px;color:#5b6c86;line-height:1.45}
+  @media print{body{padding:0} figure.fig{border-color:#ccc;background:#fff}}
 </style></head>
 <body>
 <h1>${esc(title)}</h1>
 <p class="src">CoupleMed · Medical Library · Library 1 · ${esc(subject)}</p>
-${body.html || ''}
+${doc.innerHTML}
 </body></html>`;
 
-    const blob = new Blob([doc], { type:'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${slugify(title)}-${lang}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+      const blob = new Blob([html], { type:'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${slugify(title)}-${lang}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    } finally {
+      if(btn){ btn.disabled = false; btn.textContent = label; }
+    }
   }
 
   window.CMLibrary1Reader = { open, close: destroyActive };

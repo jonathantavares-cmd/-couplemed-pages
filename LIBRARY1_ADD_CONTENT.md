@@ -311,7 +311,7 @@ Duas consequências que importam:
 Como funciona:
 - O registro do tópico tem um bloco `assets`, com `kind` (image/figure/table), `n` (o número exibido) e as versões `en` e `pt`, cada uma com `key` e `alt`.
 - No texto, a referência é `<a class="l1r-ref" data-ref="image-1">image 1</a>`. Os dois idiomas **referenciam as mesmas chaves**; só muda o texto visível ("figure 1" / "figura 1").
-- A imagem ampliada fecha com ✕, **Esc** ou clique no fundo, e as setas ‹ › andam **dentro do mesmo grupo** (image 1 → image 2, sem pular para as tabelas).
+- A mídia abre numa **janela centrada sobre a página** (modelo "Exhibit Display" do material de origem), **proporcional ao dispositivo** — nunca em tamanho natural escorrendo para fora da tela. A janela tem cabeçalho (rótulo + contador `1/5` + navegação), corpo com a imagem ajustada, legenda e rodapé com **zoom − / % / + / ⟳**. Ampliada, a imagem excede a janela e rola; `⟳` volta a caber. Fecha com ✕, **Esc** ou clique fora; as setas ‹ › andam **dentro do mesmo grupo** (image 1 → image 2, sem pular para as tabelas).
 - O `alt` é a **legenda** da imagem ampliada — precisa existir e estar traduzido.
 - **Mídia que não for referenciada em lugar nenhum fica inalcançável.** Não há segunda porta de entrada. A auditoria trata isso como erro, não como aviso.
 
@@ -321,9 +321,21 @@ Convenções de arquivo:
 - **Formato: WebP**, escolhido arquivo a arquivo entre com perdas (q82) e sem perdas — o menor vence (§5.1). Use `node tools/library1-assets.js convert <dir>`; não gerar JPEG/PNG à mão.
 - Recortar a borda branca em volta, mas **nunca reduzir a resolução** — quem precisa dos pixels é a versão ampliada.
 
+### 7.5b Download (EN e PT) — aqui a imagem VAI embutida
+
+No arquivo baixado **não existe clique**, então a regra da página se inverte: a mídia precisa estar **dentro do corpo do conteúdo**, posicionada corretamente e em tamanho visível (regra do usuário, 2026-07-25).
+
+Como o download é montado:
+- Cada figura é inserida **logo após o bloco que a referencia** — mesmo critério de posição das referências na página.
+- Mídia sem referência vai para o fim do documento (não pode sumir).
+- As imagens vão **em `data:` URI (base64)**, então o arquivo abre offline, sem depender do site nem do R2.
+- A referência vira **texto simples** (não há para onde clicar num arquivo salvo).
+- Cada arquivo leva **só as imagens do seu idioma**: `…-en.html` com as versões EN, `…-pt.html` com as PT, legendas incluídas.
+- O CSS de impressão usa `page-break-inside: avoid` nas figuras, para nenhuma quebrar ao meio ao gerar o PDF pelo navegador (⌘P → Salvar como PDF).
+
 ### 7.6 Estado de verificação
 
-Testado em 2026-07-25 com DOM real (jsdom), **43 verificações, todas passando**: montagem da toolbar, render bilíngue, troca de idioma, tamanho de fonte, marcação (criação, cor, persistência, isolamento por idioma), desfazer/refazer, borracha, busca (ocorrências, contador, integridade do texto ao limpar), download EN e PT com nomes distintos, imagem ampliada (abrir, legenda pelo `alt`, legenda traduzida, fechar por ✕/Esc/fundo), botão voltar e o estado de "tópico ainda sem conteúdo".
+Testado em 2026-07-25 com DOM real (jsdom), **60 verificações, todas passando**: montagem da toolbar, render bilíngue, troca de idioma, tamanho de fonte, marcação (criação, cor, persistência, isolamento por idioma), desfazer/refazer, borracha, busca (ocorrências, contador, integridade do texto ao limpar), download EN e PT com nomes distintos, imagem ampliada (abrir, legenda pelo `alt`, legenda traduzida, fechar por ✕/Esc/fundo), botão voltar e o estado de "tópico ainda sem conteúdo".
 
 Um bug real foi encontrado e corrigido nesse teste: quando a seleção começava num **elemento** em vez de num nó de texto (parágrafo inteiro, triplo-clique, arrasto começando antes da primeira letra), o deslocamento nunca casava e a marcação falhava em silêncio. A medição passou a ser feita com um `Range` auxiliar (`offsetOfPoint`), que trata os dois casos.
 
@@ -499,4 +511,6 @@ Sem argumento, `node tools/library1-audit.js` audita **tudo** que já foi public
 | 2026-07-25 | **Tradução corrigida:** o leitor tinha botões EN/PT próprios e ignorava o tradutor global do site. Botões removidos; passou a escutar `couplemed:langchange` e traduzir texto, toolbar, legendas e imagens de uma vez (§7.3). |
 | 2026-07-25 | **Painel lateral de miniaturas removido a pedido** e a mídia **não é mais embutida na página**: a página é só texto e a imagem abre ao clicar no nome (§7.5). O que precisa estar posicionado corretamente é a **referência**. |
 | 2026-07-25 | **Auditoria obrigatória criada** (`tools/library1-audit.js`, §11.1): 7 verificações por tópico, com destaque para mídia não referenciada — que sem painel lateral fica inalcançável e invisível. |
+| 2026-07-25 | **Visualizador refeito como janela centrada com zoom** (§7.5). O CSS do visualizador havia sido apagado por engano numa limpeza, e sem ele a imagem saía em tamanho natural escorrendo para fora da tela — foi o que o usuário viu. Reescrito no modelo do material de origem, com cabeçalho, contador, legenda e zoom −/+/⟳. |
+| 2026-07-25 | **Download passa a embutir a mídia no corpo** (§7.5b), em data URI, posicionada após o bloco que a referencia, cada idioma com as suas imagens — no arquivo salvo não há clique. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

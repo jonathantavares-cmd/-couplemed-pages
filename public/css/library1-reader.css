@@ -7,6 +7,21 @@
    corpo do artigo, marcação sobre texto real, busca e o grupo de idioma.
    ============================================================================ */
 
+/* ---------------------------- ajuste da barra inferior ----------------------------
+   O CSS compartilhado da Library 3 monta a barra de baixo num grid de 3 colunas
+   (ferramentas | navegação de página | zoom). A Library 1 não tem navegação de página,
+   então sobram 2 grupos e o grid de 3 colunas desalinhava, sobrepondo os botões.
+   Escopo em `.l1r` de propósito: NÃO afeta a Library 3. */
+.l1r .l3r-toolbar-bottom{ grid-template-columns:minmax(0,1fr) auto }
+@media (max-width:820px){
+  .l1r .l3r-toolbar-bottom{ grid-template-columns:minmax(0,1fr) auto }
+  .l1r .l3r-toolbar-bottom .l3r-zoom{ grid-column:2; grid-row:1; transform:none }
+}
+@media (max-width:590px){
+  .l1r .l3r-toolbar-bottom{ grid-template-columns:1fr }
+  .l1r .l3r-toolbar-bottom .l3r-zoom{ position:static; grid-column:1; grid-row:2; justify-self:end }
+}
+
 /* ---------------------------- corpo da página ---------------------------- */
 .l1r-pagewrap{
   flex:1; min-height:0; overflow:auto;
@@ -71,6 +86,82 @@
 .l1r-ref::before{ content:'▤'; font-size:.8em; margin-right:3px; opacity:.85 }
 .l1r-ref[data-ref^="figure"]::before{ content:'📈' }
 .l1r-ref[data-ref^="table"]::before{ content:'▦' }
+
+/* ---------------------------- visualizador de mídia (Exhibit) ----------------------------
+   Modelo pedido pelo usuário: uma JANELA centrada sobre a página, proporcional ao
+   dispositivo — não uma imagem solta em tamanho natural escorrendo para fora da tela.
+   Cabeçalho com navegação, corpo com a imagem contida, rodapé com zoom. */
+.l1r-lightbox{
+  position:fixed; inset:0; z-index:9999;
+  display:flex; align-items:center; justify-content:center;
+  padding:min(4vh,34px) min(4vw,34px);
+  background:rgba(6,14,28,.55);
+  backdrop-filter:blur(2px);
+}
+.l1r-ex{
+  display:flex; flex-direction:column;
+  width:min(1180px, 94vw); max-height:92vh;
+  background:var(--l3r-card); color:var(--l3r-text);
+  border:1px solid var(--l3r-line); border-radius:12px;
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+  overflow:hidden;
+}
+/* --- cabeçalho --- */
+.l1r-ex-head{
+  display:flex; align-items:center; gap:12px;
+  padding:10px 14px;
+  background:var(--l3r-card2); border-bottom:1px solid var(--l3r-line);
+}
+.l1r-ex-title{
+  font-size:13.5px; font-weight:750; margin-right:auto;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.l1r-ex-nav{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--l3r-muted) }
+.l1r-ex-btn{
+  width:28px; height:28px; border-radius:50%;
+  border:1px solid var(--l3r-line); background:transparent; color:var(--l3r-text);
+  cursor:pointer; display:grid; place-items:center; font-size:15px; line-height:1;
+}
+.l1r-ex-btn:hover{ background:var(--l3r-chip); border-color:var(--l3r-blue) }
+.l1r-ex-btn:disabled{ opacity:.3; cursor:not-allowed }
+.l1r-ex-btn[hidden]{ display:none }
+.l1r-ex-close{ font-size:16px }
+/* --- corpo: a imagem cabe na janela; ao ampliar, rola --- */
+.l1r-ex-body{
+  flex:1; min-height:0; overflow:auto;
+  display:flex; align-items:center; justify-content:center;
+  padding:14px; background:#fff;
+}
+.l1r-ex-body img{
+  display:block; margin:auto;
+  max-width:100%; max-height:100%;
+  width:auto; height:auto;
+  object-fit:contain;
+  transition:transform .12s ease;
+  transform-origin:center center;
+}
+/* com zoom aplicado a imagem passa a poder exceder a janela (daí o overflow:auto) */
+.l1r-ex-body.l1r-ex-zoomed{ align-items:flex-start; justify-content:flex-start }
+.l1r-ex-body.l1r-ex-zoomed img{ max-width:none; max-height:none }
+/* --- rodapé --- */
+.l1r-ex-foot{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  padding:8px 14px;
+  background:var(--l3r-card2); border-top:1px solid var(--l3r-line);
+}
+.l1r-ex-zoomlabel{ font-size:12px; color:var(--l3r-muted); min-width:46px; text-align:center }
+.l1r-ex-cap{
+  padding:8px 14px 12px; font-size:12.5px; line-height:1.5;
+  color:var(--l3r-muted); text-align:center;
+  background:var(--l3r-card2); border-top:1px solid var(--l3r-line);
+}
+.l1r-ex-cap[hidden]{ display:none }
+
+@media (max-width:640px){
+  .l1r-lightbox{ padding:0 }
+  .l1r-ex{ width:100vw; max-height:100vh; height:100vh; border-radius:0; border:0 }
+  .l1r-ex-title{ font-size:12.5px }
+}
 
 /* ---------------------------- tags do fim do artigo ---------------------------- */
 .l1r-tags{ display:flex; flex-wrap:wrap; gap:8px; margin:0 }
