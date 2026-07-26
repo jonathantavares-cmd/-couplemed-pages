@@ -200,7 +200,7 @@ window.LIBRARY1_STRUCTURE = [
 - **26 Subjects × 1.838 tópicos**, todos com `name` (EN) e `ptName` (PT-BR já bakeado — não depende do motor de tradução ao vivo).
 - Contagem por Subject (2026-07-25): Infectious Diseases 176 · Gastroenterology 137 · Cardiology 114 · Hematology & Oncology 107 · Neurology 102 · Rheumatology/Orthopedics 98 · Preclinical/Basic sciences 97 · Psychiatry 89 · Gynecology 86 · Pulmonary & Critical Care 82 · Pharmacology 78 · Dermatology 77 · Obstetrics 69 · Nephrology 67 · Endocrinology 60 · ENT 57 · Cell Bio/Biochem/Genetics 51 · Anatomy & Histology 44 · Male Reproductive System 44 · Ophthalmology 40 · Allergy & Immunology 36 · Embryology 32 · Physiology 28 · Toxicology 26 · Social Sciences 25 · Osteopathic principles 16.
 
-**Renderização:** `public/js/site.js`, função `renderLibrary()` (~linha 543-573). Hoje são **2 níveis**:
+**Renderização:** `public/js/site.js`, função `renderLibrary()` (linha 592; o bloco da Library 1 começa em 602). São **3 níveis**:
 
 1. Lista das 26 pastas → clique navega para `app.html?page=library-1&u={user}&folder={slug}`.
 2. Lista dos tópicos da pasta aberta.
@@ -209,7 +209,7 @@ window.LIBRARY1_STRUCTURE = [
 
 O slug da pasta vem de `slugify()` (`site.js:530`): minúsculas, `&` → `and`, tudo que não for `[a-z0-9]` → `-`, sem hífen nas pontas.
 
-**Busca global:** `site.js:1703-1707` já indexa pastas e tópicos da Library 1, mas todo tópico ainda aponta para a pasta-mãe. Agora que o 3º nível existe (Seção 7), **falta atualizar esse `href` para apontar ao tópico real** (`&topic=<slug>`) — pendência conhecida, não bloqueia a inclusão de conteúdo.
+**Busca global:** `site.js:1782-1786` já indexa pastas e tópicos da Library 1, mas todo tópico ainda aponta para a pasta-mãe. Agora que o 3º nível existe (Seção 7), **falta atualizar esse `href` para apontar ao tópico real** (`&topic=<slug>`) — pendência conhecida, não bloqueia a inclusão de conteúdo.
 
 ---
 
@@ -344,7 +344,7 @@ O que **não** é compartilhado automaticamente é o comportamento em JS (os doi
 
 A Library 3 é um **arquivo PDF pronto** e por decisão do usuário não traduz a página inteira (só tradução por seleção). A Library 1 é **página**, então funciona ao contrário: o material vem em inglês e é **gravado nos dois idiomas no momento da inclusão** (Seção 6).
 
-**O leitor não tem botão de idioma próprio** — ele obedece às bandeiras do topo, como todo o resto do site. `setLang()` (`site.js:1380`) dispara o evento `couplemed:langchange`, o leitor escuta e troca **tudo de uma vez**:
+**O leitor não tem botão de idioma próprio** — ele obedece às bandeiras do topo, como todo o resto do site. `setLang()` (`site.js:1444`) dispara o evento `couplemed:langchange`, o leitor escuta e troca **tudo de uma vez**:
 
 - o texto do artigo e o título;
 - o título na toolbar, o botão Voltar e o placeholder da busca;
@@ -464,9 +464,11 @@ public/app.html?page=library-1&u=guest1&folder=allergy-and-immunology&topic=anap
 **Testes automatizados do leitor** (DOM real, sem browser) vivem em **`tools/tests/`** — ver `tools/tests/README.md` para rodar (o `jsdom` fica fora do repo, apontado por `JSDOM_PATH`):
 
 ```bash
-JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-reader.js     # leitor — 60 verificações
-JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-quiz.js       # Create Test — 41, inclui isolamento do QBank
-JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-assetbase.js  # prova a virada para o R2
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-reader.js      # leitor (toolbar, mídia, tradução, marcação, busca, download)
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-quiz.js        # Create Test, incl. isolamento do QBank
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read.js        # marca "já lido" na Library 1
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read-lib3.js   # marca "já lido" na Library 3
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-assetbase.js   # prova a virada da mídia para o R2
 ```
 
 Rodar os três sempre que mexer no comportamento do leitor. Para conferir **conteúdo incluído**, o que vale é a auditoria da Seção 11.1.
@@ -478,6 +480,7 @@ Checklist antes de commitar:
 - [ ] Conteúdo confere **exatamente** com os prints de origem, sem paráfrase, corte ou acréscimo (Seção 1).
 - [ ] **`node tools/library1-audit.js` saiu ✅** (Seção 11.1) — inegociável.
 - [ ] Se `library1-reader.js` ou `library1-reader.css` mudaram: **`node tools/library1-cachecheck.js` saiu ✅** (Seção 9.1) — senão o navegador serve o arquivo velho.
+- [ ] Se este documento mudou: **`node tools/library1-doccheck.js` saiu ✅** (Seção 9.2).
 - [ ] Imagens abrem ao clicar no nome, nos dois idiomas, e a página não mostra imagem aberta (Seção 7.5).
 - [ ] Clicar na bandeira do topo traduz texto E imagens (Seção 7.3).
 - [ ] Versão PT presente no mesmo commit (Seção 6).
@@ -506,6 +509,30 @@ node tools/library1-cachecheck.js            # reclama se o conteúdo mudou e o 
 node tools/library1-cachecheck.js --accept   # grava o estado atual (rodar DEPOIS de subir o v=)
 ```
 Ele guarda o hash de cada arquivo ao lado da versão publicada em `tools/.cache-versions.json`. Rodar **antes de commitar** sempre que o leitor ou o CSS tiverem sido tocados.
+
+### 9.2 VERIFICAR O PRÓPRIO DOCUMENTO
+
+Este arquivo é a fonte única do fluxo, e **envelhece em silêncio**: citar `site.js:1380` fica errado no dia em que alguém insere 60 linhas acima disso. Já aconteceu **duas vezes** — nas duas por edição nossa no `site.js`, e nas duas o doc passou a mandar a sessão seguinte olhar a linha errada.
+
+```bash
+node tools/library1-doccheck.js
+```
+
+O que ele verifica (74 checagens hoje):
+1. todo arquivo citado **existe**;
+2. toda citação `arquivo.js:N` aponta para uma linha que **realmente contém** aquilo que o doc diz;
+3. toda ferramenta em `tools/` e todo teste em `tools/tests/` é **citado** no doc;
+4. todo subcomando documentado **existe** na ferramenta;
+5. nenhuma referência "Seção N" aponta para **seção inexistente**;
+6. o doc **não contradiz o código** nos pontos que já causaram bug (painel lateral, botão de idioma, mídia do artigo no clique, imagens do quiz exibidas, chave própria do quiz).
+
+**Rodar sempre que este doc ou o leitor mudarem** — junto com `library1-audit.js` (conteúdo) e `library1-cachecheck.js` (versão de cache). Os três cobrem coisas diferentes:
+
+| Ferramenta | Verifica |
+|---|---|
+| `library1-audit.js` | o **conteúdo incluído** (mídia bilíngue, referências, questões) |
+| `library1-doccheck.js` | o **documento** contra o código |
+| `library1-cachecheck.js` | a **versão de cache** de leitor e CSS |
 
 ---
 
@@ -727,7 +754,7 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 | Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ✅ (`L1Q-ARF-004`) |
 | Q5 | Imagem 13, 14 | coreia de Sydenham | ✅ (`L1Q-ARF-005`) |
 
-`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os três testes de `tools/tests/` passam.
+`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os cinco testes de `tools/tests/` passam.
 
 > ⚠️ **Pendência de tradução:** `image-6` e `figure-3` (mídia exclusiva da Q3) estão marcadas `singleLang:true` — o print da questão só veio em inglês, então a versão "pt" aponta para o mesmo arquivo em inglês. Quando o usuário mandar esses dois prints em português, recortar e trocar a `key` de `pt` em `public/js/library1-content/allergy-and-immunology.js`.
 >
@@ -741,7 +768,7 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 
 | Data | Decisão / achado |
 |---|---|
-| 2026-07-25 | Arquivo criado. Verificado: pasta de origem espelha 1838/1838 tópicos; tópicos no site eram links mortos (`site.js:558,561`); vocabulários de QBank e Library 1 divergem (só 9 systems e 9 topics coincidem). |
+| 2026-07-25 | Arquivo criado. Verificado: pasta de origem espelha 1838/1838 tópicos; tópicos no site eram links mortos (`href="#"` + `data-no-nav` + `preventDefault()`, código já removido); vocabulários de QBank e Library 1 divergem (só 9 systems e 9 topics coincidem). |
 | 2026-07-25 | **Formato do material definido:** prints e imagens dentro de cada subpasta, a transcrever para página fiel ao print (§2.1). Subpasta vazia = material ainda não colocado, pular em silêncio (§2.2). |
 | 2026-07-25 | **Armazenamento definido e implementado:** um arquivo por Subject em `public/js/library1-content/`, carregado sob demanda, com EN+PT no mesmo registro (§5). |
 | 2026-07-25 | **Leitor de página implementado** com a toolbar espelhada da Library 3, CSS compartilhado, tradução instantânea EN/PT e download nos dois idiomas (§7). testes em jsdom passando (hoje em `tools/tests/`); corrigido bug de seleção iniciada em elemento. |
@@ -767,4 +794,6 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 | 2026-07-25 | **As figuras do Create Test não apareciam** apesar do código estar correto: JS e CSS foram alterados **sem subir o `?v=`**, então o navegador servia os arquivos em cache. Versões subidas (js v=4, css v=5) e criado `tools/library1-cachecheck.js` + §9.1 para o erro não acontecer uma terceira vez — ele compara o hash do arquivo com a versão publicada. |
 | 2026-07-25 | **Marca "já lido" por tópico** (§11.3): ✓ ao final da caixa na lista de tópicos + botão na toolbar do leitor, compartilhando o mesmo estado (`couplemed_lib1read_<user>`). O ✓ fica dentro do link do tópico, então marcar não abre o tópico. Não replicado na Library 3 (é função de conteúdo, não de toolbar). |
 | 2026-07-25 | **Marca "já lido" estendida à Library 3** (§11.3), a pedido do usuário: ✓ na lista de PDFs (nas duas variantes, embutido e nova aba) e botão na toolbar do leitor de PDF. API virou `window.CMLibRead(lib, id)`, com chaves separadas por biblioteca. |
+| 2026-07-25 | **Revisão completa do doc contra o código** (pedida pelo usuário). Encontradas e corrigidas 4 citações de linha envelhecidas pelas próprias edições desta sessão no `site.js` (renderLibrary 543→592, busca global 1703→1782, setLang 1380→1444, e as linhas 558/561 do histórico, que não existem mais), além de "três testes" onde já são cinco, e da §9 que listava só 3 dos 5 arquivos de teste. |
+| 2026-07-25 | **Criado `tools/library1-doccheck.js` (§9.2)**: 78 verificações do doc contra o código — arquivos citados, citações de linha apontando para a linha certa, ferramentas/testes citados, subcomandos existentes, referências de seção e coerência nos pontos que já causaram bug. Este tipo de defasagem não deve mais passar em silêncio. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
