@@ -24,15 +24,30 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 6. **Gravar o conteúdo** no arquivo de destino correspondente (Seção 5), sempre **bilíngue EN + PT no mesmo commit** (Seção 6).
 7. **Validar**: `node --check` no(s) arquivo(s) alterado(s) + conferir que o tópico abre no site (Seção 9).
 8. **AUDITAR (obrigatório, Seção 11.1)**: `node tools/library1-audit.js "<Subject>" "<Tópico>"`. Tem de sair ✅ — se sair ❌, corrigir e rodar de novo antes de qualquer outra coisa.
-9. **GRAVAR AS NARRAÇÕES (obrigatório, Seção 17)** — o áudio de leitura faz parte do conteúdo, exatamente como as versões EN e PT do texto e as imagens `-en`/`-pt`. Um tópico **não está pronto** sem ele:
+9. **CRIAR OS 30 FLASHCARDS (obrigatório, Seção 11.4)** — bilíngues EN+PT, em `public/js/library1-flashcards/<subject-slug>.js`, seguindo o padrão da Seção 11.5 (todo card com `why`, mistura de tipos, imagens do próprio tópico). São **30**, não 20 — a contradição no doc foi corrigida em 2026-07-26. Conferir com:
    ```bash
-   node tools/narration.js build lib1 "<subject-slug>" "<topic-slug>"   # grava as 6 vozes
+   JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js
+   ```
+10. **GRAVAR AS NARRAÇÕES (obrigatório, Seção 17)** — o áudio de leitura faz parte do conteúdo, exatamente como as versões EN e PT do texto e as imagens `-en`/`-pt`. Um tópico **não está pronto** sem ele:
+   ```bash
+   node tools/narration.js voices                                       # 1º: as 6 vozes estão instaladas?
+   node tools/narration.js build lib1 "<subject-slug>" "<topic-slug>"   # grava as 6 vozes (~5 min)
    node tools/narration.js upload                                       # sobe para o R2
    ```
    São as 6 vozes padrão (4 em inglês + 2 em português, Seção 17.1), gravadas de uma vez. Leva ~5 min e ~29 MB por tópico. Não escolher vozes nem inventar variação: o catálogo é fixo e mora em `public/js/cm-narration-shared.js`.
-10. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
-11. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
-12. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
+
+   Se o `upload` reclamar de segredo (`NARRATION_ADMIN_SECRET`/`LIB1_ADMIN_SECRET` não exportado no ambiente), subir direto pelo wrangler — **é o caminho que funcionou em 2026-07-26** e não precisa de segredo nenhum, só do login que a máquina já tem:
+   ```bash
+   export PATH="$HOME/.npm-global/bin:$PATH"
+   for f in .narration-build/lib1/<subject-slug>/<topic-slug>/*; do
+     n=$(basename "$f"); ct="audio/mp4"; [[ "$n" == *.json ]] && ct="application/json"
+     wrangler r2 object put "couplemed-narration/narration/lib1/<subject-slug>/<topic-slug>/$n" \
+       --file "$f" --content-type "$ct" --remote
+   done
+   ```
+11. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
+12. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
+13. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
 
 ---
 
@@ -476,7 +491,7 @@ JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-quiz.js        # Creat
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read.js        # marca "já lido" na Library 1
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read-lib3.js   # marca "já lido" na Library 3
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-count.js       # quantidade de questões é livre (1, 2, 9, nenhuma)
-JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js  # os 20 flashcards do tópico (§11.4)
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js  # os 30 flashcards do tópico (§11.4)
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards-i18n.js  # tradução dos cards, inclusive os formatados
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-narrator.js     # narração: vozes, player e casamento frase↔DOM (§17)
 node tools/tests/test-pdf-text.js                                        # ordem de leitura do PDF da Library 3 (§17.6)
@@ -754,7 +769,7 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 
 ## 11.4 ⚠️ OBRIGATÓRIO: 30 FLASHCARDS BILÍNGUES POR TÓPICO INCLUÍDO
 
-> ### **Todo tópico incluído na Library 1 gera 20 flashcards, automaticamente.**
+> ### **Todo tópico incluído na Library 1 gera 30 flashcards, automaticamente.**
 >
 > **Regra do usuário (2026-07-25):** *"sempre que incluir um tópico na Library 1, deve então também criar automaticamente flashcards sobre o tópico"* — **30 por tópico** (confirmado em 2026-07-25; antes eram 20), **sempre em inglês E português** — padrão **Anki**, foco **USMLE Step 1**, disponíveis **para todos os usuários**.
 >
@@ -863,19 +878,20 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 11 `recall` · 7 `contrast` · 4 `image` · 3 `cloze` · 2 `why` · 2 `case` · 1 `mnemonic` = **30**, todos bilíngues, 8 com imagem, todos com `why`.
 ## 12. ESTADO ATUAL (onde paramos)
 
-**Último trabalho: 2026-07-25.** Tudo abaixo está commitado e publicado.
+**Último trabalho: 2026-07-26.** Tudo abaixo está commitado e publicado.
 
 **Infraestrutura — pronta:**
 - Leitor de página com toolbar espelhada da Library 3 (§7), tradução pelo tradutor global (§7.3), mídia abrindo em janela com zoom só ao clicar no nome (§7.5), download com imagens embutidas (§7.5b).
 - Armazenamento por Subject (§5) e mídia em WebP com a virada para R2 pronta (§5.1).
 - Create Test por tópico, isolado do QBank 1 (§11.2).
-- Ferramentas: `library1-progress.js` (✅ nas pastas), `library1-assets.js` (WebP/report/upload), `library1-audit.js` (auditoria obrigatória), `tools/tests/` (testes do leitor).
+- **Narração (§17)** — leitura em voz alta com o trecho destacado acompanhando, nas três libraries. 6 vozes gratuitas do `say` do macOS gravadas em arquivo e servidas do R2 (`couplemed-narration`), então soam iguais em qualquer aparelho. Library 3 já gera (extração de PDF em ordem de leitura, §17.6); Library 2 herda quando o leitor dela existir.
+- Ferramentas: `library1-progress.js` (✅ nas pastas), `library1-assets.js` (WebP/report/upload), `library1-audit.js` (auditoria obrigatória), `narration.js` (grava e sobe os áudios), `tools/tests/` (testes do leitor, do narrador, da tradução dos flashcards e da extração de PDF).
 
 **Conteúdo — 1 de 1.838 tópicos:**
 
 | Tópico | Estado |
 |---|---|
-| Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 12 mídias ✅ (10 do artigo × 2 idiomas + 2 exclusivas da Q3, ver aviso singleLang abaixo) · **5 de 5 questões** transcritas · **30 flashcards bilíngues** ✅ (§11.4) |
+| Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 12 mídias ✅ (10 do artigo × 2 idiomas + 2 exclusivas da Q3, ver aviso singleLang abaixo) · **5 de 5 questões** transcritas · **30 flashcards bilíngues** ✅ (§11.4) · **6 narrações** ✅ (4 EN + 2 PT, no R2, §17) |
 
 **Tópico CONCLUÍDO.** As 5 questões do Create Test estão publicadas — **5 é o que havia nesta pasta, não um padrão** (§11.2):
 
@@ -887,7 +903,7 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 | Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ✅ (`L1Q-ARF-004`) |
 | Q5 | Imagem 13, 14 | coreia de Sydenham | ✅ (`L1Q-ARF-005`) |
 
-`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os sete testes de `tools/tests/` passam, e os três verificadores (`audit`, `doccheck`, `cachecheck`) saem limpos.
+`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os **dez** testes de `tools/tests/` passam, e os três verificadores (`audit`, `doccheck`, `cachecheck`) saem limpos.
 
 **Flashcards deste tópico:** 30 cards bilíngues em `public/js/library1-flashcards/allergy-and-immunology.js`, deck **"Acute rheumatic fever" / "Febre reumática aguda"**, distribuídos em 11 `recall` · 7 `contrast` · 4 `image` · 3 `cloze` · 2 `why` · 2 `case` · 1 `mnemonic`, 8 com imagem do próprio tópico e todos com `why`.
 
@@ -932,13 +948,19 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 | 2026-07-25 | **Revisão completa do doc contra o código** (pedida pelo usuário). Encontradas e corrigidas 4 citações de linha envelhecidas pelas próprias edições desta sessão no `site.js` (renderLibrary 543→592, busca global 1703→1782, setLang 1380→1444, e as linhas 558/561 do histórico, que não existem mais), além de "três testes" onde já são cinco, e da §9 que listava só 3 dos 5 arquivos de teste. |
 | 2026-07-25 | **Criado `tools/library1-doccheck.js` (§9.2)**: 78 verificações do doc contra o código — arquivos citados, citações de linha apontando para a linha certa, ferramentas/testes citados, subcomandos existentes, referências de seção e coerência nos pontos que já causaram bug. Este tipo de defasagem não deve mais passar em silêncio. |
 | 2026-07-25 | **Registrado que 5 questões não é padrão** (§11.2, a pedido do usuário): a quantidade certa é a que estiver na pasta do tópico — pode ser mais, menos, ou nenhuma. Nunca parar em 5 nem completar até 5. A auditoria não exige quantidade, de propósito. |
-| 2026-07-25 | **§11.4: 20 flashcards por tópico, obrigatórios** (regra do usuário). Padrão Anki, foco Step 1, dados em `public/js/library1-flashcards/<subject>.js`, semeados por `flashcards.js` no banco de cada usuário (idempotente, progresso preservado, deck "Medical Library · Library 1"). Entram nos filtros por sistema/subject/topic; subject fora da lista vai para Others (`misc`). Os 20 do tópico Acute rheumatic fever já criados. |
+| 2026-07-25 | **§11.4: 30 flashcards por tópico, obrigatórios** (regra do usuário). Padrão Anki, foco Step 1, dados em `public/js/library1-flashcards/<subject>.js`, semeados por `flashcards.js` no banco de cada usuário (idempotente, progresso preservado, deck "Medical Library · Library 1"). Entram nos filtros por sistema/subject/topic; subject fora da lista vai para Others (`misc`). Os 30 do tópico Acute rheumatic fever já criados. (O doc dizia "20" em três lugares até 2026-07-26; o número sempre foi 30 — conferido no arquivo de flashcards.) |
 | 2026-07-25 | **Flashcards refeitos: 30 por tópico, BILÍNGUES, padrão "Anki melhorado"** (§11.4/§11.5). Schema passou a `en`/`pt` com `front`/`back`/`hint`/`why`, mais `kind` (7 tipos pedagógicos com cor e emoji fixos) e `img` com legenda bilíngue. Deck agora é **um por tópico, com o nome do tópico**, traduzido. O tradutor global do site troca o card inteiro. |
 | 2026-07-26 | **Página Navegar (Browse) dos Flashcards alinhada aos 3 breakpoints estruturais** (`public/css/styles.css`, RESPONSIVE_BREAKPOINTS.md §1): `.fc-row` empilha em iPad/celular e `.fc-row-actions` quebra em grade — os até 6 botões da linha (🚩/enterrar/suspender/compartilhar/editar/excluir), com rótulos longos em PT ("Descompartilhar", "Desenterrar"), estouravam a largura da tela sem essa regra. Conferida também a tela de estudo (`.fc-card` reduz padding/fonte em celular) e o padrão visual dos cards por `kind` (§11.5), que já tinha as próprias regras em 820/520px. `styles.css` subiu para `v=71` (§9.1). |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
 
 ---
-
+| 2026-07-26 | **Narração implementada nas três libraries (§17).** Decisão do usuário: usar as vozes gratuitas do `say` do macOS em vez de API paga (OpenAI ~US$0,33/tópico, teto ~US$600 nos 1.838). Como o áudio é gravado em ARQUIVO, ganha-se o que importava: as mesmas vozes em qualquer aparelho (Windows/Android inclusive) e destaque exato no Safari. Trocar por API neural depois não mexe na interface — só no gerador. |
+| 2026-07-26 | **Vozes padrão fixadas pelo usuário**, escolhidas de ouvido em amostras com texto médico real: EN = Ava (Premium), Samantha, Alex, Tom; PT = Fernanda, Felipe. Catálogo único em `public/js/cm-narration-shared.js`; o `id` entra no nome do arquivo no R2, então renomear id órfã o áudio já gravado. |
+| 2026-07-26 | **Áudio no R2, bucket próprio `couplemed-narration`.** É derivado do conteúdo, não conteúdo; num bucket só dá para auditar e limpar de uma vez. Egress zero do R2 = alunos ouvem sem custo de transferência. Servido com Range, sem o qual o Safari não toca `<audio>`. |
+| 2026-07-26 | **Gravar narração virou passo obrigatório** do Procedimento Padrão (§0, passo 9): áudio é conteúdo, como as versões EN/PT do texto e as imagens `-en`/`-pt`. |
+| 2026-07-26 | **Library 3 só em inglês** (o material só existe em inglês; narrar em PT com o destaque sobre o texto inglês descasaria o que se ouve do que se lê). Narra uma página por vez. |
+| 2026-07-26 | **Extração de PDF em ordem de leitura (§17.6).** Achado ao medir: o First Aid não é de duas colunas de texto corrido e sim TABELA, e as colunas dividem a mesma linha física — por isso a separação passou a ser nos itens, antes de formar linha. Glifos do First Aid viram palavra (`q`=↑, `r`=↓, `p`=→) e as ligaduras são decididas por palavra, porque o mesmo caractere é "ff" num PDF e "fi" noutro. Limitação: páginas de 3 colunas ainda podem intercalar — daí o `inspect` obrigatório antes de gerar. |
+| 2026-07-26 | **Bug de tradução dos flashcards corrigido (§11.5).** O editor envolve o texto em `<p>`, o ramo de conteúdo "rico" renderizava sem marcação de tradução, e por isso TODO card criado pelo editor ficava preso no idioma original — enquanto os importados em texto puro traduziam, o que fazia parecer aleatório. |
 ## 17. NARRAÇÃO (áudio de leitura) — ✅ IMPLEMENTADO (2026-07-26)
 
 Toda página da Library 1 pode ser **narrada em voz alta**, com o trecho que está sendo lido **destacado na tela** para o usuário acompanhar. A barra de controle fica na toolbar do leitor e vale para as **três** libraries — a toolbar é compartilhada (ver o cabeçalho de `public/js/library1-reader.js`: mexeu numa, mexe na outra).
