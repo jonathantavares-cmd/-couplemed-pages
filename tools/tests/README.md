@@ -19,11 +19,12 @@ npm install jsdom --cache /tmp/l1test/.npmcache      # ⚠️ o --cache é neces
 cd <repo>
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-reader.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-quiz.js
+JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-read.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-assetbase.js
 ```
 
-Saída esperada: `✅ TODOS OS TESTES PASSARAM` nos dois primeiros e
-`✅ A virada para o R2 é uma linha — provado` no terceiro.
+Saída esperada: `✅ TODOS OS TESTES PASSARAM` nos três primeiros e
+`✅ A virada para o R2 é uma linha — provado` no último.
 
 ## O que cada um cobre
 
@@ -31,6 +32,7 @@ Saída esperada: `✅ TODOS OS TESTES PASSARAM` nos dois primeiros e
 |---|---|
 | `test-reader.js` | toolbar; página mostrando **só texto**; imagem abrindo apenas ao clicar no nome; janela do visualizador com zoom −/+/⟳; tradução pelo **tradutor global** do site (texto, rótulos, legendas e imagens juntos, inclusive com a imagem aberta); marcação por seleção isolada por idioma; undo/redo; borracha; busca; download com as imagens **embutidas** em data URI |
 | `test-quiz.js` | Create Test: botão acima das tags, execução, revelação do %, explicações, resultado, estado "já realizado", Rever × Refazer e — o mais importante — **isolamento do QBank 1** (grava estado de QBank, roda o teste e compara byte a byte que nada mudou) |
+| `test-read.js` | marca "já lido": botão da toolbar, estado compartilhado com a lista de tópicos, tradução do rótulo, atualização por evento `storage` e isolamento do QBank |
 | `test-assetbase.js` | carrega o **conteúdo real** do repositório e prova que trocar `window.LIBRARY1_ASSET_BASE` migra a mídia para o R2 **sem editar nenhum conteúdo** |
 
 ## Detalhes de ambiente que já custaram tempo

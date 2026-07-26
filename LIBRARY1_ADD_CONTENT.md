@@ -661,6 +661,33 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 
 ---
 
+### 11.3 MARCA "JÁ LIDO" POR TÓPICO
+
+**Pedido do usuário (2026-07-25):** uma sinalização de um clique indicando que o tópico já foi lido, **em dois lugares**:
+
+1. **Na lista de tópicos**, ao final da caixa de cada tópico — um ✓ circular à direita do nome.
+2. **Na toolbar do leitor**, para marcar sem sair da página.
+
+Os dois **compartilham o mesmo estado**, então marcar num lugar reflete no outro.
+
+| | Onde |
+|---|---|
+| ✓ na lista | `public/js/site.js`, no bloco `library-1` de `renderLibrary()` |
+| Botão na toolbar | `public/js/library1-reader.js`, `#l1rReadBtn` + `syncReadBtn()` |
+| Estado | `localStorage`, chave `couplemed_lib1read_<user>`, indexada por `<subject>/<topic>` |
+| API compartilhada | `window.CMLib1Read.isRead(folder, topic)` / `.toggle(folder, topic)` (exposta por `site.js`) |
+
+Detalhes que importam:
+- **O ✓ vive dentro do `<a>` do tópico**, então o clique nele faz `preventDefault` + `stopPropagation` — marcar **não abre** o tópico.
+- Marcado, a caixa ganha borda verde e o nome fica levemente esmaecido, para dar varredura visual na lista.
+- O rótulo do botão da toolbar **traduz** junto com o resto ("Marcar como lido" / "Lido ✓").
+- Um `storage` listener mantém o botão coerente se o estado mudar **em outra aba**, sem precisar reabrir o tópico.
+- Como todo o resto da Library 1, a chave é própria — **não encosta em nada do QBank** (verificado em teste).
+
+> Nota: a marca **não** foi replicada na Library 3. A regra de espelhamento da §7.1 vale para a *toolbar compartilhada*; esta é uma função de conteúdo da Library 1 (marcar artigo lido), e a Library 3 é um acervo de PDFs. Se o usuário quiser lá também, é uma tarefa separada.
+
+---
+
 ## 12. ESTADO ATUAL (onde paramos)
 
 **Último trabalho: 2026-07-25.** Tudo abaixo está commitado e publicado.
@@ -725,4 +752,5 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 | 2026-07-25 | **§10.1 registra um conflito real:** duas sessões trabalharam no mesmo tópico ao mesmo tempo e quase duplicaram a mídia da Q3. Regras novas: `git status` antes de editar conteúdo, nunca reverter arquivo com trabalho não commitado alheio, e desfazer o próprio pedaço cirurgicamente. |
 | 2026-07-25 | **Imagens do Create Test passam a ser EXIBIDAS na página da questão** (§11.2), no mesmo padrão do QBank 1 — `img` após a vinheta e `explImg` no topo da explicação —, ao contrário da página do tópico, onde a mídia só abre no clique. Continuam clicáveis para ampliar e trocam de idioma junto com o texto. |
 | 2026-07-25 | **As figuras do Create Test não apareciam** apesar do código estar correto: JS e CSS foram alterados **sem subir o `?v=`**, então o navegador servia os arquivos em cache. Versões subidas (js v=4, css v=5) e criado `tools/library1-cachecheck.js` + §9.1 para o erro não acontecer uma terceira vez — ele compara o hash do arquivo com a versão publicada. |
+| 2026-07-25 | **Marca "já lido" por tópico** (§11.3): ✓ ao final da caixa na lista de tópicos + botão na toolbar do leitor, compartilhando o mesmo estado (`couplemed_lib1read_<user>`). O ✓ fica dentro do link do tópico, então marcar não abre o tópico. Não replicado na Library 3 (é função de conteúdo, não de toolbar). |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

@@ -28,7 +28,7 @@
   'use strict';
 
   const SHARED_CSS  = '/css/library3-reader.css?v=5';   // toolbar compartilhada com a Library 3
-  const PAGE_CSS    = '/css/library1-reader.css?v=5';   // específico do modo página
+  const PAGE_CSS    = '/css/library1-reader.css?v=6';   // específico do modo página
   const CONTENT_DIR = '/js/library1-content/';
 
   /* ONDE A MÍDIA MORA — ponto único de virada.
@@ -80,7 +80,9 @@
           ctNext:'Next', ctPrev:'Previous', ctFinish:'Finish test',
           ctCorrect:'Correct', ctIncorrect:'Incorrect', ctObjective:'Educational objective:',
           ctBackToTopic:'Back to topic', ctResultTitle:'Test completed',
-          ctScope:'Topic-only test · does not count toward QBank 1' },
+          ctScope:'Topic-only test · does not count toward QBank 1',
+          markRead:'Mark as read', markedRead:'Read ✓', markReadHint:'Mark this topic as read',
+          markedReadHint:'Read — click to unmark' },
     pt: { loading:'Carregando…', loadError:'Este tópico ainda não tem conteúdo.',
           download:'Baixar', downloadEn:'Baixar (Inglês)', downloadPt:'Baixar (Português)',
           search:'Buscar nesta página…', of:'de', hl:'Marcar', flashcard:'Flashcard',
@@ -98,7 +100,9 @@
           ctNext:'Próxima', ctPrev:'Anterior', ctFinish:'Finalizar teste',
           ctCorrect:'Correto', ctIncorrect:'Incorreto', ctObjective:'Objetivo educacional:',
           ctBackToTopic:'Voltar ao tópico', ctResultTitle:'Teste concluído',
-          ctScope:'Teste só deste tópico · não conta no QBank 1' }
+          ctScope:'Teste só deste tópico · não conta no QBank 1',
+          markRead:'Marcar como lido', markedRead:'Lido ✓', markReadHint:'Marcar este tópico como lido',
+          markedReadHint:'Lido — clique para desmarcar' }
   };
   const t = k => T[uiLang()][k];
 
@@ -206,6 +210,7 @@
             <input type="text" id="l1rSearchInput" placeholder="${esc(t('search'))}" />
             <span id="l1rSearchCount" class="l3r-searchcount"></span>
           </div>
+          <button type="button" class="l3r-btn l1r-readbtn" id="l1rReadBtn"></button>
           <div class="l3r-group l1r-dl-group">
             <button type="button" class="l3r-btn l3r-download l1r-dl" id="l1rDownloadEn" title="${esc(t('downloadEn'))}">⬇ EN</button>
             <button type="button" class="l3r-btn l3r-download l1r-dl" id="l1rDownloadPt" title="${esc(t('downloadPt'))}">⬇ PT</button>
@@ -265,6 +270,21 @@
     };
 
     on('#l1rBack','click', ()=>{ destroyActive(); if(r.onBack) r.onBack(); });
+
+    /* ---- marca "já lido" ----
+       Mesmo estado da lista de tópicos (window.CMLib1Read, em site.js), então marcar aqui
+       reflete na lista e vice-versa. */
+    on('#l1rReadBtn','click', ()=>{
+      if(!window.CMLib1Read) return;
+      window.CMLib1Read.toggle(r.folderSlug, r.topicSlug);
+      syncReadBtn(r);
+    // outra aba (ou a lista, noutro passo) pode mudar a marca; o evento `storage` mantém
+    // o botão coerente sem precisar reabrir o tópico
+    window.addEventListener('storage', e=>{
+      if(e.key && e.key.indexOf('couplemed_lib1read_')===0) syncReadBtn(r);
+    }, { signal: r.uiAbort.signal });
+    });
+    syncReadBtn(r);
 
     /* ---- idioma: segue o tradutor GLOBAL do site ----
        O conteúdo não tem botão de idioma próprio: ele obedece às bandeiras do topo, como
@@ -518,6 +538,17 @@
     if(r.lbKeyHandler){ document.removeEventListener('keydown', r.lbKeyHandler); r.lbKeyHandler = null; }
   }
 
+  function syncReadBtn(r){
+    const btn = r.hostEl.querySelector('#l1rReadBtn');
+    if(!btn) return;
+    const read = window.CMLib1Read ? window.CMLib1Read.isRead(r.folderSlug, r.topicSlug) : false;
+    const L = T[r.lang];
+    btn.textContent = read ? L.markedRead : ('○ ' + L.markRead);
+    btn.title = read ? L.markedReadHint : L.markReadHint;
+    btn.setAttribute('aria-pressed', read ? 'true' : 'false');
+    btn.classList.toggle('l1r-read-on', read);
+  }
+
   function setLoading(r, on, error){
     if(!r.el || !r.el.loading) return;
     r.el.loading.hidden = !on && !error;
@@ -543,6 +574,7 @@
     set('#l1rTitle', `${itemName(r.folder, lang)} · ${itemName(r.topic, lang)}`);
     const si = r.hostEl.querySelector('#l1rSearchInput');
     if(si) si.setAttribute('placeholder', T[lang].search);
+    syncReadBtn(r);
     set('#l1rNotebookBtn', T[lang].notebook);
     set('#l1rNotesBtn', T[lang].notes);
     set('#l1rFlashcardBtn', T[lang].flashcard);

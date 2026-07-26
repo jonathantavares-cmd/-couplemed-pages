@@ -536,6 +536,23 @@
     history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}`);
     renderLibrary(id,lang);
   }
+  /* ---- Library 1: marca "já lido" por tópico ----------------------------------
+     Uma só fonte de verdade, compartilhada entre a lista de tópicos (aqui) e o botão da
+     toolbar do leitor (public/js/library1-reader.js). Chave própria da Library 1 — não
+     encosta em nada do QBank. */
+  const LIB1_READ_KEY = () => `couplemed_lib1read_${user()}`;
+  function lib1ReadAll(){
+    try{ return JSON.parse(localStorage.getItem(LIB1_READ_KEY())||'{}')||{}; }catch(e){ return {}; }
+  }
+  function lib1IsRead(folderSlug,topicSlug){ return !!lib1ReadAll()[`${folderSlug}/${topicSlug}`]; }
+  function lib1ToggleRead(folderSlug,topicSlug){
+    const all=lib1ReadAll(), k=`${folderSlug}/${topicSlug}`;
+    if(all[k]) delete all[k]; else all[k]=Date.now();
+    try{ localStorage.setItem(LIB1_READ_KEY(),JSON.stringify(all)); }catch(e){}
+    return !!all[k];
+  }
+  window.CMLib1Read = { isRead: lib1IsRead, toggle: lib1ToggleRead };
+
   function libOpenTopic(id,lang,slug,topicSlug){
     history.pushState(null,'',`app.html?page=${id}&u=${user()}&folder=${slug}&topic=${topicSlug}`);
     renderLibrary(id,lang);
@@ -566,13 +583,31 @@
           window.CMLibrary1Reader.open(rp, openTopic, openFolder, ()=>libOpenFolder(id,lang,folderSlug));
           return;
         }
+        // Marca "já lido" por tópico — um clique no ✓ ao final da caixa. Mesmo estado que o
+        // botão da toolbar do leitor (lib1Read* abaixo), então os dois sempre concordam.
+        const readTitle = lang==='pt' ? 'Marcar como lido' : 'Mark as read';
         const items=openFolder.items.map(topic=>{
           const tslug=slugify(topic.name);
-          return `<a class="lib-book lib-topic" href="app.html?page=${id}&u=${user()}&folder=${folderSlug}&topic=${tslug}" data-topic-slug="${tslug}">${wsEsc(lib1Name(topic))}</a>`;
+          const done=lib1IsRead(folderSlug,tslug);
+          return `<a class="lib-book lib-topic${done?' is-read':''}" href="app.html?page=${id}&u=${user()}&folder=${folderSlug}&topic=${tslug}" data-topic-slug="${tslug}">`
+            + `<span class="lib-topic-name">${wsEsc(lib1Name(topic))}</span>`
+            + `<button type="button" class="lib-read" data-read-topic="${tslug}" title="${readTitle}" aria-label="${readTitle}" aria-pressed="${done?'true':'false'}">✓</button>`
+            + `</a>`;
         }).join('');
         rp.innerHTML=`<button type="button" class="lib-back" id="libBackBtn">‹ ${libTitle}</button><h1 id="internalTitle">${wsEsc(lib1Name(openFolder))}</h1><div class="lib-list">${items}</div>`;
         rp.querySelectorAll('.lib-topic[data-topic-slug]').forEach(a=>{
-          a.addEventListener('click',e=>{e.preventDefault(); libOpenTopic(id,lang,folderSlug,a.dataset.topicSlug);});
+          a.addEventListener('click',e=>{
+            // o ✓ vive DENTRO do link: marcar não pode abrir o tópico
+            const mark=e.target.closest('.lib-read');
+            if(mark){
+              e.preventDefault(); e.stopPropagation();
+              const now=lib1ToggleRead(folderSlug,mark.dataset.readTopic);
+              a.classList.toggle('is-read',now);
+              mark.setAttribute('aria-pressed',now?'true':'false');
+              return;
+            }
+            e.preventDefault(); libOpenTopic(id,lang,folderSlug,a.dataset.topicSlug);
+          });
         });
         $('#libBackBtn').addEventListener('click',()=>libBack(id,lang));
         return;

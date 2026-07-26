@@ -494,10 +494,23 @@ body:not(.light) .fc-guide-flow,body:not(.light) .fc-guide-chapter,body:not(.lig
 .lib-book:hover{transform:translateX(3px);border-color:rgba(120,168,255,.4);background:rgba(120,168,255,.08)}
 body.light .lib-book{background:#f5f8fc;border-color:#dde6f2;color:#0c1a30}
 body.light .lib-book:hover{background:#eaf1ff;border-color:#bcd3ff}
-.lib-book.lib-topic{cursor:default}
+/* o tópico da Library 1 abre como página (não é mais link morto), então mantém o
+   feedback de clique do .lib-book — só o ícone muda */
 .lib-book.lib-topic::before{content:'📄'}
-.lib-book.lib-topic:hover{transform:none;border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
-body.light .lib-book.lib-topic:hover{border-color:#dde6f2;background:#f5f8fc}
+.lib-topic-name{flex:1;min-width:0}
+/* marca "já lido": um clique no ✓ ao final da caixa (não abre o tópico) */
+.lib-read{
+  flex:0 0 auto;width:26px;height:26px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.18);background:transparent;
+  color:rgba(219,230,245,.35);font-size:13px;line-height:1;cursor:pointer;
+  display:grid;place-items:center;transition:.14s;font-family:inherit;
+}
+.lib-read:hover{border-color:#2fbf71;color:#2fbf71;background:rgba(47,191,113,.12)}
+.lib-book.is-read .lib-read{background:#2fbf71;border-color:#2fbf71;color:#fff}
+.lib-book.is-read{border-color:rgba(47,191,113,.35)}
+.lib-book.is-read .lib-topic-name{opacity:.62}
+body.light .lib-read{border-color:#cfdcee;color:#9fb0c7}
+body.light .lib-book.is-read{border-color:rgba(47,191,113,.45)}
 .lib-book.lib-pdf::before{content:'📄'}
 .lib-book-featured{border-color:rgba(120,168,255,.5);background:rgba(120,168,255,.1)}
 .lib-book-featured::before{content:'📘'}

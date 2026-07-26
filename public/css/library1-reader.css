@@ -318,6 +318,23 @@
 .l1r-hit{ background:rgba(120,168,255,.34); border-radius:2px }
 .l1r-hit-active{ background:var(--l3r-blue); color:#fff }
 
+/* marca "já lido" na toolbar — mesmo estado do ✓ da lista de tópicos */
+.l1r-readbtn{
+  font-size:10.5px; font-weight:800; white-space:nowrap;
+  border-color:var(--l3r-line); color:var(--l3r-muted);
+}
+.l1r-readbtn:hover{ border-color:#2fbf71; color:#2fbf71 }
+.l1r-readbtn.l1r-read-on{
+  background:#2fbf71; border-color:#2fbf71; color:#fff;
+  box-shadow:0 3px 9px rgba(47,191,113,.25);
+}
+.l1r-readbtn.l1r-read-on:hover{ filter:brightness(1.06); color:#fff }
+@media (max-width:590px){
+  /* em tela estreita fica só o ícone, para não competir com a busca */
+  .l1r-readbtn{ width:30px; padding:0; justify-content:center; font-size:0 }
+  .l1r-readbtn::before{ content:'✓'; font-size:13px }
+}
+
 /* download em dois idiomas: o grupo não ganha fundo de "chip", só alinha os dois botões */
 .l1r-dl-group{ background:transparent; padding:0; gap:5px }
 .l1r-dl{ font-size:10.5px; font-weight:800; padding:6px 9px }
