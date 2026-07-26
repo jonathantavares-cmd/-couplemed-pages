@@ -42,15 +42,12 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
    ```
    São as 6 vozes padrão (4 em inglês + 2 em português, Seção 17.1), gravadas de uma vez. Leva ~5 min e ~29 MB por tópico. Não escolher vozes nem inventar variação: o catálogo é fixo e mora em `public/js/cm-narration-shared.js`.
 
-   Se o `upload` reclamar de segredo (`NARRATION_ADMIN_SECRET`/`LIB1_ADMIN_SECRET` não exportado no ambiente), subir direto pelo wrangler — **é o caminho que funcionou em 2026-07-26** e não precisa de segredo nenhum, só do login que a máquina já tem:
+   **O `upload` não precisa mais do segredo.** Sem `NARRATION_ADMIN_SECRET`/`LIB1_ADMIN_SECRET` no ambiente — o caso normal nesta máquina — ele sobe pelo `wrangler`, com o login que a máquina já tem, 6 arquivos em paralelo (`--via=wrangler` força esse caminho, `--jobs=N` muda o paralelismo). Antes o doc mandava repetir um loop de shell à mão aqui; medido em 2026-07-26, o caminho de dentro da ferramenta sobe 104 objetos em 85 s. Só é preciso ter o `wrangler` no PATH:
    ```bash
    export PATH="$HOME/.npm-global/bin:$PATH"
-   for f in .narration-build/lib1/<subject-slug>/<topic-slug>/*; do
-     n=$(basename "$f"); ct="audio/mp4"; [[ "$n" == *.json ]] && ct="application/json"
-     wrangler r2 object put "couplemed-narration/narration/lib1/<subject-slug>/<topic-slug>/$n" \
-       --file "$f" --content-type "$ct" --remote
-   done
+   node tools/narration.js upload --only=lib1/<subject-slug>/<topic-slug>
    ```
+
 11. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
 12. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
 13. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).

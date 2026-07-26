@@ -11,6 +11,8 @@
      node tools/narration.js inspect lib3 <pdf-key> [--from=N --to=N]  # CONFERIR antes
      node tools/narration.js build   lib3 <pdf-key> [--from=N --to=N]
      node tools/narration.js upload [--only=lib1/...]     # manda o que foi gerado ao R2
+       # sem NARRATION_ADMIN_SECRET no ambiente, sobe pelo wrangler (login da máquina);
+       # --via=wrangler força esse caminho e --jobs=N muda o paralelismo (6 por padrão)
      node tools/narration.js report                       # o que existe / o que falta
      node tools/narration.js voices                       # confere se as vozes estão instaladas
 
@@ -35,6 +37,8 @@ const S    = require('../public/js/cm-narration-shared.js');
 
 const ROOT     = path.join(__dirname, '..');
 const BUILD    = path.join(ROOT, '.narration-build');
+/* bucket do áudio (binding NAR_STORAGE no wrangler.toml) — ver §17.2 do doc */
+const NAR_BUCKET = 'couplemed-narration';
 const TMP      = path.join(BUILD, '.tmp');
 const RATE_HZ  = 22050;          // mono 16-bit: voz não ganha nada acima disso e o arquivo dobra
 const SAY_WPM  = 180;            // ritmo de narração (o padrão do `say` é ~175)
@@ -263,11 +267,42 @@ async function inspectLib3(pdfKeyOrPath, opts){
 }
 
 /* ----------------------------------------------------------------- upload --- */
-async function upload(only){
+/* Sobe pelo wrangler, com o login que a máquina já tem. É o caminho usado quando o
+   segredo do endpoint de admin não está exportado no ambiente — o caso normal nesta
+   máquina. Em paralelo porque cada `wrangler` custa a partida de um Node inteiro: um
+   bloco de 6 PDFs da Library 3 são ~500 objetos, meia hora em série. */
+function uploadViaWrangler(picked, jobs){
+  const { spawn } = require('child_process');
+  const wrangler = process.env.WRANGLER_BIN ||
+                   path.join(process.env.HOME || '', '.npm-global/bin/wrangler');
+  const bin = fs.existsSync(wrangler) ? wrangler : 'wrangler';
+  let ok = 0, fail = 0, next = 0;
+
+  const one = f => new Promise(done => {
+    const rel  = path.relative(BUILD, f).split(path.sep).join('/');
+    const key  = 'narration/' + rel;
+    const type = f.endsWith('.m4a') ? 'audio/mp4' : 'application/json';
+    const ps = spawn(bin, ['r2','object','put', `${NAR_BUCKET}/${key}`,
+                           '--file', f, '--content-type', type, '--remote'],
+                     { stdio: ['ignore','ignore','pipe'] });
+    let err = '';
+    ps.stderr.on('data', d => { err += d; });
+    ps.on('close', code => {
+      if (code === 0){ ok++; if (ok % 25 === 0) log(`  … ${ok}/${picked.length}`); }
+      else { fail++; log(`  ✗ ${key} — ${err.trim().split('\n').pop()}`); }
+      done();
+    });
+  });
+
+  const worker = async () => { while (next < picked.length) await one(picked[next++]); };
+  return Promise.all(Array.from({ length: jobs }, worker)).then(() => ({ ok, fail }));
+}
+
+async function upload(only, opts){
+  opts = opts || {};
   const secret = process.env.NARRATION_ADMIN_SECRET || process.env.LIB1_ADMIN_SECRET;
   const base   = process.env.LIB1_BASE_URL || 'https://couplemed.pages.dev';
-  if (!secret) die('falta NARRATION_ADMIN_SECRET (ou LIB1_ADMIN_SECRET) no ambiente.\n' +
-                   '     wrangler secret put NARRATION_ADMIN_SECRET  e exporte o mesmo valor aqui.');
+  const viaWrangler = opts.viaWrangler || !secret;
   if (!fs.existsSync(BUILD)) die('nada gerado ainda — rode `build` primeiro.');
 
   const files = [];
@@ -282,6 +317,15 @@ async function upload(only){
 
   const picked = files.filter(f => !only || path.relative(BUILD,f).startsWith(only));
   if (!picked.length) die('nenhum arquivo gerado corresponde ao filtro.');
+
+  if (viaWrangler){
+    log(`Enviando ${picked.length} arquivo(s) para o bucket ${NAR_BUCKET} via wrangler …`);
+    const r = await uploadViaWrangler(picked, Math.max(1, opts.jobs || 6));
+    log(`\n${r.ok} enviado(s), ${r.fail} falha(s).`);
+    if (r.fail) process.exitCode = 1;
+    return;
+  }
+
   log(`Enviando ${picked.length} arquivo(s) para ${base} …`);
 
   let ok = 0, fail = 0;
@@ -391,7 +435,8 @@ function main(){
     }
     case 'upload': {
       const only = (rest.find(a => a.startsWith('--only=')) || '').slice(7) || null;
-      upload(only);
+      const jobs = +((rest.find(a => a.startsWith('--jobs=')) || '').slice(7)) || 0;
+      upload(only, { viaWrangler: rest.includes('--via=wrangler'), jobs });
       break;
     }
     case 'inspect': {
