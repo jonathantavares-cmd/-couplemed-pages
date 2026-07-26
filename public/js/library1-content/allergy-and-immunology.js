@@ -567,7 +567,253 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
       'table-1': { kind:'table', n:1,
         en:{ key:A2+'table-1-en.webp', alt:'Allergic contact dermatitis' },
         pt:{ key:A2+'table-1-pt.webp', alt:'Dermatite alérgica de contato' } },
+      /* image-19/20/21: fotos que vieram nos PRINTS DAS QUESTÕES (§11.2 — toda
+         imagem da questão entra, mesmo sem referência no artigo). Os prints das
+         questões só vieram em inglês, então singleLang:true e o mesmo arquivo
+         nos dois slots. */
+      'image-19': { kind:'image', n:19, singleLang:true,
+        en:{ key:A2+'image-19-en.webp', alt:'Rash on the left wrist' },
+        pt:{ key:A2+'image-19-pt.webp', alt:'Erupção no pulso esquerdo' } },
+      'image-20': { kind:'image', n:20, singleLang:true,
+        en:{ key:A2+'image-20-en.webp', alt:'Erythematous rash with blisters, erosions, and weeping drainage involving the posterior thighs' },
+        pt:{ key:A2+'image-20-pt.webp', alt:'Erupção eritematosa com bolhas, erosões e drenagem exsudativa envolvendo as coxas posteriores' } },
+      'image-21': { kind:'image', n:21, singleLang:true,
+        en:{ key:A2+'image-21-en.webp', alt:'Skin rash on the right leg' },
+        pt:{ key:A2+'image-21-pt.webp', alt:'Erupção cutânea na perna direita' } },
     },
+
+    /* ---- CREATE TEST: questões de treino DESTE tópico ----
+       Transcritas dos 13 prints em .../Allergic - irritant contact dermatitis/
+       "pasta sem título"/ (Imagem 1,3-13). 5 questões — é o que havia na pasta,
+       não um padrão (§11.2). ⚠️ SEPARADAS do QBank 1. */
+    quiz: [
+      {
+        id: 'L1Q-AICD-001',
+        vignette: 'A 30-year-old man comes to the office with a rash on his left wrist for the past 3 weeks.  The rash is associated with an itching and burning sensation.  The patient has not used any new skin care products but has been wearing a watch he bought during a recent vacation.  Medical history is unremarkable, and he takes no medications.  The patient does not use recreational drugs.  Temperature is 36.9 C (98.4 F), blood pressure is 118/76 mm Hg, pulse is 64/min, and respirations are 12/min.  Skin examination findings are shown in the image below:',
+        q: 'There are no other skin lesions or lymphadenopathy.  Histologic examination would most likely reveal which of the following?',
+        options: [
+          'Extravasated erythrocytes, siderophages, and perivascular lymphocytes',
+          'Hyperkeratosis and sawtoothed rete ridges',
+          'Intercellular epidermal edema with infiltration of lymphocytes and eosinophils',
+          'Intraepithelial cleavage, acantholysis, and sparse inflammatory infiltrate',
+          'Neutrophilic microabscesses and epidermal hyperplasia'
+        ],
+        correct: 'C',
+        peer: { A:6, B:6, C:76, D:7, E:3 },
+        difficulty: 'easy',
+        img: 'image-19',
+        explImg: 'table-1',
+        explC: 'This patient has chronic <strong>allergic contact dermatitis</strong> (ACD), presenting with localized itching and lichenification (ie, skin thickening).  <strong>Nickel</strong> is a common trigger and typically causes symptoms at the wrists (eg, watches), earlobes (eg, earrings), or umbilicus (eg, belt buckles).  Corrosion of metal alloys by electrolytes in sweat releases soluble metal ions that trigger a hypersensitivity reaction.  ACD is a type IV (<strong>delayed-type</strong>) hypersensitivity reaction occurring in 2 phases:\n\n1. <strong>Sensitization:</strong>  Cutaneous Langerhans cells take up haptens (ie, allergens) and present them to naive CD4+ and CD8+ T cells in regional lymph nodes, resulting in clonal expansion of hapten-sensitive T cells.  This phase takes 10-14 days and does not result in cutaneous lesions.\n\n2. <strong>Elicitation:</strong>  On reexposure, sensitized T cells are recruited to the dermis.  There, they release cytokines (eg, interferon gamma) that recruit additional inflammatory cells (eg, macrophages, mast cells, eosinophils), resulting in erythema and pruritus.  Dermal <strong>edema</strong>, caused by leaky dermal vessels, seeps into the <strong>epidermal</strong> intercellular spaces (spongiosis), pulling apart intercellular attachments and sometimes resulting in intraepidermal vesicles.  With persistent exposure, the lesions become thickened and less vesicular; histopathology shows epidermal hyperplasia (ie, acanthosis).',
+        explI: {
+          A: 'Extravasated erythrocytes, siderophages, and perivascular lymphocytes are characteristic of venous stasis dermatitis, which typically occurs at the lower extremities and presents with brown discoloration (hemosiderin deposition).',
+          B: 'Hyperkeratosis and sawtoothed rete ridges are characteristic of lichen planus, which presents as small pruritic, purplish, polygonal papules or plaques.  It frequently occurs at the volar wrist but is typically multifocal; a large, localized plaque is atypical.',
+          D: 'In pemphigus vulgaris, autoantibodies against desmosomes lead to loss of intercellular adhesion (ie, acantholysis) and intraepithelial cleavages that manifest as flaccid bullae.  Unlike ACD, pemphigus vulgaris may show a sparse inflammatory infiltrate; loss of intercellular adhesion is caused by autoantibodies, not edema.',
+          E: 'Neutrophilic microabscesses and epidermal hyperplasia (ie, acanthosis) are characteristic of psoriasis, which presents as erythematous plaques with thick scales typically on the extensor, not flexor, surfaces of the extremities.  Although epidermal hyperplasia is seen in chronic ACD, neutrophilic microabscesses are not expected.'
+        },
+        objective: 'Allergic contact dermatitis (eg, nickel allergy) is a type IV hypersensitivity reaction characterized by epidermal intercellular edema (ie, spongiosis) and an inflammatory infiltrate (eg, lymphocytes, eosinophils).  Clinical findings can include vesicles, erythema, and pruritus for acute lesions and lichenification for chronic lesions.',
+        tags: { subject:'Histology', system:'Dermatology', topic:'Contact dermatitis' },
+        ptTranslation: {
+          vignette: 'Um homem de 30 anos vem ao consultório com uma erupção no pulso esquerdo há 3 semanas. A erupção está associada a sensação de coceira e queimação. O paciente não usou nenhum produto novo para a pele, mas tem usado um relógio que comprou durante uma viagem recente. A história médica é irrelevante e ele não toma medicamentos. O paciente não usa drogas recreativas. A temperatura é 36,9 C (98,4 F), a pressão arterial é 118/76 mm Hg, o pulso é 64/min e as respirações são 12/min. Os achados do exame de pele são mostrados na imagem abaixo:',
+          q: 'Não há outras lesões cutâneas ou linfadenopatia. O exame histológico provavelmente revelaria qual dos seguintes?',
+          options: [
+            'Eritrócitos extravasados, siderófagos e linfócitos perivasculares',
+            'Hiperqueratose e cristas reticulares serradas',
+            'Edema epidérmico intercelular com infiltração de linfócitos e eosinófilos',
+            'Clivagem intraepitelial, acantólise e infiltrado inflamatório esparso',
+            'Microabscessos neutrofílicos e hiperplasia epidérmica'
+          ],
+          explC: 'Este paciente tem <strong>dermatite alérgica de contato</strong> (ACD) crônica, apresentando coceira localizada e liquenificação (ou seja, espessamento da pele). O <strong>níquel</strong> é um gatilho comum e normalmente causa sintomas nos pulsos (por exemplo, relógios), lóbulos das orelhas (por exemplo, brincos) ou umbigo (por exemplo, fivelas de cinto). A corrosão de ligas metálicas por eletrólitos no suor libera íons metálicos solúveis que desencadeiam uma reação de hipersensibilidade. A ACD é uma reação de hipersensibilidade do tipo IV (<strong>tipo retardado</strong>) que ocorre em 2 fases:\n\n1. <strong>Sensibilização:</strong> As células de Langerhans cutâneas captam haptenos (ou seja, alérgenos) e os apresentam às células T CD4+ e CD8+ naive nos linfonodos regionais, resultando em expansão clonal de células T sensíveis ao hapteno. Essa fase leva de 10 a 14 dias e não resulta em lesões cutâneas.\n\n2. <strong>Elicitação:</strong> Na reexposição, as células T sensibilizadas são recrutadas para a derme. Ali, liberam citocinas (por exemplo, interferon gama) que recrutam células inflamatórias adicionais (por exemplo, macrófagos, mastócitos, eosinófilos), resultando em eritema e prurido. O <strong>edema</strong> dérmico, causado por vasos dérmicos permeáveis, infiltra-se nos espaços intercelulares <strong>epidérmicos</strong> (espongiose), separando as ligações intercelulares e, às vezes, resultando em vesículas intraepidérmicas. Com a exposição persistente, as lesões tornam-se espessadas e menos vesiculares; a histopatologia mostra hiperplasia epidérmica (ou seja, acantose).',
+          explI: {
+            A: 'Eritrócitos extravasados, siderófagos e linfócitos perivasculares são característicos da dermatite de estase venosa, que normalmente ocorre nas extremidades inferiores e se apresenta com descoloração acastanhada (deposição de hemossiderina).',
+            B: 'Hiperqueratose e cristas reticulares serradas são características do líquen plano, que se apresenta como pequenas pápulas ou placas pruriginosas, arroxeadas e poligonais. Ocorre com frequência no pulso volar, mas é tipicamente multifocal; uma placa grande e localizada é atípica.',
+            D: 'No pênfigo vulgar, autoanticorpos contra desmossomos levam à perda de adesão intercelular (ou seja, acantólise) e a clivagens intraepiteliais que se manifestam como bolhas flácidas. Ao contrário da ACD, o pênfigo vulgar pode mostrar um infiltrado inflamatório esparso; a perda de adesão intercelular é causada por autoanticorpos, não por edema.',
+            E: 'Microabscessos neutrofílicos e hiperplasia epidérmica (ou seja, acantose) são característicos da psoríase, que se apresenta como placas eritematosas com escamas espessas tipicamente nas superfícies extensoras, não flexoras, das extremidades. Embora a hiperplasia epidérmica seja vista na ACD crônica, microabscessos neutrofílicos não são esperados.'
+          },
+          objective: 'A dermatite alérgica de contato (por exemplo, alergia ao níquel) é uma reação de hipersensibilidade do tipo IV caracterizada por edema intercelular epidérmico (ou seja, espongiose) e um infiltrado inflamatório (por exemplo, linfócitos, eosinófilos). Os achados clínicos podem incluir vesículas, eritema e prurido nas lesões agudas e liquenificação nas lesões crônicas.'
+        }
+      },
+      {
+        id: 'L1Q-AICD-002',
+        vignette: 'A 53-year-old woman comes to the clinic due to a rash.  For the past 3 weeks, she has had a pruritic rash of worsening severity involving the posterior thighs.  The patient recently began an exercise program to lose weight and has been applying a topical analgesic cream to her thighs and buttocks after her workouts to relieve muscle aches.  Medical history is unremarkable, and she does not use tobacco, alcohol, or recreational drugs.  On physical examination, there is an erythematous rash with blisters, erosions, and weeping drainage involving the posterior thighs bilaterally, which is shown in the image below:',
+        q: 'Which of the following is the most likely finding on skin biopsy?',
+        options: [
+          'Acanthosis',
+          'Dyskeratosis',
+          'Hypergranulosis',
+          'Hyperkeratosis',
+          'Spongiosis'
+        ],
+        correct: 'E',
+        peer: { A:16, B:18, C:7, D:6, E:50 },
+        difficulty: 'medium',
+        img: 'image-20',
+        explC: 'This patient developed pruritic, erythematous blisters and erosions on the thighs following application of a topical cream.  This presentation is consistent with <strong>acute allergic contact dermatitis</strong> (ACD), a type of eczematous dermatitis.  Eczematous dermatitis is a class of skin conditions that vary in etiology but demonstrate similar clinical findings (eg, pruritic, erythematous, weeping <strong>papulovesicular rash</strong>) and are microscopically characterized by spongiosis.\n\nACD is caused by a <strong>type IV (delayed) hypersensitivity</strong> reaction to an external antigen (eg, analgesic cream) on the skin surface, which incites an inflammatory response and causes pruritus and erythema at the site of contact.  Increased vascular permeability in the dermis results in dermal <strong>edema</strong>, which can leak into the <strong>epidermis</strong> and accumulate in the intercellular spaces (ie, <strong>spongiosis</strong>).  Microscopically, spongiosis appears as increased space between keratinocytes with prominent intercellular attachments (ie, desmosomes).  Continued fluid accumulation can break the desmosomes, causing intraepidermal <strong>vesicles</strong>.',
+        explI: {
+          A: 'With persistent antigen exposure, eczematous lesions may become less edematous and weepy over time and appear as raised, thickened (ie, lichenified), scaly plaques.  Histology of chronic lesions typically shows thickening of the stratum spinosum (ie, acanthosis), stratum granulosum (ie, hypergranulosis), and stratum corneum (ie, hyperkeratosis) (Choices A, C, and D).',
+          B: 'Dyskeratosis is abnormal, premature keratinization of individual keratinocytes below the stratum granulosum.  It may be seen in squamous cell carcinoma.',
+          C: 'With persistent antigen exposure, eczematous lesions may become less edematous and weepy over time and appear as raised, thickened (ie, lichenified), scaly plaques.  Histology of chronic lesions typically shows thickening of the stratum spinosum (ie, acanthosis), stratum granulosum (ie, hypergranulosis), and stratum corneum (ie, hyperkeratosis) (Choices A, C, and D).',
+          D: 'With persistent antigen exposure, eczematous lesions may become less edematous and weepy over time and appear as raised, thickened (ie, lichenified), scaly plaques.  Histology of chronic lesions typically shows thickening of the stratum spinosum (ie, acanthosis), stratum granulosum (ie, hypergranulosis), and stratum corneum (ie, hyperkeratosis) (Choices A, C, and D).'
+        },
+        objective: 'Acute allergic contact dermatitis (ACD), caused by a type IV (delayed) hypersensitivity reaction to an antigen on the skin surface, typically presents with pruritic, erythematous, papulovesicular, weeping lesions.  Microscopically, acute ACD is characterized by spongiosis (ie, accumulation of fluid between keratinocytes in the epidermis).',
+        tags: { subject:'Pathology', system:'Dermatology', topic:'Contact dermatitis' },
+        ptTranslation: {
+          vignette: 'Uma mulher de 53 anos vem à clínica devido a uma erupção cutânea. Nas últimas 3 semanas, ela teve uma erupção pruriginosa de gravidade crescente envolvendo as coxas posteriores. A paciente começou recentemente um programa de exercícios para perder peso e tem aplicado um creme analgésico tópico nas coxas e nádegas após os treinos para aliviar dores musculares. A história médica é irrelevante e ela não usa tabaco, álcool ou drogas recreativas. No exame físico, há uma erupção eritematosa com bolhas, erosões e drenagem exsudativa envolvendo as coxas posteriores bilateralmente, mostrada na imagem abaixo:',
+          q: 'Qual dos seguintes é o achado mais provável na biópsia de pele?',
+          options: [
+            'Acantose',
+            'Disqueratose',
+            'Hipergranulose',
+            'Hiperqueratose',
+            'Espongiose'
+          ],
+          explC: 'Esta paciente desenvolveu bolhas e erosões pruriginosas e eritematosas nas coxas após a aplicação de um creme tópico. Essa apresentação é consistente com <strong>dermatite alérgica de contato aguda</strong> (ACD), um tipo de dermatite eczematosa. A dermatite eczematosa é uma classe de condições cutâneas que variam em etiologia, mas demonstram achados clínicos semelhantes (por exemplo, erupção <strong>papulovesicular</strong> pruriginosa, eritematosa e exsudativa) e são microscopicamente caracterizadas por espongiose.\n\nA ACD é causada por uma reação de <strong>hipersensibilidade do tipo IV (retardada)</strong> a um antígeno externo (por exemplo, creme analgésico) na superfície da pele, que incita uma resposta inflamatória e causa prurido e eritema no local de contato. O aumento da permeabilidade vascular na derme resulta em <strong>edema</strong> dérmico, que pode vazar para a <strong>epiderme</strong> e acumular-se nos espaços intercelulares (ou seja, <strong>espongiose</strong>). Microscopicamente, a espongiose aparece como espaço aumentado entre queratinócitos com ligações intercelulares proeminentes (ou seja, desmossomos). O acúmulo contínuo de líquido pode romper os desmossomos, causando <strong>vesículas</strong> intraepidérmicas.',
+          explI: {
+            A: 'Com a exposição antigênica persistente, as lesões eczematosas podem tornar-se menos edematosas e exsudativas ao longo do tempo e aparecer como placas elevadas, espessadas (ou seja, liquenificadas) e escamosas. A histologia das lesões crônicas normalmente mostra espessamento do estrato espinhoso (ou seja, acantose), do estrato granuloso (ou seja, hipergranulose) e do estrato córneo (ou seja, hiperqueratose) (Escolhas A, C e D).',
+            B: 'A disqueratose é a queratinização anormal e prematura de queratinócitos individuais abaixo do estrato granuloso. Pode ser vista no carcinoma de células escamosas.',
+            C: 'Com a exposição antigênica persistente, as lesões eczematosas podem tornar-se menos edematosas e exsudativas ao longo do tempo e aparecer como placas elevadas, espessadas (ou seja, liquenificadas) e escamosas. A histologia das lesões crônicas normalmente mostra espessamento do estrato espinhoso (ou seja, acantose), do estrato granuloso (ou seja, hipergranulose) e do estrato córneo (ou seja, hiperqueratose) (Escolhas A, C e D).',
+            D: 'Com a exposição antigênica persistente, as lesões eczematosas podem tornar-se menos edematosas e exsudativas ao longo do tempo e aparecer como placas elevadas, espessadas (ou seja, liquenificadas) e escamosas. A histologia das lesões crônicas normalmente mostra espessamento do estrato espinhoso (ou seja, acantose), do estrato granuloso (ou seja, hipergranulose) e do estrato córneo (ou seja, hiperqueratose) (Escolhas A, C e D).'
+          },
+          objective: 'A dermatite alérgica de contato aguda (ACD), causada por uma reação de hipersensibilidade do tipo IV (retardada) a um antígeno na superfície da pele, normalmente se apresenta com lesões pruriginosas, eritematosas, papulovesiculares e exsudativas. Microscopicamente, a ACD aguda é caracterizada por espongiose (ou seja, acúmulo de líquido entre os queratinócitos na epiderme).'
+        }
+      },
+      {
+        id: 'L1Q-AICD-003',
+        vignette: 'A 62-year-old man comes to the office due to an intensely pruritic facial rash for the past 3 days.  The patient uses no facial cosmetic products but has frequently dyed his hair during the past year; he last dyed his hair 5 days ago and also recalls developing a similar rash the previous time he used hair dye.  The patient has a history of asthma, hypertension, and diabetes mellitus.  He does not use tobacco, alcohol, or illicit drugs.  Vital signs are within normal limits.  Physical examination findings are shown in the exhibit.',
+        q: "Which of the following are primarily involved in the pathogenesis of this patient's rash?",
+        options: [
+          'CD8+ T cells and interferon gamma',
+          'Mast cells and histamine',
+          'Neutrophils and myeloperoxidase',
+          'Plasma cells and immunoglobulins',
+          'Regulatory T cells and interleukin-10'
+        ],
+        correct: 'A',
+        peer: { A:43, B:44, C:1, D:5, E:5 },
+        difficulty: 'hard',
+        explImg: 'figure-1',
+        explC: 'This patient developed erythema and pruritus on the scalp, face, and neck 2 days after reexposure to hair dye.  Hair products, including dye, frequently contain allergenic molecules (eg, p-phenylenediamine) that can cause <strong>allergic contact dermatitis</strong> (ACD).  ACD is a type IV hypersensitivity (delayed-type) reaction that occurs in 2 phases:\n\n1. <strong>Sensitization:</strong>  Cutaneous <strong>Langerhans cells</strong> take up haptens (small molecules that bind to proteins and alter their immune appearance) and present hapten-peptide complexes to naive CD4+ and CD8+ T cells in regional lymph nodes, resulting in clonal expansion of hapten-sensitive T cells.  This phase takes <strong>10-14 days</strong> and does not result in cutaneous lesions.\n\n2. <strong>Elicitation:</strong>  On reexposure to the hapten, sensitized T cells are recruited to skin for activation by hapten-protein conjugates displayed on cutaneous antigen-presenting cells.  Activated <strong>CD8+ T cells</strong>, the main effector cells in ACD, release cytotoxins (eg, perforin, granzymes) and express Fas ligand to induce keratinocyte apoptosis.  They also amplify the inflammatory response by releasing cytokines (eg, <strong>interferon gamma</strong>) and recruiting additional inflammatory cells (eg, macrophages).  This phase occurs <strong>2-3 days</strong> following reexposure to the hapten and results in erythema, pruritus, and vesicles.',
+        explI: {
+          B: "Mast cells are primarily responsible for immediate (type I) hypersensitivity reactions.  On reexposure, allergens bind to allergen-specific IgEs on mast cells, causing immediate degranulation and release of vasoactive peptides (eg, histamine), resulting in urticaria and, when severe, anaphylaxis.  Onset is rapid (minutes), unlike this patient's delayed (48-hr) response.  Furthermore, individual wheals of urticaria resolve within 24 hours, rather than days.",
+          C: "Neutrophils phagocytose bacteria and fungi and kill them by generating reactive oxygen species (NADPH oxidase) and hypochlorous acid (myeloperoxidase).  Although neutrophils play a role in defense against cutaneous infections (eg, cellulitis, which is painful rather than pruritic), this patient's rash is more consistent with contact dermatitis.",
+          D: 'Immunoglobulins produced by plasma cells are responsible for type II and III hypersensitivity reactions.  ACD does not involve plasma cells or antibodies.',
+          E: 'Regulatory T cells are CD4+ lymphocytes that play an inhibitory role in the immune response.  They secrete cytokines (eg, interleukin-10) that inhibit macrophage function and antagonize proinflammatory cytokines (eg, interferon gamma).  This anti-inflammatory effect is important in suppressing autoimmune diseases.'
+        },
+        objective: 'Allergic contact dermatitis is a type IV (delayed-type) hypersensitivity reaction.  Initially, Langerhans cells present haptens to naive T cells, leading to clonal expansion.  On reexposure, sensitized CD8+ T cells are recruited to skin and destroy tissue.  Release of interferon gamma by T cells further amplifies the immune response.',
+        tags: { subject:'Immunology', system:'Dermatology', topic:'Contact dermatitis' },
+        ptTranslation: {
+          vignette: 'Um homem de 62 anos vem ao consultório devido a uma erupção facial intensamente pruriginosa há 3 dias. O paciente não usa produtos cosméticos faciais, mas tingiu o cabelo com frequência durante o último ano; ele tingiu o cabelo pela última vez há 5 dias e também recorda ter desenvolvido uma erupção semelhante na vez anterior em que usou tintura de cabelo. O paciente tem história de asma, hipertensão e diabetes mellitus. Ele não usa tabaco, álcool ou drogas ilícitas. Os sinais vitais estão dentro dos limites normais. Os achados do exame físico são mostrados no exibit.',
+          q: 'Quais dos seguintes estão principalmente envolvidos na patogênese da erupção deste paciente?',
+          options: [
+            'Células T CD8+ e interferon gama',
+            'Mastócitos e histamina',
+            'Neutrófilos e mieloperoxidase',
+            'Plasmócitos e imunoglobulinas',
+            'Células T reguladoras e interleucina-10'
+          ],
+          explC: 'Este paciente desenvolveu eritema e prurido no couro cabeludo, face e pescoço 2 dias após a reexposição à tintura de cabelo. Produtos capilares, incluindo tinturas, frequentemente contêm moléculas alergênicas (por exemplo, p-fenilenodiamina) que podem causar <strong>dermatite alérgica de contato</strong> (ACD). A ACD é uma reação de hipersensibilidade do tipo IV (tipo retardado) que ocorre em 2 fases:\n\n1. <strong>Sensibilização:</strong> As <strong>células de Langerhans</strong> cutâneas captam haptenos (pequenas moléculas que se ligam a proteínas e alteram sua aparência imunológica) e apresentam complexos hapteno-peptídeo às células T CD4+ e CD8+ naive nos linfonodos regionais, resultando em expansão clonal de células T sensíveis ao hapteno. Essa fase leva <strong>10-14 dias</strong> e não resulta em lesões cutâneas.\n\n2. <strong>Elicitação:</strong> Na reexposição ao hapteno, as células T sensibilizadas são recrutadas para a pele para ativação por conjugados hapteno-proteína exibidos nas células apresentadoras de antígeno cutâneas. As <strong>células T CD8+</strong> ativadas, as principais células efetoras na ACD, liberam citotoxinas (por exemplo, perforina, granzimas) e expressam o ligante de Fas para induzir apoptose dos queratinócitos. Elas também amplificam a resposta inflamatória liberando citocinas (por exemplo, <strong>interferon gama</strong>) e recrutando células inflamatórias adicionais (por exemplo, macrófagos). Essa fase ocorre <strong>2-3 dias</strong> após a reexposição ao hapteno e resulta em eritema, prurido e vesículas.',
+          explI: {
+            B: 'Os mastócitos são os principais responsáveis pelas reações de hipersensibilidade imediata (tipo I). Na reexposição, os alérgenos ligam-se às IgEs específicas nos mastócitos, causando degranulação imediata e liberação de peptídeos vasoativos (por exemplo, histamina), resultando em urticária e, quando grave, anafilaxia. O início é rápido (minutos), ao contrário da resposta retardada (48 h) deste paciente. Além disso, as lesões individuais de urticária resolvem-se em 24 horas, e não em dias.',
+            C: 'Os neutrófilos fagocitam bactérias e fungos e os matam gerando espécies reativas de oxigênio (NADPH oxidase) e ácido hipocloroso (mieloperoxidase). Embora os neutrófilos desempenhem um papel na defesa contra infecções cutâneas (por exemplo, celulite, que é dolorosa em vez de pruriginosa), a erupção deste paciente é mais consistente com dermatite de contato.',
+            D: 'As imunoglobulinas produzidas pelos plasmócitos são responsáveis pelas reações de hipersensibilidade dos tipos II e III. A ACD não envolve plasmócitos nem anticorpos.',
+            E: 'As células T reguladoras são linfócitos CD4+ que desempenham um papel inibitório na resposta imune. Elas secretam citocinas (por exemplo, interleucina-10) que inibem a função dos macrófagos e antagonizam citocinas pró-inflamatórias (por exemplo, interferon gama). Esse efeito anti-inflamatório é importante na supressão de doenças autoimunes.'
+          },
+          objective: 'A dermatite alérgica de contato é uma reação de hipersensibilidade do tipo IV (tipo retardado). Inicialmente, as células de Langerhans apresentam haptenos às células T naive, levando à expansão clonal. Na reexposição, células T CD8+ sensibilizadas são recrutadas para a pele e destroem tecido. A liberação de interferon gama pelas células T amplifica ainda mais a resposta imune.'
+        }
+      },
+      {
+        id: 'L1Q-AICD-004',
+        vignette: 'A 34-year-old electric company worker comes to the physician with a skin rash on his right leg.  He has not eaten any new foods or changed detergents, soaps, or lotions.  On further questioning, the patient recalls that he recently worked on a repair job in an unmaintained, wooded area.  He had atopic dermatitis as a child but no other significant illnesses.  On physical examination, he appears uncomfortable and is constantly scratching his leg.  His lungs are clear bilaterally and his heart sounds are normal.  Examination of his right leg shows the findings in the image below.',
+        q: 'Which of the following cells is most responsible for causing the tissue damage seen in this patient?',
+        options: [
+          'Basophils',
+          'Eosinophils',
+          'Mast cells',
+          'Neutrophils',
+          'Plasma cells',
+          'T lymphocytes'
+        ],
+        correct: 'F',
+        peer: { A:1, B:12, C:26, D:3, E:1, F:54 },
+        difficulty: 'medium',
+        img: 'image-21',
+        explImg: 'figure-1',
+        explC: "This patient's pruritic skin rash following wilderness exposure is consistent with <strong>poison ivy dermatitis</strong>, a form of contact dermatitis.  Poison ivy, poison oak, and poison sumac all produce <strong>urushiol</strong>, a small allergenic substance that causes an immune response when attached to proteins (ie, a hapten).  Following contact with these plants, patients develop a <strong>highly pruritic</strong>, erythematous rash consisting of papules, vesicles, and bullae that may show signs of excoriation.  The rash most frequently affects exposed skin (eg, legs, forearms) and often forms <strong>linear streaks</strong> as the patient walks past the plant, dragging it along the skin.\n\nContact dermatitis is a type IV (<strong>delayed-type</strong>) hypersensitivity reaction that occurs in 2 distinct phases:\n\n1. The <strong>sensitization phase</strong> leads to the creation of hapten-specific T cells and takes 10-14 days.  Cutaneous dendritic cells take up the haptens and express them on MHC-I and MHC-II molecules as hapten-conjugated peptides.  These dendritic cells travel to the draining lymph nodes and interact with hapten-sensitive CD4+ and CD8+ T cells, causing activation and clonal expansion.\n\n2. The <strong>elicitation phase</strong> occurs within 2-3 days following re-exposure to the same antigen (or following sensitization after first exposure to a highly antigenic antigen such as urushiol).  In this phase, the hapten is taken up by skin cells and causes activation of hapten-sensitized T cells in the dermis and epidermis.  This results in an inflammatory response and the clinical manifestations of contact dermatitis.\n\nDepending on the etiologic agent, contact dermatitis can be mediated primarily by cytotoxic CD8+ T cells or CD4+ Th1 cells (that cause indirect damage by activating macrophages).  In urushiol-induced contact dermatitis, <strong>CD8+ T cells</strong> are the primary effector cells and directly destroy keratinocytes expressing haptenated proteins.",
+        explI: {
+          A: 'Mast cells and basophils, along with IgE, are primarily responsible for type I hypersensitivity allergic reactions.  Mast cells play a role in modulating the response in contact dermatitis by affecting antigen presentation and T-cell recruitment and activation, but they are not the main effector cells in type IV hypersensitivity (Choices A and C).',
+          B: 'Eosinophils are cells that play a role in the defense against parasitic organisms and allergic reactions.',
+          C: 'Mast cells and basophils, along with IgE, are primarily responsible for type I hypersensitivity allergic reactions.  Mast cells play a role in modulating the response in contact dermatitis by affecting antigen presentation and T-cell recruitment and activation, but they are not the main effector cells in type IV hypersensitivity (Choices A and C).',
+          D: 'Neutrophils are the primary phagocytic killers of the innate immune system and do not play a significant role in type IV hypersensitivity reactions.  They are more important in type III hypersensitivity reactions, in which deposited immune complexes activate complement and cause neutrophil-mediated tissue damage.',
+          E: 'Plasma cells are the principal cells responsible for the synthesis of immunoglobulins, which are directly responsible for type II and III hypersensitivity reactions.'
+        },
+        objective: 'Poison ivy dermatitis is a form of allergic contact dermatitis, which is a type IV hypersensitivity reaction mediated primarily by T lymphocytes.  It manifests as intensely pruritic erythematous papules, vesicles, or bullae that often form linear patterns.',
+        tags: { subject:'Immunology', system:'Allergy & Immunology', topic:'Hypersensitivity reactions' },
+        ptTranslation: {
+          vignette: 'Um trabalhador de companhia elétrica de 34 anos vem ao médico com uma erupção cutânea na perna direita. Ele não comeu nenhum alimento novo nem mudou detergentes, sabões ou loções. Em questionamento adicional, o paciente recorda que recentemente trabalhou em um serviço de reparo em uma área arborizada não conservada. Ele teve dermatite atópica quando criança, mas nenhuma outra doença significativa. No exame físico, ele parece desconfortável e coça a perna constantemente. Seus pulmões estão limpos bilateralmente e os sons cardíacos são normais. O exame de sua perna direita mostra os achados na imagem abaixo.',
+          q: 'Qual das seguintes células é mais responsável por causar o dano tecidual visto neste paciente?',
+          options: [
+            'Basófilos',
+            'Eosinófilos',
+            'Mastócitos',
+            'Neutrófilos',
+            'Plasmócitos',
+            'Linfócitos T'
+          ],
+          explC: 'A erupção cutânea pruriginosa deste paciente após exposição na natureza é consistente com <strong>dermatite por hera venenosa</strong>, uma forma de dermatite de contato. Hera venenosa, carvalho venenoso e sumagre venenoso produzem todos <strong>urushiol</strong>, uma pequena substância alergênica que causa uma resposta imune quando ligada a proteínas (ou seja, um hapteno). Após o contato com essas plantas, os pacientes desenvolvem uma erupção <strong>altamente pruriginosa</strong> e eritematosa consistindo em pápulas, vesículas e bolhas que podem mostrar sinais de escoriação. A erupção afeta mais frequentemente a pele exposta (por exemplo, pernas, antebraços) e frequentemente forma <strong>listras lineares</strong> conforme o paciente passa pela planta, arrastando-a pela pele.\n\nA dermatite de contato é uma reação de hipersensibilidade do tipo IV (<strong>tipo retardado</strong>) que ocorre em 2 fases distintas:\n\n1. A <strong>fase de sensibilização</strong> leva à criação de células T específicas de hapteno e leva de 10 a 14 dias. As células dendríticas cutâneas captam os haptenos e os expressam em moléculas de MHC-I e MHC-II como peptídeos conjugados com hapteno. Essas células dendríticas viajam para os linfonodos drenantes e interagem com células T CD4+ e CD8+ sensíveis ao hapteno, causando ativação e expansão clonal.\n\n2. A <strong>fase de elicitação</strong> ocorre dentro de 2-3 dias após a reexposição ao mesmo antígeno (ou após a sensibilização depois da primeira exposição a um antígeno altamente antigênico como o urushiol). Nesta fase, o hapteno é captado pelas células da pele e causa ativação de células T sensibilizadas por hapteno na derme e na epiderme. Isso resulta em uma resposta inflamatória e nas manifestações clínicas da dermatite de contato.\n\nDependendo do agente etiológico, a dermatite de contato pode ser mediada principalmente por células T CD8+ citotóxicas ou células Th1 CD4+ (que causam dano indireto ativando macrófagos). Na dermatite de contato induzida por urushiol, as <strong>células T CD8+</strong> são as células efetoras primárias e destroem diretamente os queratinócitos que expressam proteínas haptenadas.',
+          explI: {
+            A: 'Mastócitos e basófilos, junto com a IgE, são os principais responsáveis pelas reações alérgicas de hipersensibilidade do tipo I. Os mastócitos desempenham um papel na modulação da resposta na dermatite de contato ao afetar a apresentação de antígenos e o recrutamento e ativação de células T, mas não são as principais células efetoras na hipersensibilidade do tipo IV (Escolhas A e C).',
+            B: 'Os eosinófilos são células que desempenham um papel na defesa contra organismos parasitários e em reações alérgicas.',
+            C: 'Mastócitos e basófilos, junto com a IgE, são os principais responsáveis pelas reações alérgicas de hipersensibilidade do tipo I. Os mastócitos desempenham um papel na modulação da resposta na dermatite de contato ao afetar a apresentação de antígenos e o recrutamento e ativação de células T, mas não são as principais células efetoras na hipersensibilidade do tipo IV (Escolhas A e C).',
+            D: 'Os neutrófilos são os principais fagócitos killers do sistema imune inato e não desempenham papel significativo nas reações de hipersensibilidade do tipo IV. São mais importantes nas reações de hipersensibilidade do tipo III, nas quais imunocomplexos depositados ativam o complemento e causam dano tecidual mediado por neutrófilos.',
+            E: 'Os plasmócitos são as principais células responsáveis pela síntese de imunoglobulinas, que são diretamente responsáveis pelas reações de hipersensibilidade dos tipos II e III.'
+          },
+          objective: 'A dermatite por hera venenosa é uma forma de dermatite alérgica de contato, que é uma reação de hipersensibilidade do tipo IV mediada principalmente por linfócitos T. Manifesta-se como pápulas, vesículas ou bolhas eritematosas intensamente pruriginosas que frequentemente formam padrões lineares.'
+        }
+      },
+      {
+        id: 'L1Q-AICD-005',
+        vignette: 'A 32-year-old woman comes to the allergy clinic due to a recurrent skin rash.  The patient has had several episodes of itchy, erythematous, vesicular eruptions on her hands over the past several months.  She works at a hair salon and is often exposed to hair dye and other beauty products.  The patient has no other medical conditions and takes no medications.  She undergoes patch testing, during which several allergens found in common cosmetic products are mounted on nonocclusive tape strips applied to her upper back.  Skin findings developed after 2 days of application and are shown in the exhibit.',
+        q: 'Which of the following processes most likely occurred in this patient to enable the development of the observed skin reaction?',
+        options: [
+          'B-cell binding with helper T cells via CD40 and CD40 ligand',
+          'Formation of autoantibodies against keratinocyte cell surface antigens',
+          'Immune complex formation and deposition in the small cutaneous vessels',
+          'Migration of hapten-activated Langerhans cells to regional lymph nodes',
+          'Release of vasoactive peptides from IgE-bound mast cells'
+        ],
+        correct: 'D',
+        peer: { A:25, B:5, C:8, D:32, E:28 },
+        difficulty: 'hard',
+        explImg: 'figure-1',
+        explC: 'This patient developed localized erythema and vesicles 2 days after reexposure to a chemical on patch testing, which identified the allergen responsible for <strong>allergic contact dermatitis</strong> (ACD).  ACD is a type IV (delayed-type) hypersensitivity reaction that occurs in 2 phases:\n\n- In the <strong>sensitization phase</strong>, cutaneous <strong>Langerhans cells</strong> take up haptens (ie, allergens) and present them to naive CD4+ and CD8+ T cells in the regional lymph nodes, resulting in clonal expansion of hapten-sensitive T cells.  This phase takes <strong>10-14 days</strong> and does not result in cutaneous lesions.\n\n- On reexposure to the hapten, cutaneous antigen-presenting cells present the hapten to <strong>sensitized T cells</strong> recruited to the skin.  When activated, these T cells mediate tissue damage that manifests as pruritic erythema, vesicles, and/or bullae.  This <strong>elicitation phase</strong> occurs <strong>2-3 days</strong> following reexposure to the hapten.',
+        explI: {
+          A: "In type I (immediate) hypersensitivity reactions, initial allergen exposure leads to Th2 cell-induced, B-cell heavy-chain isotype switching and production of IgE, which subsequently binds to mast cells.  This is accomplished in part by the binding of CD40 on B cells to CD40 ligand on T cells.  On reexposure, allergens bind to IgE on mast cells and trigger immediate release of vasoactive peptides, resulting in urticaria (and anaphylaxis if severe).  This inflammatory response is rapid (ie, minutes), unlike this patient's delayed (48-hr) response (Choices A and E).",
+          B: 'Bullous pemphigoid and pemphigus vulgaris are caused by autoantibodies against hemidesmosomes and desmosomes on keratinocytes, respectively.  This causes epidermal/dermal separation and acantholysis, respectively, manifesting as bullae.  These conditions are not type IV hypersensitive reactions and cannot be elicited by patch testing.',
+          C: 'Immune complex deposition in small cutaneous vessels causes cutaneous small vessel vasculitis (CSVV).  Medications that function as haptens (eg, phenytoin, sulfonamides) can cause the condition.  Because of the extravasation of red blood cells due to vessel wall inflammation, CSVV presents with nonblanchable purpura and petechiae, not vesicles.',
+          E: "In type I (immediate) hypersensitivity reactions, initial allergen exposure leads to Th2 cell-induced, B-cell heavy-chain isotype switching and production of IgE, which subsequently binds to mast cells.  This is accomplished in part by the binding of CD40 on B cells to CD40 ligand on T cells.  On reexposure, allergens bind to IgE on mast cells and trigger immediate release of vasoactive peptides, resulting in urticaria (and anaphylaxis if severe).  This inflammatory response is rapid (ie, minutes), unlike this patient's delayed (48-hr) response (Choices A and E)."
+        },
+        objective: 'Allergic contact dermatitis is a delayed-type hypersensitivity reaction.  Initially, Langerhans cells travel to regional lymph nodes and present haptens to naive T cells, leading to clonal expansion.  On reexposure to the hapten, sensitized T cells cause tissue destruction that manifests as pruritic erythema, vesicles, and/or bullae 2-3 days after exposure.',
+        tags: { subject:'Immunology', system:'Dermatology', topic:'Contact dermatitis' },
+        ptTranslation: {
+          vignette: 'Uma mulher de 32 anos vem à clínica de alergia devido a uma erupção cutânea recorrente. A paciente teve vários episódios de erupções vesiculares, eritematosas e pruriginosas nas mãos nos últimos meses. Ela trabalha em um salão de cabeleireiro e é frequentemente exposta a tinturas de cabelo e outros produtos de beleza. A paciente não tem outras condições médicas e não toma medicamentos. Ela é submetida a teste de contato (patch testing), durante o qual vários alérgenos encontrados em produtos cosméticos comuns são montados em tiras de fita não oclusivas aplicadas na parte superior das costas. Os achados cutâneos desenvolveram-se após 2 dias de aplicação e são mostrados no exibit.',
+          q: 'Qual dos seguintes processos provavelmente ocorreu nesta paciente para permitir o desenvolvimento da reação cutânea observada?',
+          options: [
+            'Ligação de células B com células T auxiliares via CD40 e ligante de CD40',
+            'Formação de autoanticorpos contra antígenos de superfície dos queratinócitos',
+            'Formação e deposição de imunocomplexos nos pequenos vasos cutâneos',
+            'Migração de células de Langerhans ativadas por hapteno para os linfonodos regionais',
+            'Liberação de peptídeos vasoativos de mastócitos ligados à IgE'
+          ],
+          explC: 'Esta paciente desenvolveu eritema e vesículas localizadas 2 dias após a reexposição a uma substância química no teste de contato, que identificou o alérgeno responsável pela <strong>dermatite alérgica de contato</strong> (ACD). A ACD é uma reação de hipersensibilidade do tipo IV (tipo retardado) que ocorre em 2 fases:\n\n- Na <strong>fase de sensibilização</strong>, as <strong>células de Langerhans</strong> cutâneas captam haptenos (ou seja, alérgenos) e os apresentam às células T CD4+ e CD8+ naive nos linfonodos regionais, resultando em expansão clonal de células T sensíveis ao hapteno. Essa fase leva <strong>10-14 dias</strong> e não resulta em lesões cutâneas.\n\n- Na reexposição ao hapteno, as células apresentadoras de antígeno cutâneas apresentam o hapteno às <strong>células T sensibilizadas</strong> recrutadas para a pele. Quando ativadas, essas células T mediam o dano tecidual que se manifesta como eritema pruriginoso, vesículas e/ou bolhas. Essa <strong>fase de elicitação</strong> ocorre <strong>2-3 dias</strong> após a reexposição ao hapteno.',
+          explI: {
+            A: 'Nas reações de hipersensibilidade do tipo I (imediata), a exposição inicial ao alérgeno leva à troca de isotipo de cadeia pesada das células B induzida por células Th2 e à produção de IgE, que subsequentemente se liga aos mastócitos. Isso é realizado em parte pela ligação do CD40 nas células B ao ligante de CD40 nas células T. Na reexposição, os alérgenos ligam-se à IgE nos mastócitos e desencadeiam a liberação imediata de peptídeos vasoativos, resultando em urticária (e anafilaxia, se grave). Essa resposta inflamatória é rápida (ou seja, minutos), ao contrário da resposta retardada (48 h) desta paciente (Escolhas A e E).',
+            B: 'O penfigoide bolhoso e o pênfigo vulgar são causados por autoanticorpos contra hemidesmossomos e desmossomos nos queratinócitos, respectivamente. Isso causa separação epidérmica/dérmica e acantólise, respectivamente, manifestando-se como bolhas. Essas condições não são reações de hipersensibilidade do tipo IV e não podem ser provocadas por teste de contato.',
+            C: 'A deposição de imunocomplexos nos pequenos vasos cutâneos causa vasculite cutânea de pequenos vasos (CSVV). Medicamentos que funcionam como haptenos (por exemplo, fenitoína, sulfonamidas) podem causar a condição. Devido à extravasão de glóbulos vermelhos pela inflamação da parede vascular, a CSVV apresenta-se com púrpura e petéquias não branqueáveis, não vesículas.',
+            E: 'Nas reações de hipersensibilidade do tipo I (imediata), a exposição inicial ao alérgeno leva à troca de isotipo de cadeia pesada das células B induzida por células Th2 e à produção de IgE, que subsequentemente se liga aos mastócitos. Isso é realizado em parte pela ligação do CD40 nas células B ao ligante de CD40 nas células T. Na reexposição, os alérgenos ligam-se à IgE nos mastócitos e desencadeiam a liberação imediata de peptídeos vasoativos, resultando em urticária (e anafilaxia, se grave). Essa resposta inflamatória é rápida (ou seja, minutos), ao contrário da resposta retardada (48 h) desta paciente (Escolhas A e E).'
+          },
+          objective: 'A dermatite alérgica de contato é uma reação de hipersensibilidade do tipo retardado. Inicialmente, as células de Langerhans viajam para os linfonodos regionais e apresentam haptenos às células T naive, levando à expansão clonal. Na reexposição ao hapteno, células T sensibilizadas causam destruição tecidual que se manifesta como eritema pruriginoso, vesículas e/ou bolhas 2-3 dias após a exposição.'
+        }
+      }
+    ],
 
     en: {
       title: 'Allergic/irritant contact dermatitis',
