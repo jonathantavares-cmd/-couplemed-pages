@@ -2,7 +2,7 @@
 
 > Referência definitiva do módulo **Medical Library › Library 1**: como incluir o material de estudo nas pastas/tópicos que já existem no site, como o conteúdo é armazenado, e como a Library 1 se conecta ao QBank 1.
 >
-> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "adicionar Library 1" (ou variação), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem reexplorar o site a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 2), e **sem parar para pedir aprovação de comando ou de conteúdo** (bypass de permissões + commit/push automáticos, Seção 2.3).
+> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "adicionar Library 1" (ou variação), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem reexplorar o site a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 2), e **sem parar para pedir aprovação de comando ou de conteúdo** (bypass de permissões + commit/push automáticos, Seção 2.3) e retomando sozinho a cada hora se o limite de uso bater sem troca de conta (Seção 2.4).
 >
 > 🔒 **A Seção 1 (Regra de Fidelidade) manda em tudo o mais.** O conteúdo publicado tem de ser exatamente o que está nas imagens enviadas — é proibido parafrasear, resumir, expandir, reordenar ou "corrigir". Autonomia de execução nunca vira liberdade editorial.
 >
@@ -17,15 +17,16 @@
 Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Library 1", "incluir material da Library 1", ou variação equivalente que cite a Library 1.
 
 1. **Ler este arquivo (`LIBRARY1_ADD_CONTENT.md`) do início ao fim.** Não usar memória de sessões anteriores como fonte.
-2. **Abrir e varrer a pasta de origem** `/Users/jonathan/Desktop/Adicionar Library 1/` (Seção 2), recursivamente, e **visualizar o conteúdo** de cada arquivo encontrado. Não pedir material ao usuário antes de checar a pasta — só pedir se a pasta estiver sem nenhum arquivo novo desde a última leva.
-3. **Identificar, para cada arquivo, a qual tópico do site ele pertence** — o caminho da pasta já é a resposta (Seção 3: `Subject/Tópico/arquivo`). Não adivinhar por conteúdo quando o caminho já diz.
-4. **Aplicar a Regra de Fidelidade (Seção 1)** — o material é conteúdo próprio do usuário; transcrever verbatim.
-5. **Gravar o conteúdo** no arquivo de destino correspondente (Seção 5), sempre **bilíngue EN + PT no mesmo commit** (Seção 6).
-6. **Validar**: `node --check` no(s) arquivo(s) alterado(s) + conferir que o tópico abre no site (Seção 9).
-7. **AUDITAR (obrigatório, Seção 11.1)**: `node tools/library1-audit.js "<Subject>" "<Tópico>"`. Tem de sair ✅ — se sair ❌, corrigir e rodar de novo antes de qualquer outra coisa.
-8. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
-9. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
-10. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
+2. **Armar a retomada automática por hora** (Seção 2.4) — `CronCreate` no início da leva, para o trabalho voltar sozinho se o limite de uso bater e o usuário não trocar de conta. Apagar com `CronDelete` ao terminar.
+3. **Abrir e varrer a pasta de origem** `/Users/jonathan/Desktop/Adicionar Library 1/` (Seção 2), recursivamente, e **visualizar o conteúdo** de cada arquivo encontrado. Não pedir material ao usuário antes de checar a pasta — só pedir se a pasta estiver sem nenhum arquivo novo desde a última leva.
+4. **Identificar, para cada arquivo, a qual tópico do site ele pertence** — o caminho da pasta já é a resposta (Seção 3: `Subject/Tópico/arquivo`). Não adivinhar por conteúdo quando o caminho já diz.
+5. **Aplicar a Regra de Fidelidade (Seção 1)** — o material é conteúdo próprio do usuário; transcrever verbatim.
+6. **Gravar o conteúdo** no arquivo de destino correspondente (Seção 5), sempre **bilíngue EN + PT no mesmo commit** (Seção 6).
+7. **Validar**: `node --check` no(s) arquivo(s) alterado(s) + conferir que o tópico abre no site (Seção 9).
+8. **AUDITAR (obrigatório, Seção 11.1)**: `node tools/library1-audit.js "<Subject>" "<Tópico>"`. Tem de sair ✅ — se sair ❌, corrigir e rodar de novo antes de qualquer outra coisa.
+9. **Marcar o progresso**: `node tools/library1-progress.js mark "<Subject>" "<Tópico>"` — põe o ✅ na subpasta do Desktop e, se o Subject ficar completo, na pasta dele também (Seção 11).
+10. **Commit e push automáticos**, sem esperar aprovação (mesma política do QBank — permissões em bypass global). Commitar **apenas** os arquivos da Library 1 (Seção 10).
+11. **Processar a pasta inteira**, quantos arquivos forem — em lotes, seguindo automaticamente lote após lote, sem perguntar se deve continuar. Subpasta vazia é pulada em silêncio (Seção 2.2).
 
 ---
 
@@ -108,6 +109,46 @@ Regra do usuário (2026-07-25), **igual à que já vale no QBank** (`QBANK_ADD_Q
 1. Trecho ilegível ou faltando no print (Seção 1 — nunca completar por conta própria).
 2. Imagem corrompida ou que não abre.
 3. Print que claramente não pertence ao tópico da subpasta onde está.
+
+---
+
+### 2.4 RETOMADA AUTOMÁTICA A CADA HORA APÓS ATINGIR O LIMITE DE USO
+
+**Regra do usuário (2026-07-25):** quando o limite de uso do Claude é atingido no meio de um trabalho automático e **ele NÃO troca de conta**, a expectativa é que o processamento **retome sozinho**, sem ele precisar digitar nada. Para isso, tenta-se de novo **a cada hora** até o limite ser restabelecido.
+
+> **Esta função deve ser armada SEMPRE que o trabalho for automático (§2.3) e não houver troca de usuário.** Não é opcional e não espera o limite bater — é seguro preventivo.
+
+**Por que é uma tentativa cega:** não existe nenhum aviso de "o limite liberou" que o Claude receba. A única forma de descobrir é **tentar**. Então o job tenta, falha se ainda estiver limitado, e tenta de novo na hora seguinte, até uma tentativa passar.
+
+**Quando armar:** no **início** de qualquer leva (não depois que o limite bateu — nesse ponto pode já não haver capacidade nem para criar o job).
+
+**Como armar** — ferramenta `CronCreate`, parâmetros conferidos na especificação real:
+
+| Parâmetro | Valor | Por quê |
+|---|---|---|
+| `cron` | `"13 * * * *"` | de hora em hora, em **minuto não-cheio**. A própria ferramenta recomenda evitar `:00` e `:30`, porque é quando o mundo inteiro agenda e a carga se concentra. |
+| `recurring` | `true` | repete até ser apagado (ou expirar em 7 dias). |
+| `prompt` | ver abaixo | tem de ser autossuficiente: quem recebe é uma sessão que não viu esta conversa. |
+
+Prompt de retomada a usar (ajustar só o tópico/Subject da vez):
+
+> *"Retomar o trabalho da Library 1 de onde parou. Ler LIBRARY1_ADD_CONTENT.md, começando pela Seção 12 (ESTADO ATUAL), que diz exatamente o que falta. Seguir a Seção 1 (fidelidade), a Seção 11.1 (auditoria obrigatória ao fim de cada tópico) e a Seção 10 (commitar só arquivos da Library 1, nunca `git add -A`). Se o limite de uso ainda estiver ativo, esta tentativa falha e a próxima (1h depois) tenta de novo — sem precisar que o usuário digite nada."*
+
+**Ao terminar a leva, apagar o job com `CronDelete`** (o id vem no retorno do `CronCreate`; `CronList` mostra os jobs da sessão). Deixar rodando à toa faz a sessão reabrir trabalho que já acabou.
+
+#### ⚠️ Se o usuário TROCAR de conta, apague o job
+
+Com troca de conta, a outra sessão assume o trabalho. Se o job da sessão antiga continuar armado, **as duas podem trabalhar no mesmo tópico ao mesmo tempo** — e aí se briga por commit, exatamente o problema que a Seção 10 evita. Portanto: **houve troca de conta → `CronDelete` no job.**
+
+#### Limitações reais desse mecanismo (conferidas na especificação da ferramenta)
+
+- **O job só existe nesta sessão.** Fica em memória, não é gravado em disco, e **desaparece quando a sessão do Claude termina**. Logo: para a retomada automática funcionar, **a sessão do Claude Code precisa ficar aberta** (não fechar o terminal/app).
+- O parâmetro `durable` **existe mas não tem efeito** — persistência durável não está disponível. Não confiar nele.
+- **Expira sozinho em 7 dias**, disparando uma última vez antes de ser apagado.
+- **Só dispara com a sessão ociosa**, nunca no meio de uma resposta — que é justamente o estado de quem espera o limite renovar.
+- O agendador acrescenta uma folga própria: tarefas recorrentes podem disparar até **10% do período atrasadas** (no máximo 15 min). Para um job de 1 hora, significa disparar em até ~6 minutos depois do previsto. Isso não atrapalha nada aqui.
+
+**Nada se perde no meio do caminho**, porque cada tópico concluído já foi commitado e pushado (§2.3) e o ✅ na pasta (§11) marca o que entrou. A retomada continua do próximo tópico pendente, sem repetir nem pular — a auditoria (§11.1) e o `library1-progress.js status` confirmam onde está.
 
 ---
 
@@ -611,4 +652,5 @@ Ao terminar cada uma: rodar a auditoria (§11.1), depois o ✅ (§11), depois co
 | 2026-07-25 | **Create Test implementado** (§11.2): questões de treino por tópico, no fim do conteúdo acima das tags, com performance individual e isolamento verificado do QBank 1. Auditoria estendida para conferir as questões (id, correct, difficulty × peer, tradução). |
 | 2026-07-25 | **Q1 do tópico Acute rheumatic fever transcrita** (de 5 identificadas nos 14 prints). Faltam Q2–Q5 — ver Seção 12. |
 | 2026-07-25 | **Testes movidos para `tools/tests/`** (antes viviam num scratchpad temporário e se perderiam), com README de como rodar. §6.1/6.2 passam a registrar que o texto PT vem incompleto e que as inconsistências da tradução do usuário são preservadas. |
+| 2026-07-25 | **Retomada automática por hora documentada** (§2.4), a pedido do usuário: quando o limite de uso bate e ele **não troca de conta**, arma-se `CronCreate` de hora em hora (minuto não-cheio) para tentar retomar sozinho, e apaga-se com `CronDelete` ao terminar — ou imediatamente, se houver troca de conta (senão duas sessões trabalham no mesmo tópico). Parâmetros e limitações conferidos na especificação real da ferramenta, incluindo dois pontos que o doc do QBank não registra: `durable` **não tem efeito** e tarefas recorrentes têm jitter de até 10% do período. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |
