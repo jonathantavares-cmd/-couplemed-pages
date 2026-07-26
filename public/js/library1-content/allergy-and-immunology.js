@@ -13,6 +13,8 @@ window.LIBRARY1_CONTENT = window.LIBRARY1_CONTENT || {};
 
 // chave relativa: o leitor resolve para o site ou para o R2 (ver ASSET_BASE)
 const A1 = 'allergy-and-immunology/';
+// atalho do 2º tópico (o caminho completo repetido 42 vezes só polui o registro)
+const A2 = 'allergy-and-immunology/allergic-irritant-contact-dermatitis/';
 
 window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
 
@@ -483,6 +485,329 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
 
         <h3>TAGS</h3>
         <p class="l1r-tags"><span>Alergia e Imunologia</span><span>Sistema Cardiovascular</span><span>Doenças Infecciosas</span></p>
+      `
+    }
+  },
+
+  /* ---------------------------------------------------------------- *
+   * Allergic/irritant contact dermatitis                             *
+   * Dermatite de contato alérgica/irritativa                         *
+   * Origem: 58 prints (1+3-8 texto EN, 9-29 mídia EN, 30-37 texto PT,*
+   * 38-58 mídia PT) + subpasta "pasta sem título" (13 prints das     *
+   * questões). Incluído em 2026-07-26.                               *
+   * ---------------------------------------------------------------- */
+  'allergic-irritant-contact-dermatitis': {
+
+    assets: {
+      'figure-1': { kind:'figure', n:1,
+        en:{ key:A2+'figure-1-en.webp', alt:'Urushiol-induced contact dermatitis' },
+        pt:{ key:A2+'figure-1-pt.webp', alt:'Dermatite de contato induzida por Urushiol' } },
+      'figure-2': { kind:'figure', n:2,
+        en:{ key:A2+'figure-2-en.webp', alt:'Immunosuppressant mechanisms of action' },
+        pt:{ key:A2+'figure-2-pt.webp', alt:'Mecanismos de ação imunossupressores' } },
+      'image-1': { kind:'image', n:1,
+        en:{ key:A2+'image-1-en.webp', alt:'Acute irritant contact dermatitis' },
+        pt:{ key:A2+'image-1-pt.webp', alt:'Dermatite de contato irritante aguda' } },
+      'image-2': { kind:'image', n:2,
+        en:{ key:A2+'image-2-en.webp', alt:'Irritant contact dermatitis' },
+        pt:{ key:A2+'image-2-pt.webp', alt:'Dermatite de contato irritante' } },
+      /* image-3: o print EN (Imagem 12) veio com uma notificação do macOS
+         sobreposta cobrindo o título e o topo da foto; o recorte publicado
+         começa abaixo dela, então esta é a única mídia do tópico sem o
+         título dentro da imagem (a legenda vem do alt). Reenviar o print
+         EN limpo permite substituir só este arquivo. */
+      'image-3': { kind:'image', n:3,
+        en:{ key:A2+'image-3-en.webp', alt:'Allergic contact dermatitis' },
+        pt:{ key:A2+'image-3-pt.webp', alt:'Dermatite alérgica de contato' } },
+      'image-4': { kind:'image', n:4,
+        en:{ key:A2+'image-4-en.webp', alt:'Allergic contact dermatitis (poison ivy)' },
+        pt:{ key:A2+'image-4-pt.webp', alt:'Dermatite alérgica de contato (hera venenosa)' } },
+      'image-5': { kind:'image', n:5,
+        en:{ key:A2+'image-5-en.webp', alt:'Nickel contact dermatitis' },
+        pt:{ key:A2+'image-5-pt.webp', alt:'Dermatite de contato de níquel' } },
+      'image-6': { kind:'image', n:6,
+        en:{ key:A2+'image-6-en.webp', alt:'Allergic contact dermatitis (metal allergy)' },
+        pt:{ key:A2+'image-6-pt.webp', alt:'Dermatite alérgica por contato (alergia a metais)' } },
+      'image-7': { kind:'image', n:7,
+        en:{ key:A2+'image-7-en.webp', alt:'Spongiosis' },
+        pt:{ key:A2+'image-7-pt.webp', alt:'Espongiose' } },
+      'image-8': { kind:'image', n:8,
+        en:{ key:A2+'image-8-en.webp', alt:'Chronic spongiotic dermatitis' },
+        pt:{ key:A2+'image-8-pt.webp', alt:'Dermatite espongiótica crônica' } },
+      'image-9': { kind:'image', n:9,
+        en:{ key:A2+'image-9-en.webp', alt:'Patch testing' },
+        pt:{ key:A2+'image-9-pt.webp', alt:'Teste de patch' } },
+      'image-10': { kind:'image', n:10,
+        en:{ key:A2+'image-10-en.webp', alt:'Atopic dermatitis' },
+        pt:{ key:A2+'image-10-pt.webp', alt:'Dermatite atópica' } },
+      'image-11': { kind:'image', n:11,
+        en:{ key:A2+'image-11-en.webp', alt:'Plaque psoriasis' },
+        pt:{ key:A2+'image-11-pt.webp', alt:'Psoríase em placas' } },
+      'image-12': { kind:'image', n:12,
+        en:{ key:A2+'image-12-en.webp', alt:'Psoriatic nail disease' },
+        pt:{ key:A2+'image-12-pt.webp', alt:'Doença da unha psoriática' } },
+      'image-13': { kind:'image', n:13,
+        en:{ key:A2+'image-13-en.webp', alt:'Psoriatic arthritis & nail psoriasis' },
+        pt:{ key:A2+'image-13-pt.webp', alt:'Artrite psoriática e psoríase nas unhas' } },
+      'image-14': { kind:'image', n:14,
+        en:{ key:A2+'image-14-en.webp', alt:'Seborrheic dermatitis' },
+        pt:{ key:A2+'image-14-pt.webp', alt:'Dermatite seborreica' } },
+      'image-15': { kind:'image', n:15,
+        en:{ key:A2+'image-15-en.webp', alt:'Seborrheic dermatitis' },
+        pt:{ key:A2+'image-15-pt.webp', alt:'Dermatite seborreica' } },
+      'image-16': { kind:'image', n:16,
+        en:{ key:A2+'image-16-en.webp', alt:'Tinea corporis' },
+        pt:{ key:A2+'image-16-pt.webp', alt:'Tinea corporal' } },
+      'image-17': { kind:'image', n:17,
+        en:{ key:A2+'image-17-en.webp', alt:'Dermatophyte infection' },
+        pt:{ key:A2+'image-17-pt.webp', alt:'Infecção por dermatofitas' } },
+      'image-18': { kind:'image', n:18,
+        en:{ key:A2+'image-18-en.webp', alt:'Impetiginized hand dermatitis' },
+        pt:{ key:A2+'image-18-pt.webp', alt:'Dermatite de mão impetiginizada' } },
+      'table-1': { kind:'table', n:1,
+        en:{ key:A2+'table-1-en.webp', alt:'Allergic contact dermatitis' },
+        pt:{ key:A2+'table-1-pt.webp', alt:'Dermatite alérgica de contato' } },
+    },
+
+    en: {
+      title: 'Allergic/irritant contact dermatitis',
+      html: `
+        <h2>INTRODUCTION</h2>
+        <p>Contact dermatitis is an inflammatory skin condition caused by exposure to an irritant that disrupts the skin barrier (irritant contact dermatitis [ICD]) or to an allergen that causes a type IV (delayed-type) hypersensitivity reaction (allergic contact dermatitis [ACD]).  ICD and ACD have overlapping clinical presentations, virtually indistinguishable histologic features, and similar management strategies.</p>
+
+        <h2>PATHOPHYSIOLOGY</h2>
+        <h3>Irritant contact dermatitis (ICD)</h3>
+        <p><strong>Chemical</strong> (eg, water, detergents, solvents) or <strong>physical</strong> (eg, metals, wood, fiberglass) irritants can disrupt the epidermal barrier through damage (eg, microtrauma) to keratinocytes, increasing epidermal permeability and water loss.  A nonspecific inflammatory response follows at the site of exposure, likely caused by the activation of innate immunity and the release of cytokines from keratinocytes.</p>
+        <h3>Allergic contact dermatitis (ACD)</h3>
+        <p>ACD is a <strong>type IV (delayed-type)</strong> hypersensitivity reaction that occurs in 2 distinct phases (<a class="l1r-ref" data-ref="figure-1">figure 1</a>):</p>
+        <ol>
+          <li>The <strong>sensitization</strong> phase leads to the creation of hapten-specific T cells and takes 10-14 days.  Cutaneous dendritic (Langerhans) cells take up the haptens and express them on MHC-I and MHC-II molecules as hapten-conjugated peptides.  These Langerhans cells travel to the draining lymph nodes and interact with hapten-sensitive CD4<sup>+</sup> and CD8<sup>+</sup> T cells, causing activation and clonal expansion.</li>
+          <li>The <strong>elicitation</strong> phase typically occurs within 2-3 days following reexposure to the same antigen (or following sensitization after first exposure to a highly antigenic antigen, such as urushiol/poison ivy).  In this phase, the hapten is taken up by skin cells and causes activation of hapten-sensitized T cells in the dermis and epidermis.  This results in an inflammatory response and the clinical manifestations of contact dermatitis.</li>
+        </ol>
+        <p>Depending on the etiologic agent, contact dermatitis can be mediated primarily by cytotoxic CD8<sup>+</sup> T cells or CD4<sup>+</sup> Th1 cells (which cause indirect damage by activating macrophages).  For example, in urushiol-induced contact dermatitis (caused by poison ivy), CD8<sup>+</sup> T cells are the primary effector cells and directly destroy keratinocytes expressing haptenated proteins.</p>
+        <p>Common allergens (<a class="l1r-ref" data-ref="table-1">table 1</a>) include nickel (found in jewelry and belt buckles), fragrances, preservatives (eg, cosmetics, skin care products), topical medications, dyes, latex, rubber, formaldehyde (eg, artificial nails), and urushiol (eg, poison ivy, poison oak, poison sumac).</p>
+
+        <h2>RISK FACTORS</h2>
+        <h3>Irritant contact dermatitis</h3>
+        <ul>
+          <li>Age:  younger patients are more likely to develop ICD due to their heightened inflammatory response.</li>
+          <li>Body site:  sites with thinner stratum corneum (eg, face, dorsal hands, finger webs) have increased irritant permeability compared to sites with thicker stratum corneum (eg, palms, soles, back).  In addition, body sites that are more exposed (eg, hands, arms, legs) have a higher probability of irritant exposure than sites that are typically covered by clothing (eg, trunk).</li>
+          <li>Atopic dermatitis:  impaired skin barrier function in patients with atopic dermatitis increases irritant permeability.</li>
+          <li>Occupations:  patients in certain occupations are at increased risk for ICD due to frequent exposure to water and chemicals (eg, cleaners, hairdressers, food handlers), as well as physical irritants (eg, mechanics, carpenters, construction workers).</li>
+          <li>Environment:  extremes of temperature and humidity, as well as high air flow (eg, wind, air conditioning), increase skin permeability and promote inflammatory response to irritants.</li>
+        </ul>
+        <h3>Allergic contact dermatitis</h3>
+        <ul>
+          <li>Age:  adults are more likely than children to develop ACD because they have had more time for allergen sensitization.</li>
+          <li>Atopic dermatitis:  patients with atopic dermatitis may be at increased risk for ACD, possibly related to impaired skin barrier function and immune dysregulation.</li>
+          <li>Occupation:  patients in certain occupations (eg, health care, landscaping, cosmetology) are at increased risk for ACD due to frequent exposure to allergens.</li>
+        </ul>
+
+        <h2>CLINICAL PRESENTATION</h2>
+        <h3>Irritant contact dermatitis</h3>
+        <ul>
+          <li><strong>Acute</strong> ICD develops after a single exposure to a <strong>strong irritant</strong> (eg, bleach) and presents with burning or painful skin erythema (<a class="l1r-ref" data-ref="image-1">image 1</a>), edema, vesicles, and bullae.</li>
+          <li>Chronic ICD develops after <strong>repeated</strong> exposures to a <strong>mild irritant</strong> (eg, water, detergent) over time (eg, weeks to months) and presents with scaling, lichenification, and fissuring (<a class="l1r-ref" data-ref="image-2">image 2</a>), most commonly on the hands.</li>
+        </ul>
+        <h3>Allergic contact dermatitis</h3>
+        <ul>
+          <li>Acute ACD presents with intensely pruritic, erythematous, indurated plaques associated with vesicles (<a class="l1r-ref" data-ref="image-3">image 3</a>), bullae, and mild scaling that typically occur 24-72 hours (ranging 4-96 hr) following reexposure to a previously sensitized allergen.  Lesions are typically limited to the area of allergen exposure; however, secondary transfer of allergens to other sites (eg, through scratching, touching contaminated clothes) can also occur.
+            <p><strong>Urushiol</strong>, found in poison ivy, is a common cause of acute ACD.  It often presents with linear streaks (<a class="l1r-ref" data-ref="image-4">image 4</a>) where the skin has brushed against plant leaves.</p></li>
+          <li>Chronic ACD develops with repeated exposures to low levels of allergen or when acute contact dermatitis is untreated.  Lesions are characterized by pruritus, lichenification (<a class="l1r-ref" data-ref="image-5">image 5</a>), and fissuring; the vesicles and bullae of acute dermatitis are typically not seen.
+            <p><strong>Nickel</strong> is a common allergen that causes chronic ACD; the corrosion of metal alloys by electrolytes in sweat releases soluble metal ions that trigger a hypersensitivity reaction.  Nickel-induced ACD typically causes symptoms in characteristic locations, including the medial beltline (from belt buckles), wrists (from watches or bracelets), earlobes (from earrings), and perioral areas (<a class="l1r-ref" data-ref="image-6">image 6</a>) (from musical instruments).</p></li>
+        </ul>
+        <p>For both ICD and ACD, secondary skin changes (eg, excoriations) or bacterial infection (eg, impetigo) can sometimes be superimposed on primary skin changes.</p>
+
+        <h2>PATHOLOGY</h2>
+        <p>ICD and ACD can be indistinguishable histologically.</p>
+        <p>In acute dermatitis, spongiosis (<a class="l1r-ref" data-ref="image-7">image 7</a>) is the hallmark histologic finding.  Dermal edema caused by leaky vessels seeps into the epidermal intercellular spaces (spongiosis), pulling apart intercellular attachments (desmosomes) and sometimes resulting in intraepidermal vesicles (corresponding clinically to vesicles and bullae).  The epidermis has normal thickness, and an inflammatory infiltrate (eg, lymphocytes, eosinophils, histiocytes) is seen in the dermis.</p>
+        <p>With chronic antigen or irritant exposure, spongiosis and inflammatory infiltrate become minimal, and acanthosis (epidermal thickening), hyperkeratosis (stratum corneum thickening), and hypergranulosis (stratum granulosum thickening) become the more prominent features (<a class="l1r-ref" data-ref="image-8">image 8</a>).</p>
+
+        <h2>DIAGNOSIS</h2>
+        <p>ICD and ACD are mostly diagnosed clinically, based on patient history and physical examination. Important diagnostic aspects include:</p>
+        <ul>
+          <li>Distribution of the rash, reflecting areas of contact with allergens or irritants.  A rash in noncontact areas should raise suspicion for an alternate diagnosis.</li>
+          <li>Resolution of symptoms after withdrawal of the offending agents and recurrence of symptoms with reexposure favor the diagnosis of ICD or ACD over other types of dermatitis.</li>
+          <li>The temporal relationship between irritant/allergen exposure and rash onset may help to distinguish between ICD and ACD (eg, 2- to 3-day delay for ACD, immediate eruption following strong irritant exposure for ICD).</li>
+        </ul>
+        <p>Select cases of ICD and ACD require additional evaluation with patch testing and skin biopsy.</p>
+        <p>Indications for <strong>patch testing</strong> include the following:</p>
+        <ul>
+          <li>Identify the allergen (thereby confirming the diagnosis) when suspected ACD is persistent.</li>
+          <li>Exclude concomitant ACD in patients with chronic ICD (ACD and ICD may coexist).</li>
+        </ul>
+        <p>In patch testing, patches of allergenic compounds are applied to the skin (eg, back) for a specified time to allow allergen penetration.  To identify ACD, the skin is examined for erythema and vesicles (<a class="l1r-ref" data-ref="image-9">image 9</a>) 48 hours after patch removal because ACD is a delayed-type hypersensitivity reaction.  When these changes are present, the associated compound is identified as the allergen and should be avoided.</p>
+        <p>Skin biopsy with histologic examination cannot reliably distinguish between eczematous dermatitis (eg, ICD, ACD, atopic dermatitis, seborrheic dermatitis).  However, it is indicated to exclude other diagnoses when suspected ICD and ACD are recalcitrant to standard therapy and irritant and allergen avoidance.  Of particular concern is cutaneous T-cell lymphoma (mycosis fungoides), which is typically misdiagnosed as atopic dermatitis and contact dermatitis initially.</p>
+
+        <h2>DIFFERENTIAL DIAGNOSIS</h2>
+        <ul>
+          <li><strong>Atopic dermatitis</strong>:  a chronic inflammatory skin condition caused by immune dysregulation and genetically mediated skin barrier dysfunction (eg, filaggrin mutation).  It presents with an eczematous rash that can be indistinguishable from ACD and ICD. However, unlike ACD and ICD, atopic dermatitis has a characteristic bilateral flexural distribution in adults (<a class="l1r-ref" data-ref="image-10">image 10</a>) (eg, antecubital and popliteal fossae) who often have had no exposure to allergens or irritants.  In addition, patients typically have a family history of atopic dermatitis or personal history of atopy (eg, allergic rhinitis, asthma).</li>
+          <li><strong>Psoriasis</strong>:  a chronic inflammatory skin condition that presents with mildly pruritic, erythematous plaques covered with thick, silvery scales that are not seen in patients with ACD or ICD.  Plaque psoriasis usually affects the bilateral extensor surfaces (<a class="l1r-ref" data-ref="image-11">image 11</a>) (eg, elbows, knees), where contact with allergens or irritants is unlikely to occur.  Nail changes (<a class="l1r-ref" data-ref="image-12">image 12</a>) (eg, pitting, onycholysis, oil spots) and psoriatic arthritis (<a class="l1r-ref" data-ref="image-13">image 13</a>) (inflammatory arthritis affecting the peripheral and axial skeletons) can coexist with psoriasis but not with ACD or ICD; when present, these changes serve as additional diagnostic clues.</li>
+          <li><strong>Seborrheic dermatitis</strong>:  causes erythematous patches or plaques with greasy scales (<a class="l1r-ref" data-ref="image-14">image 14</a>) that typically affect oily areas such as the scalp (<a class="l1r-ref" data-ref="image-15">image 15</a>) (dandruff) and central face (eg, eyebrows, nose, nasolabial folds).  Vesicles, bullae, and skin edema seen in ACD and ICD are not present.</li>
+          <li><strong>Tinea corporis</strong>:  presents with scaly, erythematous, annular patches or plaques (<a class="l1r-ref" data-ref="image-16">image 16</a>), a morphology inconsistent with ACD and ICD.  Diagnosis can be confirmed by a potassium hydroxide skin test demonstrating fungal hyphae (<a class="l1r-ref" data-ref="image-17">image 17</a>).</li>
+        </ul>
+
+        <h2>MANAGEMENT</h2>
+        <p>The overall management principles are similar for ICD and ACD; they are presented separately for clarity.</p>
+        <h3>Irritant contact dermatitis</h3>
+        <ul>
+          <li><strong>Avoidance</strong>:  The culprit irritant should be avoided.  If this is not possible, patients should wear gloves and apply barrier creams to prevent cutaneous penetration by irritants.</li>
+          <li><strong>Emollients and moisturizers</strong>:  Both should be applied multiple times a day to restore the skin barrier and transdermal water loss.</li>
+          <li><strong>Topical corticosteroid therapy</strong>:  To reduce inflammation, topical corticosteroid therapy is recommended.
+            <ul>
+              <li>High-potency corticosteroid therapy is recommended for areas with thicker skin (eg, hands, feet) or when the dermatitis is severe.</li>
+              <li>Low- or medium-potency corticosteroid therapy is recommended for areas with thinner skin (eg, face, eyelids, flexural areas) or when the dermatitis is mild.</li>
+            </ul></li>
+        </ul>
+        <h3>Allergic contact dermatitis</h3>
+        <ul>
+          <li><strong>Avoidance:</strong>  The culprit allergen should be identified and avoided. Barrier protectants (eg, gloves, long sleeve shirts/pants) are recommended to mitigate allergen contact.</li>
+          <li><strong>Reduction of post-exposure spread:</strong>  After contact with an allergen (eg, poison ivy), contaminated clothing should be removed, and the area of contact should be washed with soap and water to prevent secondary spread of the allergen (eg, through scratching).</li>
+          <li><strong>Corticosteroid therapy:</strong>  To reduce inflammation and itching, corticosteroid therapy is recommended.
+            <ul>
+              <li>Topical corticosteroid therapy is used when the rash is limited in distribution (&lt;20% of total body surface area).  It is applied until the rash resolves but not longer than 2-4 weeks (to prevent skin atrophy and hypopigmentation).
+                <ul>
+                  <li>High-potency (eg, clobetasol propionate 0.05%) corticosteroid therapy is recommended for areas with thicker skin (eg, hands, feet) or when the dermatitis is severe.</li>
+                  <li>Low-potency (eg, hydrocortisone 0.5% cream) or medium-potency (eg, triamcinolone 0.1% cream) corticosteroid therapy is recommended for areas with thinner skin (eg, face, eyelids, flexural areas) or when the dermatitis is mild.</li>
+                </ul></li>
+              <li>Systemic (oral) corticosteroid therapy is indicated for acute, severe, and widespread dermatitis (&gt;20% of total body surface area) that makes application of topical corticosteroid therapy impractical.  It is also used when severe dermatitis involves areas prone to skin atrophy (eg, face, genitalia), where topical high-potency corticosteroid therapy is less preferable.  Systemic steroid therapy is usually given for 2-3 weeks to prevent rebound dermatitis with early therapy discontinuation.</li>
+            </ul></li>
+          <li><strong>Topical tacrolimus</strong>:  Tacrolimus is a calcineurin inhibitor (<a class="l1r-ref" data-ref="figure-2">figure 2</a>) that is typically reserved for ACD involving the face and intertriginous areas when extended therapy (eg, &gt;2 weeks) is required.  Unlike topical corticosteroid therapy, topical tacrolimus does not cause skin atrophy or hypopigmentation, even with extended use, and its onset of action is shorter; however, it is more expensive.</li>
+          <li><strong>Emollients</strong>:  Skin barrier compromise is characteristic of chronic ACD; emollients to soften lichenified plaques and restore the skin barrier are often used in conjunction with topical corticosteroid therapy for chronic ACD.</li>
+        </ul>
+
+        <h2>COMPLICATIONS</h2>
+        <p>Secondary bacterial infections (eg, <em>Staphylococcus aureus)</em> can complicate ACD and ICD due to skin barrier disruption and microorganism inoculation through scratching.  Infection should be suspected when yellow crusts (<a class="l1r-ref" data-ref="image-18">image 18</a>) (indicative of impetigo) are present on the rash or if the rash is resistant to standard therapy.  Treatment includes topical or systemic antibiotics.</p>
+
+        <h2>PROGNOSIS</h2>
+        <p>The prognosis of contact dermatitis is generally favorable once the allergen or irritant is identified and avoided. Symptoms can recur upon reexposure.</p>
+
+        <h2>SUMMARY</h2>
+        <p>Irritant contact dermatitis (ICD) and allergic contact dermatitis (ACD) are the 2 forms of contact dermatitis.  In patients with ICD, irritants (eg, chemical or physical irritant) disrupt the skin barrier, causing nonspecific inflammation.  In patients with ACD, allergens trigger a type IV (delayed-type) hypersensitivity reaction.  Acutely, both manifest with redness, edema, itching, burning, and blistering; chronically, both present with lichenified plaques.  Diagnosis is largely clinical.  Treatment predominantly involves corticosteroid therapy and avoiding the irritant or allergen.</p>
+
+        <h3>TAGS</h3>
+        <p class="l1r-tags"><span>Allergy &amp; Immunology</span></p>
+      `
+    },
+
+    pt: {
+      title: 'Dermatite de contato alérgica/irritativa',
+      html: `
+        <h2>INTRODUÇÃO</h2>
+        <p>A dermatite de contato é uma condição inflamatória da pele causada pela exposição a um irritante que interrompe a barreira da pele (dermatite de contato irritante [CID]) ou a um alérgeno que causa uma reação de hipersensibilidade do tipo IV (tipo retardado) (dermatite de contato alérgica [ACD]). A CDI e a DCA têm apresentações clínicas sobrepostas, características histológicas praticamente indistinguíveis e estratégias de gerenciamento semelhantes.</p>
+
+        <h2>FISIOPATOLOGIA</h2>
+        <h3>Dermatite de contato irritante (ICD)</h3>
+        <p>Irritantes <strong>químicos</strong> (por exemplo, água, detergentes, solventes) ou <strong>físicos</strong> (por exemplo, metais, madeira, fibra de vidro) podem interromper a barreira epidérmica através de danos (por exemplo, microtrauma) aos queratinócitos, aumentando a permeabilidade epidérmica e a perda de água. Uma resposta inflamatória inespecífica segue no local da exposição, provavelmente causada pela ativação da imunidade inata e pela liberação de citocinas dos queratinócitos.</p>
+        <h3>Dermatite alérgica de contato (ACD)</h3>
+        <p>ACD é uma reação de hipersensibilidade <strong>do tipo IV (tipo retardado)</strong> que ocorre em 2 fases distintas (<a class="l1r-ref" data-ref="figure-1">figura 1</a>):</p>
+        <ol>
+          <li>A fase <strong>de sensibilização</strong> leva à criação de células T específicas de hapten e leva de 10 a 14 dias. As células dendríticas cutâneas (Langerhans) pegam os haptens e os expressam em moléculas de MHC-I e MHC-II como peptídeos conjugados com hapten. Essas células de Langerhans viajam para os gânglios linfáticos drenantes e interagem com as células T CD4<sup>+</sup> e CD8+ sensíveis ao hapten, causando ativação e expansão clonal.</li>
+          <li>A fase <strong>de elicitação</strong> normalmente ocorre dentro de 2-3 dias após a reexposição ao mesmo antígeno (ou após a sensibilização após a primeira exposição a um antígeno altamente antigênico, como urushiol/hera venenosa). Nesta fase, o hapteno é tomado pelas células da pele e causa a ativação de células T sensibilizadas por hapten na derme e na epiderme. Isso resulta em uma resposta inflamatória e nas manifestações clínicas da dermatite de contato.</li>
+        </ol>
+        <p>Dependendo do agente etiológico, a dermatite de contato pode ser mediada principalmente por células T CD8+ citotóxicas ou células Th1 CD4<sup>+</sup> (que causam danos indiretos pela ativação de macrófagos). Por exemplo, na dermatite de contato induzida por urushiol (causada por hera venenosa), as células T CD8+ são as células efetoras primárias e destroem diretamente os queratinócitos que expressam proteínas haptenadas.</p>
+        <p>Alérgenos comuns (<a class="l1r-ref" data-ref="table-1">tabela 1</a>) incluem níquel (encontrado em joias e fivelas de cinto), fragrâncias, conservantes (por exemplo, cosméticos, produtos para a pele), medicamentos tópicos, corantes, látex, borracha, formaldeído (por exemplo, unhas artificiais) e urushiol (por exemplo, hera venenosa, carvalho venenoso, sumacagre venenoso).</p>
+
+        <h2>FATORES DE RISCO</h2>
+        <h3>Dermatite de contato irritante</h3>
+        <ul>
+          <li>Idade: pacientes mais jovens são mais propensos a desenvolver CDI devido ao aumento da resposta inflamatória.</li>
+          <li>Local do corpo: locais com estrato córneo mais fino (por exemplo, rosto, mãos dorsais, teias de dedos) têm permeabilidade irritante aumentada em comparação com locais com estrato córneo mais espesso (por exemplo, palmas das mãos, solas, costas). Além disso, locais do corpo que estão mais expostos (por exemplo, mãos, braços, pernas) têm uma maior probabilidade de exposição irritante do que locais que normalmente são cobertos por roupas (por exemplo, tronco).</li>
+          <li>Dermatite atópica: função de barreira cutânea prejudicada em pacientes com dermatite atópica aumenta a permeabilidade irritante.</li>
+          <li>Ocupações: pacientes em certas ocupações correm maior risco de CDI devido à exposição frequente a água e produtos químicos (por exemplo, limpadores, cabeleireiros, manipuladores de alimentos), bem como irritantes físicos (por exemplo, mecânicos, carpinteiros, trabalhadores da construção civil).</li>
+          <li>Ambiente: extremos de temperatura e umidade, bem como alto fluxo de ar (por exemplo, vento, ar condicionado), aumentam a permeabilidade da pele e promovem a resposta inflamatória a irritantes.</li>
+        </ul>
+        <h3>Dermatite alérgica de contato</h3>
+        <ul>
+          <li>Idade: adultos são mais propensos do que crianças a desenvolver ACD porque tiveram mais tempo para a sensibilização de alérgenos.</li>
+          <li>Dermatite atópica: pacientes com dermatite atópica podem estar em maior risco de ACD, possivelmente relacionada à função de barreira cutânea prejudicada e desregulação imunológica.</li>
+          <li>Ocupação: pacientes em certas ocupações (por exemplo, cuidados de saúde, paisagismo, cosmetologia) estão em maior risco de ACD devido à exposição frequente a alérgenos.</li>
+        </ul>
+
+        <h2>APRESENTAÇÃO CLÍNICA</h2>
+        <h3>Dermatite de contato irritante</h3>
+        <ul>
+          <li>A CDI <strong>aguda</strong> se desenvolve após uma única exposição a um <strong>irritante forte</strong> (por exemplo, alvejante) e apresenta eritema cutâneo ardente ou doloroso (<a class="l1r-ref" data-ref="image-1">imagem 1</a>), edema, vesículas e bolhas.</li>
+          <li>A CDI crônica se desenvolve após exposições <strong>repetidas</strong> a um <strong>irritante leve</strong> (por exemplo, água, detergente) ao longo do tempo (por exemplo, semanas a meses) e se apresenta com descamação, liquenificação e fissura (<a class="l1r-ref" data-ref="image-2">imagem 2</a>), mais comumente nas mãos.</li>
+        </ul>
+        <h3>Dermatite alérgica de contato</h3>
+        <ul>
+          <li>A DCA aguda apresenta placas intensamente pruriginosas, eritematosas e endurecidas associadas a vesículas (<a class="l1r-ref" data-ref="image-3">imagem 3</a>), bolhas e descamação leve que normalmente ocorrem 24-72 horas (variando de 4 a 96 horas) após a reexposição a um alérgeno previamente sensibilizado. As lesões são normalmente limitadas à área de exposição a alérgenos; no entanto, a transferência secundária de alérgenos para outros locais (por exemplo, através de arranhões, tocando roupas contaminadas) também pode ocorrer.
+            <p><strong>Urushiol</strong>, encontrado na hera venenosa, é uma causa comum de ACD aguda. Muitas vezes apresenta listras lineares (<a class="l1r-ref" data-ref="image-4">imagem 4</a>) onde a pele roçou contra as folhas das plantas.</p></li>
+          <li>A ACD crônica se desenvolve com exposições repetidas a baixos níveis de alérgeno ou quando a dermatite aguda de contato não é tratada. As lesões são caracterizadas por prurido, lichenificação (<a class="l1r-ref" data-ref="image-5">imagem 5</a>) e fissura; as vesículas e bolhas de dermatite aguda normalmente não são vistas.
+            <p><strong>O níquel</strong> é um alérgeno comum que causa ACD crônica; a corrosão de ligas metálicas por eletrólitos no suor libera íons metálicos solúveis que desencadeiam uma reação de hipersensibilidade. A ACD induzida pelo níquel normalmente causa sintomas em locais característicos, incluindo a linha do cinto medial (de fivelas do cinto), pulsos (de relógios ou pulseiras), lóbulos das orelhas (de brincos) e áreas periorais (<a class="l1r-ref" data-ref="image-6">imagem 6</a>) (de instrumentos musicais).</p></li>
+        </ul>
+        <p>Tanto para CDI quanto para ACD, alterações secundárias na pele (por exemplo, excoriações) ou infecção bacteriana (por exemplo, impetigo) às vezes podem ser sobrepostas às alterações primárias da pele.</p>
+
+        <h2>PATOLOGIA</h2>
+        <p>A CDI e a ACD podem ser indistinguíveis histologicamente.</p>
+        <p>Na dermatite aguda, a espongiose (<a class="l1r-ref" data-ref="image-7">imagem 7</a>) é o achado histológico marcante. O edema dérmico causado por vasos permeados se infiltra nos espaços intercelulares epidérmicos (espongiose), separando anexos intercelulares (desmossomos) e, às vezes, resultando em vesículas intraepidérmicas (correspondentes clinicamente a vesículas e bolhas). A epiderme tem espessura normal, e um infiltrado inflamatório (por exemplo, linfócitos, eosinófilos, histiócitos) é visto na derme.</p>
+        <p>Com a exposição crônica a antígenos ou irritantes, a espongiose e o infiltrado inflamatório tornam-se mínimos, e a acantose (espessamento epidérmico), hiperqueratose (espessamento do estrato córneo) e a hipergranulose (espessamento do estrato granuloso) tornam-se as características mais proeminentes (<a class="l1r-ref" data-ref="image-8">imagem 8</a>).</p>
+
+        <h2>DIAGNÓSTICO</h2>
+        <p>A CDI e a DCA são principalmente diagnosticadas clinicamente, com base na história do paciente e no exame físico. Aspectos diagnósticos importantes incluem:</p>
+        <ul>
+          <li>Distribuição da erupção cutânea, refletindo áreas de contato com alérgenos ou irritantes. Uma erupção cutânea em áreas sem contato deve levantar suspeitas de um diagnóstico alternativo.</li>
+          <li>A resolução dos sintomas após a retirada dos agentes ofensivos e a recorrência dos sintomas com reexposição favorecem o diagnóstico de CDI ou ACD sobre outros tipos de dermatite.</li>
+          <li>A relação temporal entre exposição a irritante/alérgenos e início da erupção cutânea pode ajudar a distinguir entre CDI e ACD (por exemplo, atraso de 2 a 3 dias para ACD, erupção imediata após forte exposição irritante para CDI).</li>
+        </ul>
+        <p>Casos selecionados de CDI e ACD requerem avaliação adicional com teste de adesivo e biópsia de pele.</p>
+        <p>As indicações para <strong>testes de remendo</strong> incluem o seguinte:</p>
+        <ul>
+          <li>Identifique o alérgeno (confirmando assim o diagnóstico) quando a suspeita de ACD for persistente.</li>
+          <li>Excluir ACD concomitante em pacientes com CDI crônica (ACD e CDI podem coexistir).</li>
+        </ul>
+        <p>No teste de remendo, manchas de compostos alergênicos são aplicadas na pele (por exemplo, nas costas) por um tempo especificado para permitir a penetração de alérgenos. Para identificar a ACD, a pele é examinada quanto a eritema e vesículas (<a class="l1r-ref" data-ref="image-9">imagem 9</a>) 48 horas após a remoção do adesivo, porque a ACD é uma reação de hipersensibilidade do tipo retardado. Quando essas mudanças estão presentes, o composto associado é identificado como o alérgeno e deve ser evitado.</p>
+        <p>A biópsia de pele com exame histológico não pode distinguir de forma confiável entre dermatite eczematosa (por exemplo, CDI, ACD, dermatite atópica, dermatite seborreica). No entanto, é indicado excluir outros diagnósticos quando a suspeita de CDI e ACD são recalcitrantes à terapia padrão e evitam irritantes e alérgenos. De particular preocupação é o linfoma cutâneo de células T (micose fungoide), que normalmente é diagnosticado erroneamente como dermatite atópica e dermatite de contato inicialmente.</p>
+
+        <h2>DIAGNÓSTICO DIFERENCIAL</h2>
+        <ul>
+          <li><strong>Dermatite atópica</strong>: uma condição inflamatória crônica da pele causada pela desregulação imunológica e disfunção da barreira cutânea geneticamente mediada (por exemplo, mutação da filaggrina). Apresenta uma erupção eczematosa que pode ser indistinguível da ACD e da CID. No entanto, ao contrário da ACD e da CDI, a dermatite atópica tem uma distribuição flexural bilateral característica em adultos (<a class="l1r-ref" data-ref="image-10">imagem 10</a>) (por exemplo, fossas antecubitais e poplíteas) que muitas vezes não tiveram exposição a alérgenos ou irritantes. Além disso, os pacientes normalmente têm histórico familiar de dermatite atópica ou histórico pessoal de atopia (por exemplo, rinite alérgica, asma).</li>
+          <li><strong>Psoríase</strong>: uma condição inflamatória crônica da pele que se apresenta com placas eritematosas levemente pruriginosas cobertas com escamas espessas e prateadas que não são vistas em pacientes com DCA ou CDI. A psoríase em placas geralmente afeta as superfícies extensoras bilaterais (<a class="l1r-ref" data-ref="image-11">imagem 11</a>) (por exemplo, cotovelos, joelhos), onde é improvável que ocorra contato com alérgenos ou irritantes. Alterações nas unhas (<a class="l1r-ref" data-ref="image-12">imagem 12</a>) (por exemplo, pitting, onicólise, manchas de óleo) e artrite psoriática (<a class="l1r-ref" data-ref="image-13">imagem 13</a>) (artrite inflamatória que afeta os esqueletos periféricos e axiais) podem coexistir com psoríase, mas não com ACD ou CDI; quando presentes, essas alterações servem como pistas diagnósticas adicionais.</li>
+          <li><strong>Dermatite seborreica</strong>: causa manchas eritematosas ou placas com escamas gordurosas (<a class="l1r-ref" data-ref="image-14">imagem 14</a>) que normalmente afetam áreas oleosas, como o couro cabeludo (<a class="l1r-ref" data-ref="image-15">imagem 15</a>) (caspa) e face central (por exemplo, sobrancelhas, nariz, dobras nasolabiais). Vesículas, bolhas e edema cutâneo vistos em ACD e CDI não estão presentes.</li>
+          <li><strong>Tinea corporis</strong>: apresenta manchas ou placas escamosas, eritematosas, anulares (<a class="l1r-ref" data-ref="image-16">imagem 16</a>), uma morfologia inconsistente com ACD e CDI. O diagnóstico pode ser confirmado por um teste cutâneo de hidróxido de potássio demonstrando hifas fúngicas (<a class="l1r-ref" data-ref="image-17">imagem 17</a>).</li>
+        </ul>
+
+        <h2>GESTÃO</h2>
+        <p>Os princípios gerais de gerenciamento são semelhantes para CDI e ACD; eles são apresentados separadamente para maior clareza.</p>
+        <h3>Dermatite de contato irritante</h3>
+        <ul>
+          <li><strong>Evitação</strong>: O culpado irritante deve ser evitado. Se isso não for possível, os pacientes devem usar luvas e aplicar cremes de barreira para evitar a penetração cutânea por irritantes.</li>
+          <li><strong>Emolientes e hidratantes</strong>: Ambos devem ser aplicados várias vezes ao dia para restaurar a barreira da pele e a perda de água transdérmica.</li>
+          <li><strong>Terapia com corticosteróides tópicos</strong>: Para reduzir a inflamação, a terapia tópica com corticosteróides é recomendada.
+            <ul>
+              <li>A terapia com corticosteróides de alta potência é recomendada para áreas com pele mais espessa (por exemplo, mãos, pés) ou quando a dermatite é grave.</li>
+              <li>A terapia com corticosteróides de baixa ou média potência é recomendada para áreas com pele mais fina (por exemplo, rosto, pálpebras, áreas de flexão) ou quando a dermatite é leve.</li>
+            </ul></li>
+        </ul>
+        <h3>Dermatite alérgica de contato</h3>
+        <ul>
+          <li><strong>Evitação:</strong> O alérgeno culpado deve ser identificado e evitado. Protetores de barreira (por exemplo, luvas, camisas/calças de manga comprida) são recomendados para mitigar o contato com alérgenos.</li>
+          <li><strong>Redução da propagação pós-exposição:</strong> Após o contato com um alérgeno (por exemplo, hera venenosa), roupas contaminadas devem ser removidas e a área de contato deve ser lavada com água e sabão para evitar a propagação secundária do alérgeno (por exemplo, através de arranhões).</li>
+          <li><strong>Terapia com corticosteróides:</strong> Para reduzir a inflamação e a coceira, a terapia com corticosteróides é recomendada.
+            <ul>
+              <li>A terapia tópica com corticosteróides é usada quando a erupção cutânea é limitada na distribuição (&lt;20% da área total da superfície corporal). É aplicado até que a erupção se resolva, mas não por mais de 2-4 semanas (para prevenir atrofia da pele e hipopigmentação).
+                <ul>
+                  <li>A terapia com corticosteróides de alta potência (por exemplo, propionato de clobetasol 0,05%) é recomendada para áreas com pele mais espessa (por exemplo, mãos, pés) ou quando a dermatite é grave.</li>
+                  <li>A terapia com corticosteróides de baixa potência (por exemplo, creme de hidrocortisona a 0,5%) ou de potência média (por exemplo, creme de triancinolona 0,1%) é recomendada para áreas com pele mais fina (por exemplo, rosto, pálpebras, áreas flexurais) ou quando a dermatite é leve.</li>
+                </ul></li>
+              <li>A terapia sistêmica (oral) com corticosteróides é indicada para dermatite aguda, grave e generalizada (&gt;20% da área total da superfície corporal) que torna a aplicação da terapia tópica com corticosteróides impraticável. Também é usado quando a dermatite grave envolve áreas propensas à atrofia da pele (por exemplo, rosto, genital), onde a terapia tópica com corticosteróides de alta potência é menos preferível. A terapia sistêmica com esteróides é geralmente administrada por 2-3 semanas para prevenir a dermatite de rebote com a descontinuação precoce da terapia.</li>
+            </ul></li>
+          <li><strong>Tacrolimus tópico</strong>: O tacrolimus é um inibidor da calcineurina (<a class="l1r-ref" data-ref="figure-2">figura 2</a>) que é tipicamente reservado para ACD envolvendo a face e as áreas intertriginosas quando a terapia prolongada (por exemplo, &gt;2 semanas) é necessária. Ao contrário da terapia tópica com corticosteróides, o tacrolimus tópico não causa atrofia da pele ou hipopigmentação, mesmo com uso prolongado, e seu início de ação é mais curto; no entanto, é mais caro.</li>
+          <li><strong>Emolientes</strong>: O comprometimento da barreira cutânea é característico da DCA crônica; emolientes para suavizar placas liquenificadas e restaurar a barreira cutânea são frequentemente usados em conjunto com a terapia tópica com corticosteróides para ACD crônica.</li>
+        </ul>
+
+        <h2>COMPLICAÇÕES</h2>
+        <p>Infecções bacterianas secundárias (por exemplo, <em>Staphylococcus aureus)</em> podem complicar a DCA e a CDI devido à ruptura da barreira cutânea e à inoculação de microorganismos através de arranhões. A infecção deve ser suspeitada quando crostas amarelas (<a class="l1r-ref" data-ref="image-18">imagem 18</a>) (indicativas de impetigo) estiverem presentes na erupção cutânea ou se a erupção for resistente à terapia padrão. O tratamento inclui antibióticos tópicos ou sistêmicos.</p>
+
+        <h2>PROGNÓSTICO</h2>
+        <p>O prognóstico da dermatite de contato é geralmente favorável uma vez que o alérgeno ou irritante é identificado e evitado. Os sintomas podem se repetir após a reexposição.</p>
+
+        <h2>RESUMO</h2>
+        <p>A dermatite de contato irritante (CID) e a dermatite alérgica por contato (ACD) são as 2 formas de dermatite de contato. Em pacientes com CDI, irritantes (por exemplo, irritantes químicos ou físicos) interrompem a barreira da pele, causando inflamação inespecífica. Em pacientes com ACD, os alérgenos desencadeiam uma reação de hipersensibilidade do tipo IV (tipo retardado). Agudamente, ambos se manifestam com vermelhidão, edema, coceira, queimação e bolhas; cronicamente, ambos presentes com placas liquenificadas. O diagnóstico é em grande parte clínico. O tratamento envolve predominantemente terapia com corticosteróides e evitar o irritante ou alérgeno.</p>
+
+        <h3>TAGS</h3>
+        <p class="l1r-tags"><span>Alergia e Imunologia</span></p>
       `
     }
   }
