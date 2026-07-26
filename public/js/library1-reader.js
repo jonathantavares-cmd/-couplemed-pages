@@ -28,7 +28,7 @@
   'use strict';
 
   const SHARED_CSS  = '/css/library3-reader.css?v=5';   // toolbar compartilhada com a Library 3
-  const PAGE_CSS    = '/css/library1-reader.css?v=3';   // específico do modo página
+  const PAGE_CSS    = '/css/library1-reader.css?v=4';   // específico do modo página
   const CONTENT_DIR = '/js/library1-content/';
 
   /* ONDE A MÍDIA MORA — ponto único de virada.
@@ -72,7 +72,15 @@
           fontSmaller:'Smaller text', fontBigger:'Bigger text', language:'Language', close:'Close',
           zoomIn:'Zoom in', zoomOut:'Zoom out', zoomReset:'Fit to window',
           empty:'Content for this topic has not been added yet.',
-          emptyHint:'It will appear here as soon as the material is included.' },
+          emptyHint:'It will appear here as soon as the material is included.',
+          ctTitle:'Create Test', ctSub:'Practice questions on this topic only. Separate from QBank 1 — these do not affect your QBank performance.',
+          ctStart:'Create Test', ctQuestion:'question', ctQuestions:'questions',
+          ctDone:'Test completed', ctRight:'Correct', ctWrong:'Incorrect',
+          ctReview:'Review answers', ctRedo:'Retake test', ctSubmit:'Submit',
+          ctNext:'Next', ctPrev:'Previous', ctFinish:'Finish test',
+          ctCorrect:'Correct', ctIncorrect:'Incorrect', ctObjective:'Educational objective:',
+          ctBackToTopic:'Back to topic', ctResultTitle:'Test completed',
+          ctScope:'Topic-only test · does not count toward QBank 1' },
     pt: { loading:'Carregando…', loadError:'Este tópico ainda não tem conteúdo.',
           download:'Baixar', downloadEn:'Baixar (Inglês)', downloadPt:'Baixar (Português)',
           search:'Buscar nesta página…', of:'de', hl:'Marcar', flashcard:'Flashcard',
@@ -82,7 +90,15 @@
           fontSmaller:'Diminuir texto', fontBigger:'Aumentar texto', language:'Idioma', close:'Fechar',
           zoomIn:'Aumentar', zoomOut:'Diminuir', zoomReset:'Ajustar à janela',
           empty:'O conteúdo deste tópico ainda não foi incluído.',
-          emptyHint:'Ele aparecerá aqui assim que o material for adicionado.' }
+          emptyHint:'Ele aparecerá aqui assim que o material for adicionado.',
+          ctTitle:'Create Test', ctSub:'Questões de treino só deste tópico. Separadas do QBank 1 — não afetam o desempenho do QBank.',
+          ctStart:'Create Test', ctQuestion:'questão', ctQuestions:'questões',
+          ctDone:'Teste concluído', ctRight:'Acertos', ctWrong:'Erros',
+          ctReview:'Rever respostas', ctRedo:'Refazer teste', ctSubmit:'Responder',
+          ctNext:'Próxima', ctPrev:'Anterior', ctFinish:'Finalizar teste',
+          ctCorrect:'Correto', ctIncorrect:'Incorreto', ctObjective:'Objetivo educacional:',
+          ctBackToTopic:'Voltar ao tópico', ctResultTitle:'Teste concluído',
+          ctScope:'Teste só deste tópico · não conta no QBank 1' }
   };
   const t = k => T[uiLang()][k];
 
@@ -319,6 +335,36 @@
       // referência inline no texto: "image 1", "figure 2", "table 3"
       const ref = e.target.closest && e.target.closest('[data-ref]');
       if(ref){ e.preventDefault(); openLightbox(r, ref.dataset.ref); return; }
+
+      // ---- Create Test: bloco no fim do conteúdo ----
+      const ct = e.target.closest && e.target.closest('[data-ct]');
+      if(ct){
+        if(ct.dataset.ct === 'start')  startQuiz(r, {});
+        if(ct.dataset.ct === 'review') startQuiz(r, { review:true });
+        if(ct.dataset.ct === 'redo'){ clearQuizResult(r); startQuiz(r, {}); }
+        return;
+      }
+      // ---- Create Test: dentro do teste ----
+      const opt = e.target.closest && e.target.closest('[data-q-opt]');
+      if(opt && r.quiz){
+        const item = r.quiz.items[r.quiz.i];
+        if(!r.quiz.revealed[item.id]){ r.quiz.answers[item.id] = opt.dataset.qOpt; renderQuiz(r); }
+        return;
+      }
+      const qa = e.target.closest && e.target.closest('[data-q]');
+      if(qa){
+        const act = qa.dataset.q;
+        if(act === 'submit' && r.quiz){
+          const item = r.quiz.items[r.quiz.i];
+          if(r.quiz.answers[item.id]){ r.quiz.revealed[item.id] = true; renderQuiz(r); }
+        }
+        else if(act === 'next' && r.quiz){ r.quiz.i = Math.min(r.quiz.items.length-1, r.quiz.i+1); renderQuiz(r); }
+        else if(act === 'prev' && r.quiz){ r.quiz.i = Math.max(0, r.quiz.i-1); renderQuiz(r); }
+        else if(act === 'finish') finishQuiz(r);
+        else if(act === 'redo'){ clearQuizResult(r); startQuiz(r, {}); }
+        else if(act === 'exit') exitQuiz(r);
+        return;
+      }
       // a página não mostra imagem aberta; só a referência abre (regra do usuário)
     }, { signal: r.uiAbort.signal });
 
@@ -481,7 +527,9 @@
     if(r.lang===lang) return;
     r.lang = lang;
     renderSkeletonLabels(r);   // rótulos da própria toolbar
-    renderArticle(r);          // texto + imagens/figuras/tabelas embutidas
+    // no meio do Create Test, traduzir a QUESTÃO — não voltar para o artigo
+    if(r.quiz) renderQuiz(r);
+    else renderArticle(r);
     paintLightbox(r);          // imagem aberta troca de idioma junto com o texto
   }
   // Só os rótulos da toolbar; não remonta a barra (perderia o estado das ferramentas).
@@ -526,10 +574,222 @@
       return;
     }
     r.el.article.innerHTML = `<h1 class="l1r-h1">${esc(body.title || itemName(r.topic, r.lang))}</h1>${body.html || ''}`;
+    insertCreateTest(r);
     r.el.article.style.fontSize = (r.fontScale*100)+'%';
     r.baseHtml = r.el.article.innerHTML;
     applyAllHighlights(r);
     if(r.el.searchInput.value.trim()) runSearch(r, r.el.searchInput.value);
+  }
+
+  /* ============================== CREATE TEST ==============================
+     Questões de treino DO TÓPICO, no fim do conteúdo e ACIMA das tags.
+
+     ⚠️ REGRA ABSOLUTA (usuário, 2026-07-25): estas questões são SEPARADAS do QBank 1.
+     Não entram no SEED do QBank, não aparecem nos filtros dele e **não contam na
+     performance dele**. Vivem no próprio registro do tópico (campo `quiz`) e o
+     resultado é gravado numa chave de localStorage exclusiva:
+
+         couplemed_lib1quiz_<user>        (Library 1)
+         ≠ qualquer chave do QBank        (nunca tocada por este arquivo)
+
+     Cada tópico tem a SUA performance, independente de todos os outros.
+  ========================================================================= */
+  function quizOf(r){
+    const qz = r.content && r.content.quiz;
+    return Array.isArray(qz) && qz.length ? qz : null;
+  }
+  function quizKey(){ return `couplemed_lib1quiz_${currentUser()}`; }
+  function loadAllQuizResults(){
+    try{ return JSON.parse(localStorage.getItem(quizKey())||'{}') || {}; }catch(e){ return {}; }
+  }
+  function quizResult(r){
+    const all = loadAllQuizResults();
+    return all[topicKey(r)] || null;
+  }
+  function saveQuizResult(r, result){
+    const all = loadAllQuizResults();
+    all[topicKey(r)] = result;
+    try{ localStorage.setItem(quizKey(), JSON.stringify(all)); }catch(e){}
+  }
+  function clearQuizResult(r){
+    const all = loadAllQuizResults();
+    delete all[topicKey(r)];
+    try{ localStorage.setItem(quizKey(), JSON.stringify(all)); }catch(e){}
+  }
+
+  // Bloco no fim do conteúdo, imediatamente ACIMA das tags.
+  function insertCreateTest(r){
+    const quiz = quizOf(r);
+    if(!quiz) return;
+    const res = quizResult(r);
+    const L = T[r.lang];
+    let html;
+    if(res && res.done){
+      const pct = Math.round((res.correct / res.total) * 100);
+      html = `<div class="l1r-ct l1r-ct-done">
+        <div class="l1r-ct-head">
+          <span class="l1r-ct-badge">✓</span>
+          <b>${esc(L.ctDone)}</b>
+          <span class="l1r-ct-score">${res.correct}/${res.total} · ${pct}%</span>
+        </div>
+        <div class="l1r-ct-stats">
+          <span class="l1r-ct-ok">${esc(L.ctRight)}: <b>${res.correct}</b></span>
+          <span class="l1r-ct-bad">${esc(L.ctWrong)}: <b>${res.total - res.correct}</b></span>
+        </div>
+        <div class="l1r-ct-actions">
+          <button type="button" class="l1r-ct-btn" data-ct="review">${esc(L.ctReview)}</button>
+          <button type="button" class="l1r-ct-btn l1r-ct-btn-alt" data-ct="redo">${esc(L.ctRedo)}</button>
+        </div>
+      </div>`;
+    } else {
+      html = `<div class="l1r-ct">
+        <div class="l1r-ct-head"><b>${esc(L.ctTitle)}</b>
+          <span class="l1r-ct-count">${quiz.length} ${esc(quiz.length===1 ? L.ctQuestion : L.ctQuestions)}</span>
+        </div>
+        <p class="l1r-ct-sub">${esc(L.ctSub)}</p>
+        <div class="l1r-ct-actions">
+          <button type="button" class="l1r-ct-btn" data-ct="start">${esc(L.ctStart)}</button>
+        </div>
+      </div>`;
+    }
+    const tags = r.el.article.querySelector('.l1r-tags');
+    const anchor = tags ? (tags.previousElementSibling && /^H[23]$/.test(tags.previousElementSibling.tagName) ? tags.previousElementSibling : tags) : null;
+    if(anchor) anchor.insertAdjacentHTML('beforebegin', html);
+    else r.el.article.insertAdjacentHTML('beforeend', html);
+  }
+
+  /* --------- execução do teste --------- */
+  function startQuiz(r, opts){
+    const quiz = quizOf(r);
+    if(!quiz) return;
+    r.quiz = {
+      items: quiz,
+      i: 0,
+      answers: {},                 // id -> letra escolhida
+      revealed: {},                // id -> true depois de confirmar
+      review: !!(opts && opts.review)
+    };
+    if(r.quiz.review){
+      const res = quizResult(r);
+      if(res && res.answers){ r.quiz.answers = { ...res.answers }; }
+      Object.keys(r.quiz.answers).forEach(k=> r.quiz.revealed[k] = true);
+    }
+    renderQuiz(r);
+  }
+  function exitQuiz(r){
+    r.quiz = null;
+    renderArticle(r);
+    r.el.article.scrollTop = 0;
+    const wrap = r.hostEl.querySelector('#l1rPageWrap');
+    if(wrap) wrap.scrollTop = 0;
+  }
+
+  function qField(item, lang, field){
+    if(lang === 'pt' && item.ptTranslation && item.ptTranslation[field] != null) return item.ptTranslation[field];
+    return item[field];
+  }
+  function qOptions(item, lang){
+    const o = (lang === 'pt' && item.ptTranslation && item.ptTranslation.options) ? item.ptTranslation.options : item.options;
+    return Array.isArray(o) ? o : [];
+  }
+  const LETTERS = ['A','B','C','D','E','F','G','H'];
+
+  function renderQuiz(r){
+    const Q = r.quiz; if(!Q) return;
+    const L = T[r.lang];
+    const item = Q.items[Q.i];
+    const revealed = !!Q.revealed[item.id];
+    const chosen = Q.answers[item.id] || null;
+    const opts = qOptions(item, r.lang);
+    const correctIdx = LETTERS.indexOf(item.correct);
+
+    const optsHtml = opts.map((txt, idx)=>{
+      const letter = LETTERS[idx];
+      const isChosen = chosen === letter;
+      const isCorrect = idx === correctIdx;
+      let cls = 'l1r-q-opt';
+      if(revealed && isCorrect) cls += ' l1r-q-opt-correct';
+      else if(revealed && isChosen) cls += ' l1r-q-opt-wrong';
+      if(isChosen) cls += ' l1r-q-opt-chosen';
+      const peer = item.peer && item.peer[letter] != null ? `<span class="l1r-q-peer">${item.peer[letter]}%</span>` : '';
+      return `<button type="button" class="${cls}" data-q-opt="${letter}"${revealed?' disabled':''}>
+        <span class="l1r-q-letter">${letter}</span>
+        <span class="l1r-q-text">${esc(txt)}</span>
+        ${revealed ? peer : ''}
+      </button>`;
+    }).join('');
+
+    const imgHtml = item.img && r.content.assets && r.content.assets[item.img]
+      ? `<p class="l1r-q-img"><a class="l1r-ref" data-ref="${esc(item.img)}">${esc(r.lang==='pt'?'ver imagem':'view image')}</a></p>` : '';
+
+    let explHtml = '';
+    if(revealed){
+      const wrong = Object.entries(qField(item, r.lang, 'explI') || {})
+        .map(([k,v])=>`<li><b>${k}.</b> ${esc(v)}</li>`).join('');
+      explHtml = `<div class="l1r-q-expl">
+        <h4>${esc(chosen === item.correct ? L.ctCorrect : L.ctIncorrect)}</h4>
+        <p>${esc(qField(item, r.lang, 'explC') || '')}</p>
+        ${wrong ? `<ul class="l1r-q-wrong">${wrong}</ul>` : ''}
+        ${qField(item, r.lang, 'objective') ? `<div class="l1r-q-obj"><b>${esc(L.ctObjective)}</b> ${esc(qField(item, r.lang, 'objective'))}</div>` : ''}
+      </div>`;
+    }
+
+    const last = Q.i === Q.items.length - 1;
+    const answeredAll = Q.items.every(it => Q.revealed[it.id]);
+
+    r.el.article.innerHTML = `
+      <div class="l1r-quiz">
+        <div class="l1r-q-top">
+          <button type="button" class="l1r-ct-btn l1r-ct-btn-alt" data-q="exit">‹ ${esc(L.ctBackToTopic)}</button>
+          <span class="l1r-q-progress">${Q.i+1} / ${Q.items.length}</span>
+          <span class="l1r-q-scope">${esc(L.ctScope)}</span>
+        </div>
+        <div class="l1r-q-card">
+          <p class="l1r-q-vig">${esc(qField(item, r.lang, 'vignette') || '')}</p>
+          ${imgHtml}
+          <p class="l1r-q-stem"><b>${esc(qField(item, r.lang, 'q') || '')}</b></p>
+          <div class="l1r-q-opts">${optsHtml}</div>
+          ${!revealed ? `<div class="l1r-ct-actions"><button type="button" class="l1r-ct-btn" data-q="submit"${chosen?'':' disabled'}>${esc(L.ctSubmit)}</button></div>` : ''}
+          ${explHtml}
+        </div>
+        <div class="l1r-q-nav">
+          <button type="button" class="l1r-ct-btn l1r-ct-btn-alt" data-q="prev"${Q.i===0?' disabled':''}>‹ ${esc(L.ctPrev)}</button>
+          ${last
+            ? `<button type="button" class="l1r-ct-btn" data-q="finish"${answeredAll?'':' disabled'}>${esc(L.ctFinish)}</button>`
+            : `<button type="button" class="l1r-ct-btn" data-q="next">${esc(L.ctNext)} ›</button>`}
+        </div>
+      </div>`;
+    r.baseHtml = null;   // no modo teste não há marcação de texto
+  }
+
+  function finishQuiz(r){
+    const Q = r.quiz; if(!Q) return;
+    let correct = 0;
+    Q.items.forEach(it=>{ if(Q.answers[it.id] === it.correct) correct++; });
+    // grava SÓ na chave da Library 1 — o QBank não é tocado
+    saveQuizResult(r, {
+      done: true, correct, total: Q.items.length,
+      answers: { ...Q.answers }, at: Date.now()
+    });
+    const L = T[r.lang];
+    const pct = Math.round((correct / Q.items.length) * 100);
+    r.el.article.innerHTML = `
+      <div class="l1r-quiz">
+        <div class="l1r-q-result">
+          <div class="l1r-q-result-pct">${pct}%</div>
+          <h3>${esc(L.ctResultTitle)}</h3>
+          <p class="l1r-q-result-line">
+            <span class="l1r-ct-ok">${esc(L.ctRight)}: <b>${correct}</b></span>
+            <span class="l1r-ct-bad">${esc(L.ctWrong)}: <b>${Q.items.length - correct}</b></span>
+          </p>
+          <p class="l1r-ct-sub">${esc(L.ctScope)}</p>
+          <div class="l1r-ct-actions">
+            <button type="button" class="l1r-ct-btn" data-q="exit">${esc(L.ctBackToTopic)}</button>
+            <button type="button" class="l1r-ct-btn l1r-ct-btn-alt" data-q="redo">${esc(L.ctRedo)}</button>
+          </div>
+        </div>
+      </div>`;
+    r.quiz = null;
   }
 
   /* ------------------- mídia: abre SÓ ao clicar na referência -------------------
