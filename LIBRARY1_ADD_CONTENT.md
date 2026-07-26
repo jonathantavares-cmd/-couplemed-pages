@@ -100,11 +100,27 @@ Marcação em HTML (`<h2>`, `<ul>`, `<table>`…) **não é reescrita**: é só 
 
 **Caminho:** `/Users/jonathan/Desktop/Adicionar Library 1/`
 
+### A regra de leitura da árvore — confirmada pelo usuário em 2026-07-26
+
+> **As PASTAS são os systems e subjects. As SUBPASTAS são os TÓPICOS.**
+
+Dois níveis, dois significados, e confundi-los estraga a leva inteira: tratar as pastas de nível 1 como tópicos criaria 26 tópicos gigantes no lugar dos 1.838 corretos.
+
+| Nível | O que é | Quantos | Exemplo |
+|---|---|---|---|
+| 1 — pasta | **system ou subject** | 26 | `Cardiology` (system), `Embryology` (subject) |
+| 2 — subpasta | **TÓPICO** — a unidade de trabalho | 1.838 | `Acute rheumatic fever` |
+| 3 — arquivos | o material a transcrever | varia | `Imagem 1.png` |
+
+As 26 misturam as duas coisas de propósito: há systems (Cardiology, Dermatology, Neurology) e subjects (Anatomy & Histology, Embryology, Cell Bio/Biochem/Genetics). Para o trabalho tanto faz — o que importa é que **o tópico é sempre o segundo nível**, e o caminho da subpasta já diz a que tópico o material pertence, sem adivinhar pelo conteúdo (§3).
+
+Bate exatamente com o site: 26 pastas ↔ 26 folders de `library1-structure.js`, 1.838 subpastas ↔ 1.838 `items`. Conferido em 2026-07-26.
+
 Estrutura verificada em 2026-07-25:
 
 ```
 Adicionar Library 1/
-├── Allergy & Immunology/           ← 26 pastas de nível 1 (Subjects)
+├── Allergy & Immunology/           ← 26 pastas de nível 1 (systems e subjects)
 │   ├── Acute rheumatic fever/      ← 1.838 subpastas de nível 2 (Tópicos)
 │   ├── Anaphylaxis/
 │   └── ...
