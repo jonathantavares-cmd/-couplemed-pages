@@ -652,21 +652,25 @@ Botão **"Create Test"** no fim do conteúdo, **imediatamente acima das tags**. 
 
 | Tópico | Estado |
 |---|---|
-| Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 10 mídias × 2 idiomas ✅ · **1 de 5 questões** transcrita |
+| Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 12 mídias ✅ (10 do artigo × 2 idiomas + 2 exclusivas da Q3, ver aviso singleLang abaixo) · **5 de 5 questões** transcritas |
 
-**A PRÓXIMA TAREFA é terminar as questões desse tópico.** Os 14 prints estão em `~/Desktop/Adicionar Library 1/Allergy & Immunology/Acute rheumatic fever ✅/` e se distribuem assim:
+**Tópico CONCLUÍDO.** As 5 questões do Create Test estão publicadas:
 
 | Questão | Prints | Assunto | Estado |
 |---|---|---|---|
-| Q1 | Imagem 1, 2 | saúde pública / penicilina empírica (gabarito D, 52%) | ✅ transcrita (`L1Q-ARF-001`) |
-| Q2 | Imagem 3, 4, 5 | fisiopatologia / mimetismo molecular | ⏳ falta |
-| Q3 | Imagem 6, 7, 8, 9, 10 | menino de 10 anos, biópsia (corpos de Aschoff) | ⏳ falta |
-| Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ⏳ falta |
-| Q5 | Imagem 13, 14 | coreia de Sydenham | ⏳ falta |
+| Q1 | Imagem 1, 2 | saúde pública / penicilina empírica (gabarito D, 52%) | ✅ (`L1Q-ARF-001`) |
+| Q2 | Imagem 3, 4, 5 | fisiopatologia / mimetismo molecular | ✅ (`L1Q-ARF-002`) |
+| Q3 | Imagem 6, 7, 8, 9, 10 | menino de 10 anos, biópsia (corpos de Aschoff) | ✅ (`L1Q-ARF-003`) — única com `img` **e** `explImg` |
+| Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ✅ (`L1Q-ARF-004`) |
+| Q5 | Imagem 13, 14 | coreia de Sydenham | ✅ (`L1Q-ARF-005`) |
 
-Ao terminar cada uma: rodar a auditoria (§11.1), depois o ✅ (§11), depois commit e push.
+`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os três testes de `tools/tests/` passam.
 
+> ⚠️ **Pendência de tradução:** `image-6` e `figure-3` (mídia exclusiva da Q3) estão marcadas `singleLang:true` — o print da questão só veio em inglês, então a versão "pt" aponta para o mesmo arquivo em inglês. Quando o usuário mandar esses dois prints em português, recortar e trocar a `key` de `pt` em `public/js/library1-content/allergy-and-immunology.js`.
+>
 > ⚠️ **Atenção:** o usuário substituiu o conteúdo daquela subpasta pelos prints das QUESTÕES — os prints do texto do artigo não estão mais lá. O texto já está publicado, então isso não é problema; só não tente reconferir o artigo pela pasta.
+
+**A PRÓXIMA TAREFA é escolher o próximo tópico** (de qualquer Subject, Seção 0) e repetir o procedimento — este foi o primeiro tópico e serviu para validar o fluxo inteiro (armazenamento, leitor, auditoria, Create Test).
 
 ---
 
@@ -690,7 +694,8 @@ Ao terminar cada uma: rodar a auditoria (§11.1), depois o ✅ (§11), depois co
 | 2026-07-25 | **Visualizador refeito como janela centrada com zoom** (§7.5). O CSS do visualizador havia sido apagado por engano numa limpeza, e sem ele a imagem saía em tamanho natural escorrendo para fora da tela — foi o que o usuário viu. Reescrito no modelo do material de origem, com cabeçalho, contador, legenda e zoom −/+/⟳. |
 | 2026-07-25 | **Download passa a embutir a mídia no corpo** (§7.5b), em data URI, posicionada após o bloco que a referencia, cada idioma com as suas imagens — no arquivo salvo não há clique. |
 | 2026-07-25 | **Create Test implementado** (§11.2): questões de treino por tópico, no fim do conteúdo acima das tags, com performance individual e isolamento verificado do QBank 1. Auditoria estendida para conferir as questões (id, correct, difficulty × peer, tradução). |
-| 2026-07-25 | **Q1 do tópico Acute rheumatic fever transcrita** (de 5 identificadas nos 14 prints). Faltam Q2–Q5 — ver Seção 12. |
+| 2026-07-25 | **Q1 do tópico Acute rheumatic fever transcrita** (de 5 identificadas nos 14 prints). |
+| 2026-07-25 | **Q2–Q5 transcritas**, completando as 5 questões do tópico. Auditoria ✅ (10 mídias, 10 referências, 5 questões) nesse ponto — antes da correção de mídia de questão registrada logo abaixo. |
 | 2026-07-25 | **Testes movidos para `tools/tests/`** (antes viviam num scratchpad temporário e se perderiam), com README de como rodar. §6.1/6.2 passam a registrar que o texto PT vem incompleto e que as inconsistências da tradução do usuário são preservadas. |
 | 2026-07-25 | **Retomada automática por hora documentada** (§2.4), a pedido do usuário: quando o limite de uso bate e ele **não troca de conta**, arma-se `CronCreate` de hora em hora (minuto não-cheio) para tentar retomar sozinho, e apaga-se com `CronDelete` ao terminar — ou imediatamente, se houver troca de conta (senão duas sessões trabalham no mesmo tópico). Parâmetros e limitações conferidos na especificação real da ferramenta, incluindo dois pontos que o doc do QBank não registra: `durable` **não tem efeito** e tarefas recorrentes têm jitter de até 10% do período. |
 | 2026-07-25 | **Regra corrigida a pedido do usuário (§11.2):** TODA imagem que vem no print da questão entra sempre — do enunciado (`img`) e da explicação (`explImg`) — **independente de estar referenciada no artigo**. A regra anterior da auditoria (toda mídia tinha de ser citada no artigo) empurrou para a decisão errada de deixar as imagens da Q3 de fora. A auditoria passou a considerar artigo **e** questões, e a aceitar `singleLang:true` para figura que veio só num idioma. |
