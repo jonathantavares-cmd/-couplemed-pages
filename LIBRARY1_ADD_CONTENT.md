@@ -858,7 +858,7 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 
 | Tópico | Estado |
 |---|---|
-| Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 12 mídias ✅ (10 do artigo × 2 idiomas + 2 exclusivas da Q3, ver aviso singleLang abaixo) · **5 de 5 questões** transcritas |
+| Allergy & Immunology › Acute rheumatic fever | texto EN+PT ✅ · 12 mídias ✅ (10 do artigo × 2 idiomas + 2 exclusivas da Q3, ver aviso singleLang abaixo) · **5 de 5 questões** transcritas · **30 flashcards bilíngues** ✅ (§11.4) |
 
 **Tópico CONCLUÍDO.** As 5 questões do Create Test estão publicadas — **5 é o que havia nesta pasta, não um padrão** (§11.2):
 
@@ -870,7 +870,9 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 | Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ✅ (`L1Q-ARF-004`) |
 | Q5 | Imagem 13, 14 | coreia de Sydenham | ✅ (`L1Q-ARF-005`) |
 
-`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os sete testes de `tools/tests/` passam.
+`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os sete testes de `tools/tests/` passam, e os três verificadores (`audit`, `doccheck`, `cachecheck`) saem limpos.
+
+**Flashcards deste tópico:** 30 cards bilíngues em `public/js/library1-flashcards/allergy-and-immunology.js`, deck **"Acute rheumatic fever" / "Febre reumática aguda"**, distribuídos em 11 `recall` · 7 `contrast` · 4 `image` · 3 `cloze` · 2 `why` · 2 `case` · 1 `mnemonic`, 8 com imagem do próprio tópico e todos com `why`.
 
 > ⚠️ **Pendência de tradução:** `image-6` e `figure-3` (mídia exclusiva da Q3) estão marcadas `singleLang:true` — o print da questão só veio em inglês, então a versão "pt" aponta para o mesmo arquivo em inglês. Quando o usuário mandar esses dois prints em português, recortar e trocar a `key` de `pt` em `public/js/library1-content/allergy-and-immunology.js`.
 >

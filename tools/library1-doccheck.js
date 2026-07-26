@@ -104,6 +104,44 @@ CLAIMS.forEach(c => {
   c.codeAgrees ? pass() : fail(`${c.what}, mas o CÓDIGO faz o contrário`);
 });
 
+/* ---------- 7. flashcards: a quantidade afirmada bate com o arquivo? ---------- */
+console.log('7. flashcards da Library 1 (§11.4/§11.5)');
+const FC_DIR = 'public/js/library1-flashcards';
+if(exists(FC_DIR)){
+  // quantidade obrigatória declarada no doc (hoje 30)
+  // pega o número exigido do título da §11.4 ou da frase "A quantidade **é N**"
+  const m = md.match(/^#+[^\n]*?(\d+)\s+FLASHCARDS/im) || md.match(/A quantidade \*\*é (\d+)\*\*/);
+  const required = m ? Number(m[1]) : null;
+  required ? pass() : fail('o doc não declara claramente quantos flashcards por tópico');
+
+  fs.readdirSync(path.join(REPO, FC_DIR)).filter(f=>f.endsWith('.js') && !f.startsWith('_')).forEach(file=>{
+    const rel = FC_DIR + '/' + file;
+    md.includes(rel) || md.includes(FC_DIR) ? pass() : fail(`${rel} existe mas o doc não fala da pasta`);
+    const box = { LIBRARY1_FLASHCARDS: {} };
+    try { new Function('window', read(rel))(box); }
+    catch(e){ return fail(`${rel} não carrega: ${e.message}`); }
+    Object.entries(box.LIBRARY1_FLASHCARDS || {}).forEach(([subject, topics])=>{
+      Object.entries(topics).forEach(([topic, list])=>{
+        const where = `${subject} › ${topic}`;
+        if(required && list.length !== required)
+          fail(`${where}: ${list.length} flashcards, mas o doc exige ${required}`);
+        else pass();
+        // bilinguismo e campos que o doc promete
+        const bad = list.filter(c=>!(c.en&&c.en.front&&c.en.back&&c.pt&&c.pt.front&&c.pt.back));
+        bad.length ? fail(`${where}: ${bad.length} card(s) sem os dois idiomas completos`) : pass();
+        const noKind = list.filter(c=>!c.kind);
+        noKind.length ? fail(`${where}: ${noKind.length} card(s) sem \`kind\``) : pass();
+        const copy = list.filter(c=>c.en.front===c.pt.front);
+        copy.length ? fail(`${where}: ${copy.length} card(s) com PT igual ao EN`) : pass();
+        // imagens declaradas existem
+        list.filter(c=>c.img).forEach(c=>{
+          exists('public'+c.img) ? pass() : fail(`${where}: ${c.id} aponta imagem inexistente ${c.img}`);
+        });
+      });
+    });
+  });
+}
+
 console.log();
 console.log(`${checks} verificação(ões) ok, ${problems} divergência(s)`);
 if(problems){
