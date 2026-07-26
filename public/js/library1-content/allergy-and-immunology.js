@@ -103,6 +103,185 @@ window.LIBRARY1_CONTENT['allergy-and-immunology'] = {
           },
           objective: 'A febre reumática aguda é uma complicação da faringite estreptocócica do grupo A não tratada. A doença cardíaca reumática é a causa mais comum de doença valvular cardíaca adquirida e de morte cardiovascular em países em desenvolvimento. A incidência de febre reumática aguda e de doença cardíaca reumática foi reduzida em nações industrializadas com o tratamento imediato da faringite estreptocócica com penicilina.'
         }
+      },
+      {
+        id: 'L1Q-ARF-002',
+        vignette: 'An 8-year-old boy is brought to the office for rapid and irregular movements of his hands for one week.  His parents say that he is also making unintentional "funny faces" and has trouble controlling the volume of his voice.  His temperature is 38.9 C (102 F).  On physical examination, the boy moves his hands frequently and erratically.  He has a new III/VI systolic murmur and several circular, faintly erythematous lesions on his abdomen.',
+        q: "Which of the following is the most likely mechanism for this patient's condition?",
+        options: [
+          'Nonspecific T cell receptor activation',
+          'Cross-reactivity of antibodies against bacterial and host antigens',
+          'Embolization of an infected thrombus',
+          'Injury from immune complex deposition',
+          'Release of an erythrogenic toxin'
+        ],
+        correct: 'B',
+        peer: { A:4, B:63, C:6, D:9, E:15 },
+        difficulty: 'medium',
+        img: 'figure-1',
+        explC: 'This patient has acute rheumatic fever, an immune-mediated disease following an untreated group A Streptococcus (GAS) infection.  Antibodies against GAS cross-react with host tissues due to molecular mimicry between GAS antigens and cardiac and central nervous system antigens.  Specifically, antibodies directed against GAS antigens, M protein and N-acetyl-beta-D-glucosamine, subsequently attack myosin, a cardiac protein, and lysoganglioside, a neuronal cell surface protein.\n\nThe major manifestations of acute rheumatic fever include arthritis, pancarditis, Sydenham chorea, erythema marginatum, and subcutaneous nodules.  This patient\'s murmur is likely due to acute mitral regurgitation from pancarditis.  Sydenham chorea presents with non-rhythmic movements of the hands, feet, and face.  Patients often have sudden changes in voice pitch and volume.  Erythema marginatum presents as faintly erythematous, circular lesions with central clearing that come and go on the trunk and extremities.',
+        explI: {
+          A: 'Superantigens cause a tremendous release of cytokines through nonspecific T cell receptor activation, leading to acute fever, hypotension, and erythroderma.  This is the mechanism of action of the toxic shock syndrome exotoxins produced by both Staphylococcus aureus and Streptococcus pyogenes.',
+          C: 'An embolic stroke from infective endocarditis can present with fever, a new-onset murmur, and focal neurologic deficits.  In addition, Janeway lesions, Osler nodes, and Roth spots are specific findings of infectious endocarditis.  The most common pathogens are S aureus, viridans group streptococci, and enterococci.',
+          D: 'The deposition of streptococcal antigen immune complexes in glomeruli causes post-streptococcal glomerulonephritis, a type III hypersensitivity reaction.  Patients have microscopic or gross hematuria, edema, hypertension, and proteinuria.',
+          E: 'Scarlet fever is caused by the body\'s response to an erythrogenic (pyrogenic) toxin released by group A Streptococcus.  It presents with a diffuse, erythematous, "sandpaper"-textured rash most notable in the skin folds (eg, inguinal, axillary, antecubital areas).  Scarlet fever can occur with pharyngitis and can lead to acute rheumatic fever if untreated.'
+        },
+        objective: 'Acute rheumatic fever is an autoimmune reaction following an untreated group A streptococcal pharyngitis.  Anti-group A Streptococcus antibodies (eg, anti-M protein, anti-N-acetyl-beta-D-glucosamine) cross-react and attack cardiac and central nervous system antigens.',
+        tags: { subject:'Pathophysiology', system:'Infectious Diseases', topic:'Rheumatic fever' },
+        ptTranslation: {
+          vignette: 'Um menino de 8 anos é levado ao consultório por movimentos rápidos e irregulares das mãos há uma semana. Os pais dizem que ele também está fazendo "caretas" involuntárias e tem dificuldade para controlar o volume da voz. Sua temperatura é 38,9 C (102 F). Ao exame físico, o menino move as mãos com frequência e de forma errática. Ele apresenta um novo sopro sistólico III/VI e diversas lesões circulares, discretamente eritematosas, no abdome.',
+          q: 'Qual das seguintes é o mecanismo mais provável para a condição deste paciente?',
+          options: [
+            'Ativação inespecífica do receptor de células T',
+            'Reatividade cruzada de anticorpos contra antígenos bacterianos e do hospedeiro',
+            'Embolização de um trombo infectado',
+            'Lesão por deposição de imunocomplexos',
+            'Liberação de uma toxina eritrogênica'
+          ],
+          explC: 'Este paciente tem febre reumática aguda, uma doença imunomediada que ocorre após uma faringite estreptocócica do grupo A (GAS) não tratada. Anticorpos contra o GAS reagem de forma cruzada com tecidos do hospedeiro devido ao mimetismo molecular entre antígenos do GAS e antígenos cardíacos e do sistema nervoso central. Especificamente, anticorpos direcionados contra antígenos do GAS, a proteína M e a N-acetil-beta-D-glucosamina, atacam subsequentemente a miosina, uma proteína cardíaca, e o lisogangliosídeo, uma proteína de superfície das células neuronais.\n\nAs principais manifestações da febre reumática aguda incluem artrite, pancardite, coreia de Sydenham, eritema marginado e nódulos subcutâneos. O sopro deste paciente provavelmente se deve à regurgitação mitral aguda por pancardite. A coreia de Sydenham se apresenta com movimentos não rítmicos das mãos, pés e face. Os pacientes frequentemente apresentam mudanças súbitas no tom e volume da voz. O eritema marginado se apresenta como lesões circulares, discretamente eritematosas, com clareamento central, que aparecem e desaparecem no tronco e nas extremidades.',
+          explI: {
+            A: 'Superantígenos causam uma liberação tremenda de citocinas através da ativação inespecífica do receptor de células T, levando a febre aguda, hipotensão e eritrodermia. Este é o mecanismo de ação das exotoxinas da síndrome do choque tóxico produzidas tanto por Staphylococcus aureus quanto por Streptococcus pyogenes.',
+            C: 'Um acidente vascular cerebral embólico decorrente de endocardite infecciosa pode se apresentar com febre, sopro de início recente e déficits neurológicos focais. Além disso, lesões de Janeway, nódulos de Osler e manchas de Roth são achados específicos de endocardite infecciosa. Os patógenos mais comuns são S aureus, estreptococos do grupo viridans e enterococos.',
+            D: 'A deposição de imunocomplexos de antígenos estreptocócicos nos glomérulos causa glomerulonefrite pós-estreptocócica, uma reação de hipersensibilidade do tipo III. Os pacientes apresentam hematúria microscópica ou macroscópica, edema, hipertensão e proteinúria.',
+            E: 'A escarlatina é causada pela resposta do corpo a uma toxina eritrogênica (pirogênica) liberada pelo Streptococcus do grupo A. Apresenta-se com uma erupção cutânea difusa, eritematosa, de textura "lixa", mais notável nas dobras cutâneas (por exemplo, regiões inguinal, axilar, antecubital). A escarlatina pode ocorrer com faringite e pode levar à febre reumática aguda se não tratada.'
+          },
+          objective: 'A febre reumática aguda é uma reação autoimune que ocorre após uma faringite estreptocócica do grupo A não tratada. Anticorpos anti-Streptococcus do grupo A (por exemplo, anti-proteína M, anti-N-acetil-beta-D-glucosamina) reagem de forma cruzada e atacam antígenos cardíacos e do sistema nervoso central.'
+        }
+      },
+      {
+        id: 'L1Q-ARF-003',
+        vignette: 'A 10-year-old boy is brought to the emergency department due to shortness of breath and palpitations for the past day.  He also has associated fever and fatigue.  Vital signs indicate tachypnea, tachycardia, and hypotension.  On cardiac auscultation, the patient has a new holosystolic murmur.  He is admitted to the hospital for further workup and management.  A cardiac biopsy is performed due to decompensation and an unclear diagnosis.  Light microscopy of the tissue specimen is shown in the image below.',
+        q: "Which of the following most likely preceded development of this patient's current condition?",
+        options: [
+          'Antibiotic exposure',
+          'Bacterial infection',
+          'Chemotherapy',
+          'Genetic mutation',
+          'Travel to South America',
+          'Viral infection'
+        ],
+        correct: 'B',
+        peer: { A:0, B:48, C:1, D:4, E:16, F:28 },
+        difficulty: 'hard',
+        explC: "Acute rheumatic fever (ARF) is an immune-mediated complication of an untreated group A streptococcal pharyngeal infection.  The most serious manifestation of ARF is pancarditis, which can cause nonspecific fever, fatigue, and anorexia as well as altered vital signs (tachycardia, tachypnea, hypotension).  Endocardial involvement resulting in valvular dysfunction (specifically acute mitral valve regurgitation) is the most likely cause of the patient's new holosystolic murmur.\n\nThis patient's myocardial biopsy shows a lesion consisting of lymphocytes and macrophages as well as scattered multinucleated giant cells.  This interstitial myocardial granuloma, or Aschoff body, is pathognomonic for ARF-related myocarditis.  Plump macrophages with abundant cytoplasm and central, slender chromatin ribbons called Anitschkow (or caterpillar) cells are also often present.  Over subsequent years, Aschoff bodies are replaced by fibrous scar tissue, leading to chronic mitral valve stenosis and regurgitation.",
+        explI: {
+          A: 'Hypersensitivity myocarditis, which results from an autoimmune reaction to a medication, is characterized by an interstitial infiltrate of eosinophils.  Many classes of drugs, including diuretics (eg, furosemide, hydrochlorothiazide) and antibiotics (eg, ampicillin, azithromycin), can cause this hypersensitivity reaction.',
+          C: 'Anthracyclines (eg, doxorubicin, daunorubicin) are cardiotoxic chemotherapeutic agents.  These agents can cause dose-related acute and chronic cardiac damage (eg, dilated cardiomyopathy).  On biopsy, patchy fibrosis with vacuolization and lysis of myocytes are evident.',
+          D: 'A genetic mutation involving sarcomere genes can lead to the development of hypertrophic cardiomyopathy (HCM).  HCM leads to left ventricular hypertrophy and, in turn, both systolic and diastolic dysfunction.  The pathology involves disorganized, hypertrophied myocytes.',
+          E: 'Recent travel to South America is associated with Chagas disease, which is caused by the protozoan parasite Trypanosoma cruzi.  Chagas disease can result in a myocarditis characterized by distension of individual myofibers with intracellular trypanosomes.',
+          F: 'Viral myocarditis produces a predominantly lymphocytic interstitial infiltrate with focal necrosis of myocytes.  Aschoff bodies are not seen.  Viral infection (eg, adenovirus, Coxsackie B virus, parvovirus B19) is the most common cause of myocarditis in the general population.'
+        },
+        objective: 'Interstitial myocardial granulomas (Aschoff bodies) are found in carditis due to acute rheumatic fever, which develops after an untreated group A streptococcal pharyngeal infection.  Aschoff bodies contain plump macrophages with abundant cytoplasm and central, slender ribbons of chromatin (Anitschkow, or caterpillar, cells).',
+        tags: { subject:'Pathology', system:'Cardiovascular System', topic:'Rheumatic fever' },
+        ptTranslation: {
+          vignette: 'Um menino de 10 anos é levado ao pronto-socorro devido a falta de ar e palpitações no último dia. Ele também apresenta febre e fadiga associadas. Os sinais vitais indicam taquipneia, taquicardia e hipotensão. À ausculta cardíaca, o paciente apresenta um novo sopro holossistólico. Ele é internado para investigação e manejo adicionais. Uma biópsia cardíaca é realizada devido à descompensação e a um diagnóstico incerto. A microscopia óptica da amostra de tecido é mostrada na imagem abaixo.',
+          q: 'Qual das seguintes opções provavelmente precedeu o desenvolvimento da condição atual deste paciente?',
+          options: [
+            'Exposição a antibióticos',
+            'Infecção bacteriana',
+            'Quimioterapia',
+            'Mutação genética',
+            'Viagem à América do Sul',
+            'Infecção viral'
+          ],
+          explC: 'A febre reumática aguda (ARF) é uma complicação imunomediada de uma infecção faríngea estreptocócica do grupo A não tratada. A manifestação mais grave da ARF é a pancardite, que pode causar febre inespecífica, fadiga e anorexia, além de sinais vitais alterados (taquicardia, taquipneia, hipotensão). O envolvimento endocárdico resultando em disfunção valvular (especificamente regurgitação mitral aguda) é a causa mais provável do novo sopro holossistólico do paciente.\n\nA biópsia miocárdica deste paciente mostra uma lesão composta por linfócitos e macrófagos, além de células gigantes multinucleadas dispersas. Esse granuloma miocárdico intersticial, ou corpo de Aschoff, é patognomônico de miocardite relacionada à ARF. Macrófagos volumosos com citoplasma abundante e fitas de cromatina centrais e delgadas, chamadas células de Anitschkow (ou em lagarta), também costumam estar presentes. Ao longo dos anos seguintes, os corpos de Aschoff são substituídos por tecido cicatricial fibroso, levando à estenose e regurgitação mitral crônicas.',
+          explI: {
+            A: 'A miocardite de hipersensibilidade, que resulta de uma reação autoimune a um medicamento, é caracterizada por um infiltrado intersticial de eosinófilos. Diversas classes de fármacos, incluindo diuréticos (por exemplo, furosemida, hidroclorotiazida) e antibióticos (por exemplo, ampicilina, azitromicina), podem causar essa reação de hipersensibilidade.',
+            C: 'As antraciclinas (por exemplo, doxorrubicina, daunorrubicina) são agentes quimioterápicos cardiotóxicos. Esses agentes podem causar dano cardíaco agudo e crônico relacionado à dose (por exemplo, cardiomiopatia dilatada). Na biópsia, observam-se fibrose irregular com vacuolização e lise dos miócitos.',
+            D: 'Uma mutação genética envolvendo genes do sarcômero pode levar ao desenvolvimento de cardiomiopatia hipertrófica (HCM). A HCM leva à hipertrofia ventricular esquerda e, por consequência, a disfunção sistólica e diastólica. A patologia envolve miócitos desorganizados e hipertrofiados.',
+            E: 'Viagem recente à América do Sul está associada à doença de Chagas, causada pelo parasita protozoário Trypanosoma cruzi. A doença de Chagas pode resultar em miocardite caracterizada por distensão de miofibras individuais com tripanossomas intracelulares.',
+            F: 'A miocardite viral produz um infiltrado intersticial predominantemente linfocítico com necrose focal de miócitos. Corpos de Aschoff não são observados. A infecção viral (por exemplo, adenovírus, vírus Coxsackie B, parvovírus B19) é a causa mais comum de miocardite na população geral.'
+          },
+          objective: 'Granulomas miocárdicos intersticiais (corpos de Aschoff) são encontrados na cardite decorrente de febre reumática aguda, que se desenvolve após uma infecção faríngea estreptocócica do grupo A não tratada. Os corpos de Aschoff contêm macrófagos volumosos com citoplasma abundante e fitas centrais e delgadas de cromatina (células de Anitschkow, ou em lagarta).'
+        }
+      },
+      {
+        id: 'L1Q-ARF-004',
+        vignette: "A 12-year-old girl comes to the office with constant swelling and pain of her elbows for the past week that have prevented her from participating in basketball practice.  She also had knee pain during the preceding week that was attributed to a fall during practice.  Her parents say that she is healthy and has had only minor illnesses that children typically experience during the winter.  The patient's temperature is 38.9 C (102 F), blood pressure is 110/70 mm Hg, and pulse is 110/min.  Her elbows are swollen and tender with limited range of motion.  Her knees appear normal.  A new holosystolic murmur is heard on cardiac auscultation.  Antistreptolysin O titers are 400 Todd units/mL (normal: <300 Todd units/mL).  The patient is admitted to the hospital.",
+        q: 'During her hospitalization, this patient is at greatest risk of dying from which of the following complications?',
+        options: [
+          'Mitral stenosis',
+          'Pancarditis',
+          'Renal failure',
+          'Septic arthritis',
+          'Septic shock'
+        ],
+        correct: 'B',
+        peer: { A:10, B:43, C:15, D:6, E:23 },
+        difficulty: 'hard',
+        img: 'table-3',
+        explC: "Acute rheumatic fever (ARF) is the most likely diagnosis in this patient with migratory arthritis, new-onset murmur, fever, and a positive anti-streptolysin O titer.  ARF is a multisystem complication that develops 2-4 weeks after untreated group A streptococcal pharyngitis.  Most organs are often only mildly and transiently affected in ARF, with the exception of the heart.  Acute morbidity is most likely due to pancarditis (inflammation of the endocardium, myocardium, and epicardium).  Inflammation of the mitral valve can lead to mitral regurgitation, which is the likely cause of the new holosystolic murmur in this patient.  Severe regurgitation and/or myocarditis can lead to cardiac dilation, heart failure, and death in a small percentage of patients.",
+        explI: {
+          A: 'Virtually all cases of mitral stenosis are caused by fibrosis of the valve leaflets in chronic rheumatic heart disease.  The fibrosis occurs gradually over years or decades after the initial episode of ARF and would, therefore, not be an acute complication in this patient.',
+          C: 'Acute poststreptococcal glomerulonephritis (PSGN) is caused by circulating immune complexes following a streptococcal pharyngeal infection with specific nephritogenic strains.  Hematuria, edema, proteinuria, and hypertension are classic findings.  This patient has no symptoms of PSGN, which rarely occurs simultaneously with ARF.',
+          D: 'Patients with septic arthritis are often febrile and ill-appearing.  Staphylococcus aureus is the most common cause and usually infects only one joint.',
+          E: 'Septic shock refers to end-organ damage due to poor perfusion from an overwhelming inflammatory response to infection.  Although the pathogenesis of ARF involves an initial infection with group A streptococcus, the disease itself is autoimmune-related, not due to direct infection.'
+        },
+        objective: 'The primary cause of morbidity in acute rheumatic fever is heart failure from severe pancarditis.  Mitral stenosis develops years or decades after the original illness.  Joint involvement is usually transient.',
+        tags: { subject:'Pathology', system:'Rheumatology/Orthopedics & Sports', topic:'Rheumatic fever' },
+        ptTranslation: {
+          vignette: 'Uma menina de 12 anos vem ao consultório com inchaço e dor constantes nos cotovelos na última semana, que a impediram de participar dos treinos de basquete. Ela também teve dor no joelho na semana anterior, atribuída a uma queda durante o treino. Os pais dizem que ela é saudável e teve apenas doenças leves, típicas das crianças no inverno. A temperatura da paciente é 38,9 C (102 F), a pressão arterial é 110/70 mmHg e o pulso é 110/min. Seus cotovelos estão inchados e sensíveis, com amplitude de movimento limitada. Os joelhos parecem normais. Um novo sopro holossistólico é auscultado ao exame cardíaco. Os títulos de antiestreptolisina O são de 400 unidades Todd/mL (normal: <300 unidades Todd/mL). A paciente é internada.',
+          q: 'Durante a internação, esta paciente corre o maior risco de morrer devido a qual das seguintes complicações?',
+          options: [
+            'Estenose mitral',
+            'Pancardite',
+            'Insuficiência renal',
+            'Artrite séptica',
+            'Choque séptico'
+          ],
+          explC: 'A febre reumática aguda (ARF) é o diagnóstico mais provável nesta paciente com artrite migratória, sopro de início recente, febre e título positivo de antiestreptolisina O. A ARF é uma complicação multissistêmica que se desenvolve 2-4 semanas após faringite estreptocócica do grupo A não tratada. A maioria dos órgãos costuma ser afetada apenas de forma leve e transitória na ARF, com exceção do coração. A morbidade aguda deve-se, mais provavelmente, à pancardite (inflamação do endocárdio, miocárdio e epicárdio). A inflamação da válvula mitral pode levar à regurgitação mitral, causa provável do novo sopro holossistólico nesta paciente. Regurgitação grave e/ou miocardite podem levar à dilatação cardíaca, insuficiência cardíaca e morte em uma pequena porcentagem dos pacientes.',
+          explI: {
+            A: 'Praticamente todos os casos de estenose mitral são causados por fibrose dos folhetos valvares na doença cardíaca reumática crônica. A fibrose ocorre gradualmente ao longo de anos ou décadas após o episódio inicial de ARF e, portanto, não seria uma complicação aguda nesta paciente.',
+            C: 'A glomerulonefrite pós-estreptocócica aguda (PSGN) é causada por imunocomplexos circulantes após uma infecção faríngea estreptocócica com cepas nefritogênicas específicas. Hematúria, edema, proteinúria e hipertensão são achados clássicos. Esta paciente não apresenta sintomas de PSGN, que raramente ocorre simultaneamente com a ARF.',
+            D: 'Pacientes com artrite séptica costumam estar febris e com aspecto de doença. Staphylococcus aureus é a causa mais comum e geralmente infecta apenas uma articulação.',
+            E: 'O choque séptico se refere a lesão de órgãos-alvo devido à má perfusão decorrente de uma resposta inflamatória avassaladora à infecção. Embora a patogênese da ARF envolva uma infecção inicial pelo Streptococcus do grupo A, a doença em si é de natureza autoimune, e não decorrente de infecção direta.'
+          },
+          objective: 'A principal causa de morbidade na febre reumática aguda é a insuficiência cardíaca decorrente de pancardite grave. A estenose mitral se desenvolve anos ou décadas após a doença original. O envolvimento articular costuma ser transitório.'
+        }
+      },
+      {
+        id: 'L1Q-ARF-005',
+        vignette: 'A 10-year-old boy is brought to the physician by his parents due to restlessness and involuntary jerking.  He takes no medications and his vaccinations are up-to-date.  His parents do not recall any recent injuries or illnesses other than a sore throat 3 months ago.  On examination, the patient has rapid, irregular jerking movements involving his face, arms, and legs.',
+        q: 'This patient is at greatest risk for developing which of the following conditions?',
+        options: [
+          'Deforming polyarthritis',
+          'Early dementia',
+          'Parkinson disease',
+          'Renal failure',
+          'Valvular heart disease'
+        ],
+        correct: 'E',
+        peer: { A:5, B:8, C:5, D:8, E:72 },
+        difficulty: 'easy',
+        img: 'table-3',
+        explC: 'This patient\'s restlessness and purposeless jerking movements 3 months after having a sore throat are consistent with Sydenham chorea, a hyperkinetic extrapyramidal movement disorder that is the most common acquired chorea of childhood.  Sydenham chorea is a neurologic manifestation of acute rheumatic fever that occurs 1-8 months after group A β-hemolytic streptococcal infection.  It is caused by a delayed onset autoimmune reaction involving anti-streptococcal antibodies that cross-react with the basal ganglia.  Because Sydenham chorea is a manifestation of acute rheumatic fever, patients with this disorder are at risk for chronic rheumatic heart disease.',
+        explI: {
+          A: 'Although migratory polyarthritis is an early manifestation of acute rheumatic fever, it is generally transient and rarely, if ever, deforming.',
+          B: 'Early-onset Alzheimer dementia is associated with Down syndrome (trisomy 21).  Increased expression of the amyloid precursor protein gene located on chromosome 21 is thought to be the cause.',
+          C: 'Parkinson disease is an extrapyramidal hypokinetic movement disorder consisting of tremor, rigidity, akinesia, and postural instability.  Jerking extremity movements are generally not seen in Parkinson disease, except in cases of levodopa overdose.',
+          D: 'Poststreptococcal glomerulonephritis occurs following infection with specific nephritogenic strains of group A Streptococcus.  However, the nephritis manifests within 1-6 weeks and is typically self-limited.  Renal failure is not part of the clinical syndrome associated with acute rheumatic fever.'
+        },
+        objective: 'Sydenham chorea presents with involuntary, rapid, irregular jerking movements involving the face, arms, and legs.  It occurs months after group A streptococcal infection and is one of the major clinical manifestations of acute rheumatic fever.  Patients with this condition carry a high risk of chronic valvular disease.',
+        tags: { subject:'Pathology', system:'Cardiovascular System', topic:'Rheumatic fever' },
+        ptTranslation: {
+          vignette: 'Um menino de 10 anos é levado ao médico pelos pais devido a inquietação e movimentos involuntários. Ele não toma medicamentos e suas vacinas estão em dia. Os pais não se lembram de nenhuma lesão ou doença recente, exceto uma dor de garganta há 3 meses. Ao exame, o paciente apresenta movimentos bruscos, rápidos e irregulares envolvendo a face, os braços e as pernas.',
+          q: 'Este paciente corre o maior risco de desenvolver qual das seguintes condições?',
+          options: [
+            'Poliartrite deformante',
+            'Demência precoce',
+            'Doença de Parkinson',
+            'Insuficiência renal',
+            'Doença valvular cardíaca'
+          ],
+          explC: 'A inquietação e os movimentos bruscos e sem propósito deste paciente, 3 meses após um quadro de dor de garganta, são compatíveis com coreia de Sydenham, um distúrbio hipercinético extrapiramidal do movimento que é a coreia adquirida mais comum da infância. A coreia de Sydenham é uma manifestação neurológica da febre reumática aguda que ocorre 1-8 meses após infecção estreptocócica do grupo A β-hemolítico. É causada por uma reação autoimune de início tardio, envolvendo anticorpos antiestreptocócicos que reagem de forma cruzada com os núcleos da base. Como a coreia de Sydenham é uma manifestação da febre reumática aguda, os pacientes com esse distúrbio correm risco de doença cardíaca reumática crônica.',
+          explI: {
+            A: 'Embora a poliartrite migratória seja uma manifestação precoce da febre reumática aguda, ela geralmente é transitória e raramente, ou nunca, é deformante.',
+            B: 'A demência de Alzheimer de início precoce está associada à síndrome de Down (trissomia do 21). Acredita-se que o aumento da expressão do gene da proteína precursora de amiloide, localizado no cromossomo 21, seja a causa.',
+            C: 'A doença de Parkinson é um distúrbio extrapiramidal hipocinético do movimento, que consiste em tremor, rigidez, acinesia e instabilidade postural. Movimentos bruscos das extremidades geralmente não são observados na doença de Parkinson, exceto em casos de superdosagem de levodopa.',
+            D: 'A glomerulonefrite pós-estreptocócica ocorre após infecção com cepas nefritogênicas específicas do Streptococcus do grupo A. No entanto, a nefrite se manifesta em 1-6 semanas e costuma ser autolimitada. A insuficiência renal não faz parte da síndrome clínica associada à febre reumática aguda.'
+          },
+          objective: 'A coreia de Sydenham se apresenta com movimentos involuntários, bruscos, rápidos e irregulares envolvendo a face, os braços e as pernas. Ocorre meses após infecção estreptocócica do grupo A e é uma das principais manifestações clínicas da febre reumática aguda. Pacientes com essa condição apresentam alto risco de doença valvular crônica.'
+        }
       }
     ],
 
