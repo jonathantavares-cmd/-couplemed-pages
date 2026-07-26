@@ -22,10 +22,11 @@ JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-quiz.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-read.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-read-lib3.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-count.js
+JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-flashcards.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-assetbase.js
 ```
 
-Saída esperada: `✅ TODOS OS TESTES PASSARAM` nos cinco primeiros e
+Saída esperada: `✅ TODOS OS TESTES PASSARAM` nos seis primeiros e
 `✅ A virada para o R2 é uma linha — provado` no último.
 
 ## O que cada um cobre
@@ -37,6 +38,7 @@ Saída esperada: `✅ TODOS OS TESTES PASSARAM` nos cinco primeiros e
 | `test-read.js` | marca "já lido": botão da toolbar, estado compartilhado com a lista de tópicos, tradução do rótulo, atualização por evento `storage` e isolamento do QBank |
 | `test-read-lib3.js` | a mesma marca na **Library 3**: botão na toolbar do leitor de PDF, id = a `key` do PDF, chave separada da Library 1, e nenhuma das duas encostando no QBank |
 | `test-count.js` | prova que a **quantidade de questões é livre** (1, 2, 9 e nenhuma) — 5 não é padrão |
+| `test-flashcards.js` | os **20 flashcards por tópico** (§11.4): contagem, ids idempotentes, taxonomia, cloze, imagens existentes em disco, e a semeadura no banco (sem duplicar, preservando progresso) |
 | `test-assetbase.js` | carrega o **conteúdo real** do repositório e prova que trocar `window.LIBRARY1_ASSET_BASE` migra a mídia para o R2 **sem editar nenhum conteúdo** |
 
 ## Detalhes de ambiente que já custaram tempo

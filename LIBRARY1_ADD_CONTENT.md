@@ -470,6 +470,7 @@ JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-quiz.js        # Creat
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read.js        # marca "já lido" na Library 1
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read-lib3.js   # marca "já lido" na Library 3
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-count.js       # quantidade de questões é livre (1, 2, 9, nenhuma)
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js  # os 20 flashcards do tópico (§11.4)
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-assetbase.js   # prova a virada da mídia para o R2
 ```
 
@@ -742,6 +743,57 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 
 ---
 
+## 11.4 ⚠️ OBRIGATÓRIO: 20 FLASHCARDS POR TÓPICO INCLUÍDO
+
+> ### **Todo tópico incluído na Library 1 gera 20 flashcards, automaticamente.**
+>
+> **Regra do usuário (2026-07-25):** *"sempre que incluir um tópico na Library 1, deve então também criar automaticamente 20 flashcards sobre o tópico e assunto discutido no tópico, na plataforma de flashcards"* — padrão **Anki**, foco **USMLE Step 1**, disponíveis **para todos os usuários**.
+>
+> Isto **não é opcional** e **não espera pedido**: faz parte de concluir um tópico, como a auditoria e o ✅. A quantidade **é 20** (confirmada pelo usuário).
+
+**Onde os cards moram:** `public/js/library1-flashcards/<subject-slug>.js`, um arquivo por Subject — mesma granularidade do conteúdo (§5), pelo mesmo motivo de conflito entre sessões.
+
+```js
+window.LIBRARY1_FLASHCARDS['allergy-and-immunology'] = {
+  'acute-rheumatic-fever': [
+    { id:'L1FC-ARF-001', front:'…', back:'…', tags:[…],
+      sys:'allergy_immunology', subj:'allergy_immunology::autoimmune_diseases',
+      topic:'Acute rheumatic fever' }, …
+  ]
+};
+```
+
+| Campo | Regra |
+|---|---|
+| `id` | **estável e único**, prefixo `L1FC-`. É o que torna a semeadura idempotente — sem ele, cada abertura duplicaria os cards. |
+| `front` / `back` | HTML simples. **Cloze no padrão Anki**: `{{c1::texto}}` — o `type` é derivado disso automaticamente. |
+| `tags` | inclui sempre `Library1` e o tópico, para dar busca por texto. |
+| `sys` | id do sistema no `FC_TAXONOMY` de `flashcards.js` (ex.: `allergy_immunology`). |
+| `subj` | `<sys>::<slug>`. **Se o assunto não existir na lista da plataforma, usar `<sys>::misc` (Others)** — regra explícita do usuário. |
+| `topic` | o nome do tópico da Library 1 (texto livre), que é o 3º nível do filtro. |
+
+**Como chegam a todos os usuários:** os cards são **dados versionados no repositório** e `flashcards.js` os **semeia** no banco de cada usuário no primeiro boot (`seedLibrary1Cards()`), com `source:'library1'`.
+
+Por que semear em vez de manter numa lista separada:
+- **o progresso do SRS é individual** — cada usuário tem seu próprio agendamento, o que é o comportamento correto de flashcard;
+- eles entram **de graça** na busca, nos filtros por sistema/subject/topic, nos decks e nas estatísticas, sem caso especial em nenhuma tela.
+
+A semeadura é **idempotente** (o `id` é a chave) e **preserva o progresso**: se o texto do card for corrigido no repositório, o texto é atualizado e o histórico de estudo permanece. Cards criados pelo usuário nunca são tocados. Todos vão para o deck **"Medical Library · Library 1"**.
+
+**Imagens:** autorizado usar as imagens já publicadas do tópico — referenciar por caminho (`<img src="/assets/library1/<subject>/<topic>/…webp">`), **nunca** re-embutir em base64.
+
+**Conteúdo dos cards:** valem as mesmas regras de fidelidade da Seção 1 — cada card cobre um fato **que está no artigo do tópico**. Não inventar, não trazer fato de fora. O que muda é a *forma*: pergunta atômica, um conceito por card, no estilo de quem estuda para o Step 1 (mnemônicos como JONES, achados patognomônicos, primeira linha de tratamento, contrastes de diagnóstico diferencial).
+
+**Ao concluir, verificar:**
+```bash
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js
+```
+Ele confere as 20 unidades, ids únicos com prefixo, `sys`/`subj`/`topic` preenchidos e existentes na taxonomia, uso de cloze, imagens apontando para arquivos que **existem em disco**, e a semeadura (não duplica, preserva progresso, não mexe nos cards do usuário).
+
+> ⚠️ Lembrar de **carregar o novo pacote em `public/app.html`**, antes de `flashcards.js` na ordem de boot — senão os cards daquele Subject nunca são semeados. É o passo mais fácil de esquecer.
+
+---
+
 ## 12. ESTADO ATUAL (onde paramos)
 
 **Último trabalho: 2026-07-25.** Tudo abaixo está commitado e publicado.
@@ -768,7 +820,7 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 | Q4 | Imagem 11, 12 | menina de 12 anos, artrite migratória / estenose mitral | ✅ (`L1Q-ARF-004`) |
 | Q5 | Imagem 13, 14 | coreia de Sydenham | ✅ (`L1Q-ARF-005`) |
 
-`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os seis testes de `tools/tests/` passam.
+`node tools/library1-audit.js "Allergy & Immunology" "Acute rheumatic fever"` sai ✅ (12 mídias, 10 referências, 5 questões). Os sete testes de `tools/tests/` passam.
 
 > ⚠️ **Pendência de tradução:** `image-6` e `figure-3` (mídia exclusiva da Q3) estão marcadas `singleLang:true` — o print da questão só veio em inglês, então a versão "pt" aponta para o mesmo arquivo em inglês. Quando o usuário mandar esses dois prints em português, recortar e trocar a `key` de `pt` em `public/js/library1-content/allergy-and-immunology.js`.
 >
@@ -811,4 +863,5 @@ A API virou compartilhada: **`window.CMLibRead.isRead(lib, id)` / `.toggle(lib, 
 | 2026-07-25 | **Revisão completa do doc contra o código** (pedida pelo usuário). Encontradas e corrigidas 4 citações de linha envelhecidas pelas próprias edições desta sessão no `site.js` (renderLibrary 543→592, busca global 1703→1782, setLang 1380→1444, e as linhas 558/561 do histórico, que não existem mais), além de "três testes" onde já são cinco, e da §9 que listava só 3 dos 5 arquivos de teste. |
 | 2026-07-25 | **Criado `tools/library1-doccheck.js` (§9.2)**: 78 verificações do doc contra o código — arquivos citados, citações de linha apontando para a linha certa, ferramentas/testes citados, subcomandos existentes, referências de seção e coerência nos pontos que já causaram bug. Este tipo de defasagem não deve mais passar em silêncio. |
 | 2026-07-25 | **Registrado que 5 questões não é padrão** (§11.2, a pedido do usuário): a quantidade certa é a que estiver na pasta do tópico — pode ser mais, menos, ou nenhuma. Nunca parar em 5 nem completar até 5. A auditoria não exige quantidade, de propósito. |
+| 2026-07-25 | **§11.4: 20 flashcards por tópico, obrigatórios** (regra do usuário). Padrão Anki, foco Step 1, dados em `public/js/library1-flashcards/<subject>.js`, semeados por `flashcards.js` no banco de cada usuário (idempotente, progresso preservado, deck "Medical Library · Library 1"). Entram nos filtros por sistema/subject/topic; subject fora da lista vai para Others (`misc`). Os 20 do tópico Acute rheumatic fever já criados. |
 | — | **Pendentes:** estratégia de link das tags do QBank (§8.3); caneta livre/Post-it/anotação no leitor (§7.2); `href` do tópico na busca global (§4). |

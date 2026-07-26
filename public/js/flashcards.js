@@ -336,6 +336,73 @@
   const SH = loadShared();
   const save = () => localStorage.setItem(KEY, JSON.stringify(DB));
   const saveShared = () => localStorage.setItem(SHARED_KEY, JSON.stringify(SH));
+
+  /* ==========================================================================
+     CARDS DA PLATAFORMA — gerados a partir da Library 1
+     --------------------------------------------------------------------------
+     Regra do usuário (2026-07-25): ao incluir cada tópico na Library 1, 20
+     flashcards daquele tópico entram no banco **para todos os usuários**
+     (LIBRARY1_ADD_CONTENT.md §11.4).
+
+     Como isso funciona: os cards são DADOS versionados no repositório
+     (public/js/library1-flashcards/<subject-slug>.js → window.LIBRARY1_FLASHCARDS),
+     e aqui são semeados no banco de cada usuário na primeira vez que ele abre os
+     Flashcards. Por que semear em vez de manter numa lista à parte:
+       • o progresso do SRS é individual — cada um tem seu próprio agendamento;
+       • entram de graça na busca, nos filtros (sys/subj/topic), nos decks e nas
+         estatísticas, sem caso especial em nenhuma tela.
+     O `id` é estável (prefixo L1FC-), então a semeadura é IDEMPOTENTE: rodar de
+     novo não duplica, e o progresso já acumulado é preservado.
+     Um card semeado tem source:'library1' — é o que permite distinguir do que o
+     usuário criou à mão, e atualizar o texto sem perder o histórico.
+  ========================================================================== */
+  const L1_DECK_ID = 'deck_library1';
+  // mesma detecção de isCloze() (definido mais abaixo no arquivo); repetida aqui porque a
+  // semeadura roda no boot, ANTES daquela definição — sem isto, o módulo quebra inteiro.
+  const CLOZE_RE = /\{\{c\d+::(.+?)\}\}/;
+  function seedLibrary1Cards(){
+    const packs = window.LIBRARY1_FLASHCARDS;
+    if(!packs) return 0;
+    const byId = new Map(DB.cards.map(c => [c.id, c]));
+    let added = 0, updated = 0;
+
+    Object.keys(packs).forEach(subject=>{
+      Object.keys(packs[subject]).forEach(topicSlug=>{
+        (packs[subject][topicSlug] || []).forEach(src=>{
+          if(!src || !src.id || !src.front) return;
+          const found = byId.get(src.id);
+          if(found){
+            // conteúdo pode ter sido corrigido no repositório: atualiza o texto,
+            // preserva TODO o estado de estudo
+            if(found.front !== src.front || found.back !== src.back){
+              found.front = src.front; found.back = src.back;
+              found.type = CLOZE_RE.test(src.front) ? 'cloze' : 'basic';
+              updated++;
+            }
+            return;
+          }
+          DB.cards.push({
+            id: src.id, deckId: L1_DECK_ID,
+            front: src.front, back: src.back || '',
+            image64: null, tags: (src.tags || []).slice(),
+            type: CLOZE_RE.test(src.front) ? 'cloze' : 'basic',
+            source: 'library1', shared: false,
+            sys: src.sys || null, subj: src.subj || null, topic: src.topic || null,
+            createdAt: todayStr(), state:'new', stepIdx:0, due: Date.now(), interval:0,
+            ease: CFG.startEase, reps:0, lapses:0, suspended:false, flag:null, buriedUntil:0
+          });
+          added++;
+        });
+      });
+    });
+
+    if(added && !DB.decks.some(d=>d.id===L1_DECK_ID)){
+      DB.decks.push({ id:L1_DECK_ID, name:'Medical Library · Library 1', createdAt: todayStr() });
+    }
+    return added + updated;
+  }
+  if(seedLibrary1Cards()) DB.cards = DB.cards.map(migrateCard);
+
   save();
 
   /* ---------- ponte de busca global (window.CMSearchProviders.flashcards) ----------
