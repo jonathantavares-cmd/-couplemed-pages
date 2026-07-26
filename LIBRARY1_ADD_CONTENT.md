@@ -1199,9 +1199,11 @@ Extrair texto de PDF parece trivial e não é. Três coisas quebram a narração
 
 3. **Moldura.** Cabeçalho, número de página e rodapé de arquivo (`FAS1_2025_13-Psych.indd`) se repetem em toda página e viram ruído a cada virada. Saem por posição **e** por repetição entre páginas — e a remoção acontece antes da detecção de colunas, senão eles envenenam a conta.
 
-##### Limitação conhecida
+##### Limitações conhecidas
 
-Páginas de **três** colunas (rótulo | conteúdo | notas laterais) ainda podem sair intercaladas: a detecção acha as colunas quando há um vão vertical nítido, mas quando as linhas de conteúdo encostam na coluna de notas ela cai na leitura linha a linha. Medido no PDF de bioquímica: 5 de 8 páginas reconhecidas como tabela; a de Vitamina A é o caso que ainda mistura. **É por isso que o `inspect` é obrigatório** — dá para ver antes de gastar geração. Quem for melhorar: o caminho é reconhecer a coluna de notas pela largura menor e pelo estilo, não só pelo vão.
+**Sinal matemático solto vira pausa.** Um glifo sozinho entre espaços não é ligadura de nada — é sinal que o PDF não expõe, e no Hardy-Weinberg da bioquímica é o `≈`: `q ≈ 0.017` sai como `q — 0.017` e é narrado com uma pausa no lugar de "approximately". Fica assim de propósito: chutar "approximately" acertaria o `≈` e mentiria no `≥`, e informação médica errada com cara de certa é o defeito que este arquivo mais tenta evitar. Antes dos fixes de 2026-07-26 esse mesmo caso narrava o literal "fi" ("q fi 0.017"), o que era pior.
+
+**Páginas de três colunas.** Páginas de **três** colunas (rótulo | conteúdo | notas laterais) ainda podem sair intercaladas: a detecção acha as colunas quando há um vão vertical nítido, mas quando as linhas de conteúdo encostam na coluna de notas ela cai na leitura linha a linha. Medido no PDF de bioquímica: 5 de 8 páginas reconhecidas como tabela; a de Vitamina A é o caso que ainda mistura. **É por isso que o `inspect` é obrigatório** — dá para ver antes de gastar geração. Quem for melhorar: o caminho é reconhecer a coluna de notas pela largura menor e pelo estilo, não só pelo vão.
 
 ### 17.7 Arquivos
 

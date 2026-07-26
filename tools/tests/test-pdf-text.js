@@ -159,6 +159,12 @@ console.log('\n9) na fonte de display o glifo é TRAVESSÃO, não ligadura (cabe
   eq(c(`BIOCHEMISTRY${L}MOLECULAR`), 'BIOCHEMISTRY—MOLECULAR', 'título: travessão, não "fi"');
   eq(c(`IMMUNOLOGY${L}LYMPHOID`),    'IMMUNOLOGY—LYMPHOID',    'vale para qualquer Subject');
   eq(c(`H I G H ${L} Y I E L D`),    'H I G H — Y I E L D',    'glifo solto entre espaços também é travessão');
+  // Glifo SOZINHO entre espaços não é ligadura de nada: é sinal matemático que o PDF
+  // não expõe ("q ⟦?⟧ 0.017" é "q ≈ 0.017" no Hardy-Weinberg da bioquímica). Vira
+  // pausa, nunca palavra: chutar "approximately" acertaria o ≈ e mentiria no ≥, e a
+  // versão anterior narrava o literal "fi" ali ("q fi 0.017").
+  eq(c(`with q ${L} 0.017`), 'with q — 0.017', 'glifo solto entre espaços vira pausa, não palavra');
+
   // e a ligadura de verdade em caixa alta continua ligadura: um dos lados é curto
   eq(c(`E${L}ECTS`), 'EFFECTS', 'EFFECTS em caixa alta não vira "E—ECTS"');
 }
