@@ -836,7 +836,11 @@ async function handleNarration(request, env, url, ctx) {
       ...cors
     };
 
-    const rangeHeader = request.method === 'GET' ? request.headers.get('Range') : null;
+    // Range vale para GET e para HEAD: alguns clientes de mídia sondam com HEAD antes
+    // de tocar, e responder 200 ali (em vez de 206 + Content-Range) faz o cliente
+    // concluir que o servidor NÃO aceita range — voltando a baixar o arquivo inteiro
+    // só para descobrir a duração.
+    const rangeHeader = request.headers.get('Range');
 
     if (rangeHeader) {
       const head = await bucket.head(key);
@@ -852,13 +856,16 @@ async function handleNarration(request, env, url, ctx) {
       if (!(start <= end) || start >= size) {
         return new Response(null, { status: 416, headers: { ...baseHeaders, 'Content-Range': `bytes */${size}` } });
       }
-      const obj = await bucket.get(key, { range: { offset: start, length: end - start + 1 } });
-      if (!obj) return reply({ error: 'Not found', key }, 404);
-      return new Response(obj.body, { status: 206, headers: {
+      const rangeHeaders = {
         ...baseHeaders,
         'Content-Range': `bytes ${start}-${end}/${size}`,
         'Content-Length': String(end - start + 1)
-      }});
+      };
+      if (request.method === 'HEAD') return new Response(null, { status: 206, headers: rangeHeaders });
+
+      const obj = await bucket.get(key, { range: { offset: start, length: end - start + 1 } });
+      if (!obj) return reply({ error: 'Not found', key }, 404);
+      return new Response(obj.body, { status: 206, headers: rangeHeaders });
     }
 
     if (request.method === 'HEAD') {
