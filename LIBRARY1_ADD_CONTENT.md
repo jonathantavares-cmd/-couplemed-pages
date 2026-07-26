@@ -1085,10 +1085,18 @@ Sai em `.narration-build/` (fora do git, ver `.gitignore`). O destino final é o
 
 > ⚠️ **`report` mede a oficina local, NÃO o R2.** Se você apagar `.narration-build/` depois de subir, o `report` passa a mostrar `0/6` num tópico que está completo e publicado — e regravar tudo à toa é o erro fácil de cometer aí. Para conferir o que está **publicado de verdade**:
 > ```bash
-> export PATH="$HOME/.npm-global/bin:$PATH"
-> wrangler r2 object list couplemed-narration --prefix "narration/lib1/<subject>/<topic>/" --remote
+> # 12 objetos esperados: 6 .m4a + 6 .json
+> B=https://couplemed.johnestudosmed.workers.dev
+> K=narration/lib1/<subject-slug>/<topic-slug>
+> n=0; for v in en-ava en-samantha en-alex en-tom pt-fernanda pt-felipe; do
+>   for e in m4a json; do
+>     [ "$(curl -s -o /dev/null -w '%{http_code}' -I "$B/api/narration/audio/$K/$v.$e")" = 200 ] && n=$((n+1))
+>   done
+> done; echo "publicados: $n de 12"
 > ```
-> Devem aparecer 12 objetos: 6 `.m4a` + 6 `.json`. Enquanto isso não estiver automatizado, na dúvida **confie no R2, não no report**.
+> Usa a rota pública, então **não precisa de segredo nenhum** — e mede exatamente o que o aluno consegue baixar, que é o que importa.
+>
+> ⚠️ **Não existe `wrangler r2 object list`.** O `wrangler r2 object` só tem `get`, `put` e `delete` — conferido na versão 4.114.0. Este doc chegou a citar um `list` inexistente em 2026-07-26; se você o encontrar em algum lugar, está errado. Há também a rota `/api/narration/admin/list` (implementada em `worker.js`), que lista de verdade mas exige o header `X-Admin-Secret`.
 
 Números medidos no tópico real `acute-rheumatic-fever` (~10.900 caracteres em EN):
 
