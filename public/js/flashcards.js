@@ -610,6 +610,10 @@
   const clozeBack = txt => esc(txt).replace(/\{\{c\d+::(.+?)\}\}/g, '<span class="fc-cloze fc-cloze-open">$1</span>');
   // detecta se o conteúdo é HTML rico (rich text) — nesse caso renderizamos direto (sem escapar/traduzir)
   const fcHasHtml = s => /<[a-z][\s\S]*>/i.test(String(s||''));
+  /* Card com formatacao: marca para o tradutor tambem (data-fc-i18n-html), guardando o
+     HTML original no dataset. Sem isto o card renderiza bonito e fica preso no idioma
+     em que foi escrito — ver translateRichHtml(). */
+  const richSpan = (html, tag) => `<${tag||'span'} class="fc-rich" data-fc-i18n-html data-fc-original="${esc(String(html||''))}">${fcSanitize(html)}</${tag||'span'}>`;
   // sanitização leve: remove scripts/handlers on* de conteúdo rico armazenado
   function fcSanitize(html){
     return String(html||'')
@@ -666,9 +670,41 @@
     if(!window.CMI18N) return text;
     return window.CMI18N.translateText(text, targetLang, 'autodetect');
   }
+
+  /* Cards com FORMATAÇÃO (negrito, listas, imagens) também têm de traduzir.
+     Isto aqui conserta um buraco que deixava a maioria dos cards em inglês: o editor
+     sempre envolve o que o usuário escreve em <p>, e `fcHasHtml` classifica qualquer
+     coisa com tag como "rica" — então todo card criado pelo editor caía no ramo que
+     não recebia marcação de tradução e nunca traduzia. Só os importados em texto puro
+     traduziam, o que fazia o problema parecer aleatório.
+
+     Traduz nó de texto por nó de texto, deixando as tags intactas: assim negrito,
+     lista e imagem sobrevivem à tradução. O espaço em volta é preservado porque
+     recortar " palavra " para "palavra" gruda as palavras nas tags vizinhas. */
+  async function translateRichHtml(html, targetLang){
+    const tmp = document.createElement('div');
+    tmp.innerHTML = fcSanitize(html);
+
+    const nodes = [];
+    const walk = document.createTreeWalker(tmp, NodeFilter.SHOW_TEXT, null);
+    for(let n = walk.nextNode(); n; n = walk.nextNode()){
+      // pedaços de 1 caractere ou só pontuação não valem uma chamada de tradução
+      if(n.nodeValue && n.nodeValue.replace(/[^A-Za-zÀ-ÿ0-9]/g,'').length > 1) nodes.push(n);
+    }
+    await Promise.all(nodes.map(async n => {
+      const raw = n.nodeValue;
+      const lead = (raw.match(/^\s*/) || [''])[0];
+      const tail = (raw.match(/\s*$/) || [''])[0];
+      const translated = await translateField(raw.trim(), targetLang);
+      n.nodeValue = lead + translated + tail;
+    }));
+    return tmp.innerHTML;
+  }
+
   function translateVisibleCardTexts(){
     const myToken = renderToken;
     const targetLang = lang();
+
     root.querySelectorAll('[data-fc-i18n-text]').forEach(async el => {
       const original = el.dataset.fcOriginal;
       if(!original) return;
@@ -676,6 +712,15 @@
       const translated = await translateField(original, targetLang);
       if(renderToken !== myToken) return; // usuário já navegou para outra tela
       el.textContent = translated;
+    });
+
+    root.querySelectorAll('[data-fc-i18n-html]').forEach(async el => {
+      const original = el.dataset.fcOriginal;
+      if(!original) return;
+      if(isCloze(original)) return;
+      const translated = await translateRichHtml(original, targetLang);
+      if(renderToken !== myToken) return;
+      el.innerHTML = translated;
     });
   }
 
@@ -900,8 +945,8 @@
       const c = it.card, s = stateOf(it), own = it.kind === 'own';
       const cid = own ? c.id : c.id;
       const cloze = isCloze(c.front) && !fcHasHtml(c.front);
-      const frontDisp = fcHasHtml(c.front) ? `<span class="fc-rich">${fcSanitize(c.front)}</span>` : (cloze?clozeBack(c.front):transSpan(c.front));
-      const backDisp = fcHasHtml(c.back) ? `<span class="fc-rich">${fcSanitize(c.back)}</span>` : (cloze?esc(c.back):transSpan(c.back));
+      const frontDisp = fcHasHtml(c.front) ? richSpan(c.front) : (cloze?clozeBack(c.front):transSpan(c.front));
+      const backDisp = fcHasHtml(c.back) ? richSpan(c.back) : (cloze?esc(c.back):transSpan(c.back));
       return `<div class="fc-row">
         <div class="fc-row-txt"><strong>${flagDot(s)}${frontDisp}
           ${stBadge(s)} ${isBuried(s)?'<i class="fc-st fc-st-susp">💤</i>':''} ${own && c.shared?`<i class="fc-badge">⇄ ${t('sharedBadge')}</i>`:''}
@@ -1112,8 +1157,8 @@
     const l1B = c.l1 ? fcL1Face(c, 'back')  : null;
     const sideA = l1A != null ? (rev ? l1B : l1A) : (rev ? c.back : c.front);
     const sideB = l1B != null ? (rev ? l1A : l1B) : (rev ? c.front : c.back);
-    const frontHtml = fcHasHtml(sideA) ? `<div class="fc-rich">${fcSanitize(sideA)}</div>` : (cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(sideA));
-    const backHtml = view.showBack && (!cloze || sideB) ? `<hr class="fc-sep"/><div class="fc-card-back">${fcHasHtml(sideB) ? `<div class="fc-rich">${fcSanitize(sideB)}</div>` : (cloze?esc(sideB):transSpan(sideB))}</div>` : '';
+    const frontHtml = fcHasHtml(sideA) ? richSpan(sideA, 'div') : (cloze ? (view.showBack ? clozeBack(c.front) : clozeFront(c.front)) : transSpan(sideA));
+    const backHtml = view.showBack && (!cloze || sideB) ? `<hr class="fc-sep"/><div class="fc-card-back">${fcHasHtml(sideB) ? richSpan(sideB, 'div') : (cloze?esc(sideB):transSpan(sideB))}</div>` : '';
     const imgHtml = c.image64 ? `<div class="fc-card-image"><img src="${c.image64}" style="max-width:100%;max-height:200px;border-radius:8px;margin:10px 0"/></div>` : '';
     // Etiqueta do TIPO de card: emoji + rótulo, com significado fixo (§11.5). Não é
     // enfeite — sinaliza que operação mental o card pede antes de você virá-lo.

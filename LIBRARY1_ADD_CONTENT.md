@@ -477,6 +477,8 @@ JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read.js        # marca
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-read-lib3.js   # marca "já lido" na Library 3
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-count.js       # quantidade de questões é livre (1, 2, 9, nenhuma)
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards.js  # os 20 flashcards do tópico (§11.4)
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-flashcards-i18n.js  # tradução dos cards, inclusive os formatados
+JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-narrator.js     # narração: vozes, player e casamento frase↔DOM (§17)
 JSDOM_PATH=<...>/node_modules/jsdom node tools/tests/test-assetbase.js   # prova a virada da mídia para o R2
 ```
 
@@ -810,6 +812,17 @@ Ele confere as 20 unidades, ids únicos com prefixo, `sys`/`subj`/`topic` preenc
 
 ## 11.5 O PADRÃO DOS FLASHCARDS — "ANKI MELHORADO", BASEADO EM EVIDÊNCIA
 
+> **Todo flashcard tem de traduzir — inclusive os formatados.** A tradução acompanha a
+> bandeira do site e vale para qualquer card, escrito pelo usuário ou gerado a partir da
+> Library 1. Cuidado com uma armadilha já corrigida (2026-07-26): o editor envolve o que
+> se escreve em `<p>`, e o ramo de conteúdo "rico" renderizava **sem** marcação de
+> tradução — resultado, todo card criado pelo editor ficava preso no idioma original,
+> enquanto os importados em texto puro traduziam, o que fazia o defeito parecer
+> aleatório. Quem mexer no render dos cards precisa manter os dois caminhos marcados:
+> `data-fc-i18n-text` (texto puro) e `data-fc-i18n-html` (formatado, via `richSpan()`).
+> Cloze fica de fora de propósito, para não quebrar a sintaxe `{{c1::…}}`.
+> Trancado por `tools/tests/test-flashcards-i18n.js`.
+
 **Pedido do usuário (2026-07-25):** *"quero que o padrão do flashcards seja um Anki melhorado, que permita um melhor aprendizado e memorização... com base no que a ciência classifica como método eficaz de aprendizado"* — na forma dos cards **e** no layout da plataforma.
 
 ### Os princípios aplicados (e como cada um aparece na tela)
@@ -1029,18 +1042,32 @@ Voz, velocidade e escopo ficam salvos por usuário (`localStorage`) e seguem ent
 
 **Sem áudio gravado, nada trava:** cai para a voz do próprio aparelho (`speechSynthesis`), com um aviso na barra. É o que acontece num tópico recém-incluído antes do `upload`, e é o que atende o modo "somente o selecionado" quando o trecho não casa com nenhuma frase gravada.
 
-### 17.6 Libraries 2 e 3
+### 17.6 Libraries 2 e 3 — o que fazer quando chegar a vez delas
 
-**Library 2** — usa **as mesmas 6 vozes**. Nada a fazer: quando o leitor da Library 2 existir, ele nasce com a toolbar compartilhada e ganha o botão de narração de graça. Basta chamar `CMNarrator.open()` com `scopeKey` começando em `lib2/` e gerar o áudio pelo mesmo `tools/narration.js`.
+As vozes são **as mesmas seis** nas três libraries. Não criar catálogo próprio, não escolher voz diferente por library: o catálogo é `public/js/cm-narration-shared.js` e ponto.
 
-**Library 3** — **só em inglês** (decisão do usuário, 2026-07-26: o material só existe em inglês, e narrar em português com o destaque sobre o texto inglês descasaria o que se ouve do que se lê). Usa as 4 vozes de inglês.
+#### Library 2 — quando o leitor dela existir
 
-Estado: o **front está pronto** — botão na toolbar, texto extraído do próprio PDF (`page.getTextContent()`), destaque sobre a camada de texto que o PDF.js já desenha, e narração **página por página** (um livro inteiro num arquivo só seria dezenas de horas). Hoje ele funciona pela voz do aparelho, porque ainda **não há áudio gravado**.
+Hoje a Library 2 é só título e placeholder: não há leitor, logo não há toolbar onde pôr o botão. Quando o leitor nascer, ele deve **reusar a toolbar `.l3r-*`** como a Library 1 fez, e aí a narração custa 3 coisas:
 
-Falta a **geração em massa** (`build lib3`, hoje um stub que avisa). Antes de rodá-la, dois problemas reais precisam de decisão:
+1. botão na toolbar: `<button class="l3r-btn l3r-narrate" id="l2rNarrateBtn">${SPEAKER_SVG}${t('narrate')}</button>` — o mesmo `SPEAKER_SVG` das outras duas;
+2. um `<div id="l2rNarratorHost">` **fora** da área que rola (senão os controles somem quando o usuário rola o texto);
+3. chamar `CMNarrator.open({ host, contentEl, scopeKey:'lib2/<...>', title, lang, langs, onLangChange })`.
 
-1. **Ordem do texto extraído.** O First Aid é esquemático — colunas, tabelas, mnemônicos. `getTextContent()` devolve os fragmentos na ordem em que o PDF os declara, que **não é a ordem de leitura** num layout de duas colunas. Narrado cru, sai salada em parte das páginas. Precisa de reordenação por coordenada (agrupar por coluna/linha) e de descartar cabeçalho/rodapé.
-2. **Volume.** São 84 PDFs de tópico + o livro completo (392 MB). Baixar tudo do R2 para extrair texto gasta banda, e a geração são horas de CPU (viável: o `say` gera a ~85× tempo real, então ~1h20 de áudio sai em ~1 min).
+Se o conteúdo for bilíngue como o da Library 1, `langs: ['en','pt']` e as 6 vozes valem. O gerador aceita o escopo `lib2/…` sem mudança — só falta o ramo `build lib2` em `tools/narration.js`, que é uma cópia de `buildLib1` apontando para a fonte de conteúdo da Library 2.
+
+#### Library 3 — front pronto, geração pendente
+
+**Só em inglês** (decisão do usuário, 2026-07-26: o material só existe em inglês, e narrar em português com o destaque sobre o texto inglês descasaria o que se ouve do que se lê). Usa as 4 vozes de inglês.
+
+Já funciona: botão na toolbar, texto extraído do próprio PDF (`page.getTextContent()`), destaque sobre a camada de texto do PDF.js, narração **página por página** (`lib3/<pdf sem extensão>/pNNNN`) — um livro inteiro num arquivo só seria dezenas de horas. Hoje toca pela voz do aparelho, porque **não há áudio gravado**.
+
+Falta a geração em massa. `build lib3` é hoje um stub que avisa. **Antes de escrevê-lo, resolver estes dois pontos — não sair gerando:**
+
+1. **Ordem de leitura.** `getTextContent()` devolve os fragmentos na ordem em que o PDF os declara, que **não é a ordem de leitura** num layout de duas colunas — e o First Aid é todo assim, com tabelas e mnemônicos. Narrado cru, sai salada de palavras em boa parte das páginas. Precisa agrupar os itens por coordenada (`item.transform[4]` = x, `[5]` = y): detectar as colunas por faixa de x, ordenar por y dentro de cada coluna, e descartar cabeçalho/rodapé (y nos extremos, texto repetido entre páginas). **Validar numa página de duas colunas antes de gerar qualquer coisa** — ler o texto extraído em voz alta e ver se faz sentido.
+2. **Volume e banda.** São 84 PDFs de tópico + o livro completo (392 MB), todos no R2. Baixar tudo para extrair texto gasta banda (ver a advertência de banda da Library 3). A geração em si é rápida: o `say` roda a ~85× tempo real. Preferir começar por **um PDF pequeno**, ouvir o resultado, e só então soltar o lote.
+
+Enquanto isso não existe, a Library 3 **não fica sem narração** — cai na voz do aparelho, que lê o mesmo texto extraído. A diferença é qualidade e consistência entre aparelhos, não disponibilidade.
 
 ### 17.7 Arquivos
 

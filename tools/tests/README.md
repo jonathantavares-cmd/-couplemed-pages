@@ -24,10 +24,19 @@ JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-read-lib3.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-count.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-flashcards.js
 JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-assetbase.js
+JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-narrator.js
+JSDOM_PATH=/tmp/l1test/node_modules/jsdom node tools/tests/test-flashcards-i18n.js
 ```
 
-Saída esperada: `✅ TODOS OS TESTES PASSARAM` nos seis primeiros e
-`✅ A virada para o R2 é uma linha — provado` no último.
+Saída esperada: `✅ TODOS OS TESTES PASSARAM` em todos, menos `test-assetbase.js`,
+que responde `✅ A virada para o R2 é uma linha — provado`.
+
+- `test-narrator.js` — narração das Libraries (§17): catálogo das 6 vozes, o player e,
+  o mais importante, o **casamento frase ↔ DOM** que mantém o destaque em cima do
+  trecho que está sendo lido. Usa a tabela de tempos real se ela existir em
+  `.narration-build/` (gere com `node tools/narration.js build lib1 …`).
+- `test-flashcards-i18n.js` — tradução dos flashcards, inclusive os **formatados**
+  (negrito/listas/imagens), que antes ficavam presos no idioma original.
 
 ## O que cada um cobre
 
