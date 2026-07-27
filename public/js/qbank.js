@@ -13466,6 +13466,208 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0068',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A group of sports physicians plans to conduct a case-control study to investigate a possible association between adolescent idiopathic scoliosis (AIS) and sacroiliac joint (SIJ) dysfunction in young athletes.  The case group will consist of young athletes who were diagnosed with AIS during a regular checkup by a sports physician.',
+      q:'Which of the following is the most appropriate control group for this study?',
+      options:[
+        {label:'A', text:'Young athletes with a diagnosis of AIS and SIJ'},
+        {label:'B', text:'Young athletes with a diagnosis of AIS but not of SIJ'},
+        {label:'C', text:'Young athletes with a diagnosis of AIS irrespective of SIJ status'},
+        {label:'D', text:'Young athletes with no diagnosis of AIS irrespective of SIJ status'},
+        {label:'E', text:'Young athletes with no diagnosis of AIS or SIJ'},
+        {label:'F', text:'Young nonathletes with a diagnosis of AIS but not of SIJ'},
+        {label:'G', text:'Young nonathletes with a diagnosis of AIS irrespective of SIJ status'},
+      ],
+      correct:'D',
+      explC:'A case-control study is an observational design in which potential participants are initially identified as cases or controls according to the dependent variable or outcome (eg, disease of interest).  Once cases and controls are identified, the presence of past exposure to ≥1 risk factors of interest is determined in each group.  Finally, the frequency of exposure to the risk factors is compared between cases and controls to estimate the association between the risk factors and the outcomes.  If there is a statistically significant difference in the frequency of exposure to the risk factor between the 2 groups, it is likely that the risk factor in question is associated with the disease.\n\nIn this example:\n\n• The population of interest is young athletes.  Therefore, both the cases and control groups must consist of young athletes.\n• The disease of interest (ie, what defines a case) is adolescent idiopathic scoliosis (AIS).  Therefore, the cases must have AIS and controls must not have AIS.\n• The risk factor of interest is sacroiliac joint (SIJ) dysfunction.  Cases and controls must be selected irrespective of SIJ status because the presence of SIJ is what is compared between cases and controls.\n\nTherefore, the cases are young athletes with a diagnosis of AIS irrespective of SIJ status; the controls are young athletes with no diagnosis of AIS irrespective of SIJ status because what determines whether the disease (ie, AIS) is associated with the risk factor (ie, SIJ) is the difference in the frequency of the risk factor between cases and controls.',
+      explI:[],
+      objective:'A case-control study is an observational study design; it begins with individuals who have the outcome ("cases") and compares them with individuals who do not have the outcome ("controls") according to history of exposure to ≥1 risk factors.',
+      peer:{A:4, B:7, C:5, D:53, E:23, F:2, G:2},
+      explImg:'assets/qbank/CMQ-STEP1-BST-0068_expl_temporality_study_designs.png',
+      ptTranslation:{
+        vignette:'Um grupo de médicos do esporte planeja conduzir um estudo caso-controle para investigar uma possível associação entre escoliose idiopática do adolescente (AIS) e disfunção da articulação sacroilíaca (SIJ) em jovens atletas.  O grupo de casos será composto por jovens atletas que foram diagnosticados com AIS durante uma consulta regular com um médico do esporte.',
+        q:'Qual das seguintes alternativas é o grupo controle mais apropriado para este estudo?',
+        objective:'Um estudo caso-controle é um desenho de estudo observacional; ele começa com indivíduos que têm o desfecho ("casos") e os compara com indivíduos que não têm o desfecho ("controles") de acordo com história de exposição a ≥1 fatores de risco.',
+        options:[
+          {label:'A', text:'Jovens atletas com diagnóstico de AIS e SIJ'},
+          {label:'B', text:'Jovens atletas com diagnóstico de AIS mas não de SIJ'},
+          {label:'C', text:'Jovens atletas com diagnóstico de AIS independentemente do status de SIJ'},
+          {label:'D', text:'Jovens atletas sem diagnóstico de AIS independentemente do status de SIJ'},
+          {label:'E', text:'Jovens atletas sem diagnóstico de AIS ou SIJ'},
+          {label:'F', text:'Jovens não atletas com diagnóstico de AIS mas não de SIJ'},
+          {label:'G', text:'Jovens não atletas com diagnóstico de AIS independentemente do status de SIJ'},
+        ],
+        explC:'Um estudo caso-controle é um desenho observacional no qual participantes potenciais são inicialmente identificados como casos ou controles de acordo com a variável dependente ou desfecho (ex.: doença de interesse).  Uma vez identificados casos e controles, a presença de exposição passada a ≥1 fatores de risco de interesse é determinada em cada grupo.  Finalmente, a frequência de exposição aos fatores de risco é comparada entre casos e controles para estimar a associação entre os fatores de risco e os desfechos.  Se houver diferença estatisticamente significativa na frequência de exposição ao fator de risco entre os 2 grupos, é provável que o fator de risco em questão esteja associado à doença.\n\nNeste exemplo:\n\n• A população de interesse são jovens atletas.  Portanto, tanto os grupos de casos quanto de controles devem consistir em jovens atletas.\n• A doença de interesse (ou seja, o que define um caso) é escoliose idiopática do adolescente (AIS).  Portanto, os casos devem ter AIS e os controles não devem ter AIS.\n• O fator de risco de interesse é disfunção da articulação sacroilíaca (SIJ).  Casos e controles devem ser selecionados independentemente do status de SIJ porque a presença de SIJ é o que é comparado entre casos e controles.\n\nPortanto, os casos são jovens atletas com diagnóstico de AIS independentemente do status de SIJ; os controles são jovens atletas sem diagnóstico de AIS independentemente do status de SIJ, porque o que determina se a doença (ou seja, AIS) está associada ao fator de risco (ou seja, SIJ) é a diferença na frequência do fator de risco entre casos e controles.',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0069',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'Researchers want to explore the association between selective serotonin reuptake inhibitor (SSRI) use and pulmonary tuberculosis.  A random sample of subjects age 20-84 with newly diagnosed pulmonary tuberculosis and an independent random sample of subjects without pulmonary tuberculosis are enrolled in the study.  Subsequently, subjects who never had a prescription for an SSRI are defined as "never users," and those who have had a prescription for an SSRI are defined as "users."  The study compares the frequency of SSRI use in subjects with and without a diagnosis of pulmonary tuberculosis and determines that SSRI use is not associated with pulmonary tuberculosis.',
+      q:'Which of the following best describes the design of this study?',
+      options:[
+        {label:'A', text:'Case-control study'},
+        {label:'B', text:'Cross-sectional study'},
+        {label:'C', text:'Prospective cohort study'},
+        {label:'D', text:'Randomized controlled trial'},
+        {label:'E', text:'Retrospective cohort study'},
+      ],
+      correct:'A',
+      explC:'Research studies are broadly classified as having an observational or experimental design depending on the control the researcher has over the independent variables (eg, exposure to risk factors, treatments).\n\n• In observational studies (eg, case series, case-control studies, cohort studies, cross-sectional studies), the researcher has no control over the independent variables (eg, exposures, risk factors).\n• In experimental studies (eg, randomized controlled trials), the researcher controls and randomly assigns the independent variables (eg, treatments, interventions).\n\nA case-control study is an observational design in which potential participants are initially identified as cases or controls according to the dependent variable or outcome (eg, disease of interest).  In the study described above, subjects age 20-84 newly diagnosed with pulmonary tuberculosis are cases, and subjects without pulmonary tuberculosis are controls.  Once cases and controls are identified, the presence of past exposure to ≥1 risk factors of interest is determined in each group.  In this study, the risk factor is selective serotonin reuptake inhibitor (SSRI) use ("never users" are subjects who never had a prescription for an SSRI, and "users" are subjects who have had a prescription for an SSRI).  Finally, the frequency of exposure to the risk factor is compared between cases and controls to estimate the association between the risk factor and the outcomes.  Conducted as designed, this study can determine if SSRI use is associated with pulmonary tuberculosis.',
+      explI:[
+        {option:'B', explanation:'In contrast to participants in a case-control study, who are selected based on outcome status (eg, presence or absence of tuberculosis), participants in a cross-sectional study are randomly selected from a population of interest (eg, random sample from a region with high tuberculosis prevalence) and then simultaneously categorized according to risk factor (eg, SSRI use) and outcome (eg, tuberculosis) status.  The goal is to determine prevalence by providing a snapshot of the population.'},
+        {option:'C and E', explanation:'In a cohort study, 2 groups of individuals (ie, cohorts) are initially identified based on their exposure status to a specific risk factor (eg, SSRI use) rather than based on their outcome status (eg, pulmonary tuberculosis), as seen in this example.  These 2 cohorts are then followed over time (ie, prospectively) to assess development of the outcome.  Sometimes the exposure status is determined retrospectively, typically using medical records, and patients are tracked from the point of exposure onward.'},
+        {option:'D', explanation:'A randomized controlled trial follows individuals who have been randomized to either a treatment arm or a control arm and compares the effect of the intervention.'},
+      ],
+      objective:'A case-control study is an observational study design; it begins with individuals who have the outcome (cases) and compares them with individuals who do not have the outcome (controls) according to history of exposure to ≥1 risk factors.',
+      peer:{A:58, B:14, C:4, D:3, E:18},
+      explImg:'assets/qbank/CMQ-STEP1-BST-0069_expl_temporality_study_designs.png',
+      ptTranslation:{
+        vignette:'Pesquisadores querem explorar a associação entre uso de inibidor seletivo da recaptação de serotonina (SSRI) e tuberculose pulmonar.  Uma amostra aleatória de indivíduos de 20-84 anos com tuberculose pulmonar recém-diagnosticada e uma amostra aleatória independente de indivíduos sem tuberculose pulmonar são incluídas no estudo.  Subsequentemente, indivíduos que nunca tiveram uma prescrição de SSRI são definidos como "nunca usuários", e aqueles que tiveram uma prescrição de SSRI são definidos como "usuários".  O estudo compara a frequência de uso de SSRI em indivíduos com e sem diagnóstico de tuberculose pulmonar e determina que o uso de SSRI não está associado à tuberculose pulmonar.',
+        q:'Qual das seguintes alternativas melhor descreve o desenho deste estudo?',
+        objective:'Um estudo caso-controle é um desenho de estudo observacional; ele começa com indivíduos que têm o desfecho (casos) e os compara com indivíduos que não têm o desfecho (controles) de acordo com história de exposição a ≥1 fatores de risco.',
+        options:[
+          {label:'A', text:'Estudo caso-controle'},
+          {label:'B', text:'Estudo transversal'},
+          {label:'C', text:'Estudo de coorte prospectivo'},
+          {label:'D', text:'Ensaio clínico randomizado'},
+          {label:'E', text:'Estudo de coorte retrospectivo'},
+        ],
+        explC:'Estudos de pesquisa são amplamente classificados como tendo desenho observacional ou experimental dependendo do controle que o pesquisador tem sobre as variáveis independentes (ex.: exposição a fatores de risco, tratamentos).\n\n• Em estudos observacionais (ex.: séries de casos, estudos caso-controle, estudos de coorte, estudos transversais), o pesquisador não tem controle sobre as variáveis independentes (ex.: exposições, fatores de risco).\n• Em estudos experimentais (ex.: ensaios clínicos randomizados), o pesquisador controla e designa aleatoriamente as variáveis independentes (ex.: tratamentos, intervenções).\n\nUm estudo caso-controle é um desenho observacional no qual participantes potenciais são inicialmente identificados como casos ou controles de acordo com a variável dependente ou desfecho (ex.: doença de interesse).  No estudo descrito acima, indivíduos de 20-84 anos recém-diagnosticados com tuberculose pulmonar são casos, e indivíduos sem tuberculose pulmonar são controles.  Uma vez identificados casos e controles, a presença de exposição passada a ≥1 fatores de risco de interesse é determinada em cada grupo.  Neste estudo, o fator de risco é o uso de inibidor seletivo da recaptação de serotonina (SSRI) ("nunca usuários" são indivíduos que nunca tiveram prescrição de SSRI, e "usuários" são indivíduos que tiveram prescrição de SSRI).  Finalmente, a frequência de exposição ao fator de risco é comparada entre casos e controles para estimar a associação entre o fator de risco e os desfechos.  Conduzido conforme desenhado, este estudo pode determinar se o uso de SSRI está associado à tuberculose pulmonar.',
+        explI:[
+          {option:'B', explanation:'Em contraste com participantes em um estudo caso-controle, que são selecionados com base no status do desfecho (ex.: presença ou ausência de tuberculose), participantes em um estudo transversal são selecionados aleatoriamente de uma população de interesse (ex.: amostra aleatória de uma região com alta prevalência de tuberculose) e então categorizados simultaneamente de acordo com fator de risco (ex.: uso de SSRI) e status do desfecho (ex.: tuberculose).  O objetivo é determinar prevalência fornecendo um retrato da população.'},
+          {option:'C e E', explanation:'Em um estudo de coorte, 2 grupos de indivíduos (ou seja, coortes) são inicialmente identificados com base em seu status de exposição a um fator de risco específico (ex.: uso de SSRI), e não com base em seu status de desfecho (ex.: tuberculose pulmonar), como visto neste exemplo.  Essas 2 coortes são então acompanhadas ao longo do tempo (ou seja, prospectivamente) para avaliar o desenvolvimento do desfecho.  Às vezes, o status de exposição é determinado retrospectivamente, tipicamente usando prontuários médicos, e os pacientes são rastreados a partir do ponto de exposição em diante.'},
+          {option:'D', explanation:'Um ensaio clínico randomizado acompanha indivíduos que foram randomizados para um braço de tratamento ou um braço controle e compara o efeito da intervenção.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0070',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'Inflammatory biological markers are clinically useful in a number of different ways, one being the assessment of disease activity in conditions such as systemic lupus erythematosus (SLE).  A new inflammatory marker is being investigated in patients with active SLE flares.  When the blood level of the new marker (in mg/L) is plotted against the C-reactive protein (CRP) level (also in mg/L), the following plot is obtained:',
+      q:'Based on the plot, the correlation coefficient between the 2 variables is closest to which of the following values?',
+      img:'assets/qbank/CMQ-STEP1-BST-0070_crp_marker_scatter.png',
+      options:[
+        {label:'A', text:'+0.8'},
+        {label:'B', text:'+0.2'},
+        {label:'C', text:'0'},
+        {label:'D', text:'−0.2'},
+        {label:'E', text:'−0.8'},
+      ],
+      correct:'E',
+      explC:'Scatter plots are useful for crude data analysis.  If a linear association is present between 2 variables, a correlation coefficient (r) mathematically describes how well a "line of best fit" would correspond to the data points plotted.  The value of r ranges from −1 to +1 and describes 2 important characteristics of an association: the strength and the polarity.  The closer the r value is to its margins [−1, 1], the stronger the association.\n\nAn increase in C-reactive protein (CRP) level is associated with a decrease in the new marker\'s level; therefore, r <0.  Although the scatter plot does not demonstrate a perfect linear arrangement, it does show a reasonably strong linear association as there is minimal variation along the line of best fit (points are relatively close to the line).  Therefore, the most appropriate answer among the options given is r = −0.8.',
+      explI:[
+        {option:'A and B', explanation:"In this example, r cannot be >0 as an increase in CRP level is associated with a decrease in the new marker's level."},
+        {option:'C', explanation:'An r = 0 indicates that there is no association (ie, a random distribution).'},
+        {option:'D', explanation:'An r = −0.2 would also indicate a negative association; however, there would be more variation along the line of best fit.'},
+      ],
+      objective:'The correlation coefficient (r) ranges from −1 to +1 and describes the strength and polarity of a linear association.',
+      peer:{A:4, B:5, C:5, D:10, E:73},
+      labs:[
+        {name:'New inflammatory marker', value:'Plotted in mg/L', normal:'Not applicable'},
+        {name:'C-reactive protein (CRP)', value:'Plotted in mg/L', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0070_expl_correlation_coefficients.png',
+      ptTranslation:{
+        vignette:'Marcadores biológicos inflamatórios são clinicamente úteis de várias maneiras, uma delas sendo a avaliação da atividade da doença em condições como lúpus eritematoso sistêmico (SLE).  Um novo marcador inflamatório está sendo investigado em pacientes com exacerbações ativas de SLE.  Quando o nível sanguíneo do novo marcador (em mg/L) é plotado contra o nível de proteína C reativa (CRP) (também em mg/L), o seguinte gráfico é obtido:',
+        q:'Com base no gráfico, o coeficiente de correlação entre as 2 variáveis é mais próximo de qual dos seguintes valores?',
+        objective:'O coeficiente de correlação (r) varia de −1 a +1 e descreve a força e a polaridade de uma associação linear.',
+        options:[
+          {label:'A', text:'+0,8'},
+          {label:'B', text:'+0,2'},
+          {label:'C', text:'0'},
+          {label:'D', text:'−0,2'},
+          {label:'E', text:'−0,8'},
+        ],
+        explC:'Gráficos de dispersão são úteis para análise bruta de dados.  Se uma associação linear está presente entre 2 variáveis, um coeficiente de correlação (r) descreve matematicamente quão bem uma "linha de melhor ajuste" corresponderia aos pontos de dados plotados.  O valor de r varia de −1 a +1 e descreve 2 características importantes de uma associação: a força e a polaridade.  Quanto mais próximo o valor de r está de suas margens [−1, 1], mais forte é a associação.\n\nUm aumento no nível de proteína C reativa (CRP) está associado a uma diminuição no nível do novo marcador; portanto, r <0.  Embora o gráfico de dispersão não demonstre um arranjo linear perfeito, ele mostra uma associação linear razoavelmente forte, pois há variação mínima ao longo da linha de melhor ajuste (os pontos estão relativamente próximos da linha).  Portanto, a resposta mais apropriada entre as opções dadas é r = −0,8.',
+        explI:[
+          {option:'A e B', explanation:'Neste exemplo, r não pode ser >0, pois um aumento no nível de CRP está associado a uma diminuição no nível do novo marcador.'},
+          {option:'C', explanation:'Um r = 0 indica que não há associação (ou seja, uma distribuição aleatória).'},
+          {option:'D', explanation:'Um r = −0,2 também indicaria uma associação negativa; no entanto, haveria mais variação ao longo da linha de melhor ajuste.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0071',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'A new study is conducted to investigate the efficacy of intravenous immunoglobulin versus analgesics on pain alleviation in patients with idiopathic small fiber neuropathy.  A total of 100 eligible patients who fulfilled the inclusion/exclusion criteria are assigned to one of two groups based on random selection by computer.',
+      q:'The method of assigning patients to treatment groups in this study is most likely intended to produce which of the following?',
+      options:[
+        {label:'A', text:'One group in which participants are blinded to the intervention they receive and another in which participants are not'},
+        {label:'B', text:'One group in which researchers but not participants are aware of the intervention received and another in which participants but not researchers are aware of the intervention received'},
+        {label:'C', text:'Two groups of participants that will only be analyzed based on their initial treatment allocation'},
+        {label:'D', text:'Two groups that have equal numbers of participants'},
+        {label:'E', text:'Two groups in which participants are similar in underlying characteristics'},
+      ],
+      correct:'E',
+      explC:'Randomization refers to the process of randomly (ie, by chance) assigning subjects to experimental groups (eg, treatment vs control group).  Randomization prevents selection bias and potentially produces comparable groups by balancing the frequency of confounding variables (eg, severity of disease) between experimental groups.  Making experimental groups as similar as possible (except for the treatment assigned) cancels the effect that these characteristics may have on the outcome of interest.\n\nFor example, having groups that are dissimilar (ie, unbalanced) with respect to severity of disease may underestimate or overestimate the effect of a treatment, depending on which group has a greater proportion of severe cases.  The best way to account for the effects of these variables is to randomly assign subjects to experimental groups.  Afterward, the groups are analyzed to ensure that they are statistically similar in underlying variables, with the results often reported in a baseline characteristics table (eg, weight, sex, age).\n\nTherefore, randomization increases the likelihood that any difference observed between groups is due exclusively to the treatment and not to other characteristics.',
+      explI:[
+        {option:'A and B', explanation:'A blind study is a type of clinical trial in which either the participants or the researchers (ie, single blind) or both the participants and the researchers (ie, double blind) are unaware of treatment assignments.  Although this study used randomization to assign patients to treatment groups, no information is provided regarding the awareness of participants or researchers to treatment assignments.  By itself, randomization does not make a study blind.'},
+        {option:'C', explanation:'A study that analyzes all participants as initially allocated after randomization, regardless of what happens during the study period, is using an intention-to-treat (ITT) analysis.  ITT is not a result of randomization; instead, it is used to preserve the effect of randomization.'},
+        {option:'D', explanation:'Depending on the randomization method (eg, complete simple) used to allocate participants into experimental groups, a study may or may not result in groups that are similar in sample size.  Regardless, the goal of randomization is not to create groups of similar size (which can be done trivially by alternating group assignment as patients enroll) but rather to make the underlying characteristics of experimental groups as similar as possible.'},
+      ],
+      objective:'Randomization refers to the process of using random methods to assign subjects to experimental groups.  Its purpose is to make experimental groups as similar as possible (except for the treatment assignment) to ensure that any difference observed between the groups is due exclusively to the treatment and not to other underlying factors.',
+      peer:{A:4, B:4, C:27, D:20, E:44},
+      ptTranslation:{
+        vignette:'Um novo estudo é conduzido para investigar a eficácia de imunoglobulina intravenosa versus analgésicos no alívio da dor em pacientes com neuropatia idiopática de fibras pequenas.  Um total de 100 pacientes elegíveis que preencheram os critérios de inclusão/exclusão é designado para um de dois grupos com base em seleção aleatória por computador.',
+        q:'O método de designar pacientes aos grupos de tratamento neste estudo provavelmente tem a intenção de produzir qual dos seguintes?',
+        objective:'Randomização refere-se ao processo de usar métodos aleatórios para designar indivíduos a grupos experimentais.  Seu objetivo é tornar os grupos experimentais tão semelhantes quanto possível (exceto pela atribuição do tratamento) para garantir que qualquer diferença observada entre os grupos seja devida exclusivamente ao tratamento e não a outros fatores subjacentes.',
+        options:[
+          {label:'A', text:'Um grupo em que os participantes são cegados para a intervenção que recebem e outro em que os participantes não são'},
+          {label:'B', text:'Um grupo em que pesquisadores, mas não participantes, sabem a intervenção recebida e outro em que participantes, mas não pesquisadores, sabem a intervenção recebida'},
+          {label:'C', text:'Dois grupos de participantes que serão analisados apenas com base em sua alocação inicial de tratamento'},
+          {label:'D', text:'Dois grupos que têm números iguais de participantes'},
+          {label:'E', text:'Dois grupos em que os participantes são semelhantes em características subjacentes'},
+        ],
+        explC:'Randomização refere-se ao processo de designar aleatoriamente (ou seja, ao acaso) indivíduos a grupos experimentais (ex.: tratamento vs grupo controle).  A randomização previne viés de seleção e potencialmente produz grupos comparáveis ao equilibrar a frequência de variáveis de confundimento (ex.: gravidade da doença) entre grupos experimentais.  Tornar os grupos experimentais tão semelhantes quanto possível (exceto pelo tratamento atribuído) cancela o efeito que essas características podem ter sobre o desfecho de interesse.\n\nPor exemplo, ter grupos diferentes (ou seja, desequilibrados) em relação à gravidade da doença pode subestimar ou superestimar o efeito de um tratamento, dependendo de qual grupo tem maior proporção de casos graves.  A melhor maneira de considerar os efeitos dessas variáveis é designar aleatoriamente os indivíduos a grupos experimentais.  Depois, os grupos são analisados para garantir que sejam estatisticamente semelhantes nas variáveis subjacentes, com os resultados frequentemente relatados em uma tabela de características basais (ex.: peso, sexo, idade).\n\nPortanto, a randomização aumenta a probabilidade de que qualquer diferença observada entre os grupos seja devida exclusivamente ao tratamento e não a outras características.',
+        explI:[
+          {option:'A e B', explanation:'Um estudo cego é um tipo de ensaio clínico no qual os participantes ou os pesquisadores (ou seja, simples-cego) ou tanto os participantes quanto os pesquisadores (ou seja, duplo-cego) desconhecem as atribuições de tratamento.  Embora este estudo tenha usado randomização para designar pacientes aos grupos de tratamento, nenhuma informação é fornecida sobre o conhecimento de participantes ou pesquisadores quanto às atribuições de tratamento.  Por si só, a randomização não torna um estudo cego.'},
+          {option:'C', explanation:'Um estudo que analisa todos os participantes conforme inicialmente alocados após a randomização, independentemente do que aconteça durante o período do estudo, está usando uma análise por intenção de tratar (ITT).  ITT não é resultado da randomização; em vez disso, é usada para preservar o efeito da randomização.'},
+          {option:'D', explanation:'Dependendo do método de randomização (ex.: simples completa) usado para alocar participantes em grupos experimentais, um estudo pode ou não resultar em grupos com tamanhos amostrais semelhantes.  Independentemente disso, o objetivo da randomização não é criar grupos de tamanho semelhante (o que pode ser feito trivialmente alternando a atribuição de grupo conforme os pacientes entram), mas sim tornar as características subjacentes dos grupos experimentais tão semelhantes quanto possível.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0072',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A study is designed to describe the manifestations of coronavirus disease 2019 (COVID-19) on imaging studies, particularly on computerized tomography (CT) scans.  Eleven patients with COVID-19 are recruited for the study, and their CT findings are studied and characterized.',
+      q:'Which of the following best describes this study design?',
+      options:[
+        {label:'A', text:'Case-control'},
+        {label:'B', text:'Case series'},
+        {label:'C', text:'Clinical trial'},
+        {label:'D', text:'Cohort'},
+        {label:'E', text:'Cross-sectional'},
+      ],
+      correct:'B',
+      explC:'Research studies are broadly classified as having an observational design or an experimental design depending on the control the researchers have over the independent variables.\n\nIn observational studies (eg, case series, case-control studies, cohort studies, cross-sectional studies), the researchers have no control over the independent variables (eg, exposure to risk factors, treatments).\n\nIn experimental studies (eg, crossover design, randomized controlled trials), the researchers control and randomly assign the independent variables (eg, exposure to risk factors, treatments).\n\nCase series is a descriptive observational study design in which a (generally small) group of patients with similar diagnosis or treatment is described at a point in time or followed over a certain time period.  Contrary to other observational designs (eg, cohort, case-control), case series has no comparison group.  For this reason, case series cannot establish associations between risk factors (eg, treatments) and outcomes (eg, diseases).\n\nIn this example, the CT scan findings of 11 patients with coronavirus disease 2019 (COVID-19) are being studied.  The study has no control group; therefore, it can only describe COVID-19 manifestations on imaging studies.',
+      explI:[
+        {option:'A and D', explanation:'Contrary to other observational designs (eg, cohort, case-control), case series has no comparison group.  For this reason, case series cannot establish associations between risk factors (eg, treatments) and outcomes (eg, diseases).'},
+        {option:'C', explanation:'A clinical trial is an experimental study in which patients are prospectively assigned to ≥2 interventions (often including placebo or control treatment) to evaluate the effects of those interventions on outcomes of interest.'},
+        {option:'E', explanation:'A cross-sectional study is an observational study that assesses a population of interest (eg, all women of reproductive age) at a single point in time; it can be used to estimate disease prevalence and association with risk factors of interest.  However, it is not used to characterize disease findings because subjects are not selected based on the presence of disease.'},
+      ],
+      objective:'A case series is a descriptive observational study design in which a group of patients with similar diagnosis or treatment is described at a point in time or followed over a certain period.  This study design has no comparison group; therefore, it cannot establish associations between risk factors (eg, treatments) and outcomes (eg, diseases).',
+      peer:{A:5, B:67, C:2, D:8, E:16},
+      labs:[
+        {name:'Computerized tomography (CT)', value:'COVID-19 findings studied and characterized', normal:'Not applicable'}
+      ],
+      ptTranslation:{
+        vignette:'Um estudo é desenhado para descrever as manifestações da doença por coronavírus 2019 (COVID-19) em estudos de imagem, particularmente em tomografias computadorizadas (TC).  Onze pacientes com COVID-19 são recrutados para o estudo, e seus achados de TC são estudados e caracterizados.',
+        q:'Qual das seguintes alternativas melhor descreve este desenho de estudo?',
+        objective:'Uma série de casos é um desenho de estudo observacional descritivo no qual um grupo de pacientes com diagnóstico ou tratamento semelhante é descrito em um ponto no tempo ou acompanhado por certo período.  Este desenho de estudo não tem grupo de comparação; portanto, não pode estabelecer associações entre fatores de risco (ex.: tratamentos) e desfechos (ex.: doenças).',
+        options:[
+          {label:'A', text:'Caso-controle'},
+          {label:'B', text:'Série de casos'},
+          {label:'C', text:'Ensaio clínico'},
+          {label:'D', text:'Coorte'},
+          {label:'E', text:'Transversal'},
+        ],
+        explC:'Estudos de pesquisa são amplamente classificados como tendo desenho observacional ou desenho experimental dependendo do controle que os pesquisadores têm sobre as variáveis independentes.\n\nEm estudos observacionais (ex.: séries de casos, estudos caso-controle, estudos de coorte, estudos transversais), os pesquisadores não têm controle sobre as variáveis independentes (ex.: exposição a fatores de risco, tratamentos).\n\nEm estudos experimentais (ex.: desenho crossover, ensaios clínicos randomizados), os pesquisadores controlam e designam aleatoriamente as variáveis independentes (ex.: exposição a fatores de risco, tratamentos).\n\nSérie de casos é um desenho de estudo observacional descritivo no qual um grupo (geralmente pequeno) de pacientes com diagnóstico ou tratamento semelhante é descrito em um ponto no tempo ou acompanhado por certo período.  Ao contrário de outros desenhos observacionais (ex.: coorte, caso-controle), a série de casos não tem grupo de comparação.  Por esse motivo, séries de casos não podem estabelecer associações entre fatores de risco (ex.: tratamentos) e desfechos (ex.: doenças).\n\nNeste exemplo, os achados de TC de 11 pacientes com doença por coronavírus 2019 (COVID-19) estão sendo estudados.  O estudo não tem grupo controle; portanto, só pode descrever manifestações de COVID-19 em estudos de imagem.',
+        explI:[
+          {option:'A e D', explanation:'Ao contrário de outros desenhos observacionais (ex.: coorte, caso-controle), a série de casos não tem grupo de comparação.  Por esse motivo, séries de casos não podem estabelecer associações entre fatores de risco (ex.: tratamentos) e desfechos (ex.: doenças).'},
+          {option:'C', explanation:'Um ensaio clínico é um estudo experimental no qual pacientes são prospectivamente designados a ≥2 intervenções (frequentemente incluindo placebo ou tratamento controle) para avaliar os efeitos dessas intervenções sobre desfechos de interesse.'},
+          {option:'E', explanation:'Um estudo transversal é um estudo observacional que avalia uma população de interesse (ex.: todas as mulheres em idade reprodutiva) em um único ponto no tempo; pode ser usado para estimar prevalência de doença e associação com fatores de risco de interesse.  No entanto, não é usado para caracterizar achados de doença porque os indivíduos não são selecionados com base na presença da doença.'},
+        ]
+      }
+    },
 
   ];
 
