@@ -13993,6 +13993,125 @@
         explI:[]
       }
     },
+    { id:'CMQ-STEP1-BST-0081',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A study is designed to evaluate the efficacy of a new drug, KM28.  The study will compare KM28 plus standard care versus standard care alone with regard to decreasing the incidence of recurrent breast cancer.  The Food and Drug Administration (FDA) will approve the new drug if KM28 plus standard care decreases the rate of breast cancer recurrence by at least 40% compared to standard therapy alone.  The recurrence rate on standard therapy is found to be 8%.',
+      q:'In order for the FDA to approve KM28, what is the maximal incidence of recurrent disease acceptable for women treated with KM28 plus standard therapy?',
+      options:[
+        {label:'A', text:'2.8%'},
+        {label:'B', text:'3.2%'},
+        {label:'C', text:'3.6%'},
+        {label:'D', text:'4.8%'},
+        {label:'E', text:'5.2%'},
+      ],
+      correct:'D',
+      explC:'The new drug, KM28, will be approved if its associated recurrence rate is decreased by at least 40% compared to the recurrence rate on standard therapy alone, which is given as 8%.  As 40% of 8% is 0.40 × 8% = 3.2%, the maximum acceptable recurrence rate is 8% − 3.2% = 4.8%.  Another quick solution would be to state that the maximum acceptable recurrence rate is 60% of 8%, which is 0.60 × 8% = 4.8%.\n\nAn alternate solution involves using relative and absolute risk calculations.  The 40% (ie, 0.4) mentioned in the prompt refers to relative risk reduction (RRR), defined as the percent reduction in absolute risk (AR) between the treatment group (eg, KM28 + standard therapy) and the control group (eg, standard therapy).  The formula for RRR is:\n\nRRR = (ARcontrol − ARtreatment) / ARcontrol\n\nIn this example, ARcontrol, which represents the risk of recurrence with standard therapy, is given as 8% or 0.08.  The formula can be rearranged to calculate ARtreatment:\n\nARtreatment = ARcontrol − (RRR × ARcontrol)\n\nPlugging in the values for RRR and ARcontrol gives:\n\nARtreatment = 0.08 − (0.4 × 0.08) = 0.08 − 0.032 = 0.048 (ie, 4.8%)\n\nRRR may overstate the effectiveness of an intervention.  For example, a RRR of 50% occurs whether a drug decreases the incidence of a disease from 2% to 1% or from 50% to 25%.  Clearly, the latter is of greater clinical significance.',
+      explI:[],
+      objective:'Relative risk reduction = (absolute riskcontrol − absolute risktreatment) / absolute riskcontrol',
+      peer:{A:2, B:24, C:7, D:61, E:3},
+      labs:[
+        {name:'Standard therapy recurrence rate', value:'8%', normal:'Not applicable'},
+        {name:'Required relative risk reduction', value:'≥40%', normal:'Not applicable'}
+      ],
+      ptTranslation:{
+        vignette:'Um estudo é desenhado para avaliar a eficácia de um novo fármaco, KM28.  O estudo comparará KM28 mais cuidado padrão versus cuidado padrão isolado em relação à redução da incidência de câncer de mama recorrente.  A Food and Drug Administration (FDA) aprovará o novo fármaco se KM28 mais cuidado padrão diminuir a taxa de recorrência do câncer de mama em pelo menos 40% em comparação com a terapia padrão isolada.  A taxa de recorrência na terapia padrão é encontrada como 8%.',
+        q:'Para que a FDA aprove KM28, qual é a incidência máxima de doença recorrente aceitável para mulheres tratadas com KM28 mais terapia padrão?',
+        objective:'Redução relativa do risco = (risco absoluto controle − risco absoluto tratamento) / risco absoluto controle',
+        options:[
+          {label:'A', text:'2,8%'},
+          {label:'B', text:'3,2%'},
+          {label:'C', text:'3,6%'},
+          {label:'D', text:'4,8%'},
+          {label:'E', text:'5,2%'},
+        ],
+        explC:'O novo fármaco, KM28, será aprovado se sua taxa de recorrência associada for reduzida em pelo menos 40% em comparação com a taxa de recorrência na terapia padrão isolada, que é dada como 8%.  Como 40% de 8% é 0,40 × 8% = 3,2%, a taxa máxima aceitável de recorrência é 8% − 3,2% = 4,8%.  Outra solução rápida seria afirmar que a taxa máxima aceitável de recorrência é 60% de 8%, que é 0,60 × 8% = 4,8%.\n\nUma solução alternativa envolve usar cálculos de risco relativo e absoluto.  Os 40% (ou seja, 0,4) mencionados no enunciado se referem à redução relativa do risco (RRR), definida como a redução percentual no risco absoluto (AR) entre o grupo tratamento (ex.: KM28 + terapia padrão) e o grupo controle (ex.: terapia padrão).  A fórmula para RRR é:\n\nRRR = (ARcontrole − ARtratamento) / ARcontrole\n\nNeste exemplo, ARcontrole, que representa o risco de recorrência com terapia padrão, é dado como 8% ou 0,08.  A fórmula pode ser rearranjada para calcular ARtratamento:\n\nARtratamento = ARcontrole − (RRR × ARcontrole)\n\nInserindo os valores de RRR e ARcontrole:\n\nARtratamento = 0,08 − (0,4 × 0,08) = 0,08 − 0,032 = 0,048 (ou seja, 4,8%)\n\nRRR pode superestimar a efetividade de uma intervenção.  Por exemplo, uma RRR de 50% ocorre quer um fármaco diminua a incidência de uma doença de 2% para 1% ou de 50% para 25%.  Claramente, a última é de maior significância clínica.',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0082',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A researcher is interested in assessing the blood folate level of women who live in a population with a high incidence of neural tube defects.  She takes a large random sample (n) of women age 18-45 and measures their blood folate levels.  The researcher finds that the data are normally distributed, and she reports the mean and standard deviation (SD) of the sample.  To account for sampling variation, she decides to calculate a 95% confidence interval to estimate the mean of the entire population.  The researcher concludes that 2.4 to 4.6 ng/mL might be a likely range for the true, unknown population mean.',
+      q:'Which of the following calculations was most likely used to compute this interval estimate of the population mean?',
+      options:[
+        {label:'A', text:'Mean ± 1.96 × SD'},
+        {label:'B', text:'Mean ± 1.96 × (SD/√n)'},
+        {label:'C', text:'Mean ± 2.58 × SD'},
+        {label:'D', text:'Mean ± 2.58 × (SD/√n)'},
+        {label:'E', text:'Mean ± (SD/n)'},
+      ],
+      correct:'B',
+      explC:'The normal distribution is a continuous distribution that follows a bell-shaped curve with a single peak at the mean value.  One of the most important properties of the normal distribution is its symmetry about its mean, which allows for determination of the percentage of all observations that lie within 1, 2, or 3 standard deviations (SDs).  The "68/95/99 rule" states that 68% of all observations lie within 1 SD of the mean, 95% within 2 SDs of the mean, and 99.7% within 3 SDs of the mean.  These are helpful approximations; however, when considering the normal distribution, exactly 95% of the observations lie within 1.96 SDs of the mean and 99% of the observations lie within 2.58 SDs (1.96 and 2.58 represent z-scores for 95% and 99% of the distribution, respectively).\n\nMost research is done using samples rather than entire populations.  This introduces some variability when calculating population parameters such as mean value (eg, when different samples are drawn from the same population, the means from all possible samples will often be slightly different).  The variability between sample means can be calculated in a way analogous to calculating the SD of a group of observations in a single sample.  The "standard deviation" of a series of sample means is known as the standard error (SE) of the mean, and it estimates how far the sample mean is likely to be from the unknown population mean.  The SE is estimated considering both the SD and the size of the sample (n) in the following manner: SD/√n.\n\nA sample mean is a point estimate of the true population mean; however, a confidence interval (CI) better accounts for the variability due to sampling by including the SE in its calculation.  The CI of the mean can be calculated as follows:\n\nCI of mean = mean ± [z-score for confidence level] × [SE]\n\nwhere the z-score for confidence level represents the number of SEs containing the desired percentage of observations around the mean (eg, 95%, 99%).  In this case, the 95% CI can be calculated:\n\nCI of mean = mean ± 1.96 × (SD/√n)\n\nThe sample size and the SD of the sample determine the magnitude of the variability due to sampling.  As n increases, SE decreases, and the CI becomes narrower and more precise.  Conversely, as the SD increases, SE increases, and the CI becomes wider and less precise.',
+      explI:[
+        {option:'A', explanation:'CI estimates use the SE of the mean, which takes into account the SD and the size of the sample (n).  As such, the equation divides the SD by the square root of n.'},
+        {option:'C, D, and E', explanation:'As noted, the SD reflects the spread of individual values in a normal distribution.  Multiplying the SD by a specific constant (z-score) gives us a range of values that encompass a certain proportion of the observations.  The mean ± 1 × SD would cover 68% of the observations, and the mean ± 2.58 × SD would cover 99% of the observations.  However, the question is asking for a 95% CI, so the equation should use a z-score of 1.96 and the SE (ie, SD/√n).'},
+      ],
+      objective:'The standard deviation reflects the spread of individual values in a normal distribution (ie, it measures the variability of the observations within a single sample).  The standard error of the mean reflects the variability of means (ie, variance between the means of different samples) and helps estimate the true mean of the underlying population.',
+      peer:{A:22, B:54, C:7, D:8, E:7},
+      labs:[
+        {name:'Blood folate level', value:'Sample mean used to estimate population mean', normal:'Varies by assay'}
+      ],
+      ptTranslation:{
+        vignette:'Uma pesquisadora está interessada em avaliar o nível sanguíneo de folato de mulheres que vivem em uma população com alta incidência de defeitos do tubo neural.  Ela obtém uma grande amostra aleatória (n) de mulheres de 18-45 anos e mede seus níveis sanguíneos de folato.  A pesquisadora constata que os dados são normalmente distribuídos, e relata a média e o desvio-padrão (SD) da amostra.  Para considerar a variação amostral, ela decide calcular um intervalo de confiança de 95% para estimar a média de toda a população.  A pesquisadora conclui que 2,4 a 4,6 ng/mL pode ser uma faixa provável para a média populacional verdadeira e desconhecida.',
+        q:'Qual dos seguintes cálculos foi mais provavelmente usado para computar essa estimativa intervalar da média populacional?',
+        objective:'O desvio-padrão reflete a dispersão de valores individuais em uma distribuição normal (ou seja, mede a variabilidade das observações dentro de uma única amostra).  O erro-padrão da média reflete a variabilidade das médias (ou seja, variância entre as médias de diferentes amostras) e ajuda a estimar a média verdadeira da população subjacente.',
+        options:[
+          {label:'A', text:'Média ± 1,96 × SD'},
+          {label:'B', text:'Média ± 1,96 × (SD/√n)'},
+          {label:'C', text:'Média ± 2,58 × SD'},
+          {label:'D', text:'Média ± 2,58 × (SD/√n)'},
+          {label:'E', text:'Média ± (SD/n)'},
+        ],
+        explC:'A distribuição normal é uma distribuição contínua que segue uma curva em forma de sino com um único pico no valor médio.  Uma das propriedades mais importantes da distribuição normal é sua simetria em torno de sua média, que permite determinar a porcentagem de todas as observações que ficam dentro de 1, 2 ou 3 desvios-padrão (SDs).  A "regra 68/95/99" afirma que 68% de todas as observações ficam dentro de 1 SD da média, 95% dentro de 2 SDs da média e 99,7% dentro de 3 SDs da média.  Essas são aproximações úteis; no entanto, ao considerar a distribuição normal, exatamente 95% das observações ficam dentro de 1,96 SDs da média e 99% das observações ficam dentro de 2,58 SDs (1,96 e 2,58 representam escores z para 95% e 99% da distribuição, respectivamente).\n\nA maior parte da pesquisa é feita usando amostras em vez de populações inteiras.  Isso introduz alguma variabilidade ao calcular parâmetros populacionais, como valor médio (ex.: quando diferentes amostras são retiradas da mesma população, as médias de todas as amostras possíveis frequentemente serão ligeiramente diferentes).  A variabilidade entre médias amostrais pode ser calculada de maneira análoga ao cálculo do SD de um grupo de observações em uma única amostra.  O "desvio-padrão" de uma série de médias amostrais é conhecido como erro-padrão (SE) da média, e estima quão longe a média amostral provavelmente está da média populacional desconhecida.  O SE é estimado considerando tanto o SD quanto o tamanho da amostra (n) da seguinte maneira: SD/√n.\n\nUma média amostral é uma estimativa pontual da média populacional verdadeira; no entanto, um intervalo de confiança (CI) considera melhor a variabilidade devida à amostragem ao incluir o SE em seu cálculo.  O CI da média pode ser calculado da seguinte forma:\n\nCI da média = média ± [escore z para o nível de confiança] × [SE]\n\nem que o escore z para o nível de confiança representa o número de SEs contendo a porcentagem desejada de observações ao redor da média (ex.: 95%, 99%).  Neste caso, o CI de 95% pode ser calculado:\n\nCI da média = média ± 1,96 × (SD/√n)\n\nO tamanho da amostra e o SD da amostra determinam a magnitude da variabilidade devida à amostragem.  À medida que n aumenta, o SE diminui, e o CI se torna mais estreito e mais preciso.  Inversamente, à medida que o SD aumenta, o SE aumenta, e o CI se torna mais amplo e menos preciso.',
+        explI:[
+          {option:'A', explanation:'Estimativas de CI usam o SE da média, que leva em conta o SD e o tamanho da amostra (n).  Assim, a equação divide o SD pela raiz quadrada de n.'},
+          {option:'C, D e E', explanation:'Como observado, o SD reflete a dispersão dos valores individuais em uma distribuição normal.  Multiplicar o SD por uma constante específica (escore z) fornece uma faixa de valores que engloba certa proporção das observações.  A média ± 1 × SD cobriria 68% das observações, e a média ± 2,58 × SD cobriria 99% das observações.  No entanto, a questão pergunta por um CI de 95%, então a equação deve usar um escore z de 1,96 e o SE (ou seja, SD/√n).'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0083',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'Researchers are studying the relationship between essential hypertension and a common mutation in the structure of a sodium channel protein.  A study population is randomly selected and blood samples are obtained for leukocyte genotyping.  The prevalence of hypertension is determined based on mean blood pressure measurements obtained using standardized ambulatory blood pressure monitoring conducted over 1 week.  Based on the analysis results, the researchers conclude that the sodium channel structure mutation is associated with hypertension.',
+      q:'Which of the following best describes the study design used by the investigators?',
+      options:[
+        {label:'A', text:'Case-control study'},
+        {label:'B', text:'Cross-sectional study'},
+        {label:'C', text:'Prospective cohort study'},
+        {label:'D', text:'Randomized clinical trial'},
+        {label:'E', text:'Retrospective cohort study'},
+      ],
+      correct:'B',
+      explC:'A cross-sectional study (also known as a prevalence study) simultaneously measures exposures and outcomes.  The cross-sectional study has a "snapshot" design that is frequently used in surveys, mostly because it is inexpensive and easy to perform.  In this example, a snapshot was obtained of individuals randomly selected from the population: their blood samples were analyzed for the presence of the sodium channel protein mutation and the prevalence of hypertension was calculated.  The subjects\' blood pressure was measured over 7 days to obtain an average measurement (likely to limit the results being impacted by white-coat hypertension and other transient causes of hypertension).  The major limitation of a cross-sectional study design is that a temporal relationship between exposure and outcome is not always clear.  However, in this case, demonstrating a temporal relationship was straightforward because the possession of a specific genotype clearly precedes hypertension.',
+      explI:[
+        {option:'A', explanation:'A case-control study is designed by selecting individuals with a particular disease (cases), individuals without that disease (controls), and then evaluating previous exposure status.  This study would have been classified as a case-control study if it had explicitly recruited individuals with (cases) and without (controls) hypertension (rather than randomly selecting a sample from a population) and evaluated their sodium channel mutation patterns.'},
+        {option:'C and E', explanation:'A prospective cohort study would have taken individuals without hypertension from the population, analyzed their blood samples to determine the distribution of the sodium channel mutation, and followed them over time (years) to determine the proportion of new cases of hypertension in patients with and without the mutation.  In this example, although hypertension was measured over several days, the objective was not to document incidence of new cases of hypertension (which would be unlikely to develop over 1 week) but to measure the prevalence of hypertension while ensuring that average blood pressure measurements were obtained.\n\nA retrospective design would have also assessed incidence (not prevalence) of hypertension compared to an earlier period of time, based on a chart review of historic data.  Prospective and retrospective cohort studies are organized by selecting a group of individuals (ie, a cohort) who do not have the disease of interest (eg, hypertension), determining their exposure status, and then following them (forward in time or from a point in the past to the present) to assess for the development of the disease.'},
+        {option:'D', explanation:'A randomized clinical trial directly compares ≥2 treatments.  Usually, the subjects are randomly assigned to experience a specific exposure (eg, a medication) or no exposure (eg, placebo) and are then followed to assess for the outcome of interest (eg, disease).'},
+      ],
+      objective:'In a cross-sectional study, exposure and outcome are measured simultaneously at a particular point in time ("snapshot study").  In other study designs, a certain time period separates the exposure from the outcome.',
+      peer:{A:11, B:55, C:17, D:9, E:5},
+      labs:[
+        {name:'Ambulatory blood pressure monitoring', value:'Mean measurements over 1 week', normal:'Not applicable'},
+        {name:'Leukocyte genotyping', value:'Sodium channel protein mutation assessed', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0068_expl_temporality_study_designs.png',
+      ptTranslation:{
+        vignette:'Pesquisadores estão estudando a relação entre hipertensão essencial e uma mutação comum na estrutura de uma proteína de canal de sódio.  Uma população de estudo é selecionada aleatoriamente e amostras de sangue são obtidas para genotipagem de leucócitos.  A prevalência de hipertensão é determinada com base em medidas médias de pressão arterial obtidas usando monitorização ambulatorial padronizada da pressão arterial conduzida durante 1 semana.  Com base nos resultados da análise, os pesquisadores concluem que a mutação estrutural do canal de sódio está associada à hipertensão.',
+        q:'Qual das seguintes alternativas melhor descreve o desenho de estudo usado pelos investigadores?',
+        objective:'Em um estudo transversal, exposição e desfecho são medidos simultaneamente em um ponto específico no tempo ("estudo instantâneo").  Em outros desenhos de estudo, um certo período de tempo separa a exposição do desfecho.',
+        options:[
+          {label:'A', text:'Estudo caso-controle'},
+          {label:'B', text:'Estudo transversal'},
+          {label:'C', text:'Estudo de coorte prospectivo'},
+          {label:'D', text:'Ensaio clínico randomizado'},
+          {label:'E', text:'Estudo de coorte retrospectivo'},
+        ],
+        explC:'Um estudo transversal (também conhecido como estudo de prevalência) mede simultaneamente exposições e desfechos.  O estudo transversal tem um desenho "instantâneo" frequentemente usado em pesquisas, principalmente porque é barato e fácil de realizar.  Neste exemplo, um instantâneo foi obtido de indivíduos selecionados aleatoriamente da população: suas amostras de sangue foram analisadas quanto à presença da mutação da proteína de canal de sódio e a prevalência de hipertensão foi calculada.  A pressão arterial dos indivíduos foi medida ao longo de 7 dias para obter uma medida média (provavelmente para limitar o impacto de hipertensão do jaleco branco e outras causas transitórias de hipertensão nos resultados).  A principal limitação de um desenho de estudo transversal é que uma relação temporal entre exposição e desfecho nem sempre é clara.  No entanto, neste caso, demonstrar uma relação temporal foi direto porque a posse de um genótipo específico claramente precede a hipertensão.',
+        explI:[
+          {option:'A', explanation:'Um estudo caso-controle é desenhado selecionando indivíduos com uma doença particular (casos), indivíduos sem essa doença (controles) e então avaliando o status de exposição prévia.  Este estudo teria sido classificado como caso-controle se tivesse recrutado explicitamente indivíduos com (casos) e sem (controles) hipertensão (em vez de selecionar aleatoriamente uma amostra de uma população) e avaliado seus padrões de mutação do canal de sódio.'},
+          {option:'C e E', explanation:'Um estudo de coorte prospectivo teria selecionado indivíduos sem hipertensão da população, analisado suas amostras de sangue para determinar a distribuição da mutação do canal de sódio e acompanhado esses indivíduos ao longo do tempo (anos) para determinar a proporção de novos casos de hipertensão em pacientes com e sem a mutação.  Neste exemplo, embora a hipertensão tenha sido medida ao longo de vários dias, o objetivo não era documentar incidência de novos casos de hipertensão (que seria improvável desenvolver em 1 semana), mas medir a prevalência de hipertensão enquanto se garantia que medidas médias de pressão arterial fossem obtidas.\n\nUm desenho retrospectivo também teria avaliado incidência (não prevalência) de hipertensão em comparação com um período anterior, com base em revisão de prontuários de dados históricos.  Estudos de coorte prospectivos e retrospectivos são organizados selecionando um grupo de indivíduos (ou seja, uma coorte) que não têm a doença de interesse (ex.: hipertensão), determinando seu status de exposição e então acompanhando-os (para frente no tempo ou de um ponto no passado até o presente) para avaliar o desenvolvimento da doença.'},
+          {option:'D', explanation:'Um ensaio clínico randomizado compara diretamente ≥2 tratamentos.  Geralmente, os indivíduos são designados aleatoriamente para experimentar uma exposição específica (ex.: um medicamento) ou nenhuma exposição (ex.: placebo) e então são acompanhados para avaliar o desfecho de interesse (ex.: doença).'},
+        ]
+      }
+    },
 
   ];
 
