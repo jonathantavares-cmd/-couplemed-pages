@@ -14280,6 +14280,126 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0088',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'A study is conducted to assess the effect of beta-blocker therapy in patients with acute myocardial infarction (MI).  The study found that 20 patients out of 90 who took a beta-blocker during the week prior to developing an MI had a major arrhythmia event during hospitalization.  The study also determined that 30 patients out of 70 who did not take any beta-blocker developed a major arrhythmia.',
+      q:'What was the odds ratio of developing major arrhythmia in patients who took beta-blockers compared to those who did not take beta-blockers?',
+      options:[
+        {label:'A', text:'(20 × 30) / (70 × 40)'},
+        {label:'B', text:'(20 × 40) / (70 × 30)'},
+        {label:'C', text:'(20 × 70) / (30 × 40)'},
+        {label:'D', text:'(20 / 50) / (70 / 110)'},
+        {label:'E', text:'(20 / 90) / (30 / 70)'},
+      ],
+      correct:'B',
+      explC:'The odds of an event occurring are defined as the probability of that event happening divided by the probability of the event not happening.  For instance, when rolling dice, the probability of rolling a one is 1/6, whereas the probability of rolling any other number is 5/6.  Therefore, the odds of rolling a one are 1/5.\n\nThe odds ratio (OR) is a measure of association that compares the odds of an outcome occurring based on exposure status.  In this case, it represents the odds that the outcome (eg, major arrhythmia) occurred in the presence of the exposure (eg, beta blocker use) compared with the odds that the outcome occurred in the absence of that exposure.  The OR can be calculated using a standard contingency table (with exposures in the rows and outcomes in the columns).\n\nOdds of developing major arrhythmia in exposed group = 20/70\nOdds of developing major arrhythmia in unexposed group = 30/40\n(note that the total number of people in the exposed and unexposed groups is not used to calculate odds, unlike calculating probabilities)\n\nTherefore, the OR of developing a major arrhythmia in patients who took beta blockers compared with those who did not is as follows:\n\n(a/b) / (c/d) = (20/70) / (30/40) = (20 × 40) / (70 × 30) = 0.38\n\nIn this case, the OR calculated was the OR of disease (among exposed individuals relative to nonexposed individuals), given by (a/b) / (c/d); in some cases, the OR of exposure (among diseased individuals relative to nondiseased individuals) is calculated, given by (a/c) / (b/d).  Both OR definitions are mathematically equivalent and reduce (by a mathematical shortcut) to: OR = ad/bc.  Any of these formulas would give the same result.\n\nBecause the OR is <1, the odds of developing a major arrhythmia is lower for patients who were taking beta blockers compared with those who were not.',
+      explI:[
+        {option:'E', explanation:'Relative risk (RR) is the probability of an outcome occurring in the exposed group compared with the probability of the outcome occurring in the unexposed group.  It is calculated using the following formula:\n\nRR = [a/(a + b)] / [c/(c + d)] = (20/90) / (30/70)\n\nRR often has more clinical utility than the OR since it gives the change in disease risk based on the presence or absence of risk factors.  However, RR cannot be calculated in case-control studies as patients are preselected based on disease status (cases and controls) instead of being sorted into exposure groups and followed over time to assess disease outcomes.'},
+      ],
+      objective:'The odds ratio (OR) is a measure of the strength of an association between an exposure and an outcome.  Specifically, it represents the odds that an outcome occurred in the presence of a particular exposure compared with the odds that the outcome occurred in the absence of that exposure.  In a standard contingency table, OR = ad/bc.',
+      peer:{A:5, B:47, C:7, D:2, E:37},
+      labs:[
+        {name:'Beta-blocker group', value:'20 major arrhythmias / 70 no arrhythmias', normal:'Not applicable'},
+        {name:'No beta-blocker group', value:'30 major arrhythmias / 40 no arrhythmias', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0088_expl_beta_blocker_odds_ratio_table.png',
+      ptTranslation:{
+        vignette:'Um estudo é conduzido para avaliar o efeito da terapia com betabloqueador em pacientes com infarto agudo do miocárdio (MI).  O estudo encontrou que 20 pacientes de 90 que tomaram um betabloqueador durante a semana anterior ao desenvolvimento de um MI tiveram um evento de arritmia maior durante a hospitalização.  O estudo também determinou que 30 pacientes de 70 que não tomaram nenhum betabloqueador desenvolveram uma arritmia maior.',
+        q:'Qual foi a razão de chances de desenvolver arritmia maior em pacientes que tomaram betabloqueadores em comparação com aqueles que não tomaram betabloqueadores?',
+        objective:'A razão de chances (OR) é uma medida da força de associação entre uma exposição e um desfecho.  Especificamente, representa as chances de que um desfecho tenha ocorrido na presença de uma exposição particular em comparação com as chances de que o desfecho tenha ocorrido na ausência dessa exposição.  Em uma tabela de contingência padrão, OR = ad/bc.',
+        options:[
+          {label:'A', text:'(20 × 30) / (70 × 40)'},
+          {label:'B', text:'(20 × 40) / (70 × 30)'},
+          {label:'C', text:'(20 × 70) / (30 × 40)'},
+          {label:'D', text:'(20 / 50) / (70 / 110)'},
+          {label:'E', text:'(20 / 90) / (30 / 70)'},
+        ],
+        explC:'As chances de um evento ocorrer são definidas como a probabilidade desse evento acontecer dividida pela probabilidade de o evento não acontecer.  Por exemplo, ao lançar dados, a probabilidade de tirar um é 1/6, enquanto a probabilidade de tirar qualquer outro número é 5/6.  Portanto, as chances de tirar um são 1/5.\n\nA razão de chances (OR) é uma medida de associação que compara as chances de um desfecho ocorrer com base no status de exposição.  Neste caso, representa as chances de que o desfecho (ex.: arritmia maior) tenha ocorrido na presença da exposição (ex.: uso de betabloqueador) em comparação com as chances de que o desfecho tenha ocorrido na ausência dessa exposição.  A OR pode ser calculada usando uma tabela de contingência padrão (com exposições nas linhas e desfechos nas colunas).\n\nChances de desenvolver arritmia maior no grupo exposto = 20/70\nChances de desenvolver arritmia maior no grupo não exposto = 30/40\n(observe que o número total de pessoas nos grupos exposto e não exposto não é usado para calcular chances, ao contrário do cálculo de probabilidades)\n\nPortanto, a OR de desenvolver uma arritmia maior em pacientes que tomaram betabloqueadores em comparação com aqueles que não tomaram é a seguinte:\n\n(a/b) / (c/d) = (20/70) / (30/40) = (20 × 40) / (70 × 30) = 0,38\n\nNeste caso, a OR calculada foi a OR de doença (entre indivíduos expostos em relação a indivíduos não expostos), dada por (a/b) / (c/d); em alguns casos, calcula-se a OR de exposição (entre indivíduos doentes em relação a indivíduos não doentes), dada por (a/c) / (b/d).  Ambas as definições de OR são matematicamente equivalentes e reduzem (por um atalho matemático) a: OR = ad/bc.  Qualquer uma dessas fórmulas daria o mesmo resultado.\n\nComo a OR é <1, as chances de desenvolver uma arritmia maior são menores para pacientes que estavam tomando betabloqueadores em comparação com aqueles que não estavam.',
+        explI:[
+          {option:'E', explanation:'Risco relativo (RR) é a probabilidade de um desfecho ocorrer no grupo exposto em comparação com a probabilidade de o desfecho ocorrer no grupo não exposto.  Ele é calculado usando a seguinte fórmula:\n\nRR = [a/(a + b)] / [c/(c + d)] = (20/90) / (30/70)\n\nRR frequentemente tem mais utilidade clínica que a OR, pois fornece a mudança no risco de doença com base na presença ou ausência de fatores de risco.  No entanto, RR não pode ser calculado em estudos caso-controle, pois os pacientes são pré-selecionados com base no status de doença (casos e controles), em vez de serem organizados em grupos de exposição e acompanhados ao longo do tempo para avaliar desfechos de doença.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0089',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A physician research group is evaluating the efficacy of a new lipid-lowering drug, Superstatin, which is being marketed directly to consumers as a groundbreaking new therapy to prevent heart attacks.  The drug manufacturer claims that the drug is more effective than existing hypolipidemic agents for primary prevention of myocardial infarction.  Results of a 5-year, randomized, double-blinded, controlled study to evaluate the efficacy of Superstatin are shown below.',
+      q:'Compared to the control medication, how many patients need to be treated with Superstatin to prevent one additional myocardial infarction?',
+      options:[
+        {label:'A', text:'2'},
+        {label:'B', text:'5'},
+        {label:'C', text:'23'},
+        {label:'D', text:'48'},
+        {label:'E', text:'67'},
+        {label:'F', text:'92'},
+        {label:'G', text:'100'},
+      ],
+      correct:'E',
+      explC:'The number needed to treat (NNT) represents the number of patients that need to be treated with a medication (eg, Superstatin) in order to prevent an additional negative outcome (eg, myocardial infarction).  NNT is calculated by dividing 1 by the absolute risk reduction (ARR).\n\nNNT = 1 / ARR\n\nARR represents the actual difference in control and experimental group event rates.  The data is not presented in the standard format of a contingency (2 × 2) table, so care should be exercised in selecting the appropriate values.  In this example, the event of interest is myocardial infarction.  There were 25 + 975 = 1,000 patients in the control group; of those, 25 had a myocardial infarction.  Similarly, there were 10 + 990 = 1,000 patients in the treatment (ie, Superstatin) group; of those, 10 had a myocardial infarction.  Therefore:\n\nControl event rate = 25 / 1,000 = 0.025\n\nExperimental event rate = 10 / 1,000 = 0.01\n\nARR can then be calculated:\n\nARR = Control event rate − Experimental event rate = 0.025 − 0.01 = 0.015, or 1.5%\n\nFinally, NNT is found by dividing 1 by 0.015:\n\nNNT = 1 / 0.015 = 66.6 ≈ 67\n\nRounding up the result to the nearest whole number, 67 patients need to be treated with Superstatin to prevent an additional myocardial infarction.\n\nThe ideal NNT would be 1, meaning that all patients in the treatment group benefit from the treatment.  A low NNT implies that a treatment is more beneficial because fewer patients need to be treated to prevent an additional negative outcome.  For instance, if a third hypolipidemic medication had an NNT of 40, it would be more beneficial than Superstatin, as only 40 patients would need to be treated over a given period to prevent an additional myocardial infarction.',
+      explI:[],
+      objective:'The number needed to treat (NNT) is the number of patients that need to be treated with a medication to avoid an additional negative outcome.  NNT is calculated by dividing 1 by the absolute risk reduction (the difference between the control and experimental group event rates).  Lower NNT values represent more beneficial treatments.',
+      peer:{A:7, B:12, C:7, D:5, E:55, F:2, G:8},
+      labs:[
+        {name:'Control event rate', value:'25/1,000 = 0.025', normal:'Not applicable'},
+        {name:'Experimental event rate', value:'10/1,000 = 0.01', normal:'Not applicable'},
+        {name:'Absolute risk reduction', value:'0.015 (1.5%)', normal:'Not applicable'}
+      ],
+      img:'assets/qbank/CMQ-STEP1-BST-0089_superstatin_mi_table.png',
+      explImg:'assets/qbank/CMQ-STEP1-BST-0089_expl_therapeutic_efficacy_measures.png',
+      ptTranslation:{
+        vignette:'Um grupo de pesquisa médica está avaliando a eficácia de um novo fármaco hipolipemiante, Superstatin, que está sendo comercializado diretamente aos consumidores como uma nova terapia revolucionária para prevenir ataques cardíacos.  O fabricante do fármaco afirma que o medicamento é mais eficaz que os agentes hipolipemiantes existentes para prevenção primária de infarto do miocárdio.  Os resultados de um estudo controlado, randomizado, duplo-cego, de 5 anos para avaliar a eficácia de Superstatin são mostrados abaixo.',
+        q:'Comparado à medicação controle, quantos pacientes precisam ser tratados com Superstatin para prevenir um infarto do miocárdio adicional?',
+        objective:'O número necessário para tratar (NNT) é o número de pacientes que precisam ser tratados com uma medicação para evitar um desfecho negativo adicional.  NNT é calculado dividindo 1 pela redução absoluta do risco (a diferença entre as taxas de eventos dos grupos controle e experimental).  Valores menores de NNT representam tratamentos mais benéficos.',
+        options:[
+          {label:'A', text:'2'},
+          {label:'B', text:'5'},
+          {label:'C', text:'23'},
+          {label:'D', text:'48'},
+          {label:'E', text:'67'},
+          {label:'F', text:'92'},
+          {label:'G', text:'100'},
+        ],
+        explC:'O número necessário para tratar (NNT) representa o número de pacientes que precisam ser tratados com uma medicação (ex.: Superstatin) para prevenir um desfecho negativo adicional (ex.: infarto do miocárdio).  NNT é calculado dividindo 1 pela redução absoluta do risco (ARR).\n\nNNT = 1 / ARR\n\nARR representa a diferença real entre as taxas de eventos dos grupos controle e experimental.  Os dados não são apresentados no formato padrão de uma tabela de contingência (2 × 2), então deve-se ter cuidado ao selecionar os valores apropriados.  Neste exemplo, o evento de interesse é infarto do miocárdio.  Havia 25 + 975 = 1.000 pacientes no grupo controle; desses, 25 tiveram um infarto do miocárdio.  De modo semelhante, havia 10 + 990 = 1.000 pacientes no grupo tratamento (ou seja, Superstatin); desses, 10 tiveram um infarto do miocárdio.  Portanto:\n\nTaxa de eventos no controle = 25 / 1.000 = 0,025\n\nTaxa de eventos experimental = 10 / 1.000 = 0,01\n\nARR pode então ser calculada:\n\nARR = Taxa de eventos no controle − Taxa de eventos experimental = 0,025 − 0,01 = 0,015, ou 1,5%\n\nFinalmente, NNT é encontrado dividindo 1 por 0,015:\n\nNNT = 1 / 0,015 = 66,6 ≈ 67\n\nArredondando o resultado para o número inteiro mais próximo, 67 pacientes precisam ser tratados com Superstatin para prevenir um infarto do miocárdio adicional.\n\nO NNT ideal seria 1, significando que todos os pacientes no grupo tratamento se beneficiam do tratamento.  Um NNT baixo implica que um tratamento é mais benéfico porque menos pacientes precisam ser tratados para prevenir um desfecho negativo adicional.  Por exemplo, se uma terceira medicação hipolipemiante tivesse um NNT de 40, ela seria mais benéfica que Superstatin, pois apenas 40 pacientes precisariam ser tratados durante um determinado período para prevenir um infarto do miocárdio adicional.',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0090',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'A 62-year-old man with diabetes, hypertension, and hyperlipidemia comes to the emergency department of an academic medical center with chest pain, nausea, vomiting, and diaphoresis.  An electrocardiogram demonstrates ST elevation in the anterior leads, and cardiac enzymes are markedly elevated.  Investigators at the center are designing a randomized control trial to test the hypothesis that drug B will decrease the mortality associated with acute ST-elevation myocardial infarction compared to standard of care.',
+      q:'To ensure that investigators will not miss a difference between drug B and standard of care (if a difference truly exists), which of the following would they want to maximize?',
+      options:[
+        {label:'A', text:'α'},
+        {label:'B', text:'β'},
+        {label:'C', text:'Type I error'},
+        {label:'D', text:'Type II error'},
+        {label:'E', text:'1 − β'},
+      ],
+      correct:'E',
+      explC:'Statistical power, (1 − β), represents a study\'s ability to detect a difference when one exists.  It is the probability of rejecting the null hypothesis when it is truly false - ie, the probability of finding a true relationship.  Power depends on sample size and the difference in outcome between the groups being tested.  In this study, the researchers want to detect a difference between drug B and standard of care if one exists; they want to maximize power.\n\nβ is the probability of committing a type II error (Choices B and D).  Type II error occurs when researchers fail to reject the null hypothesis when it is truly false.  This causes investigators to miss true relationships.  An example of a type II error would be a study finding that aspirin does not affect platelet function when, in fact, it does.  Therefore, if β is set at 0.2, the power will be (1 − β) = 80%; there will be an 80% chance of rejecting the null hypothesis when it is truly false.',
+      explI:[
+        {option:'A and C', explanation:'Type I error occurs when researchers reject the null hypothesis when the null hypothesis is really true.  That is, a study finds a statistically significant difference between 2 groups when one does not truly exist.  An example would be if a study concluded that candy improves heart failure mortality when, in fact, it does not.  α is the maximum probability of making a type I error that a researcher is willing to accept.  Generally, α is compared to the p-value, the probability of observing a given result (or more extreme) due to chance alone assuming the null hypothesis is true (eg, if there is no real difference between the groups).  The value of α is typically set at 0.05, meaning that researchers are willing to accept up to a 5% chance of making a type I error.  In such a scenario, if p <0.05, the result is said to be statistically significant.'},
+      ],
+      objective:'Power (1 − β) is the probability of rejecting a null hypothesis when it is truly false.  It is typically set at 80% and depends on sample size and difference between outcomes.',
+      peer:{A:7, B:10, C:6, D:5, E:71},
+      labs:[
+        {name:'Statistical power', value:'1 − β', normal:'Often targeted at 80%'}
+      ],
+      ptTranslation:{
+        vignette:'Um homem de 62 anos com diabetes, hipertensão e hiperlipidemia chega ao departamento de emergência de um centro médico acadêmico com dor torácica, náuseas, vômitos e diaforese.  Um eletrocardiograma demonstra elevação do ST nas derivações anteriores, e as enzimas cardíacas estão marcadamente elevadas.  Investigadores do centro estão desenhando um ensaio clínico randomizado para testar a hipótese de que o fármaco B diminuirá a mortalidade associada ao infarto agudo do miocárdio com elevação do ST em comparação com o padrão de cuidado.',
+        q:'Para garantir que os investigadores não deixem de detectar uma diferença entre o fármaco B e o padrão de cuidado (se uma diferença verdadeiramente existir), qual das seguintes eles gostariam de maximizar?',
+        objective:'Poder (1 − β) é a probabilidade de rejeitar uma hipótese nula quando ela é verdadeiramente falsa.  Geralmente é definido em 80% e depende do tamanho da amostra e da diferença entre os desfechos.',
+        options:[
+          {label:'A', text:'α'},
+          {label:'B', text:'β'},
+          {label:'C', text:'Erro tipo I'},
+          {label:'D', text:'Erro tipo II'},
+          {label:'E', text:'1 − β'},
+        ],
+        explC:'Poder estatístico, (1 − β), representa a capacidade de um estudo detectar uma diferença quando ela existe.  É a probabilidade de rejeitar a hipótese nula quando ela é verdadeiramente falsa - ou seja, a probabilidade de encontrar uma relação verdadeira.  O poder depende do tamanho da amostra e da diferença no desfecho entre os grupos testados.  Neste estudo, os pesquisadores querem detectar uma diferença entre o fármaco B e o padrão de cuidado se uma existir; eles querem maximizar o poder.\n\nβ é a probabilidade de cometer um erro tipo II (Alternativas B e D).  Erro tipo II ocorre quando pesquisadores falham em rejeitar a hipótese nula quando ela é verdadeiramente falsa.  Isso faz com que investigadores percam relações verdadeiras.  Um exemplo de erro tipo II seria um estudo encontrar que aspirina não afeta a função plaquetária quando, na verdade, afeta.  Portanto, se β é definido em 0,2, o poder será (1 − β) = 80%; haverá 80% de chance de rejeitar a hipótese nula quando ela é verdadeiramente falsa.',
+        explI:[
+          {option:'A e C', explanation:'Erro tipo I ocorre quando pesquisadores rejeitam a hipótese nula quando a hipótese nula é realmente verdadeira.  Isto é, um estudo encontra uma diferença estatisticamente significativa entre 2 grupos quando uma diferença verdadeiramente não existe.  Um exemplo seria se um estudo concluísse que doces melhoram a mortalidade por insuficiência cardíaca quando, na verdade, não melhoram.  α é a probabilidade máxima de cometer um erro tipo I que um pesquisador está disposto a aceitar.  Geralmente, α é comparado ao valor de p, a probabilidade de observar um resultado dado (ou mais extremo) devido apenas ao acaso, assumindo que a hipótese nula é verdadeira (ex.: se não houver diferença real entre os grupos).  O valor de α é tipicamente definido em 0,05, significando que pesquisadores estão dispostos a aceitar até 5% de chance de cometer um erro tipo I.  Em tal cenário, se p <0,05, o resultado é dito estatisticamente significativo.'},
+        ]
+      }
+    },
 
   ];
 
