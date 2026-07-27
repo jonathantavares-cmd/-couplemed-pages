@@ -13917,6 +13917,46 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0079',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'A study evaluated the role of angiotensin-converting enzyme (ACE) inhibitors in the prevention of coronary events in patients with diabetes.  During 5 years of follow-up, 120 out of 400 diabetic patients who had taken an ACE inhibitor developed an acute coronary event.  Over the same time, 100 out of 300 diabetic patients who had not taken an ACE inhibitor experienced coronary events.',
+      q:'What was the relative risk of developing a coronary event in diabetic patients who were taking ACE inhibitors compared to diabetic patients who were not taking ACE inhibitors?',
+      options:[
+        {label:'A', text:'(120x100)/(280x200)'},
+        {label:'B', text:'(120x200)/(100x280)'},
+        {label:'C', text:'(120x280)/(100x200)'},
+        {label:'D', text:'(120/220)/(280/480)'},
+        {label:'E', text:'(120/400)/(100/300)'},
+      ],
+      correct:'E',
+      explC:'It is important to know how to calculate some basic measures of association when given raw data.  The first step is to organize the data into a 2×2 (contingency) table as shown below.  The standard format includes the exposures in the rows (with "exposure present" listed above "exposure absent") and the outcomes in the columns (with "outcome present" listed before "outcome absent").\n\nThe relative risk (RR) represents the risk of an outcome (eg, coronary event) in the exposed (eg, angiotensin-converting enzyme [ACE] inhibitor) divided by the risk of that outcome in the unexposed (eg, no ACE inhibitor).  For cohort studies, it is calculated using the following formula:\n\nRR = [a/(a+b)] / [c/(c+d)] = (120/400)/(100/300) = 0.90\n\nUnderstanding the values calculated (rather than memorizing several formulas) would prevent errors that could occur if the standard format for the 2×2 table is not followed.  By definition, RR = risk among the exposed/risk among the unexposed.  In this example, 400 diabetic patients were taking ACE inhibitors (exposed) and 120 of those had a coronary event.  Therefore, the risk among the exposed is 120/400.  Similarly, 300 diabetic patients were not taking ACE inhibitors (unexposed) and 100 of those had a coronary event.  Therefore, the risk among the unexposed is 100/300.  The RR is the ratio of those 2 values: RR = (120/400)/(100/300).',
+      explI:[
+        {option:'B', explanation:'The odds ratio (OR) is calculated using the following formula: OR = ad/bc.  The OR is often calculated in case-control studies where RR cannot be obtained because such studies do not follow patients over time to determine the incidence of a new outcome.'},
+      ],
+      objective:'The relative risk (RR) represents the risk of an outcome in the exposed divided by the risk of that outcome in the unexposed.  Applying the correct formula for RR calculations depends on the proper formatting of a 2×2 (contingency) table.',
+      peer:{A:3, B:11, C:4, D:3, E:77},
+      labs:[
+        {name:'ACE inhibitor exposure', value:'120/400 coronary events', normal:'Not applicable'},
+        {name:'No ACE inhibitor exposure', value:'100/300 coronary events', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0079_expl_ace_inhibitor_rr_table.png',
+      ptTranslation:{
+        vignette:'Um estudo avaliou o papel dos inibidores da enzima conversora de angiotensina (ACE) na prevenção de eventos coronarianos em pacientes com diabetes.  Durante 5 anos de seguimento, 120 de 400 pacientes diabéticos que haviam tomado um inibidor de ACE desenvolveram um evento coronariano agudo.  No mesmo período, 100 de 300 pacientes diabéticos que não haviam tomado um inibidor de ACE apresentaram eventos coronarianos.',
+        q:'Qual foi o risco relativo de desenvolver um evento coronariano em pacientes diabéticos que estavam tomando inibidores de ACE em comparação com pacientes diabéticos que não estavam tomando inibidores de ACE?',
+        objective:'O risco relativo (RR) representa o risco de um desfecho nos expostos dividido pelo risco desse desfecho nos não expostos.  Aplicar a fórmula correta para cálculos de RR depende da formatação apropriada de uma tabela 2×2 (contingência).',
+        options:[
+          {label:'A', text:'(120x100)/(280x200)'},
+          {label:'B', text:'(120x200)/(100x280)'},
+          {label:'C', text:'(120x280)/(100x200)'},
+          {label:'D', text:'(120/220)/(280/480)'},
+          {label:'E', text:'(120/400)/(100/300)'},
+        ],
+        explC:'É importante saber como calcular algumas medidas básicas de associação quando dados brutos são fornecidos.  O primeiro passo é organizar os dados em uma tabela 2×2 (contingência), como mostrado abaixo.  O formato padrão inclui as exposições nas linhas (com "exposição presente" listada acima de "exposição ausente") e os desfechos nas colunas (com "desfecho presente" listado antes de "desfecho ausente").\n\nO risco relativo (RR) representa o risco de um desfecho (ex.: evento coronariano) nos expostos (ex.: inibidor da enzima conversora de angiotensina [ACE]) dividido pelo risco desse desfecho nos não expostos (ex.: sem inibidor de ACE).  Para estudos de coorte, ele é calculado usando a seguinte fórmula:\n\nRR = [a/(a+b)] / [c/(c+d)] = (120/400)/(100/300) = 0,90\n\nEntender os valores calculados (em vez de memorizar várias fórmulas) preveniria erros que poderiam ocorrer se o formato padrão da tabela 2×2 não fosse seguido.  Por definição, RR = risco entre os expostos/risco entre os não expostos.  Neste exemplo, 400 pacientes diabéticos estavam tomando inibidores de ACE (expostos) e 120 deles tiveram um evento coronariano.  Portanto, o risco entre os expostos é 120/400.  De modo semelhante, 300 pacientes diabéticos não estavam tomando inibidores de ACE (não expostos) e 100 deles tiveram um evento coronariano.  Portanto, o risco entre os não expostos é 100/300.  O RR é a razão desses 2 valores: RR = (120/400)/(100/300).',
+        explI:[
+          {option:'B', explanation:'A razão de chances (OR) é calculada usando a seguinte fórmula: OR = ad/bc.  A OR é frequentemente calculada em estudos caso-controle, nos quais o RR não pode ser obtido porque tais estudos não acompanham pacientes ao longo do tempo para determinar a incidência de um novo desfecho.'},
+        ]
+      }
+    },
 
   ];
 
