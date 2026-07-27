@@ -13606,7 +13606,7 @@
         {option:'D', explanation:'Depending on the randomization method (eg, complete simple) used to allocate participants into experimental groups, a study may or may not result in groups that are similar in sample size.  Regardless, the goal of randomization is not to create groups of similar size (which can be done trivially by alternating group assignment as patients enroll) but rather to make the underlying characteristics of experimental groups as similar as possible.'},
       ],
       objective:'Randomization refers to the process of using random methods to assign subjects to experimental groups.  Its purpose is to make experimental groups as similar as possible (except for the treatment assignment) to ensure that any difference observed between the groups is due exclusively to the treatment and not to other underlying factors.',
-      peer:{A:4, B:4, C:27, D:20, E:44},
+      peer:{A:3, B:3, C:27, D:20, E:44},
       ptTranslation:{
         vignette:'Um novo estudo é conduzido para investigar a eficácia de imunoglobulina intravenosa versus analgésicos no alívio da dor em pacientes com neuropatia idiopática de fibras pequenas.  Um total de 100 pacientes elegíveis que preencheram os critérios de inclusão/exclusão é designado para um de dois grupos com base em seleção aleatória por computador.',
         q:'O método de designar pacientes aos grupos de tratamento neste estudo provavelmente tem a intenção de produzir qual dos seguintes?',
@@ -13665,6 +13665,96 @@
           {option:'A e D', explanation:'Ao contrário de outros desenhos observacionais (ex.: coorte, caso-controle), a série de casos não tem grupo de comparação.  Por esse motivo, séries de casos não podem estabelecer associações entre fatores de risco (ex.: tratamentos) e desfechos (ex.: doenças).'},
           {option:'C', explanation:'Um ensaio clínico é um estudo experimental no qual pacientes são prospectivamente designados a ≥2 intervenções (frequentemente incluindo placebo ou tratamento controle) para avaliar os efeitos dessas intervenções sobre desfechos de interesse.'},
           {option:'E', explanation:'Um estudo transversal é um estudo observacional que avalia uma população de interesse (ex.: todas as mulheres em idade reprodutiva) em um único ponto no tempo; pode ser usado para estimar prevalência de doença e associação com fatores de risco de interesse.  No entanto, não é usado para caracterizar achados de doença porque os indivíduos não são selecionados com base na presença da doença.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0073',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'A research group is studying the correlation between BMI and blood pressure in a random sample of children age 12-16.  After collecting data, they conduct a correlation analysis at a 1% significance level.  The researchers find that BMI correlates with systolic blood pressure with a coefficient of r = 0.46 (p <0.001) and diastolic blood pressure with a coefficient of r = 0.37 (p <0.001).',
+      q:'Which of the following is the most accurate interpretation of these results?',
+      options:[
+        {label:'A', text:'An increase in BMI causes a statistically significant increase in blood pressure in children'},
+        {label:'B', text:'Childhood obesity significantly increases the risk of cardiovascular disease later in life'},
+        {label:'C', text:'There is a statistically significant negative linear relationship between BMI and blood pressure in children'},
+        {label:'D', text:'There is a statistically significant positive linear relationship between BMI and blood pressure in children'},
+        {label:'E', text:'There is no statistically significant linear relationship between BMI and blood pressure in children'},
+      ],
+      correct:'D',
+      explC:'The correlation coefficient (r) measures the direction and strength of a linear relationship (ie, association) between 2 variables (that are usually quantitative).\n\n• Direction: When r<0, the linear relationship is negative and one variable increases as the other decreases; when r>0, the linear relationship is positive and both variables increase and decrease together.\n\n• Strength: When r values are close to −1 or 1, the linear relationship is strong; when r values are close to 0, the linear relationship is weak.\n\nA correlation analysis evaluates whether a linear relationship exists between 2 variables.  A p-value less than a given significance level indicates that there is a statistically significant linear relationship between the variables.  However, a statistically significant linear relationship result does not imply that the relationship is causal (correlation ≠ causation) because when 2 variables are correlated, it does not necessarily mean that one is directly causing the other to change (Choices A and B).\n\nIn this study, researchers studied the correlation between BMI and blood pressure in a random sample of children.  Study results showed that the correlation coefficients for BMI and systolic/diastolic blood pressure are both positive (r = 0.46 and r = 0.37, respectively, are both >0); therefore, there is a positive linear relationship between BMI and blood pressure (Choice C).  Because the p-value for both coefficients (p <0.001) is less than 0.01 (the given significance level of 1%), the linear relationship is statistically significant (Choice E).',
+      explI:[
+        {option:'A and B', explanation:'A statistically significant linear relationship result does not imply that the relationship is causal (correlation ≠ causation) because when 2 variables are correlated, it does not necessarily mean that one is directly causing the other to change.'},
+        {option:'C', explanation:'Study results showed that the correlation coefficients for BMI and systolic/diastolic blood pressure are both positive (r = 0.46 and r = 0.37, respectively, are both >0); therefore, there is a positive linear relationship between BMI and blood pressure.'},
+        {option:'E', explanation:'Because the p-value for both coefficients (p <0.001) is less than 0.01 (the given significance level of 1%), the linear relationship is statistically significant.'},
+      ],
+      objective:'The correlation coefficient (r) indicates whether there is a negative (r<0) or positive (r>0) linear relationship between 2 variables.  The closer r is to −1 or +1, the stronger the linear relationship.  A statistically significant (ie, p-value < significance level) linear relationship between 2 variables does not imply that the relationship is causal.',
+      peer:{A:9, B:1, C:6, D:71, E:11},
+      labs:[
+        {name:'Body mass index (BMI)', value:'Correlated with blood pressure', normal:'Not applicable'},
+        {name:'Systolic blood pressure', value:'r = 0.46 (p <0.001)', normal:'Not applicable'},
+        {name:'Diastolic blood pressure', value:'r = 0.37 (p <0.001)', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0073_expl_correlation_coefficient_scale.png',
+      ptTranslation:{
+        vignette:'Um grupo de pesquisa está estudando a correlação entre IMC e pressão arterial em uma amostra aleatória de crianças de 12-16 anos.  Depois de coletar os dados, eles conduzem uma análise de correlação em um nível de significância de 1%.  Os pesquisadores constatam que o IMC se correlaciona com a pressão arterial sistólica com um coeficiente de r = 0,46 (p <0,001) e com a pressão arterial diastólica com um coeficiente de r = 0,37 (p <0,001).',
+        q:'Qual das seguintes é a interpretação mais acurada desses resultados?',
+        objective:'O coeficiente de correlação (r) indica se há uma relação linear negativa (r<0) ou positiva (r>0) entre 2 variáveis.  Quanto mais próximo r está de −1 ou +1, mais forte é a relação linear.  Uma relação linear estatisticamente significativa (ou seja, valor de p < nível de significância) entre 2 variáveis não implica que a relação seja causal.',
+        options:[
+          {label:'A', text:'Um aumento no IMC causa um aumento estatisticamente significativo na pressão arterial em crianças'},
+          {label:'B', text:'Obesidade infantil aumenta significativamente o risco de doença cardiovascular mais tarde na vida'},
+          {label:'C', text:'Há uma relação linear negativa estatisticamente significativa entre IMC e pressão arterial em crianças'},
+          {label:'D', text:'Há uma relação linear positiva estatisticamente significativa entre IMC e pressão arterial em crianças'},
+          {label:'E', text:'Não há relação linear estatisticamente significativa entre IMC e pressão arterial em crianças'},
+        ],
+        explC:'O coeficiente de correlação (r) mede a direção e a força de uma relação linear (ou seja, associação) entre 2 variáveis (que geralmente são quantitativas).\n\n• Direção: Quando r<0, a relação linear é negativa e uma variável aumenta à medida que a outra diminui; quando r>0, a relação linear é positiva e ambas as variáveis aumentam e diminuem juntas.\n\n• Força: Quando os valores de r estão próximos de −1 ou 1, a relação linear é forte; quando os valores de r estão próximos de 0, a relação linear é fraca.\n\nUma análise de correlação avalia se existe uma relação linear entre 2 variáveis.  Um valor de p menor que um determinado nível de significância indica que há uma relação linear estatisticamente significativa entre as variáveis.  No entanto, um resultado de relação linear estatisticamente significativa não implica que a relação seja causal (correlação ≠ causalidade), porque quando 2 variáveis estão correlacionadas, isso não significa necessariamente que uma esteja causando diretamente a mudança da outra (Alternativas A e B).\n\nNeste estudo, os pesquisadores estudaram a correlação entre IMC e pressão arterial em uma amostra aleatória de crianças.  Os resultados do estudo mostraram que os coeficientes de correlação para IMC e pressão arterial sistólica/diastólica são ambos positivos (r = 0,46 e r = 0,37, respectivamente, ambos >0); portanto, há uma relação linear positiva entre IMC e pressão arterial (Alternativa C).  Como o valor de p para ambos os coeficientes (p <0,001) é menor que 0,01 (o nível de significância dado de 1%), a relação linear é estatisticamente significativa (Alternativa E).',
+        explI:[
+          {option:'A e B', explanation:'Um resultado de relação linear estatisticamente significativa não implica que a relação seja causal (correlação ≠ causalidade), porque quando 2 variáveis estão correlacionadas, isso não significa necessariamente que uma esteja causando diretamente a mudança da outra.'},
+          {option:'C', explanation:'Os resultados do estudo mostraram que os coeficientes de correlação para IMC e pressão arterial sistólica/diastólica são ambos positivos (r = 0,46 e r = 0,37, respectivamente, ambos >0); portanto, há uma relação linear positiva entre IMC e pressão arterial.'},
+          {option:'E', explanation:'Como o valor de p para ambos os coeficientes (p <0,001) é menor que 0,01 (o nível de significância dado de 1%), a relação linear é estatisticamente significativa.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0074',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'Public health officials involved in developing nutritional guidelines commission a study to determine how dietary eating patterns influence total body iron stores in children age 5-17.  As part of the study, researchers want to assess how 2 independent variables, red meat consumption and egg consumption (both reported in units of ounces/week), affect serum ferritin concentrations while adjusting for age and gender.',
+      q:'Which of the following statistical techniques is most helpful for determining the association between the study variables?',
+      options:[
+        {label:'A', text:'Analysis of variance'},
+        {label:'B', text:'Meta-analysis'},
+        {label:'C', text:'Odds ratio'},
+        {label:'D', text:'Regression analysis'},
+        {label:'E', text:'Relative risk'},
+      ],
+      correct:'D',
+      explC:'Variables are broadly classified as qualitative (ie, categorical) or quantitative (eg, continuous) based on their scale of measurement.  Qualitative variables (eg, type of treatment, blood type) represent categories or groups whereas quantitative variables (eg, temperature, glucose levels) represent numerical values.  The scale of measurement of the dependent (eg, outcome) and independent (eg, exposures, risk factors) variables in a study determines the correct statistical test.\n\nRegression analysis is used to describe the association between 1 or more independent variables (eg, exposures, risk factors), which may be quantitative or qualitative, and 1 quantitative dependent variable (ie, a quantitative outcome [eg, laboratory values]) while adjusting for other variables of interest.  In this study:\n\n• The quantitative dependent variable was serum ferritin concentration.\n\n• The independent variables were consumption of red meat and eggs reported in ounces/week (2 quantitative variables).\n\n• The effect of the main independent variables (eg, consumption of red meat and eggs) on the dependent variable (eg, serum ferritin concentration) is adjusted to account for the effects of other independent variables, which are called adjustment variables (eg, age, gender).  Controlling for these variables reduces the potential confounding.\n\nCalculation of a regression line (eg, line of best fit) can then determine whether dietary consumption of red meat and eggs has a statistically significant effect on serum ferritin concentrations (after adjusting for age and gender).',
+      explI:[
+        {option:'A', explanation:'The analysis of variance (ANOVA) test compares the mean of a quantitative variable of ≥3 independent groups.  For example, it could be used in a study comparing serum ferritin concentrations (ie, quantitative variable) in children (age 0-12), adolescents (age 13-17), adults (age 18-59), and seniors (age ≥60).'},
+        {option:'B', explanation:'Meta-analysis is a quantitative statistical technique used to combine and analyze data from several studies to conduct an analysis with a greater statistical power than that of the individual studies.'},
+        {option:'C and E', explanation:'The odds ratio (OR) and the relative risk (RR) measure the strength of association between 2 categorical variables: a categorical risk factor (eg, smoker or nonsmoker) and a categorical outcome/disease (eg, presence or absence of myocardial infarction).  The OR is used in case-control studies whereas the RR is used in cohort studies.'},
+      ],
+      objective:'A regression analysis is a statistical technique used to describe the effect that 1 or more independent variables (eg, exposures, risk factors), which may be quantitative or qualitative, can have on 1 quantitative dependent variable (ie, outcome).',
+      peer:{A:37, B:8, C:7, D:34, E:11},
+      labs:[
+        {name:'Serum ferritin concentration', value:'Dependent variable', normal:'Varies by age and sex'},
+        {name:'Red meat consumption', value:'Independent variable, ounces/week', normal:'Not applicable'},
+        {name:'Egg consumption', value:'Independent variable, ounces/week', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0074_expl_statistical_tests_table.png',
+      ptTranslation:{
+        vignette:'Autoridades de saúde pública envolvidas no desenvolvimento de diretrizes nutricionais encomendam um estudo para determinar como padrões alimentares influenciam os estoques corporais totais de ferro em crianças de 5-17 anos.  Como parte do estudo, os pesquisadores querem avaliar como 2 variáveis independentes, consumo de carne vermelha e consumo de ovos (ambos relatados em unidades de onças/semana), afetam as concentrações séricas de ferritina enquanto ajustam para idade e gênero.',
+        q:'Qual das seguintes técnicas estatísticas é mais útil para determinar a associação entre as variáveis do estudo?',
+        objective:'Uma análise de regressão é uma técnica estatística usada para descrever o efeito que 1 ou mais variáveis independentes (ex.: exposições, fatores de risco), que podem ser quantitativas ou qualitativas, podem ter sobre 1 variável dependente quantitativa (ou seja, desfecho).',
+        options:[
+          {label:'A', text:'Análise de variância'},
+          {label:'B', text:'Meta-análise'},
+          {label:'C', text:'Razão de chances'},
+          {label:'D', text:'Análise de regressão'},
+          {label:'E', text:'Risco relativo'},
+        ],
+        explC:'Variáveis são amplamente classificadas como qualitativas (ou seja, categóricas) ou quantitativas (ex.: contínuas) com base em sua escala de mensuração.  Variáveis qualitativas (ex.: tipo de tratamento, tipo sanguíneo) representam categorias ou grupos, enquanto variáveis quantitativas (ex.: temperatura, níveis de glicose) representam valores numéricos.  A escala de mensuração das variáveis dependente (ex.: desfecho) e independente (ex.: exposições, fatores de risco) em um estudo determina o teste estatístico correto.\n\nA análise de regressão é usada para descrever a associação entre 1 ou mais variáveis independentes (ex.: exposições, fatores de risco), que podem ser quantitativas ou qualitativas, e 1 variável dependente quantitativa (ou seja, um desfecho quantitativo [ex.: valores laboratoriais]) enquanto ajusta para outras variáveis de interesse.  Neste estudo:\n\n• A variável dependente quantitativa foi a concentração sérica de ferritina.\n\n• As variáveis independentes foram consumo de carne vermelha e ovos relatados em onças/semana (2 variáveis quantitativas).\n\n• O efeito das principais variáveis independentes (ex.: consumo de carne vermelha e ovos) sobre a variável dependente (ex.: concentração sérica de ferritina) é ajustado para considerar os efeitos de outras variáveis independentes, que são chamadas de variáveis de ajuste (ex.: idade, gênero).  Controlar essas variáveis reduz o confundimento potencial.\n\nO cálculo de uma linha de regressão (ex.: linha de melhor ajuste) pode então determinar se o consumo dietético de carne vermelha e ovos tem um efeito estatisticamente significativo sobre as concentrações séricas de ferritina (após ajuste para idade e gênero).',
+        explI:[
+          {option:'A', explanation:'O teste de análise de variância (ANOVA) compara a média de uma variável quantitativa de ≥3 grupos independentes.  Por exemplo, poderia ser usado em um estudo comparando concentrações séricas de ferritina (ou seja, variável quantitativa) em crianças (idade 0-12), adolescentes (idade 13-17), adultos (idade 18-59) e idosos (idade ≥60).'},
+          {option:'B', explanation:'Meta-análise é uma técnica estatística quantitativa usada para combinar e analisar dados de vários estudos para conduzir uma análise com maior poder estatístico do que o dos estudos individuais.'},
+          {option:'C e E', explanation:'A razão de chances (OR) e o risco relativo (RR) medem a força de associação entre 2 variáveis categóricas: um fator de risco categórico (ex.: fumante ou não fumante) e um desfecho/doença categórico (ex.: presença ou ausência de infarto do miocárdio).  A OR é usada em estudos caso-controle, enquanto o RR é usado em estudos de coorte.'},
         ]
       }
     },
