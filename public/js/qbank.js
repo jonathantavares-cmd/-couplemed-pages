@@ -14400,6 +14400,49 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0091',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'As part of the Food and Drug Administration drug approval process, a study is conducted to assess the clinical benefit and toxicity of a new drug that is intended to be used in combination with current standard chemotherapy for patients with recurrent glioblastoma.  Fifty patients with recurrent glioblastoma enroll in the trial and are randomized to receive standard chemotherapy plus either placebo or 1 of 3 possible doses of the new drug.  Study results show a dose-dependent reduction in tumor size with all 3 doses of the new drug, along with a significant increase in adverse drug effects, including hypertension, muscle weakness, lymphopenia, and hypophosphatemia.  The researchers conclude that the middle dose of the new drug offers the greatest ratio of benefit to toxicity.',
+      q:'Which of the following best describes this type of study?',
+      options:[
+        {label:'A', text:'Phase I clinical trial'},
+        {label:'B', text:'Phase II clinical trial'},
+        {label:'C', text:'Phase III clinical trial'},
+        {label:'D', text:'Phase IV clinical trial'},
+        {label:'E', text:'Preclinical study'},
+      ],
+      correct:'B',
+      explC:'Efficacy and safety of new drugs are established during the clinical trials process.  New drugs are approved by a regulatory body (eg, Food and Drug Administration) following review of phase I to III trials.  Phases differ in size, objective, and participant selection.\n\n• Phase I: small trials usually conducted with healthy participants to assess safety and pharmacokinetics, often performed in a strictly controlled environment with extensive biochemical and physiologic monitoring.  Although some phase I chemotherapy trials may involve subjects with cancer due to the inherent toxicity of treatment, drug efficacy (eg, tumor size reduction) is not assessed during a phase I trial (Choice A).\n\n• Phase II: small- to medium-sized trials conducted with participants having the condition of interest to assess treatment efficacy, toxicity, adverse effects, and optimal dosing strategies.  These studies may or may not have a control group and can be called pilot studies.\n\n• Phase III: large trials (typically >300 patients) that are adequately powered to fully assess treatment response and safety, often including analysis of treatment effects in selected subsets of the target patient population.  These trials must show adequate effectiveness and safety compared to standard treatment for the drug to obtain regulatory approval.',
+      explI:[
+        {option:'C', explanation:'This trial enrolled a small number of participants with recurrent glioblastoma and compared multiple drug doses with respect to treatment efficacy and toxicity.  The results were reported to advise optimal drug dosing (ie, dose-finding); although drug dose correlated with a decrease in tumor size, effectiveness and safety outcomes were not compared with the standard treatment (eg, absolute/relative risks).  Therefore, this study is best characterized as a phase II trial.'},
+        {option:'D', explanation:'Phase IV trials are performed after a new drug has obtained regulatory approval for clinical use.  These trials are typically performed to assess long-term benefits and risks or identify uncommon adverse effects that were not fully characterized in phase III studies.'},
+        {option:'E', explanation:'In contrast to phase I, II, III, and IV trials, which include human subjects, preclinical studies do not involve human subjects.'},
+      ],
+      objective:'Phase II studies are small- to medium-sized trials conducted with participants having the condition of interest to assess treatment efficacy, toxicity, adverse effects, and optimal dosing strategies; they are sometimes called pilot studies.',
+      peer:{A:12, B:47, C:31, D:7, E:0},
+      labs:[
+        {name:'Hypophosphatemia', value:'Reported adverse drug effect', normal:'Serum phosphate typically 2.5-4.5 mg/dL'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0091_expl_clinical_trial_phases.png',
+      ptTranslation:{
+        vignette:'Como parte do processo de aprovação de medicamentos pela Food and Drug Administration, um estudo é conduzido para avaliar o benefício clínico e a toxicidade de um novo fármaco destinado a ser usado em combinação com a quimioterapia padrão atual para pacientes com glioblastoma recorrente.  Cinquenta pacientes com glioblastoma recorrente entram no ensaio e são randomizados para receber quimioterapia padrão mais placebo ou 1 de 3 possíveis doses do novo fármaco.  Os resultados do estudo mostram uma redução dose-dependente no tamanho do tumor com todas as 3 doses do novo fármaco, juntamente com um aumento significativo nos efeitos adversos do fármaco, incluindo hipertensão, fraqueza muscular, linfopenia e hipofosfatemia.  Os pesquisadores concluem que a dose intermediária do novo fármaco oferece a maior razão de benefício para toxicidade.',
+        q:'Qual das seguintes alternativas melhor descreve este tipo de estudo?',
+        objective:'Estudos de fase II são ensaios pequenos a médios conduzidos com participantes que têm a condição de interesse para avaliar eficácia do tratamento, toxicidade, efeitos adversos e estratégias de dose ideal; às vezes são chamados de estudos-piloto.',
+        options:[
+          {label:'A', text:'Ensaio clínico de fase I'},
+          {label:'B', text:'Ensaio clínico de fase II'},
+          {label:'C', text:'Ensaio clínico de fase III'},
+          {label:'D', text:'Ensaio clínico de fase IV'},
+          {label:'E', text:'Estudo pré-clínico'},
+        ],
+        explC:'Eficácia e segurança de novos fármacos são estabelecidas durante o processo de ensaios clínicos.  Novos fármacos são aprovados por um órgão regulador (ex.: Food and Drug Administration) após revisão de ensaios de fase I a III.  As fases diferem em tamanho, objetivo e seleção de participantes.\n\n• Fase I: ensaios pequenos geralmente conduzidos com participantes saudáveis para avaliar segurança e farmacocinética, frequentemente realizados em um ambiente estritamente controlado com monitorização bioquímica e fisiológica extensa.  Embora alguns ensaios de quimioterapia de fase I possam envolver indivíduos com câncer devido à toxicidade inerente do tratamento, a eficácia do fármaco (ex.: redução do tamanho tumoral) não é avaliada durante um ensaio de fase I (Alternativa A).\n\n• Fase II: ensaios pequenos a médios conduzidos com participantes que têm a condição de interesse para avaliar eficácia do tratamento, toxicidade, efeitos adversos e estratégias de dose ideal.  Esses estudos podem ou não ter um grupo controle e podem ser chamados de estudos-piloto.\n\n• Fase III: ensaios grandes (tipicamente >300 pacientes) que são adequadamente dimensionados para avaliar plenamente a resposta ao tratamento e segurança, frequentemente incluindo análise dos efeitos do tratamento em subconjuntos selecionados da população-alvo.  Esses ensaios devem mostrar efetividade e segurança adequadas em comparação com tratamento padrão para que o fármaco obtenha aprovação regulatória.',
+        explI:[
+          {option:'C', explanation:'Este ensaio incluiu um pequeno número de participantes com glioblastoma recorrente e comparou múltiplas doses do fármaco em relação à eficácia do tratamento e toxicidade.  Os resultados foram relatados para orientar a dose ideal do fármaco (ou seja, determinação de dose); embora a dose do fármaco tenha se correlacionado com diminuição do tamanho tumoral, os desfechos de efetividade e segurança não foram comparados com o tratamento padrão (ex.: riscos absolutos/relativos).  Portanto, este estudo é melhor caracterizado como um ensaio de fase II.'},
+          {option:'D', explanation:'Ensaios de fase IV são realizados depois que um novo fármaco obteve aprovação regulatória para uso clínico.  Esses ensaios são tipicamente realizados para avaliar benefícios e riscos de longo prazo ou identificar efeitos adversos incomuns que não foram completamente caracterizados em estudos de fase III.'},
+          {option:'E', explanation:'Ao contrário dos ensaios de fase I, II, III e IV, que incluem seres humanos, estudos pré-clínicos não envolvem seres humanos.'},
+        ]
+      }
+    },
 
   ];
 
