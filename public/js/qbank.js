@@ -14481,6 +14481,103 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0093',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A study aims to investigate the effectiveness of the topical application of tetracycline ointment in the prevention of surgical-site infection associated with resection of advanced oral cavity cancer.  Fifty patients who underwent locoregional resection were assigned by chance to receive standard care alone or tetracycline-ointment in addition to standard care.  The patients were then followed for 1 month and the number and severity of surgical-site infections were recorded for each group.',
+      q:'Which of the following best describes the study design?',
+      options:[
+        {label:'A', text:'Case-control study'},
+        {label:'B', text:'Crossover design'},
+        {label:'C', text:'Prospective cohort study'},
+        {label:'D', text:'Randomized control trial'},
+        {label:'E', text:'Retrospective cohort study'},
+      ],
+      correct:'D',
+      explC:'Research studies are classified as observational studies (eg, cross-sectional, case control, cohort) or experimental studies (eg, randomized control trials, factorial, crossover), depending on how much control a researcher has over the independent variables (eg, risk factors/exposures, interventions) in a study.  The main differences between these 2 types of study designs are as follows:\n\n• In observational designs, the researcher observes the effect of naturally occurring risk factors/exposures on outcomes of interest.\n\n• In experimental designs, the researcher randomly assigns interventions to potential participants to assess the effect of the controlled interventions.\n\nA randomized control trial is one of the simplest subtypes of experimental designs; it is an experiment in which participants are randomly allocated to ≥2 groups to assess the effect of specific interventions (eg, treatments).  In this example, 50 patients who underwent surgical resection of advanced oral cavity cancer were assigned by chance into either a tetracycline-ointment treatment group or a standard-of-care control group.  The effectiveness of the topical application of tetracycline ointment for prevention of surgical-site infection was then assessed by recording the incidence and severity of infections in each group.',
+      explI:[
+        {option:'A', explanation:'A case-control study is a type of observational study in which potential participants are initially identified as cases or controls according to outcome status (ie, developing the disease or condition of interest); the 2 groups are then assessed on their past exposure to specific risk factors.'},
+        {option:'B', explanation:'A crossover study is an experiment in which subjects are exposed to different treatments or exposures sequentially.  In the above scenario, patients are exposed to a single treatment only.'},
+        {option:'C and E', explanation:'In prospective cohort studies, exposure status is determined in the present and patients are tracked over time for development of the outcome of interest; in retrospective cohort studies, exposure status is determined at a particular point in the past, and participants are tracked retrospectively, typically through their medical records.  However, participants in cohort studies already have a definite exposure status; they are not randomly assigned to exposure groups as in the above example.'},
+      ],
+      objective:'A randomized control trial is an experiment in which participants are randomly allocated to ≥2 groups to assess the effect of specific interventions (eg, treatments).',
+      peer:{A:9, B:1, C:29, D:59, E:0},
+      labs:[
+        {name:'Surgical-site infection', value:'Incidence and severity recorded for each group', normal:'Not applicable'}
+      ],
+      ptTranslation:{
+        vignette:'Um estudo tem como objetivo investigar a efetividade da aplicação tópica de pomada de tetraciclina na prevenção de infecção de sítio cirúrgico associada à ressecção de câncer avançado da cavidade oral.  Cinquenta pacientes submetidos à ressecção locorregional foram designados ao acaso para receber cuidado padrão isolado ou pomada de tetraciclina além do cuidado padrão.  Os pacientes foram então acompanhados por 1 mês, e o número e a gravidade das infecções de sítio cirúrgico foram registrados para cada grupo.',
+        q:'Qual das seguintes alternativas melhor descreve o desenho do estudo?',
+        objective:'Um ensaio clínico randomizado é um experimento no qual participantes são alocados aleatoriamente para ≥2 grupos para avaliar o efeito de intervenções específicas (ex.: tratamentos).',
+        options:[
+          {label:'A', text:'Estudo caso-controle'},
+          {label:'B', text:'Desenho crossover'},
+          {label:'C', text:'Estudo de coorte prospectivo'},
+          {label:'D', text:'Ensaio clínico randomizado'},
+          {label:'E', text:'Estudo de coorte retrospectivo'},
+        ],
+        explC:'Estudos de pesquisa são classificados como estudos observacionais (ex.: transversal, caso-controle, coorte) ou estudos experimentais (ex.: ensaios clínicos randomizados, fatorial, crossover), dependendo de quanto controle o pesquisador tem sobre as variáveis independentes (ex.: fatores de risco/exposições, intervenções) em um estudo.  As principais diferenças entre esses 2 tipos de desenho de estudo são as seguintes:\n\n• Em desenhos observacionais, o pesquisador observa o efeito de fatores de risco/exposições que ocorrem naturalmente sobre desfechos de interesse.\n\n• Em desenhos experimentais, o pesquisador designa aleatoriamente intervenções a participantes potenciais para avaliar o efeito das intervenções controladas.\n\nUm ensaio clínico randomizado é um dos subtipos mais simples de desenhos experimentais; é um experimento no qual participantes são alocados aleatoriamente para ≥2 grupos para avaliar o efeito de intervenções específicas (ex.: tratamentos).  Neste exemplo, 50 pacientes submetidos à ressecção cirúrgica de câncer avançado da cavidade oral foram designados ao acaso para um grupo de tratamento com pomada de tetraciclina ou para um grupo controle de cuidado padrão.  A efetividade da aplicação tópica de pomada de tetraciclina para prevenção de infecção de sítio cirúrgico foi então avaliada registrando a incidência e gravidade das infecções em cada grupo.',
+        explI:[
+          {option:'A', explanation:'Um estudo caso-controle é um tipo de estudo observacional no qual participantes potenciais são inicialmente identificados como casos ou controles de acordo com o status de desfecho (ou seja, desenvolver a doença ou condição de interesse); os 2 grupos são então avaliados quanto à sua exposição passada a fatores de risco específicos.'},
+          {option:'B', explanation:'Um estudo crossover é um experimento no qual indivíduos são expostos a diferentes tratamentos ou exposições sequencialmente.  No cenário acima, os pacientes são expostos a apenas um tratamento.'},
+          {option:'C e E', explanation:'Em estudos de coorte prospectivos, o status de exposição é determinado no presente e os pacientes são acompanhados ao longo do tempo para desenvolvimento do desfecho de interesse; em estudos de coorte retrospectivos, o status de exposição é determinado em um ponto particular no passado, e os participantes são acompanhados retrospectivamente, tipicamente por meio de seus prontuários médicos.  No entanto, participantes em estudos de coorte já têm um status de exposição definido; eles não são designados aleatoriamente a grupos de exposição como no exemplo acima.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0094',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'A large, multi-country study is conducted to determine the effect of economic development on cancer incidence and mortality.  The study uses data obtained from the national cancer registries, along with information regarding per capita gross domestic product as reported by the International Monetary Fund and life expectancy as reported by the World Health Organization.',
+      q:'Which of the following best describes the design of this study?',
+      options:[
+        {label:'A', text:'Case-control study'},
+        {label:'B', text:'Cohort study'},
+        {label:'C', text:'Cross-sectional survey'},
+        {label:'D', text:'Ecological study'},
+        {label:'E', text:'Nested case-control study'},
+        {label:'F', text:'Qualitative study'},
+        {label:'G', text:'Randomized controlled trial'},
+        {label:'H', text:'Systematic review'},
+      ],
+      correct:'D',
+      explC:'This observational study is analyzing population-level data to evaluate the association between a potential exposure (eg, low socioeconomic status population) and a given outcome (eg, increased cancer mortality).  Using population-level (rather than individual-level) data as a unit of analysis in such a manner is consistent with an ecological study.  Ecological studies are useful for generating hypotheses but should not be used to draw conclusions regarding individuals within these populations (ecological fallacy).',
+      explI:[
+        {option:'A and B', explanation:'Case-control and cohort studies deal with individuals rather than populations.  In case-control studies, the odds of exposure to a certain characteristic (eg, personal socioeconomic status) are compared between affected individuals (eg, patients with cancer) and unaffected individuals who serve as controls.  In cohort studies, individuals with and without different exposures (eg, high or low personal socioeconomic status) are followed over time to determine the incidence of the disease of interest (eg, cancer).'},
+        {option:'C', explanation:'Cross-sectional surveys evaluate the exposures and outcomes of interest in individuals (not populations) at a given point in time ("snapshot").  The overall design of this multi-country study relies on population-level data, not individual-level data.'},
+        {option:'E', explanation:'Nested case-control studies start with cohort studies in which participants are followed over time; those participants who develop an outcome of interest become cases for a case-control study.'},
+        {option:'F', explanation:'Qualitative studies use focus groups, interviews (structured and semi-structured), and other anthropologic techniques to obtain narrative information for explaining quantitative results.'},
+        {option:'G', explanation:'Randomized controlled trials randomly assign subjects into a treatment group or a control group.  The groups differ only in the intervention (treatment) of interest.'},
+        {option:'H', explanation:'Systematic reviews and meta-analyses combine the results of several published studies (with an emphasis on high-quality, randomized controlled studies) to estimate the pooled effect.'},
+      ],
+      objective:'The unit of analysis in ecological studies is populations rather than individuals.',
+      peer:{A:3, B:8, C:23, D:37, E:1, F:4, G:0, H:19},
+      labs:[
+        {name:'Per capita gross domestic product', value:'Population-level exposure variable', normal:'Not applicable'},
+        {name:'Life expectancy', value:'Population-level variable', normal:'Not applicable'}
+      ],
+      ptTranslation:{
+        vignette:'Um grande estudo multicêntrico internacional é conduzido para determinar o efeito do desenvolvimento econômico sobre a incidência e mortalidade por câncer.  O estudo usa dados obtidos dos registros nacionais de câncer, juntamente com informações sobre produto interno bruto per capita conforme relatado pelo Fundo Monetário Internacional e expectativa de vida conforme relatada pela Organização Mundial da Saúde.',
+        q:'Qual das seguintes alternativas melhor descreve o desenho deste estudo?',
+        objective:'A unidade de análise em estudos ecológicos são populações, e não indivíduos.',
+        options:[
+          {label:'A', text:'Estudo caso-controle'},
+          {label:'B', text:'Estudo de coorte'},
+          {label:'C', text:'Pesquisa transversal'},
+          {label:'D', text:'Estudo ecológico'},
+          {label:'E', text:'Estudo caso-controle aninhado'},
+          {label:'F', text:'Estudo qualitativo'},
+          {label:'G', text:'Ensaio clínico randomizado'},
+          {label:'H', text:'Revisão sistemática'},
+        ],
+        explC:'Este estudo observacional está analisando dados em nível populacional para avaliar a associação entre uma exposição potencial (ex.: população de baixo status socioeconômico) e um determinado desfecho (ex.: aumento da mortalidade por câncer).  Usar dados em nível populacional (em vez de nível individual) como unidade de análise dessa maneira é consistente com um estudo ecológico.  Estudos ecológicos são úteis para gerar hipóteses, mas não devem ser usados para tirar conclusões sobre indivíduos dentro dessas populações (falácia ecológica).',
+        explI:[
+          {option:'A e B', explanation:'Estudos caso-controle e de coorte lidam com indivíduos em vez de populações.  Em estudos caso-controle, as chances de exposição a uma determinada característica (ex.: status socioeconômico pessoal) são comparadas entre indivíduos afetados (ex.: pacientes com câncer) e indivíduos não afetados que servem como controles.  Em estudos de coorte, indivíduos com e sem diferentes exposições (ex.: status socioeconômico pessoal alto ou baixo) são acompanhados ao longo do tempo para determinar a incidência da doença de interesse (ex.: câncer).'},
+          {option:'C', explanation:'Pesquisas transversais avaliam as exposições e desfechos de interesse em indivíduos (não populações) em um determinado ponto no tempo ("instantâneo").  O desenho geral deste estudo multicêntrico internacional depende de dados em nível populacional, não de dados em nível individual.'},
+          {option:'E', explanation:'Estudos caso-controle aninhados começam com estudos de coorte nos quais participantes são acompanhados ao longo do tempo; aqueles participantes que desenvolvem um desfecho de interesse tornam-se casos para um estudo caso-controle.'},
+          {option:'F', explanation:'Estudos qualitativos usam grupos focais, entrevistas (estruturadas e semiestruturadas) e outras técnicas antropológicas para obter informações narrativas para explicar resultados quantitativos.'},
+          {option:'G', explanation:'Ensaios clínicos randomizados designam aleatoriamente indivíduos para um grupo tratamento ou controle.  Os grupos diferem apenas na intervenção (tratamento) de interesse.'},
+          {option:'H', explanation:'Revisões sistemáticas e meta-análises combinam os resultados de vários estudos publicados (com ênfase em estudos randomizados controlados de alta qualidade) para estimar o efeito combinado.'},
+        ]
+      }
+    },
 
   ];
 
