@@ -13758,6 +13758,84 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0075',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'An epidemiologist wants to conduct a study on hepatitis C (HCV) transmission in a country with limited healthcare resources.  She has access to a cohort of adults newly diagnosed with HCV and a cohort of age-matched HCV-negative adults.  She plans to use these 2 cohorts of adults to conduct a case-control study.',
+      q:"Which of the following would be the most appropriate measure of interest for this researcher's study?",
+      options:[
+        {label:'A', text:'The average death rate in each cohort'},
+        {label:'B', text:'The frequency of past blood transfusions in each cohort'},
+        {label:'C', text:'The incidence rate of liver cancer in HCV-positive participants'},
+        {label:'D', text:'The rate of eventual HCV infection in HCV-negative participants'},
+        {label:'E', text:'The rate of treatment-related adverse effects in HCV-positive participants'},
+      ],
+      correct:'B',
+      explC:'A case-control study is an observational design in which potential participants are initially identified as cases or controls according to their disease status (ie, have or do not have the disease of interest).\n\nIn the study described above, a cohort of adults newly diagnosed with hepatitis C (HCV) represents the cases, and a cohort of HCV-negative adults represents the controls.  Note that "cohort" in this case refers to a group of individuals with similar characteristics (eg, HCV-positivity), not to a "cohort study," in which a group of individuals are followed over time.\n\nOnce cases and controls are identified, the frequency of past exposure to ≥1 risk factors of interest is compared between cases and controls to estimate the association between the risk factors and the outcomes.  Therefore, an appropriate measure for the proposed study would be any event that preceded HCV infection.  Among the given choices, a history of past blood transfusions precedes HCV infection.\n\nBecause of the retrospective nature of a case-control study, this study design is not able to compare the frequency (ie, incidence, risk, rate) of any event that occurs after a disease has been diagnosed (ie, prospective outcomes).  Prospective outcomes are reasonable in cohort studies and experimental designs (Choices A, C, D, and E).',
+      explI:[
+        {option:'A, C, D, and E', explanation:'Because of the retrospective nature of a case-control study, this study design is not able to compare the frequency (ie, incidence, risk, rate) of any event that occurs after a disease has been diagnosed (ie, prospective outcomes).  Prospective outcomes are reasonable in cohort studies and experimental designs.'},
+      ],
+      objective:'In a case-control study, potential participants are initially identified as cases or controls according to their disease status.  The frequency of past exposure to ≥1 risk factors of interest is then compared between cases and controls to estimate the association between the risk factors and the outcomes.',
+      peer:{A:3, B:63, C:11, D:18, E:2},
+      labs:[
+        {name:'Hepatitis C virus (HCV) status', value:'Cases newly diagnosed with HCV; controls HCV-negative', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0068_expl_temporality_study_designs.png',
+      ptTranslation:{
+        vignette:'Uma epidemiologista quer conduzir um estudo sobre a transmissão da hepatite C (HCV) em um país com recursos de saúde limitados.  Ela tem acesso a uma coorte de adultos recém-diagnosticados com HCV e a uma coorte de adultos HCV-negativos pareados por idade.  Ela planeja usar essas 2 coortes de adultos para conduzir um estudo caso-controle.',
+        q:'Qual das seguintes seria a medida de interesse mais apropriada para o estudo desta pesquisadora?',
+        objective:'Em um estudo caso-controle, participantes potenciais são inicialmente identificados como casos ou controles de acordo com seu status de doença.  A frequência de exposição passada a ≥1 fatores de risco de interesse é então comparada entre casos e controles para estimar a associação entre os fatores de risco e os desfechos.',
+        options:[
+          {label:'A', text:'A taxa média de morte em cada coorte'},
+          {label:'B', text:'A frequência de transfusões sanguíneas passadas em cada coorte'},
+          {label:'C', text:'A taxa de incidência de câncer de fígado em participantes HCV-positivos'},
+          {label:'D', text:'A taxa de infecção eventual por HCV em participantes HCV-negativos'},
+          {label:'E', text:'A taxa de efeitos adversos relacionados ao tratamento em participantes HCV-positivos'},
+        ],
+        explC:'Um estudo caso-controle é um desenho observacional no qual participantes potenciais são inicialmente identificados como casos ou controles de acordo com seu status de doença (ou seja, têm ou não têm a doença de interesse).\n\nNo estudo descrito acima, uma coorte de adultos recém-diagnosticados com hepatite C (HCV) representa os casos, e uma coorte de adultos HCV-negativos representa os controles.  Observe que "coorte" neste caso se refere a um grupo de indivíduos com características semelhantes (ex.: positividade para HCV), não a um "estudo de coorte", no qual um grupo de indivíduos é acompanhado ao longo do tempo.\n\nUma vez identificados casos e controles, a frequência de exposição passada a ≥1 fatores de risco de interesse é comparada entre casos e controles para estimar a associação entre os fatores de risco e os desfechos.  Portanto, uma medida apropriada para o estudo proposto seria qualquer evento que tenha precedido a infecção por HCV.  Entre as alternativas dadas, uma história de transfusões sanguíneas passadas precede a infecção por HCV.\n\nDevido à natureza retrospectiva de um estudo caso-controle, este desenho de estudo não é capaz de comparar a frequência (ou seja, incidência, risco, taxa) de qualquer evento que ocorra após uma doença ter sido diagnosticada (ou seja, desfechos prospectivos).  Desfechos prospectivos são razoáveis em estudos de coorte e desenhos experimentais (Alternativas A, C, D e E).',
+        explI:[
+          {option:'A, C, D e E', explanation:'Devido à natureza retrospectiva de um estudo caso-controle, este desenho de estudo não é capaz de comparar a frequência (ou seja, incidência, risco, taxa) de qualquer evento que ocorra após uma doença ter sido diagnosticada (ou seja, desfechos prospectivos).  Desfechos prospectivos são razoáveis em estudos de coorte e desenhos experimentais.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0076',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'A new estrogen receptor agonist is being evaluated for the treatment of postmenopausal symptoms.  A prospective study shows that the drug increases the risk of deep vein thrombosis (DVT) in treated women who smoke compared to untreated women who smoke, with a relative risk (RR) of 1.70 and p-value of 0.01.  In nonsmokers, no increased risk of DVT is evident with use of the drug (RR = 0.96; p-value = 0.68).',
+      q:'Which of the following describes this phenomenon?',
+      options:[
+        {label:'A', text:'Confounding'},
+        {label:'B', text:'Effect modification'},
+        {label:'C', text:'Latent period'},
+        {label:'D', text:'Observer bias'},
+        {label:'E', text:'Selection bias'},
+      ],
+      correct:'B',
+      explC:'Effect modification occurs when the effect of an exposure on an outcome is modified by another variable.  It can be identified using stratified analysis (analyzing the cohort as different subgroups), as the different strata will have different measures of association.  In this scenario, smoking status modified the effect of the new estrogen receptor agonist (exposure) on deep vein thrombosis (DVT) incidence (outcome).  Using stratified analysis by smoking status:\n\n• Among smokers, there was a statistically significant association between taking the new estrogen receptor agonist and risk of developing DVT with a relative risk of >1, indicating higher risk, and a p-value of <0.05, indicating statistical significance.\n\n• In contrast, among nonsmokers, there was no statistically significant association between taking the medication and risk of DVT (p-value >0.05).\n\nEffect modification is not a bias (Choices D and E), as it is not due to flaws in the design or analysis phases of the study.  It is a natural phenomenon that should be described, not corrected.',
+      explI:[
+        {option:'A', explanation:'Effect modification is most easily confused with confounding (Choice A), but stratified analysis can help distinguish between these 2 scenarios.  With effect modification, the different strata will have different measures of association, as seen in this example of the association between taking the estrogen receptor agonist and the risk of DVT among smokers compared to nonsmokers.  In contrast, with confounding, stratification usually reveals no significant difference between the strata.  For instance, in an analysis of primary school students (of all grade levels), age can be a confounder that muddies the association between shoe size and intelligence.  Children with bigger shoe sizes may appear to be more intelligent on initial analysis.  However, this association is likely not due to shoe size but rather to age because older children tend to have both bigger feet and more intelligence.  When older and younger children are analyzed separately (stratification based on the confounder), the association between shoe size and intelligence disappears.'},
+        {option:'C', explanation:'The latent period is the time required for an exposure to begin having an effect.  However, there is no information on how latency was handled in this study.'},
+        {option:'D and E', explanation:'Effect modification is not a bias, as it is not due to flaws in the design or analysis phases of the study.  It is a natural phenomenon that should be described, not corrected.'},
+      ],
+      objective:'Effect modification is present when the effect of the main exposure on the outcome is modified by the presence of another variable.  Effect modification is not a bias.',
+      peer:{A:47, B:40, C:2, D:2, E:6},
+      ptTranslation:{
+        vignette:'Um novo agonista do receptor de estrogênio está sendo avaliado para o tratamento de sintomas pós-menopausa.  Um estudo prospectivo mostra que o fármaco aumenta o risco de trombose venosa profunda (DVT) em mulheres tratadas que fumam em comparação com mulheres não tratadas que fumam, com risco relativo (RR) de 1,70 e valor de p de 0,01.  Em não fumantes, nenhum risco aumentado de DVT é evidente com o uso do fármaco (RR = 0,96; valor de p = 0,68).',
+        q:'Qual das seguintes alternativas descreve este fenômeno?',
+        objective:'Modificação de efeito está presente quando o efeito da exposição principal sobre o desfecho é modificado pela presença de outra variável.  Modificação de efeito não é um viés.',
+        options:[
+          {label:'A', text:'Confundimento'},
+          {label:'B', text:'Modificação de efeito'},
+          {label:'C', text:'Período latente'},
+          {label:'D', text:'Viés do observador'},
+          {label:'E', text:'Viés de seleção'},
+        ],
+        explC:'Modificação de efeito ocorre quando o efeito de uma exposição sobre um desfecho é modificado por outra variável.  Ela pode ser identificada usando análise estratificada (analisando a coorte como subgrupos diferentes), pois os diferentes estratos terão diferentes medidas de associação.  Neste cenário, o status de tabagismo modificou o efeito do novo agonista do receptor de estrogênio (exposição) sobre a incidência de trombose venosa profunda (DVT) (desfecho).  Usando análise estratificada por status de tabagismo:\n\n• Entre fumantes, houve uma associação estatisticamente significativa entre tomar o novo agonista do receptor de estrogênio e o risco de desenvolver DVT com risco relativo >1, indicando maior risco, e valor de p <0,05, indicando significância estatística.\n\n• Em contraste, entre não fumantes, não houve associação estatisticamente significativa entre tomar a medicação e o risco de DVT (valor de p >0,05).\n\nModificação de efeito não é um viés (Alternativas D e E), pois não se deve a falhas nas fases de desenho ou análise do estudo.  É um fenômeno natural que deve ser descrito, não corrigido.',
+        explI:[
+          {option:'A', explanation:'Modificação de efeito é mais facilmente confundida com confundimento (Alternativa A), mas a análise estratificada pode ajudar a distinguir esses 2 cenários.  Com modificação de efeito, os diferentes estratos terão diferentes medidas de associação, como visto neste exemplo da associação entre tomar o agonista do receptor de estrogênio e o risco de DVT entre fumantes em comparação com não fumantes.  Em contraste, com confundimento, a estratificação geralmente revela nenhuma diferença significativa entre os estratos.  Por exemplo, em uma análise de estudantes do ensino fundamental (de todos os anos), idade pode ser um fator de confundimento que obscurece a associação entre tamanho do sapato e inteligência.  Crianças com tamanhos maiores de sapato podem parecer mais inteligentes na análise inicial.  No entanto, essa associação provavelmente não se deve ao tamanho do sapato, mas sim à idade, porque crianças mais velhas tendem a ter pés maiores e mais inteligência.  Quando crianças mais velhas e mais novas são analisadas separadamente (estratificação baseada no confundidor), a associação entre tamanho do sapato e inteligência desaparece.'},
+          {option:'C', explanation:'O período latente é o tempo necessário para uma exposição começar a ter efeito.  No entanto, não há informação sobre como a latência foi tratada neste estudo.'},
+          {option:'D e E', explanation:'Modificação de efeito não é um viés, pois não se deve a falhas nas fases de desenho ou análise do estudo.  É um fenômeno natural que deve ser descrito, não corrigido.'},
+        ]
+      }
+    },
 
   ];
 
