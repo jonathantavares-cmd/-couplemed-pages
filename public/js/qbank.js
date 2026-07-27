@@ -13957,6 +13957,42 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0080',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:"Zeracizumab is an experimental angiogenesis inhibitor targeting vascular endothelial growth factor that is being tested for the treatment of advanced, chemotherapy-naive, non-squamous non-small cell lung cancer (NSCLC).  Part of the drug company's evaluation process is to analyze the 1-year survival after treatment to determine the clinical efficacy of the experimental treatment.  The results are given in the table below.",
+      q:'Which of the following best represents the number needed to harm for the zeracizumab-containing regimen?',
+      options:[
+        {label:'A', text:'2'},
+        {label:'B', text:'25'},
+        {label:'C', text:'40'},
+        {label:'D', text:'72'},
+        {label:'E', text:'94'},
+      ],
+      correct:'C',
+      explC:'Unfortunately, not all interventions or new treatments end up helping patients.  The number needed to harm (NNH) represents the number of people who must be treated before 1 additional adverse event occurs.  It is calculated in a manner similar to the number needed to treat (NNT) but using the absolute risk increase (attributable risk) instead of the absolute risk reduction:\n\nNNH = 1 / Absolute risk increase\n\nTo determine the absolute risk increase, first calculate the adverse event rate (eg, death) in the experimental and control groups.  In this case, the adverse event of interest is death at 1 year.  There were 40 + 60 = 100 people treated with the experimental treatment (ie, zeracizumab-containing regimen); of those, 60 were dead at 1 year.  Similarly, there were 51 + 69 = 120 people treated with standard chemotherapy; of those, 69 were dead at 1 year.  Therefore:\n\nAdverse event rate in experimental group = 60 / 100 = 0.60 (ie, 60%)\nAdverse event rate in control group = 69 / 120 = 0.575 (ie, 57.5%)\n\nThe absolute risk increase can then be calculated by subtracting the adverse event rate in the control group from the adverse event rate in the treatment group:\n\nAbsolute risk increase = 0.60 − 0.575 = 0.025 (ie, 2.5%)\n\nThe absolute risk increase attributable to the treatment is 2.5% (60% risk of being dead at 1 year in the treatment group compared to 57.5% in the control group).  The NNH then is simply the inverse of the absolute risk increase:\n\nNNH = 1 / 0.025 = 40\n\nThis result indicates that, on average, 40 patients need to be treated with a zeracizumab-containing regimen for 1 additional person to experience an adverse event (ie, death in 1 year).\n\nNote that the data is NOT presented in the standard format of a contingency (2 × 2) table, so care should be exercised in selecting the appropriate values and applying the formulas (see alternate solution).',
+      explI:[],
+      objective:'The number needed to harm (NNH) represents the number of people who must be treated before 1 additional adverse event occurs.  In order to calculate NNH, the absolute risk increase between the treatment and control groups must be known:\nNNH = 1 / Absolute risk increase',
+      peer:{A:16, B:18, C:54, D:7, E:3},
+      labs:[
+        {name:'Zeracizumab-containing regimen mortality', value:'60/100 dead at 1 year', normal:'Not applicable'},
+        {name:'Standard chemotherapy mortality', value:'69/120 dead at 1 year', normal:'Not applicable'}
+      ],
+      img:'assets/qbank/CMQ-STEP1-BST-0080_zeracizumab_nnh_survival_table.png',
+      ptTranslation:{
+        vignette:'Zeracizumabe é um inibidor experimental da angiogênese direcionado ao fator de crescimento endotelial vascular que está sendo testado para o tratamento de câncer de pulmão de células não pequenas (NSCLC) não escamoso, avançado, sem quimioterapia prévia.  Parte do processo de avaliação da empresa farmacêutica é analisar a sobrevida de 1 ano após o tratamento para determinar a eficácia clínica do tratamento experimental.  Os resultados são dados na tabela abaixo.',
+        q:'Qual das seguintes alternativas melhor representa o número necessário para causar dano para o regime contendo zeracizumabe?',
+        objective:'O número necessário para causar dano (NNH) representa o número de pessoas que devem ser tratadas antes que ocorra 1 evento adverso adicional.  Para calcular o NNH, o aumento absoluto do risco entre os grupos tratamento e controle deve ser conhecido:\nNNH = 1 / Aumento absoluto do risco',
+        options:[
+          {label:'A', text:'2'},
+          {label:'B', text:'25'},
+          {label:'C', text:'40'},
+          {label:'D', text:'72'},
+          {label:'E', text:'94'},
+        ],
+        explC:'Infelizmente, nem todas as intervenções ou novos tratamentos acabam ajudando os pacientes.  O número necessário para causar dano (NNH) representa o número de pessoas que devem ser tratadas antes que ocorra 1 evento adverso adicional.  Ele é calculado de maneira semelhante ao número necessário para tratar (NNT), mas usando o aumento absoluto do risco (risco atribuível) em vez da redução absoluta do risco:\n\nNNH = 1 / Aumento absoluto do risco\n\nPara determinar o aumento absoluto do risco, primeiro calcule a taxa de eventos adversos (ex.: morte) nos grupos experimental e controle.  Neste caso, o evento adverso de interesse é morte em 1 ano.  Havia 40 + 60 = 100 pessoas tratadas com o tratamento experimental (ou seja, regime contendo zeracizumabe); dessas, 60 estavam mortas em 1 ano.  De modo semelhante, havia 51 + 69 = 120 pessoas tratadas com quimioterapia padrão; dessas, 69 estavam mortas em 1 ano.  Portanto:\n\nTaxa de eventos adversos no grupo experimental = 60 / 100 = 0,60 (ou seja, 60%)\nTaxa de eventos adversos no grupo controle = 69 / 120 = 0,575 (ou seja, 57,5%)\n\nO aumento absoluto do risco pode então ser calculado subtraindo a taxa de eventos adversos no grupo controle da taxa de eventos adversos no grupo tratamento:\n\nAumento absoluto do risco = 0,60 − 0,575 = 0,025 (ou seja, 2,5%)\n\nO aumento absoluto do risco atribuível ao tratamento é 2,5% (risco de 60% de estar morto em 1 ano no grupo tratamento em comparação com 57,5% no grupo controle).  O NNH então é simplesmente o inverso do aumento absoluto do risco:\n\nNNH = 1 / 0,025 = 40\n\nEste resultado indica que, em média, 40 pacientes precisam ser tratados com um regime contendo zeracizumabe para que 1 pessoa adicional apresente um evento adverso (ou seja, morte em 1 ano).\n\nObserve que os dados NÃO são apresentados no formato padrão de uma tabela de contingência (2 × 2), então deve-se ter cuidado ao selecionar os valores apropriados e aplicar as fórmulas (veja solução alternativa).',
+        explI:[]
+      }
+    },
 
   ];
 
