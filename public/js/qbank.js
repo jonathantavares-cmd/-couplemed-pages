@@ -14112,6 +14112,94 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0084',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:"Researchers want to estimate the association between environmental lead exposure and cognitive deficits in children.  Among all children who received preventive care at 5 local pediatric clinics over the last 5 years, they identify 20 children diagnosed with cognitive deficits and 40 without the diagnosis.  The researchers then review the patients' medical records and calculate the distance between the patients' residence and known lead-contaminated geographic areas.",
+      q:'Which of the following best describes the study design used by the researchers?',
+      options:[
+        {label:'A', text:'Case-control study'},
+        {label:'B', text:'Case series study'},
+        {label:'C', text:'Cross-sectional study'},
+        {label:'D', text:'Prospective cohort study'},
+        {label:'E', text:'Randomized control trial'},
+      ],
+      correct:'A',
+      explC:'Observational studies (eg, case series, case-control studies, cohort studies, cross-sectional studies) differ from experimental studies (eg, clinical trials) in that the researchers passively observe the study participants rather than monitor the result of a specific intervention.  Observational studies can be subdivided as follows:\n\n• Descriptive studies collect data to characterize a specific health problem (eg, disease prevalence, incidence rates).\n\n• Analytical studies test hypotheses to evaluate associations between risk factors and disease.\n\nA case-control study is an analytical observational design in which potential participants are initially identified as "cases" or "controls" according to an outcome status (ie, disease of interest).  In this example, children diagnosed with cognitive deficits are cases and children without cognitive deficits are controls.  Once identified, cases and controls are then assessed retrospectively for exposure to risk factors of interest.  In this case, the risk factor of interest is environmental lead exposure, as measured by the distance between the patients\' residence and known lead-contaminated areas.  Finally, the prevalence of exposure to the risk factors (ie, frequency of exposure) is compared between cases and controls to estimate the association between the risk factors and the outcomes.',
+      explI:[
+        {option:'B', explanation:'A case series study is a descriptive study that tracks patients with a known condition (eg, exposure, risk factor, disease) to document the natural history or response to treatment.  Unlike a case-control study, a case series is purely descriptive and cannot establish associations.'},
+        {option:'C', explanation:'Cross-sectional studies may evaluate associations between risk factors and outcomes of interest.  However, unlike in case-control studies (participants selected based on the outcome status), the participants in a cross-sectional study are selected based on the inclusion and exclusion criteria set for the study.'},
+        {option:'D', explanation:'In cohort studies, 2 groups of individuals (ie, cohorts) are initially identified based on their exposure status to a specific risk factor (eg, environmental lead exposure) rather than based on their outcome status (eg, cognitive deficits), as seen in this example.  The cohorts are then followed over time for development of the outcome.'},
+        {option:'E', explanation:'A randomized clinical trial would follow individuals who have been randomized to either a treatment arm or a control arm and compare the effect of the intervention.'},
+      ],
+      objective:'A case-control study is an observational study design; it begins with selecting individuals who have the outcome ("cases") and individuals who do not have the outcome ("controls") and then retrospectively comparing their history of exposure to risk factors.',
+      peer:{A:65, B:10, C:18, D:6, E:0},
+      labs:[
+        {name:'Distance from residence to lead-contaminated areas', value:'Retrospective exposure measure', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0068_expl_temporality_study_designs.png',
+      ptTranslation:{
+        vignette:'Pesquisadores querem estimar a associação entre exposição ambiental ao chumbo e déficits cognitivos em crianças.  Entre todas as crianças que receberam cuidado preventivo em 5 clínicas pediátricas locais nos últimos 5 anos, eles identificam 20 crianças diagnosticadas com déficits cognitivos e 40 sem o diagnóstico.  Os pesquisadores então revisam os prontuários médicos dos pacientes e calculam a distância entre a residência dos pacientes e áreas geográficas conhecidas contaminadas por chumbo.',
+        q:'Qual das seguintes alternativas melhor descreve o desenho de estudo usado pelos pesquisadores?',
+        objective:'Um estudo caso-controle é um desenho de estudo observacional; ele começa selecionando indivíduos que têm o desfecho ("casos") e indivíduos que não têm o desfecho ("controles") e então compara retrospectivamente sua história de exposição a fatores de risco.',
+        options:[
+          {label:'A', text:'Estudo caso-controle'},
+          {label:'B', text:'Estudo de série de casos'},
+          {label:'C', text:'Estudo transversal'},
+          {label:'D', text:'Estudo de coorte prospectivo'},
+          {label:'E', text:'Ensaio clínico randomizado'},
+        ],
+        explC:'Estudos observacionais (ex.: séries de casos, estudos caso-controle, estudos de coorte, estudos transversais) diferem de estudos experimentais (ex.: ensaios clínicos) porque os pesquisadores observam passivamente os participantes do estudo em vez de monitorar o resultado de uma intervenção específica.  Estudos observacionais podem ser subdivididos da seguinte forma:\n\n• Estudos descritivos coletam dados para caracterizar um problema de saúde específico (ex.: prevalência de doença, taxas de incidência).\n\n• Estudos analíticos testam hipóteses para avaliar associações entre fatores de risco e doença.\n\nUm estudo caso-controle é um desenho observacional analítico no qual participantes potenciais são inicialmente identificados como "casos" ou "controles" de acordo com um status de desfecho (ou seja, doença de interesse).  Neste exemplo, crianças diagnosticadas com déficits cognitivos são casos e crianças sem déficits cognitivos são controles.  Uma vez identificados, casos e controles são então avaliados retrospectivamente quanto à exposição a fatores de risco de interesse.  Neste caso, o fator de risco de interesse é exposição ambiental ao chumbo, medida pela distância entre a residência dos pacientes e áreas conhecidas contaminadas por chumbo.  Finalmente, a prevalência de exposição aos fatores de risco (ou seja, frequência de exposição) é comparada entre casos e controles para estimar a associação entre os fatores de risco e os desfechos.',
+        explI:[
+          {option:'B', explanation:'Um estudo de série de casos é um estudo descritivo que acompanha pacientes com uma condição conhecida (ex.: exposição, fator de risco, doença) para documentar a história natural ou resposta ao tratamento.  Ao contrário de um estudo caso-controle, uma série de casos é puramente descritiva e não pode estabelecer associações.'},
+          {option:'C', explanation:'Estudos transversais podem avaliar associações entre fatores de risco e desfechos de interesse.  No entanto, ao contrário dos estudos caso-controle (participantes selecionados com base no status de desfecho), os participantes em um estudo transversal são selecionados com base nos critérios de inclusão e exclusão definidos para o estudo.'},
+          {option:'D', explanation:'Em estudos de coorte, 2 grupos de indivíduos (ou seja, coortes) são inicialmente identificados com base em seu status de exposição a um fator de risco específico (ex.: exposição ambiental ao chumbo), em vez de com base em seu status de desfecho (ex.: déficits cognitivos), como visto neste exemplo.  As coortes são então acompanhadas ao longo do tempo para desenvolvimento do desfecho.'},
+          {option:'E', explanation:'Um ensaio clínico randomizado acompanharia indivíduos randomizados para um braço de tratamento ou um braço controle e compararia o efeito da intervenção.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0085',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A clinical study compares several cut points for a new biomarker for bacterial bloodstream infection among adult patients in the intensive care unit (ICU) against blood culture results.  Analysis shows that a biomarker value ≥2.6 ng/mL has a sensitivity of 32% and a specificity of 96% for predicting bloodstream infections.',
+      q:'Which of the following conclusions about the study results is correct?',
+      options:[
+        {label:'A', text:'Based on a cut point of ≥2.6 ng/mL, 4% of adult patients in the ICU with bacterial bloodstream infections will be correctly identified.'},
+        {label:'B', text:'Based on a cut point of ≥2.6 ng/mL, 4% of adult patients in the ICU without bacterial bloodstream infections will be incorrectly identified.'},
+        {label:'C', text:'Based on a cut point of ≥2.6 ng/mL, 96% of adult patients in the ICU with bacterial bloodstream infections will be correctly identified.'},
+        {label:'D', text:'Based on a cut point of ≥2.6 ng/mL, 96% of adult patients in the ICU without bacterial bloodstream infections will be incorrectly identified.'},
+        {label:'E', text:'Of all adult patients in the ICU with bacterial bloodstream infections, 4% will have a biomarker value <2.6 ng/mL.'},
+        {label:'F', text:'Of all adult patients in the ICU with bacterial bloodstream infections, 96% will have a biomarker value <2.6 ng/mL.'},
+      ],
+      correct:'B',
+      explC:'Compared to blood culture (the reference standard for diagnosing bacterial bloodstream infection), a biomarker value cut point of ≥2.6 ng/mL has a sensitivity of 32% and a specificity of 96%.\n\n• The specificity of the test is the percentage of healthy individuals (eg, adult patients in the intensive care unit [ICU] without bacterial bloodstream infection) who are correctly identified (ie, negative test result) by the diagnostic test.  Its complement (1 − specificity) is the false-positive rate (eg, percentage of adult patients in the ICU without bacterial bloodstream infection who test positive).\n\n• The sensitivity of the test is the percentage of diseased individuals (eg, ICU patients with bacterial bloodstream infection) who are correctly identified (ie, positive test result) by the diagnostic test.  Its complement (1 − sensitivity) is the false-negative rate (eg, percentage of adult patients in the ICU with bacterial bloodstream infection who test negative).\n\nThis test\'s specificity indicates that 96% of adult patients in the ICU without bacterial bloodstream infection will be correctly identified (ie, test negative) based on the biomarker cut point of ≥2.6 ng/mL (ie, test result <2.6 ng/mL) (Choice D).  Conversely, 100% − 96% = 4% of adult patients in the ICU without bacterial bloodstream infection will be incorrectly identified.',
+      explI:[
+        {option:'A, C, E, and F', explanation:'This test\'s sensitivity indicates that 32% of adult patients in the ICU with bacterial bloodstream infection will be correctly diagnosed (ie, test positive) based on the biomarker cut point of ≥2.6 ng/mL.  Conversely, 100% − 32% = 68% of adult patients in the ICU with bacterial bloodstream infection will be missed (ie, test negative with a result <2.6 ng/mL).'},
+      ],
+      objective:'Sensitivity represents the probability that an individual with disease will have a positive test result.  Specificity represents the probability that an individual without disease will have a negative test result.',
+      peer:{A:3, B:56, C:27, D:4, E:5, F:2},
+      labs:[
+        {name:'Biomarker cut point', value:'≥2.6 ng/mL', normal:'Not applicable'},
+        {name:'Sensitivity', value:'32%', normal:'Not applicable'},
+        {name:'Specificity', value:'96%', normal:'Not applicable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0085_expl_sensitivity_specificity_table.png',
+      ptTranslation:{
+        vignette:'Um estudo clínico compara vários pontos de corte para um novo biomarcador de infecção bacteriana da corrente sanguínea entre pacientes adultos na unidade de terapia intensiva (ICU) com resultados de hemocultura.  A análise mostra que um valor de biomarcador ≥2,6 ng/mL tem sensibilidade de 32% e especificidade de 96% para predizer infecções da corrente sanguínea.',
+        q:'Qual das seguintes conclusões sobre os resultados do estudo está correta?',
+        objective:'Sensibilidade representa a probabilidade de que um indivíduo com doença tenha um resultado de teste positivo.  Especificidade representa a probabilidade de que um indivíduo sem doença tenha um resultado de teste negativo.',
+        options:[
+          {label:'A', text:'Com base em um ponto de corte de ≥2,6 ng/mL, 4% dos pacientes adultos na ICU com infecções bacterianas da corrente sanguínea serão corretamente identificados.'},
+          {label:'B', text:'Com base em um ponto de corte de ≥2,6 ng/mL, 4% dos pacientes adultos na ICU sem infecções bacterianas da corrente sanguínea serão incorretamente identificados.'},
+          {label:'C', text:'Com base em um ponto de corte de ≥2,6 ng/mL, 96% dos pacientes adultos na ICU com infecções bacterianas da corrente sanguínea serão corretamente identificados.'},
+          {label:'D', text:'Com base em um ponto de corte de ≥2,6 ng/mL, 96% dos pacientes adultos na ICU sem infecções bacterianas da corrente sanguínea serão incorretamente identificados.'},
+          {label:'E', text:'De todos os pacientes adultos na ICU com infecções bacterianas da corrente sanguínea, 4% terão um valor de biomarcador <2,6 ng/mL.'},
+          {label:'F', text:'De todos os pacientes adultos na ICU com infecções bacterianas da corrente sanguínea, 96% terão um valor de biomarcador <2,6 ng/mL.'},
+        ],
+        explC:'Comparado à hemocultura (o padrão de referência para diagnosticar infecção bacteriana da corrente sanguínea), um ponto de corte de valor do biomarcador de ≥2,6 ng/mL tem sensibilidade de 32% e especificidade de 96%.\n\n• A especificidade do teste é a porcentagem de indivíduos saudáveis (ex.: pacientes adultos na unidade de terapia intensiva [ICU] sem infecção bacteriana da corrente sanguínea) que são corretamente identificados (ou seja, resultado de teste negativo) pelo teste diagnóstico.  Seu complemento (1 − especificidade) é a taxa de falso-positivo (ex.: porcentagem de pacientes adultos na ICU sem infecção bacteriana da corrente sanguínea que testam positivo).\n\n• A sensibilidade do teste é a porcentagem de indivíduos doentes (ex.: pacientes na ICU com infecção bacteriana da corrente sanguínea) que são corretamente identificados (ou seja, resultado de teste positivo) pelo teste diagnóstico.  Seu complemento (1 − sensibilidade) é a taxa de falso-negativo (ex.: porcentagem de pacientes adultos na ICU com infecção bacteriana da corrente sanguínea que testam negativo).\n\nA especificidade deste teste indica que 96% dos pacientes adultos na ICU sem infecção bacteriana da corrente sanguínea serão corretamente identificados (ou seja, teste negativo) com base no ponto de corte do biomarcador de ≥2,6 ng/mL (ou seja, resultado do teste <2,6 ng/mL) (Alternativa D).  Inversamente, 100% − 96% = 4% dos pacientes adultos na ICU sem infecção bacteriana da corrente sanguínea serão incorretamente identificados.',
+        explI:[
+          {option:'A, C, E e F', explanation:'A sensibilidade deste teste indica que 32% dos pacientes adultos na ICU com infecção bacteriana da corrente sanguínea serão corretamente diagnosticados (ou seja, teste positivo) com base no ponto de corte do biomarcador de ≥2,6 ng/mL.  Inversamente, 100% − 32% = 68% dos pacientes adultos na ICU com infecção bacteriana da corrente sanguínea serão perdidos (ou seja, teste negativo com resultado <2,6 ng/mL).'},
+        ]
+      }
+    },
 
   ];
 
