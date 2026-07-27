@@ -13836,6 +13836,87 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0077',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:"A study to assess spironolactone's efficacy in patients with heart failure is performed.  450 patients receive either spironolactone or placebo for two years.  Neither the patients nor physicians are aware of who takes the drug or placebo.",
+      q:'The study setup described above is most effective in preventing:',
+      options:[
+        {label:'A', text:'Beta error'},
+        {label:'B', text:'Recall bias'},
+        {label:'C', text:'Observer bias'},
+        {label:'D', text:'Effect modification'},
+        {label:'E', text:'Selection bias'},
+      ],
+      correct:'C',
+      explC:"Blinding technique is commonly used in clinical trials.  The blinding can involve patients exclusively or both patients and physicians (double blinding).  The main purpose of blinding is to prevent patient or researcher expectancy from interfering with the determination of an outcome.  For example, a researcher's belief in a positive outcome in treated patients can potentially result in observer bias.",
+      explI:[
+        {option:'A', explanation:'Beta error refers to a conclusion that there is no difference between the groups studied when a difference truly exists.  Beta error is a random error, not a systematic error (i.e., bias).'},
+        {option:'B', explanation:'Recall bias results from the inaccurate recall of past exposure by subjects.  It applies mostly to case-control studies.'},
+        {option:'D', explanation:'Effect modification is not a bias and should not be controlled.'},
+        {option:'E', explanation:'Selection bias results from the manner in which people are selected for the study, or from the selective losses from follow-up.'},
+      ],
+      objective:'The main purpose of blinding is to prevent patient or researcher expectancy from interfering with an outcome.',
+      peer:{A:2, B:2, C:75, D:7, E:12},
+      ptTranslation:{
+        vignette:'Um estudo para avaliar a eficácia da espironolactona em pacientes com insuficiência cardíaca é realizado.  450 pacientes recebem espironolactona ou placebo por dois anos.  Nem os pacientes nem os médicos sabem quem toma o fármaco ou placebo.',
+        q:'A configuração do estudo descrita acima é mais eficaz para prevenir:',
+        objective:'O principal objetivo do cegamento é prevenir que a expectativa do paciente ou do pesquisador interfira em um desfecho.',
+        options:[
+          {label:'A', text:'Erro beta'},
+          {label:'B', text:'Viés de recordação'},
+          {label:'C', text:'Viés do observador'},
+          {label:'D', text:'Modificação de efeito'},
+          {label:'E', text:'Viés de seleção'},
+        ],
+        explC:'A técnica de cegamento é comumente usada em ensaios clínicos.  O cegamento pode envolver exclusivamente os pacientes ou tanto pacientes quanto médicos (duplo-cego).  O principal objetivo do cegamento é prevenir que a expectativa do paciente ou do pesquisador interfira na determinação de um desfecho.  Por exemplo, a crença de um pesquisador em um desfecho positivo em pacientes tratados pode potencialmente resultar em viés do observador.',
+        explI:[
+          {option:'A', explanation:'Erro beta refere-se a uma conclusão de que não há diferença entre os grupos estudados quando uma diferença verdadeiramente existe.  Erro beta é um erro aleatório, não um erro sistemático (isto é, viés).'},
+          {option:'B', explanation:'Viés de recordação resulta da recordação imprecisa de exposição passada pelos indivíduos.  Aplica-se principalmente a estudos caso-controle.'},
+          {option:'D', explanation:'Modificação de efeito não é um viés e não deve ser controlada.'},
+          {option:'E', explanation:'Viés de seleção resulta da maneira pela qual as pessoas são selecionadas para o estudo, ou das perdas seletivas de seguimento.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0078',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'An investigator is conducting a randomized, double-blind, placebo-controlled clinical trial of a new drug for the treatment of peripheral neuropathy in adults with multiple myeloma (MM).  One hundred fifty patients with MM are enrolled in the trial and randomized to receive either the new drug (n = 75) or placebo (n = 75).  Trial protocol requires that patients in both groups take 1 pill per day and keep a pain diary.  After 3 months of treatment, each patient is interviewed, and the pain diaries are reviewed; 9 patients taking the new drug and 3 patients taking placebo did not take the pills as instructed.',
+      q:'The investigator decides to conduct an intention-to-treat analysis of the study data.  Which of the following best describes how the data pertaining to all patients who did not adhere to protocol should be treated?',
+      options:[
+        {label:'A', text:'Conduct separate analyses of the 12 nonadherent patients and the 138 adherent patients'},
+        {label:'B', text:'Exclude all 12 nonadherent patients from analysis'},
+        {label:'C', text:'Exclude the 3 nonadherent patients in the group taking placebo from analysis'},
+        {label:'D', text:'Exclude the 9 nonadherent patients in the group taking the new drug from analysis'},
+        {label:'E', text:'Keep all 12 nonadherent patients in their respective groups for analysis'},
+      ],
+      correct:'E',
+      explC:'An intention-to-treat (ITT) analysis compares treatment groups in a randomized trial by including all subjects as initially allocated after randomization regardless of what happens during the study period.  The rationale is that if subjects have such a poor treatment response (or are so inconvenienced by treatment administration or side effects) as to not follow protocol specifications or drop out of the study, then their outcomes should be attributed to that intervention (ie, nonadherence is related to the practical benefits of treatment).  ITT analysis also helps avoid the effects of attrition (eg, loss to follow-up, dropout) and crossover (eg, switching to another assigned intervention), which may disrupt the benefit of randomization and introduce bias in the estimation of the effect of the intervention.\n\nITT analysis may lead to a more conservative estimate of the effect of the intervention.  If attrition or crossover is significant, ITT analysis may be less likely to identify a statistically significant difference between treatments (ie, shift toward the null hypothesis).  However, results will reflect the expected effect of the intervention in a practical clinical setting.',
+      explI:[
+        {option:'A, C, and D', explanation:'In accordance with ITT analysis, the investigator in this case should keep the 12 nonadherent patients in their respective groups for analysis.'},
+        {option:'B', explanation:'An analysis that includes only those patients who strictly adhered to a research protocol (ie, excluding all nonadherent patients from analysis) follows a per-protocol (PP) principle.  In PP analysis, the benefit of randomization can be lost with significant subject attrition (eg, sicker subjects selectively dropping out, introducing bias).  PP analysis can also overestimate the effect of the intervention in a practical clinical setting, particularly when the treatment is somehow aversive to patients.'},
+      ],
+      objective:'Intention-to-treat analysis includes each subject in their initial randomization group even if subjects stop the intervention or shift to a different intervention.  This approach tends to provide a conservative but more valid estimate of the intervention effect in real-world scenarios (ie, clinical settings).',
+      peer:{A:11, B:28, C:2, D:3, E:53},
+      labs:[
+        {name:'Pain diary adherence', value:'9 new-drug patients and 3 placebo patients nonadherent', normal:'Not applicable'}
+      ],
+      ptTranslation:{
+        vignette:'Um investigador está conduzindo um ensaio clínico randomizado, duplo-cego, controlado por placebo de um novo fármaco para o tratamento de neuropatia periférica em adultos com mieloma múltiplo (MM).  Cento e cinquenta pacientes com MM são incluídos no ensaio e randomizados para receber o novo fármaco (n = 75) ou placebo (n = 75).  O protocolo do ensaio exige que pacientes em ambos os grupos tomem 1 comprimido por dia e mantenham um diário de dor.  Após 3 meses de tratamento, cada paciente é entrevistado, e os diários de dor são revisados; 9 pacientes tomando o novo fármaco e 3 pacientes tomando placebo não tomaram os comprimidos conforme instruído.',
+        q:'O investigador decide conduzir uma análise por intenção de tratar dos dados do estudo.  Qual das seguintes alternativas melhor descreve como os dados referentes a todos os pacientes que não aderiram ao protocolo devem ser tratados?',
+        objective:'A análise por intenção de tratar inclui cada indivíduo em seu grupo inicial de randomização mesmo se os indivíduos interromperem a intervenção ou mudarem para uma intervenção diferente.  Essa abordagem tende a fornecer uma estimativa conservadora, mas mais válida, do efeito da intervenção em cenários do mundo real (ou seja, ambientes clínicos).',
+        options:[
+          {label:'A', text:'Conduzir análises separadas dos 12 pacientes não aderentes e dos 138 pacientes aderentes'},
+          {label:'B', text:'Excluir todos os 12 pacientes não aderentes da análise'},
+          {label:'C', text:'Excluir da análise os 3 pacientes não aderentes no grupo que tomou placebo'},
+          {label:'D', text:'Excluir da análise os 9 pacientes não aderentes no grupo que tomou o novo fármaco'},
+          {label:'E', text:'Manter todos os 12 pacientes não aderentes em seus respectivos grupos para análise'},
+        ],
+        explC:'Uma análise por intenção de tratar (ITT) compara grupos de tratamento em um ensaio randomizado incluindo todos os indivíduos conforme inicialmente alocados após a randomização, independentemente do que aconteça durante o período do estudo.  A justificativa é que, se os indivíduos têm uma resposta tão ruim ao tratamento (ou ficam tão incomodados pela administração do tratamento ou por efeitos colaterais) a ponto de não seguir as especificações do protocolo ou abandonar o estudo, então seus desfechos devem ser atribuídos a essa intervenção (ou seja, a não aderência está relacionada aos benefícios práticos do tratamento).  A análise ITT também ajuda a evitar os efeitos de atrito (ex.: perda de seguimento, abandono) e crossover (ex.: troca para outra intervenção designada), que podem interromper o benefício da randomização e introduzir viés na estimativa do efeito da intervenção.\n\nA análise ITT pode levar a uma estimativa mais conservadora do efeito da intervenção.  Se atrito ou crossover for significativo, a análise ITT pode ser menos propensa a identificar uma diferença estatisticamente significativa entre tratamentos (ou seja, deslocamento em direção à hipótese nula).  No entanto, os resultados refletirão o efeito esperado da intervenção em um ambiente clínico prático.',
+        explI:[
+          {option:'A, C e D', explanation:'De acordo com a análise ITT, o investigador neste caso deve manter os 12 pacientes não aderentes em seus respectivos grupos para análise.'},
+          {option:'B', explanation:'Uma análise que inclui apenas aqueles pacientes que aderiram estritamente a um protocolo de pesquisa (ou seja, excluindo todos os pacientes não aderentes da análise) segue um princípio por protocolo (PP).  Na análise PP, o benefício da randomização pode ser perdido com atrito significativo de indivíduos (ex.: indivíduos mais doentes abandonando seletivamente, introduzindo viés).  A análise PP também pode superestimar o efeito da intervenção em um ambiente clínico prático, particularmente quando o tratamento é de alguma forma aversivo aos pacientes.'},
+        ]
+      }
+    },
 
   ];
 
