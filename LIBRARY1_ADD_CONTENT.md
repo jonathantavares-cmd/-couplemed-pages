@@ -941,7 +941,7 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 - Leitor de página com toolbar espelhada da Library 3 (§7), tradução pelo tradutor global (§7.3), mídia abrindo em janela com zoom só ao clicar no nome (§7.5), download com imagens embutidas (§7.5b).
 - Armazenamento por Subject (§5) e mídia em WebP com a virada para R2 pronta (§5.1).
 - Create Test por tópico, isolado do QBank 1 (§11.2).
-- **Narração (§17)** — leitura em voz alta com o trecho destacado acompanhando, nas três libraries. 6 vozes gratuitas do `say` do macOS gravadas em arquivo e servidas do R2 (`couplemed-narration`), então soam iguais em qualquer aparelho. Library 3 já gera (extração de PDF em ordem de leitura, §17.6); Library 2 herda quando o leitor dela existir.
+- **Narração (§17)** — leitura em voz alta com o trecho destacado acompanhando, nas três libraries. 6 vozes gratuitas do `say` do macOS gravadas em arquivo e servidas do R2 (`couplemed-narration`), então soam iguais em qualquer aparelho. Library 3 já gera (extração de PDF em ordem de leitura, §17.6); Library 2 herda quando o leitor dela existir. **Lote da Library 3 parado em 7 de 85 PDFs** (bioquímica completa + o piloto de psiquiatria) — o ponto de retomada, com o que falta e as armadilhas medidas, está em **§17.6 → "ONDE PARAMOS"**.
 - Ferramentas: `library1-progress.js` (✅ nas pastas), `library1-assets.js` (WebP/report/upload), `library1-audit.js` (auditoria obrigatória), `narration.js` (grava e sobe os áudios), `tools/tests/` (testes do leitor, do narrador, da tradução dos flashcards e da extração de PDF).
 
 **Conteúdo — 2 de 1.838 tópicos:**
@@ -1052,6 +1052,7 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 | 2026-07-26 | **Library 3 só em inglês** (o material só existe em inglês; narrar em PT com o destaque sobre o texto inglês descasaria o que se ouve do que se lê). Narra uma página por vez. |
 | 2026-07-26 | **Extração de PDF em ordem de leitura (§17.6).** Achado ao medir: o First Aid não é de duas colunas de texto corrido e sim TABELA, e as colunas dividem a mesma linha física — por isso a separação passou a ser nos itens, antes de formar linha. Glifos do First Aid viram palavra (`q`=↑, `r`=↓, `p`=→) e as ligaduras são decididas por palavra, porque o mesmo caractere é "ff" num PDF e "fi" noutro. Limitação: páginas de 3 colunas ainda podem intercalar — daí o `inspect` obrigatório antes de gerar. |
 | 2026-07-26 | **Três bugs de extração corrigidos com o lote da Library 3 PARADO antes de gerar (§17.6).** O `inspect` obrigatório pagou-se no primeiro uso: o PDF de psiquiatria (o único já aprovado de ouvido) saía limpo, mas bioquímica e micologia saíam com palavra corrompida. (1) Fonte de símbolo era decidida por contagem de fragmentos — heurística de sorte: onde a fonte do corpo vem picada letra por letra, todo `r` do texto virava "decreased" (*"Histones are decreased ge"*, frase plausível e errada, o pior defeito possível aqui). Hoje a régua é o repertório de caracteres, numa passada de reconhecimento antes de extrair. (2) O mesmo caractere é travessão, ligadura de dois glifos, ligadura de três ou espaço fino **no mesmo PDF** — quem diz é a largura do glifo (~1,0 / ~0,55 / ~0,28 em), e fixar um papel só apagava letras ("uconazole" por fluconazole) ou trocava palavras ("Lö — er" por Löffler). (3) Decisão do usuário: consertar antes de rodar o lote, em vez de gerar 84 PDFs de áudio para regravar depois. |
+| 2026-07-26 | **Primeiro bloco do lote da Library 3 publicado e o lote PAUSADO pelo usuário em 7 de 85 PDFs** (§17.6 → "ONDE PARAMOS"): bioquímica completa, 62 páginas × 4 vozes = 496 objetos no R2, 0 falha. Decisão do usuário: parar aqui e deixar registrado o ponto de retomada em vez de seguir para imunologia. Duas armadilhas ficaram medidas e documentadas: build morto pelo ambiente deixa `.m4a` truncado que o build seguinte publica como se estivesse pronto (daí a conferência de 4 áudios por página antes de subir), e build longo em background é morto — rodar em primeiro plano em blocos de 4–5 páginas. |
 | 2026-07-26 | **Áudio aprovado pelo usuário nas duas libraries**, ouvindo as amostras: Library 1 (6 vozes, tópico de febre reumática) e Library 3 (4 vozes, First Aid Psychiatry/Pharmacology p3). Ritmo (180 wpm), pausa entre frases (0,28 s) e a leitura das setas como "increased/decreased" ficam como estão — mudar qualquer um destes obriga a regravar tudo o que já existe. |
 | 2026-07-26 | **2º tópico incluído: Allergy & Immunology › Allergic/irritant contact dermatitis** (§12.1), de 71 prints. Texto EN+PT (o PT veio **completo** desta vez), 21 mídias × 2 idiomas + 3 fotos de enunciado, 5 questões, 30 flashcards, 6 narrações. Três achados novos: **terceiro nível de pasta** na origem (§2.1b), **recorte automático da janela Exhibit Display** (`tools/library1-crop-exhibit.py`, conferido por folha de contato) e **prints com notificação do macOS sobreposta** — o de `image-3` cobria o título, o da Q4 não (a foto dela veio dividida em dois prints e foi costurada). |
 | 2026-07-26 | **Sem mnemônico no material → sem card `mnemonic`** (§11.4): a distribuição dos 30 é forma, não cota, e inventar um mnemônico violaria §1. |
@@ -1209,6 +1210,48 @@ node tools/narration.js upload --only=lib3
 ```
 
 Chave no R2: `narration/lib3/<pdf sem extensão>/pNNNN/en-<voz>.m4a`, que é exatamente o que `narrationScopeKey()` monta em `library3-reader.js`. Medido: uma página densa dá ~2 min por voz, ~0,7 MB, ~8 s para gerar.
+
+##### 🔖 ONDE PARAMOS — retomar o lote daqui (última atualização: 2026-07-26)
+
+**Feito e publicado no R2: 7 de 85 PDFs.**
+
+| Área | PDFs | Estado |
+|---|---|---|
+| `biochemistry` | 6 de 6 | ✅ completa — 62 páginas × 4 vozes = **496 objetos**, 0 falha |
+| `psychiatry/03-pharmacology` | 1 de 1 (parcial) | ⚠️ só a **página 3** das 5 — é o piloto que o usuário aprovou de ouvido; faltam as páginas 1, 2, 4 e 5 |
+| todas as outras | 0 de 78 | ⏳ nada gerado |
+
+**Faltam 78 PDFs**, nesta ordem sugerida (é a ordem de `public/js/library3-structure.js`, que é a ordem do livro): `immunology` (4) · `microbiology` (7) · `pathology` (4) · `pharmacology` (4) · `public-health-sciences` (4) · `cardiovascular` (6) · `endocrine` (5) · `gastrointestinal` (5) · `hematology-and-oncology` (5) · `musculoskeletal-skin-and-connective-tissue` (4) · `neurology-and-special-senses` (6) · `psychiatry` (2 inteiros + as 4 páginas que faltam do 03) · `renal` (5) · `reproductive` (5) · `respiratory` (5) · `rapid-review` (6). **O livro completo (`first-aid-usmle-step-1-2025-complete.pdf`, 392 MB) fica para o fim** — é o mesmo conteúdo dos outros 84 num arquivo só.
+
+Já conferidos no `inspect` mas **sem áudio gerado** (a extração deles está boa, pode ir direto para o `build`): `immunology/01-lymphoid-structures`, `microbiology/03-mycology`, `cardiovascular/05-pathology`, `rapid-review/03-classic-labs-and-findings`.
+
+**Como conferir o que está publicado de verdade** (não existe `wrangler r2 object list` nesta versão do wrangler — §17.3):
+
+```bash
+B=https://couplemed.johnestudosmed.workers.dev/api/narration/audio/narration/lib3
+curl -s -o /dev/null -w "%{http_code}\n" -r 0-1024 "$B/biochemistry/06-metabolism/p0022/en-ava.m4a"   # 206 = publicado
+```
+
+Um `206` (não `200`) é o certo aqui: o pedido é com `Range`, que é o que o Safari exige para tocar `<audio>`.
+
+##### ⚠️ Duas armadilhas operacionais medidas no primeiro bloco — ler antes de retomar
+
+1. **Conferir se toda página tem 4 áudios ANTES de subir.** Um build interrompido no meio deixa um `.m4a` truncado, e o `build` seguinte considera esse arquivo "já existe" e o publica pela metade — o aluno ouve a página cortada e nada acusa. A conferência:
+   ```bash
+   for d in .narration-build/lib3/*/*/p*; do
+     n=$(ls "$d"/*.m4a 2>/dev/null | wc -l | tr -d ' ')
+     [ "$n" -lt 4 ] && { echo "INCOMPLETA $d ($n) — apagando"; rm -rf "$d"; }
+   done
+   ```
+   Apagar a página incompleta e refazer é barato (~1,5 min); publicar truncado não tem como detectar depois.
+
+2. **Não rodar build longo em background nesta máquina.** Um PDF de 22 páginas (~15 min) foi **morto pelo ambiente** na página 12 — sem erro, só `killed`. Rodar em primeiro plano, em blocos de 4–5 páginas com `--from`/`--to`, mantém cada chamada abaixo do teto de tempo e o prejuízo de uma interrupção em uma página só.
+
+3. **Sessão paralela apagando arquivo de `tools/`.** Em 2026-07-26 o `tools/narration.js` desapareceu do diretório de trabalho **duas vezes** durante o lote (matando 2 builds e 3 uploads com `MODULE_NOT_FOUND`), e o `tools/tests/test-pdf-text.js` uma vez. Nada estava perdido — tudo commitado —, mas o hábito que resolveu foi restaurar antes de cada chamada:
+   ```bash
+   git checkout -- tools/narration.js tools/lib/pdf-text.js 2>/dev/null
+   ```
+   Não foi commit da outra sessão que apagou (conferido: o commit dela só tocou o doc), e não há hook configurado. Ver §10 sobre trabalho concorrente.
 
 **⚠️ SEMPRE rodar o `inspect` antes do `build`.** O texto de um PDF não sai na ordem em que se lê, e gerar áudio de uma página embaralhada desperdiça tempo e enche o R2 de lixo. O `inspect` imprime o que seria narrado; leia e veja se faz sentido.
 
