@@ -14443,6 +14443,44 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0092',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'Officials of a public health department report a higher than normal prevalence of acute myelogenous leukemia (AML) among children age 5-12 in their community.  They observe that some households in the community are exposed to chemical waste from a nearby factory and worry that exposure to this waste is responsible for the increased prevalence of AML.  A case-control study is designed to evaluate the health department officials\' claim that exposure to chemical waste is associated with AML in childhood.',
+      q:'Which of the following populations should be selected as the control group?',
+      options:[
+        {label:'A', text:'Children who do not have AML and are exposed to chemical waste'},
+        {label:'B', text:'Children who do not have AML and are not exposed to chemical waste'},
+        {label:'C', text:'Children who do not have AML, regardless of exposure status to chemical waste'},
+        {label:'D', text:'Children who have AML and are exposed to chemical waste'},
+        {label:'E', text:'Children who have AML and are not exposed to chemical waste'},
+        {label:'F', text:'Children who have AML, regardless of exposure status to chemical waste'},
+      ],
+      correct:'C',
+      explC:'A case-control study is the most appropriate study design for evaluating the public health officials\' claim.  This is because the disease (acute myelogenous leukemia [AML]) is a rare condition occurring at a higher rate in this population, and a retrospective exposure (chemical waste exposure) needs to be evaluated.  In case-control studies, 2 groups of subjects are created: cases (subjects with the disease of interest) and controls (subjects without the disease of interest).  After the case and control groups are selected, exposure frequency to a specific variable (eg, chemical waste) within both groups is ascertained.  If there is a statistically significant difference in exposure frequency between the 2 groups, it is likely that the variable in question is associated with disease development.\n\nIn this example, AML is the disease of interest; therefore, children with AML should be used as cases and children without AML should be used as controls.  Cases and controls should be selected regardless of exposure status to the chemical waste (Choices A and B).  Selecting subjects based on exposure status is inappropriate because comparing the frequency of exposure between the case and control groups is what determines whether the exposure is more prevalent among cases as compared to controls.\n\nIdeally, exposure frequency among controls should be representative of that among the population of individuals "at risk" of becoming cases.  In other words, for a given case-control study, controls are nondiseased individuals who could be considered cases if they had the disease.  Often, controls and cases are matched based on independent variables (eg, age, sex) to decrease the effects of confounding.',
+      explI:[
+        {option:'D, E, and F', explanation:'AML is the outcome of interest; therefore, children who have AML can be used only to form the cases group and cannot be used as controls.  Cases should also be selected regardless of exposure status.'},
+      ],
+      objective:'Selection of control subjects in case-control studies is intended to provide an accurate estimation of exposure frequency among the nondiseased general population.  Cases and controls should be selected based on disease status, not exposure status.',
+      peer:{A:21, B:19, C:30, D:1, E:22, F:4},
+      explImg:'assets/qbank/CMQ-STEP1-BST-0092_expl_case_control_aml_controls.png',
+      ptTranslation:{
+        vignette:'Autoridades de um departamento de saúde pública relatam uma prevalência maior que o normal de leucemia mieloide aguda (AML) entre crianças de 5-12 anos em sua comunidade.  Elas observam que alguns domicílios da comunidade são expostos a resíduos químicos de uma fábrica próxima e se preocupam que a exposição a esses resíduos seja responsável pelo aumento da prevalência de AML.  Um estudo caso-controle é desenhado para avaliar a alegação das autoridades de saúde de que exposição a resíduos químicos está associada à AML na infância.',
+        q:'Qual das seguintes populações deve ser selecionada como grupo controle?',
+        objective:'A seleção de indivíduos controle em estudos caso-controle tem a intenção de fornecer uma estimativa acurada da frequência de exposição entre a população geral sem doença.  Casos e controles devem ser selecionados com base no status de doença, não no status de exposição.',
+        options:[
+          {label:'A', text:'Crianças que não têm AML e são expostas a resíduos químicos'},
+          {label:'B', text:'Crianças que não têm AML e não são expostas a resíduos químicos'},
+          {label:'C', text:'Crianças que não têm AML, independentemente do status de exposição a resíduos químicos'},
+          {label:'D', text:'Crianças que têm AML e são expostas a resíduos químicos'},
+          {label:'E', text:'Crianças que têm AML e não são expostas a resíduos químicos'},
+          {label:'F', text:'Crianças que têm AML, independentemente do status de exposição a resíduos químicos'},
+        ],
+        explC:'Um estudo caso-controle é o desenho de estudo mais apropriado para avaliar a alegação das autoridades de saúde pública.  Isso ocorre porque a doença (leucemia mieloide aguda [AML]) é uma condição rara ocorrendo em uma taxa mais alta nesta população, e uma exposição retrospectiva (exposição a resíduos químicos) precisa ser avaliada.  Em estudos caso-controle, 2 grupos de indivíduos são criados: casos (indivíduos com a doença de interesse) e controles (indivíduos sem a doença de interesse).  Depois que os grupos caso e controle são selecionados, a frequência de exposição a uma variável específica (ex.: resíduos químicos) em ambos os grupos é determinada.  Se houver uma diferença estatisticamente significativa na frequência de exposição entre os 2 grupos, é provável que a variável em questão esteja associada ao desenvolvimento da doença.\n\nNeste exemplo, AML é a doença de interesse; portanto, crianças com AML devem ser usadas como casos e crianças sem AML devem ser usadas como controles.  Casos e controles devem ser selecionados independentemente do status de exposição aos resíduos químicos (Alternativas A e B).  Selecionar indivíduos com base no status de exposição é inadequado porque comparar a frequência de exposição entre os grupos caso e controle é o que determina se a exposição é mais prevalente entre casos em comparação com controles.\n\nIdealmente, a frequência de exposição entre controles deve ser representativa daquela na população de indivíduos "em risco" de se tornarem casos.  Em outras palavras, para um determinado estudo caso-controle, controles são indivíduos sem doença que poderiam ser considerados casos se tivessem a doença.  Frequentemente, controles e casos são pareados com base em variáveis independentes (ex.: idade, sexo) para diminuir os efeitos de confundimento.',
+        explI:[
+          {option:'D, E e F', explanation:'AML é o desfecho de interesse; portanto, crianças que têm AML podem ser usadas apenas para formar o grupo de casos e não podem ser usadas como controles.  Casos também devem ser selecionados independentemente do status de exposição.'},
+        ]
+      }
+    },
 
   ];
 
