@@ -14578,6 +14578,88 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0095',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'A hospital wants to estimate the prevalence of diabetic nephropathy in the surrounding population of adults with type 2 diabetes.  Kidney biopsy samples are obtained from 500 adult patients with diabetes who receive care at the hospital.  The samples are then interpreted by 10 different pathologists, 5 of whom work at the hospital and 5 of whom work at nearby institutions.  A preliminary analysis shows that the pathologists who work for the hospital are 3 times more likely to interpret the biopsy samples as diabetic nephropathy compared to those who do not work for the hospital.',
+      q:'Which of the following most likely explains this difference in interpretation?',
+      options:[
+        {label:'A', text:'Confounding'},
+        {label:'B', text:'Lead-time bias'},
+        {label:'C', text:'Observer bias'},
+        {label:'D', text:'Recall bias'},
+        {label:'E', text:'Selection bias'},
+      ],
+      correct:'C',
+      explC:'Observer bias (also known as expectancy bias) occurs when investigators misclassify data due to preconceived expectations or prior knowledge concerning the study or its participants.  This type of bias is particularly important when outcomes are subjective (ie, involve personal interpretation of clinical, microscopic, or radiographic findings).\n\nIn this case, the pathologists who work at the hospital where the study is being conducted may know that the study is investigating diabetic nephropathy, or they may have access to additional medical records that indicate diabetes status.  Conversely, the pathologists at other institutions are more likely to be blinded to the study\'s objectives and the patients\' medical history.',
+      explI:[
+        {option:'A', explanation:'A confounder is an extraneous variable that is related to the exposure under investigation but that is also an independent risk factor for a disease.  Confounding distorts the relationship between the exposure and the disease.  For example, fatty food intake is a potential confounder in a study evaluating the association between physical activity and obesity, as people who do not exercise regularly may be more likely to consume a high-fat diet.'},
+        {option:'B', explanation:'Lead-time bias refers to the apparent prolongation of survival in patients who undergo a screening test that allows for earlier diagnosis but does not actually improve prognosis.  For example, a patient with pancreatic cancer presents with metastases at age 58 for which he receives treatment, but he dies at age 60.  Had the same patient been screened and diagnosed with pancreatic cancer at age 55, he would have received earlier treatment, but the disease could have progressed such that he would have still died at age 60 (ie, age at death would not have been affected by screening).'},
+        {option:'D', explanation:'Recall bias results from inaccurate recall of past exposure by people in a study; it applies most often to retrospective designs such as case-control studies.  People who have experienced an adverse outcome are more likely to recall previous risk factors than people who have not experienced an adverse outcome.'},
+        {option:'E', explanation:'Selection bias can occur with inappropriate (ie, nonrandom) selection methods or through selective attrition of the study participants.  For example, many patients drop from a clinical trial due to the severity of side effects associated with the treatment.  This type of attrition is selective (ie, different attrition rates between groups) and reduces the generalizability of the study.'},
+      ],
+      objective:'Observer bias occurs when the investigator\'s evaluation is affected by preconceived expectations or prior knowledge, typically leading to overestimation of the disease association or treatment effects.  This type of bias can be reduced by conducting a blinded study in which observers are unaware of study details and patient characteristics that could unduly influence them.',
+      peer:{A:7, B:1, C:73, D:4, E:13},
+      labs:[
+        {name:'Kidney biopsy interpretation', value:'Pathologist-dependent subjective outcome', normal:'Not applicable'}
+      ],
+      ptTranslation:{
+        vignette:'Um hospital quer estimar a prevalência de nefropatia diabética na população circundante de adultos com diabetes tipo 2.  Amostras de biópsia renal são obtidas de 500 pacientes adultos com diabetes que recebem atendimento no hospital.  As amostras são então interpretadas por 10 patologistas diferentes, 5 dos quais trabalham no hospital e 5 dos quais trabalham em instituições próximas.  Uma análise preliminar mostra que os patologistas que trabalham para o hospital são 3 vezes mais propensos a interpretar as amostras de biópsia como nefropatia diabética em comparação com aqueles que não trabalham para o hospital.',
+        q:'Qual das seguintes alternativas explica mais provavelmente essa diferença na interpretação?',
+        objective:'Viés do observador ocorre quando a avaliação do investigador é afetada por expectativas preconcebidas ou conhecimento prévio, tipicamente levando à superestimação da associação com doença ou dos efeitos do tratamento.  Esse tipo de viés pode ser reduzido conduzindo um estudo cego no qual os observadores desconhecem detalhes do estudo e características dos pacientes que poderiam influenciá-los indevidamente.',
+        options:[
+          {label:'A', text:'Confundimento'},
+          {label:'B', text:'Viés de tempo de antecipação'},
+          {label:'C', text:'Viés do observador'},
+          {label:'D', text:'Viés de recordação'},
+          {label:'E', text:'Viés de seleção'},
+        ],
+        explC:'Viés do observador (também conhecido como viés de expectativa) ocorre quando investigadores classificam dados incorretamente devido a expectativas preconcebidas ou conhecimento prévio sobre o estudo ou seus participantes.  Esse tipo de viés é particularmente importante quando os desfechos são subjetivos (ou seja, envolvem interpretação pessoal de achados clínicos, microscópicos ou radiográficos).\n\nNeste caso, os patologistas que trabalham no hospital onde o estudo está sendo conduzido podem saber que o estudo está investigando nefropatia diabética, ou podem ter acesso a prontuários médicos adicionais que indicam status de diabetes.  Inversamente, os patologistas de outras instituições são mais propensos a estarem cegados aos objetivos do estudo e à história médica dos pacientes.',
+        explI:[
+          {option:'A', explanation:'Um confundidor é uma variável extrínseca relacionada à exposição sob investigação, mas que também é um fator de risco independente para uma doença.  Confundimento distorce a relação entre a exposição e a doença.  Por exemplo, ingestão de alimentos gordurosos é um potencial confundidor em um estudo que avalia a associação entre atividade física e obesidade, pois pessoas que não se exercitam regularmente podem ser mais propensas a consumir uma dieta rica em gordura.'},
+          {option:'B', explanation:'Viés de tempo de antecipação refere-se ao aparente prolongamento da sobrevida em pacientes que passam por um teste de rastreamento que permite diagnóstico mais precoce, mas não melhora realmente o prognóstico.  Por exemplo, um paciente com câncer pancreático apresenta metástases aos 58 anos, pelas quais recebe tratamento, mas morre aos 60 anos.  Se o mesmo paciente tivesse sido rastreado e diagnosticado com câncer pancreático aos 55 anos, teria recebido tratamento mais cedo, mas a doença poderia ter progredido de modo que ele ainda teria morrido aos 60 anos (ou seja, a idade ao óbito não teria sido afetada pelo rastreamento).'},
+          {option:'D', explanation:'Viés de recordação resulta de recordação imprecisa de exposição passada por pessoas em um estudo; aplica-se mais frequentemente a desenhos retrospectivos, como estudos caso-controle.  Pessoas que apresentaram um desfecho adverso são mais propensas a recordar fatores de risco prévios do que pessoas que não apresentaram um desfecho adverso.'},
+          {option:'E', explanation:'Viés de seleção pode ocorrer com métodos de seleção inadequados (ou seja, não aleatórios) ou por atrito seletivo dos participantes do estudo.  Por exemplo, muitos pacientes abandonam um ensaio clínico devido à gravidade dos efeitos colaterais associados ao tratamento.  Esse tipo de atrito é seletivo (ou seja, diferentes taxas de atrito entre grupos) e reduz a generalização do estudo.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0096',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A study compared drug A versus standard therapy in preventing recurrent pulmonary embolism (PE).  The absolute risk reduction for drug A versus standard therapy was 4%.  The incidence of recurrent PE in the standard therapy group was 6%.  There were 24 patients who developed recurrent PE in the drug A group.',
+      q:'How many total subjects were there in the drug A group?',
+      options:[
+        {label:'A', text:'600'},
+        {label:'B', text:'900'},
+        {label:'C', text:'1200'},
+        {label:'D', text:'1500'},
+        {label:'E', text:'1800'},
+        {label:'F', text:'2100'},
+      ],
+      correct:'C',
+      explC:'This question is meant to challenge your knowledge of how absolute risk reductions (ARR) are calculated.  The ARR equals the event rate in the control group (ERcontrol) minus the event rate in the treatment group (ERtreatment).  In this example, the event rate represents the incidence of recurrent pulmonary embolism (PE); ERtreatment is the incidence of recurrent PE in the drug A group, and ERcontrol is the incidence in the standard therapy group.  ERtreatment can be determined from the ARR (given as 4%) and ERcontrol (given as 6%):\n\nARR = ERcontrol − ERtreatment\n4% = 6% − ERtreatment\nERtreatment = 2% = 0.02\n\nThis value (ERtreatment) also represents the number of events in the treatment arm divided by the number of subjects in the treatment arm.  Therefore, knowing the total number of events in the treatment arm (24 instances of recurrent PE in the drug A group), the number of subjects in the treatment arm can be easily calculated:\n\nERtreatment = Number of events in the treatment arm / Number of subjects in the treatment arm\n0.02 = 24 / Number of subjects in the treatment arm\nNumber of subjects in the treatment arm = 24 / 0.02 = 1200',
+      explI:[],
+      objective:'Absolute risk reduction = event rate in the control group − event rate in the treatment group.',
+      peer:{A:17, B:6, C:67, D:4, E:3, F:1},
+      labs:[
+        {name:'Absolute risk reduction', value:'4%', normal:'Not applicable'},
+        {name:'Standard therapy recurrent PE incidence', value:'6%', normal:'Not applicable'},
+        {name:'Drug A recurrent PE events', value:'24 patients', normal:'Not applicable'}
+      ],
+      ptTranslation:{
+        vignette:'Um estudo comparou o fármaco A versus terapia padrão na prevenção de embolia pulmonar (PE) recorrente.  A redução absoluta do risco para o fármaco A versus terapia padrão foi de 4%.  A incidência de PE recorrente no grupo de terapia padrão foi de 6%.  Houve 24 pacientes que desenvolveram PE recorrente no grupo do fármaco A.',
+        q:'Quantos indivíduos totais havia no grupo do fármaco A?',
+        objective:'Redução absoluta do risco = taxa de eventos no grupo controle − taxa de eventos no grupo tratamento.',
+        options:[
+          {label:'A', text:'600'},
+          {label:'B', text:'900'},
+          {label:'C', text:'1200'},
+          {label:'D', text:'1500'},
+          {label:'E', text:'1800'},
+          {label:'F', text:'2100'},
+        ],
+        explC:'Esta questão pretende desafiar seu conhecimento de como reduções absolutas do risco (ARR) são calculadas.  A ARR é igual à taxa de eventos no grupo controle (ERcontrole) menos a taxa de eventos no grupo tratamento (ERtratamento).  Neste exemplo, a taxa de eventos representa a incidência de embolia pulmonar (PE) recorrente; ERtratamento é a incidência de PE recorrente no grupo do fármaco A, e ERcontrole é a incidência no grupo de terapia padrão.  ERtratamento pode ser determinada a partir da ARR (dada como 4%) e ERcontrole (dada como 6%):\n\nARR = ERcontrole − ERtratamento\n4% = 6% − ERtratamento\nERtratamento = 2% = 0,02\n\nEsse valor (ERtratamento) também representa o número de eventos no braço de tratamento dividido pelo número de indivíduos no braço de tratamento.  Portanto, sabendo o número total de eventos no braço de tratamento (24 casos de PE recorrente no grupo do fármaco A), o número de indivíduos no braço de tratamento pode ser facilmente calculado:\n\nERtratamento = Número de eventos no braço de tratamento / Número de indivíduos no braço de tratamento\n0,02 = 24 / Número de indivíduos no braço de tratamento\nNúmero de indivíduos no braço de tratamento = 24 / 0,02 = 1200',
+        explI:[]
+      }
+    },
 
   ];
 
