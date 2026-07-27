@@ -14200,6 +14200,86 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0086',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'A geneticist is interested in the potential causes of a congenital abnormality.  She hypothesizes that acetaminophen use during the first trimester of pregnancy might be associated with the abnormality.  In her study, a sample of mothers of children with and without the abnormality are randomly selected from government birth records.  Personal interviews are then conducted with the mothers to determine fetal exposure to acetaminophen.  Results show that mothers of children who do not have the abnormality did not take acetaminophen as frequently during the first trimester.',
+      q:'This type of study is most susceptible to which of the following types of bias?',
+      options:[
+        {label:'A', text:'Allocation bias'},
+        {label:'B', text:'Detection bias'},
+        {label:'C', text:'Recall bias'},
+        {label:'D', text:'Referral bias'},
+        {label:'E', text:'Selection bias'},
+      ],
+      correct:'C',
+      explC:'Recall bias results from study participants\' inaccurate recall of past exposure and occurs most often in retrospective studies such as case-control studies.  People who have experienced an adverse event (eg, congenital abnormalities in their children) are more likely to recall previous potential risk factors (eg, acetaminophen use) than people who have not experienced an adverse event.\n\nContrary to case-control studies, which evaluate exposure to potential risk factors retrospectively, prospective studies begin with exposed and unexposed individuals.  Because the exposure status is determined at the time of enrollment in the study, recall bias is minimized.',
+      explI:[
+        {option:'A', explanation:'Allocation bias can result from the way patients are assigned to the treatment and control groups.  It may occur when subjects are nonrandomly assigned to the study groups of a clinical trial (eg, physicians may preferentially enroll sicker patients into the experimental group).  Allocation bias is different from selection bias, which occurs when the studied sample does not represent the general population (eg, because of nonrandom selection).'},
+        {option:'B', explanation:'Detection bias refers to the fact that a risk factor itself may lead to extensive diagnostic investigation and increase the probability that a disease is identified.  For instance, patients who smoke may undergo increased imaging surveillance due to their smoking status, which would detect more cases of cancer in general.'},
+        {option:'D', explanation:'Referral (admission rate) bias occurs when the case and control populations differ due to admission or referral practices.  For instance, a study involving asbestos as a risk factor for lung cancer conducted at a hospital specializing in treating asbestosis may select patients with lung cancer (cases) from the respiratory department and a control group without lung cancer from other departments.  Because the hospital specializes in asbestosis treatment, patients in the respiratory department with lung cancer are more likely to have a history of asbestos exposure (compared to patients with lung cancer at other, nonspecialized institutions).  Therefore, the study may erroneously report a stronger association than actually exists.'},
+        {option:'E', explanation:'Selection bias occurs when the method of selection used in a particular study results in selecting sample of participants who are not representative of the intended population.  A common example is patients with cancer who fail standard therapy and who are therefore the most likely to enroll in experimental trials (self-selection), leading to results that are not applicable to patients with less advanced cancers.'},
+      ],
+      objective:'Recall bias results from study participants\' inaccurate recall of past exposure and occurs most often in retrospective studies such as case-control studies.  People who have experienced an adverse event are more likely to recall risk factors than those who have not experienced an adverse event.',
+      peer:{A:1, B:3, C:89, D:0, E:5},
+      ptTranslation:{
+        vignette:'Uma geneticista está interessada nas potenciais causas de uma anomalia congênita.  Ela hipotetiza que o uso de acetaminofeno durante o primeiro trimestre da gestação pode estar associado à anomalia.  Em seu estudo, uma amostra de mães de crianças com e sem a anomalia é selecionada aleatoriamente a partir de registros governamentais de nascimento.  Entrevistas pessoais são então conduzidas com as mães para determinar a exposição fetal ao acetaminofeno.  Os resultados mostram que mães de crianças que não têm a anomalia não tomaram acetaminofeno com tanta frequência durante o primeiro trimestre.',
+        q:'Este tipo de estudo é mais suscetível a qual dos seguintes tipos de viés?',
+        objective:'Viés de recordação resulta da recordação imprecisa de exposição passada pelos participantes do estudo e ocorre mais frequentemente em estudos retrospectivos, como estudos caso-controle.  Pessoas que apresentaram um evento adverso são mais propensas a recordar fatores de risco do que aquelas que não apresentaram um evento adverso.',
+        options:[
+          {label:'A', text:'Viés de alocação'},
+          {label:'B', text:'Viés de detecção'},
+          {label:'C', text:'Viés de recordação'},
+          {label:'D', text:'Viés de encaminhamento'},
+          {label:'E', text:'Viés de seleção'},
+        ],
+        explC:'Viés de recordação resulta da recordação imprecisa de exposição passada pelos participantes do estudo e ocorre mais frequentemente em estudos retrospectivos, como estudos caso-controle.  Pessoas que apresentaram um evento adverso (ex.: anomalias congênitas em seus filhos) são mais propensas a recordar potenciais fatores de risco prévios (ex.: uso de acetaminofeno) do que pessoas que não apresentaram um evento adverso.\n\nAo contrário dos estudos caso-controle, que avaliam retrospectivamente a exposição a potenciais fatores de risco, estudos prospectivos começam com indivíduos expostos e não expostos.  Como o status de exposição é determinado no momento da inclusão no estudo, o viés de recordação é minimizado.',
+        explI:[
+          {option:'A', explanation:'Viés de alocação pode resultar da forma como os pacientes são designados aos grupos tratamento e controle.  Pode ocorrer quando indivíduos são designados de forma não randomizada aos grupos de estudo de um ensaio clínico (ex.: médicos podem inscrever preferencialmente pacientes mais doentes no grupo experimental).  Viés de alocação é diferente de viés de seleção, que ocorre quando a amostra estudada não representa a população geral (ex.: por causa de seleção não aleatória).'},
+          {option:'B', explanation:'Viés de detecção refere-se ao fato de que um fator de risco em si pode levar a investigação diagnóstica extensa e aumentar a probabilidade de uma doença ser identificada.  Por exemplo, pacientes que fumam podem passar por maior vigilância por imagem devido ao status de tabagismo, o que detectaria mais casos de câncer em geral.'},
+          {option:'D', explanation:'Viés de encaminhamento (taxa de admissão) ocorre quando as populações de casos e controles diferem devido a práticas de admissão ou encaminhamento.  Por exemplo, um estudo envolvendo asbestos como fator de risco para câncer de pulmão conduzido em um hospital especializado em tratar asbestose pode selecionar pacientes com câncer de pulmão (casos) do departamento respiratório e um grupo controle sem câncer de pulmão de outros departamentos.  Como o hospital se especializa no tratamento de asbestose, pacientes no departamento respiratório com câncer de pulmão são mais propensos a ter história de exposição a asbestos (comparados a pacientes com câncer de pulmão em outras instituições não especializadas).  Portanto, o estudo pode relatar erroneamente uma associação mais forte do que realmente existe.'},
+          {option:'E', explanation:'Viés de seleção ocorre quando o método de seleção usado em um estudo particular resulta na seleção de uma amostra de participantes que não é representativa da população pretendida.  Um exemplo comum são pacientes com câncer que falham à terapia padrão e que, portanto, são os mais propensos a se inscrever em ensaios experimentais (autosseleção), levando a resultados que não são aplicáveis a pacientes com cânceres menos avançados.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0087',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A prospective cohort study was conducted to assess the role of daily alcohol consumption in the occurrence of breast carcinoma.  The investigators reported a 5-year relative risk of 1.4 for people who consume alcohol daily compared to those who do not.  The 95% confidence interval was 1.02-1.85.',
+      q:'Which of the following p-values is most consistent with the results described above?',
+      options:[
+        {label:'A', text:'0.03'},
+        {label:'B', text:'0.06'},
+        {label:'C', text:'0.09'},
+        {label:'D', text:'0.11'},
+        {label:'E', text:'0.20'},
+      ],
+      correct:'A',
+      explC:'Relative risk (RR) is used in cohort studies to determine how strongly a risk factor (ie, exposure) is associated with an outcome.  RR is the risk of an outcome (eg, breast cancer) in the exposed group (eg, individuals who consume alcohol daily) divided by the risk of that outcome in the unexposed group (eg, individuals who do not consume alcohol daily).  If the RR = 1.0 (null value), then there is no association between the exposure and the disease.  An RR >1.0 indicates that the exposure is associated with increased risk of disease.  An RR <1.0 means that the exposure is associated with decreased risk of disease.\n\nThe RR by itself does not account for the possibility that chance alone is responsible for the results.  The 95% confidence interval (CI) and p-value are 2 measures of statistical significance that can help strengthen the findings of a study using RR.  For a result to be considered statistically significant, its corresponding CI must NOT contain the null value.  When the 95% CI does not include the null value, this gives a corresponding p-value <0.05 and the association between exposure and outcome is considered statistically significant.  A p-value <0.05 reflects that there is a very low probability that the result was due to chance alone; formally, the p-value is the probability of observing a given (or more extreme) result due to chance alone assuming that the null hypothesis is true.\n\nIn this example, the RR is 1.4 with a 95% CI of 1.02-1.85.  It can be concluded that daily alcohol consumption is associated with an increased risk of breast carcinoma (RR >1) and that the findings are statistically significant (95% CI does not include the null value of 1.0).  Therefore, the expected p-value would be <0.05.',
+      explI:[
+        {option:'B, C, D, and E', explanation:'These options contain p-values >0.05, so the results would not be statistically significant.  Note the relationship between CI and p-value: a statistically significant 95% CI corresponds to a p-value <0.05; a statistically significant 99% CI would also not include the null value and likely be wider than a 95% CI corresponds to a p-value <0.01.'},
+      ],
+      objective:'A result is considered statistically significant if the 95% confidence interval does not cross the null value, which corresponds to p-value <0.05.',
+      peer:{A:68, B:15, C:6, D:3, E:5},
+      labs:[
+        {name:'Relative risk', value:'1.4', normal:'Null value = 1.0'},
+        {name:'95% confidence interval', value:'1.02-1.85', normal:'Significant if it does not include 1.0'}
+      ],
+      ptTranslation:{
+        vignette:'Um estudo de coorte prospectivo foi conduzido para avaliar o papel do consumo diário de álcool na ocorrência de carcinoma de mama.  Os investigadores relataram um risco relativo em 5 anos de 1,4 para pessoas que consomem álcool diariamente em comparação com aquelas que não consomem.  O intervalo de confiança de 95% foi 1,02-1,85.',
+        q:'Qual dos seguintes valores de p é mais consistente com os resultados descritos acima?',
+        objective:'Um resultado é considerado estatisticamente significativo se o intervalo de confiança de 95% não cruza o valor nulo, o que corresponde a valor de p <0,05.',
+        options:[
+          {label:'A', text:'0,03'},
+          {label:'B', text:'0,06'},
+          {label:'C', text:'0,09'},
+          {label:'D', text:'0,11'},
+          {label:'E', text:'0,20'},
+        ],
+        explC:'Risco relativo (RR) é usado em estudos de coorte para determinar quão fortemente um fator de risco (ou seja, exposição) está associado a um desfecho.  RR é o risco de um desfecho (ex.: câncer de mama) no grupo exposto (ex.: indivíduos que consomem álcool diariamente) dividido pelo risco desse desfecho no grupo não exposto (ex.: indivíduos que não consomem álcool diariamente).  Se RR = 1,0 (valor nulo), então não há associação entre a exposição e a doença.  Um RR >1,0 indica que a exposição está associada a risco aumentado de doença.  Um RR <1,0 significa que a exposição está associada a risco diminuído de doença.\n\nO RR por si só não considera a possibilidade de que apenas o acaso seja responsável pelos resultados.  O intervalo de confiança (CI) de 95% e o valor de p são 2 medidas de significância estatística que podem ajudar a fortalecer os achados de um estudo usando RR.  Para um resultado ser considerado estatisticamente significativo, seu CI correspondente NÃO deve conter o valor nulo.  Quando o CI de 95% não inclui o valor nulo, isso fornece um valor de p correspondente <0,05 e a associação entre exposição e desfecho é considerada estatisticamente significativa.  Um valor de p <0,05 reflete que há uma probabilidade muito baixa de que o resultado tenha sido devido apenas ao acaso; formalmente, o valor de p é a probabilidade de observar um resultado dado (ou mais extremo) devido apenas ao acaso, assumindo que a hipótese nula é verdadeira.\n\nNeste exemplo, o RR é 1,4 com CI de 95% de 1,02-1,85.  Pode-se concluir que o consumo diário de álcool está associado a risco aumentado de carcinoma de mama (RR >1) e que os achados são estatisticamente significativos (CI de 95% não inclui o valor nulo de 1,0).  Portanto, o valor de p esperado seria <0,05.',
+        explI:[
+          {option:'B, C, D e E', explanation:'Essas alternativas contêm valores de p >0,05, então os resultados não seriam estatisticamente significativos.  Observe a relação entre CI e valor de p: um CI de 95% estatisticamente significativo corresponde a um valor de p <0,05; um CI de 99% estatisticamente significativo também não incluiria o valor nulo e provavelmente seria mais amplo que um CI de 95% corresponde a um valor de p <0,01.'},
+        ]
+      }
+    },
 
   ];
 
