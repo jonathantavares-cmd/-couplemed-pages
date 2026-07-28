@@ -14660,6 +14660,49 @@
         explI:[]
       }
     },
+    { id:'CMQ-STEP1-BST-0097',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A 45-year-old man comes to the office for a routine visit.  The patient has a first-degree relative with Alzheimer dementia and is concerned about his chances of developing the disease.  He has read in the newspaper that decreased consumption of yellow and orange fruits and vegetables has been associated with Alzheimer disease and would like to know how likely he is to develop the disease.  A medical literature review uncovers a recent cohort study that evaluated the association between blood carotene concentration and Alzheimer disease.  The development of the disease was evaluated in a 20-year follow-up study of 200 middle-aged subjects who have a first-degree relative with Alzheimer disease.  The results are as follows:',
+      q:'Assuming the patient has low carotene levels, what is his 20-year risk of developing Alzheimer disease?',
+      options:[
+        {label:'A', text:'0.19'},
+        {label:'B', text:'0.23'},
+        {label:'C', text:'0.27'},
+        {label:'D', text:'0.30'},
+        {label:'E', text:'0.40'},
+      ],
+      correct:'E',
+      explC:'Risk is the probability of developing a disease or other health outcome over the study period.  In this example, it represents the probability of developing Alzheimer disease over a 20-year period among middle-aged subjects who have a first degree relative with the disease.  To calculate this probability in subjects with low carotene levels, divide the number of subjects who develop Alzheimer disease in the low carotene group (18) by the overall number of subjects in the low carotene group (18 + 27 = 45).\n\nRisk of developing Alzheimer disease among subjects with low carotene = 18 / (18 + 27)\n= 18 / 45 = 0.40\n\nThis means that, among subjects with low carotene levels, there is a 40% probability of developing Alzheimer disease in 20 years.\n\nNote that this is different from the relative risk (RR) of Alzheimer disease in subjects with low carotene levels compared to those with normal carotene groups:\n\nRR = risk of developing Alzheimer disease among subjects with low carotene levels / risk of developing Alzheimer disease among subjects with normal carotene levels = 0.4 / [42 / (42 + 113)] = 0.4 / 0.27 = 1.48\n\nAs the data is not presented in the standard 2 × 2 (contingency) table format, care must be taken to perform the calculations without relying on memorized formulas.',
+      explI:[
+        {option:'A and D', explanation:'The prevalence of low carotene (exposure) among subjects who do not develop Alzheimer disease is 27 / (27 + 113) = 27 / 140 = 0.19 (19%).  The prevalence of low carotene (exposure) among subjects who develop Alzheimer disease is 18 / (18 + 42) = 18 / 60 = 0.3 (30%).'},
+        {option:'B', explanation:'The prevalence of low carotene in the entire cohort is (18 + 27) / (18 + 42 + 27 + 113) = 45 / 200 = 0.23 (23%).'},
+        {option:'C', explanation:'As noted in the RR calculation above, the 20-year risk of developing Alzheimer disease among subjects with normal carotene levels is 42 / (42 + 113) = 42 / 155 = 0.27 (27%).'},
+      ],
+      objective:'Risk is the probability of developing a disease over a certain period of time.  To calculate this probability, divide the number of affected subjects by the total number of subjects in the corresponding exposure group.',
+      peer:{A:4, B:4, C:5, D:18, E:67},
+      labs:[
+        {name:'Low carotene group', value:'18 Alzheimer disease / 45 total', normal:'Not applicable'}
+      ],
+      img:'assets/qbank/CMQ-STEP1-BST-0097_alzheimer_carotene_risk_table.png',
+      ptTranslation:{
+        vignette:'Um homem de 45 anos vem ao consultório para uma visita de rotina.  O paciente tem um parente de primeiro grau com demência de Alzheimer e está preocupado com suas chances de desenvolver a doença.  Ele leu no jornal que a diminuição do consumo de frutas e vegetais amarelos e laranja foi associada à doença de Alzheimer e gostaria de saber qual a probabilidade de desenvolver a doença.  Uma revisão da literatura médica revela um estudo de coorte recente que avaliou a associação entre concentração sanguínea de caroteno e doença de Alzheimer.  O desenvolvimento da doença foi avaliado em um estudo de seguimento de 20 anos de 200 indivíduos de meia-idade que têm um parente de primeiro grau com doença de Alzheimer.  Os resultados são os seguintes:',
+        q:'Assumindo que o paciente tem níveis baixos de caroteno, qual é seu risco em 20 anos de desenvolver doença de Alzheimer?',
+        objective:'Risco é a probabilidade de desenvolver uma doença ao longo de um certo período de tempo.  Para calcular essa probabilidade, divida o número de indivíduos afetados pelo número total de indivíduos no grupo de exposição correspondente.',
+        options:[
+          {label:'A', text:'0,19'},
+          {label:'B', text:'0,23'},
+          {label:'C', text:'0,27'},
+          {label:'D', text:'0,30'},
+          {label:'E', text:'0,40'},
+        ],
+        explC:'Risco é a probabilidade de desenvolver uma doença ou outro desfecho de saúde ao longo do período do estudo.  Neste exemplo, representa a probabilidade de desenvolver doença de Alzheimer durante um período de 20 anos entre indivíduos de meia-idade que têm um parente de primeiro grau com a doença.  Para calcular essa probabilidade em indivíduos com baixos níveis de caroteno, divida o número de indivíduos que desenvolvem doença de Alzheimer no grupo de baixo caroteno (18) pelo número total de indivíduos no grupo de baixo caroteno (18 + 27 = 45).\n\nRisco de desenvolver doença de Alzheimer entre indivíduos com baixo caroteno = 18 / (18 + 27)\n= 18 / 45 = 0,40\n\nIsso significa que, entre indivíduos com baixos níveis de caroteno, há uma probabilidade de 40% de desenvolver doença de Alzheimer em 20 anos.\n\nObserve que isso é diferente do risco relativo (RR) de doença de Alzheimer em indivíduos com baixos níveis de caroteno em comparação com aqueles com níveis normais de caroteno:\n\nRR = risco de desenvolver doença de Alzheimer entre indivíduos com baixos níveis de caroteno / risco de desenvolver doença de Alzheimer entre indivíduos com níveis normais de caroteno = 0,4 / [42 / (42 + 113)] = 0,4 / 0,27 = 1,48\n\nComo os dados não são apresentados no formato padrão de tabela 2 × 2 (contingência), deve-se ter cuidado para realizar os cálculos sem depender de fórmulas memorizadas.',
+        explI:[
+          {option:'A e D', explanation:'A prevalência de baixo caroteno (exposição) entre indivíduos que não desenvolvem doença de Alzheimer é 27 / (27 + 113) = 27 / 140 = 0,19 (19%).  A prevalência de baixo caroteno (exposição) entre indivíduos que desenvolvem doença de Alzheimer é 18 / (18 + 42) = 18 / 60 = 0,3 (30%).'},
+          {option:'B', explanation:'A prevalência de baixo caroteno em toda a coorte é (18 + 27) / (18 + 42 + 27 + 113) = 45 / 200 = 0,23 (23%).'},
+          {option:'C', explanation:'Como observado no cálculo de RR acima, o risco em 20 anos de desenvolver doença de Alzheimer entre indivíduos com níveis normais de caroteno é 42 / (42 + 113) = 42 / 155 = 0,27 (27%).'},
+        ]
+      }
+    },
 
   ];
 
