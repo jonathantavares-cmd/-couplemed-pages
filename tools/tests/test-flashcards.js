@@ -1,5 +1,5 @@
-/* Flashcards gerados a partir da Library 1 (§11.4):
-   - o pacote traz 30 cards BILÍNGUES por tópico, no padrão "Anki melhorado" (§11.5);
+/* Flashcards gerados a partir da Library 1 (guia, Seção 5.4):
+   - o pacote traz 30 cards BILÍNGUES por tópico, no padrão "Anki melhorado";
    - a semeadura é idempotente e preserva o progresso de estudo;
    - os cards entram com sys/subj/topic, então caem nos filtros e na busca;
    - subject inexistente na taxonomia dos Flashcards vai para Miscellaneous (misc). */
@@ -49,35 +49,49 @@ if (!alvos.length){
 }
 console.log(`   conferindo ${alvos.length} tópico(s): ${alvos.map(a=>a[1]).join(', ')}`);
 
-const [SUBJ, TOP] = alvos[0];
-const cards = packs[SUBJ][TOP];
+const targets = alvos.map(([subject, topic]) => ({
+  subject, topic,
+  cards: Array.isArray(packs[subject] && packs[subject][topic]) ? packs[subject][topic] : []
+}));
 
-ok('pacote existe', !!cards);
-ok('tem exatamente 30 cards', cards.length===30, `${cards.length} cards`);
-ok('todos com id único', new Set(cards.map(c=>c.id)).size===30);
-ok('ids com prefixo L1FC- (idempotência)', cards.every(c=>/^L1FC-/.test(c.id)));
-ok('todos BILÍNGUES (en e pt com front+back)', cards.every(c=>c.en&&c.en.front&&c.en.back&&c.pt&&c.pt.front&&c.pt.back));
-ok('todos com `why` (elaboração) nos dois idiomas', cards.every(c=>c.en.why&&c.pt.why));
-ok('todos com `kind` (tipo pedagógico)', cards.every(c=>c.kind));
-ok('usa vários tipos (interleaving de formatos)', new Set(cards.map(c=>c.kind)).size>=5, [...new Set(cards.map(c=>c.kind))].join(','));
-ok('PT não é cópia do EN', cards.every(c=>c.en.front!==c.pt.front));
-ok('todos com sys/subj/topic (entram nos filtros)', cards.every(c=>c.sys && c.subj && c.topic));
-ok('subj no formato <sys>::<slug>', cards.every(c=>c.subj.startsWith(c.sys+'::')));
-ok('topic bilíngue', cards.every(c=>c.topic&&c.topic.en&&c.topic.pt));
-ok('todos com tags', cards.every(c=>Array.isArray(c.tags) && c.tags.length));
+/* Cada alvo filtrado precisa passar pelo conjunto inteiro de invariantes. Antes,
+   apenas alvos[0] era testado, então `subject` sem `topic` e a varredura global
+   podiam aprovar tópicos posteriores sem sequer lê-los. */
+for (const target of targets){
+  const { subject, topic, cards } = target;
+  const where = `${subject} › ${topic}`;
+  const prefix = `[${where}] `;
 
-const cloze = cards.filter(c=>/\{\{c\d+::/.test(c.en.front));
-ok('usa cloze no padrão Anki em parte dos cards', cloze.length>=3, `${cloze.length} cloze`);
-const withImg = cards.filter(c=>!!c.img);
-ok('aproveita imagens do tópico', withImg.length>=3, `${withImg.length} com imagem`);
-// o caminho é derivado do tópico auditado — estava fixo em acute-rheumatic-fever
-// até 2026-07-26, então passava ✅ com a imagem de OUTRO tópico.
-const IMG_BASE = `/assets/library1/${SUBJ}/${TOP}/`;
-ok('imagens apontam para assets publicados da Library 1',
-   withImg.every(c=>c.img.startsWith(IMG_BASE)), IMG_BASE);
+  ok(prefix+'pacote existe', Array.isArray(packs[subject] && packs[subject][topic]));
+  ok(prefix+'tem exatamente 30 cards', cards.length===30, `${cards.length} cards`);
+  ok(prefix+'todos com id único', new Set(cards.map(c=>c.id)).size===cards.length);
+  ok(prefix+'ids com prefixo L1FC- (idempotência)', cards.every(c=>/^L1FC-/.test(c.id)));
+  ok(prefix+'todos BILÍNGUES (en e pt com front+back)', cards.every(c=>c.en&&c.en.front&&c.en.back&&c.pt&&c.pt.front&&c.pt.back));
+  ok(prefix+'todos com `why` (elaboração) nos dois idiomas', cards.every(c=>c.en&&c.pt&&c.en.why&&c.pt.why));
+  ok(prefix+'todos com `kind` (tipo pedagógico)', cards.every(c=>c.kind));
+  const kinds = new Set(cards.map(c=>c.kind));
+  ok(prefix+'usa vários tipos (interleaving de formatos)', kinds.size>=5, [...kinds].join(','));
+  ok(prefix+'PT não é cópia do EN', cards.every(c=>c.en&&c.pt&&c.en.front!==c.pt.front));
+  ok(prefix+'todos com sys/subj/topic (entram nos filtros)', cards.every(c=>c.sys && c.subj && c.topic));
+  ok(prefix+'subj no formato <sys>::<slug>', cards.every(c=>c.sys&&c.subj&&c.subj.startsWith(c.sys+'::')));
+  ok(prefix+'topic bilíngue', cards.every(c=>c.topic&&c.topic.en&&c.topic.pt));
+  ok(prefix+'todos com tags', cards.every(c=>Array.isArray(c.tags) && c.tags.length));
+
+  const cloze = cards.filter(c=>c.en&&/\{\{c\d+::/.test(c.en.front));
+  ok(prefix+'usa cloze no padrão Anki em parte dos cards', cloze.length>=3, `${cloze.length} cloze`);
+  const withImg = cards.filter(c=>!!c.img);
+  // O caminho é derivado de CADA tópico auditado, nunca de um piloto fixo.
+  const imgBase = `/assets/library1/${subject}/${topic}/`;
+  ok(prefix+'imagens apontam para assets publicados da Library 1',
+     withImg.every(c=>c.img.startsWith(imgBase)), imgBase);
+}
+
+const targetCards = targets.flatMap(t=>t.cards);
+ok('ids únicos entre todos os alvos filtrados',
+   new Set(targetCards.map(c=>c.id)).size===targetCards.length);
 
 console.log('\n== AS IMAGENS REFERENCIADAS EXISTEM EM DISCO ==');
-const srcs = [...new Set(cards.filter(c=>c.img).map(c=>c.img))];
+const srcs = [...new Set(targetCards.filter(c=>c.img).map(c=>c.img))];
 srcs.forEach(src=>{
   const p = path.join(REPO,'public',src.replace(/^\//,''));
   ok(path.basename(src), fs.existsSync(p), 'arquivo não existe: '+src);
@@ -90,12 +104,16 @@ const taxBlock = fcSrc.slice(fcSrc.indexOf('const FC_TAXONOMY = ['), fcSrc.index
 const FC_TAXONOMY = eval(taxBlock.replace('const FC_TAXONOMY =','').replace(/;\s*$/,''));
 const ids = new Set();
 FC_TAXONOMY.forEach(s=>s.subs.forEach(([slug])=>ids.add(s.id+'::'+slug)));
-const used = [...new Set(cards.map(c=>c.subj))];
+const used = [...new Set(targetCards.map(c=>c.subj).filter(Boolean))];
 used.forEach(u=>ok(`subj "${u}" existe na taxonomia dos Flashcards`, ids.has(u),
   'não existe — deveria cair em <sys>::misc (Miscellaneous)'));
-ok('todo sistema usado existe', [...new Set(cards.map(c=>c.sys))].every(s=>FC_TAXONOMY.some(t=>t.id===s)));
-ok('a regra de Miscellaneous está disponível (misc existe no sistema usado)',
-   FC_TAXONOMY.find(t=>t.id===cards[0].sys).subs.some(([slug])=>slug==='misc'));
+const usedSystems = [...new Set(targetCards.map(c=>c.sys).filter(Boolean))];
+ok('todo sistema usado existe', usedSystems.every(s=>FC_TAXONOMY.some(t=>t.id===s)));
+usedSystems.forEach(system=>{
+  const tax = FC_TAXONOMY.find(t=>t.id===system);
+  ok(`a regra de Miscellaneous está disponível em "${system}"`,
+     !!tax && tax.subs.some(([slug])=>slug==='misc'));
+});
 
 /* ---------- 3. semeadura no banco do usuário ---------- */
 console.log('\n== SEMEADURA NO BANCO (todos os usuários) ==');
@@ -106,26 +124,51 @@ function boot(prevDB){
   });
   const w = dom.window;
   if(prevDB) w.localStorage.setItem('couplemed_fc_john', JSON.stringify(prevDB));
-  const p1 = w.document.createElement('script');
-  p1.textContent = fs.readFileSync(REPO + '/public/js/library1-flashcards/allergy-and-immunology.js','utf8');
-  w.document.head.appendChild(p1);
-  const p2 = w.document.createElement('script');
-  p2.textContent = fs.readFileSync(REPO + '/public/js/flashcards.js','utf8');
-  w.document.head.appendChild(p2);
+  // Carrega dinamicamente os mesmos pacotes selecionados no início do teste.
+  // Assim qualquer Subject novo é testável sem editar este arquivo.
+  for (const f of packFiles){
+    const packScript = w.document.createElement('script');
+    packScript.textContent = fs.readFileSync(PACK_DIR + '/' + f,'utf8');
+    w.document.head.appendChild(packScript);
+  }
+  const appScript = w.document.createElement('script');
+  appScript.textContent = fs.readFileSync(REPO + '/public/js/flashcards.js','utf8');
+  w.document.head.appendChild(appScript);
   return JSON.parse(w.localStorage.getItem('couplemed_fc_john') || '{}');
 }
 
 const db1 = boot(null);
 const seeded = (db1.cards||[]).filter(c=>c.source==='library1');
-// a semeadura cobre TODOS os tópicos publicados, não só o auditado: 30 por tópico
-const TOPICOS = Object.values(packs).reduce((a,p)=>a+Object.keys(p).length, 0);
+// O boot recebe todos os tópicos dos pacotes selecionados, ainda que o filtro
+// final escolha um único tópico dentro do arquivo do Subject.
+const loadedTopics = Object.entries(packs || {}).flatMap(([subject, topics]) =>
+  Object.entries(topics || {}).map(([topic, list]) => ({
+    subject, topic, cards: Array.isArray(list) ? list : []
+  })));
+const loadedCards = loadedTopics.flatMap(t=>t.cards);
+const TOPICOS = loadedTopics.length;
 const ESPERADO = 30 * TOPICOS;
+ok('ids únicos em todos os pacotes carregados',
+   new Set(loadedCards.map(c=>c.id)).size===loadedCards.length);
 ok(`semeia 30 cards por tópico no primeiro boot (${TOPICOS} tópico(s) = ${ESPERADO})`,
    seeded.length===ESPERADO, `${(db1.cards||[]).length} cards no total, ${seeded.length} da Library 1`);
+ok('nenhum id duplicado no banco semeado',
+   new Set(seeded.map(c=>c.id)).size===seeded.length);
 ok('marcados com source:"library1"', seeded.every(c=>c.source==='library1'));
-ok('deck criado com o NOME DO TÓPICO', (db1.decks||[]).some(d=>d.name==='Acute rheumatic fever'), (db1.decks||[]).map(d=>d.name).join(','));
-ok('deck tem nome em português também', (db1.decks||[]).some(d=>d.namePt==='Febre reumática aguda'));
-ok('um deck por tópico (id derivado do slug)', (db1.decks||[]).some(d=>d.id==='deck_l1_acute-rheumatic-fever'));
+for (const target of targets){
+  const first = target.cards[0] || {};
+  const topic = first.topic || {};
+  const expectedEn = topic.en || topic || target.topic;
+  const expectedPt = topic.pt || topic.en || topic || target.topic;
+  const deckId = 'deck_l1_' + target.topic;
+  const deck = (db1.decks||[]).find(d=>d.id===deckId);
+  const where = `${target.subject} › ${target.topic}`;
+  ok(`[${where}] um deck por tópico (id derivado do slug)`, !!deck, deckId);
+  ok(`[${where}] deck criado com o NOME DO TÓPICO`,
+     !!deck && deck.name===expectedEn, deck ? deck.name : '(sem deck)');
+  ok(`[${where}] deck tem nome em português também`,
+     !!deck && deck.namePt===expectedPt, deck ? deck.namePt : '(sem deck)');
+}
 ok('cards guardam o bloco bilíngue no banco', seeded.every(c=>c.l1&&c.l1.en&&c.l1.pt));
 ok('cards guardam o kind', seeded.every(c=>c.kind));
 ok('cards começam como "new" (entram no SRS)', seeded.every(c=>c.state==='new'));
@@ -133,14 +176,21 @@ ok('preserva sys/subj/topic no banco', seeded.every(c=>c.sys && c.subj && c.topi
 
 // idempotência + preservação de progresso
 const touched = JSON.parse(JSON.stringify(db1));
-const target = touched.cards.find(c=>c.id==='L1FC-ARF-001');
-target.reps = 7; target.state = 'review'; target.interval = 12; target.ease = 2.7;
+const sampleSource = targetCards.find(c=>c&&c.id);
+const sampleId = sampleSource && sampleSource.id;
+const touchedCard = sampleId && touched.cards.find(c=>c.id===sampleId);
+ok('há card-alvo para testar preservação de progresso', !!touchedCard, sampleId || '(sem id)');
+if(touchedCard){
+  touchedCard.reps = 7; touchedCard.state = 'review';
+  touchedCard.interval = 12; touchedCard.ease = 2.7;
+}
 const db2 = boot(touched);
 const seeded2 = (db2.cards||[]).filter(c=>c.source==='library1');
 ok('segundo boot NÃO duplica', seeded2.length===ESPERADO, `${seeded2.length} cards`);
-const after = db2.cards.find(c=>c.id==='L1FC-ARF-001');
-ok('progresso de estudo preservado', after.reps===7 && after.state==='review' && after.interval===12,
-   `reps=${after.reps} state=${after.state}`);
+const after = sampleId && db2.cards.find(c=>c.id===sampleId);
+ok('progresso de estudo preservado',
+   !!after && after.reps===7 && after.state==='review' && after.interval===12,
+   after ? `reps=${after.reps} state=${after.state}` : `card ${sampleId || '(sem id)'} ausente`);
 
 // card do usuário não é afetado
 const withOwn = JSON.parse(JSON.stringify(db1));

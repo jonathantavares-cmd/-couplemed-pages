@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /* CoupleMed — Library 1: AUDITORIA de tópico incluído
    ============================================================================
-   Roda OBRIGATORIAMENTE ao terminar cada tópico (LIBRARY1_ADD_CONTENT.md §11.1).
+     Roda OBRIGATORIAMENTE ao terminar cada tópico
+     (LIBRARY1_ADD_CONTENT.md, Seção 7.4).
    Confere o que o olho não pega numa página longa e bilíngue:
 
      1. Toda mídia declarada tem os DOIS idiomas e os arquivos existem em disco.
@@ -9,7 +10,7 @@
         Create Test (`img`/`explImg`). Mídia do Create Test é AUTOSSUFICIENTE:
         entra sempre que o print trouxer imagem no enunciado ou na explicação,
         MESMO que o artigo nunca a cite — não depende de referência no texto
-        (regra do usuário, reforçada 2026-07-25; ver LIBRARY1_ADD_CONTENT.md §11.2).
+        (ver LIBRARY1_ADD_CONTENT.md, Seção 5.3).
      3. EN e PT referenciam exatamente o mesmo conjunto de mídias (quando a
         referência vem do texto do artigo).
      4. Toda referência aponta para uma mídia que existe (sem link morto).
@@ -52,11 +53,19 @@ function loadAll(){
 
 const refsOf = html => [...String(html||'').matchAll(/data-ref="([^"]+)"/g)].map(m => m[1]);
 const countTag = (html, tag) => (String(html||'').match(new RegExp(`<${tag}[\\s>]`, 'g')) || []).length;
+const hasText = value => typeof value === 'string' && value.trim().length > 0;
+const assetKey = value => value && (value.key || value.src);
+const assetFile = key => path.join(ASSETS_DIR, String(key || '').replace(/^\/?assets\/library1\//, ''));
 
 function auditTopic(subjectSlug, topicSlug, rec){
   const problems = [], warnings = [];
   const assets = rec.assets || {};
   const keys = Object.keys(assets);
+  const quizPre = Array.isArray(rec.quiz) ? rec.quiz : [];
+  const quizRefs = new Set();
+  quizPre.forEach(it => { if(it.img) quizRefs.add(it.img); if(it.explImg) quizRefs.add(it.explImg); });
+  const rEn = refsOf(rec.en && rec.en.html), rPt = refsOf(rec.pt && rec.pt.html);
+  const setEn = new Set(rEn), setPt = new Set(rPt);
 
   // 1. mídia: dois idiomas + arquivo em disco
   for(const k of keys){
@@ -65,26 +74,38 @@ function auditTopic(subjectSlug, topicSlug, rec){
     for(const lang of ['en','pt']){
       const v = a[lang];
       if(!v){ problems.push(`${k}: falta a versão ${lang.toUpperCase()}`); continue; }
-      const key = v.key || v.src;
+      const key = assetKey(v);
       if(!key){ problems.push(`${k}.${lang}: sem key`); continue; }
-      const file = path.join(ASSETS_DIR, key.replace(/^\/?assets\/library1\//, ''));
+      const file = assetFile(key);
       if(!fs.existsSync(file)) problems.push(`${k}.${lang}: arquivo não existe → ${key}`);
       if(!v.alt) problems.push(`${k}.${lang}: alt vazio (é a legenda da imagem ampliada)`);
     }
     // 5. alt traduzido
     if(a.en && a.pt && a.en.alt && a.pt.alt && a.en.alt === a.pt.alt && !a.singleLang)
       warnings.push(`${k}: alt idêntico em EN e PT ("${a.en.alt}") — tradução esquecida? (se a figura veio só num idioma, marque singleLang:true)`);
+
+    /* `singleLang` é uma exceção exclusiva do Create Test. Ela só documenta
+       uma única mídia original reutilizada nos dois idiomas; não pode mascarar
+       uma mídia do artigo sem tradução. Chaves distintas são aceitas apenas
+       quando os dois arquivos são byte a byte idênticos. */
+    if(a.singleLang){
+      if(!quizRefs.has(k) || setEn.has(k) || setPt.has(k))
+        problems.push(`${k}: singleLang:true só é permitido para mídia exclusiva do Create Test`);
+      const enKey = assetKey(a.en), ptKey = assetKey(a.pt);
+      if(enKey && ptKey && enKey !== ptKey){
+        const enFile = assetFile(enKey), ptFile = assetFile(ptKey);
+        const sameBytes = fs.existsSync(enFile) && fs.existsSync(ptFile)
+          && fs.statSync(enFile).size === fs.statSync(ptFile).size
+          && fs.readFileSync(enFile).equals(fs.readFileSync(ptFile));
+        if(!sameBytes)
+          problems.push(`${k}: singleLang:true exige EN/PT apontando ao mesmo arquivo ou a arquivos byte a byte idênticos`);
+      }
+    }
   }
 
   // 2/3/4. referências — no texto do artigo OU nas questões do Create Test (img/explImg).
   // Mídia do Create Test é AUTOSSUFICIENTE: entra sempre, mesmo que o artigo nunca a cite
-  // (regra do usuário, reforçada 2026-07-25 — ver LIBRARY1_ADD_CONTENT.md §11.2).
-  const quizPre = Array.isArray(rec.quiz) ? rec.quiz : [];
-  const quizRefs = new Set();
-  quizPre.forEach(it => { if(it.img) quizRefs.add(it.img); if(it.explImg) quizRefs.add(it.explImg); });
-
-  const rEn = refsOf(rec.en && rec.en.html), rPt = refsOf(rec.pt && rec.pt.html);
-  const setEn = new Set(rEn), setPt = new Set(rPt);
+  // (ver LIBRARY1_ADD_CONTENT.md, Seção 5.3).
   for(const k of keys){
     if(quizRefs.has(k)) continue;   // garantida pelo Create Test — não depende do texto do artigo
     if(!setEn.has(k)) problems.push(`${k}: NÃO é referenciada no texto EN nem em nenhuma questão do Create Test — fica inalcançável`);
@@ -92,6 +113,8 @@ function auditTopic(subjectSlug, topicSlug, rec){
   }
   for(const r of setEn) if(!assets[r]) problems.push(`EN referencia "${r}", que não existe em assets`);
   for(const r of setPt) if(!assets[r]) problems.push(`PT referencia "${r}", que não existe em assets`);
+  for(const r of setEn) if(!setPt.has(r)) problems.push(`EN referencia "${r}", mas PT não referencia a mesma mídia`);
+  for(const r of setPt) if(!setEn.has(r)) problems.push(`PT referencia "${r}", mas EN não referencia a mesma mídia`);
   if(rEn.length !== rPt.length)
     warnings.push(`nº de referências difere: EN ${rEn.length} × PT ${rPt.length} (ordem/repetição podem divergir)`);
 
@@ -100,8 +123,10 @@ function auditTopic(subjectSlug, topicSlug, rec){
     const a = countTag(rec.en && rec.en.html, tag), b = countTag(rec.pt && rec.pt.html, tag);
     if(a !== b) warnings.push(`${label}: EN ${a} × PT ${b} — tradução pode estar incompleta`);
   }
-  if(!rec.en || !rec.en.title) problems.push('falta title EN');
-  if(!rec.pt || !rec.pt.title) problems.push('falta title PT');
+  if(!rec.en || !hasText(rec.en.title)) problems.push('falta title EN');
+  if(!rec.pt || !hasText(rec.pt.title)) problems.push('falta title PT');
+  if(!rec.en || !hasText(rec.en.html)) problems.push('falta html EN');
+  if(!rec.pt || !hasText(rec.pt.html)) problems.push('falta html PT');
 
   // 7. nada de <img> solta no conteúdo
   for(const lang of ['en','pt']){
@@ -116,23 +141,43 @@ function auditTopic(subjectSlug, topicSlug, rec){
   quiz.forEach((it, i)=>{
     const tag = `quiz[${i}]${it.id?' '+it.id:''}`;
     if(!it.id) problems.push(`${tag}: sem id`);
+    else if(!/^L1Q-[A-Za-z0-9][A-Za-z0-9-]*$/.test(it.id))
+      problems.push(`${tag}: id deve usar o formato L1Q-* (somente letras, números e hífens)`);
     else if(seenIds.has(it.id)) problems.push(`${tag}: id repetido`);
     else seenIds.add(it.id);
     if(!it.vignette) problems.push(`${tag}: sem vignette`);
     if(!it.q) problems.push(`${tag}: sem enunciado (q)`);
     const opts = Array.isArray(it.options) ? it.options : [];
     if(opts.length < 2) problems.push(`${tag}: menos de 2 alternativas`);
+    if(opts.length > LETTERS.length)
+      problems.push(`${tag}: ${opts.length} alternativas, mas o leitor suporta no máximo A–H`);
     const ci = LETTERS.indexOf(it.correct);
     if(ci < 0 || ci >= opts.length) problems.push(`${tag}: correct "${it.correct}" fora das alternativas`);
-    // peer + dificuldade pela MESMA regra do QBank (§0.2 daquele doc)
-    if(it.peer && it.peer[it.correct] != null){
-      const p = it.peer[it.correct];
-      const should = p >= 70 ? 'easy' : p >= 50 ? 'medium' : 'hard';
-      if(it.difficulty && it.difficulty !== should)
-        problems.push(`${tag}: difficulty "${it.difficulty}" não bate com peer[${it.correct}]=${p}% (deveria ser "${should}")`);
-      if(!it.difficulty) warnings.push(`${tag}: sem difficulty (peer diz "${should}")`);
-    } else if(it.peer){
-      problems.push(`${tag}: peer não tem a alternativa correta (${it.correct})`);
+    // peer + dificuldade pela MESMA regra do QBank (guia, Seção 5.3)
+    if(it.peer == null){
+      if(it.difficulty !== 'medium')
+        problems.push(`${tag}: sem peer exige difficulty "medium"`);
+    } else if(typeof it.peer !== 'object' || Array.isArray(it.peer)){
+      problems.push(`${tag}: peer deve ser um objeto com percentual para cada alternativa`);
+    } else {
+      const optionLetters = LETTERS.slice(0, opts.length);
+      const missingPeer = optionLetters.filter(letter => it.peer[letter] == null);
+      if(missingPeer.length)
+        problems.push(`${tag}: peer incompleto; faltam ${missingPeer.join(', ')}`);
+      for(const letter of optionLetters){
+        if(it.peer[letter] == null) continue;
+        const value = Number(it.peer[letter]);
+        if(!Number.isFinite(value) || value < 0 || value > 100)
+          problems.push(`${tag}: peer.${letter} deve ser percentual entre 0 e 100`);
+      }
+      if(it.peer[it.correct] != null){
+        const peerCorrect = Number(it.peer[it.correct]);
+        if(Number.isFinite(peerCorrect)){
+          const should = peerCorrect >= 70 ? 'easy' : peerCorrect >= 50 ? 'medium' : 'hard';
+          if(it.difficulty !== should)
+            problems.push(`${tag}: difficulty "${it.difficulty || 'ausente'}" não bate com peer[${it.correct}]=${peerCorrect}% (deveria ser "${should}")`);
+        }
+      }
     }
     if(!it.explC) problems.push(`${tag}: sem explicação da correta (explC)`);
     if(!it.objective) warnings.push(`${tag}: sem objetivo educacional`);
@@ -165,7 +210,25 @@ if(!subjects.length){
   process.exit(1);
 }
 
-let totalP = 0, totalW = 0, n = 0;
+/* IDs do Create Test são globais: dois tópicos não podem publicar o mesmo L1Q-*.
+   A checagem local dentro de auditTopic() não detecta colisão entre arquivos. */
+const idOwner = new Map(), duplicateIds = [];
+for(const [subjectSlug, topics] of Object.entries(all)){
+  for(const [topicSlug, rec] of Object.entries(topics)){
+    for(const q of (Array.isArray(rec.quiz) ? rec.quiz : [])){
+      if(!q.id) continue;
+      const owner = `${subjectSlug} › ${topicSlug}`;
+      if(idOwner.has(q.id)) duplicateIds.push(`${q.id}: ${idOwner.get(q.id)} × ${owner}`);
+      else idOwner.set(q.id, owner);
+    }
+  }
+}
+
+let totalP = duplicateIds.length, totalW = 0, n = 0;
+if(duplicateIds.length){
+  console.log('\n❌ IDs globais repetidos no Create Test');
+  duplicateIds.forEach(x => console.log(`     ❌ ${x}`));
+}
 for(const s of subjects){
   const topics = Object.keys(all[s]).filter(t => !topicArg || t === slugify(topicArg));
   for(const t of topics){
@@ -177,6 +240,11 @@ for(const s of subjects){
     problems.forEach(p => console.log(`     ❌ ${p}`));
     warnings.forEach(w => console.log(`     ⚠️  ${w}`));
   }
+}
+
+if(!n){
+  console.error(`Nenhum tópico auditado${topicArg ? ` para "${topicArg}"` : ''}.`);
+  process.exit(1);
 }
 
 console.log(`\n${'─'.repeat(60)}`);

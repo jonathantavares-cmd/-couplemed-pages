@@ -17071,7 +17071,7 @@
         <td>${esc(range)}</td>
       </tr>`;
     }).join('');
-    // Valores pertinentes à questão atual (campo opcional q.labs, pesquisado individualmente por questão — ver QBANK_ADD_QUESTION.md Seção 24)
+    // Valores pertinentes à questão atual (campo opcional q.labs, pesquisado individualmente por questão — ver QBANK_ADD_QUESTION.md Seção 9)
     const qRows = (q && Array.isArray(q.labs)) ? q.labs : [];
     const qSection = qRows.length ? `<p class="qb-modal-sub qb-lab-hint">${esc(t('labRelevant'))}</p>
       <table class="qb-labtable qb-labtable-tips qb-labtable-relevant"><tbody>${renderRows(qRows)}</tbody></table>` : '';

@@ -2,7 +2,7 @@
    ============================================================================
    ⚠️ Este arquivo NÃO é carregado pelo site. O nome começa com "_" justamente
    para não colidir com nenhum slug de Subject. Ele existe só como referência do
-   formato. Ver LIBRARY1_ADD_CONTENT.md §5.
+   formato. Ver LIBRARY1_ADD_CONTENT.md, Seção 5.1.
 
    REGRA: um arquivo por Subject, nomeado com o slug do Subject.
      public/js/library1-content/<subject-slug>.js
@@ -28,26 +28,27 @@
 'use strict';
 window.LIBRARY1_CONTENT = window.LIBRARY1_CONTENT || {};
 
-const A1 = '/assets/library1/<subject-slug>/';
+// Chave relativa: o leitor resolve para /assets/library1/ ou para o R2.
+const A1 = '<subject-slug>/';
 
 window.LIBRARY1_CONTENT['<subject-slug>'] = {
 
   '<topic-slug>': {
 
     /* MÍDIA — imagens, figuras e tabelas do material, SEMPRE nos dois idiomas.
-       `kind` agrupa no painel lateral (image | figure | table) e `n` é o número
-       exibido ("image 1", "figura 2"). O `alt` vira a legenda da imagem ampliada
-       e por isso também precisa estar traduzido. */
+       `kind` classifica (image | figure | table), `n` é o número exibido e `key`
+       é sempre relativa a public/assets/library1/. O `alt` vira a legenda da
+       imagem ampliada e por isso também precisa estar traduzido. */
     assets: {
       'image-1': { kind:'image', n:1,
-        en:{ src:A1+'<topic-slug>/image-1-en.jpg', alt:'Caption in English' },
-        pt:{ src:A1+'<topic-slug>/image-1-pt.jpg', alt:'Legenda em português' } },
+        en:{ key:A1+'<topic-slug>/image-1-en.webp', alt:'Caption in English' },
+        pt:{ key:A1+'<topic-slug>/image-1-pt.webp', alt:'Legenda em português' } },
       'figure-1': { kind:'figure', n:1,
-        en:{ src:A1+'<topic-slug>/figure-1-en.jpg', alt:'Caption in English' },
-        pt:{ src:A1+'<topic-slug>/figure-1-pt.jpg', alt:'Legenda em português' } },
+        en:{ key:A1+'<topic-slug>/figure-1-en.webp', alt:'Caption in English' },
+        pt:{ key:A1+'<topic-slug>/figure-1-pt.webp', alt:'Legenda em português' } },
       'table-1': { kind:'table', n:1,
-        en:{ src:A1+'<topic-slug>/table-1-en.png', alt:'Caption in English' },
-        pt:{ src:A1+'<topic-slug>/table-1-pt.png', alt:'Legenda em português' } }
+        en:{ key:A1+'<topic-slug>/table-1-en.webp', alt:'Caption in English' },
+        pt:{ key:A1+'<topic-slug>/table-1-pt.webp', alt:'Legenda em português' } }
     },
 
     en: {
@@ -94,15 +95,17 @@ window.LIBRARY1_CONTENT['<subject-slug>'] = {
    2. Estilo vem todo de public/css/library1-reader.css. Não colocar `style=`
       inline nem <script>/<style> no conteúdo.
 
-   3. MÍDIA BILÍNGUE (regra do usuário, 2026-07-25): o material traz cada imagem,
-      figura e tabela em inglês E em português. As duas versões são recortadas e
-      gravadas, e o leitor troca a imagem junto com o texto — inclusive com a
-      imagem já aberta na tela. Nunca reaproveitar a versão EN no PT.
+   3. MÍDIA BILÍNGUE: o artigo traz cada imagem, figura e tabela em inglês E em
+      português. As duas versões são recortadas e gravadas, e o leitor troca a
+      imagem junto com o texto — inclusive com a imagem já aberta na tela.
+      Nunca reaproveitar a versão EN no PT para mídia do artigo.
       Caminho: public/assets/library1/<subject-slug>/<topic-slug>/
-      Nomes: image-N-en.jpg / image-N-pt.jpg, figure-N-*, table-N-*
-      Fotos e diagramas em JPEG (qualidade 92); tabelas em PNG (texto nítido).
-      Recortar a borda branca, mas NUNCA reduzir a resolução — a imagem ampliada
-      precisa dos pixels.
+      Nomes: image-N-en.webp / image-N-pt.webp, figure-N-*, table-N-*.
+      Converter com `node tools/library1-assets.js convert <diretório>`; fotos
+      podem usar WebP com perdas, enquanto texto/tabelas/diagramas devem manter
+      nitidez (preferir lossless). Recortar a borda branca, mas nunca reduzir a
+      resolução. `singleLang:true` só é admitido para mídia de Create Test que
+      realmente veio em um idioma, conforme o guia.
 
    4. REFERÊNCIAS no texto: onde o original diz "image 1", "figure 2", "table 3"
       como link, usar <a class="l1r-ref" data-ref="image-1">image 1</a>. O

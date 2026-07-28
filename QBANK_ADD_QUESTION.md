@@ -1,1174 +1,640 @@
-# CoupleMed QBank — Documentação Completa
+# CoupleMed — Adicionar Questões ao QBank 1
 
-> Referência definitiva do módulo QBank: como adicionar questões, como todos os sistemas funcionam, e como cada funcionalidade se conecta com o resto do site.
-> **Este arquivo é autossuficiente.** Quando o usuário disser apenas "adicionar questões novas" (ou variações, incluindo "incluir questões" e "incluir questões novas"), leia este arquivo do início ao fim antes de agir — ele contém tudo que é preciso, sem precisar reexplorar o site inteiro a cada sessão, sem pedir material antes de checar a pasta do Desktop (Seção 0 passo 1, Seção 0.3), e sem parar pra pedir aprovação de comando ou de conteúdo (permissões em bypass global + commit/push automáticos, Seção 0.3). Última auditoria completa contra o código real: 2026-07-11 (seção 16b — algoritmo de `labs` — reauditada e reescrita em 2026-07-20 após achar 203/248 questões sem o campo).
+> Manual operacional do fluxo **QBank 1**. Não usar este arquivo para adicionar conteúdo à Library 1.
+>
+> Arquivo de dados: `public/js/qbank.js` (`SEED`).
+> Assets: `public/assets/qbank/`.
+> QA responsivo: `RESPONSIVE_BREAKPOINTS.md` é a fonte canônica.
 
----
+## 1. Resultado obrigatório
 
-## 0. PROCEDIMENTO PADRÃO — o que fazer quando o usuário disser "adicionar questões novas" / "incluir questões"
+Uma execução só está concluída quando:
 
-1. **Determinar a origem do material:**
-   - Se o usuário já colou/anexou o material (foto/print/texto) na própria mensagem, usar isso diretamente. Confirmar se é sistema/disciplina conhecidos ou se você deve identificar pelo conteúdo.
-   - Se ele disser apenas **"adicionar questões novas"**, **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente), **sem colar/anexar nada na mensagem** — ir direto para a **Seção 0.3** e varrer `/Users/jonathan/Desktop/Questões Novas QBank 1/`. Não pedir o material antes de checar a pasta; só pedir explicitamente se a pasta estiver vazia, não existir, ou já tiver sido totalmente processada (nenhum arquivo novo desde a última leva).
-2. **Aplicar a Regra de Fidelidade (Seção 0.1)** — transcrição verbatim, sem exceções, pois todo o material é conteúdo próprio do usuário.
-3. Para cada questão:
-   a. Definir `id` seguindo a Seção 3 e checar duplicidade: `grep -n "'CMQ-STEP1-{SIGLA}-" public/js/qbank.js`.
-   b. Definir `system` / `discipline` / `category` usando a Seção 5 (TAXONOMY). Se o subtópico não existir, registrar antes na Seção 6.
-   c. Transcrever vignette/q/options/correct/explC/explI/objective/peer **exatamente como enviado** (Seção 0.1).
-   c2. Calcular `difficulty` a partir do `peer` da alternativa correta (Seção 0.2) — nunca estimar "no olho".
-   c3. Rodar o **algoritmo de `labs`** (Seção 16b.1) em toda questão, sem exceção: Passo 1 é obrigatório — todo exame/valor já citado na vinheta/explicação vira entrada em `labs`, sempre, não é uma escolha; Passo 2 é discricionário — no máximo 1–2 exames adicionais, pertinentes ao que `objective` ensina, mesmo sem estar citado no material. Pesquisar (WebSearch) a faixa de referência apropriada ao paciente daquela questão específica (idade/sexo/gravidez/condição) é a única parte em que você decide sozinho, sem aprovação do usuário — **única exceção à Regra de Fidelidade (Seção 0.1)**. Todo o resto da questão continua proibido de ser inventado/alterado (transcrição verbatim).
-   d. Escrever `ptTranslation` completo no mesmo passo (Seção 17) — nunca deixar para depois.
-   e. Se houver imagem: processar segundo a Seção 19 (crop/resize/nome/local) **antes** de referenciar no campo `img`.
-   f. Inserir o objeto dentro do `// BATCH` correspondente em `SEED` (`public/js/qbank.js`), preservando a organização por sistema. Criar novo `// BATCH` só se não existir um para aquele sistema.
-   g. Deixar `library` omitido (= Library 1) a menos que o usuário tenha dito explicitamente que a leva é para Library 2/3 (ver Seção 4b — hoje isso só muda o rótulo exibido, pois Library 2/3 não têm QBank funcional ainda).
-4. Depois de inserir **todas** as questões da leva, rodar `node --check public/js/qbank.js` para garantir que não há erro de sintaxe.
-5. *(Opcional, só para conferência própria)* Gerar o link de preview isolado (Seção 20) com os IDs da leva — desde 2026-07-13 (mudança de política, ver Seção 0.3) **não é mais necessário abrir/enviar isso ao usuário nem aguardar aprovação antes de commitar**. Ele confere as questões depois direto no site publicado, localizando a leva pela seção/taxonomia (Seções 4/5) em que foi inserida.
-6. Rodar o Checklist da Seção 23 e, em seguida, `git add`/`git commit`/`git push` **automaticamente, sem esperar resposta do usuário e sem pedido explícito por leva** (mudança de política em 2026-07-13, Seção 0.3).
+- todas as fontes elegíveis foram inventariadas;
+- cada questão nova foi transcrita fielmente em inglês;
+- `ptTranslation` foi incluída e revisada em PT-BR;
+- `labs` foi avaliado pelo algoritmo deste manual;
+- imagens do enunciado e da explicação, **quando existirem**, foram recortadas,
+  refinadas e conferidas;
+- IDs, taxonomia, dificuldade, alternativas, assets e sintaxe foram validados;
+- o preview e o QA responsivo foram aprovados;
+- apenas os arquivos da tarefa foram commitados e o branch atual foi enviado com `git push`;
+- somente depois do push confirmado, pastas/subpastas concluídas receberam `✅`.
+
+Se uma fonte estiver incompleta, ilegível ou realmente ambígua, **não inventar**. Marcar somente esse item como bloqueado, continuar os itens independentes e pedir ao usuário os dados faltantes. Uma pasta com qualquer item bloqueado não recebe `✅`.
 
 ---
 
-## 0.1 REGRA DE FIDELIDADE — leia antes de transcrever qualquer questão
+## 2. Escopo e gatilho
 
-**Todo o material de questões enviado pelo usuário é conteúdo próprio/original dele.** Este é o site e material de estudos pessoal do usuário — ele não pode ter nenhuma questão errada.
+### 2.1 Material anexado na conversa
 
-Ao transcrever uma questão a partir do material enviado (foto, print, texto):
-- Transcreva **exatamente como enviado, verbatim** — vinheta, enunciado, todas as alternativas, gabarito (resposta correta) e comentários/explicações. Não parafraseie, não resuma, não "melhore" a redação.
-- **Nunca invente** gabarito, explicação ou percentual de `peer` que não esteja no material enviado. O material do usuário já inclui a resposta correta e o percentual de acerto/escolha por alternativa — transcreva esses números exatamente como fornecidos. **Esses percentuais rotineiramente NÃO somam exatamente 100 (arredondamento do material de origem) — isso é esperado e está resolvido permanentemente (confirmado 2026-07-13): transcreva sempre verbatim, sem ajustar, e sem avisar o usuário sobre isso — não é mais necessário perguntar nem sinalizar esse ponto a cada leva.** Se algum dado estiver faltando (não apenas a soma não batendo 100, mas um valor realmente ausente), pergunte ao usuário em vez de supor ou gerar um valor plausível.
-- Sempre revise a questão renderizada via preview isolado (Seção 20) antes de comitar.
+Usar os anexos fornecidos. Se o destino não estiver explícito, identificar `system`, `category` e `discipline` pelo material e pela taxonomia real do código. Ambiguidade que altere o destino exige escalonamento conforme a Seção 3.
 
-Não existe modo "reescrever" para essas questões — isso só se aplicaria se o usuário explicitamente avisasse que uma leva veio de um banco comercial (UWorld/AMBOSS/etc.), o que não é o caso deste site.
+### 2.2 Pedido sem material anexado
 
----
+Quando o usuário disser “adicionar/incluir questões novas” ou equivalente sem anexos:
 
-## 0.2 REGRA DE DIFICULDADE — como calcular o campo `difficulty`
+1. Ler este manual.
+2. Localizar `/Users/jonathan/Desktop/Questões Novas QBank 1/`.
+3. Varrer recursivamente em ordem natural.
+4. Pular qualquer pasta/subpasta cujo **próprio nome** termine com `✅`.
+5. Processar todas as fontes das pastas sem `✅`.
 
-**A dificuldade nunca é escolhida "no olho" — é sempre calculada a partir do `peer` da alternativa correta** (o `%` de colegas que acertaram, campo `peer[correct]`, transcrito verbatim do material do usuário conforme Seção 0.1).
+Não criar uma segunda pasta se o caminho não resolver por diferença de normalização Unicode do acento. Localizar a pasta existente no Desktop e reutilizá-la.
 
-| Dificuldade | % de acerto da alternativa correta (`peer[correct]`) |
-|---|---|
-| `easy` | ≥ 70% |
-| `medium` | 50% a 69% |
-| `hard` | < 50% |
-| `medium` | quando a questão **não tem** `peer` (default) |
+Extensões de fonte usuais: `.png`, `.jpg`, `.jpeg`, `.webp`, `.heic` e `.pdf`. O próprio `QBANK_ADD_QUESTION.md` dentro da pasta é documentação, não uma questão.
 
-**Como aplicar:**
-1. Depois de transcrever `peer` (Seção 0.1) e confirmar `correct`, pegar `peer[correct]` (ex.: `correct:'A'` e `peer:{A:71,...}` → 71%).
-2. Classificar pela tabela acima e preencher `difficulty` com o valor resultante.
-3. Se a questão não vier com `peer` no material (raro, mas pode acontecer), usar `difficulty:'medium'` como default — nunca deixar em branco nem inventar um `peer` só para calcular a dificuldade (isso violaria a Seção 0.1).
-4. Essa regra vale para **toda questão nova**, sem exceção — inclusive ao editar/corrigir uma questão já existente, se o `peer` dela mudar.
+### 2.3 Pasta física define o destino
 
----
-
-## 0.3 GATILHO "adicionar questões novas" / "incluir questões" / "incluir questões novas" sem material anexado — varredura automática de pasta e processamento em lote (implementado 2026-07-13, ampliado 2026-07-13, pasta renomeada 2026-07-25)
-
-Quando o usuário disser **"adicionar questões novas"**, **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente) **sem colar/anexar o material direto na mensagem**, o procedimento é diferente do passo 1a da Seção 0 (que só se aplica quando o material vem colado na própria mensagem). O fluxo obrigatório é sempre o mesmo, nesta ordem: **(1)** ler este arquivo (`QBANK_ADD_QUESTION.md`) do início ao fim; **(2)** varrer a pasta `/Users/jonathan/Desktop/Questões Novas QBank 1/` e visualizar o conteúdo de cada arquivo encontrado; **(3)** processar tudo conforme os passos abaixo.
-
-1. **Localizar a pasta**: `/Users/jonathan/Desktop/Questões Novas QBank 1/` (nome atualizado pelo usuário em 2026-07-25; a pasta antiga `Questões novas/` foi renomeada e não existe mais). Varrer **recursivamente** — pode haver múltiplas subpastas dentro dela, com nomes/localizações diferentes a cada leva (por tema, por data, por lote enviado etc.), em qualquer profundidade. Listar todo arquivo de imagem (screenshot/foto de questão) encontrado.
-   - **Regra do ✅ no nome da pasta/subpasta:** se uma pasta ou subpasta já tiver `✅` no próprio nome (ex.: `06 - Biostatistics & Epidemiology ✅`, `01 - Epidemiology and population health ✅`), considerar que ela já foi concluída/auditada e **não precisa ser aberta nem reprocessada**. Seguir automaticamente para a próxima pasta/subpasta sem `✅` e verificar se há imagens/questões novas nela.
-   - Se houver um arquivo marcador como `✅ AUDITORIA CONCLUÍDA.txt`, ele confirma a conclusão, mas o marcador principal que deve guiar a navegação é o `✅` no **nome** da pasta/subpasta, pois é visível no Finder.
-   - **Regra de destino pela pasta/subpasta:** o nome da pasta principal e o nome da subpasta correspondem ao local exato onde as questões devem ser incluídas no QBank. A pasta principal define o `system`/área (ex.: `06 - Biostatistics & Epidemiology`, `07 - Poisoning & Environmental Exposure`) e a subpasta define a categoria/subcategoria de destino (ex.: `04 - Study design and interpretation`). Não escolher outro destino por preferência ou por interpretação livre do tema: seguir a localização física do arquivo na pasta/subpasta. Se o conteúdo da imagem parecer claramente incompatível com a pasta/subpasta, tratar como possível erro de organização e auditar com cuidado antes de mover qualquer coisa.
-2. **Processar TODAS as questões encontradas, independente da quantidade** — 50, 100, 200, 300 ou mais. Nunca parar no meio nem perguntar se deve continuar para o próximo lote. Trabalhar em lotes menores (5 questões por vez é o padrão sugerido, mas outro tamanho pode ser usado se ajudar a manter a qualidade da transcrição) e seguir automaticamente lote após lote, aplicando o procedimento completo da Seção 0 (fidelidade 0.1, dificuldade 0.2, labs 16b, tradução 17, imagem 19, taxonomia/dedup de ID Seção 3) em cada questão, até que **a pasta inteira** tenha sido incluída no SEED.
-3. **Exceções que ainda exigem parar e perguntar ao usuário** (não cobertas pela autonomia deste modo): dado realmente ausente no material (Seção 0.1 — nunca inventar), imagem corrompida/ilegível, ou ambiguidade de taxonomia que não seja resolvível sozinho consultando a Seção 5/6.
-4. Rodar `node --check public/js/qbank.js` ao final de cada lote (pega erro de sintaxe cedo) e novamente ao final da pasta inteira.
-5. Depois que **toda a pasta** tiver sido processada: *(opcional)* gerar o(s) link(s) de preview (Seção 20.3) só para conferência própria — não precisa ser aberto/enviado ao usuário.
-6. Seguir para `git add`/`git commit`/`git push` **automaticamente** (Seção 0, passos 5–6 — mudança de política em 2026-07-13: nem commit nem push esperam aprovação ou pedido explícito por leva). O usuário confere depois direto no site publicado, localizando as questões novas pela seção/taxonomia em que foram inseridas.
-
-### 0.4 Marcadores de conclusão com ✅ — obrigatório para pastas novas
-
-Ao processar conjuntos grandes em `/Users/jonathan/Desktop/Questões Novas QBank 1/` (especialmente as próximas pastas `07 - Poisoning & Environmental Exposure` até `26 - Miscellaneous (Multisystem)`), usar os marcadores de conclusão abaixo para deixar claro o que já foi incluído e auditado:
-
-1. **Antes de abrir uma pasta/subpasta**, verificar o nome:
-   - Com `✅`: pular, pois já foi concluída.
-   - Sem `✅`: abrir, contar/visualizar as imagens e processar o conteúdo.
-2. **Quando todas as questões de uma subpasta forem incluídas e auditadas**, renomear a subpasta adicionando ` ✅` ao final do nome. Exemplo:
-   - Antes: `01 - Epidemiology and population health`
-   - Depois: `01 - Epidemiology and population health ✅`
-3. **Quando todas as subpastas de uma pasta principal estiverem com `✅`**, renomear a pasta principal adicionando ` ✅` ao final. Exemplo:
-   - Antes: `06 - Biostatistics & Epidemiology`
-   - Depois: `06 - Biostatistics & Epidemiology ✅`
-4. Opcional, mas recomendado: criar dentro da pasta/subpasta um arquivo curto `✅ AUDITORIA CONCLUÍDA.txt` com o resumo do que foi feito. Isso ajuda caso algum app não mostre bem o emoji no nome, mas **não substitui** o `✅` no nome da pasta.
-5. Nunca remover ou alterar conteúdo original das imagens-fonte. A marcação com `✅` só indica que a pasta/subpasta já foi processada, conferida e não precisa ser reaberta em passadas futuras.
-6. Ao retomar trabalho depois de pausa, limite de uso ou troca de sessão, a primeira ação deve ser listar as pastas/subpastas e pular automaticamente tudo que já tiver `✅`, seguindo para a próxima pasta sem marca.
-
-### 0.5 Auditoria de pastas já processadas — imagens, transcrição e contagem
-
-Quando o usuário pedir auditoria/refinamento de questões já incluídas por VS Code, Claude Code ou outro fluxo anterior, executar uma segunda passada específica:
-
-1. **Auditar por subpasta**, não por ordem solta de IDs. Para cada subpasta sem `✅`, comparar as capturas-fonte com as questões já existentes no `SEED`.
-2. Confirmar a **contagem esperada por subpasta** contra o QBank. Se a tela/fonte indicar, por exemplo, `31 / 11 / 23 / 54 / 1`, a taxonomia do QBank deve refletir exatamente esses números.
-3. Conferir se a questão publicada corresponde à imagem-fonte correta. Se uma questão antiga estiver no tópico certo, mas com conteúdo de outra questão, substituir pelo conteúdo correto da imagem-fonte, mantendo a contagem.
-4. Conferir `img` e `explImg`:
-   - Tabelas, gráficos, diagramas, fluxogramas, exames e figuras da aba Explanation devem ser incluídos quando melhoram a visualização.
-   - Recortes com margem exagerada, texto cortado, gabarito colado, UI do navegador/Finder ou área vazia excessiva devem ser refeitos a partir da imagem-fonte limpa.
-   - O refinamento das imagens deve ser perfeccionista: o recorte final precisa reproduzir fielmente a figura, tabela, exame ou explicação como aparece no material-fonte, com nitidez, enquadramento correto e sem perder títulos, legendas, unidades, eixos, notas ou partes relevantes.
-   - Quando um exame, gráfico, tabela ou imagem explicativa ficar mais claro como asset recortado do que embutido no texto do enunciado/explicação, incluir a imagem recortada no `img` ou `explImg` apropriado, em vez de depender apenas da transcrição.
-   - Reutilizar assets idênticos quando a mesma tabela/diagrama aparece em várias questões; não duplicar arquivo só para trocar o ID se o conteúdo visual é o mesmo e já está claro.
-5. Conferir fidelidade de transcrição em inglês e tradução PT-BR, com atenção especial a números, unidades, `peer`, gabarito, Lab Values e sinais matemáticos (`<`, `>`, `≥`, `≤`, `−`, `×`).
-6. Rodar validações ao final de cada subpasta auditada:
-   - `node --check public/js/qbank.js`
-   - contagem por categoria/subcategoria
-   - checagem de assets referenciados inexistentes
-   - checagem responsiva conforme `RESPONSIVE_BREAKPOINTS.md`/Seção 22: as questões e imagens precisam renderizar corretamente em monitor grande/27", desktop, MacBook, iPad e mobile, sem desalinhamento, corte indevido, overflow horizontal, texto sobreposto ou imagem ilegível.
-7. Só depois de corrigir tudo da subpasta, inclusive problemas de responsividade, marcar a subpasta com `✅`. Só depois de todas as subpastas estarem marcadas, marcar a pasta principal com `✅`.
-
-### 0.6 Estado local da auditoria QBank 1 no Desktop — atualizado 2026-07-28
-
-Ao retomar `/Users/jonathan/Desktop/Questões Novas QBank 1/`, usar primeiro os `✅` nos nomes das pastas/subpastas. Eles são o marcador operacional principal; relatórios `.txt` dentro das pastas são apenas recibos auxiliares.
-
-Pastas já concluídas/auditadas e marcadas:
-
-| Pasta | Status final no QBank |
-|---|---|
-| `01 - Biochemistry ✅` | 65 questões: Amino acids/proteins/enzymes 20; Bioenergetics/carbohydrate metabolism 21; Cell and molecular biology 17; Lipid metabolism 3; Miscellaneous 4 |
-| `02 - Genetics ✅` | 62 questões: Clinical genetics 21; DNA structure/replication/repair 18; Gene expression/regulation 7; Protein synthesis 1; RNA structure/synthesis/processing 13; Miscellaneous 2 |
-| `03 - Microbiology ✅` | 30 questões: Bacteriology 15; Mycology 2; Parasitology 1; Virology 10; Miscellaneous 2 |
-| `04 - Pathology ✅` | 39 questões: Cellular pathology 6; Inflammation and repair 2; Neoplasia 31 |
-| `05 - Pharmacology ✅` | Auditada/concluída e marcada no Desktop |
-| `06 - Biostatistics & Epidemiology ✅` | 120 questões: Epidemiology and population health 31; Measures and distribution of data 11; Probability and principles of testing 23; Study design and interpretation 54; Miscellaneous 1 |
-
-Próximo processamento normal: começar pela primeira pasta sem `✅` (`07 - Poisoning & Environmental Exposure`) e seguir em ordem até `26 - Miscellaneous (Multisystem)`, sempre pulando qualquer pasta/subpasta que já estiver marcada.
-
-**Sobre permissões de comando:** desde 2026-07-13, comandos de terminal (Bash/Read/Write) rodam em modo bypass — não pedem mais aprovação individual —, por isso este modo consegue rodar do início ao fim sem interrupção por prompt de permissão. Isso é independente da exigência de fidelidade (Seção 0.1), que continua valendo normalmente: só o gate de *aprovação humana antes do commit* foi removido, não a exigência de transcrever certo.
-
-**Sobre o computador entrar em repouso/pausa durante o processamento:**
-- Se o Mac entrar em sleep físico de verdade (tela apagada + sistema suspenso), o processo é pausado no nível do sistema operacional — nenhum software continua rodando durante o sleep real; isso é limitação de hardware/SO, não do Claude. Ao acordar o Mac, a sessão retoma sozinha de onde parou — nada se perde, porque cada questão já inserida fica salva em disco imediatamente, arquivo por arquivo. Não é preciso reiniciar do zero.
-- Para evitar que o Mac durma no meio de uma leva grande, recomenda-se rodar `caffeinate -dis` num terminal separado antes de pedir "incluir questões novas" (impede sleep de tela e sistema enquanto o comando estiver ativo), ou desativar temporariamente o sleep em Ajustes do Sistema → Bateria/Energia.
-- Se a sessão cair por outro motivo (rede, terminal fechado), é só retomar a conversa — o `qbank.js` já reflete tudo que foi inserido até aquele ponto, então o próximo passo não duplica nada (checagem de duplicidade de ID continua valendo normalmente, Seção 3).
-
-**Sobre atingir o limite de uso/tokens do Claude durante o processamento (regra do usuário, 2026-07-13):**
-- Se o limite de uso do Claude for atingido no meio de uma leva grande **e o usuário não trocar para outra conta** para continuar, a expectativa dele é: aguardar o limite ser liberado de novo e **retomar automaticamente de onde parou**, sem pedir nada a mais e sem reprocessar/pular nenhuma questão.
-- Na prática, para isso funcionar: manter a sessão do Claude Code aberta (não fechar o terminal/app) até o limite renovar — normalmente a mensagem pendente fica na fila e é reenviada automaticamente assim que a janela de uso libera de novo. Se por algum motivo isso não acontecer sozinho (varia por versão/plano), uma simples mensagem do usuário como "continuar" depois que o limite liberar é suficiente — a checagem de duplicidade de ID (Seção 3) garante que o processamento retoma exatamente do próximo arquivo de imagem ainda não incluído no SEED, sem repetir nem pular nada.
-- Isso não exige o computador ligado ativamente processando o tempo todo — só não fechar a sessão do Claude Code enquanto se espera o limite renovar (mesma lógica do sleep do Mac, acima: nada se perde porque cada questão já commitada/pushada fica salva permanentemente a cada leva).
-
-**Comando de retomada automática por hora — não depender só da fila/do usuário digitar "continuar" (regra do usuário, 2026-07-13):** não existe nenhum aviso/notificação de "o limite já liberou" que o Claude receba — a única forma de saber é **tentar de verdade**. Por isso a tentativa é sempre **cega e por hora, sem esperar nenhuma informação de liberação**: tenta, se falhar por limite de uso continua tentando na próxima hora, e assim por diante até uma tentativa dar certo.
-- Ao **iniciar** uma leva grande pela Seção 0.3 (ou assim que perceber que acabou de atingir o limite de uso, se ainda houver uma chamada de ferramenta disponível antes de ficar sem capacidade), armar um job recorrente com a ferramenta `CronCreate`:
-  - `cron`: um horário não-cheio a cada hora, ex. `"7 * * * *"` (evita o minuto `:00`, por causa de carga simultânea de todos os usuários — recomendação da própria ferramenta).
-  - `recurring`: `true`.
-  - `prompt`: instrução objetiva pra retomar exatamente o processamento desta Seção 0.3 de onde parou — ex.: *"Retomar o processamento de /Users/jonathan/Desktop/Questões Novas QBank 1/ (QBANK_ADD_QUESTION.md §0.3) de onde parou. Checar duplicidade de ID (Seção 3) antes de inserir qualquer questão. Se ainda estiver limitado por uso, essa tentativa falha e a próxima (1h depois) tenta de novo, sem precisar do usuário digitar nada."*
-  - Ao terminar de processar **toda a pasta**, apagar o job com `CronDelete` — não deixar rodando à toa depois que não há mais nada para retomar.
-- **Limitações honestas desse mecanismo** (conferidas na própria especificação da ferramenta, não presumidas):
-  - O job é **só desta sessão** — fica em memória, não é salvo em disco; se a sessão/terminal for fechada, o job some junto. Por isso continua valendo o ponto acima: manter a sessão do Claude Code aberta.
-  - Expira sozinho depois de **7 dias**, mesmo que ninguém apague antes.
-  - Só dispara quando a sessão está ociosa (não no meio de uma resposta em andamento) — que é exatamente o estado de espera pelo limite renovar.
-  - Isso só funciona se ainda houver uma chamada de ferramenta disponível para criar o job **antes** de ficar totalmente sem capacidade de resposta — por isso o ideal é armar esse job **no início** de qualquer leva grande (Seção 0.3), como seguro preventivo, e não tentar criar o job correndo contra o próprio limite depois que ele já bateu.
+- A pasta principal define o sistema.
+- A subpasta define o tópico de `category`.
+- Remover apenas o prefixo numérico e o sufixo `✅` ao comparar o nome da pasta com a taxonomia.
+- `Others`, `Others : Miscellaneous` e `Miscellaneous` correspondem a `misc`.
+- Não reclassificar por preferência pessoal.
+- Se o conteúdo for claramente incompatível com a pasta, não mover a fonte e não adivinhar: marcar conflito, escalonar e continuar os demais itens seguros.
 
 ---
 
-## 1. Arquivo principal
+## 3. Escolha e escalonamento de modelo
 
-```
-public/js/qbank.js
-```
+Escalonar a menor unidade possível — uma questão ou subpasta, não necessariamente a leva inteira. Nunca usar um modelo inferior para “preencher” uma incerteza.
 
-Todo o QBank (dados + lógica + UI) vive neste único arquivo (~2290 linhas). Estrutura interna:
-
-| Seção | Linhas aprox. | O que é |
+| Nível | Usar quando | Não delegar a este nível |
 |---|---|---|
-| `const SEED = [...]` | ~42–1128 | Array com todas as questões |
-| `window.CMSearchProviders.qbank` | ~1140 | Provider da busca global (Seção 18) |
-| `ROOT_CAUSES` | ~1172 | 5 causas-raiz de erro disponíveis |
-| `const TAXONOMY` | ~1183 | Hierarquia de sistemas e subtópicos |
-| `SYSTEM_ALIASES` | ~1257 | Aliases de IDs de sistemas |
-| `DISCIPLINE_LABELS` | ~1267 | Mapa discipline → label exibido |
-| `metaFor(q)` | ~1277 | Deriva Subject/System/Topic/Library de uma questão |
-| `const T` (i18n de interface) | ~1309 | Strings EN/PT dos botões/labels |
-| `const store` | ~1438 | Camada de dados (lê/grava localStorage) |
-| `filterPool` / `availablePool` | ~1526 | Filtragem de questões para Create Test |
-| `boot()` | ~1578 | Entrada do módulo — inclui o modo preview (Seção 20) |
-| `renderHome` | ~1611 | Pass Navigator (tela inicial) |
-| `renderCreate` | ~1745 | Create Test (filtros) |
-| `startTest` / `renderTest` | ~1835/1861 | Início e tela de resolução das questões |
-| `submitAnswer` / `endBlock` | ~1990/2022 | Gravação de attempts (Seção 10) |
-| `renderResults` | ~2035 | Tela de resultados do bloco |
-| `renderAnalytics` | ~2075 | Analytics (Seção 13) |
-| Modais | ~2118 | Root Cause, Flashcard, Notebook, Lab Values |
+| **modelo econômico — medium** | inventário; ordenação; busca de duplicidade; alocação mecânica de ID; inserção de texto já estruturado e perfeitamente legível; execução de validações determinísticas | OCR duvidoso; decisão médica; tradução médica final; pesquisa de Lab Values; crop que exija julgamento; taxonomia nova |
+| **modelo econômico — high** | fluxo padrão de questão legível; conferência visual de múltiplos screenshots; tradução médica PT-BR; Lab Values com fonte autoritativa; crop/refinamento; auditoria final comum | conflito persistente entre fontes; imagem diagnóstica muito complexa; mudança estrutural de UI/CSS; nova convenção sem precedente |
+| **GPT-5.6-sol — ultra** | fonte ilegível, cortada ou contraditória; tabela/gráfico/radiologia complexos; possível gabarito conflitante; duplicidade incerta; novo sistema/prefixo/tópico; alteração responsiva em CSS; Lab Value de população especial sem faixa estável; auditoria após falhas repetidas | ainda é proibido inventar. Se ultra não resolver com evidência, bloquear e perguntar |
 
-Outros arquivos que **leem ou escrevem dados do QBank** (mapa completo na Seção 21): `public/js/site.js` (menu, busca, sidebar), `public/js/cm-sync.js` (sincronização multi-aparelho), `public/js/notebook.js` (referências), `public/js/flashcards.js` (taxonomia espelhada, não lê SEED), `public/css/qbank.css` (estilos, inclusive das imagens).
-
-**`SEED` é global — não é armazenado por usuário.** É um array fixo, compilado dentro do próprio `qbank.js` e servido igual para todo mundo; `store.questions()`/`store.question(id)` (~linha 1896) apenas retornam esse array. Isso significa que toda questão nova commitada (Seção 0) fica automaticamente disponível para **todas as contas** do site — hoje 6, verificado em `seed_users.sql` e em `USER_META` (`public/js/site.js` ~linha 25): `john`, `alysson`, `guest1`, `guest2`, `guest3`, `guest4`. Não existe limite de contas em `worker.js`: qualquer `uid` inserido na tabela `users` do D1 ganha automaticamente seu próprio balde de progresso (Seção 10), sem precisar mudar nada no código do QBank. Ver Seção 10 para o que É armazenado por usuário (nunca o conteúdo da questão em si, só o progresso).
+O processamento médico completo normalmente exige **high**. `medium` é adequado para etapas mecânicas ou para uma questão já transcrita e auditada por um nível superior.
 
 ---
 
-## 2. Estrutura de uma questão (SEED)
+## 4. Pré-voo seguro
+
+Antes de editar:
+
+- [ ] Rodar `git status --short`.
+- [ ] Identificar mudanças preexistentes e preservá-las.
+- [ ] Não usar reset, checkout destrutivo ou sobrescrita de trabalho alheio.
+- [ ] Inventariar as fontes sem `✅` e agrupá-las por questão.
+- [ ] Para cada grupo, registrar: caminhos-fonte, pasta/subpasta, destino, ID existente/novo, imagens necessárias e estado.
+- [ ] Contar grupos de questão por subpasta.
+
+Um único enunciado pode ocupar vários screenshots; uma mesma captura pode conter enunciado, alternativas, explicação e figura. Agrupar por número exibido, sequência de arquivos, conteúdo e continuidade visual. OCR pode ajudar, mas a imagem deve ser inspecionada visualmente; nunca confiar apenas no OCR.
+
+Manter uma tabela curta de trabalho durante a execução, com: caminhos-fonte,
+destino, ID, estado e assets. Ela pode viver no contexto ou em nota temporária
+fora do repositório; **não criar nem adicionar ao Git um arquivo de manifesto**
+sem pedido explícito. Estados permitidos:
+
+- `PENDENTE`
+- `EM_PROCESSAMENTO`
+- `AUDITADA`
+- `JÁ_EXISTENTE`
+- `BLOQUEADA_FONTE`
+- `BLOQUEADA_TAXONOMIA`
+
+### Deduplicação obrigatória
+
+Checar duas coisas antes de inserir:
+
+1. **ID:** pesquisar o ID exato em `public/js/qbank.js`.
+2. **Conteúdo:** pesquisar um trecho distintivo da vinheta/pergunta e comparar pergunta, alternativas e gabarito.
+
+Checar só o ID **não** torna a retomada segura: a mesma fonte poderia receber outro ID. Se a questão já existir, auditar/corrigir o objeto existente; não criar duplicata.
+
+---
+
+## 5. Fidelidade absoluta ao material
+
+### 5.1 Original em inglês
+
+Transcrever exatamente o que está na fonte:
+
+- `vignette`
+- `q`
+- todas as `options`
+- `correct`
+- `explC`
+- todo `explI`
+- `objective`
+- `peer`, quando fornecido
+
+Regras inegociáveis:
+
+- Não resumir, parafrasear, “melhorar”, completar ou corrigir silenciosamente o material.
+- Preservar números, casas decimais, unidades, símbolos (`<`, `>`, `≥`, `≤`, `−`, `×`), negações, idade, sexo, temporalidade e ordem das alternativas.
+- Não inventar gabarito, explicação, objetivo, alternativa ou percentual.
+- Percentuais de `peer` podem não somar 100 por arredondamento. Transcrever sem ajustar e sem tratar a soma como erro.
+- Se `peer` não existir na fonte, omitir `peer` e usar dificuldade `medium`.
+- Se só parte de `peer` estiver ausente, bloquear a questão; não completar.
+- `correct` deve corresponder exatamente a uma label existente.
+- `explI` deve cobrir as explicações fornecidas para as incorretas. Se a fonte agrupar letras, manter uma única entrada, por exemplo `option:'B, D, and E'`; não duplicar o mesmo parágrafo.
+- Em uma questão com seis alternativas, adicionar `F` a `options` e a `peer` quando este existir. Adicionar `F` a `explI` somente se `F` for incorreta e conforme a fonte.
+
+Se um campo obrigatório estiver realmente ausente ou ilegível, não gerar texto plausível. Bloquear e pedir a fonte correta.
+
+### 5.2 Tradução PT-BR
+
+Toda questão nova deve incluir `ptTranslation` completa no mesmo commit:
+
+- `vignette`
+- `q`
+- `objective`
+- todas as `options`
+- `explC`
+- todo `explI`
+
+Checklist da tradução:
+
+- [ ] Português brasileiro natural e terminologia médica usada no Brasil.
+- [ ] Mesmo conteúdo, nível de certeza e relações causais do inglês.
+- [ ] Nenhuma informação adicionada, removida ou “explicada melhor”.
+- [ ] Números, unidades, símbolos, doses, vias, genes e siglas preservados.
+- [ ] Labels `A`–`F` preservadas.
+- [ ] A string `option` de cada explicação agrupada é idêntica em EN e PT.
+- [ ] Negação, sexo, idade e cronologia conferidos palavra por palavra.
+- [ ] Original em inglês permanece intacto.
+
+Se o usuário também fornecer uma versão PT:
+
+- transcrevê-la como fonte, sem normalização silenciosa;
+- se houver erro ortográfico evidente que não altere o sentido, registrar e pedir
+  decisão antes de corrigir;
+- se PT e EN divergirem em dado clínico, gabarito, número, unidade ou sentido,
+  bloquear a questão e pedir decisão;
+- nunca publicar uma tradução sabidamente incorreta apenas para manter o fluxo
+  automático.
+
+Não existe `ptTranslation.img` nem `ptTranslation.explImg`. Não alterar texto, setas, cores ou pistas de uma figura para “traduzir” a imagem. Manter a figura fiel; traduzir o conteúdo textual nos campos disponíveis. Uma arte visual bilíngue nova é uma tarefa separada e exige escalonamento.
+
+---
+
+## 6. Estrutura do objeto
 
 ```js
-{ id:'CMQ-STEP1-XXX-0001',
-
-  // classificação — define filtros E tags exibidas na explicação
+{
+  id:'CMQ-STEP1-CVS-0010',
   system:'cardiovascular',
   discipline:'pathophysiology',
   category:'cardiovascular::valvular_heart_diseases',
-  difficulty:'medium',           // 'easy' | 'medium' | 'hard' — calculado a partir de peer[correct], ver Seção 0.2
-  library:1,                     // OPCIONAL — 1|2|3. Default 1 se omitido. Ver Seção 4b.
+  difficulty:'medium',
 
-  // conteúdo
-  vignette:'Texto da vinheta clínica...',
-  q:'Qual das alternativas é a mais correta?',
+  vignette:'...',
+  q:'...',
   options:[
-    {label:'A', text:'Opção A'},
-    {label:'B', text:'Opção B'},
-    {label:'C', text:'Opção C'},
-    {label:'D', text:'Opção D'},
-    {label:'E', text:'Opção E'},
+    {label:'A', text:'...'},
+    {label:'B', text:'...'},
+    {label:'C', text:'...'},
+    {label:'D', text:'...'},
+    {label:'E', text:'...'},
   ],
   correct:'A',
-
-  // explicações
-  explC:'Explicação completa da resposta CORRETA.',
+  explC:'...',
   explI:[
-    {option:'B', explanation:'Por que B está errada.'},
-    {option:'C', explanation:'Por que C está errada.'},
-    {option:'D', explanation:'Por que D está errada.'},
-    {option:'E', explanation:'Por que E está errada.'},
+    {option:'B', explanation:'...'},
+    {option:'C, D, and E', explanation:'...'},
   ],
-  objective:'Frase única com o ponto de aprendizado principal.',
-
-  // Quando o material original explica 2+ alternativas incorretas juntas com o MESMO texto
-  // (padrão "(Choices B and C)" ou "(Choices A, B, D, E, and F)" do UWorld), NÃO duplicar o texto
-  // em uma entrada por letra — isso faz o mesmo parágrafo se repetir várias vezes na tela (bug já
-  // corrigido em BCH-0010, feedback do usuário em 2026-07-11). Em vez disso, usar UMA única entrada
-  // em explI com `option` contendo todas as letras juntas, exatamente como agrupadas no material:
-  //   {option:'B, D, and E', explanation:'texto único que vale para B, D e E...'}
-  // O renderer (renderExplanation, ~linha 2396) apenas concatena "${e.option}." + a explicação, então
-  // qualquer string funciona como label — não precisa ser uma letra isolada. Se o material agrupar
-  // as 5 alternativas incorretas em um único parágrafo, o array explI dessa questão terá 1 item só.
-  // A mesma regra vale para ptTranslation.explI (mesma string em `option` nos dois idiomas, pois a
-  // busca de tradução em ptExplIText faz comparação exata por `option`).
-
-  // peer stats — % de escolha por alternativa (deve somar 100) — vem do material do usuário, nunca inventar (Seção 0.1)
+  objective:'...',
   peer:{A:71, B:9, C:12, D:5, E:3},
 
-  // OPCIONAL: imagem exibida na vinheta — string ou array de strings. Ver Seção 19 antes de gerar o arquivo.
-  img:'assets/qbank/CMQ-STEP1-CVS-0001_nome_imagem.png',
+  img:'assets/qbank/CMQ-STEP1-CVS-0010_nome.png',
+  explImg:['assets/qbank/CMQ-STEP1-CVS-0010_expl_parte1.png'],
 
-  // OPCIONAL: valores de referência laboratoriais pertinentes a ESTA questão. Exames e faixas escolhidos
-  // com autonomia total por você (Claude) — sem aprovação do usuário para essa escolha — de acordo com o
-  // caso clínico, sinais/sintomas, sexo, idade, gravidez e histórico descritos na vinheta. Única exceção
-  // à Regra de Fidelidade (Seção 0.1) — o resto da questão continua verbatim. Ver Seção 16b completa.
   labs:[
-    ['Ammonia (venous)', '15–45 µg/dL (≈9–26 µmol/L)', '15–45 µg/dL (≈9–26 µmol/L)',
-     'Elevated in urea cycle disorders', 'Elevada nos distúrbios do ciclo da ureia'],
+    ['Exam', 'reference range EN', 'faixa de referência PT',
+     'patient-specific meaning EN', 'interpretação específica PT'],
   ],
 
-  // OPCIONAL mas recomendado: tradução PT-BR completa (não existe tradução separada para img — ver Seção 19)
   ptTranslation:{
-    vignette:'Vinheta em português...',
-    q:'Pergunta em português?',
-    objective:'Objetivo em português.',
+    vignette:'...',
+    q:'...',
+    objective:'...',
     options:[
-      {label:'A', text:'Opção A em PT'},
-      {label:'B', text:'Opção B em PT'},
-      {label:'C', text:'Opção C em PT'},
-      {label:'D', text:'Opção D em PT'},
-      {label:'E', text:'Opção E em PT'},
+      {label:'A', text:'...'},
+      {label:'B', text:'...'},
+      {label:'C', text:'...'},
+      {label:'D', text:'...'},
+      {label:'E', text:'...'},
     ],
-    explC:'Explicação correta em português.',
+    explC:'...',
     explI:[
-      {option:'B', explanation:'Explicação B em PT.'},
-      {option:'C', explanation:'Explicação C em PT.'},
-      {option:'D', explanation:'Explicação D em PT.'},
-      {option:'E', explanation:'Explicação E em PT.'},
-    ]
-  }
+      {option:'B', explanation:'...'},
+      {option:'C, D, and E', explanation:'...'},
+    ],
+  },
 },
 ```
 
-### Questões com 6 alternativas
+Campos condicionais:
 
-Apenas acrescentar mais uma opção em `options` (label `F`) e adicionar `F` em `peer` e `explI`. O sistema detecta automaticamente (não há limite de alternativas verificado no código, mas 5–6 é o padrão do banco).
+- `peer`: somente quando fornecido.
+- `img`: imagem do enunciado; string ou array.
+- `explImg`: imagem da explicação; string ou array.
+- `labs`: condicionalmente obrigatório conforme a Seção 9.
+- `library`: omitir. O default é Library 1. Só usar `2`/`3` se o usuário pedir explicitamente outra Library; isso não cria QBank 2/3 funcional.
 
----
-
-## 3. Convenção de IDs
-
-| Tipo | Formato | Exemplo |
-|---|---|---|
-| Batch temático | `CMQ-STEP1-{SYS}-{NNNN}` | `CMQ-STEP1-CVS-0001` |
-| Questão simples antiga | `q_{descricao_curta}` | `q_cv_as` |
-
-**Siglas de sistema para o ID:**
-
-| Sistema | Sigla |
-|---|---|
-| Cardiovascular | CVS |
-| Pulmonary & Critical Care | PUL |
-| Renal & Urinary | REN |
-| Gastrointestinal | GIT |
-| Nervous System | NEU |
-| Hematology & Oncology | HEM |
-| Infectious Diseases | INF |
-| Endocrine | END |
-| Male Reproductive | MRS |
-| Female Reproductive | FRS |
-| Musculoskeletal | MSK |
-| Psychiatry/Behavioral | PSY |
-| Biochemistry | BCH |
-| Genetics | GEN |
-| Pathology | PAT |
-| Pharmacology | PHR |
-| Biostatistics & Epidemiology | BST |
-| Microbiology | MIC |
-| Dermatology | DER |
-| Allergy & Immunology | IMM |
-
-Antes de usar um ID, sempre confirmar que não existe: `grep -n "id:'CMQ-STEP1-CVS-0007'" public/js/qbank.js` (ou o ID exato que for usar).
+Inserir no `SEED`, dentro do `// BATCH` do sistema. Criar um batch do sistema somente se não existir.
 
 ---
 
-## 4. Sistema de classificação (system / category / discipline)
+## 7. IDs
 
-Estes três campos controlam:
-- **Onde a questão aparece** nos filtros do Create Test
-- **Quais chips (tags) aparecem** no final da explicação (Subject / System / Topic)
+Formato: `CMQ-STEP1-{SIGLA}-{NNNN}`.
 
-### 4a. Como as tags são geradas automaticamente
+### 7.1 Regra de alocação
 
-Tudo é derivado por `metaFor(q)` (`public/js/qbank.js` ~linha 1277) — **não existe passo manual de tagging**.
+1. Identificar a sigla pelo sistema.
+2. Listar os IDs existentes dessa sigla.
+3. Usar o maior sufixo numérico + 1.
+4. Não reutilizar lacunas.
+5. Confirmar a ausência do ID exato imediatamente antes da inserção.
+6. Confirmar também ausência de questão duplicada por conteúdo.
 
-| Chip exibido | Campo da questão | Exemplo |
-|---|---|---|
-| **Subject** | `discipline` | `biostatistics` → "Biostatistics" |
-| **System** | `system` | `biostatistics_epidemiology` → "Biostatistics & Epidemiology" |
-| **Topic** | parte após `::` em `category` | `hypothesis_testing` → "Hypothesis testing" |
+Comandos de apoio (substituir `CVS` e o trecho pelos valores reais):
 
-> Se um slug de topic não existir no TAXONOMY, o sistema gera o label via `titleFromSlug` (converte `snake_case` → "Title Case"). Para label exato (ex: "Hypothesis testing" em vez de "Hypothesis Testing"), registrar no TAXONOMY — ver Seção 6.
-
-### 4b. Library (1/2/3) — para qual biblioteca a questão é roteada
-
-Cada questão carrega um campo opcional `library` (`1`, `2` ou `3`) que define o prefixo exibido no rodapé da explicação: `Medical Library > Library {N} > {System} > {Topic}` (função `metaFor()`, `public/js/qbank.js` ~linha 1277, campo implementado em 2026-07-11).
-
-- **Default: `library:1`** — se o campo não for informado (caso de todas as ~700 questões existentes), a questão é tratada como Library 1.
-- **Hoje só existe conteúdo/UI para QBank 1 (Library 1).** `Library 2` e `Library 3` já aparecem no menu de navegação (`public/js/site.js`) e `Library 2` já tem sua lista de pastas temáticas (`LIB_FOLDERS['library-2']`, estilo Step 2 CK: Biochemistry, Immunology, Microbiology, Pathology, General Pharmacology, Biostatistics, Public Health Science, Cardiovascular, Endocrinology, GI, Heme/Onc, MSK/Skin/CT, Neurology, Psychiatry, Nephrology, Reproductive, Pulmonology), mas **não existe ainda nenhum array de questões tipo `SEED` nem tela de resolução para QBank 2/3** — `qbank-2` está em `COMING_SOON_PAGES` (`public/js/site.js`).
-- Setar `library:2` ou `library:3` numa questão nova hoje só afeta a tag/rótulo exibido (`libraryPath`) — **não** move a questão pra uma tela diferente, pois essa tela ainda não existe.
-- Enquanto o usuário não pedir para construir o QBank 2/3 completo (nova tela, novo SEED, filtros, passadas — tarefa grande, separada), toda questão nova entra em `library:1` (ou omite o campo, que é o mesmo). Só usar 2/3 se o usuário disser explicitamente que a leva é destinada a outra library.
-
-### Tabela de Disciplinas (`discipline`)
-
-| Valor | Label exibido |
-|---|---|
-| `anatomy` | Anatomy |
-| `histology` | Histology |
-| `embryology` | Embryology |
-| `physiology` | Physiology |
-| `pathophysiology` | Pathophysiology |
-| `pathology` | Pathology |
-| `pharmacology` | Pharmacology |
-| `microbiology` | Microbiology |
-| `immunology` | Immunology |
-| `genetics` | Genetics |
-| `biochem` / `biochemistry` | Biochemistry |
-| `behavioral_science` | Behavioral Science |
-| `epidemiology` | Epidemiology |
-| `biostatistics` | Biostatistics |
-| `ethics` | Ethics |
-| `social_sciences` | Social Sciences |
-
-Um `discipline` fora dessa lista ainda funciona (vira Title Case automático via `titleFromSlug`), só não terá o label "bonito" da tabela.
-
----
-
-## 5. TAXONOMY — Todos os Sistemas e Subtópicos
-
-O campo `category` deve ser `{system_id}::{subtopico_slug}`.
-
-```
-biochemistry
-  amino_acids_proteins_enzymes
-  bioenergetics_carb_metabolism
-  cell_molecular_biology
-  lipid_metabolism
-  misc
-
-genetics
-  clinical_genetics
-  dna_structure_replication_repair
-  gene_expression_regulation
-  protein_synthesis
-  rna_structure_synthesis_processing
-  misc
-
-microbiology
-  bacteriology
-  mycology
-  parasitology
-  virology
-  misc
-
-pathology
-  cellular_pathology
-  inflammation_repair
-  neoplasia
-
-pharmacology
-  drug_metabolism_toxicity
-  drug_receptors_pharmacodynamics
-  pharmacokinetics
-  misc
-
-biostatistics_epidemiology
-  epidemiology_population_health
-  measures_distribution_data
-  probability_principles_testing
-  study_design_interpretation
-  hypothesis_testing             ← adicionado manualmente
-  misc
-
-poisoning_environmental
-  environmental_exposure
-  toxicology
-
-allergy_immunology
-  anaphylaxis_allergic_reactions
-  autoimmune_diseases
-  immune_deficiencies
-  transplant_medicine
-  principles_immunology
-  misc
-
-cardiovascular
-  normal_cv
-  aortic_peripheral_artery
-  cardiac_arrhythmias
-  congenital_heart_disease
-  coronary_heart_disease
-  heart_failure_shock
-  hypertension
-  myopericardial_diseases
-  valvular_heart_diseases
-  cardiovascular_drugs
-  misc
-
-dermatology
-  normal_skin
-  disorders_epidermal_appendages
-  inflammatory_dermatoses_bullous
-  skin_soft_tissue_infections
-  skin_tumors
-  misc
-
-ent
-  disorders_ent
-
-endocrine
-  normal_endocrine
-  congenital_dev_anomalies
-  adrenal_disorders
-  diabetes_mellitus
-  endocrine_tumors
-  hypothalamus_pituitary
-  obesity_dyslipidemia
-  reproductive_endocrinology
-  thyroid_disorders
-  misc
-
-female_repro_breast
-  normal_female_repro
-  congenital_dev_anomalies
-  breast_disorders
-  genital_tract_tumors
-  genitourinary_infections
-  menstrual_disorders_contraception
-  misc
-
-gi_nutrition
-  normal_gi
-  congenital_dev_anomalies
-  biliary_tract
-  disorders_nutrition
-  gastroesophageal
-  hepatic
-  intestinal_colorectal
-  pancreatic
-  tumors_gi
-  misc
-
-heme_onc
-  normal_heme
-  hemostasis_thrombosis
-  plasma_cell
-  platelet_disorders
-  rbc_disorders
-  transfusion_medicine
-  wbc_disorders
-  principles_oncology
-  misc
-
-infectious_diseases
-  antimicrobial_drugs
-  bacterial_infections
-  fungal_infections
-  hiv_sti
-  infection_control
-  parasitic_helminthic
-  viral_infections
-  misc
-
-male_repro
-  normal_male_repro
-  disorders_male_repro
-
-nervous_system
-  normal_nervous
-  congenital_dev_anomalies
-  cerebrovascular_disease
-  cns_infections
-  demyelinating_diseases
-  peripheral_nerves_muscles
-  headache
-  neurodegenerative_dementias
-  seizures_epilepsy
-  spinal_cord_disorders
-  traumatic_brain_injuries
-  tumors_nervous
-  hydrocephalus
-  anesthesia
-  sleep_disorders
-  misc
-
-ophthalmology
-  normal_eye
-  disorders_eye
-
-pregnancy_childbirth
-  normal_pregnancy
-  disorders_pregnancy
-
-psychiatric_behavioral
-  normal_behavior_development
-  anxiety_trauma
-  mood_disorders
-  neurodevelopmental_disorders
-  personality_disorders
-  psychotic_disorders
-  substance_use_disorders
-  eating_disorders
-  somatoform_disorders
-  misc
-
-pulmonary_critical_care
-  normal_pulmonary
-  congenital_dev_anomalies
-  critical_care
-  interstitial_lung
-  lung_cancer
-  obstructive_lung
-  pulmonary_infections
-  pulmonary_vascular
-  sleep_disorders
-  misc
-
-renal_urinary
-  normal_renal
-  congenital_dev_anomalies
-  acute_kidney_injury
-  bone_metabolism
-  chronic_kidney_disease
-  cystic_kidney
-  fluid_electrolytes_acidbase
-  glomerular_diseases
-  neoplasms_kidney_urinary
-  nephrolithiasis_obstruction
-  diabetes_insipidus
-  urinary_incontinence
-  misc
-
-rheum_ortho
-  normal_msk
-  congenital_dev_anomalies
-  arthritis_spondylo
-  autoimmune_vasculitides
-  bone_joint_injuries_infections
-  bone_tumors
-  spinal_disorders_back_pain
-  metabolic_bone
-  misc
-```
-
----
-
-## 6. Adicionar subtópico novo ao TAXONOMY
-
-Se o subtópico ainda não existe, localizar o sistema no TAXONOMY (~linha 1183) e adicionar o par `['slug','Nome Legível']`:
-
-```js
-{id:'biostatistics_epidemiology', name:'Biostatistics & Epidemiology', subs:[
-  ['study_design_interpretation','Study design and interpretation'],
-  ['hypothesis_testing','Hypothesis testing'],   // ← novo
-  ['misc','Miscellaneous']
-]},
-```
-
-Se quiser tradução PT correta desse label (senão cai automaticamente no inglês), adicionar também em `TAX_PT` (~linha 1241, dicionário `{'English label':'Rótulo em português'}`).
-
----
-
-## 7. Sistema de Passadas (Pass Navigator)
-
-O QBank usa passadas sequenciais — o usuário faz o banco inteiro múltiplas vezes, cada "passada" com foco diferente.
-
-| Passada | Nome (EN) | Nome (PT) | Desbloqueio |
-|---|---|---|---|
-| 1 | Learning | Aprendizado | Sempre disponível |
-| 2 | Consolidation | Consolidação | Passada 1 100% concluída |
-| 3 | Refinement | Refinamento | Passada 2 100% concluída |
-| ★ Dirigida | Total Mastery | Domínio Total | Passada 1 100% concluída |
-
-**Como o sistema rastreia:**
-- Cada questão respondida gera um `attempt` gravado no localStorage
-- `passNumber(qid)` = número de attempts anteriores para aquela questão
-  - 0 attempts → passada 1
-  - 1 attempt → passada 2
-  - 2 attempts → passada 3
-  - 3+ attempts → passada dirigida (99)
-- `passProgress(pn)` retorna `{total, answered, pct, done}`, onde **`total` = `SEED.length` no momento do cálculo**
-- A passada N está **concluída** quando TODAS as questões têm ≥ N attempts
-
-> ⚠ **Efeito colateral de adicionar questões:** como `total` é sempre `SEED.length` (o banco inteiro), toda vez que uma leva de questões novas é comitada, o denominador de `passProgress` aumenta imediatamente para todos os usuários — inclusive quem já tinha uma passada em 100% pode ver a % cair, e uma passada antes "completed" pode voltar a `active` até ele responder as novas questões daquela passada. Isso é esperado/correto (mais questões = mais para estudar), mas **avise o usuário** ao comitar uma leva grande, para ele não estranhar o dashboard.
-
-**Passada Dirigida (99):**
-- Pool dinâmico: questões com último attempt `incorrect` OU com flag ativo
-- Excluídas automaticamente: questões com 2 acertos consecutivos
-
-**Desbloqueio manual (admin):**
-```js
-localStorage.setItem('couplemed_qb_unlock_john', '3'); // desbloqueia até passada 3
-```
-O usuário `john` (USER exatamente igual a `'john'`) é o único tratado como admin no código (`isAdmin(){ return USER==='john'; }`) e bypassa os locks automaticamente. `alysson` **não** é admin nesse módulo, mesmo sendo um dos dois usuários "premium" do site — para ele, o desbloqueio manual acima (com `couplemed_qb_unlock_alysson`) é necessário se for preciso pular locks.
-
----
-
-## 8. Create Test — Filtros disponíveis
-
-| Filtro | Valores | O que filtra |
-|---|---|---|
-| **Status** | all / unused / correct / incorrect / omitted / marked | Último status do attempt da questão |
-| **Passada** | all / 1 / 2 / 3 / 99 (Dirigida) | Número de attempts da questão |
-| **Dificuldade** | all / easy / medium / hard | Campo `difficulty` da questão |
-| **Sistema** | Accordion com TAXONOMY | Campo `category` da questão |
-| **Modo** | tutor / timed | Controla se a explicação aparece imediatamente |
-| **Nº de questões** | 1–40 (máx permitido) | Quantidade de questões no bloco |
-| **Seg/questão** | numérico (só no modo timed) | Timer automático por questão |
-
-**Regra do contador:**
-- O número exibido ("33 disponíveis") considera **todos os filtros exceto seleção de subtópico** — mostra quantas questões existem antes de aplicar o accordion de sistemas.
-- `filterPool(f)` aplica todos os filtros incluindo subtópicos.
-- `availablePool(f)` aplica todos os filtros **exceto** subtópicos (usado para os contadores do accordion).
-
----
-
-## 9. Tela de Resolução — funcionalidades
-
-| Funcionalidade | Ação do usuário | O que acontece |
-|---|---|---|
-| **Strikethrough** | Clique no × de uma alternativa | Risca a opção visualmente; não impede seleção |
-| **Flag** | Botão "Marcar" | Marca a questão; aparece no filtro "Marcadas" e na Passada Dirigida |
-| **Submit** | Botão "Responder" | Grava o attempt (imutável); no modo tutor abre explicação |
-| **Lab Values** | Botão "Valores Lab" | Abre popup com faixas de referência (Na, K, Hb, etc.) |
-| **End Block** | Botão "Encerrar Bloco" | Registra questões restantes como omitidas e vai para Resultados |
-| **Suspend** | Botão "Suspender" | Salva o teste com status `suspended`; pode ser retomado depois |
-| **Modo Timed** | Timer regressivo | Ao atingir 0 seg, a questão é auto-omitida |
-
-**Navegação:**
-- Botões Anterior / Próxima — navega sem submeter
-- Grid de questões no rodapé — clique direto em qualquer número
-
-> No **modo preview** (Seção 20) esta tela é reaproveitada, mas Submit/Suspend/End Block ficam ocultos e a explicação já aparece revelada desde o início — é só leitura, nada aqui é gravado.
-
----
-
-## 10. Persistência — localStorage
-
-**Chave principal:** `couplemed_qb_{USER}` (ex: `couplemed_qb_john`)
-
-```js
-db = {
-  attempts: [],   // histórico imutável — NUNCA sobrescrito
-  tests: [],      // blocos criados (in_progress / suspended / completed)
-  notebook: [],   // notas por questão
-  flags: {},      // { qid: true } — questões marcadas
-  links: {}       // { qid: [flashcardId] } — vínculo QBank → Flashcards
-}
-```
-
-**Schema de um attempt:**
-```js
-{
-  id: 'att_abc123',
-  user_id: 'john',
-  question_id: 'CMQ-STEP1-CVS-0001',
-  test_id: 'test_xyz',
-  selected_option: 'A',          // null se omitida
-  is_correct: 1,                  // 0 | 1 | null
-  status: 'correct',             // 'correct' | 'incorrect' | 'omitted'
-  pass_number: 1,                 // calculado no momento do addAttempt
-  time_spent_seconds: 45,
-  mode: 'tutor',
-  flagged: false,
-  strikethrough_options: ['B','D'],
-  root_cause_tag: 'knowledge_gap', // preenchido pelo modal de causa-raiz (só em erros)
-  created_at: '2025-07-10T12:00:00.000Z'
-}
-```
-
-> **Importante:** attempts são INSERT-only. O sistema NUNCA modifica um attempt já gravado. O `pass_number` é calculado no momento da gravação com base nos attempts anteriores daquela questão. O modo preview (Seção 20) nunca chama `addAttempt`/`saveTest` — é a única forma segura de "abrir" uma questão sem gerar histórico permanente.
-
-### 10.1 Arquitetura multi-usuário (contas reais, não é só john/alysson)
-
-Confirmado por auditoria em 2026-07-11: o site já está preparado para **6 contas reais**, não só as 2 do casal.
-
-- **Contas hoje:** `john`, `alysson`, `guest1`, `guest2`, `guest3`, `guest4` — todas cadastradas na tabela `users` do D1 (`seed_users.sql`), cada uma com hash de senha PBKDF2 próprio (login real, não é um `?u=` livre). `USER_META` em `public/js/site.js` (~linha 25) espelha essas 6 para exibir nome/avatar.
-- **Sem limite de contas no backend:** `worker.js` não tem nenhuma checagem de "só 2 usuários" — login é só `SELECT ... FROM users WHERE login=?` (`worker.js:257`). Qualquer linha nova na tabela `users` já funciona para login e sincronização, sem mudar código. Para criar uma conta nova hoje é preciso inserir direto no D1 via `wrangler d1 execute` (não existe endpoint de "criar usuário" na UI) — depois disso, opcionalmente adicionar a entrada em `USER_META` (`site.js`) só para aparecer bonito no painel admin de Usuários; sem isso a conta funciona igual, só aparece com o `uid` cru em vez do nome de exibição.
-- **`isAdmin()` é o único ponto realmente hardcoded a um único usuário:** `qbank.js` (~linha 1952) checa `USER==='john'` literalmente (bypassa os locks de passada) — `alysson` **não** é admin nesse módulo, mesmo sendo conta "premium". Se um dia quiser um segundo admin, é aqui que mexe.
-- **Cada `uid` tem seu balde de progresso isolado automaticamente** (`user_state` no D1, bucket = `uid`) — não precisa de migração ao adicionar conta nova. O que é global (SEED, questões) x por usuário (attempts/tests/flags/notebook) está descrito na Seção 1 e no topo desta seção.
-- **⚠️ Nota de segurança:** `seed_users.sql` tem o comentário `-- NAO COMMITAR` no topo, mas está commitado no repositório com os hashes de senha reais das 6 contas. Ciente disso desde 2026-07-11 — decisão consciente de não mexer por ora (não remover/alterar por iniciativa própria); reabrir esse ponto se o repositório mudar de privado para público ou ganhar colaboradores externos.
-
----
-
-## 11. Causa-raiz de erro (Root Cause Analysis)
-
-Quando o usuário erra uma questão em **modo tutor**, abre automaticamente um modal com 5 opções:
-
-| ID | EN | PT |
-|---|---|---|
-| `knowledge_gap` | Knowledge gap | Falta de conteúdo |
-| `similar_diagnosis_confusion` | Confused similar diagnoses | Confundi diagnósticos parecidos |
-| `mechanism_misunderstanding` | Misunderstood the mechanism | Entendi mal o mecanismo |
-| `reading_error` | Misread the vignette | Erro de leitura da vinheta |
-| `time_pressure` | Time pressure | Pressão do tempo |
-
-O `root_cause_tag` é gravado no **último attempt** daquela questão. Alimenta:
-1. **Analytics → Causas de erro** (gráfico de barras)
-2. **Revisão Cirúrgica** (usa a causa mais frequente para montar o teste)
-
----
-
-## 12. Revisão Cirúrgica (Surgical Review)
-
-Botão disponível na tela de Resultados após erros.
-
-**Algoritmo:**
-1. Identifica a causa-raiz mais frequente nos attempts do usuário
-2. Seleciona questões onde o usuário errou e marcou aquela causa-raiz
-3. Complementa com questões da Passada Dirigida (incorretas/flagged)
-4. Limita a 15 questões
-5. Inicia um teste em modo tutor com essas questões (`test_type: 'surgical_review'`)
-
----
-
-## 13. Analytics — Painéis disponíveis
-
-Acesso: botão "Análises" na tela Home.
-
-| Painel | O que mostra |
-|---|---|
-| **Desempenho por sistema** | % de acerto por `system`, barra horizontal, formato `X% (acertos/tentativas)` |
-| **Comparação por passada** | % de acerto por passada (1, 2, 3, Dirigida) |
-| **Causas de erro** | Frequência de cada `root_cause_tag` (barra proporcional ao máximo) |
-
-**Regras de cálculo:**
-- Omitidas são excluídas do cálculo de % de acerto
-- Cada attempt conta independentemente (usuário pode ter múltiplas tentativas da mesma questão)
-- Analytics só aparece quando `store.allAttempts().length > 0`
-- Uma questão nova só aparece nos painéis depois que o usuário a responder pelo menos uma vez fora do modo preview
-
----
-
-## 14. SmartCards — Integração com Flashcards
-
-Botão "**+ Add to Flashcards**" disponível na explicação de cada questão (inclusive no modo preview).
-
-**O que acontece:**
-1. Abre modal com campo "Front" (usuário escreve) e "Back" (pré-preenchido com `explC` + `objective`)
-2. Ao salvar, grava o card no banco de Flashcards (`couplemed_fc_{USER}`)
-3. Vincula o ID do card à questão em `store.links`
-
-**Campos herdados do card criado:**
-```js
-{
-  tags: ['qbank', 'Cardiovascular System'],  // nome do sistema da questão
-  source: 'qbank',
-  sourceQuestionId: 'CMQ-STEP1-CVS-0001',
-  priority: 'high',    // se a questão foi errada
-  flag: 'red',         // se a questão foi errada
-  state: 'new'
-}
-```
-
-O deck criado se chama **"QBank SmartCards"** (mesmo nome em PT) e aparece normalmente no módulo de Flashcards. O módulo Flashcards (`public/js/flashcards.js`) espelha a mesma taxonomia (Systems > Subjects) do QBank só para fins de filtro — ele **não lê o SEED diretamente**, só os cards já criados.
-
----
-
-## 15. Caderno (Notebook)
-
-Botão "**+ Caderno**" disponível na explicação de cada questão (inclusive no modo preview).
-
-- Abre modal com textarea livre
-- Nota salva em `db.notebook[]` com `{id, question_id, content, created_at}`
-- Notas aparecem indexadas na **busca global do site** (categoria "QBank · Notebook")
-- O módulo Notebook (`public/js/notebook.js`) também permite, de dentro de uma nota qualquer, **linkar** para uma questão do QBank colando o ID — isso só cria um link de referência (`app.html?page=qbank-1&u=USER&q=ID`), nunca modifica a questão. Hoje esse `?q=` não é interpretado por `qbank.js` para abrir a questão diretamente (não há handler no `boot()`) — é só um rótulo/link para o QBank em geral, então não depender dele para abrir uma questão específica.
-
----
-
-## 16. Lab Values — Popup de referência
-
-Botão "**Valores Lab**" durante a resolução de questões (inclusive no modo preview). Implementado em `openLabs(q)` (`public/js/qbank.js`, ~linha 2387), chamado como `openLabs(currentQ())` no switch de ações (`case 'labs'`).
-
-### 16a. Lista fixa e global (sempre visível, todas as questões)
-
-Bilíngue EN/PT, igual para toda questão — editar o array `rows` dentro de `openLabs()` para mudar (mudança de código, não por questão):
-
-| Sigla | Faixa |
-|---|---|
-| Na⁺ | 136–145 mEq/L |
-| K⁺ | 3.5–5.0 mEq/L |
-| Cl⁻ | 98–106 mEq/L |
-| HCO₃⁻ | 22–28 mEq/L |
-| BUN | 7–20 mg/dL |
-| Creatinine | 0.6–1.2 mg/dL |
-| Glucose (fasting) | 70–100 mg/dL |
-| Ca²⁺ | 8.4–10.2 mg/dL |
-| Hemoglobin | 13.5–17.5 g/dL (M) |
-| Leukocytes | 4,500–11,000/mm³ |
-| Platelets | 150–400 ×10³/mm³ |
-| TSH | 0.4–4.0 µU/mL |
-
-### 16b. Valores pertinentes por questão (campo opcional `labs`) — algoritmo obrigatório
-
-Além da lista fixa acima, cada questão pode ter um campo opcional `labs` — um array de exames/valores **especificamente relevantes àquela questão** (ex.: amônia numa questão de ciclo da ureia, vitamina C numa questão de escorbuto). Quando presente, esses valores aparecem em destaque (fundo azul claro) no **topo** do popup, acima da lista fixa, sob o rótulo "Relevant to this question" / "Relevante para esta questão".
-
-**Auditoria de 2026-07-20 encontrou o problema que motivou reescrever esta seção:** de 248 questões no `SEED`, só 45 (18%) tinham `labs` preenchido — e todas concentradas em só 3 sistemas (`biochemistry`, `genetics`, `microbiology`). Sistemas inteiros como `cardiovascular`, `male_repro`, `pathology`, `renal_urinary`, `heme_onc`, `endocrine` etc. tinham **zero** questões com `labs`, mesmo quando a própria vinheta já trazia valores numéricos de exame. Três exemplos confirmados lendo o código real (linhas indicadas na versão do arquivo em 2026-07-20):
-- `CMQ-STEP1-CVS-0001` (~linha 306): a vinheta já traz "Total cholesterol 155 mg/dL, HDL 27 mg/dL, triglycerides 92 mg/dL" e a questão inteira gira em torno de interpretar esses números — não tinha `labs`.
-- `CMQ-STEP1-MRS-0001` (~linha 163): a vinheta já traz um painel de urinálise completo (densidade, pH, sangue, esterase leucocitária, nitritos) que É o dado usado para responder — não tinha `labs`.
-- `CMQ-STEP1-MRS-0010` (~linha 289): a vinheta diz "Serum LDH and AFP are markedly elevated", o próprio mecanismo da resposta — não tinha `labs`.
-
-Isso prova que a versão antiga desta seção não deixava claro que exame **já citado no material** tem prioridade absoluta — o campo estava sendo tratado como "extra opcional bonito" em vez de "captura obrigatória do que a questão já usa". A reescrita abaixo corrige isso com um algoritmo em ordem fixa, para que qualquer modelo (inclusive um menos capaz que analise as questões sozinho, sem supervisão passo a passo) chegue ao resultado certo em qualquer questão, de qualquer sistema, sem exceção.
-
-**⚠️ Lembrete da exceção à Regra de Fidelidade (Seção 0.1):** o material do usuário (UWorld/prints) não traz valores de *referência* (faixa normal) prontos — só, às vezes, o *resultado* do paciente. Pesquisar (WebSearch) e escolher a faixa de referência e quais exames adicionar é a única parte deste processo em que você decide sozinho, sem aprovação prévia nem posterior. Isso não inclui inventar resultado, sintoma ou dado clínico que não esteja na vinheta — só a faixa normal de comparação e, quando pertinente, exames adicionais que um médico pediria.
-
-#### 16b.1 — Algoritmo (seguir NESTA ordem, para toda questão nova E toda questão já existente que for reaberta/auditada)
-
-**Passo 1 — Varredura obrigatória de exames já citados (PRIORIDADE MÁXIMA, não é escolha).**
-Leia `vignette`, `q`, `explC` e todo `explI` procurando qualquer exame, valor numérico, ou achado laboratorial já mencionado — mesmo que só uma palavra ("AFP elevada", "urinálise com nitritos positivos", "TC 155 mg/dL", "leucocitose", "troponina positiva"). Todo item encontrado aqui entra em `labs`, sem exceção e sem precisar "valer a pena" — se o material já usa o exame para a questão fazer sentido, o campo captura exatamente isso. Esta é a diferença central desta reescrita: antes o campo era tratado como bônus; a partir de agora, exame já citado no material = entrada obrigatória em `labs`, do mesmo jeito que `peer`/`correct` são obrigatórios quando existem no material.
-
-**Passo 2 — Avaliação discricionária de exames NÃO citados, mas clinicamente pertinentes.**
-Só depois do Passo 1, pergunte-se: *"dado o diagnóstico/mecanismo que `objective` está ensinando, existe 1–2 exame(s) clássico(s) que um médico pediria neste cenário e cujo resultado reforça diretamente o aprendizado, mesmo que o material não tenha citado o número?"* (ex.: uma questão sobre torção testicular pode não precisar de nenhum exame; uma questão sobre cetoacidose diabética se beneficia de mostrar glicemia + beta-hidroxibutirato + pH mesmo que a vinheta só diga "hálito cetótico"). Adicione no máximo 1–2 exames aqui — este passo é para reforçar o ensino, não para preencher o popup. Nunca adicione um exame "decorativo" que não ajuda a fixar o conceito da questão.
-
-**Passo 3 — Quando NÃO incluir `labs`.**
-Se depois dos Passos 1 e 2 nada surgir — questões puramente anatômicas, embriológicas, farmacológicas de mecanismo, éticas/comportamentais, ou de raciocínio fisiológico sem nenhum dado clínico-laboratorial (ex.: `CMQ-STEP1-CVS-0002`, sopro de canal arterial; `CMQ-STEP1-MRS-0006`, barreira hemato-testicular) — omita o campo. Continua sendo o padrão da maioria das questões; a mudança não é "forçar labs em tudo", é "nunca pular quando o material já usa um exame".
-
-**Passo 4 — Checagem anti-repetição/anti-preguiça antes de escrever cada entrada.**
-Não existe um conjunto padrão de exames por sistema ou por doença. Antes de finalizar cada tupla, pergunte-se: *"se eu trocasse o paciente desta questão por outro (idade/sexo/gravidez diferentes), a faixa que escrevi mudaria?"* Se a resposta é sim e você não ajustou, volte e pesquise a faixa certa para ESTE paciente. Nunca copie uma tupla de outra questão só porque o tema é parecido — cada entrada precisa ter sido pensada para o caso específico em mãos, mesmo que o exame (ex.: troponina) se repita entre questões diferentes de infarto. Repetir o **exame** entre questões de temas parecidos é normal e esperado; repetir a **tupla inteira sem reconferir o paciente** é o erro a evitar.
-
-**Passo 5 — Redigir cada entrada com foco pedagógico (não só a faixa numérica).**
-Formato (mesma convenção da lista fixa — array de tuplas `[termo, faixa_EN, faixa_PT, significado_EN, significado_PT]`):
-```js
-labs:[
-  ['Ammonia (venous)', '15–45 µg/dL (≈9–26 µmol/L)', '15–45 µg/dL (≈9–26 µmol/L)',
-   '↑ Elevated in urea cycle disorders (eg, OTC deficiency) due to impaired ammonia clearance — distinguishes from other causes of altered mental status with normal ammonia',
-   '↑ Elevada nos distúrbios do ciclo da ureia (ex.: deficiência de OTC) por depuração prejudicada de amônia — diferencia de outras causas de alteração do estado mental com amônia normal'],
-],
-```
-Cada campo de significado (`meaning_EN`/`meaning_PT`) deve, nesta ordem, dentro de 1–2 frases:
-1. **Símbolo + direção esperada NESTE paciente primeiro**: prefixo `↑` (elevado), `↓` (diminuído) ou `→` (dentro da faixa, mas clinicamente relevante mesmo normal — ex.: TC 155 mg/dL "normal" do CVS-0001, que ainda assim não muda a indicação de estatina) — visual, para reconhecer de relance ao estudar.
-2. **Mecanismo breve** de por que está alterado (ou não) nesse diagnóstico.
-3. **Diferenciação/pérola clínica**, quando existir — o que esse resultado ajuda a descartar ou confirmar frente a diagnósticos parecidos (é o que constrói raciocínio de exame físico/laboratorial reaproveitável no Step 2, não só decorar a faixa).
-
-**Passo 6 — Não duplicar a lista fixa (Seção 16a)** a menos que a faixa específica da questão (por idade/sexo/gravidez/condição) seja diferente da faixa genérica já exibida.
-
-**Passo 7 — Faixas não padronizadas.** Quando não houver valor único amplamente aceito (comum em exames menos padronizados, ex.: ácido orótico urinário), é preferível indicar isso ("varia por laboratório/método") a inventar uma precisão falsa.
-
-#### 16b.2 — Exemplo completo aplicando o algoritmo (`CMQ-STEP1-CVS-0001`, um dos 3 casos confirmados sem `labs`)
-
-Vinheta: homem, 53 anos, pós-IAM, obeso, "Total cholesterol 155 mg/dL, HDL 27 mg/dL, triglycerides 92 mg/dL". Passo 1 (exames já citados) captura os 3 valores citados; Passo 2 acrescenta LDL calculado (Friedewald), pois `objective`/`explC` giram em torno de indicação de estatina independente do perfil lipídico:
-```js
-labs:[
-  ['Total cholesterol','<200 mg/dL (desirable)','<200 mg/dL (desejável)',
-   '→ This patient (155 mg/dL) is already within the desirable range, yet statin is still indicated — secondary prevention in known ASCVD is independent of baseline LDL/TC',
-   '→ Neste paciente (155 mg/dL) já está na faixa desejável, mas a estatina continua indicada — prevenção secundária em DASCV conhecida independe do LDL/CT basal'],
-  ['HDL cholesterol','≥40 mg/dL (M) / ≥50 mg/dL (F)','≥40 mg/dL (H) / ≥50 mg/dL (M)',
-   '↓ This patient\'s HDL (27 mg/dL) is low — an independent cardiovascular risk factor, though statins do not reliably raise HDL',
-   '↓ O HDL deste paciente (27 mg/dL) está baixo — um fator de risco cardiovascular independente, embora estatinas não elevem o HDL de forma confiável'],
-  ['Triglycerides','<150 mg/dL','<150 mg/dL',
-   '→ Normal in this patient (92 mg/dL) — rules out hypertriglyceridemia as a contributing factor here',
-   '→ Normal neste paciente (92 mg/dL) — afasta hipertrigliceridemia como fator contribuinte aqui'],
-  ['LDL cholesterol (calculated, Friedewald)','<100 mg/dL (optimal, secondary prevention)','<100 mg/dL (ótimo, prevenção secundária)',
-   '→ Estimated ~110 mg/dL here (TC − HDL − TG/5) — near goal, but statin indication in this patient comes from established ASCVD, not from the LDL number itself',
-   '→ Estimado em ~110 mg/dL aqui (CT − HDL − TG/5) — próximo da meta, mas a indicação de estatina neste paciente vem da DASCV estabelecida, não do valor de LDL em si'],
-],
-```
-Note que nenhuma dessas 4 entradas é genérica — cada `meaning` está amarrado ao número real da vinheta e ao raciocínio da questão (por que estatina é indicada mesmo com lipídios "quase normais"), exatamente o padrão a repetir em qualquer sistema.
-
-#### 16b.3 — Auditoria retroativa (mesma lógica da Seção 19.4c para `explImg`)
-
-Como o campo só foi aplicado de forma consistente em `biochemistry`/`genetics`/`microbiology`, qualquer questão de outro sistema (ou dessas 3 disciplinas sem `labs`) deve ser tratada como candidata a revisão, não como "já resolvida":
-1. Ao reabrir/editar qualquer questão existente por outro motivo, rodar o Passo 1 do algoritmo (16b.1) nela — se a vinheta/explicação já cita exame e o campo `labs` está ausente, adicionar como correção de lacuna, sem precisar de pedido explícito do usuário para essa questão específica (mesmo princípio da Seção 19.4c, item 2).
-2. Uma varredura completa das ~200 questões restantes (todos os sistemas fora de `biochemistry`/`genetics`/`microbiology`, mais as ~150 dessas 3 disciplinas que também não têm `labs`) é um projeto grande à parte — não iniciar essa varredura completa sozinho sem o usuário pedir explicitamente, dado o volume de pesquisa (WebSearch por exame/faixa) envolvido; mas qualquer questão tocada por outro motivo deve ser corrigida no mesmo commit.
-
----
-
-## 17. i18n — Internacionalização (tradução)
-
-O QBank tem dois sistemas de tradução separados:
-
-### Interface (botões, labels)
-- Objeto `T` com sub-objetos `en` e `pt` (~linha 1309)
-- Seleciona automaticamente com base em `document.documentElement.lang`
-- Função `t(key)` retorna o label no idioma ativo
-
-### Conteúdo das questões (vinheta, opções, explicações) — critério obrigatório para questões novas
-- Se `ptTranslation` existir na questão, usa diretamente quando o idioma é PT-BR (função `qbField(en, ptVal)`)
-- Se não existir, tenta tradução automática via `window.CMI18N` (motor compartilhado com Library e Flashcards, mais lento e menos preciso)
-- O original em inglês **nunca é sobrescrito** — apenas a exibição muda
-- **Toda questão nova precisa do `ptTranslation` completo** no mesmo commit (nunca deixar para depois): `vignette`, `q`, `objective`, `options` (todas as letras), `explC`, `explI` (todas as incorretas). Ver estrutura completa na Seção 2.
-- A tradução deve preservar exatamente o sentido/conteúdo do original verbatim (Seção 0.1) — é uma versão fiel em PT-BR da mesma questão, não uma paráfrase nem uma "melhoria" em nenhum dos dois idiomas.
-- **Não existe campo de imagem por idioma.** O campo `img` (Seção 19) é único e compartilhado entre EN e PT — não há `ptTranslation.img` nem equivalente no código atual. Se uma imagem tiver texto/rótulos em inglês que atrapalhem o estudo em PT, isso precisa ser resolvido na própria imagem (Seção 19), não via campo de tradução.
-
----
-
-## 18. Busca Global
-
-O QBank registra um provider em `window.CMSearchProviders.qbank` (~linha 1140) que indexa:
-- Vinheta, stem, alternativas, explicação e objetivo de cada questão (só em inglês — o índice de busca usa os campos originais, não o `ptTranslation`)
-- Notas do Caderno do usuário
-
-Isso acontece **independente de estar na página do QBank** — o provider é registrado assim que `qbank.js` carrega em qualquer página do site (o registro fica ANTES do guard de página), permitindo que a busca global encontre questões mesmo fora do QBank. Toda questão nova em `SEED` entra automaticamente nesse índice, sem passo manual.
-
----
-
-## 19. Imagens — workflow completo (posicionamento, recorte, redimensionamento)
-
-### 19.1 O que o CSS faz — e o que ele NÃO faz
-
-A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linha 313):
-- Container: `max-width: min(760px, 100%)`, com padding e borda.
-- `<img>`: `max-width:100%`, `max-height:420px` (desktop) / `300px` (mobile ≤640px), `object-fit:contain`.
-
-**`object-fit:contain` só encolhe a imagem para caber na caixa, preservando a proporção original — ele nunca corta nem reposiciona nada.** Isso significa que **todo o recorte e enquadramento precisam ser feitos por você (Claude) antes de salvar o arquivo**, não pelo CSS. Uma imagem com margem sobrando, texto de gabarito colado, ou watermark do material original vai aparecer exatamente assim no site — pequena e com espaço desperdiçado — se não for tratada antes.
-
-> **Nota factual:** a legenda abaixo da imagem diz "Clique para ampliar" (`t('imageHint')`), mas **não existe nenhum listener de clique/zoom implementado no código atual** — a imagem não é clicável hoje. Não prometer esse comportamento ao usuário; se ele quiser um lightbox de verdade, é uma feature nova a implementar, não algo que já funciona.
-
-### 19.2 Ferramentas disponíveis neste ambiente (verificado 2026-07-11)
-
-- **Python + Pillow** — instalado nesta sessão via `python3 -m pip install --user pillow` (já presente; reinstalar só se o ambiente for outro). Uso: recorte por retângulo exato, redimensionamento com boa qualidade (`LANCZOS`), conversão de formato.
-- **`sips`** (nativo do macOS, sempre disponível) — bom para redimensionar rápido ou converter formato, mas seu crop (`--cropToHeightWidth`) é sempre centralizado; não serve para recortar uma região arbitrária (ex: tirar uma legenda em um canto). Use Pillow quando o recorte precisar ser assimétrico.
-
-### 19.3 Processo obrigatório por imagem
-
-1. **Receber a imagem original** (screenshot/foto do material do usuário) e salvar temporariamente no scratchpad.
-2. **Recortar (crop)** removendo tudo que não faz parte da figura em si: margens de página, número da questão, texto de gabarito/explicação que porventura esteja colado na mesma imagem, watermarks. Só a figura clínica/diagrama relevante deve sobrar. Exemplo com Pillow:
-   ```python
-   from PIL import Image
-   im = Image.open('original.png')
-   im.crop((left, top, right, bottom)).save('cropped.png')  # coordenadas em pixels
-   ```
-   - O recorte precisa ser feito com refinamento e perfeccionismo, comparando o asset final com a imagem-fonte antes de publicar. A imagem publicada deve parecer uma reprodução fiel e limpa do material original, não uma captura apressada.
-   - Em tabelas, gráficos e diagramas, o objetivo é que o conteúdo visual fique grande e legível no QBank. Se a tabela aparecer pequena por causa de espaço vazio lateral/superior/inferior, refazer o crop.
-   - Não recortar tão justo a ponto de cortar bordas, títulos, legendas, unidades, eixos ou notas importantes. A imagem final deve parecer uma figura limpa, não um pedaço arrancado de screenshot.
-   - Em exames, lâminas, radiografias, fotos clínicas, gráficos, tabelas e figuras de explicação, preservar tudo que seja necessário para interpretar a questão ou a explicação exatamente como no material-fonte. Se o recorte esconder uma pista visual, uma escala, um marcador ou uma legenda, está incorreto e deve ser refeito.
-   - Se a imagem ou figura for importante para a leitura da questão/explicação e ficar mais clara como imagem recortada do que transcrita no texto, incluir o asset em `img` ou `explImg` no local correto.
-   - Se o material-fonte já trouxer uma imagem isolada/limpa da tabela/diagrama em uma captura separada, preferir essa imagem limpa em vez de recortar a captura ampla da questão.
-3. **Redimensionar** para um tamanho eficiente e nítido dentro do container real do site — como a caixa tem no máximo 760px de largura exibida, mas telas retina mostram 2x, o ideal é salvar a imagem com **~1200–1600px de largura** (ou a largura nativa se for menor) mantendo a proporção original, sem forçar um aspect ratio diferente do da imagem-fonte. Nunca estique/distorça.
-   ```python
-   im.thumbnail((1600, 1600))  # mantém proporção, não amplia além do original
-   im.save('final.png', optimize=True)
-   ```
-4. **Formato:** PNG para diagramas/ilustrações/linhas (texto nítido, sem artefato de compressão); JPG (qualidade ~85) para fotos clínicas/histologia reais, para manter o arquivo leve.
-5. **Nome do arquivo:** `{ID}_descricao_curta.png` (ou `.jpg`), ex: `CMQ-STEP1-CVS-0007_cardiac_output_venous_return_curves.png` — sempre em inglês, snake_case ou kebab-case, descrevendo o conteúdo da imagem.
-6. **Local:** salvar em `public/assets/qbank/`.
-7. **Múltiplas imagens na mesma questão:** usar array no campo `img: ['assets/qbank/ID_parte1.png', 'assets/qbank/ID_parte2.png']` — todas empilhadas verticalmente na vinheta, cada uma respeitando os mesmos limites de tamanho. O mesmo vale para `explImg` (ver 19.4b).
-8. **Revisar sempre no preview (Seção 20)** antes de aprovar — é a única forma de ver exatamente como a imagem vai renderizar (tamanho final, corte, nitidez) dentro do layout real do site.
-9. **Responsividade obrigatória:** toda imagem precisa ser visualmente correta nos breakpoints do site (Seção 22 / `RESPONSIVE_BREAKPOINTS.md`). Conferir que o CSS reconhece automaticamente o dispositivo/largura e que a questão continua usável em monitor grande/27", desktop, MacBook, iPad e mobile: sem overflow horizontal, sem desalinhamento da toolbar, sem sobreposição de texto, sem imagem comprimida a ponto de ficar ilegível e sem corte indevido por `max-height`.
-
-### 19.4 Campo no objeto da questão — imagem do ENUNCIADO
-
-```js
-{ id:'CMQ-STEP1-CVS-0001', ...,
-  img:'assets/qbank/CMQ-STEP1-CVS-0001_nome_descritivo.png',
-  ...
-}
-```
-
-`img` (string ou array) é renderizado sempre logo após a vinheta e antes do enunciado (`q`), via `renderQImage()` (`public/js/qbank.js`, função declarada perto de `renderExplanation`).
-
-### 19.4b Campo no objeto da questão — imagem da EXPLICAÇÃO (`explImg`)
-
-**Atenção — isto é frequentemente esquecido:** muitas questões do material de origem (UWorld) trazem uma imagem/diagrama/tabela **na aba "Explanation"**, não apenas no enunciado. É comum a explicação ter uma figura própria e diferente da imagem da vinheta (ex.: uma tabela comparativa, um fluxograma de via metabólica, um diagrama anotado com o mecanismo correto) — e às vezes a questão nem tem imagem no enunciado, só na explicação. **Essas imagens de explicação também devem ser recortadas e inseridas**, exatamente como as do enunciado (mesmo processo da Seção 19.3), usando o campo `explImg`:
-
-```js
-{ id:'CMQ-STEP1-CVS-0001', ...,
-  img:'assets/qbank/CMQ-STEP1-CVS-0001_nome_descritivo.png',        // imagem do enunciado (se houver)
-  explImg:'assets/qbank/CMQ-STEP1-CVS-0001_explicacao_nome.png',    // imagem da explicação (se houver)
-  ...
-}
-```
-
-- `explImg` aceita string ou array (`explImg: ['assets/qbank/ID_expl_parte1.png', ...]`), mesma regra do `img`.
-- Renderizado por `renderExplImage()` (`public/js/qbank.js`), chamado dentro de `renderExplanation()` logo abaixo do título "Explicação" (`<h3>`) e antes do texto `explC` — reproduzindo a posição em que a UWorld mostra a figura na aba Explanation.
-- Reutiliza a classe CSS `.qb-question-image` (mais a classe extra `.qb-expl-image`), portanto herda automaticamente os mesmos limites de tamanho/responsividade da Seção 19.1 — não precisa adicionar CSS novo.
-- Implementado em 2026-07-14. Antes dessa data o campo não existia; questões adicionadas antes disso podem ter imagem de explicação pendente de inclusão — ver auditoria abaixo.
-- **Não existe campo de imagem por idioma nem para `img` nem para `explImg`** (não há `ptTranslation.img` nem `ptTranslation.explImg`) — o campo é único e compartilhado entre EN e PT.
-- O mesmo padrão de refinamento/perfeccionismo do enunciado vale para a explicação: recortar somente a figura/tabela/diagrama relevante, sem UI, sem margem inútil, sem texto cortado e sem alterar o conteúdo visual original.
-
-### 19.4c Auditoria retroativa — questões que ainda faltam imagem de explicação
-
-Como o suporte a `explImg` só passou a existir em 2026-07-14, **toda questão adicionada antes dessa data precisa ser revisada** para verificar se a explicação original tinha uma imagem que ficou de fora. Ao revisar/adicionar questões (inclusive ao processar qualquer lote novo, e ao reprocessar lotes antigos):
-
-1. Sempre checar a aba "Explanation" do material de origem, não só o enunciado — se houver uma imagem lá (diagrama, tabela, fluxograma, gráfico), ela também deve ser recortada e adicionada via `explImg`, seguindo a Seção 19.3.
-2. Ao reencontrar uma questão já existente no SEED (mesmo ID) cujo material de origem tenha imagem de explicação ainda não capturada, adicionar o `explImg` faltante como parte do trabalho — não é preciso esperar pedido explícito, é correção de lacuna.
-3. Uma pasta com o nome **"QUESTÕES ADICIONADAS"** na área de trabalho do usuário contém o material das questões já processadas anteriormente — usar como fonte para essa varredura retroativa quando acessível.
-4. **Cuidado com um bug já encontrado e corrigido (2026-07-14):** em várias questões de Bioquímica commitadas antes da existência do campo `explImg`, a imagem da aba Explanation havia sido colocada por engano no campo `img` (às vezes junto com a imagem real do enunciado, num array `img:[..., ...]`), fazendo o diagrama de explicação renderizar do lado errado (no enunciado, antes de responder). Ao auditar uma questão com `img` já preenchido, **não presuma que está correto**: reler o vignette e confirmar que ele realmente referencia uma imagem (frase tipo "shown below"/"shown on the slide below"). Se o vignette não menciona imagem nenhuma mas `img` aponta para um diagrama com nome de mecanismo/via/tabela (ex.: `..._pathway.png`, `..._cycle.png`, `..._table.png`), é sinal de que deveria ser `explImg`, não `img` — mover o campo.
-
----
-
-## 20. Testar localmente e revisar antes de aprovar
-
-### 20.1 Opção rápida — sem servidor, sem login (funciona para QBank)
 ```bash
-open public/app.html
-# No navegador: app.html?page=qbank-1&u=guest1
-```
-Ou servir a pasta (evita qualquer restrição de `file://`, recomendado ao usar o preview):
-```bash
-cd public && python3 -m http.server 8791
-# http://localhost:8791/app.html?page=qbank-1&u=guest1
+rg -o 'CMQ-STEP1-CVS-[0-9]{4}' public/js/qbank.js | sort -u | tail -1
+rg -n -F 'CMQ-STEP1-CVS-0011' public/js/qbank.js
+rg -n -F 'trecho distintivo da pergunta' public/js/qbank.js
 ```
 
-### 20.2 Com worker completo (login real + sincronização D1)
-```bash
-npx wrangler dev
-# Acesse: http://localhost:8787
-```
-> ⚠ Só ao usar o worker completo com um usuário real (`john`/`alysson`) é que `cm-sync.js` sincroniza o estado com o banco D1 remoto. No modo estático (`open` ou `http.server`), tudo fica só no localStorage local do navegador — não há risco de sincronizar dado de teste para a nuvem por engano, **exceto** se o próprio usuário estiver rodando o worker completo enquanto você testa.
+O primeiro comando apenas informa o maior ID lexicográfico da sigla quando o
+sufixo tem quatro dígitos; ainda é obrigatório conferir o número e as buscas
+por ID/conteúdo. Resultado vazio é esperado para uma sigla ainda reservada.
 
-### 20.3 `previewIds` — revisão isolada das questões novas (implementado e testado em 2026-07-11)
+### 7.2 Mapa pasta → `system` → sigla
 
-```
-app.html?page=qbank-1&u=USER&previewIds=ID1,ID2,ID3
-```
+| Pasta | `system` | Sigla |
+|---|---|---|
+| 01 Biochemistry | `biochemistry` | `BCH` |
+| 02 Genetics | `genetics` | `GEN` |
+| 03 Microbiology | `microbiology` | `MIC` |
+| 04 Pathology | `pathology` | `PAT` |
+| 05 Pharmacology | `pharmacology` | `PHR` |
+| 06 Biostatistics & Epidemiology | `biostatistics_epidemiology` | `BST` |
+| 07 Poisoning & Environmental Exposure | `poisoning_environmental` | `TOX` |
+| 08 Allergy & Immunology | `allergy_immunology` | `IMM` |
+| 09 Cardiovascular System | `cardiovascular` | `CVS` |
+| 10 Dermatology | `dermatology` | `DER` |
+| 11 Ear, Nose & Throat | `ent` | `ENT` |
+| 12 Endocrine, Diabetes & Metabolism | `endocrine` | `END` |
+| 13 Female Reproductive System & Breast | `female_repro_breast` | `FRS` |
+| 14 Gastrointestinal & Nutrition | `gi_nutrition` | `GIT` |
+| 15 Hematology & Oncology | `heme_onc` | `HEM` |
+| 16 Infectious Diseases | `infectious_diseases` | `INF` |
+| 17 Male Reproductive System | `male_repro` | `MRS` |
+| 18 Nervous System | `nervous_system` | `NEU` |
+| 19 Ophthalmology | `ophthalmology` | `OPH` |
+| 20 Pregnancy, Childbirth & Puerperium | `pregnancy_childbirth` | `OBG` |
+| 21 Psychiatric/Behavioral | `psychiatric_behavioral` | `PSY` |
+| 22 Pulmonary & Critical Care | `pulmonary_critical_care` | `PUL` |
+| 23 Renal, Urinary Systems & Electrolytes | `renal_urinary` | `REN` |
+| 24 Rheumatology/Orthopedics & Sports | `rheum_ortho` | `MSK` |
+| 25 Social Sciences | `social_sciences` | `SOC` |
+| 26 Miscellaneous (Multisystem) | `multisystem` | `MUL` |
 
-- Abre **só** as questões listadas em `previewIds` (IDs separados por vírgula), **na ordem exata em que foram passadas**, sem embaralhar e sem misturar com o resto do banco.
-- A explicação de cada questão já aparece **revelada automaticamente** (gabarito, explicação, peer stats, imagem) — não é preciso clicar em nada para ver o resultado final.
-- Um banner amarelo no topo confirma "PREVIEW MODE — N questões" e lista qualquer ID que não tenha sido encontrado no banco (erro de digitação, questão ainda não inserida etc.).
-- **100% somente-leitura, verificado no código e por teste automatizado (Playwright) nesta sessão:** os botões Submit, Suspend e End Block ficam ocultos; clicar numa alternativa não faz nada; `submitAnswer()` e `endBlock()` têm um retorno antecipado quando `T0.preview` é verdadeiro. Nenhum `attempt`, `test` ou dado de passada é gravado — `localStorage['couplemed_qb_USER']` fica exatamente como estava antes de abrir o preview. Isso significa que abrir o preview **nunca** afeta % de passada, Analytics, ou (se estiver rodando com o worker completo) a sincronização D1 do usuário real.
-- **Botões que continuam ativos no preview** (intencional): Flag, "+ Add to Flashcards" e "+ Notebook" — são ações aditivas que o usuário pode querer fazer já durante a revisão, e não geram attempt nem afetam passada/analytics.
-- Navegação: Prev/Next/clique no grid mantêm a explicação sempre revelada (não precisa clicar de novo a cada questão).
-- Implementado em `boot()` (~linha 1580, branch `previewIds`) e em pontos pontuais de `renderTest`/`submitAnswer`/`endBlock`/switch de ações (buscar `T0.preview` ou `view.test.preview` no arquivo para ver todos os pontos).
-
-**Fluxo recomendado ao terminar uma leva de questões:**
-1. *(Opcional, só para conferência própria)* Montar a URL com os IDs da leva e servir/abrir localmente (20.1) antes de commitar.
-2. `git add`/`git commit`/`git push` automaticamente em seguida — desde 2026-07-13 nenhuma etapa espera aprovação ou pedido explícito do usuário (Seção 0.3). Ele confere depois direto no site publicado, localizando a leva pela seção/taxonomia (Seções 4/5) em que foi inserida.
-
-### 20.4 URLs de acesso direto por passada
-```
-app.html?page=qbank-1         → QBank Home (Pass Navigator)
-app.html?page=qbank1-pass-1   → Create Test pré-filtrado: Passada 1
-app.html?page=qbank1-pass-2   → Create Test pré-filtrado: Passada 2
-app.html?page=qbank1-pass-3   → Create Test pré-filtrado: Passada 3
-app.html?page=qbank1-pass-4   → Create Test pré-filtrado: Passada Dirigida
-```
-
-### 20.5 Parâmetros de URL úteis
-```
-?u=john        → abre como usuário john (admin, sem locks)
-?u=alysson     → abre como usuário alysson (não é admin — ver Seção 7)
-?u=guest1      → usuário de teste, sem tocar em dados reais de ninguém (default se ?u= for omitido)
-?pass=2        → abre Home com Passada 2 selecionada
-?previewIds=ID1,ID2 → modo preview isolado (Seção 20.3)
-```
-
-**Recomendação:** para qualquer teste que não seja o preview isolado (ex: navegar o Create Test normal para conferir se a questão aparece no filtro certo), usar sempre `u=guest1` (ou outro usuário de teste) — nunca `u=john`/`u=alysson` — para não gerar attempts reais nas contas do casal por engano.
+As siglas que ainda não possuírem questão no `SEED` tornam-se a convenção reservada ao primeiro uso. Não trocar a sigla depois que o primeiro ID for publicado. Se o repositório já tiver adotado outra sigla, o código vence: usar a existente e atualizar esta tabela.
 
 ---
 
-## 21. Como o QBank se conecta com o resto do site (mapa de integração)
+## 8. Taxonomia e dificuldade
 
-Lista de todo ponto de contato encontrado no código entre o QBank e outros módulos — relevante porque adicionar uma questão nova automaticamente "aparece" em todos esses lugares, sem passo manual extra:
+### 8.1 `system`, `category` e `discipline`
 
-| Módulo/arquivo | Conexão com o QBank |
+O código real é a fonte canônica:
+
+- localizar `const TAXONOMY` em `public/js/qbank.js` pelo símbolo, não por número de linha;
+- formar `category` como `{system}::{slug}`;
+- comparar o nome da subpasta com o label legível da taxonomia;
+- escolher `discipline` pelo conteúdo entre os valores já usados no código.
+
+Valores usuais de `discipline`:
+
+`anatomy`, `histology`, `embryology`, `physiology`, `pathophysiology`, `pathology`, `pharmacology`, `microbiology`, `immunology`, `genetics`, `biochem`/`biochemistry`, `behavioral_science`, `epidemiology`, `biostatistics`, `ethics`, `social_sciences`.
+
+Se um sistema/tópico não existir:
+
+1. confirmar que não é só diferença de label;
+2. escalonar para GPT-5.6-sol — `ultra`;
+3. adicionar o sistema/tópico à `TAXONOMY`;
+4. adicionar a tradução do label em `TAX_PT`;
+5. validar filtros e responsividade;
+6. atualizar este mapa se uma nova convenção foi criada.
+
+### 8.2 `difficulty`
+
+Calcular somente a partir de `peer[correct]`:
+
+| Condição | Valor |
 |---|---|
-| `public/js/site.js` | Menu lateral (QBank 1/2, Library 1/2/3), título de página (`PAGE_TITLE_KEYS`), índice de busca global consome `window.CMSearchProviders.qbank` |
-| `public/js/cm-sync.js` | Sincroniza a chave `qb` (todo o blob de `couplemed_qb_{USER}`) entre aparelhos via `/api/state`, só quando rodando com o worker completo (Seção 20.2) e usuário logado. Resolução de conflito é "last write wins" por `updated_at` |
-| `public/js/notebook.js` | Permite criar um link de referência para uma questão do QBank a partir de uma nota (não modifica a questão; ver Seção 15) |
-| `public/js/flashcards.js` | Espelha a mesma taxonomia (Systems > Subjects) do QBank só para os filtros de Flashcards — não lê `SEED`. A ligação real de dados acontece via SmartCards (Seção 14), que grava direto no banco de Flashcards |
-| `public/css/qbank.css` | Todo o estilo visual, inclusive as regras de imagem (Seção 19.1) |
-| `window.CMI18N` (`public/js/i18n-content.js`) | Motor de tradução automática compartilhado — usado como fallback quando uma questão não tem `ptTranslation` (Seção 17) |
+| `peer[correct] >= 70` | `easy` |
+| `50 <= peer[correct] < 70` | `medium` |
+| `peer[correct] < 50` | `hard` |
+| não existe `peer` | `medium` |
 
-**Não existe** hoje: handler de `?q=ID` para abrir uma questão específica direto por URL (só um link "de fachada" existe em `notebook.js`, sem contraparte em `qbank.js`); lightbox/zoom de imagem (Seção 19.1); QBank 2/Library 2/3 funcionais (Seção 4b).
+Nunca estimar dificuldade “no olho”.
 
 ---
 
-## 22. Breakpoints responsivos do site (espelhado de `RESPONSIVE_BREAKPOINTS.md`)
+## 9. Lab Values
 
-> Fonte fixa/canônica: `RESPONSIVE_BREAKPOINTS.md` na raiz do projeto. Este conteúdo é uma cópia mantida em sincronia aqui para que a leitura de **apenas este arquivo** já seja suficiente — se um dia os dois divergirem, `RESPONSIVE_BREAKPOINTS.md` é quem vale, e esta seção deve ser atualizada para bater com ele. Relevante para QBank sempre que uma questão tiver imagem (Seção 19) ou se o usuário pedir ajuste visual na tela do QBank.
+`labs` é **condicionalmente obrigatório**. A tupla é:
 
-### 22.1 Os 3 breakpoints estruturais (desktop → iPad → mobile)
+```js
+[nome_do_exame, faixa_EN, faixa_PT, significado_EN, significado_PT]
+```
 
-| Breakpoint | Alvo | O que muda estruturalmente |
-|---|---|---|
-| `max-width:1180px` | iPad landscape / laptop pequeno | `--sidebar` encolhe para `214px`; `.dashboard-strip` vira 4 colunas; 2 últimos `.action` do dashboard somem; `.brand strong` reduz para 15px |
-| `max-width:820px` | iPad portrait / tablet | **O mais importante do site**: aparece `.mobile-menu-button` (hambúrguer fixo); `.sidebar` sai da tela e só volta com `.sidebar.open`; `.sidebar-scrim.open` cobre a tela; `.dashboard-strip` vira 1 coluna; `.progress-card` some |
-| `max-width:520px` | Celular | `.platform-main` remove padding lateral; `.internal-card` perde borda lateral/arredondamento (cards full-width); `.brand` reduz margem |
+Usar somente esse array de cinco posições dentro de `labs:[...]`. Não usar o
+schema legado `{name, value, normal}`: o renderizador atual do popup lê as
+posições da tupla e um objeto produziria campos vazios.
 
-### 22.2 Breakpoint específico do QBank (`public/css/qbank.css`)
+O resultado do paciente não substitui a faixa de referência. Quando relevante, repetir o resultado verbatim dentro do significado, mantendo-o também intacto na vinheta.
 
-| Linha | Breakpoint | O que acontece |
-|---|---|---|
-| 20 | `max-width:640px` | `#internalContent.qb-wide .internal-card` reduz padding |
-| 74 | `max-width:760px` | Guia visual do QBank reorganiza hero/quick/steps/nav para telas menores |
-| 75 | `max-width:520px` | Guia visual empilha cards/itens em 1 coluna e reduz padding |
-| 120 | `max-width:560px` | `.qb-stepper` (navegador de passadas) quebra para 1 step por linha; conector some. iPad/MacBook mantêm layout desktop |
-| 155 | `max-width:720px` | `.qb-row` (grid 2 colunas do Create Test) vira 1 coluna |
-| 193 | `max-width:480px` | Barra unificada de gerar teste (`.qb-gen`) empilha; botão ocupa 100% |
-| 317 | `max-width:640px` | Tela de resultados/resolução empilha em coluna (`.qb-perf`, `.qb-res-top`, `.qb-nav`, `.qb-head-tools`) |
-| 332 | `max-width:560px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna; iPad mantém 2 colunas |
-| 423 | `max-width:640px` | Imagem da questão: reduz padding/margem, `max-height` cai para 300px, legenda some — **ver Seção 19.1, é o valor usado no workflow de imagem** |
-| 437 | `max-width:640px` | Toolbar de resolução compacta: cabeçalho não quebra, ferramentas rolam horizontalmente e fonte/padding reduzem |
+### Algoritmo obrigatório por questão
 
-### 22.2b Checklist responsivo obrigatório para questões/imagens
+1. **Inventariar os exames citados.** Varrer `vignette`, `q`, `explC` e todo `explI` em busca de exames, valores numéricos e achados qualitativos, como “AFP elevada”, “leucocitose” ou “nitrito positivo”.
+2. **Resolver a lista global.** Verificar a lista fixa de `openLabs()` no código. Se ela já contiver exatamente o exame e a faixa aplicável ao paciente, registrar na tabela de trabalho “coberto pela lista global” e não duplicar. Caso contrário, criar entrada em `labs`.
+3. **Avaliar extras.** Adicionar no máximo 1–2 exames não citados somente se forem clássicos, diretamente ligados ao `objective` e pedagogicamente úteis. Não preencher o popup com exames decorativos.
+4. **Pesquisar a faixa correta.** Usar fonte médica primária/autoritativa e atual, específica para idade, sexo, gravidez e condição quando aplicável. Não confiar em snippet de busca ou blog.
+5. **Lidar com variação.** Se não houver faixa universal, escrever “varia por laboratório/método”; não inventar precisão.
+6. **Redigir significado.** Começar com `↑`, `↓` ou `→`; explicar brevemente o mecanismo e, quando útil, a diferenciação clínica. Fazer versões EN e PT equivalentes.
+7. **Evitar cópia cega.** Reavaliar cada faixa para o paciente atual; nunca copiar a tupla inteira de outra questão sem conferir.
+8. **Omitir quando apropriado.** Se não houver exame citado fora da lista global e nenhum extra realmente útil, omitir `labs`.
 
-Ao incluir ou auditar qualquer questão com `img`/`explImg`, validar a renderização nos tamanhos abaixo, usando preview isolado (`previewIds`) quando possível:
+Pesquisar/selecionar faixas e, quando pertinente, até 1–2 exames adicionais é a
+**única ampliação clínica permitida**. Ela nunca autoriza alterar ou completar
+vinheta, pergunta, alternativas, gabarito, explicações, objetivo ou `peer`.
+Registrar no resumo final as fontes autoritativas usadas nas faixas adicionadas.
 
-| Classe de dispositivo | Largura sugerida para teste | O que conferir |
-|---|---|---|
-| Monitor grande / 27" | `2560×1440` ou largura equivalente | A imagem não fica minúscula por margens vazias; conteúdo centralizado; tabela/gráfico legível dentro do limite de 760px do QBank |
-| Desktop / laptop grande | `1440×900` | Layout de resolução normal, toolbar sem sobreposição, imagem com proporção correta |
-| MacBook | `1280×800` ou `1366×768` | Stepper e taxonomia ainda em padrão desktop/tablet quando couber; nenhuma linha crítica truncada de forma ruim |
-| iPad | `1024×768` e `820×1180` | Sidebar vira hambúrguer em `820px`; QBank continua sem overflow horizontal; taxonomia/stepper mantêm comportamento esperado |
-| Mobile | `390×844` e `360×780` | Imagem usa `max-height:300px`, sem texto cortado indevidamente; toolbar rola horizontalmente; alternativas, explicações e Lab Values não sobrepõem |
+Não duplicar um item da lista fixa salvo quando a faixa específica da questão diferir. Cálculos derivados só podem ser usados quando todos os valores-fonte estiverem presentes, a fórmula for padronizada, o resultado estiver rotulado como calculado/estimado e a questão tiver sido processada em high ou ultra.
 
-Critérios de aprovação: não pode haver overflow horizontal da página, texto sobreposto, botões inacessíveis, imagem distorcida, imagem importante ilegível no mobile, nem tabela/diagrama com margem excessiva que faça o conteúdo real ficar pequeno. Se falhar em qualquer largura, corrigir o asset, o campo `img`/`explImg` ou o CSS antes de marcar `✅`.
-
-### 22.3 Demais módulos (referência rápida — tabela completa por linha está em `RESPONSIVE_BREAKPOINTS.md`)
-
-| Módulo/arquivo | Breakpoints | Resumo |
-|---|---|---|
-| `styles.css` — Flashcards | 820px, 900px, 560px, 640px | Stats/decks/taxonomia/performance reorganizam em menos colunas |
-| `styles.css` — Settings | 768px, 900px, 560px | Navegação vira horizontal rolável, painéis viram 1 coluna |
-| `styles.css` — My Workspace | 720px | Grid de cards vira 1 coluna, título reduz para 26px |
-| `notebook.css` | 1024px, 640px | Grid de notas, cabeçalho e editor adaptam |
-| `ai-tutor-widget.css` | 480px | Widget reposiciona mais perto da borda |
-
-**640px é o valor mais reaproveitado entre módulos** ("virou mobile" daquele componente); **820px é o breakpoint crítico global** (hambúrguer) — qualquer elemento fixo/flutuante precisa considerar essa faixa para não sobrepor o botão do menu.
+Ao editar uma questão existente, rodar novamente este algoritmo. Não iniciar auditoria retroativa de todo o banco sem pedido explícito, mas corrigir qualquer questão tocada.
 
 ---
 
-## 23. Checklist antes de commitar
+## 10. Imagens: `img` e `explImg`
 
-- [ ] `id` único (grep para confirmar que não existe)
-- [ ] `system`, `category` e `discipline` válidos (consultar Seções 4 e 5) — ou subtópico novo registrado no TAXONOMY (Seção 6)
-- [ ] Vignette/q/options/correct/explC/explI/objective transcritos **verbatim** do material do usuário (Seção 0.1)
-- [ ] `peer` veio do material do usuário e foi transcrito verbatim (Seção 0.1) — nunca inventado nem ajustado para somar 100
-- [ ] Se a pasta/subpasta de origem já tinha `✅`, ela foi pulada; se não tinha, foi processada/auditada antes de marcar (Seções 0.4 e 0.5)
-- [ ] `correct` é uma das letras em `options`
-- [ ] `difficulty` calculado a partir de `peer[correct]` pela tabela da Seção 0.2 (não escolhido no olho)
-- [ ] `explI` cobre TODAS as alternativas incorretas
-- [ ] `labs` — Passo 1 do algoritmo (Seção 16b.1) rodado sem exceção: todo exame/valor já citado na vinheta/explicação está capturado em `labs` (não é opcional quando o material já usa o exame); Passo 2 avaliado (0–2 exames extra pertinentes ao `objective`); faixas pesquisadas para o perfil específico do paciente (idade/sexo/gravidez), com autonomia sem aprovação do usuário (única exceção à Seção 0.1)
-- [ ] `ptTranslation` incluída com todos os campos, fiel ao original (Seção 17)
-- [ ] Se tiver imagem no ENUNCIADO: processada segundo a Seção 19.3/19.4 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`), campo `img`
-- [ ] Checar também a aba "Explanation" do material de origem: se houver imagem/diagrama/tabela lá, processar do mesmo jeito e incluir via campo `explImg` (Seção 19.4b) — não é só o enunciado que pode ter imagem
-- [ ] Responsividade conferida conforme `RESPONSIVE_BREAKPOINTS.md`/Seção 22: questão e imagens renderizam corretamente em monitor grande/27", desktop, MacBook, iPad e mobile, sem overflow, desalinhamento, sobreposição ou imagem ilegível
-- [ ] `library` omitido (ou explicitamente `1`) a menos que o usuário tenha pedido Library 2/3 (Seção 4b)
-- [ ] `node --check public/js/qbank.js` sem erro de sintaxe
-- [ ] *(Opcional)* Leva conferida via `previewIds` (Seção 20.3) só para checagem própria — não precisa ser mostrada/enviada ao usuário nem aguardar aprovação (mudança de política em 2026-07-13, Seção 0.3)
-- [ ] Se a leva for grande, mencionar no resumo final o efeito no % de passadas (Seção 7) — informativo, não bloqueia o commit
-- [ ] Commit e push automáticos, sem aprovação nem pedido explícito por leva (Seção 0.3)
+### 10.1 Classificação
+
+- Figura usada no enunciado → `img`.
+- Figura/tabela/diagrama da explicação → `explImg`.
+- Verificar sempre as duas partes da fonte.
+- Se o enunciado não referencia figura e um diagrama de mecanismo está em `img`, investigar se ele pertence a `explImg`.
+- Reutilizar asset idêntico já existente; não duplicar só para trocar o ID.
+
+### 10.2 Recorte e refinamento
+
+1. Preservar a fonte original sem edição.
+2. Criar um derivado a partir dela.
+3. Recortar somente UI, margens e áreas que não fazem parte do conteúdo.
+4. Preservar bordas, títulos, legendas, eixos, escalas, unidades, setas, marcadores e pistas diagnósticas.
+5. Não redesenhar, fazer inpainting, alterar cores, “melhorar” texto, apagar sobreposição dentro do conteúdo ou gerar figura semelhante por IA.
+6. Se uma marca d’água sobrepuser conteúdo relevante, não apagá-la; usar uma fonte limpa ou bloquear.
+7. Comparar visualmente o crop final com a fonte.
+8. Remover espaço vazio excessivo sem cortar conteúdo.
+9. Não distorcer nem ampliar além da resolução nativa.
+10. Se o arquivo exceder `1600×1600`, reduzir pelo maior lado mantendo proporção;
+    não ampliar arquivo menor e não reduzir quando isso prejudicar texto ou detalhe
+    diagnóstico.
+
+Formato:
+
+- PNG para tabelas, diagramas, gráficos, texto e linhas.
+- JPG com qualidade aproximada de 85 para fotografia clínica/histologia.
+
+Nome:
+
+`{ID}_descricao_curta.png` ou `.jpg`, em inglês, descritivo e sem espaços.
+
+Local:
+
+`public/assets/qbank/`
+
+Referência no objeto:
+
+`assets/qbank/{arquivo}`
+
+Strings servem para uma imagem; arrays servem para várias imagens na ordem correta.
+
+---
+
+## 11. Inserção em lotes
+
+Processar a pasta inteira, independentemente da quantidade. O padrão recomendado é um lote de até 5 questões:
+
+1. transcrever e estruturar;
+2. traduzir;
+3. calcular dificuldade;
+4. aplicar Lab Values;
+5. criar e conferir assets;
+6. inserir no `SEED`;
+7. rodar `node --check public/js/qbank.js`;
+8. atualizar a tabela de trabalho;
+9. seguir para o próximo lote sem pedir autorização rotineira.
+
+Um erro de uma questão não deve contaminar as demais. Questões bloqueadas permanecem fora do código e impedem apenas o `✅` da subpasta correspondente.
+
+### Retomada de uma leva longa
+
+- O checkpoint verificável é: conteúdo salvo, `node --check` aprovado e, ao
+  fechar a subpasta, commit/push. A tabela de trabalho auxilia a execução, mas
+  não substitui o código, as fontes e os marcadores `✅`.
+- Após interrupção, listar primeiro os nomes com `✅`, depois reconciliar o
+  código com a tabela de trabalho, busca por ID **e por conteúdo**; nunca
+  reinserir pelo simples fato de a pasta ainda não estar marcada.
+- Se o ambiente tiver automação recorrente e a execução puder parar por limite de
+  uso, criar uma retomada horária autossuficiente no início, em minuto não-cheio,
+  e removê-la ao concluir ou quando outra conta/sessão assumir.
+- Se essa capacidade não existir, não inventar nomes de ferramenta nem afirmar que
+  a retomada foi armada.
+
+---
+
+## 12. Preview e responsividade
+
+### 12.1 Preview isolado obrigatório
+
+Na raiz do repositório, servir `public/`:
+
+```bash
+python3 -m http.server 8791 --directory public
+```
+
+Abrir:
+
+```text
+http://localhost:8791/app.html?page=qbank-1&u=guest1&previewIds=ID1,ID2,ID3
+```
+
+O preview não cria attempts nem altera passadas, mas alguns controles aditivos podem continuar ativos. Não clicar em Flag, Add to Flashcards ou Notebook durante QA.
+
+Conferir **todas** as questões novas. Para cada uma, selecionar primeiro a
+bandeira **US/EN** e depois a bandeira **BR/PT** no seletor global; aguardar a
+troca do texto antes de registrar cada conferência:
+
+- ordem e texto;
+- alternativas e gabarito;
+- explicações agrupadas;
+- `peer`;
+- objetivo;
+- PT-BR;
+- Lab Values;
+- `img` no enunciado e `explImg` na explicação;
+- crop, nitidez e ordem dos assets.
+
+Para navegação fora do preview, usar conta de teste (`guest1`), nunca uma conta real.
+
+### 12.2 Fonte canônica responsiva
+
+Ler `RESPONSIVE_BREAKPOINTS.md` antes do QA. Não copiar breakpoints de memória e não manter uma tabela duplicada neste arquivo.
+
+Usar os viewports e critérios da seção QBank desse documento. Falhas que bloqueiam aprovação e `✅`:
+
+- overflow horizontal da página;
+- texto sobreposto ou truncado de forma indevida;
+- toolbar/botão inacessível;
+- imagem distorcida ou cortada;
+- figura importante ilegível no mobile;
+- margem no asset que torne o conteúdo pequeno;
+- alternativas, explicações ou Lab Values sobrepostos.
+
+Se a correção exigir CSS ou novo breakpoint, escalonar para GPT-5.6-sol —
+`ultra` e validar que outros módulos não regrediram.
+
+---
+
+## 13. Auditoria final
+
+Executar a auditoria em uma segunda passada, preferencialmente com contexto limpo e
+modelo econômico — `high`; usar GPT-5.6-sol — `ultra` nos itens escalados ou quando a primeira
+auditoria encontrar padrão de erro. O autor da transcrição não deve apenas reler o
+próprio diff de forma superficial.
+
+### 13.1 Reconciliação da fonte
+
+- [ ] Total de grupos-fonte = novas + já existentes auditadas + bloqueadas.
+- [ ] Nenhuma fonte sem estado.
+- [ ] Nenhuma fonte processada duas vezes.
+- [ ] Contagem por subpasta confere com o QBank.
+- [ ] Pasta física e `category` conferem.
+
+### 13.2 Auditoria por questão
+
+- [ ] ID único e conteúdo não duplicado.
+- [ ] `system`, `category` e `discipline` válidos.
+- [ ] `vignette`, `q`, `options`, `correct`, `explC`, `explI`, `objective` fiéis.
+- [ ] `peer` fiel, sem ajuste artificial para 100.
+- [ ] `correct` existe em `options`.
+- [ ] `difficulty` calculada por `peer[correct]`.
+- [ ] Todas as incorretas/explicações agrupadas refletem a fonte.
+- [ ] `ptTranslation` completa e revisada.
+- [ ] Lab Values inventariados; lista global/`labs` resolvidos.
+- [ ] `img` e `explImg` no lado correto.
+- [ ] Assets existem, abrem, estão nítidos e mantêm fidelidade.
+- [ ] Preview EN/PT aprovado.
+- [ ] QA de `RESPONSIVE_BREAKPOINTS.md` aprovado.
+- [ ] `library` omitido ou explicitamente `1`.
+
+### 13.3 Validação do repositório
+
+- [ ] `node --check public/js/qbank.js`
+- [ ] Busca global por IDs duplicados.
+- [ ] Busca por referências de asset inexistentes.
+- [ ] `git diff --check`
+- [ ] `git diff --cached --check` depois do stage.
+- [ ] `git diff` revisado; nenhuma alteração alheia.
+
+O `SEED` é global: questões novas ficam disponíveis a todas as contas. Uma leva grande aumenta o denominador das passadas e pode reduzir percentuais antes concluídos; mencionar isso no resumo final.
+
+---
+
+## 14. Commit e push automáticos
+
+O pedido de inclusão de questões autoriza commit e push ao final; não pedir confirmação rotineira. Ainda assim, respeitar permissões reais do ambiente.
+
+Fluxo seguro:
+
+1. Rodar `git status --short`.
+2. Revisar `git diff --check` e `git diff`.
+3. Adicionar ao stage **somente** `public/js/qbank.js`, assets novos e outros arquivos comprovadamente alterados pela tarefa.
+4. Não usar `git add .`.
+5. Conferir `git diff --cached --name-only`, `git diff --cached --check` e
+   `git diff --cached`.
+6. Commitar com mensagem que identifique sistema/subpasta ou lote.
+7. Rodar `git push` no branch atual. Se ele ainda não tiver upstream, usar
+   `git push -u origin HEAD`. Nunca usar force push.
+8. Confirmar hash do commit, branch e resultado do push.
+
+Se o push for rejeitado porque o remoto avançou, só fazer `git pull --rebase`
+depois que o trabalho próprio estiver commitado e o worktree estiver livre de
+mudanças alheias. Nunca usar autostash/rebase sobre alterações de outra sessão.
+Depois do rebase, repetir as validações afetadas e tentar o push novamente.
+
+Se houver mudanças preexistentes sobrepostas que não possam ser separadas com
+segurança, parar antes do commit e pedir orientação. Se autenticação/permissão
+bloquear o push, informar o erro exato e manter o commit local recuperável.
+
+---
+
+## 15. Marcação `✅`
+
+O `✅` no nome é o marcador operacional principal.
+
+1. Pular nomes já marcados.
+2. Renomear uma subpasta para `nome ✅` somente quando todas as fontes dela
+   estiverem incluídas/já existentes, auditadas, sem bloqueio **e com push
+   confirmado**.
+3. Nunca modificar, apagar ou mover as imagens-fonte; somente renomear a pasta.
+4. Opcionalmente criar `✅ AUDITORIA CONCLUÍDA.txt` como recibo, mas ele não
+   substitui o nome.
+5. Marcar a pasta principal somente quando todas as subpastas estiverem `✅`, a
+   auditoria final tiver passado e o commit/push correspondente tiver sido
+   concluído.
+6. Se o push falhar, não marcar subpasta nem pasta principal. Preservar o commit
+   e corrigir o push com segurança.
+
+---
+
+## 16. Relatório final mínimo
+
+Informar:
+
+- quantidade de questões novas e auditadas;
+- IDs e destinos;
+- subpastas/pastas marcadas `✅`;
+- bloqueios restantes;
+- validações executadas;
+- QA responsivo;
+- commit, branch e push;
+- efeito esperado sobre o progresso das passadas quando a leva for grande.
+
+---
+
+## 17. Manutenção e cópia deste guia
+
+Arquivo canônico:
+
+```text
+/Users/jonathan/Documents/GitHub/-couplemed-pages/QBANK_ADD_QUESTION.md
+```
+
+Cópia obrigatória:
+
+```text
+/Users/jonathan/Desktop/Questões Novas QBank 1/QBANK_ADD_QUESTION.md
+```
+
+Depois de editar o canônico, substituir a cópia inteira e exigir igualdade byte a
+byte:
+
+```bash
+cmp -s \
+  "/Users/jonathan/Documents/GitHub/-couplemed-pages/QBANK_ADD_QUESTION.md" \
+  "/Users/jonathan/Desktop/Questões Novas QBank 1/QBANK_ADD_QUESTION.md"
+```
+
+Qualquer resultado diferente de zero bloqueia a entrega. A cópia do Desktop não
+entra no Git. Não registrar histórico de sessões neste guia; o histórico pertence
+ao Git e o estado corrente é descoberto pelos `✅`, pelo código e pelas fontes.

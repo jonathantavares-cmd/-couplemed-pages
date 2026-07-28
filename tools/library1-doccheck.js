@@ -7,9 +7,8 @@
 
    Este script verifica o que é verificável:
      1. todo arquivo citado existe;
-     2. toda citação `arquivo.js:N` aponta para uma linha que realmente contém
-        aquilo que o doc diz (por palavra-chave);
-     3. toda ferramenta em tools/ e todo teste em tools/tests/ é citado;
+     2. o guia não depende de números de linha frágeis;
+     3. arquivos, ferramentas e testes obrigatórios do fluxo são citados;
      4. todo subcomando documentado existe na ferramenta;
      5. nenhuma referência "Seção N" aponta para seção inexistente;
      6. o doc não afirma o contrário do código nos pontos que já causaram bug.
@@ -38,37 +37,58 @@ console.log('1. arquivos citados no doc');
   .filter(f => !f.includes('<'))
   .forEach(f => exists(f) ? pass() : fail(`${f} é citado mas não existe`));
 
-/* ---------- 2. citações de linha apontam para o lugar certo ----------
-   O doc cita linhas em contextos conhecidos; cada um traz a palavra que a linha
-   precisa conter. Se o número escorregar, isto acusa. */
-console.log('2. citações de linha');
-const LINE_CLAIMS = [
-  { re: /`site\.js:(\d+)`\) dispara o evento `couplemed:langchange`/, file: 'public/js/site.js', needle: 'setLang', what: 'setLang()' },
-  { re: /`slugify\(\)` \(`site\.js:(\d+)`\)/,                          file: 'public/js/site.js', needle: 'slugify',  what: 'slugify()' },
-  { re: /função `renderLibrary\(\)` \(linha (\d+)/,                    file: 'public/js/site.js', needle: 'renderLibrary', what: 'renderLibrary()' },
-  { re: /o bloco da Library 1 começa em (\d+)/,                        file: 'public/js/site.js', needle: "library-1", what: 'bloco library-1' },
-  { re: /`site\.js:(\d+)-\d+` já indexa/,                              file: 'public/js/site.js', needle: 'LIBRARY1_STRUCTURE.forEach', what: 'indexador da busca global' },
-  { re: /`renderQuestionMeta\(\)` \(~linha (\d+)\)/,                    file: 'public/js/qbank.js', needle: 'renderQuestionMeta', what: 'renderQuestionMeta()' },
-  { re: /`metaFor\(q\)` \(~linha (\d+)\)/,                              file: 'public/js/qbank.js', needle: 'metaFor', what: 'metaFor()' },
-  { re: /`qbank\.js:(\d+)`\)/,                                         file: 'public/js/qbank.js', needle: 'libraryPath', what: 'libraryPath' }
-];
-for(const c of LINE_CLAIMS){
-  const m = md.match(c.re);
-  if(!m){ fail(`não achei no doc a citação de ${c.what} (o texto mudou de forma?)`); continue; }
-  const n = Number(m[1]);
-  const line = (read(c.file).split('\n')[n - 1] || '');
-  line.includes(c.needle)
-    ? pass()
-    : fail(`doc diz ${path.basename(c.file)}:${n} para ${c.what}, mas essa linha é outra`,
-           `linha ${n}: ${line.trim().slice(0, 70)}…`);
-}
+/* ---------- 2. referências estáveis, sem números de linha ----------
+   O guia operacional deve apontar por arquivo/símbolo. Linhas mudam sempre que
+   conteúdo é inserido e não são um contrato seguro. */
+console.log('2. referências estáveis');
+const fragile = [...md.matchAll(/(?:site|qbank|library1-reader)\.js:(?:~?\d+|\d+-\d+)|~?linha\s+\d+/gi)];
+if(fragile.length) fail(`há ${fragile.length} referência(s) frágil(is) por número de linha`,
+                        fragile.slice(0, 3).map(m=>m[0]).join(', '));
+else pass();
 
-/* ---------- 3. ferramentas e testes citados ---------- */
-console.log('3. ferramentas e testes');
-fs.readdirSync(path.join(REPO, 'tools')).filter(f => f.endsWith('.js'))
-  .forEach(t => md.includes('tools/' + t) ? pass() : fail(`tools/${t} existe mas não é citada no doc`));
-fs.readdirSync(path.join(REPO, 'tools/tests')).filter(f => f.endsWith('.js'))
-  .forEach(t => md.includes(t) ? pass() : fail(`tools/tests/${t} existe mas não é citado no doc`));
+const SYMBOLS = [
+  ['public/js/library1-structure.js', 'LIBRARY1_STRUCTURE'],
+  ['public/js/library1-reader.js', 'couplemed:langchange'],
+  ['public/js/library1-reader.js', 'couplemed_lib1quiz_'],
+  ['public/js/library1-reader.js', 'l1r-q-figure'],
+  ['public/js/cm-narration-shared.js', 'VOICES'],
+  ['public/js/library1-content/_TEMPLATE.js', 'key:A1']
+];
+SYMBOLS.forEach(([file, symbol]) =>
+  read(file).includes(symbol) ? pass() : fail(`${file} não contém o símbolo/invariante "${symbol}"`));
+const template = read('public/js/library1-content/_TEMPLATE.js');
+if(/src:A1|image-\d+-en\.(?:jpe?g|png)/i.test(template))
+  fail('o template de conteúdo ainda ensina src/JPG/PNG legado em vez de key/WebP');
+else pass();
+
+/* ---------- 3. arquivos, ferramentas e testes obrigatórios citados ---------- */
+console.log('3. arquivos, ferramentas e testes obrigatórios');
+const REQUIRED = [
+  'public/js/library1-structure.js',
+  'public/js/library1-content/_TEMPLATE.js',
+  'public/js/library1-content/<subject-slug>.js',
+  'public/assets/library1/<subject-slug>/<topic-slug>/',
+  'public/js/library1-flashcards/<subject-slug>.js',
+  'public/js/library1-reader.js',
+  'public/css/library1-reader.css',
+  'public/js/cm-narration-shared.js',
+  'public/js/cm-narrator.js',
+  'public/css/cm-narrator.css',
+  'tools/library1-audit.js',
+  'tools/library1-progress.js',
+  'tools/library1-assets.js',
+  'tools/library1-crop-exhibit.py',
+  'tools/narration.js',
+  'tools/library1-cachecheck.js',
+  'tools/library1-doccheck.js',
+  'tools/tests/test-reader.js',
+  'tools/tests/test-quiz.js',
+  'tools/tests/test-read.js',
+  'tools/tests/test-narrator.js',
+  'tools/tests/test-flashcards.js',
+  'RESPONSIVE_BREAKPOINTS.md'
+];
+REQUIRED.forEach(item => md.includes(item) ? pass() : fail(`${item} é obrigatório mas não é citado no doc`));
 
 /* ---------- 4. subcomandos documentados existem ---------- */
 console.log('4. subcomandos');
@@ -88,14 +108,12 @@ const heads = new Set([...md.matchAll(/^#{1,4} [^\n]*?(\d+\.\d+[a-z]?|\b\d+\b)/g
 console.log('6. coerência nos pontos que já causaram bug');
 const rd = read('public/js/library1-reader.js');
 const CLAIMS = [
-  { what: 'doc diz que não há painel lateral',
-    docSays: /Não existe painel lateral/.test(md), codeAgrees: !/l1r-aside|l1r-thumb/.test(rd) },
   { what: 'doc diz que o leitor não tem botão de idioma próprio',
-    docSays: /não tem botão de idioma próprio/.test(md), codeAgrees: !/l1r-langbtn/.test(rd) },
+    docSays: /não há botões locais EN\/PT/i.test(md), codeAgrees: !/l1r-langbtn/.test(rd) },
   { what: 'doc diz que a mídia do artigo abre só no clique',
-    docSays: /abre no clique|só quando se clica/.test(md), codeAgrees: !/function embedAssets/.test(rd) },
+    docSays: /clica na referência para ampliar|abre a mídia ampliada/i.test(md), codeAgrees: !/function embedAssets/.test(rd) },
   { what: 'doc diz que as imagens do quiz são exibidas',
-    docSays: /EXIBIDAS na página da questão/i.test(md), codeAgrees: rd.includes('l1r-q-figure') },
+    docSays: /Create Test, as imagens aparecem inline/i.test(md), codeAgrees: rd.includes('l1r-q-figure') },
   { what: 'doc diz que o quiz grava em chave própria',
     docSays: md.includes('couplemed_lib1quiz_'), codeAgrees: rd.includes('couplemed_lib1quiz_') && !/qbank_/.test(rd) }
 ];
@@ -105,12 +123,14 @@ CLAIMS.forEach(c => {
 });
 
 /* ---------- 7. flashcards: a quantidade afirmada bate com o arquivo? ---------- */
-console.log('7. flashcards da Library 1 (§11.4/§11.5)');
+console.log('7. flashcards da Library 1 (Seção 5.4)');
 const FC_DIR = 'public/js/library1-flashcards';
 if(exists(FC_DIR)){
   // quantidade obrigatória declarada no doc (hoje 30)
-  // pega o número exigido do título da §11.4 ou da frase "A quantidade **é N**"
-  const m = md.match(/^#+[^\n]*?(\d+)\s+FLASHCARDS/im) || md.match(/A quantidade \*\*é (\d+)\*\*/);
+  // pega o número exigido do título da Seção 5.4 ou da frase "A quantidade **é N**"
+  const m = md.match(/^#+[^\n]*?(\d+)\s+FLASHCARDS/im)
+    || md.match(/exatamente\s+\*{0,2}(\d+)\s+flashcards/i)
+    || md.match(/A quantidade \*\*é (\d+)\*\*/);
   const required = m ? Number(m[1]) : null;
   required ? pass() : fail('o doc não declara claramente quantos flashcards por tópico');
 
@@ -171,7 +191,7 @@ console.log();
    O conteúdo da Library 1 carrega sob demanda, mas os flashcards são <script>
    estático. Um Subject novo sem a linha no app.html tem os cards no repositório e
    invisíveis para todo mundo — e nenhum teste pegava isso, porque o pacote existe,
-   só não é carregado. A §11.4 chama de "o passo mais fácil de esquecer". */
+   só não é carregado. O guia trata esse registro como obrigatório. */
 console.log('8. pacote de flashcards carregado no app.html');
 {
   const dir = path.join(REPO, 'public/js/library1-flashcards');
@@ -179,7 +199,7 @@ console.log('8. pacote de flashcards carregado no app.html');
   for (const f of fs.readdirSync(dir).filter(x => x.endsWith('.js') && !x.startsWith('_'))){
     if (html.includes('library1-flashcards/' + f)) pass();
     else fail(`${f} existe mas NÃO está carregado em public/app.html`,
-              'sem essa linha os cards nunca são semeados para ninguém (§11.4)');
+              'sem essa linha os cards nunca são semeados para ninguém (Seção 5.4)');
   }
 }
 
