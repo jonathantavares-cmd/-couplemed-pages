@@ -165,6 +165,36 @@ Opus e a execução pode voltar ao Sonnet. Confirmar o modelo resolvido pela
 interface antes da unidade crítica. Referência:
 [configuração oficial do Claude Code](https://code.claude.com/docs/en/model-config).
 
+**O que troca sozinho e o que não troca** — não descrever nenhum outro
+mecanismo como automático:
+
+| Mecanismo | Troca sozinha? |
+|---|---|
+| Subagente com `model:` no frontmatter (`.claude/agents/*.md`) | **Sim.** Roda no modelo declarado quando a sessão principal delega |
+| Perfil `opusplan` | **Parcial.** Planeja em Opus, executa em Sonnet |
+| Modelo da sessão principal | **Não.** Só `/model`, digitado pelo usuário |
+| `effortLevel` | **Não.** Só `.claude/settings.json` ou `/config` |
+
+Não existe hook, setting ou comando que troque o modelo da conversa principal
+no meio dela. Qualquer instrução que prometa isso está errada.
+
+**Configuração implantada neste repositório:**
+
+- `.claude/settings.json` (versionado): `model: sonnet`, `effortLevel: medium`
+  como nível de entrada, sobrepondo o padrão global só neste repo.
+- `CLAUDE.md` na raiz: carrega a política em toda sessão aberta nesta pasta.
+- `.claude/agents/mecanico.md` — Haiku, **somente leitura**. Delegar sem
+  perguntar o trabalho de nível `medium`: inventário de arquivos, conferência
+  de IDs e slugs, dedup, contagem de tópicos, checagem de campos obrigatórios,
+  verificação de padrão de nomes (inclusive nos lotes de narração, §17).
+- `.claude/agents/tradutor-medico.md` — Sonnet. Delegar lotes de tradução
+  EN→PT cujo critério já está neste documento. Não commita nem dá push.
+
+Ambos devolvem uma seção **Pendências**, são proibidos de inventar conteúdo e
+devolvem à sessão principal qualquer conflito de fontes ou taxonomia nova, que
+é nível `ultra`. Não delegar tarefa que dependa do contexto acumulado da
+conversa, curta demais, ou que exija **decidir** o critério em vez de aplicá-lo.
+
 #### 0.4.4 Kimi / Kimi Code
 
 Usar os nomes e controles realmente exibidos na instalação atual:

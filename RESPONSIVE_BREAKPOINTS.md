@@ -244,6 +244,17 @@ Mapeamentos atuais e regras de fallback estão nas seções `3.2`–`3.4` de
 `QBANK_ADD_QUESTION.md` e `0.4.2`–`0.4.4` de
 `LIBRARY1_ADD_CONTENT.md`.
 
+No Claude Code, a única troca de modelo que acontece sem intervenção é a de
+**subagente** (`.claude/agents/*.md`, modelo fixo no frontmatter) e a do perfil
+`opusplan`. O modelo da sessão principal e o `effortLevel` **não mudam
+sozinhos** — exigem `/model` digitado pelo usuário e `.claude/settings.json` /
+`/config`. Detalhes em `QBANK_ADD_QUESTION.md` §3.3.1–3.3.2.
+
+Diagnóstico visual de CSS responsivo **não é trabalho de subagente econômico**:
+o agente `mecanico` (Haiku, somente leitura) só serve aqui para inventariar
+media queries e conferir se os breakpoints 1180/820/520 px estão consistentes
+entre arquivos. Qualquer correção de layout volta para a sessão principal.
+
 ---
 
 ## 8. Sincronização deste documento

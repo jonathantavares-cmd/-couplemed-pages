@@ -141,6 +141,41 @@ Opus e a execução pode voltar ao Sonnet. Confirmar o modelo resolvido pela
 interface antes da unidade crítica. Referência:
 [configuração oficial do Claude Code](https://code.claude.com/docs/en/model-config).
 
+#### 3.3.1 O que troca sozinho e o que não troca
+
+Distinção obrigatória — não descrever nenhuma destas como automática sem que
+esteja nesta lista:
+
+| Mecanismo | Troca sozinha? |
+|---|---|
+| Subagente com `model:` no frontmatter (`.claude/agents/*.md`) | **Sim.** Roda no modelo declarado quando a sessão principal delega |
+| Perfil `opusplan` | **Parcial.** Planeja em Opus, executa em Sonnet, sem intervenção |
+| Modelo da sessão principal | **Não.** Só `/model`, digitado pelo usuário |
+| `effortLevel` | **Não.** Só `.claude/settings.json` ou `/config` |
+
+Não existe hook, setting ou comando que troque o modelo da conversa principal
+no meio dela. Qualquer instrução que prometa isso está errada e não deve ser
+seguida.
+
+#### 3.3.2 Configuração implantada neste repositório
+
+- `.claude/settings.json` (versionado): `model: sonnet`, `effortLevel: medium`.
+  É o nível de entrada; sobrepõe o padrão global do usuário apenas neste repo.
+- `CLAUDE.md` na raiz: carrega a política em toda sessão aberta nesta pasta.
+- `.claude/agents/mecanico.md` — Haiku, **somente leitura**. Delegar sem
+  perguntar o trabalho de nível `medium`: inventário, conferência de IDs,
+  dedup, contagem de questões/tópicos, checagem de campos obrigatórios.
+- `.claude/agents/tradutor-medico.md` — Sonnet. Delegar lotes de tradução
+  EN→PT cujo critério já está neste documento. Não commita nem dá push.
+
+Ambos os subagentes devolvem uma seção **Pendências** e são proibidos de
+inventar conteúdo; conflito de fontes ou taxonomia nova é devolvido à sessão
+principal para escalonar a `ultra`.
+
+Não delegar quando a tarefa depende do contexto acumulado da conversa, é curta
+demais (delegar custa mais que fazer) ou exige **decidir** o critério em vez de
+aplicá-lo.
+
 ### 3.4 Kimi / Kimi Code
 
 Usar os nomes e controles realmente exibidos na instalação atual:
