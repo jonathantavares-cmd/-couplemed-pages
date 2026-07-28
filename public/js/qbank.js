@@ -14828,6 +14828,99 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0101',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'A case-control study was conducted to estimate the association between simvastatin therapy and serum levels of fibrinogen in patients who underwent percutaneous coronary intervention.  Cases were identified as patients who underwent percutaneous coronary intervention and had high periprocedural levels of fibrinogen (>400 mg/dL), and controls were identified as patients who underwent percutaneous coronary interventions but had normal levels of fibrinogen (200-400 mg/dL).  History of simvastatin therapy use was assessed through chart review for every patient.  The number of patients corresponding to each classification criteria is given in the table below.',
+      q:'Which of the following is the best statistical method to estimate the association between simvastatin use and high serum fibrinogen levels in this study?',
+      options:[
+        {label:'A', text:'Analysis of variance'},
+        {label:'B', text:'Chi-square test'},
+        {label:'C', text:'Correlation analysis'},
+        {label:'D', text:'Meta-analysis'},
+        {label:'E', text:'Two-sample t-test'},
+      ],
+      correct:'B',
+      explC:'Variables can be broadly classified as qualitative (ie, categorical) or quantitative (eg, continuous) based on their scale of measurement.  Qualitative variables (eg, disease status, blood type) represent categories or groups, whereas quantitative variables (eg, body weight, glucose levels) represent numerical values.  Choosing the correct statistical test always depends on the type of dependent and independent variables under consideration.\n\nThe chi-square test for independence (also known as chi-square test for association) is used to evaluate the association between 2 categorical variables.  In this example, patients are divided into 2 groups based on serum fibrinogen levels (dependent categorical variable: normal [200-400 mg/dL], high [>400 mg/dL]) and then divided again based on simvastatin exposure status (independent categorical variable: treated, not treated), with the data recorded in a 2 × 2 table.  A chi-square test may be conducted to determine whether a statistically significant association exists between simvastatin use and the high levels of serum fibrinogen.  A large difference in the frequency of simvastatin use between cases and controls is indicative of an association between simvastatin use and high levels of fibrinogen (ie, the null hypothesis is rejected).',
+      explI:[
+        {option:'A and E', explanation:'The analysis of variance (ANOVA) and two-sample t-test are used to compare the means between groups.  This would require the dependent variable (ie, outcome) to be a quantitative variable.  The difference between these 2 tests resides in the number of groups compared.  The t-test is used to compare 2 group means, whereas the ANOVA is used to compare ≥2 group means.  Either of these tests would be appropriate in this example if fibrinogen levels were recorded as a quantitative variable (ie, the actual measured level in mg/dL) instead of a categorical variable (ie, normal or high).'},
+        {option:'C', explanation:'The correlation coefficient is a measure of the strength and direction of a linear relationship between 2 quantitative variables.  For example, a study may report a correlation coefficient describing the association between hemoglobin A1c levels and average blood glucose levels.'},
+        {option:'D', explanation:'Meta-analysis is an epidemiological method of pooling the data from several studies to conduct an analysis having a relatively larger statistical power than that of the individual studies.'},
+      ],
+      objective:'A 2 × 2 table is normally used to record the presence or absence of exposure and disease in research.  Rows and columns represent the different levels for each categorical (ie, exposure and disease) variable.  The chi-square test for independence is used to evaluate the association between 2 categorical variables.',
+      peer:{A:4, B:43, C:21, D:1, E:29},
+      labs:[
+        {name:'Fibrinogen', value:'>400 mg/dL / 200-400 mg/dL', normal:'Categorical outcome in this study'}
+      ],
+      img:'assets/qbank/CMQ-STEP1-BST-0101_fibrinogen_simvastatin_table.png',
+      explImg:'assets/qbank/CMQ-STEP1-BST-0101_expl_statistical_tests_table.png',
+      ptTranslation:{
+        vignette:'Um estudo caso-controle foi conduzido para estimar a associação entre terapia com sinvastatina e níveis séricos de fibrinogênio em pacientes submetidos a intervenção coronária percutânea.  Casos foram identificados como pacientes submetidos a intervenção coronária percutânea e que tinham níveis periprocedimento elevados de fibrinogênio (>400 mg/dL), e controles foram identificados como pacientes submetidos a intervenções coronárias percutâneas mas que tinham níveis normais de fibrinogênio (200-400 mg/dL).  A história de uso de terapia com sinvastatina foi avaliada por revisão de prontuários em todos os pacientes.  O número de pacientes correspondente a cada critério de classificação é apresentado na tabela abaixo.',
+        q:'Qual dos seguintes é o melhor método estatístico para estimar a associação entre uso de sinvastatina e níveis séricos elevados de fibrinogênio neste estudo?',
+        objective:'Uma tabela 2 × 2 é normalmente usada para registrar a presença ou ausência de exposição e doença em pesquisa.  Linhas e colunas representam os diferentes níveis de cada variável categórica (ou seja, exposição e doença).  O teste do qui-quadrado de independência é usado para avaliar a associação entre 2 variáveis categóricas.',
+        options:[
+          {label:'A', text:'Análise de variância'},
+          {label:'B', text:'Teste do qui-quadrado'},
+          {label:'C', text:'Análise de correlação'},
+          {label:'D', text:'Meta-análise'},
+          {label:'E', text:'Teste t para duas amostras'},
+        ],
+        explC:'Variáveis podem ser classificadas amplamente como qualitativas (ou seja, categóricas) ou quantitativas (ex.: contínuas) com base em sua escala de mensuração.  Variáveis qualitativas (ex.: status de doença, tipo sanguíneo) representam categorias ou grupos, enquanto variáveis quantitativas (ex.: peso corporal, níveis de glicose) representam valores numéricos.  A escolha do teste estatístico correto sempre depende do tipo das variáveis dependente e independente em consideração.\n\nO teste do qui-quadrado de independência (também conhecido como teste do qui-quadrado para associação) é usado para avaliar a associação entre 2 variáveis categóricas.  Neste exemplo, os pacientes são divididos em 2 grupos com base nos níveis séricos de fibrinogênio (variável categórica dependente: normal [200-400 mg/dL], elevado [>400 mg/dL]) e então divididos novamente com base no status de exposição à sinvastatina (variável categórica independente: tratado, não tratado), com os dados registrados em uma tabela 2 × 2.  Um teste do qui-quadrado pode ser conduzido para determinar se existe uma associação estatisticamente significativa entre uso de sinvastatina e níveis séricos elevados de fibrinogênio.  Uma grande diferença na frequência de uso de sinvastatina entre casos e controles é indicativa de uma associação entre uso de sinvastatina e níveis elevados de fibrinogênio (ou seja, a hipótese nula é rejeitada).',
+        explI:[
+          {option:'A e E', explanation:'A análise de variância (ANOVA) e o teste t para duas amostras são usados para comparar as médias entre grupos.  Isso exigiria que a variável dependente (ou seja, desfecho) fosse uma variável quantitativa.  A diferença entre esses 2 testes está no número de grupos comparados.  O teste t é usado para comparar 2 médias de grupos, enquanto a ANOVA é usada para comparar ≥2 médias de grupos.  Qualquer um desses testes seria apropriado neste exemplo se os níveis de fibrinogênio fossem registrados como uma variável quantitativa (ou seja, o nível medido real em mg/dL) em vez de uma variável categórica (ou seja, normal ou elevado).'},
+          {option:'C', explanation:'O coeficiente de correlação é uma medida da força e direção de uma relação linear entre 2 variáveis quantitativas.  Por exemplo, um estudo pode relatar um coeficiente de correlação descrevendo a associação entre níveis de hemoglobina A1c e níveis médios de glicose sanguínea.'},
+          {option:'D', explanation:'Meta-análise é um método epidemiológico de reunir os dados de vários estudos para conduzir uma análise com poder estatístico relativamente maior que o dos estudos individuais.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0102',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A study is conducted to assess the relationship between smoking status and forced expiratory volume in one second (FEV₁).  Subjects are randomly selected and categorized based on smoking status.  Group A consists of 200 nonsmokers, group B consists of 200 light smokers (1-7 cigarettes per day), group C consists of 200 moderate smokers (8-22 cigarettes per day), and group D consists of 200 heavy smokers (≥23 cigarettes per day).  FEV₁ is quantitatively measured in all participants using properly calibrated office spirometers.  Which of the following is the most appropriate statistical method to compare the mean FEV₁ results among all 4 groups?',
+      q:'',
+      options:[
+        {label:'A', text:'Analysis of variance'},
+        {label:'B', text:'Chi-square test'},
+        {label:'C', text:'Meta-analysis'},
+        {label:'D', text:'Multiple logistic regression'},
+        {label:'E', text:'Pearson correlation coefficient'},
+        {label:'F', text:'Two-sample t-test'},
+      ],
+      correct:'A',
+      explC:'Analysis of variance (ANOVA) is used to determine whether there are any significant differences between the means of several independent groups.\n\nANOVA compares the means between the groups relative to the variability within groups (F-test) and determines whether any of those means are significantly different from one another.  Specifically, it tests the null hypothesis that all groups are simply random samples of the same population (ie, the means are the same).  The null hypothesis is rejected when there are at least 2 group means that are significantly different from one another.\n\nANOVA can be used to compare ≥2 groups but is generally used to compare ≥3 groups (because other equivalent methods exist to compare 2 groups).  For example, the 2 independent samples t-test is a special case of the F-test in ANOVA.  The assumptions for both tests and their resulting p-values are the same.',
+      explI:[
+        {option:'B', explanation:'Chi-square tests can be used to evaluate the association between 2 categorical variables.  For example, if FEV₁ is measured as a categorical variable (eg, normal or low), then a chi-square test could be used to determine if there is an association between FEV₁ and smoking status.  However, this study is specifically comparing the mean FEV₁ results (a quantitative variable) between groups.'},
+        {option:'C', explanation:'Meta-analysis involves the pooling of data from several studies to perform an analysis with greater statistical power than the individual studies alone.  For example, individual studies assessing the effects of aspirin on certain cardiovascular events may be inconclusive.  However, analysis of data compiled from multiple clinical trials may reveal a significant benefit.'},
+        {option:'D', explanation:'Multiple logistic regression is a method used to predict the probability of a binary outcome (eg, presence or absence of gastric cancer) based on 1 or more independent variables that can be either continuous or categorical.  For example, this test could be used to predict the probability of gastric cancer based on alcohol consumption, tobacco use, and charred food consumption.'},
+        {option:'E', explanation:'The Pearson correlation coefficient is a measure of the strength and direction of a linear relationship between 2 quantitative (ie, continuous) variables.  For example, a study may report a correlation coefficient describing the association between hemoglobin A1c levels and average blood glucose levels.'},
+        {option:'F', explanation:'A two-sample t-test can be used when 2 group means are compared.  This test could have been used for the example in the question if the study participants were divided into smoking and nonsmoking groups only (ie, 2 groups instead of 4).'},
+      ],
+      objective:'A t-test is used to compare the difference between the means of 2 groups.  Analysis of variance (ANOVA) compares the difference between the means of 2 or more groups.  Results from a t-test and ANOVA test will be equivalent when comparing the difference between the means of 2 groups.',
+      peer:{A:64, B:19, C:4, D:4, E:4, F:3},
+      labs:[
+        {name:'FEV₁', value:'Quantitative measurement', normal:'Compare group means'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0102_expl_anova_diagram.png',
+      ptTranslation:{
+        vignette:'Um estudo é conduzido para avaliar a relação entre status de tabagismo e volume expiratório forçado em um segundo (FEV₁).  Os indivíduos são selecionados aleatoriamente e categorizados com base no status de tabagismo.  O grupo A consiste em 200 não fumantes, o grupo B consiste em 200 fumantes leves (1-7 cigarros por dia), o grupo C consiste em 200 fumantes moderados (8-22 cigarros por dia), e o grupo D consiste em 200 fumantes pesados (≥23 cigarros por dia).  O FEV₁ é medido quantitativamente em todos os participantes usando espirômetros de consultório adequadamente calibrados.  Qual dos seguintes é o método estatístico mais apropriado para comparar os resultados médios de FEV₁ entre todos os 4 grupos?',
+        q:'',
+        objective:'Um teste t é usado para comparar a diferença entre as médias de 2 grupos.  A análise de variância (ANOVA) compara a diferença entre as médias de 2 ou mais grupos.  Os resultados de um teste t e de um teste ANOVA serão equivalentes quando se compara a diferença entre as médias de 2 grupos.',
+        options:[
+          {label:'A', text:'Análise de variância'},
+          {label:'B', text:'Teste do qui-quadrado'},
+          {label:'C', text:'Meta-análise'},
+          {label:'D', text:'Regressão logística múltipla'},
+          {label:'E', text:'Coeficiente de correlação de Pearson'},
+          {label:'F', text:'Teste t para duas amostras'},
+        ],
+        explC:'Análise de variância (ANOVA) é usada para determinar se há diferenças significativas entre as médias de vários grupos independentes.\n\nANOVA compara as médias entre os grupos em relação à variabilidade dentro dos grupos (teste F) e determina se alguma dessas médias é significativamente diferente das outras.  Especificamente, ela testa a hipótese nula de que todos os grupos são simplesmente amostras aleatórias da mesma população (ou seja, as médias são iguais).  A hipótese nula é rejeitada quando há pelo menos 2 médias de grupos significativamente diferentes uma da outra.\n\nANOVA pode ser usada para comparar ≥2 grupos, mas geralmente é usada para comparar ≥3 grupos (porque existem outros métodos equivalentes para comparar 2 grupos).  Por exemplo, o teste t para 2 amostras independentes é um caso especial do teste F na ANOVA.  As premissas de ambos os testes e seus valores de p resultantes são as mesmas.',
+        explI:[
+          {option:'B', explanation:'Testes do qui-quadrado podem ser usados para avaliar a associação entre 2 variáveis categóricas.  Por exemplo, se FEV₁ for medido como uma variável categórica (ex.: normal ou baixo), então um teste do qui-quadrado poderia ser usado para determinar se há uma associação entre FEV₁ e status de tabagismo.  No entanto, este estudo está especificamente comparando os resultados médios de FEV₁ (uma variável quantitativa) entre grupos.'},
+          {option:'C', explanation:'Meta-análise envolve a reunião de dados de vários estudos para realizar uma análise com maior poder estatístico do que os estudos individuais isoladamente.  Por exemplo, estudos individuais que avaliam os efeitos da aspirina em certos eventos cardiovasculares podem ser inconclusivos.  No entanto, a análise de dados compilados de múltiplos ensaios clínicos pode revelar um benefício significativo.'},
+          {option:'D', explanation:'Regressão logística múltipla é um método usado para prever a probabilidade de um desfecho binário (ex.: presença ou ausência de câncer gástrico) com base em 1 ou mais variáveis independentes que podem ser contínuas ou categóricas.  Por exemplo, esse teste poderia ser usado para prever a probabilidade de câncer gástrico com base em consumo de álcool, uso de tabaco e consumo de alimentos carbonizados.'},
+          {option:'E', explanation:'O coeficiente de correlação de Pearson é uma medida da força e direção de uma relação linear entre 2 variáveis quantitativas (ou seja, contínuas).  Por exemplo, um estudo pode relatar um coeficiente de correlação descrevendo a associação entre níveis de hemoglobina A1c e níveis médios de glicose sanguínea.'},
+          {option:'F', explanation:'Um teste t para duas amostras pode ser usado quando 2 médias de grupos são comparadas.  Esse teste poderia ter sido usado para o exemplo da questão se os participantes do estudo fossem divididos apenas em grupos de fumantes e não fumantes (ou seja, 2 grupos em vez de 4).'},
+        ]
+      }
+    },
 
   ];
 
