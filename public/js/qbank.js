@@ -9926,7 +9926,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0026',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::misc', difficulty:'medium',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::misc', difficulty:'easy',
       vignette:"An 82-year-old woman is brought to the office for a new patient evaluation.  She recently moved in with her daughter.  The patient reports frequent dizziness but cannot provide additional details regarding her symptoms.  Medical history includes moderate dementia, hypertension, transient ischemic attack, depression, and chronic insomnia.  Blood pressure is 124/72 mm Hg, and pulse is 66/min and regular.  Neurologic examination shows disorientation to time and place but normal deep tendon reflexes and no focal sensory or motor deficits.  The patient's medication schedule includes 12 different drugs that are used to manage her chronic conditions.",
       q:'Which of the following medications should be discontinued at this time?',
       options:[
@@ -10013,7 +10013,7 @@
     },
     // BATCH PHR 04 — Pharmacology: Drug metabolism and toxicity (18 questions)
     { id:'CMQ-STEP1-PHR-0028',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'hard',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'medium',
       vignette:'A 48-year-old woman with metastatic cervical cancer is brought to the emergency department due to worsening lethargy for the past several days.  A year ago, the patient was diagnosed with cervical cancer, which has progressed despite chemotherapy treatment and metastasized to the liver and lungs.  She has also developed bilateral hydronephrosis and renal failure due to ureteral compression by the tumor.  The patient is receiving palliative care, and her pain has been adequately controlled with a stable dose of oral morphine.  Temperature is 36.7 C (98 F), blood pressure is 110/62 mm Hg, pulse is 92/min, and respirations are 10/min.  On physical examination, the patient is somnolent and responds to painful stimuli only.  The pupils are small and sluggish to react.  The lungs are clear to auscultation, and heart sounds are normal.  The abdomen is soft and nondistended.  Arterial blood gas analysis shows respiratory acidosis.',
       q:"Which of the following medication-related events most likely precipitated her current condition?",
       options:[
@@ -10180,7 +10180,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0032',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'easy',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'hard',
       vignette:'A clinical trial is being conducted to evaluate the safety and efficacy of a novel therapy to treat refractory Crohn disease.  The medication is a monoclonal antibody against the α4β7 integrin, which inhibits migration of T-lymphocytes into the intestinal parenchyma and produces a gut-selective anti-inflammatory effect.  Patients who have active, moderate to severe Crohn disease and have failed conventional therapy are enrolled in the study.  Many of these patients have renal or hepatic dysfunction, and some take other medications that affect cytochrome P450 enzymes.',
       q:'Which of the following is the most appropriate dose adjustment in this patient population to decrease drug toxicity?',
       options:[
@@ -10217,7 +10217,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0033',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'hard',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'medium',
       vignette:'A 68-year-old woman comes to the office due to a burning sensation in her chest and throat for the past 2 weeks.  Associated symptoms include trouble swallowing.  Medical history is significant for osteoporosis, and she has no known drug allergies.  The patient has smoked half a pack of cigarettes daily for 50 years, and does not use alcohol or illicit drugs.  Temperature is 36.7 C (98 F), blood pressure is 110/70 mm Hg, and pulse is 70/min.  BMI is 20 kg/m2.  Cardiopulmonary examination shows clear lungs and normal S1 and S2.  The abdomen is soft and nontender.  Laboratory results are normal.  It is determined that the patient\'s current symptoms are caused by one of her medications, which is discontinued.  Her symptoms subsequently resolve.',
       q:"The medication responsible for this patient's presentation is also associated with which of the following side effects?",
       options:[
@@ -10301,7 +10301,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0035',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'medium',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'easy',
       vignette:'A 57-year-old man comes to the emergency department due to fevers and painful mouth ulcers.  He recently began methotrexate therapy for psoriasis.  However, the patient has mistakenly taken the medication daily instead of 3 times a week.  His past medical history is also significant for hypertension and chronic kidney disease.  Temperature is 38.1 C (100.6 F).  Examination reveals multiple aphthous ulcers in the oral pharynx.  A complete blood cell count is as follows: Hemoglobin 10.4 g/dL, Platelets 120,000/mm3, Leukocytes 2,800/mm3.',
       q:'Which of the following is the best next step in management?',
       options:[
@@ -10443,7 +10443,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0038',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'medium',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'hard',
       vignette:'A 52-year-old woman comes to the emergency department due to recurrent right lower extremity swelling, pain, and erythema.  The patient\'s medical history includes type 2 diabetes mellitus and depression.  Her medications include metformin, paroxetine, and a multivitamin.  The patient is diagnosed with cellulitis, admitted to the hospital, and started on antibiotics.  She is continued on her home medications.  Three days later, the patient becomes agitated and delirious with severe abdominal cramps and diarrhea.  Temperature is 39.2 C (102.6 F), blood pressure is 180/100 mm Hg, and pulse is 120/min.  On examination, the patient is diaphoretic and tremulous, and her pupils are dilated.  Bilateral hyperreflexia and ankle clonus are present.  She begins to have seizures.',
       q:'Which of the following antibiotics was the patient most likely given to treat the cellulitis?',
       options:[
@@ -10566,7 +10566,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0041',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'hard',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'easy',
       vignette:'A 38-year-old woman comes to the office to discuss motion sickness.  She is currently feeling well.  The patient is planning a vacation cruise and has previously experienced severe nausea and vomiting while sailing.  She has 4 children, and her past medical history is notable only for a tubal ligation.  The patient does not smoke and drinks only moderate quantities of alcohol.  She is not currently taking any medications.  Physical examination, including otologic and neurologic examinations, is normal.',
       q:'After the appropriate drug therapy is recommended, this patient should be counseled regarding which of the following side effects?',
       options:[
@@ -10604,7 +10604,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0042',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'medium',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'hard',
       vignette:'A 47-year-old man comes to the office due to worsening muscle weakness and dark urine for the past several days.  Two weeks ago, the patient was evaluated for dyspepsia and found to have Helicobacter pylori infection; he was started on a treatment regimen and has had partial symptom improvement.  Medical history includes hypertension and hyperlipidemia, for which he takes amlodipine and simvastatin.  Temperature is 37.1 C (98.8 F), blood pressure is 130/80 mm Hg, and pulse is 74/min.  Physical examination shows diffuse muscle tenderness.  Laboratory evaluation reveals elevated blood urea nitrogen and serum creatinine levels.  Urine microscopy shows no red or white blood cells.',
       q:"Which of the following medications most likely precipitated this patient's current condition?",
       options:[
@@ -10644,7 +10644,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0043',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'easy',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'medium',
       vignette:'A 65-year-old man is brought to the emergency department after developing sudden-onset right-side weakness and difficulty speaking.  He has a history of paroxysmal atrial fibrillation and has been taking warfarin for the past several years with a stable prothrombin time.  His wife adds that he started taking a new drug 2 weeks ago, but she does not remember its name.  Physical examination shows right hemiplegia, right hemisensory loss, expressive aphasia, and right homonymous hemianopia.  MRI of the head shows a left middle cerebral artery territory infarct.  Transesophageal echocardiogram reveals a small thrombus in the left atrium.',
       q:'This patient most likely started taking which of the following drugs recently?',
       options:[
@@ -10742,7 +10742,7 @@
       }
     },
     { id:'CMQ-STEP1-PHR-0045',
-      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'hard',
+      system:'pharmacology', discipline:'pharmacology', category:'pharmacology::drug_metabolism_toxicity', difficulty:'easy',
       vignette:'A 55-year-old woman is diagnosed with metastatic breast cancer.  The patient is treated with an opioid analgesic for bone pain that is well controlled during the first week of therapy.  The following week, the analgesic dose becomes ineffective and the patient reports nausea, itching, and constipation.  She has become very weak and is unable to walk due to the pain.  The opioid dose is increased.  The patient is concerned about side effects with higher dosages, noting that her son has a history of opioid dependence, and "I watched him suffer a lot of bad reactions."  The physician explains the concept of tolerance to opioids and that high doses are commonly required to control pain.',
       q:'Over the next few weeks, the patient would likely experience which of the following?',
       options:[
