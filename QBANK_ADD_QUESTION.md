@@ -66,6 +66,7 @@ Quando o usuário disser **"adicionar questões novas"**, **"incluir questões"*
 1. **Localizar a pasta**: `/Users/jonathan/Desktop/Questões Novas QBank 1/` (nome atualizado pelo usuário em 2026-07-25; a pasta antiga `Questões novas/` foi renomeada e não existe mais). Varrer **recursivamente** — pode haver múltiplas subpastas dentro dela, com nomes/localizações diferentes a cada leva (por tema, por data, por lote enviado etc.), em qualquer profundidade. Listar todo arquivo de imagem (screenshot/foto de questão) encontrado.
    - **Regra do ✅ no nome da pasta/subpasta:** se uma pasta ou subpasta já tiver `✅` no próprio nome (ex.: `06 - Biostatistics & Epidemiology ✅`, `01 - Epidemiology and population health ✅`), considerar que ela já foi concluída/auditada e **não precisa ser aberta nem reprocessada**. Seguir automaticamente para a próxima pasta/subpasta sem `✅` e verificar se há imagens/questões novas nela.
    - Se houver um arquivo marcador como `✅ AUDITORIA CONCLUÍDA.txt`, ele confirma a conclusão, mas o marcador principal que deve guiar a navegação é o `✅` no **nome** da pasta/subpasta, pois é visível no Finder.
+   - **Regra de destino pela pasta/subpasta:** o nome da pasta principal e o nome da subpasta correspondem ao local exato onde as questões devem ser incluídas no QBank. A pasta principal define o `system`/área (ex.: `06 - Biostatistics & Epidemiology`, `07 - Poisoning & Environmental Exposure`) e a subpasta define a categoria/subcategoria de destino (ex.: `04 - Study design and interpretation`). Não escolher outro destino por preferência ou por interpretação livre do tema: seguir a localização física do arquivo na pasta/subpasta. Se o conteúdo da imagem parecer claramente incompatível com a pasta/subpasta, tratar como possível erro de organização e auditar com cuidado antes de mover qualquer coisa.
 2. **Processar TODAS as questões encontradas, independente da quantidade** — 50, 100, 200, 300 ou mais. Nunca parar no meio nem perguntar se deve continuar para o próximo lote. Trabalhar em lotes menores (5 questões por vez é o padrão sugerido, mas outro tamanho pode ser usado se ajudar a manter a qualidade da transcrição) e seguir automaticamente lote após lote, aplicando o procedimento completo da Seção 0 (fidelidade 0.1, dificuldade 0.2, labs 16b, tradução 17, imagem 19, taxonomia/dedup de ID Seção 3) em cada questão, até que **a pasta inteira** tenha sido incluída no SEED.
 3. **Exceções que ainda exigem parar e perguntar ao usuário** (não cobertas pela autonomia deste modo): dado realmente ausente no material (Seção 0.1 — nunca inventar), imagem corrompida/ilegível, ou ambiguidade de taxonomia que não seja resolvível sozinho consultando a Seção 5/6.
 4. Rodar `node --check public/js/qbank.js` ao final de cada lote (pega erro de sintaxe cedo) e novamente ao final da pasta inteira.
@@ -99,6 +100,8 @@ Quando o usuário pedir auditoria/refinamento de questões já incluídas por VS
 4. Conferir `img` e `explImg`:
    - Tabelas, gráficos, diagramas, fluxogramas, exames e figuras da aba Explanation devem ser incluídos quando melhoram a visualização.
    - Recortes com margem exagerada, texto cortado, gabarito colado, UI do navegador/Finder ou área vazia excessiva devem ser refeitos a partir da imagem-fonte limpa.
+   - O refinamento das imagens deve ser perfeccionista: o recorte final precisa reproduzir fielmente a figura, tabela, exame ou explicação como aparece no material-fonte, com nitidez, enquadramento correto e sem perder títulos, legendas, unidades, eixos, notas ou partes relevantes.
+   - Quando um exame, gráfico, tabela ou imagem explicativa ficar mais claro como asset recortado do que embutido no texto do enunciado/explicação, incluir a imagem recortada no `img` ou `explImg` apropriado, em vez de depender apenas da transcrição.
    - Reutilizar assets idênticos quando a mesma tabela/diagrama aparece em várias questões; não duplicar arquivo só para trocar o ID se o conteúdo visual é o mesmo e já está claro.
 5. Conferir fidelidade de transcrição em inglês e tradução PT-BR, com atenção especial a números, unidades, `peer`, gabarito, Lab Values e sinais matemáticos (`<`, `>`, `≥`, `≤`, `−`, `×`).
 6. Rodar validações ao final de cada subpasta auditada:
@@ -940,8 +943,11 @@ A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linh
    im = Image.open('original.png')
    im.crop((left, top, right, bottom)).save('cropped.png')  # coordenadas em pixels
    ```
+   - O recorte precisa ser feito com refinamento e perfeccionismo, comparando o asset final com a imagem-fonte antes de publicar. A imagem publicada deve parecer uma reprodução fiel e limpa do material original, não uma captura apressada.
    - Em tabelas, gráficos e diagramas, o objetivo é que o conteúdo visual fique grande e legível no QBank. Se a tabela aparecer pequena por causa de espaço vazio lateral/superior/inferior, refazer o crop.
    - Não recortar tão justo a ponto de cortar bordas, títulos, legendas, unidades, eixos ou notas importantes. A imagem final deve parecer uma figura limpa, não um pedaço arrancado de screenshot.
+   - Em exames, lâminas, radiografias, fotos clínicas, gráficos, tabelas e figuras de explicação, preservar tudo que seja necessário para interpretar a questão ou a explicação exatamente como no material-fonte. Se o recorte esconder uma pista visual, uma escala, um marcador ou uma legenda, está incorreto e deve ser refeito.
+   - Se a imagem ou figura for importante para a leitura da questão/explicação e ficar mais clara como imagem recortada do que transcrita no texto, incluir o asset em `img` ou `explImg` no local correto.
    - Se o material-fonte já trouxer uma imagem isolada/limpa da tabela/diagrama em uma captura separada, preferir essa imagem limpa em vez de recortar a captura ampla da questão.
 3. **Redimensionar** para um tamanho eficiente e nítido dentro do container real do site — como a caixa tem no máximo 760px de largura exibida, mas telas retina mostram 2x, o ideal é salvar a imagem com **~1200–1600px de largura** (ou a largura nativa se for menor) mantendo a proporção original, sem forçar um aspect ratio diferente do da imagem-fonte. Nunca estique/distorça.
    ```python
@@ -982,6 +988,7 @@ A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linh
 - Reutiliza a classe CSS `.qb-question-image` (mais a classe extra `.qb-expl-image`), portanto herda automaticamente os mesmos limites de tamanho/responsividade da Seção 19.1 — não precisa adicionar CSS novo.
 - Implementado em 2026-07-14. Antes dessa data o campo não existia; questões adicionadas antes disso podem ter imagem de explicação pendente de inclusão — ver auditoria abaixo.
 - **Não existe campo de imagem por idioma nem para `img` nem para `explImg`** (não há `ptTranslation.img` nem `ptTranslation.explImg`) — o campo é único e compartilhado entre EN e PT.
+- O mesmo padrão de refinamento/perfeccionismo do enunciado vale para a explicação: recortar somente a figura/tabela/diagrama relevante, sem UI, sem margem inútil, sem texto cortado e sem alterar o conteúdo visual original.
 
 ### 19.4c Auditoria retroativa — questões que ainda faltam imagem de explicação
 
