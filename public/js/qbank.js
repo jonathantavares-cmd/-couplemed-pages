@@ -14748,6 +14748,86 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0099',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'The aim of a prospective cohort study conducted in a group of adults with diagnosed type 2 diabetes mellitus (T2DM) is to investigate the association between the presence of morbid obesity (BMI >40 kg/m²) and the risk of developing diabetic nephropathy.  One of the groups in the study consists of adults with T2DM, a BMI >40 kg/m², and no diabetic nephropathy.  Which of the following is the most appropriate comparison group for this prospective cohort study?',
+      q:'',
+      options:[
+        {label:'A', text:'Adults with T2DM who have morbid obesity (BMI >40 kg/m²) and diabetic nephropathy'},
+        {label:'B', text:'Adults with T2DM who have normal weight (BMI 18.5 to <25 kg/m²) and diabetic nephropathy'},
+        {label:'C', text:'Adults with T2DM who have normal weight (BMI 18.5 to <25 kg/m²) and no diabetic nephropathy'},
+        {label:'D', text:'Adults without T2DM who have morbid obesity (BMI >40 kg/m²) and no diabetic nephropathy'},
+        {label:'E', text:'Adults without T2DM who have normal weight (BMI 18.5 to <25 kg/m²) and diabetic nephropathy'},
+      ],
+      correct:'C',
+      explC:'A cohort study is an observational design in which potential participants in the population of interest are initially identified as exposed or nonexposed according to the independent variable (ie, exposure status to a risk factor).  Once participants are categorized based on their exposure status, the occurrence (ie, incidence) of the dependent variable (eg, outcome of interest) over a specific period is determined in each group.  Finally, the occurrence of the outcome is compared between exposed and nonexposed groups to estimate the association between the risk factors and the outcomes.  If there is a statistically significant difference in outcome occurrence between the 2 groups, it is likely that the risk factor in question is associated with disease development.\n\nIn this example:\n\n• The population of interest is patients with type 2 diabetes mellitus (T2DM).  Therefore, both the exposed and nonexposed groups must consist of patients with T2DM (Choices D and E).\n\n• The risk factor of interest is morbid obesity (BMI >40 kg/m²).  Therefore, the exposed group is adults with morbid obesity, and the nonexposed group is adults with normal weight (BMI 18.5 to <25 kg/m²) (Choice A).\n\n• The outcome of interest is diabetic nephropathy.  Exposed and nonexposed subjects must be selected with no history of the outcome because the occurrence of the outcome is what is measured during the study period (Choice B).\n\nTherefore, the exposed group is adults with T2DM who have morbid obesity and no diabetic nephropathy; the nonexposed group is adults with T2DM who have normal weight (BMI 18.5 to <25 kg/m²) and no diabetic nephropathy.  Comparing the frequency of the outcome (eg, diabetic nephropathy) between exposed and nonexposed groups is what determines whether exposure to the risk factor (eg, morbid obesity) is associated with the risk of developing the outcome (eg, diabetic nephropathy).',
+      explI:[],
+      objective:'In a cohort study, subjects should be initially selected from the population of interest (eg, T2DM) based on their exposure status to a risk factor (eg, presence or absence of morbid obesity).  Subjects are then monitored during the study period for development of the outcome of interest (eg, diabetic nephropathy).',
+      peer:{A:23, B:8, C:57, D:7, E:2},
+      labs:[
+        {name:'BMI', value:'>40 kg/m² / 18.5 to <25 kg/m²', normal:'Exposure comparison'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0099_expl_cohort_study_design.png',
+      ptTranslation:{
+        vignette:'O objetivo de um estudo de coorte prospectivo conduzido em um grupo de adultos com diabetes mellitus tipo 2 (T2DM) diagnosticado é investigar a associação entre a presença de obesidade mórbida (IMC >40 kg/m²) e o risco de desenvolver nefropatia diabética.  Um dos grupos do estudo consiste em adultos com T2DM, IMC >40 kg/m² e sem nefropatia diabética.  Qual dos seguintes é o grupo de comparação mais apropriado para este estudo de coorte prospectivo?',
+        q:'',
+        objective:'Em um estudo de coorte, os indivíduos devem ser inicialmente selecionados a partir da população de interesse (ex.: T2DM) com base em seu status de exposição a um fator de risco (ex.: presença ou ausência de obesidade mórbida).  Os indivíduos são então monitorados durante o período do estudo quanto ao desenvolvimento do desfecho de interesse (ex.: nefropatia diabética).',
+        options:[
+          {label:'A', text:'Adultos com T2DM que têm obesidade mórbida (IMC >40 kg/m²) e nefropatia diabética'},
+          {label:'B', text:'Adultos com T2DM que têm peso normal (IMC 18,5 a <25 kg/m²) e nefropatia diabética'},
+          {label:'C', text:'Adultos com T2DM que têm peso normal (IMC 18,5 a <25 kg/m²) e sem nefropatia diabética'},
+          {label:'D', text:'Adultos sem T2DM que têm obesidade mórbida (IMC >40 kg/m²) e sem nefropatia diabética'},
+          {label:'E', text:'Adultos sem T2DM que têm peso normal (IMC 18,5 a <25 kg/m²) e nefropatia diabética'},
+        ],
+        explC:'Um estudo de coorte é um desenho observacional em que potenciais participantes na população de interesse são inicialmente identificados como expostos ou não expostos de acordo com a variável independente (ou seja, status de exposição a um fator de risco).  Uma vez que os participantes são categorizados com base em seu status de exposição, a ocorrência (ou seja, incidência) da variável dependente (ex.: desfecho de interesse) durante um período específico é determinada em cada grupo.  Por fim, a ocorrência do desfecho é comparada entre os grupos exposto e não exposto para estimar a associação entre os fatores de risco e os desfechos.  Se houver uma diferença estatisticamente significativa na ocorrência do desfecho entre os 2 grupos, é provável que o fator de risco em questão esteja associado ao desenvolvimento da doença.\n\nNeste exemplo:\n\n• A população de interesse são pacientes com diabetes mellitus tipo 2 (T2DM).  Portanto, tanto os grupos exposto quanto não exposto devem consistir em pacientes com T2DM (alternativas D e E).\n\n• O fator de risco de interesse é obesidade mórbida (IMC >40 kg/m²).  Portanto, o grupo exposto é de adultos com obesidade mórbida, e o grupo não exposto é de adultos com peso normal (IMC 18,5 a <25 kg/m²) (alternativa A).\n\n• O desfecho de interesse é nefropatia diabética.  Indivíduos expostos e não expostos devem ser selecionados sem história do desfecho porque a ocorrência do desfecho é o que será medida durante o período do estudo (alternativa B).\n\nPortanto, o grupo exposto é de adultos com T2DM que têm obesidade mórbida e sem nefropatia diabética; o grupo não exposto é de adultos com T2DM que têm peso normal (IMC 18,5 a <25 kg/m²) e sem nefropatia diabética.  Comparar a frequência do desfecho (ex.: nefropatia diabética) entre os grupos exposto e não exposto é o que determina se a exposição ao fator de risco (ex.: obesidade mórbida) está associada ao risco de desenvolver o desfecho (ex.: nefropatia diabética).',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0100',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'A physician is conducting a double-blind randomized controlled trial to determine the effect of a new cream in reducing the risk of relapse in chronic recurrent atopic dermatitis.  A total of 30 patients with moderate to severe atopic dermatitis who were experiencing a flare are randomly divided into 2 groups: 15 patients will receive the new cream, and 15 patients will receive emollient alone.  The rate of relapse after 2 weeks of treatment is 25% in the group who received the new cream and 50% in the group who received emollient alone.  However, the difference is found to be not statistically significant (p = 0.14).  The physician concludes that use of the new cream does not reduce the risk of relapse in chronic recurrent atopic dermatitis.  Which of the following is most likely to explain the results of the study?',
+      q:'',
+      options:[
+        {label:'A', text:'Ascertainment bias'},
+        {label:'B', text:'Confounding bias'},
+        {label:'C', text:'Ecologic fallacy'},
+        {label:'D', text:'Insufficient statistical power'},
+        {label:'E', text:'Recall bias'},
+      ],
+      correct:'D',
+      explC:'Statistical power represents a study\'s strength to detect a difference (ie, effect size) between treatment groups when one truly exists.  It depends on sample size (among other factors): studies with greater sample sizes have greater power than studies with smaller sample sizes.  An excessively large sample size may determine that a clinically irrelevant difference between groups is statistically significant (ie, p < 0.05), while an inappropriately small sample may determine that a clinically relevant difference between groups is statistically insignificant (ie, p > 0.05).\n\nIn this case, the rate of relapse in the group receiving the new cream is 25% and the rate in the group receiving the emollient alone is 50%.  This represents a relative risk reduction (RRR) of 50% (ie, [50% − 25%] / 50%); therefore, the new cream reduced the risk of relapse by 50% (ie, effect size) compared to emollient alone.  A 50% risk reduction may be considered clinically relevant; however, it was not statistically significant (ie, p = 0.14 > 0.05) in the study.\n\nThe most likely explanation is that the sample size (ie, 15 per group) provided insufficient power to detect the observed difference between groups (ie, effect size, RRR = 50%).  A larger sample size would increase the power of the study (ie, its ability to detect the difference), and the p-value would reach statistical significance (ie, p < 0.05).',
+      explI:[
+        {option:'A', explanation:'Ascertainment bias occurs when the results of a study are distorted by awareness of treatment assignment, as in an unblind study.  This study is double-blinded, thereby minimizing potential ascertainment bias.'},
+        {option:'B', explanation:'Confounding distorts the relationship between exposures (eg, treatments) and the outcome (eg, disease) of interest, and can wholly or partially account for observed effects.  This study is a randomized trial, thereby minimizing potential confounding bias by generating groups that are comparable with respect to known and unknown confounding variables.'},
+        {option:'C', explanation:'Ecological fallacy occurs when conclusions are made about individuals based on studies where the unit of analysis is a group (ie, the conclusions of a study assessing population groups do not necessarily apply to individuals).  In this study, the unit of analysis is the individual, not the group.'},
+        {option:'E', explanation:'Recall bias results from the inaccurate recollection of past exposure status.  It is a potential problem for case-control studies, particularly when questionnaires are used to inquire about distant past exposure.  However, this study is an experiment in which patients are exposed to treatments and then assessed for the outcome.'},
+      ],
+      objective:'An inappropriately small sample will fail to identify important clinically significant differences as statistically significant because of a lack of sufficient statistical power.',
+      peer:{A:3, B:6, C:1, D:88, E:0},
+      labs:[
+        {name:'p-value', value:'0.14', normal:'Not statistically significant at 0.05'},
+        {name:'Sample size', value:'15 per group', normal:'Small sample reduces power'}
+      ],
+      ptTranslation:{
+        vignette:'Um médico está conduzindo um ensaio clínico randomizado duplo-cego para determinar o efeito de um novo creme na redução do risco de recaída na dermatite atópica crônica recorrente.  Um total de 30 pacientes com dermatite atópica moderada a grave que estavam apresentando uma exacerbação são divididos aleatoriamente em 2 grupos: 15 pacientes receberão o novo creme, e 15 pacientes receberão apenas emoliente.  A taxa de recaída após 2 semanas de tratamento é de 25% no grupo que recebeu o novo creme e de 50% no grupo que recebeu apenas emoliente.  No entanto, a diferença é considerada não estatisticamente significativa (p = 0,14).  O médico conclui que o uso do novo creme não reduz o risco de recaída na dermatite atópica crônica recorrente.  Qual dos seguintes mais provavelmente explica os resultados do estudo?',
+        q:'',
+        objective:'Uma amostra inadequadamente pequena deixará de identificar diferenças clinicamente importantes como estatisticamente significativas devido à falta de poder estatístico suficiente.',
+        options:[
+          {label:'A', text:'Viés de verificação'},
+          {label:'B', text:'Viés de confusão'},
+          {label:'C', text:'Falácia ecológica'},
+          {label:'D', text:'Poder estatístico insuficiente'},
+          {label:'E', text:'Viés de recordação'},
+        ],
+        explC:'Poder estatístico representa a força de um estudo para detectar uma diferença (ou seja, tamanho de efeito) entre grupos de tratamento quando ela realmente existe.  Ele depende do tamanho da amostra (entre outros fatores): estudos com amostras maiores têm maior poder do que estudos com amostras menores.  Uma amostra excessivamente grande pode determinar que uma diferença clinicamente irrelevante entre grupos é estatisticamente significativa (ou seja, p < 0,05), enquanto uma amostra inadequadamente pequena pode determinar que uma diferença clinicamente relevante entre grupos é estatisticamente insignificante (ou seja, p > 0,05).\n\nNeste caso, a taxa de recaída no grupo que recebeu o novo creme é de 25% e a taxa no grupo que recebeu apenas o emoliente é de 50%.  Isso representa uma redução relativa do risco (RRR) de 50% (ou seja, [50% − 25%] / 50%); portanto, o novo creme reduziu o risco de recaída em 50% (ou seja, tamanho de efeito) em comparação com o emoliente isolado.  Uma redução de risco de 50% pode ser considerada clinicamente relevante; no entanto, ela não foi estatisticamente significativa (ou seja, p = 0,14 > 0,05) no estudo.\n\nA explicação mais provável é que o tamanho da amostra (ou seja, 15 por grupo) forneceu poder insuficiente para detectar a diferença observada entre os grupos (ou seja, tamanho de efeito, RRR = 50%).  Uma amostra maior aumentaria o poder do estudo (ou seja, sua capacidade de detectar a diferença), e o valor de p alcançaria significância estatística (ou seja, p < 0,05).',
+        explI:[
+          {option:'A', explanation:'Viés de verificação ocorre quando os resultados de um estudo são distorcidos pelo conhecimento da alocação do tratamento, como em um estudo não cego.  Este estudo é duplo-cego, minimizando assim potencial viés de verificação.'},
+          {option:'B', explanation:'Confusão distorce a relação entre exposições (ex.: tratamentos) e o desfecho (ex.: doença) de interesse, e pode explicar total ou parcialmente os efeitos observados.  Este estudo é randomizado, minimizando assim potencial viés de confusão ao gerar grupos comparáveis em relação a variáveis de confusão conhecidas e desconhecidas.'},
+          {option:'C', explanation:'Falácia ecológica ocorre quando conclusões são feitas sobre indivíduos com base em estudos nos quais a unidade de análise é um grupo (ou seja, as conclusões de um estudo que avalia grupos populacionais não necessariamente se aplicam a indivíduos).  Neste estudo, a unidade de análise é o indivíduo, não o grupo.'},
+          {option:'E', explanation:'Viés de recordação resulta da lembrança imprecisa do status de exposição passado.  É um problema potencial em estudos caso-controle, particularmente quando questionários são usados para investigar exposição distante no passado.  No entanto, este estudo é um experimento em que pacientes são expostos a tratamentos e então avaliados quanto ao desfecho.'},
+        ]
+      }
+    },
 
   ];
 
