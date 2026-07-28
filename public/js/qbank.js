@@ -1136,7 +1136,7 @@
         },
 
     // BATCH 03 — Biochemistry (15 questions)
-    { id:'CMQ-STEP1-BCH-0001', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::second_messengers', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0001', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A research scientist develops an agent that specifically blocks the interaction of inositol triphosphate with its intracellular receptor. A study is then performed in which vascular smooth muscle cells are divided into 2 groups: an experimental group treated with the receptor blocker and an untreated control group. Both groups are exposed to phenylephrine.',
       q:'Compared to the control cells, decreased activity of which of the following enzymes is most likely to be observed in the experimental cells?',
       options:[
@@ -1177,7 +1177,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0002', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::urea_cycle', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0002', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'medium',
       vignette:'A 2-year-old boy is brought to the emergency department with fever, vomiting, and sleepiness. He had several episodes of emesis this morning, and his mother was unable to wake him from his afternoon nap. The boy has had mild rhinorrhea and fever for the past 3 days. Since the newborn period, the parents say that the patient has had multiple illnesses characterized by vomiting and sleepiness. Prior laboratory testing revealed increased blood ammonia levels during these episodes and markedly increased orotic acid excretion in the urine. Physical examination shows a tachypneic boy who is unresponsive to all stimuli.',
       q:'Which of the following enzymes is most likely to be deficient in this patient?',
       options:[
@@ -1222,7 +1222,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0003', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0003', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'As part of a research study investigating enzymatic activity in both normal and diseased liver tissue, hepatocytes are isolated from biopsy samples obtained from patients undergoing routine care at a local tertiary referral center. The cells are homogenized and centrifuged to remove membrane components and organelles. Following subsequent rounds of centrifugation, the remaining supernatant contains only cytosol and cytosolic proteins.',
       q:'Activity of which of the following enzymes will most likely be detectable in the supernatant of healthy liver cells?',
       options:[
@@ -1262,7 +1262,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0004', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::vitamins_cofactors', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0004', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A 78-year-old woman comes to the office due to tenderness and easy bleeding of the gums when she brushes her teeth. The patient has brushed her teeth twice a day for as long as she can remember and has not experienced these symptoms before. Physical examination shows swollen gingiva that bleed on probing. Her skin findings are shown in the image below. Further questioning reveals that the patient lives alone and that her diet consists primarily of tea and toast.',
       q:'Her symptoms are most likely caused by hypoactivity of an enzyme found in which of the following compartments?',
       options:[
@@ -1310,7 +1310,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0005', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0005', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'medium',
       vignette:'As part of an experiment, healthy volunteers undergo a 12-hour fast and then drink a solution containing radiolabeled alanine. Consecutive blood samples are drawn every 15 minutes for the next 3 hours. Initial blood samples detect the radiolabeled alanine, but analysis of later samples shows that the radiotracer is present in blood primarily in the form of glucose.',
       q:'Before alanine can be converted to glucose, its amino group is transferred to which of the following?',
       options:[
@@ -1351,7 +1351,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0006', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::homocysteine', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0006', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'medium',
       vignette:'A 34-year-old previously healthy man comes to the emergency department due to a 3-hour history of chest pain, diaphoresis, and dyspnea. He does not smoke, exercises regularly, and eats a balanced diet. His father died at age 56 from a myocardial infarction. His blood pressure is 110/70 mm Hg and pulse is 110/min and regular. Physical examination is unremarkable. ECG shows ST elevation in the anterolateral leads. Coronary angiogram reveals proximal left anterior descending artery stenosis and thrombosis, which is treated with angioplasty and stent placement. Laboratory results are as follows:\n\nTotal cholesterol: 160 mg/dL\nLow-density lipoprotein: 90 mg/dL\nGlucose, serum: 98 mg/dL\nHomocysteine, plasma: 21.5 µmol/L (normal: 4-14 µmol/L)\n\nFurther testing reveals a homozygous mutation in the methylene tetrahydrofolate reductase gene that leads to decreased enzymatic activity.',
       q:'Due to this defect, the patient most likely has impairment converting homocysteine to which of the following?',
       options:[
@@ -1392,7 +1392,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0007', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::homocysteine', difficulty:'easy',
+    { id:'CMQ-STEP1-BCH-0007', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'easy',
       vignette:'A 12-year-old boy is brought to the emergency department with severe chest pain. He has had intermittent substernal chest pain for the past few months that typically occurs after heavy activity. The boy\'s activities have been limited due to the chest pain, and he is no longer able to play on the soccer team. The patient does not use tobacco or illicit drugs. His temperature is 36.7 C (98 F), blood pressure is 130/80 mm Hg, pulse is 132/min, respirations are 24/min, and pulse oximetry is 98% on room air. BMI is 17 kg/m². Physical examination shows an anxious-appearing boy with a rapid but regular pulse. No abnormalities are seen. Troponin is elevated, and ECG reveals ST segment elevations in leads II, III, and aVF. After acute stabilization and treatment, further laboratory workup shows an increased serum methionine level.',
       q:'Which of the following amino acids is most likely essential in this patient?',
       options:[
@@ -1441,7 +1441,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0008', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::urea_cycle', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0008', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A 3-year-old boy is brought to the office due to abnormal motor development. He was born at 40 weeks gestation and had an unremarkable perinatal course. The boy developed normally during the first year of life. However, for the past 2 years, he has had progressive bilateral leg stiffness and abnormal involuntary movements. His cognitive and motor development is also delayed. There is no significant family history of neurological or muscular disorders. The patient\'s height, weight, and head circumference are below the 3rd percentile. Examination shows bilateral spastic paresis of his lower extremities and frequent choreoathetoid movements. Comprehensive laboratory testing reveals significantly elevated arginine levels in plasma and cerebrospinal fluid.',
       q:'The deficient enzyme in this patient is normally involved in the production of which of the following?',
       options:[
@@ -1489,7 +1489,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0009', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::urea_cycle', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0009', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A 4-day-old boy born to a 23-year-old woman is brought to the office for evaluation of poor feeding and vomiting. The pregnancy was uneventful and the mother had a normal delivery. Family history is noncontributory. The patient\'s temperature is 37.2 C (99 F), blood pressure is 60/30 mm Hg, pulse is 110/min, and respirations are 56/min. Physical examination reveals a lethargic newborn with exaggerated deep tendon reflexes and clonus. Further investigation reveals that the patient has an inherited condition that results in impaired transport of ornithine from the cytosol to the mitochondria.',
       q:'Nutritional restriction of which of the following substances can improve this patient\'s condition?',
       options:[
@@ -1542,7 +1542,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0010', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::protein_structure', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0010', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'medium',
       vignette:'A dermatology researcher is studying the role of different amino acids in wound healing. She cultures mature dermal fibroblasts in growth media. After several days, the fibroblasts begin synthesizing polypeptide chains that assemble into triple helical structures, followed by fibrils. The fibrillar proteins are hydrolyzed and separated into their constituent amino acids via paper chromatography.',
       q:'Which of the following amino acids is most likely to be found in highest quantity in these proteins?',
       options:[
@@ -1578,7 +1578,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0011', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::vitamins_cofactors', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0011', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'medium',
       vignette:'A 12-year-old boy is brought to the office due to gait instability and pruritic skin rash for the past several weeks. His mother reports that he has also been irritable and had loose stools during this time. The patient\'s childhood development has been unremarkable except for several episodes of similar skin rash that resolved spontaneously. Examination shows scaly, erythematous skin lesions in sun-exposed areas and cerebellar ataxia. Laboratory evaluation shows increased levels of neutral amino acids in the urine.',
       q:'This patient\'s symptoms would most likely respond to which of the following supplements?',
       options:[
@@ -1628,7 +1628,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0012', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::protein_structure', difficulty:'easy',
+    { id:'CMQ-STEP1-BCH-0012', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'easy',
       vignette:'A 24-year-old woman comes to the office for a preemployment medical evaluation. The patient has no known medical problems but reports that her skin bruises and scars easily. She says that most of her family members have a very "flexible" body, and her brother works in a circus as a contortionist. The patient takes no medications and has no allergies. She does not use tobacco, alcohol, or drugs. Physical examination findings are shown in the exhibit.',
       q:'This patient most likely has an inherited defect in which of the following proteins?',
       options:[
@@ -1673,7 +1673,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0013', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::organic_acidemias', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0013', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A 7-day-old neonate born to a 28-year-old woman is brought to the office due to progressive lethargy, vomiting, and poor feeding. The mother reports an uneventful pregnancy and perinatal course. She exclusively breastfeeds the infant and has no medical problems in any of her other children. On examination, the infant is somnolent and dehydrated with decreased muscle tone. Laboratory studies reveal metabolic acidosis with an elevated anion gap, ketosis, and hypoglycemia. Further evaluation reveals a markedly elevated propionic acid level due to defective conversion of propionyl-CoA to methylmalonyl-CoA.',
       q:'This patient is most likely unable to use which of the following amino acids for energy production?',
       options:[
@@ -1726,7 +1726,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0014', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::lysosomal_storage_diseases', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0014', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'medium',
       vignette:'A 2-year-old boy is being evaluated at the office for failure to thrive and developmental delay. Medical history is significant for recurrent ear infections since 6 months of age. Physical examination shows corneal clouding, hepatosplenomegaly, and restricted joint mobility. Further evaluation shows deficient phosphorylation of mannose residues on certain glycoproteins in the Golgi apparatus.',
       q:'In unaffected patients, these proteins are normally transported to which of the following cellular locations?',
       options:[
@@ -1816,7 +1816,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0016', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0016', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A 14-month-old boy is evaluated for failure to thrive and developmental delay. His mother reports that at 12 months he could barely lift his head and had difficulty sitting unsupported. The toddler has not started babbling or forming words. He is at the 10th percentile for height and 5th percentile for weight. Laboratory results are as follows: Hemoglobin 8.6 g/dL, mean corpuscular volume 114 fL, reticulocytes 1%, and plasma ammonia 42 µg/dL (normal: 40-80 µg/dL). Urine specimens contain large amounts of orotic acid crystals.',
       q:'Supplementation with which of the following substances would most likely benefit this patient?',
       options:[
@@ -1869,7 +1869,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0017', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0017', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'An autopsy is performed on a 9-month-old boy who died due to refractory seizures. The patient\'s family had recently immigrated to the United States, and he had a history of severe developmental delay and seizures. Examination shows microcephaly and skin with diffuse hypopigmentation. Further work-up reveals deficiency of a cofactor required for the formation of neurotransmitters found predominantly in the substantia nigra and locus caeruleus.',
       q:'The absence of this cofactor is most likely to directly affect the function of which of the following enzymes?',
       options:[
@@ -1911,7 +1911,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0018', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0018', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A research scientist is studying biochemical reactions that take place in the liver. He cultures hepatocytes in a growth media enriched with glutamate labeled with nitrogen isotopes. After some time, he finds that the nitrogen isotopes are transferred to oxaloacetate, forming aspartate in the process.',
       q:'Which of the following substances is most likely involved in this reaction?',
       options:[
@@ -1956,7 +1956,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0019', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0019', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'medium',
       vignette:'Succinate dehydrogenase (SDH) is an enzyme complex located within the inner mitochondrial membrane that catalyzes the oxidation of succinate to fumarate. An experiment is conducted to determine if malate alters the rate of SDH activity. Reaction velocity is measured with and without a fixed quantity of malate as succinate concentration is gradually increased. Obtained results are shown below.\n\nSuccinate concentration (mM) | Rate of reaction without malate (µmol/L/sec) | Rate of reaction with malate (µmol/L/sec)\n2 | 80 | 40\n8 | 200 | 120\n16 | 280 | 200\n64 | 400 | 400\n128 | 400 | 400',
       q:'Which of the following is the most accurate statement about malate in this experiment?',
       options:[
@@ -1998,7 +1998,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0020', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0020', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A 2-year-old boy is evaluated for easy bruising. His parents report that he develops marked bruising and open wounds following minor trauma. The skin is difficult to suture due to its extreme fragility. Physical examination reveals hyperextensible skin, multiple ecchymoses over the forearms and pretibial regions, and an umbilical hernia. A skin biopsy is performed, and histochemical evaluation of the biopsy reveals a defect in extracellular processing of collagen.',
       q:'Which of the following steps of collagen synthesis is most likely impaired in this patient?',
       options:[
@@ -3158,7 +3158,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0045', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0045', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::misc', difficulty:'hard',
       vignette:'A 54-year-old man comes to the emergency department with a 3-month history of fatigue and exertional dyspnea. He has early satiety and frequent upper abdominal discomfort. On physical examination, the patient has palpable splenomegaly but no lymphadenopathy. Laboratory tests are as follows:\nComplete blood count\nHemoglobin 9.2 mg/dL\nPlatelets 80,000/mm3\nLeukocytes 56,000/mm3\nReverse transcription polymerase chain reaction is used to diagnose chronic myelogenous leukemia in this patient.',
       q:'Which of the following is most likely to be detected by this test?',
       options:[
@@ -3196,7 +3196,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0046', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::homocysteine', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0046', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::misc', difficulty:'medium',
       vignette:'A 20-year-old woman comes to the clinic for evaluation of fatigue that has progressively worsened over the past month. The patient was recently diagnosed with celiac disease, but she has not strictly adhered to a gluten-free diet. Laboratory evaluation reveals macrocytic anemia with a low folate level but normal vitamin B12 level. Oral folic acid is prescribed.',
       q:'Which of the following biochemical changes is most likely to occur in this patient after starting treatment? (Homocysteine / Methionine / Methylmalonic acid)',
       options:[
@@ -3243,7 +3243,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0047', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::lysosomal_storage_diseases', difficulty:'medium',
+    { id:'CMQ-STEP1-BCH-0047', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::misc', difficulty:'medium',
       vignette:'An autopsy is being performed on a 4-year-old boy who recently died from a myocardial infarction. The child had a history of intellectual disability. Autopsy shows a prominent forehead and broad nose. There is a diffuse haze over the corneas bilaterally. The heart, liver, and spleen are enlarged.',
       q:'Sampling of the coronary arteries is most likely to reveal intimal accumulation of which of the following substances?',
       options:[
@@ -3284,7 +3284,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-BCH-0048', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::cell_molecular_biology', difficulty:'hard',
+    { id:'CMQ-STEP1-BCH-0048', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::misc', difficulty:'hard',
       vignette:'A mutation in a non-coding DNA sequence is believed to affect expression of the gene coding for a specific fetal enzyme. Liver and bone marrow cells from the fetus and his parents are obtained.',
       q:'Which of the following is the best method to determine if this gene is being transcribed in cultures of the isolated cells?',
       options:[
@@ -15852,7 +15852,7 @@
      por sistema (systemId::slug) para garantir unicidade. É a fonte única do accordion. */
   const TAXONOMY = [
     {id:'biochemistry', name:'Biochemistry', subs:[
-      ['amino_acids_proteins_enzymes','Amino acids, proteins, and enzymes'],['bioenergetics_carb_metabolism','Bioenergetics and carbohydrate metabolism'],['cell_molecular_biology','Cell and molecular biology'],['lipid_metabolism','Lipid metabolism'],['second_messengers','Second messengers'],['urea_cycle','Urea cycle'],['vitamins_cofactors','Vitamins and cofactors'],['homocysteine','Homocysteine'],['protein_structure','Protein structure'],['organic_acidemias','Organic acidemias'],['lysosomal_storage_diseases','Lysosomal storage diseases'],['misc','Others']]},
+      ['amino_acids_proteins_enzymes','Amino acids, proteins, and enzymes'],['bioenergetics_carb_metabolism','Bioenergetics and carbohydrate metabolism'],['cell_molecular_biology','Cell and molecular biology'],['lipid_metabolism','Lipid metabolism'],['misc','Miscellaneous']]},
     {id:'genetics', name:'Genetics', subs:[
       ['clinical_genetics','Clinical genetics'],['dna_structure_replication_repair','DNA structure, replication, and repair'],['gene_expression_regulation','Gene expression and regulation'],['protein_synthesis','Protein synthesis'],['rna_structure_synthesis_processing','RNA structure, synthesis, and processing'],['misc','Others']]},
     {id:'microbiology', name:'Microbiology', subs:[
