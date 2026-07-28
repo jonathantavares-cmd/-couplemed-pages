@@ -14703,6 +14703,51 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0098',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'A genome-wide association study (GWAS) of rheumatoid arthritis (RA) is performed in a cohort of Portuguese patients, including 907 cases with RA and 1,524 controls without RA.  Logistic regression is used to test the association between RA and hundreds of thousands of loci.  These association results are then compared with data from a European GWAS cohort of 4,036 patients with RA and 6,959 patients without RA.  Finally, the Portuguese and European study results are combined into a meta-analysis.  Based on these data, the investigators identify 3 new loci that are associated with RA based on a significance level threshold of 5 × 10⁻⁸.',
+      q:'Previous studies had identified 30 loci that accounted for <35% of disease heritability for RA.  Which of the following statements is correct regarding this study?',
+      options:[
+        {label:'A', text:'Combining the results of the European and Portuguese studies into a meta-analysis decreases the power'},
+        {label:'B', text:'Logistic regression is used because there is a stepwise increase in the strength of association from Locus 1 to Locus 3'},
+        {label:'C', text:'The association between Locus 1 and RA in the meta-analysis is not statistically significant because the odds ratio is <1'},
+        {label:'D', text:'The threshold used for the p-value in the meta-analysis is 5 × 10⁻⁸ because of the large number of loci studied'},
+        {label:'E', text:'With this meta-analysis, the 33 identified loci account for most disease heritability in RA'},
+      ],
+      correct:'D',
+      explC:'Genome-wide association studies (GWAS) are typically case-control studies that involve scanning thousands of genetic markers in subjects with and without a disease to identify associations between genetic variants (eg, loci) and that disease.  GWAS often use single-nucleotide polymorphisms (SNPs), with several million SNPs analyzed on 1 microscope slide.\n\nIn this case, GWAS are used to analyze hundreds of thousands of loci in Portuguese patients with and without rheumatoid arthritis (RA).  The results are compared to those from a larger European cohort; both studies are then combined in a meta-analysis.  A few loci have SNPs with an allele that is significantly more common among patients with RA than those without RA; these loci are therefore associated with RA.\n\nWhenever multiple tests are performed simultaneously (eg, analyzing thousands of loci), the possibility of false-positive results increases.  Using a much smaller threshold for the p-value is a method to minimize this.  Traditionally, a p-value <5% is considered statistically significant.  However, if 100,000 loci are studied at that 5% (ie, 0.05, 5 × 10⁻²) level, then 100,000 × 0.05 = 5,000 false positives would be expected.  With a much smaller p-value, this number decreases substantially.  For this reason, a p-value of 5 × 10⁻⁸ ("genome-wide p-value"), as seen here, is often chosen in GWAS.',
+      explI:[
+        {option:'A', explanation:'A meta-analysis combines results from different studies, thereby increasing sample size, which increases power (eg, to detect statistical differences between groups).'},
+        {option:'B', explanation:'Logistic regression was used because it analyzes the association between exposures (eg, multiple loci) and binary outcomes (eg, yes = cases with RA; no = controls without RA).'},
+        {option:'C', explanation:'An odds ratio (OR) <1 does not imply a lack of statistically significant association.  If an OR >1 means that patients with RA have higher odds of having a specific locus compared to those without RA (ie, risk factor), an OR <1 means that patients with RA have lower odds of having that specific locus (ie, protective factor).  The OR for the association between Locus 1 and RA is statistically significant because its p-value (3.5 × 10⁻⁸) is less than the genome-wide p-value (5 × 10⁻⁸).'},
+        {option:'E', explanation:'GWAS help explain disease heritability (ie, effect of genotypic differences on phenotypic differences).  Although this study identified 3 new loci, there is no indication that the full group of 33 loci will explain most RA disease heritability.  GWAS have identified many genes associated with specific conditions, but these genes only seem to explain a small amount of the variance ("missing heritability").'},
+      ],
+      objective:'Genome-wide association studies aim to identify associations between thousands of genetic variants and a disease.  Because of the increased risk of false-positive results when multiple tests are performed simultaneously, a smaller genome-wide p-value is typically used.',
+      peer:{A:6, B:25, C:19, D:38, E:9},
+      labs:[
+        {name:'Genome-wide p-value threshold', value:'5 × 10⁻⁸', normal:'More stringent than 0.05 due to multiple testing'}
+      ],
+      img:'assets/qbank/CMQ-STEP1-BST-0098_gwas_ra_meta_analysis_table.png',
+      ptTranslation:{
+        vignette:'Um estudo de associação genômica ampla (GWAS) de artrite reumatoide (RA) é realizado em uma coorte de pacientes portugueses, incluindo 907 casos com RA e 1.524 controles sem RA.  Regressão logística é usada para testar a associação entre RA e centenas de milhares de loci.  Esses resultados de associação são então comparados com dados de uma coorte europeia de GWAS de 4.036 pacientes com RA e 6.959 pacientes sem RA.  Finalmente, os resultados dos estudos português e europeu são combinados em uma meta-análise.  Com base nesses dados, os investigadores identificam 3 novos loci associados à RA com base em um limiar de nível de significância de 5 × 10⁻⁸.',
+        q:'Estudos prévios haviam identificado 30 loci que respondiam por <35% da herdabilidade da doença para RA.  Qual das seguintes afirmações está correta em relação a este estudo?',
+        objective:'Estudos de associação genômica ampla buscam identificar associações entre milhares de variantes genéticas e uma doença.  Devido ao risco aumentado de resultados falso-positivos quando múltiplos testes são realizados simultaneamente, um valor de p genômico mais estrito é tipicamente usado.',
+        options:[
+          {label:'A', text:'Combinar os resultados dos estudos europeu e português em uma meta-análise diminui o poder'},
+          {label:'B', text:'Regressão logística é usada porque há um aumento gradual na força da associação do Locus 1 ao Locus 3'},
+          {label:'C', text:'A associação entre Locus 1 e RA na meta-análise não é estatisticamente significativa porque a razão de chances é <1'},
+          {label:'D', text:'O limiar usado para o valor de p na meta-análise é 5 × 10⁻⁸ por causa do grande número de loci estudados'},
+          {label:'E', text:'Com esta meta-análise, os 33 loci identificados respondem pela maior parte da herdabilidade da doença em RA'},
+        ],
+        explC:'Estudos de associação genômica ampla (GWAS) são tipicamente estudos caso-controle que envolvem o rastreamento de milhares de marcadores genéticos em indivíduos com e sem uma doença para identificar associações entre variantes genéticas (ex.: loci) e essa doença.  GWAS frequentemente usam polimorfismos de nucleotídeo único (SNPs), com vários milhões de SNPs analisados em 1 lâmina de microscópio.\n\nNeste caso, GWAS são usados para analisar centenas de milhares de loci em pacientes portugueses com e sem artrite reumatoide (RA).  Os resultados são comparados aos de uma coorte europeia maior; ambos os estudos são então combinados em uma meta-análise.  Alguns loci têm SNPs com um alelo significativamente mais comum entre pacientes com RA do que entre aqueles sem RA; esses loci são, portanto, associados à RA.\n\nSempre que múltiplos testes são realizados simultaneamente (ex.: analisando milhares de loci), a possibilidade de resultados falso-positivos aumenta.  Usar um limiar muito menor para o valor de p é um método para minimizar isso.  Tradicionalmente, um valor de p <5% é considerado estatisticamente significativo.  No entanto, se 100.000 loci forem estudados nesse nível de 5% (ou seja, 0,05, 5 × 10⁻²), então 100.000 × 0,05 = 5.000 falso-positivos seriam esperados.  Com um valor de p muito menor, esse número diminui substancialmente.  Por esse motivo, um valor de p de 5 × 10⁻⁸ ("valor de p genômico"), como visto aqui, é frequentemente escolhido em GWAS.',
+        explI:[
+          {option:'A', explanation:'Uma meta-análise combina resultados de diferentes estudos, aumentando assim o tamanho da amostra, o que aumenta o poder (ex.: para detectar diferenças estatísticas entre grupos).'},
+          {option:'B', explanation:'Regressão logística foi usada porque analisa a associação entre exposições (ex.: múltiplos loci) e desfechos binários (ex.: sim = casos com RA; não = controles sem RA).'},
+          {option:'C', explanation:'Uma razão de chances (OR) <1 não implica ausência de associação estatisticamente significativa.  Se uma OR >1 significa que pacientes com RA têm maiores chances de ter um locus específico em comparação com aqueles sem RA (ou seja, fator de risco), uma OR <1 significa que pacientes com RA têm menores chances de ter esse locus específico (ou seja, fator protetor).  A OR para a associação entre Locus 1 e RA é estatisticamente significativa porque seu valor de p (3,5 × 10⁻⁸) é menor que o valor de p genômico (5 × 10⁻⁸).'},
+          {option:'E', explanation:'GWAS ajudam a explicar herdabilidade de doenças (ou seja, efeito de diferenças genotípicas sobre diferenças fenotípicas).  Embora este estudo tenha identificado 3 novos loci, não há indicação de que o grupo completo de 33 loci explicará a maior parte da herdabilidade da doença em RA.  GWAS identificaram muitos genes associados a condições específicas, mas esses genes parecem explicar apenas uma pequena quantidade da variância ("herdabilidade ausente").'},
+        ]
+      }
+    },
 
   ];
 
