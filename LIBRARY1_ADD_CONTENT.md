@@ -22,7 +22,7 @@ Gatilhos reconhecidos: **"adicionar Library 1"**, "adicionar conteúdo à Librar
 4. **Identificar, para cada arquivo, a qual tópico do site ele pertence** — o caminho da pasta já é a resposta (Seção 3: `Subject/Tópico/arquivo`). Não adivinhar por conteúdo quando o caminho já diz.
 5. **Aplicar a Regra de Fidelidade (Seção 1)** — o material é conteúdo próprio do usuário; transcrever verbatim.
 6. **Gravar o conteúdo** no arquivo de destino correspondente (Seção 5), sempre **bilíngue EN + PT no mesmo commit** (Seção 6).
-7. **Validar**: `node --check` no(s) arquivo(s) alterado(s) + conferir que o tópico abre no site (Seção 9).
+7. **Validar**: `node --check` no(s) arquivo(s) alterado(s) + conferir que o tópico abre no site (Seção 9) + aplicar o checklist responsivo de `RESPONSIVE_BREAKPOINTS.md` para texto, tabelas, imagens, flashcards e narração em desktop/27", MacBook, iPad e mobile.
 8. **AUDITAR (obrigatório, Seção 11.1)**: `node tools/library1-audit.js "<Subject>" "<Tópico>"`. Tem de sair ✅ — se sair ❌, corrigir e rodar de novo antes de qualquer outra coisa.
 9. **CRIAR OS 30 FLASHCARDS (obrigatório, Seção 11.4)** — bilíngues EN+PT, em `public/js/library1-flashcards/<subject-slug>.js`, seguindo o padrão da Seção 11.5 (todo card com `why`, mistura de tipos, imagens do próprio tópico). São **30**, não 20 — a contradição no doc foi corrigida em 2026-07-26. Conferir com:
    ```bash
@@ -933,6 +933,19 @@ Emoji e cor **não** entram como enfeite. Nada de gradiente atrás de texto, nem
 ### Distribuição no primeiro tópico (Acute rheumatic fever)
 
 11 `recall` · 7 `contrast` · 4 `image` · 3 `cloze` · 2 `why` · 2 `case` · 1 `mnemonic` = **30**, todos bilíngues, 8 com imagem, todos com `why`.
+
+## 11.6 Responsividade obrigatória para Library 1
+
+Antes de marcar qualquer tópico como concluído com `✅`, ler e aplicar `RESPONSIVE_BREAKPOINTS.md` junto com este arquivo. A página precisa funcionar corretamente em monitor grande/27", desktop, MacBook, iPad e mobile.
+
+Checklist mínimo:
+
+- Texto, tabelas e imagens EN/PT não podem gerar overflow horizontal, sobreposição ou cortes ilegíveis.
+- Imagens e tabelas precisam preservar legenda, unidades, títulos e notas em telas pequenas.
+- Flashcards do tópico precisam caber no Browse e na tela de estudo; botões com rótulos longos em PT devem quebrar linha corretamente.
+- Narração e barra do leitor não podem sobrepor o menu mobile nem bloquear conteúdo essencial.
+- Falha responsiva bloqueia o `✅`; corrigir CSS/asset/markup antes de marcar a subpasta como concluída.
+
 ## 12. ESTADO ATUAL (onde paramos)
 
 **Último trabalho: 2026-07-26.** Tudo abaixo está commitado e publicado.

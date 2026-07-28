@@ -111,6 +111,23 @@ Quando o usuário pedir auditoria/refinamento de questões já incluídas por VS
    - checagem responsiva conforme `RESPONSIVE_BREAKPOINTS.md`/Seção 22: as questões e imagens precisam renderizar corretamente em monitor grande/27", desktop, MacBook, iPad e mobile, sem desalinhamento, corte indevido, overflow horizontal, texto sobreposto ou imagem ilegível.
 7. Só depois de corrigir tudo da subpasta, inclusive problemas de responsividade, marcar a subpasta com `✅`. Só depois de todas as subpastas estarem marcadas, marcar a pasta principal com `✅`.
 
+### 0.6 Estado local da auditoria QBank 1 no Desktop — atualizado 2026-07-28
+
+Ao retomar `/Users/jonathan/Desktop/Questões Novas QBank 1/`, usar primeiro os `✅` nos nomes das pastas/subpastas. Eles são o marcador operacional principal; relatórios `.txt` dentro das pastas são apenas recibos auxiliares.
+
+Pastas já concluídas/auditadas e marcadas:
+
+| Pasta | Status final no QBank |
+|---|---|
+| `01 - Biochemistry ✅` | 65 questões: Amino acids/proteins/enzymes 20; Bioenergetics/carbohydrate metabolism 21; Cell and molecular biology 17; Lipid metabolism 3; Miscellaneous 4 |
+| `02 - Genetics ✅` | 62 questões: Clinical genetics 21; DNA structure/replication/repair 18; Gene expression/regulation 7; Protein synthesis 1; RNA structure/synthesis/processing 13; Miscellaneous 2 |
+| `03 - Microbiology ✅` | 30 questões: Bacteriology 15; Mycology 2; Parasitology 1; Virology 10; Miscellaneous 2 |
+| `04 - Pathology ✅` | 39 questões: Cellular pathology 6; Inflammation and repair 2; Neoplasia 31 |
+| `05 - Pharmacology ✅` | Auditada/concluída e marcada no Desktop |
+| `06 - Biostatistics & Epidemiology ✅` | 120 questões: Epidemiology and population health 31; Measures and distribution of data 11; Probability and principles of testing 23; Study design and interpretation 54; Miscellaneous 1 |
+
+Próximo processamento normal: começar pela primeira pasta sem `✅` (`07 - Poisoning & Environmental Exposure`) e seguir em ordem até `26 - Miscellaneous (Multisystem)`, sempre pulando qualquer pasta/subpasta que já estiver marcada.
+
 **Sobre permissões de comando:** desde 2026-07-13, comandos de terminal (Bash/Read/Write) rodam em modo bypass — não pedem mais aprovação individual —, por isso este modo consegue rodar do início ao fim sem interrupção por prompt de permissão. Isso é independente da exigência de fidelidade (Seção 0.1), que continua valendo normalmente: só o gate de *aprovação humana antes do commit* foi removido, não a exigência de transcrever certo.
 
 **Sobre o computador entrar em repouso/pausa durante o processamento:**
