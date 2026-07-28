@@ -14921,6 +14921,99 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0103',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A study is performed to compare the effect of tramadol when compared to placebo for painful polyneuropathy.  Fifty patients are selected and randomly allocated to 1 of 2 treatment sequences:  Tramadol followed by placebo, or placebo followed by tramadol.  The initial treatment period is delivered for 4 weeks followed by an interim 1-week washout phase, after which the second treatment period is delivered for an additional 4 weeks.  After each treatment period, patients use a 10-point numerical scale to rate pain, paresthesia, and tenderness.  Which of the following best describes this study design?',
+      q:'',
+      options:[
+        {label:'A', text:'Case-control study'},
+        {label:'B', text:'Case series study'},
+        {label:'C', text:'Crossover study'},
+        {label:'D', text:'Cross-sectional study'},
+        {label:'E', text:'Prospective cohort study'},
+        {label:'F', text:'Retrospective cohort study'},
+      ],
+      correct:'C',
+      explC:'In this example, patients are allocated to 1 of 2 treatment groups:  Group A receives placebo followed by tramadol and Group B receives tramadol followed by placebo.  After the initial 4-week treatment period and the 1-week washout phase, the treatments are switched and delivered for an additional 4 weeks.  This is consistent with a crossover study, in which subjects are randomly allocated to a sequence of 2 or more treatments given consecutively.  The simplest model is the AB/BA type of study in which half of the subjects are allocated to the AB study arm and receive treatment A followed by treatment B, while the other half of the subjects are allocated to the BA study arm and receive the same treatments but in reverse order.  In this way, crossover trials allow the patients to serve as their own controls.\n\nThe principal drawback of crossover trials is that the effects of one treatment may carry over and alter the response to a subsequent treatment.  To avoid this, a washout phase (no treatment) is often added between treatments.  The washout period is designed to be long enough to allow the effects of prior treatment to wear off.',
+      explI:[
+        {option:'A', explanation:'A case-control study is designed by selecting patients with a particular disease (cases) and without that disease (controls), then determining their past exposure status to ≥1 risk factors believed to be associated with the disease of interest.'},
+        {option:'B', explanation:'A case series is a descriptive study that tracks patients with a known condition (eg, a particular exposure, risk factor, or disease) to document the natural history or response to treatment.  Unlike a case-control study, a case series is a descriptive study that cannot quantify statistical significance.'},
+        {option:'D', explanation:'A cross-sectional study is also known as a prevalence study.  It is characterized by the simultaneous measurement of exposure and outcome.  It is a snapshot study design that frequently uses surveys.  These studies are relatively inexpensive and easy to perform.'},
+        {option:'E and F', explanation:'Prospective cohort studies identify 2 groups of individuals (ie, cohorts), based on their exposure status to a risk factor.  These 2 cohorts are then followed over time to assess development of the disease of interest.  Sometimes the exposure status is determined retrospectively, typically using medical records, and patients are tracked from the point of exposure onward.'},
+      ],
+      objective:'In a crossover study, subjects are randomly allocated to a sequence of 2 or more treatments given consecutively.  A washout (no treatment) period is often added between treatment intervals to limit the confounding effects of prior treatment.',
+      peer:{A:11, B:5, C:63, D:4, E:13, F:1},
+      labs:[
+        {name:'Washout phase', value:'1 week', normal:'Limits carryover effect'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0103_expl_crossover_study_design.png',
+      ptTranslation:{
+        vignette:'Um estudo é realizado para comparar o efeito do tramadol em relação ao placebo para polineuropatia dolorosa.  Cinquenta pacientes são selecionados e alocados aleatoriamente para 1 de 2 sequências de tratamento:  tramadol seguido de placebo, ou placebo seguido de tramadol.  O período inicial de tratamento é administrado por 4 semanas, seguido por uma fase intermediária de washout de 1 semana, após a qual o segundo período de tratamento é administrado por mais 4 semanas.  Após cada período de tratamento, os pacientes usam uma escala numérica de 10 pontos para classificar dor, parestesia e sensibilidade.  Qual dos seguintes melhor descreve este desenho de estudo?',
+        q:'',
+        objective:'Em um estudo crossover, os indivíduos são alocados aleatoriamente a uma sequência de 2 ou mais tratamentos administrados consecutivamente.  Um período de washout (sem tratamento) é frequentemente adicionado entre os intervalos de tratamento para limitar os efeitos de confusão do tratamento prévio.',
+        options:[
+          {label:'A', text:'Estudo caso-controle'},
+          {label:'B', text:'Estudo de série de casos'},
+          {label:'C', text:'Estudo crossover'},
+          {label:'D', text:'Estudo transversal'},
+          {label:'E', text:'Estudo de coorte prospectivo'},
+          {label:'F', text:'Estudo de coorte retrospectivo'},
+        ],
+        explC:'Neste exemplo, os pacientes são alocados para 1 de 2 grupos de tratamento:  o grupo A recebe placebo seguido por tramadol e o grupo B recebe tramadol seguido por placebo.  Após o período inicial de tratamento de 4 semanas e a fase de washout de 1 semana, os tratamentos são trocados e administrados por mais 4 semanas.  Isso é consistente com um estudo crossover, no qual os indivíduos são alocados aleatoriamente a uma sequência de 2 ou mais tratamentos administrados consecutivamente.  O modelo mais simples é o tipo de estudo AB/BA, no qual metade dos indivíduos é alocada ao braço AB do estudo e recebe o tratamento A seguido pelo tratamento B, enquanto a outra metade dos indivíduos é alocada ao braço BA do estudo e recebe os mesmos tratamentos, mas em ordem reversa.  Dessa forma, ensaios crossover permitem que os pacientes sirvam como seus próprios controles.\n\nA principal desvantagem dos ensaios crossover é que os efeitos de um tratamento podem se prolongar e alterar a resposta a um tratamento subsequente.  Para evitar isso, uma fase de washout (sem tratamento) é frequentemente adicionada entre os tratamentos.  O período de washout é planejado para ser longo o suficiente para permitir que os efeitos do tratamento prévio desapareçam.',
+        explI:[
+          {option:'A', explanation:'Um estudo caso-controle é desenhado selecionando pacientes com uma doença particular (casos) e sem essa doença (controles), e então determinando seu status de exposição passado a ≥1 fatores de risco considerados associados à doença de interesse.'},
+          {option:'B', explanation:'Uma série de casos é um estudo descritivo que acompanha pacientes com uma condição conhecida (ex.: uma exposição, fator de risco ou doença particular) para documentar a história natural ou resposta ao tratamento.  Diferentemente de um estudo caso-controle, uma série de casos é um estudo descritivo que não pode quantificar significância estatística.'},
+          {option:'D', explanation:'Um estudo transversal também é conhecido como estudo de prevalência.  Ele é caracterizado pela mensuração simultânea de exposição e desfecho.  É um desenho de estudo de instantâneo que frequentemente usa pesquisas.  Esses estudos são relativamente baratos e fáceis de realizar.'},
+          {option:'E e F', explanation:'Estudos de coorte prospectivos identificam 2 grupos de indivíduos (ou seja, coortes), com base em seu status de exposição a um fator de risco.  Essas 2 coortes são então acompanhadas ao longo do tempo para avaliar o desenvolvimento da doença de interesse.  Às vezes, o status de exposição é determinado retrospectivamente, tipicamente usando prontuários médicos, e os pacientes são acompanhados a partir do ponto de exposição em diante.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0104',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A pediatric cardiologist decides to determine whether there is a relationship between body composition and blood pressure in a random sample of children and adolescents age 5-15.  He used standard procedures to collect anthropometric measurements that included weight, height, hip circumference (HC), and waist circumference (WC).  Systolic blood pressure (SBP) and diastolic pressure (DBP) readings were taken at least 3 times at 5-minute intervals after the participants had been seated, and average SBP and DBP readings were calculated based on these measurements.  Which of the following statistical tests is adequate to determine whether there is a relationship between WC and average DBP?',
+      q:'',
+      options:[
+        {label:'A', text:'Analysis of variance'},
+        {label:'B', text:'Chi-square test'},
+        {label:'C', text:'Correlation analysis'},
+        {label:'D', text:'Meta-analysis'},
+        {label:'E', text:'Two-sample t-test'},
+      ],
+      correct:'C',
+      explC:'Variables are broadly classified as qualitative (ie, categorical) or quantitative (ie, continuous) based on their scale of measurement.  Qualitative variables (eg, type of treatment, blood type) represent categories or groups whereas quantitative variables (eg, temperature, glucose levels) represent numerical values.  The scale of measurement of the dependent (eg, outcome) and independent (eg, exposures, risk factors) variables in a study determines the correct statistical test for any given situation.\n\nCorrelation analysis is a statistical technique used to assess the strength and direction of a linear relationship between 2 quantitative variables (often, but not always, a dependent and an independent variable).  In this study:\n\n• The quantitative dependent variable was diastolic pressure (DBP).\n\n• The quantitative independent variable was waist circumference (WC).\n\nCorrelation analysis can determine whether there is a relationship between DBP and WC.  A statistically significant correlation coefficient indicates that DBP and WC have a linear relationship (ie, the null hypothesis is rejected) that is either positive (as WC increases, DBP increases) or negative (as WC increases, DBP decreases).',
+      explI:[
+        {option:'A', explanation:'The analysis of variance (ANOVA) test compares the mean of a quantitative variable of ≥3 independent groups, as in a study comparing serum ferritin concentrations (ie, quantitative variable) in children (age 0-12), adolescents (age 13-17), adults (age 18-59), and seniors (age ≥60).'},
+        {option:'B', explanation:'The chi-square test evaluates the association between 2 categorical variables, as in a study evaluating the association between sex (ie, "male" and "female") and myocardial infarction (ie, presence of myocardial infarction, absence of myocardial infarction).'},
+        {option:'D', explanation:'Meta-analysis is a quantitative statistical technique used to combine and analyze data from several studies to conduct an analysis with a greater statistical power than that of the individual studies.'},
+        {option:'E', explanation:'The two-sample t-test compares the mean of a quantitative variable between 2 groups, as in a study comparing serum ferritin concentrations (ie, quantitative variable) in male and female patients.'},
+      ],
+      objective:'Correlation analysis is a statistical technique used to describe the strength and direction of a linear relationship between 2 quantitative variables.',
+      peer:{A:8, B:13, C:51, D:0, E:25},
+      labs:[
+        {name:'DBP', value:'Average diastolic pressure', normal:'Quantitative variable'},
+        {name:'WC', value:'Waist circumference', normal:'Quantitative variable'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0101_expl_statistical_tests_table.png',
+      ptTranslation:{
+        vignette:'Um cardiologista pediátrico decide determinar se há uma relação entre composição corporal e pressão arterial em uma amostra aleatória de crianças e adolescentes de 5-15 anos.  Ele usou procedimentos padronizados para coletar medidas antropométricas que incluíam peso, altura, circunferência do quadril (HC) e circunferência da cintura (WC).  Leituras de pressão arterial sistólica (SBP) e pressão diastólica (DBP) foram feitas pelo menos 3 vezes em intervalos de 5 minutos após os participantes estarem sentados, e as leituras médias de SBP e DBP foram calculadas com base nessas medidas.  Qual dos seguintes testes estatísticos é adequado para determinar se há uma relação entre WC e DBP média?',
+        q:'',
+        objective:'Análise de correlação é uma técnica estatística usada para descrever a força e direção de uma relação linear entre 2 variáveis quantitativas.',
+        options:[
+          {label:'A', text:'Análise de variância'},
+          {label:'B', text:'Teste do qui-quadrado'},
+          {label:'C', text:'Análise de correlação'},
+          {label:'D', text:'Meta-análise'},
+          {label:'E', text:'Teste t para duas amostras'},
+        ],
+        explC:'Variáveis são amplamente classificadas como qualitativas (ou seja, categóricas) ou quantitativas (ou seja, contínuas) com base em sua escala de mensuração.  Variáveis qualitativas (ex.: tipo de tratamento, tipo sanguíneo) representam categorias ou grupos, enquanto variáveis quantitativas (ex.: temperatura, níveis de glicose) representam valores numéricos.  A escala de mensuração das variáveis dependente (ex.: desfecho) e independente (ex.: exposições, fatores de risco) em um estudo determina o teste estatístico correto para qualquer situação.\n\nAnálise de correlação é uma técnica estatística usada para avaliar a força e direção de uma relação linear entre 2 variáveis quantitativas (frequentemente, mas nem sempre, uma variável dependente e uma independente).  Neste estudo:\n\n• A variável dependente quantitativa foi a pressão diastólica (DBP).\n\n• A variável independente quantitativa foi a circunferência da cintura (WC).\n\nA análise de correlação pode determinar se há uma relação entre DBP e WC.  Um coeficiente de correlação estatisticamente significativo indica que DBP e WC têm uma relação linear (ou seja, a hipótese nula é rejeitada) que é positiva (à medida que WC aumenta, DBP aumenta) ou negativa (à medida que WC aumenta, DBP diminui).',
+        explI:[
+          {option:'A', explanation:'O teste de análise de variância (ANOVA) compara a média de uma variável quantitativa de ≥3 grupos independentes, como em um estudo comparando concentrações séricas de ferritina (ou seja, variável quantitativa) em crianças (idade 0-12), adolescentes (idade 13-17), adultos (idade 18-59) e idosos (idade ≥60).'},
+          {option:'B', explanation:'O teste do qui-quadrado avalia a associação entre 2 variáveis categóricas, como em um estudo avaliando a associação entre sexo (ou seja, "masculino" e "feminino") e infarto do miocárdio (ou seja, presença de infarto do miocárdio, ausência de infarto do miocárdio).'},
+          {option:'D', explanation:'Meta-análise é uma técnica estatística quantitativa usada para combinar e analisar dados de vários estudos para conduzir uma análise com maior poder estatístico que o dos estudos individuais.'},
+          {option:'E', explanation:'O teste t para duas amostras compara a média de uma variável quantitativa entre 2 grupos, como em um estudo comparando concentrações séricas de ferritina (ou seja, variável quantitativa) em pacientes masculinos e femininos.'},
+        ]
+      }
+    },
 
   ];
 
