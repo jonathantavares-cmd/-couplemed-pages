@@ -15175,6 +15175,154 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0109',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A large cohort study is conducted to assess the association between smoking and squamous cell carcinoma of the esophagus among middle-aged Chinese men.  During 10 years of follow-up, smokers have 5 times the risk of esophageal carcinoma compared to non-smokers (relative risk = 5.0, 95% confidence interval = 2.9-7.1).  According to the study results, what percentage of squamous cell carcinoma of the esophagus in smokers can be attributed to smoking?',
+      q:'',
+      options:[
+        {label:'A', text:'25%'},
+        {label:'B', text:'50%'},
+        {label:'C', text:'70%'},
+        {label:'D', text:'80%'},
+        {label:'E', text:'90%'},
+      ],
+      correct:'D',
+      explC:'The attributable risk percent in the exposed (ARPexposed) is an important measure of the impact of a risk factor.  ARPexposed represents the excess risk in an exposed population that can be explained by exposure to a particular risk factor.  It is calculated using the following formula:\n\nARPexposed = 100 × [(risk in exposed − risk in unexposed)/risk in exposed]\n\nThis basic definition can be used to derive an equivalent formula involving relative risk (RR):\n\nARPexposed = 100 × [(RR − 1)/RR], where RR = risk in exposed/risk in unexposed\n\nApplying the formula to this example:\n\nARPexposed = 100 × [(RR − 1)/RR] = 100 × [(5 − 1)/5] = 100 × (4/5) = 100 × 0.8 = 80%\n\nTherefore, according to the study results, 80% of esophageal squamous cell carcinoma cases in smokers were attributable to smoking.\n\nThe ARPexposed is related to the attributable risk (AR), which is simply the difference between risk in the exposed and risk in the unexposed.',
+      explI:[],
+      objective:'The attributable risk percent (ARP) in the exposed represents the excess risk in the exposed population that can be attributed to the risk factor.  It can be easily derived from the relative risk (RR) using the formula: ARPexposed = 100 × [(RR − 1)/RR].',
+      peer:{A:12, B:13, C:10, D:52, E:11},
+      labs:[
+        {name:'Relative risk', value:'5.0', normal:'Use for ARPexposed'}
+      ],
+      ptTranslation:{
+        vignette:'Um grande estudo de coorte é conduzido para avaliar a associação entre tabagismo e carcinoma espinocelular de esôfago em homens chineses de meia-idade.  Durante 10 anos de seguimento, fumantes têm 5 vezes o risco de carcinoma de esôfago em comparação com não fumantes (risco relativo = 5,0, intervalo de confiança de 95% = 2,9-7,1).  De acordo com os resultados do estudo, qual porcentagem de carcinoma espinocelular de esôfago em fumantes pode ser atribuída ao tabagismo?',
+        q:'',
+        objective:'A porcentagem de risco atribuível (ARP) nos expostos representa o excesso de risco na população exposta que pode ser atribuído ao fator de risco.  Ela pode ser facilmente derivada do risco relativo (RR) usando a fórmula: ARPexpostos = 100 × [(RR − 1)/RR].',
+        options:[
+          {label:'A', text:'25%'},
+          {label:'B', text:'50%'},
+          {label:'C', text:'70%'},
+          {label:'D', text:'80%'},
+          {label:'E', text:'90%'},
+        ],
+        explC:'A porcentagem de risco atribuível nos expostos (ARPexpostos) é uma medida importante do impacto de um fator de risco.  ARPexpostos representa o excesso de risco em uma população exposta que pode ser explicado pela exposição a um fator de risco particular.  Ela é calculada usando a seguinte fórmula:\n\nARPexpostos = 100 × [(risco nos expostos − risco nos não expostos)/risco nos expostos]\n\nEssa definição básica pode ser usada para derivar uma fórmula equivalente envolvendo risco relativo (RR):\n\nARPexpostos = 100 × [(RR − 1)/RR], onde RR = risco nos expostos/risco nos não expostos\n\nAplicando a fórmula a este exemplo:\n\nARPexpostos = 100 × [(RR − 1)/RR] = 100 × [(5 − 1)/5] = 100 × (4/5) = 100 × 0,8 = 80%\n\nPortanto, de acordo com os resultados do estudo, 80% dos casos de carcinoma espinocelular de esôfago em fumantes foram atribuíveis ao tabagismo.\n\nA ARPexpostos está relacionada ao risco atribuível (AR), que é simplesmente a diferença entre o risco nos expostos e o risco nos não expostos.',
+        explI:[]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0110',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'A researcher studying physician behavior is interested in how often primary care physicians take the sexual histories of patients during clinic visits.  As part of the study, patients who attend a primary care clinic are asked to fill out a questionnaire immediately following a visit with their physician.  Once the physicians become aware that their own behavior is being studied, which of the following is most likely to be a potential problem?',
+      q:'',
+      options:[
+        {label:'A', text:'Berkson\'s bias'},
+        {label:'B', text:'Hawthorne effect'},
+        {label:'C', text:'Lead-time bias'},
+        {label:'D', text:'Pygmalion effect'},
+        {label:'E', text:'Recall bias'},
+      ],
+      correct:'B',
+      explC:'The Hawthorne effect (observer effect) is the tendency of study subjects to change their behavior as a result of their awareness that they are being studied.  This can impact the observed outcomes, thereby seriously affecting the validity of the study.  The Hawthorne effect is commonly seen in studies concerning behavioral outcomes or outcomes that can be influenced by behavioral changes.  In this example, physicians (not patients) are the subjects of the study; those physicians who are aware that they are being studied may modify their behavior and start taking sexual histories.  To minimize the Hawthorne effect, study subjects can be kept unaware that they are being studied, but this can occasionally pose ethical problems.',
+      explI:[
+        {option:'A', explanation:'Berkson\'s bias refers to selection bias created by choosing hospitalized patients as the control group.'},
+        {option:'C', explanation:'Lead-time bias refers to the apparent prolongation of survival after applying a screening test that detects a disease earlier than it would have been otherwise detected but without any real effect on prognosis.'},
+        {option:'D', explanation:'Pygmalion effect describes the fact that a researcher\'s beliefs in the efficacy of treatment can potentially affect the outcome.  In the classic classroom experiment that first described the Pygmalion effect, a group of students were randomly assigned high intelligence quotient (IQ) scores; their teachers were then told of these artificial results and had higher expectations of this group as a result.  The students with the randomly assigned high IQ scores actually performed better, likely because their teachers unconsciously behaved in a manner that would facilitate their success.'},
+        {option:'E', explanation:'Recall bias results from inaccurate recall of past exposures by patients.  Although recall bias is possible whenever questionnaires are administered, it is unlikely in this case as the patients fill out a form immediately upon leaving the doctor\'s office.'},
+      ],
+      objective:'The Hawthorne effect (observer effect) is the tendency of study subjects to change their behavior as a result of their awareness that they are being studied.',
+      peer:{A:9, B:69, C:2, D:15, E:2},
+      ptTranslation:{
+        vignette:'Um pesquisador que estuda o comportamento médico está interessado em saber com que frequência médicos de atenção primária obtêm a história sexual dos pacientes durante consultas ambulatoriais.  Como parte do estudo, pacientes que comparecem a uma clínica de atenção primária são solicitados a preencher um questionário imediatamente após uma consulta com seu médico.  Uma vez que os médicos se tornam cientes de que seu próprio comportamento está sendo estudado, qual dos seguintes é mais provável de ser um problema potencial?',
+        q:'',
+        objective:'O efeito Hawthorne (efeito observador) é a tendência dos participantes do estudo a mudar seu comportamento como resultado de sua consciência de que estão sendo estudados.',
+        options:[
+          {label:'A', text:'Viés de Berkson'},
+          {label:'B', text:'Efeito Hawthorne'},
+          {label:'C', text:'Viés de tempo de antecipação'},
+          {label:'D', text:'Efeito Pygmalion'},
+          {label:'E', text:'Viés de recordação'},
+        ],
+        explC:'O efeito Hawthorne (efeito observador) é a tendência dos participantes do estudo a mudar seu comportamento como resultado de sua consciência de que estão sendo estudados.  Isso pode impactar os desfechos observados, afetando seriamente a validade do estudo.  O efeito Hawthorne é comumente visto em estudos envolvendo desfechos comportamentais ou desfechos que podem ser influenciados por mudanças comportamentais.  Neste exemplo, os médicos (não os pacientes) são os participantes do estudo; aqueles médicos que sabem que estão sendo estudados podem modificar seu comportamento e começar a obter histórias sexuais.  Para minimizar o efeito Hawthorne, os participantes do estudo podem ser mantidos sem saber que estão sendo estudados, mas isso ocasionalmente pode causar problemas éticos.',
+        explI:[
+          {option:'A', explanation:'Viés de Berkson refere-se ao viés de seleção criado pela escolha de pacientes hospitalizados como grupo controle.'},
+          {option:'C', explanation:'Viés de tempo de antecipação refere-se ao prolongamento aparente da sobrevida após aplicar um teste de rastreamento que detecta uma doença mais cedo do que ela teria sido detectada de outra forma, mas sem qualquer efeito real no prognóstico.'},
+          {option:'D', explanation:'Efeito Pygmalion descreve o fato de que as crenças de um pesquisador na eficácia do tratamento podem potencialmente afetar o desfecho.  No experimento clássico em sala de aula que primeiro descreveu o efeito Pygmalion, um grupo de estudantes recebeu aleatoriamente escores elevados de quociente de inteligência (QI); seus professores foram então informados desses resultados artificiais e tiveram maiores expectativas em relação a esse grupo.  Os estudantes com escores altos de QI atribuídos aleatoriamente tiveram desempenho melhor, provavelmente porque seus professores inconscientemente se comportaram de uma maneira que facilitaria seu sucesso.'},
+          {option:'E', explanation:'Viés de recordação resulta da recordação imprecisa de exposições passadas pelos pacientes.  Embora viés de recordação seja possível sempre que questionários são administrados, é improvável neste caso, pois os pacientes preenchem um formulário imediatamente ao sair do consultório médico.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0111',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A meta-analysis of several trials on the effect of cocoa intake on systolic blood pressure (SBP) revealed the following results:',
+      q:'All the trials evaluated the difference in SBP at 2 weeks.  Based on the data, which of the following is the most appropriate conclusion?',
+      options:[
+        {label:'A', text:'A higher mean SBP was seen in the cocoa groups overall'},
+        {label:'B', text:'Cocoa intake should be recommended for blood pressure management'},
+        {label:'C', text:'Cocoa intake was associated with a statistically significant decrease in SBP'},
+        {label:'D', text:'Studies 2, 6, and 7 showed a statistically significant increase in SBP'},
+        {label:'E', text:'There was no statistically significant change in SBP overall'},
+      ],
+      correct:'C',
+      explC:'A meta-analysis groups the results of several trials (ideally, high-quality randomized controlled trials) to increase statistical power and provide an overall estimate of the effect of an exposure (eg, cocoa intake) on an outcome (eg, systolic blood pressure [SBP]).  The individual results of the trials are assessed and weighted to obtain a pooled effect estimate.  In this example, the meta-analysis showed an overall change in mean SBP of −2.2 mm Hg (ie, decrease in SBP) in the cocoa intake group compared to the control group.  The 95% confidence interval (CI) was −2.7 to −1.3 mm Hg, indicating a statistically significant difference because the CI does not include the null value (explained below).\n\nCIs give a range of plausible values for an unknown parameter (eg, difference between 2 mean SBPs) based on results from a sample.  If the CI does not include the null value, then the result is statistically significant; if it crosses the null value, then the result is not statistically significant.  All CIs have a null value, but the null value is not the same for all CIs.  For an odds ratio or a relative risk (RR), the null value is 1 because these statistics are ratios (ie, RR = 1 represents no difference in risk between the groups).  However, if the parameter of interest is a difference (eg, difference in mean SBP between cocoa intake and control groups), then the null value is 0 because that represents no difference between the groups.\n\nIn this case, the 95% CI of [−2.7, −1.3] does not include the null value of 0 and therefore the result is statistically significant.  In summary, cocoa intake was associated with a statistically significant decrease in SBP.',
+      explI:[
+        {option:'A and E', explanation:'The overall mean change in SBP was negative at −2.2 mm Hg, reflecting a lower SBP in the cocoa group compared to the control group.  The change was statistically significant.'},
+        {option:'B', explanation:'Although there was a statistically significant decrease in SBP in the cocoa intake group, the clinical significance may be limited as the absolute SBP decrease is only about 2 mm Hg.  Furthermore, the trials measured SBP at 2 weeks, so it is possible that the effect of cocoa intake on SBP was short-lived.  Finally, no information is provided regarding adverse effects of cocoa intake.'},
+        {option:'D', explanation:'Given that the CI crossed the null value in studies 2 and 7, there was no statistically significant difference between the groups in these studies.'},
+      ],
+      objective:'A meta-analysis groups results of several trials to increase statistical power and provide an overall pooled effect estimate.',
+      peer:{A:4, B:3, C:64, D:8, E:20},
+      img:'assets/qbank/CMQ-STEP1-BST-0111_cocoa_sbp_meta_analysis_table.png',
+      labs:[
+        {name:'Overall mean SBP difference', value:'−2.2 [−2.7, −1.3] mm Hg', normal:'CI excludes 0'}
+      ],
+      ptTranslation:{
+        vignette:'Uma meta-análise de vários ensaios sobre o efeito da ingestão de cacau na pressão arterial sistólica (SBP) revelou os seguintes resultados:',
+        q:'Todos os ensaios avaliaram a diferença na SBP em 2 semanas.  Com base nos dados, qual das seguintes é a conclusão mais apropriada?',
+        objective:'Uma meta-análise agrupa resultados de vários ensaios para aumentar o poder estatístico e fornecer uma estimativa de efeito combinada global.',
+        options:[
+          {label:'A', text:'Uma SBP média maior foi observada nos grupos de cacau no geral'},
+          {label:'B', text:'A ingestão de cacau deve ser recomendada para manejo da pressão arterial'},
+          {label:'C', text:'A ingestão de cacau foi associada a uma diminuição estatisticamente significativa na SBP'},
+          {label:'D', text:'Os estudos 2, 6 e 7 mostraram aumento estatisticamente significativo na SBP'},
+          {label:'E', text:'Não houve alteração estatisticamente significativa na SBP no geral'},
+        ],
+        explC:'Uma meta-análise agrupa os resultados de vários ensaios (idealmente, ensaios randomizados controlados de alta qualidade) para aumentar o poder estatístico e fornecer uma estimativa global do efeito de uma exposição (ex.: ingestão de cacau) sobre um desfecho (ex.: pressão arterial sistólica [SBP]).  Os resultados individuais dos ensaios são avaliados e ponderados para obter uma estimativa de efeito combinada.  Neste exemplo, a meta-análise mostrou uma alteração global na SBP média de −2,2 mm Hg (ou seja, diminuição da SBP) no grupo de ingestão de cacau em comparação com o grupo controle.  O intervalo de confiança (IC) de 95% foi de −2,7 a −1,3 mm Hg, indicando uma diferença estatisticamente significativa porque o IC não inclui o valor nulo.\n\nICs fornecem uma faixa de valores plausíveis para um parâmetro desconhecido (ex.: diferença entre 2 SBPs médias) com base em resultados de uma amostra.  Se o IC não inclui o valor nulo, então o resultado é estatisticamente significativo; se cruza o valor nulo, então o resultado não é estatisticamente significativo.  Todos os ICs têm um valor nulo, mas o valor nulo não é o mesmo para todos os ICs.  Para uma razão de chances ou um risco relativo (RR), o valor nulo é 1 porque essas estatísticas são razões (ou seja, RR = 1 representa ausência de diferença de risco entre os grupos).  No entanto, se o parâmetro de interesse é uma diferença (ex.: diferença na SBP média entre grupos de ingestão de cacau e controle), então o valor nulo é 0 porque isso representa ausência de diferença entre os grupos.\n\nNeste caso, o IC de 95% de [−2,7, −1,3] não inclui o valor nulo de 0 e, portanto, o resultado é estatisticamente significativo.  Em resumo, a ingestão de cacau foi associada a uma diminuição estatisticamente significativa na SBP.',
+        explI:[
+          {option:'A e E', explanation:'A alteração média global na SBP foi negativa em −2,2 mm Hg, refletindo uma SBP menor no grupo de cacau em comparação com o grupo controle.  A alteração foi estatisticamente significativa.'},
+          {option:'B', explanation:'Embora tenha havido uma diminuição estatisticamente significativa na SBP no grupo de ingestão de cacau, a significância clínica pode ser limitada, pois a diminuição absoluta da SBP é de apenas cerca de 2 mm Hg.  Além disso, os ensaios mediram a SBP em 2 semanas, então é possível que o efeito da ingestão de cacau sobre a SBP tenha sido de curta duração.  Por fim, nenhuma informação é fornecida sobre efeitos adversos da ingestão de cacau.'},
+          {option:'D', explanation:'Como o IC cruzou o valor nulo nos estudos 2 e 7, não houve diferença estatisticamente significativa entre os grupos nesses estudos.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0112',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'A researcher conducts a study to determine the value of measuring kidney volume with computed tomography (CT) to help diagnose chronic kidney disease and quantify kidney damage.  In total, 251 patients are enrolled in the study.  Correlation analyses are then conducted to evaluate the relationships between kidney volume as measured on CT scans and both glomerular filtration rate and glycosylated hemoglobin (HbA1c).  Initial study results show that lower values of HbA1c tended to relate to higher values of kidney volume, and that the relationship was strong and statistically significant.  Based on this information, which of the following statements would best describe the associated correlation coefficient?',
+      q:'',
+      options:[
+        {label:'A', text:'It is negative and probably closer to −1 than to 0'},
+        {label:'B', text:'It is negative and probably closer to 0 than to −1'},
+        {label:'C', text:'It is positive and probably closer to 0 than to 1'},
+        {label:'D', text:'It is positive and probably closer to 1 than to 0'},
+      ],
+      correct:'A',
+      explC:'The correlation coefficient r describes the linear relationship between 2 quantitative variables by its direction (negative or positive) and its strength (a value closer to −1 or 1 indicates a stronger relationship).\n\n• r > 0 (ie, positive) indicates a direct relationship, so both variables increase (or decrease) together.  This means that higher (or lower) values of one variable tend to relate to higher (or lower) values of the other variable.\n\n• r < 0 (ie, negative) indicates an inverse relationship, so as one variable increases, the other variable decreases.  This means that higher values of one variable tend to relate to lower values of the other variable, and vice versa.\n\nIn this study, lower values of HbA1c tended to relate to higher values of kidney volume.  This means that one variable increased as the other variable decreased, so the correlation coefficient must be negative (Choices C and D).  Because the relationship was described as strong, the correlation coefficient must be closer to −1 than to 0 (Choice B).',
+      explI:[],
+      objective:'The correlation coefficient r describes the direction (negative or positive) and the strength (a value closer to −1 or 1 indicates a stronger relationship) of the linear relationship between 2 quantitative variables.  It does not necessarily imply causality.',
+      peer:{A:63, B:5, C:9, D:21},
+      explImg:'assets/qbank/CMQ-STEP1-BST-0112_expl_correlation_coefficient_direction_strength.png',
+      ptTranslation:{
+        vignette:'Um pesquisador conduz um estudo para determinar o valor de medir o volume renal com tomografia computadorizada (CT) para ajudar a diagnosticar doença renal crônica e quantificar dano renal.  No total, 251 pacientes são incluídos no estudo.  Análises de correlação são então conduzidas para avaliar as relações entre o volume renal medido em exames de CT e tanto a taxa de filtração glomerular quanto a hemoglobina glicosilada (HbA1c).  Os resultados iniciais do estudo mostram que valores mais baixos de HbA1c tenderam a se relacionar com valores mais altos de volume renal, e que a relação foi forte e estatisticamente significativa.  Com base nessas informações, qual das seguintes afirmações melhor descreveria o coeficiente de correlação associado?',
+        q:'',
+        objective:'O coeficiente de correlação r descreve a direção (negativa ou positiva) e a força (um valor mais próximo de −1 ou 1 indica uma relação mais forte) da relação linear entre 2 variáveis quantitativas.  Ele não implica necessariamente causalidade.',
+        options:[
+          {label:'A', text:'Ele é negativo e provavelmente mais próximo de −1 do que de 0'},
+          {label:'B', text:'Ele é negativo e provavelmente mais próximo de 0 do que de −1'},
+          {label:'C', text:'Ele é positivo e provavelmente mais próximo de 0 do que de 1'},
+          {label:'D', text:'Ele é positivo e provavelmente mais próximo de 1 do que de 0'},
+        ],
+        explC:'O coeficiente de correlação r descreve a relação linear entre 2 variáveis quantitativas por sua direção (negativa ou positiva) e sua força (um valor mais próximo de −1 ou 1 indica uma relação mais forte).\n\n• r > 0 (ou seja, positivo) indica uma relação direta, então ambas as variáveis aumentam (ou diminuem) juntas.  Isso significa que valores mais altos (ou mais baixos) de uma variável tendem a se relacionar com valores mais altos (ou mais baixos) da outra variável.\n\n• r < 0 (ou seja, negativo) indica uma relação inversa, então, à medida que uma variável aumenta, a outra diminui.  Isso significa que valores mais altos de uma variável tendem a se relacionar com valores mais baixos da outra variável, e vice-versa.\n\nNeste estudo, valores mais baixos de HbA1c tenderam a se relacionar com valores mais altos de volume renal.  Isso significa que uma variável aumentou à medida que a outra diminuiu, então o coeficiente de correlação deve ser negativo (alternativas C e D).  Como a relação foi descrita como forte, o coeficiente de correlação deve estar mais próximo de −1 do que de 0 (alternativa B).',
+        explI:[]
+      }
+    },
 
   ];
 
