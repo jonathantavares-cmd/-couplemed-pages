@@ -157,8 +157,8 @@ Preferir os aliases atuais, sem fixar versões que podem envelhecer:
 | Nível do guia | Alias/modelo | Esforço |
 |---|---|---|
 | **medium** | `haiku` | `medium` |
-| **high** | `sonnet` | `high` ou `xhigh` |
-| **ultra** | `opus` ou `best` | `xhigh` ou `max`, se disponível |
+| **high** | `sonnet` | `high`; `max` apenas se a versão ativa oferecer e a unidade justificar |
+| **ultra** | `opus` ou `best` | `xhigh` ou `max`, conforme a versão ativa |
 
 O perfil `opusplan` é adequado quando a parte ambígua exige planejamento com
 Opus e a execução pode voltar ao Sonnet. Confirmar o modelo resolvido pela
@@ -173,10 +173,17 @@ mecanismo como automático:
 | Subagente com `model:` no frontmatter (`.claude/agents/*.md`) | **Sim.** Roda no modelo declarado quando a sessão principal delega |
 | Perfil `opusplan` | **Parcial.** Planeja em Opus, executa em Sonnet |
 | Modelo da sessão principal | **Não.** Só `/model`, digitado pelo usuário |
-| `effortLevel` | **Não.** Só `.claude/settings.json` ou `/config` |
+| Esforço da sessão principal | **Não muda por conta própria.** O usuário pode alterá-lo com `/effort` ou pelo seletor de `/model`; também pode defini-lo no início por flag, variável de ambiente ou settings |
 
 Não existe hook, setting ou comando que troque o modelo da conversa principal
 no meio dela. Qualquer instrução que prometa isso está errada.
+
+Esforço não é troca de modelo. Conforme a versão ativa, pode ser definido por
+`/effort`, seletor de `/model`, `--effort`, `CLAUDE_CODE_EFFORT_LEVEL`,
+`effortLevel` nos settings ou `effort` no frontmatter de skill/subagente.
+Confirmar o valor ativo na interface; níveis não suportados podem sofrer
+fallback. `max` normalmente vale apenas para a sessão, salvo configuração por
+variável de ambiente.
 
 **Configuração implantada neste repositório:**
 
@@ -187,8 +194,9 @@ no meio dela. Qualquer instrução que prometa isso está errada.
   perguntar o trabalho de nível `medium`: inventário de arquivos, conferência
   de IDs e slugs, dedup, contagem de tópicos, checagem de campos obrigatórios,
   verificação de padrão de nomes (inclusive nos lotes de narração, §17).
-- `.claude/agents/tradutor-medico.md` — Sonnet. Delegar lotes de tradução
-  EN→PT cujo critério já está neste documento. Não commita nem dá push.
+- `.claude/agents/tradutor-medico.md` — Sonnet com `effort: high`. Delegar
+  lotes de tradução EN→PT cujo critério já está neste documento. Não commita
+  nem dá push.
 
 Ambos devolvem uma seção **Pendências**, são proibidos de inventar conteúdo e
 devolvem à sessão principal qualquer conflito de fontes ou taxonomia nova, que

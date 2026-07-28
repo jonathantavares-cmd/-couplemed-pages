@@ -5,6 +5,17 @@ e do Apple Notes. **Este arquivo é a fonte de verdade para continuar o trabalho
 qualquer sessão/conta.** Regra geral: reproduzir o GoodNotes/Apple Notes fielmente,
 EXCETO os itens marcados como "fora". Tudo bilíngue EN+PT no mesmo commit.
 
+## Política de execução com Claude Code
+
+Aplicar integralmente `CLAUDE.md`: começar no menor nível seguro, escalar somente
+a menor unidade e nunca inventar comportamento ausente nas referências. O
+subagente `mecanico` pode apenas inventariar e conferir regras já escritas;
+diagnóstico visual, interação e CSS ficam na sessão principal em Sonnet
+`high`, subindo para Opus `xhigh`/`max` apenas em conflito, regressão ou
+ambiguidade crítica. O modelo principal não troca sozinho: avisar antes de
+pedir `/model`; o esforço também não se autoescalona e deve ser conferido ou
+alterado com `/effort`/seletor de `/model`.
+
 ## Status das fases
 - [x] **Fase 1 — Criação** (commit `3b30018`): menu sem "Notes"; botão "+ Novo" com
   popover Pasta/Notebook/Notes; diálogo de pasta (Cor/Ícone, seletor de cor

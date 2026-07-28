@@ -23,8 +23,8 @@ Mapeamento para Claude Code (§3.3 do QBank):
 | Nível | Modelo | Effort | Para quê |
 |---|---|---|---|
 | medium | `haiku` | medium | mecânico: inventário, IDs, dedup, ordenação, checklists, schema conhecido |
-| high | `sonnet` | high / xhigh | tradução médica, Lab Values, tabelas densas, OCR/crop com julgamento, QA responsivo |
-| ultra | `opus` | xhigh / max | conflito de fontes, taxonomia nova, CSS crítico, regressão sem causa |
+| high | `sonnet` | high; max só quando suportado e justificado | tradução médica, Lab Values, tabelas densas, OCR/crop com julgamento, QA responsivo |
+| ultra | `opus` | xhigh / max, conforme a versão | conflito de fontes, taxonomia nova, CSS crítico, regressão sem causa |
 
 **Padrão de entrada deste repositório: `sonnet` + effort `medium`** (`.claude/settings.json`) —
 é o nível mais baixo que serve para a maioria das sessões. Ao entrar em bloco médico/visual,
@@ -49,7 +49,10 @@ Isto é importante e não deve ser reescrito como se fosse mágico:
   Sonnet sozinho. Usar quando a parte ambígua é o planejamento e a execução é rotina.
 - **Não é automático:** o modelo da **sessão principal**. Não existe hook, config ou comando que
   troque o modelo da conversa principal no meio dela. Só `/model`, digitado pelo Jonathan.
-  O `effortLevel` também não muda sozinho — é `.claude/settings.json` ou `/config`.
+  O esforço também não muda sozinho, mas pode ser alterado por `/effort` ou no seletor de
+  `/model`, além de `--effort`, `CLAUDE_CODE_EFFORT_LEVEL`, `effortLevel` nos settings e
+  `effort` no frontmatter de skill/subagente. Confirmar o valor ativo porque níveis não
+  suportados podem sofrer fallback.
 
 Portanto, quando um bloco exigir nível acima do padrão, o Claude deve:
 

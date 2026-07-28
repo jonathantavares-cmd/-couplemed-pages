@@ -246,9 +246,11 @@ Mapeamentos atuais e regras de fallback estão nas seções `3.2`–`3.4` de
 
 No Claude Code, a única troca de modelo que acontece sem intervenção é a de
 **subagente** (`.claude/agents/*.md`, modelo fixo no frontmatter) e a do perfil
-`opusplan`. O modelo da sessão principal e o `effortLevel` **não mudam
-sozinhos** — exigem `/model` digitado pelo usuário e `.claude/settings.json` /
-`/config`. Detalhes em `QBANK_ADD_QUESTION.md` §3.3.1–3.3.2.
+`opusplan`. O modelo da sessão principal **não muda sozinho** e exige `/model`
+digitado pelo usuário. O esforço também não se autoescalona, mas pode ser
+alterado por `/effort` ou pelo seletor de `/model` e configurado por flag,
+variável de ambiente, settings ou frontmatter. Detalhes em
+`QBANK_ADD_QUESTION.md` §3.3.1–3.3.2.
 
 Diagnóstico visual de CSS responsivo **não é trabalho de subagente econômico**:
 o agente `mecanico` (Haiku, somente leitura) só serve aqui para inventariar

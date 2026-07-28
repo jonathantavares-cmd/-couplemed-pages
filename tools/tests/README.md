@@ -3,6 +3,16 @@
 Testes do `public/js/library1-reader.js` num DOM real (jsdom), **sem browser**.
 Rodam o arquivo real do repositório, não uma cópia.
 
+## Política de execução com Claude Code
+
+Aplicar `../../CLAUDE.md`. Execução conhecida, leitura de saída e conferência
+mecânica podem usar o nível econômico. Diagnóstico de falha exige Sonnet
+`high`; conflito, regressão sem causa ou mudança estrutural pode exigir Opus
+`xhigh`/`max`. O modelo e o esforço da sessão principal não se autoescalonam:
+avisar antes da unidade crítica e indicar `/model` e/ou `/effort`, retornando
+ao nível econômico depois. Subagente nunca inventa causa nem altera critério
+de aprovação.
+
 ## Como rodar
 
 O `jsdom` **não** é dependência do projeto (o site não tem `package.json`), então
