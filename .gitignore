@@ -5,3 +5,6 @@ seed_users.sql
 
 # narração gerada localmente (áudio grande; o destino final é o R2)
 .narration-build/
+
+# preferências locais da máquina (não versionar)
+.claude/settings.local.json
