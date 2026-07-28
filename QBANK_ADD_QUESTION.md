@@ -577,7 +577,7 @@ Se o subtópico ainda não existe, localizar o sistema no TAXONOMY (~linha 1183)
 {id:'biostatistics_epidemiology', name:'Biostatistics & Epidemiology', subs:[
   ['study_design_interpretation','Study design and interpretation'],
   ['hypothesis_testing','Hypothesis testing'],   // ← novo
-  ['misc','Others']
+  ['misc','Miscellaneous']
 ]},
 ```
 

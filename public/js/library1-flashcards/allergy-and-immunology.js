@@ -31,7 +31,7 @@ window.LIBRARY1_FLASHCARDS = window.LIBRARY1_FLASHCARDS || {};
 'use strict';
 const A = '/assets/library1/allergy-and-immunology/acute-rheumatic-fever/';
 const SYS   = 'allergy_immunology';
-const SUBJ  = 'allergy_immunology::autoimmune_diseases';   // existe na lista → não vai para Others
+const SUBJ  = 'allergy_immunology::autoimmune_diseases';   // existe na lista -> não vai para Miscellaneous
 const TOPIC = { en:'Acute rheumatic fever', pt:'Febre reumática aguda' };
 const TAGS  = ['Library1','AcuteRheumaticFever','Step1','ARF'];
 let n = 0;

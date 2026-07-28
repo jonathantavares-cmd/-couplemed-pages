@@ -2,7 +2,7 @@
    - o pacote traz 30 cards BILÍNGUES por tópico, no padrão "Anki melhorado" (§11.5);
    - a semeadura é idempotente e preserva o progresso de estudo;
    - os cards entram com sys/subj/topic, então caem nos filtros e na busca;
-   - subject inexistente na taxonomia dos Flashcards vai para Others (misc). */
+   - subject inexistente na taxonomia dos Flashcards vai para Miscellaneous (misc). */
 const { JSDOM } = require(process.env.JSDOM_PATH || 'jsdom');
 const fs = require('fs');
 const path = require('path');
@@ -92,9 +92,9 @@ const ids = new Set();
 FC_TAXONOMY.forEach(s=>s.subs.forEach(([slug])=>ids.add(s.id+'::'+slug)));
 const used = [...new Set(cards.map(c=>c.subj))];
 used.forEach(u=>ok(`subj "${u}" existe na taxonomia dos Flashcards`, ids.has(u),
-  'não existe — deveria cair em <sys>::misc (Others)'));
+  'não existe — deveria cair em <sys>::misc (Miscellaneous)'));
 ok('todo sistema usado existe', [...new Set(cards.map(c=>c.sys))].every(s=>FC_TAXONOMY.some(t=>t.id===s)));
-ok('a regra de Others está disponível (misc existe no sistema usado)',
+ok('a regra de Miscellaneous está disponível (misc existe no sistema usado)',
    FC_TAXONOMY.find(t=>t.id===cards[0].sys).subs.some(([slug])=>slug==='misc'));
 
 /* ---------- 3. semeadura no banco do usuário ---------- */
