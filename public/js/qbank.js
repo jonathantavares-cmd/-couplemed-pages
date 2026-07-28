@@ -15093,6 +15093,88 @@
         explI:[]
       }
     },
+    { id:'CMQ-STEP1-BST-0107',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'400 women aged 20-35 coming for routine check-up are asked about their smoking status.  40% of the women are smokers.  Over the next ten years, 25 smokers and 24 non-smokers developed breast cancer.  Which of the following best describes the study design?',
+      q:'',
+      options:[
+        {label:'A', text:'Prospective cohort study'},
+        {label:'B', text:'Retrospective cohort study'},
+        {label:'C', text:'Case-control study'},
+        {label:'D', text:'Cross-sectional study'},
+        {label:'E', text:'Randomized clinical trial'},
+      ],
+      correct:'A',
+      explC:'The scenario described above is a good example of prospective cohort study.  Initially a group of subjects is selected (i.e., cohort) and their exposure status is determined (smoker/non-smoker).  The cohort is then followed for a certain period of time and observed for development of the outcome (breast cancer).  Sometimes, the exposure status is determined retrospectively and then patients are tracked from that point of time, typically using medical records (Choice B).',
+      explI:[
+        {option:'C', explanation:'A case-control study is designed by selecting patients with a particular disease (cases) and without that disease (controls) and then determining their previous exposure status.'},
+        {option:'D', explanation:'A cross-sectional study is also known as a prevalence study.  It is characterized by the simultaneous measurement of exposure and outcome.  It is a snapshot study design that frequently uses surveys.  They are relatively inexpensive and easy to perform.'},
+        {option:'E', explanation:'A randomized clinical trial directly compares two or more treatments.  Usually, the subjects are randomly assigned to an exposure (e.g., a medication) or placebo and then followed for the development of the outcome of interest.'},
+      ],
+      objective:'Prospective cohort studies are organized by selecting a group of individuals (i.e., cohort), determining their exposure status, and then following them over time for development of the disease of interest.',
+      peer:{A:85, B:4, C:6, D:3, E:0},
+      labs:[
+        {name:'Follow-up', value:'10 years', normal:'Prospective observation'}
+      ],
+      ptTranslation:{
+        vignette:'400 mulheres com idade de 20-35 anos que vêm para check-up de rotina são perguntadas sobre seu status de tabagismo.  40% das mulheres são fumantes.  Nos dez anos seguintes, 25 fumantes e 24 não fumantes desenvolveram câncer de mama.  Qual dos seguintes melhor descreve o desenho do estudo?',
+        q:'',
+        objective:'Estudos de coorte prospectivos são organizados selecionando um grupo de indivíduos (ou seja, coorte), determinando seu status de exposição e então acompanhando-os ao longo do tempo para o desenvolvimento da doença de interesse.',
+        options:[
+          {label:'A', text:'Estudo de coorte prospectivo'},
+          {label:'B', text:'Estudo de coorte retrospectivo'},
+          {label:'C', text:'Estudo caso-controle'},
+          {label:'D', text:'Estudo transversal'},
+          {label:'E', text:'Ensaio clínico randomizado'},
+        ],
+        explC:'O cenário descrito acima é um bom exemplo de estudo de coorte prospectivo.  Inicialmente, um grupo de indivíduos é selecionado (isto é, coorte) e seu status de exposição é determinado (fumante/não fumante).  A coorte é então acompanhada por um certo período de tempo e observada quanto ao desenvolvimento do desfecho (câncer de mama).  Às vezes, o status de exposição é determinado retrospectivamente e então os pacientes são acompanhados a partir daquele ponto no tempo, tipicamente usando prontuários médicos (alternativa B).',
+        explI:[
+          {option:'C', explanation:'Um estudo caso-controle é desenhado selecionando pacientes com uma doença particular (casos) e sem essa doença (controles) e então determinando seu status de exposição prévio.'},
+          {option:'D', explanation:'Um estudo transversal também é conhecido como estudo de prevalência.  Ele é caracterizado pela mensuração simultânea de exposição e desfecho.  É um desenho de estudo de instantâneo que frequentemente usa pesquisas.  Eles são relativamente baratos e fáceis de realizar.'},
+          {option:'E', explanation:'Um ensaio clínico randomizado compara diretamente dois ou mais tratamentos.  Geralmente, os indivíduos são aleatoriamente designados para uma exposição (ex.: um medicamento) ou placebo e então acompanhados para o desenvolvimento do desfecho de interesse.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0108',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'hard',
+      vignette:'A surveillance study is conducted to assess the long-term efficacy and safety of a drug currently being used to treat patients with heart failure.  Researchers enroll 8,300 patients with heart failure.  The patients receive the drug once daily for 6 months.  The results show significant clinical improvement, but severe hypernatremia is observed in 23 patients.  The study publication recommends a lower dose of the drug in patients with baseline normonatremia and hypokalemia to prevent hypernatremia.  Which of the following best characterizes this type of study?',
+      q:'',
+      options:[
+        {label:'A', text:'Phase I clinical trial'},
+        {label:'B', text:'Phase II clinical trial'},
+        {label:'C', text:'Phase III clinical trial'},
+        {label:'D', text:'Phase IV clinical trial'},
+        {label:'E', text:'Preclinical study'},
+      ],
+      correct:'D',
+      explC:'Efficacy and safety of new drugs are established during the clinical trials process.  New drugs are approved by a regulatory body (ie, Food and Drug Administration) following review of phase I-III trials.  Phases differ in size, objective, and participant selection.\n\n• Phase I:  Assesses safety and pharmacokinetics.  Phase I is usually conducted with a small number (eg, 20-80) of healthy participants.  It often is performed in a strictly controlled environment with extensive biochemical and physiologic monitoring.\n\n• Phase II:  Assesses preliminary efficacy and optimal dosing.  Phase II is conducted with a small number of participants who have the condition of interest, and patient outcomes are often compared to historical controls.  It sometimes is called a pilot study.\n\n• Phase III:  Compares treatment to standard of care.  Phase III is conducted as a large, randomized, controlled trial (in contrast to this study, which is a surveillance study with no control group) to better assess treatment response and safety.  It may include analysis of treatment effects in selected subsets of the target patient population.\n\nThe description of this study of a currently available drug is most consistent with a phase IV (postmarketing) study, which is conducted after regulatory approval of the drug.  Phase IV assesses long-term safety and effectiveness and characterizes uncommon or delayed adverse effects.  It typically involves surveillance of a large number of treated participants to detect small effects and variability in diverse patient populations.  The results are often used to refine the use of the drug in clinical practice.',
+      explI:[
+        {option:'E', explanation:'Preclinical studies are typically conducted without human subjects (ie, bench research) largely to determine the mechanism of action and/or make a preliminary estimation of safety and efficacy.'},
+      ],
+      objective:'Phase IV (postmarketing) trials are conducted with drugs that have already been approved for use in order to study long-term effectiveness and better characterize uncommon or delayed adverse effects.  They are typically designed to identify small treatment effects (ie, a high power study with large numbers of participants) in diverse patient populations, and the results may be used to refine the use of drugs in clinical practice.',
+      peer:{A:4, B:18, C:31, D:45, E:1},
+      labs:[
+        {name:'Hypernatremia', value:'Observed in 23 patients', normal:'Serum sodium typically 136-145 mEq/L'},
+        {name:'Potassium', value:'Baseline hypokalemia mentioned', normal:'3.5-5.0 mEq/L'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0108_expl_clinical_trial_phases.png',
+      ptTranslation:{
+        vignette:'Um estudo de vigilância é conduzido para avaliar a eficácia e segurança em longo prazo de um fármaco atualmente usado para tratar pacientes com insuficiência cardíaca.  Pesquisadores incluem 8.300 pacientes com insuficiência cardíaca.  Os pacientes recebem o fármaco uma vez ao dia por 6 meses.  Os resultados mostram melhora clínica significativa, mas hipernatremia grave é observada em 23 pacientes.  A publicação do estudo recomenda uma dose menor do fármaco em pacientes com normonatremia basal e hipocalemia para prevenir hipernatremia.  Qual dos seguintes melhor caracteriza este tipo de estudo?',
+        q:'',
+        objective:'Ensaios de fase IV (pós-comercialização) são conduzidos com fármacos que já foram aprovados para uso a fim de estudar a efetividade em longo prazo e caracterizar melhor efeitos adversos incomuns ou tardios.  Eles são tipicamente desenhados para identificar pequenos efeitos de tratamento (ou seja, um estudo de alto poder com grande número de participantes) em populações diversas de pacientes, e os resultados podem ser usados para refinar o uso dos fármacos na prática clínica.',
+        options:[
+          {label:'A', text:'Ensaio clínico de fase I'},
+          {label:'B', text:'Ensaio clínico de fase II'},
+          {label:'C', text:'Ensaio clínico de fase III'},
+          {label:'D', text:'Ensaio clínico de fase IV'},
+          {label:'E', text:'Estudo pré-clínico'},
+        ],
+        explC:'A eficácia e segurança de novos fármacos são estabelecidas durante o processo de ensaios clínicos.  Novos fármacos são aprovados por um órgão regulador (ou seja, Food and Drug Administration) após revisão dos ensaios de fase I-III.  As fases diferem em tamanho, objetivo e seleção de participantes.\n\n• Fase I:  Avalia segurança e farmacocinética.  A fase I geralmente é conduzida com um pequeno número (ex.: 20-80) de participantes saudáveis.  Frequentemente é realizada em um ambiente estritamente controlado com monitoramento bioquímico e fisiológico extenso.\n\n• Fase II:  Avalia eficácia preliminar e dose ideal.  A fase II é conduzida com um pequeno número de participantes que têm a condição de interesse, e os desfechos dos pacientes são frequentemente comparados com controles históricos.  Às vezes é chamada de estudo-piloto.\n\n• Fase III:  Compara o tratamento ao padrão de cuidado.  A fase III é conduzida como um grande ensaio randomizado e controlado (em contraste com este estudo, que é um estudo de vigilância sem grupo controle) para avaliar melhor a resposta ao tratamento e a segurança.  Pode incluir análise dos efeitos do tratamento em subgrupos selecionados da população-alvo de pacientes.\n\nA descrição deste estudo de um fármaco atualmente disponível é mais consistente com um estudo de fase IV (pós-comercialização), que é conduzido após a aprovação regulatória do fármaco.  A fase IV avalia segurança e efetividade em longo prazo e caracteriza efeitos adversos incomuns ou tardios.  Tipicamente envolve vigilância de um grande número de participantes tratados para detectar pequenos efeitos e variabilidade em populações diversas de pacientes.  Os resultados frequentemente são usados para refinar o uso do fármaco na prática clínica.',
+        explI:[
+          {option:'E', explanation:'Estudos pré-clínicos são tipicamente conduzidos sem indivíduos humanos (ou seja, pesquisa de bancada), em grande parte para determinar o mecanismo de ação e/ou fazer uma estimativa preliminar de segurança e eficácia.'},
+        ]
+      }
+    },
 
   ];
 
