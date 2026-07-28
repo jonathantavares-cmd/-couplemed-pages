@@ -123,16 +123,6 @@
       objective:'Link progressive dysphagia, weight loss, and a mid-esophageal mass in a smoker/drinker to squamous cell carcinoma.',
       peer:{A:56,B:30,C:6,D:3,E:5} },
 
-    { id:'q_gp_vongierke', system:'biochemistry', discipline:'biochem', category:'biochemistry::bioenergetics_carb_metabolism', difficulty:'hard',
-      vignette:'A 5-month-old infant is brought in with a protuberant abdomen. Exam reveals marked hepatomegaly and doll-like facies. During a brief fast the infant becomes lethargic; labs show severe hypoglycemia, lactic acidosis, hyperuricemia, and hyperlipidemia. Ketones are present but the infant does not improve with glucagon.',
-      q:'A deficiency of which enzyme best explains this presentation?',
-      options:[{label:'A',text:'Glucose-6-phosphatase'},{label:'B',text:'Alpha-1,4-glucosidase (acid maltase)'},{label:'C',text:'Debranching enzyme'},{label:'D',text:'Muscle glycogen phosphorylase'},{label:'E',text:'Branching enzyme'}],
-      correct:'A',
-      explC:'Von Gierke disease (glycogen storage disease type I) results from glucose-6-phosphatase deficiency. Glucose cannot be released from the liver, so fasting causes severe hypoglycemia unresponsive to glucagon, with lactic acidosis, hyperuricemia, and hyperlipidemia, plus massive hepatomegaly.',
-      explI:[{option:'B',explanation:'Acid maltase deficiency is Pompe disease (type II) — a lysosomal defect causing cardiomegaly and hypotonia, with normal blood glucose.'},{option:'C',explanation:'Debranching enzyme deficiency (Cori, type III) causes milder hypoglycemia WITHOUT lactic acidosis and with normal uric acid.'},{option:'D',explanation:'Muscle phosphorylase deficiency is McArdle disease (type V) — exercise intolerance and cramps, not fasting hypoglycemia.'},{option:'E',explanation:'Branching enzyme deficiency (Andersen, type IV) causes cirrhosis from abnormal glycogen, not the classic fasting-hypoglycemia triad.'}],
-      objective:'Recognize von Gierke disease (G6Pase deficiency) by fasting hypoglycemia unresponsive to glucagon with lactic acidosis, hyperuricemia, and hepatomegaly.',
-      peer:{A:49,B:14,C:20,D:9,E:8} },
-
     { id:'CMQ-STEP1-BST-0120', system:'biostatistics_epidemiology', discipline:'genetics', category:'biostatistics_epidemiology::misc', difficulty:'hard',
       vignette:'A group of geneticists plans to conduct a study on the distribution of allelic variants for a particular gene in a rat population.  In the sample population of 15 rats, the genotype distribution is 5 AA, 5 Aa, and 5 aa.  The phenotypes represented by the various allele combinations do not provide any specific benefit for survival.  During the study, rats will be allowed to mate randomly, but no new rats will be introduced to the population.  Based on the information provided, are the current allele and genotype frequencies in this population in Hardy-Weinberg equilibrium?',
       q:'',
@@ -6122,7 +6112,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-GEN-0053', system:'genetics', discipline:'genetics', category:'genetics::protein_synthesis', difficulty:'hard',
+    { id:'CMQ-STEP1-GEN-0053', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'hard',
       img:'assets/qbank/CMQ-STEP1-GEN-0053_desc.png',
       explImg:'assets/qbank/CMQ-STEP1-GEN-0053_expl_rna_polymerase_table.png',
       vignette:'A 58-year-old man comes to the office with a persistent dry cough.  He also has involuntarily lost 10 kg (22 lb) over the past 3 months.  The patient drinks 2 or 3 beers daily and has a 40-pack-year smoking history.  Physical examination shows dullness to percussion over the right lower lung base.  CT scan of the chest reveals a right-sided pleural effusion and a mass in the lower lobe of the right lung.  Microscopic examination of the mass demonstrates malignant cells with large nuclei that contain prominent, round, basophilic bodies, as shown in the image below:',
@@ -6374,7 +6364,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-GEN-0059', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'easy',
+    { id:'CMQ-STEP1-GEN-0059', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'easy',
       img:'assets/qbank/CMQ-STEP1-GEN-0059_desc.png',
       explImg:'assets/qbank/CMQ-STEP1-GEN-0059_expl_eukaryotic_gene_organization.png',
       vignette:'A genetic study performed on a 10-year-old boy reveals a single base substitution mutation impacting the production of a cellular protein.  The affected region of the involved gene is shown in the image below.',
@@ -6421,7 +6411,7 @@
       }
     },
     // BATCH GEN 07 — Genetics: Miscellaneous
-    { id:'CMQ-STEP1-GEN-0060', system:'genetics', discipline:'genetics', category:'genetics::clinical_genetics', difficulty:'easy',
+    { id:'CMQ-STEP1-GEN-0060', system:'genetics', discipline:'genetics', category:'genetics::miscellaneous', difficulty:'easy',
       img:'assets/qbank/CMQ-STEP1-GEN-0060_desc.png',
       explImg:'assets/qbank/CMQ-STEP1-GEN-0060_expl_down_syndrome_comorbidities.png',
       vignette:'A 35-year-old woman, gravida 1 para 0, at 20 weeks gestation comes to the office for a routine prenatal visit and fetal anatomy ultrasound.  The ultrasound reveals several abnormalities.  An amniocentesis is performed and a fetal karyotype analysis is ordered; the results are shown in the image below:',
@@ -6465,7 +6455,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-GEN-0061', system:'genetics', discipline:'biochemistry', category:'genetics::dna_structure_replication_repair', difficulty:'medium',
+    { id:'CMQ-STEP1-GEN-0061', system:'genetics', discipline:'biochemistry', category:'genetics::miscellaneous', difficulty:'medium',
       explImg:'assets/qbank/CMQ-STEP1-GEN-0061_expl_blot_techniques_table.png',
       vignette:'Molecular biologists undertake a series of experiments designed to classify proteins involved in various intracellular pathways in neurons.  During one of the experiments, a protein mixture obtained from a cell culture is separated by gel electrophoresis and subsequently transferred to a filter membrane.  Labeled probes consisting of double-strand DNA are then used to detect a specific target of interest in the sample.',
       q:'This method is most likely to detect which of the following?',
@@ -7247,7 +7237,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-MIC-0019', system:'microbiology', discipline:'microbiology', category:'microbiology::parasitology', difficulty:'hard',
+    { id:'CMQ-STEP1-MIC-0019', system:'microbiology', discipline:'microbiology', category:'microbiology::miscellaneous', difficulty:'hard',
       explImg:'assets/qbank/CMQ-STEP1-MIC-0019_malaria_life_cycle.png',
       vignette:'A 54-year-old man comes to the emergency department due to intermittent fever, headache, body aches, and fatigue for the past week.  He has taken over-the-counter flu medicines, but the symptoms continue to persist.  The patient is a petroleum engineer; 6 months ago, he spent 8 weeks in Brazil developing a new oil field.  Temperature is 37.6 C (99.7 F), blood pressure is 128/72 mm Hg, pulse is 102/min, and respirations are 18/min.  On physical examination, the lungs are clear to auscultation and there are no cardiac murmurs.  The spleen is palpable 2 cm below the left costal margin.  The remainder of the examination is unremarkable.  Laboratory results are as follows:\n\nHemoglobin 8.8 g/dL\nPlatelets 96,000/mm3\nLeukocytes 7,200/mm3\n\nPeripheral blood smear is shown in the exhibit.',
       q:'Which of the following is the most likely underlying cause of this patient\'s current condition?',
@@ -7288,7 +7278,7 @@
         ]
       }
     },
-    { id:'CMQ-STEP1-MIC-0020', system:'microbiology', discipline:'microbiology', category:'microbiology::parasitology', difficulty:'medium',
+    { id:'CMQ-STEP1-MIC-0020', system:'microbiology', discipline:'microbiology', category:'microbiology::miscellaneous', difficulty:'medium',
       explImg:'assets/qbank/CMQ-STEP1-MIC-0020_giardia_trophozoite_cyst.png',
       vignette:'A 19-year-old man comes to the physician due to diarrhea for the last 4 months.  He visited a student health clinic at his university a month ago and was prescribed a course of antibiotics, but his diarrhea failed to improve.  He also has persistent nausea, a bloating sensation, and a 6.8-kg (15-lb) weight loss.  Microscopic examination of his stool for ova and parasites following trichrome staining is shown in the exhibit.',
       q:'Impairment of which of the following immune functions would most likely predispose to this patient\'s infection?',
@@ -7324,6 +7314,374 @@
           {option:'A, and D', explanation:'Neutrófilos e o sistema complemento são mecanismos de defesa importantes contra infecções bacterianas.  Eles não têm papel significativo no controle de infecções parasitárias.'},
           {option:'B', explanation:'As células T CD8+ não são importantes na eliminação da giardíase; elas são mais importantes para combater patógenos intestinais intracelulares, como Cryptosporidium parvum e Toxoplasma gondii.'},
           {option:'C', explanation:'Os eosinófilos não desempenham papel importante na defesa imune contra a Giardia; eosinofilia não é observada na giardíase e as células brancas geralmente estão ausentes nas fezes.  Os eosinófilos são mais importantes para combater infecções helmínticas intestinais.'},
+        ]
+      }
+    },
+
+    // BATCH MIC 03 — Microbiology: Virology
+    { id:'CMQ-STEP1-MIC-0021', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0021_phenotypic_mixing.png',
+      vignette:'The influenza A virus uses a sialic acid as a receptor for cellular entry.  The chemical composition of the specific type of sialic acid that the virus interacts with differs among animal species.  The avian influenza virus attaches to a specific sialic acid that is present in fowl epithelial cells but absent in human cells, whereas the human influenza virus can only attach to the type of sialic acid present in human respiratory epithelium.  When pig epithelial cells, which contain both types of sialic acid, are infected with the combination of avian and human influenza A viruses, some of the new avian influenza viral particles become capable of attaching to human cells.  However, the progeny of this new strain of avian influenza virus is still unable to attach to human epithelial cells.',
+      q:'Which of the following phenomena best describes the change in the avian influenza virus in this experiment?',
+      options:[
+        {label:'A', text:'Interference'},
+        {label:'B', text:'Phenotypic mixing'},
+        {label:'C', text:'Reassortment'},
+        {label:'D', text:'Recombination'},
+        {label:'E', text:'Transformation'},
+      ],
+      correct:'B',
+      explC:'The acquisition of a new viral surface protein is often all that is necessary for a virus to infect a new type of host cell.  In this scenario, avian and human influenza virus particles infect host pig cells; certain progeny avian virus particles obtain some of the surface components of the human influenza virus, allowing the avian virus to infect human cells.  This exchange is an example of phenotypic mixing, which occurs when a host cell is coinfected with 2 viral strains and progeny virions contain unchanged parental genome from one strain and nucleocapsid or envelope proteins from the other strain.  Because there is no genetic exchange, subsequent progeny revert to the original phenotype.',
+      explI:[
+        {option:'A', explanation:'Interference occurs when one virus inhibits replication or release of a second virus infecting the same cell.  It does not produce a new transient phenotype for progeny.'},
+        {option:'C', explanation:'Reassortment occurs when segmented viruses exchange whole genome segments.  A genomic change from reassortment would be retained in subsequent progeny.'},
+        {option:'D', explanation:'Recombination is exchange of genes between double-stranded DNA molecules by crossing over in homologous regions.  A genetic change would be inherited by subsequent progeny.'},
+        {option:'E', explanation:'Transformation is uptake of naked DNA or incorporation of viral DNA into a host chromosome; it changes the host cell rather than transiently changing progeny virion surface proteins.'},
+      ],
+      objective:'Phenotypic mixing occurs when a host cell is coinfected by 2 viral strains, producing progeny with surface proteins from one strain and an unchanged genome from another; subsequent progeny revert because no genetic exchange occurred.',
+      peer:{A:2, B:28, C:36, D:16, E:15},
+      ptTranslation:{
+        vignette:'O vírus influenza A usa ácido siálico como receptor para entrada celular.  A composição química do tipo específico de ácido siálico com o qual o vírus interage difere entre espécies animais.  O vírus da influenza aviária se liga a um ácido siálico específico presente nas células epiteliais de aves, mas ausente em células humanas, enquanto o vírus da influenza humana só consegue se ligar ao tipo de ácido siálico presente no epitélio respiratório humano.  Quando células epiteliais de porco, que contêm os dois tipos de ácido siálico, são infectadas com a combinação de vírus influenza A aviário e humano, algumas das novas partículas virais de influenza aviária tornam-se capazes de se ligar a células humanas.  No entanto, a progênie dessa nova cepa de vírus influenza aviária ainda é incapaz de se ligar a células epiteliais humanas.',
+        q:'Qual dos seguintes fenômenos melhor descreve a mudança no vírus da influenza aviária neste experimento?',
+        objective:'A mistura fenotípica ocorre quando uma célula hospedeira é coinfectada por 2 cepas virais, produzindo progênie com proteínas de superfície de uma cepa e genoma inalterado de outra; a progênie subsequente reverte porque não houve troca genética.',
+        options:[
+          {label:'A', text:'Interferência'},
+          {label:'B', text:'Mistura fenotípica'},
+          {label:'C', text:'Reassortimento'},
+          {label:'D', text:'Recombinação'},
+          {label:'E', text:'Transformação'},
+        ],
+        explC:'A aquisição de uma nova proteína de superfície viral frequentemente é tudo que é necessário para que um vírus infecte um novo tipo de célula hospedeira.  Neste cenário, partículas de influenza aviária e humana infectam células de porco; certas partículas de progênie do vírus aviário obtêm alguns componentes de superfície do vírus da influenza humana, permitindo que o vírus aviário infecte células humanas.  Essa troca é um exemplo de mistura fenotípica, que ocorre quando uma célula hospedeira é coinfectada por 2 cepas virais e os vírions da progênie contêm o genoma parental inalterado de uma cepa e proteínas do nucleocapsídeo ou envelope da outra.  Como não há troca genética, a progênie subsequente reverte ao fenótipo original.',
+        explI:[
+          {option:'A', explanation:'A interferência ocorre quando um vírus inibe a replicação ou liberação de um segundo vírus que infecta a mesma célula.  Ela não produz um novo fenótipo transitório na progênie.'},
+          {option:'C', explanation:'O reassortimento ocorre quando vírus segmentados trocam segmentos inteiros do genoma.  Uma alteração genômica por reassortimento seria mantida na progênie subsequente.'},
+          {option:'D', explanation:'A recombinação é a troca de genes entre moléculas de DNA de fita dupla por crossing-over em regiões homólogas.  Uma alteração genética seria herdada pela progênie subsequente.'},
+          {option:'E', explanation:'A transformação é a captação de DNA nu ou a incorporação de DNA viral ao cromossomo hospedeiro; ela altera a célula hospedeira, não as proteínas de superfície da progênie viral de forma transitória.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0022', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'hard',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0022_recombination.png',
+      vignette:'A virologist is researching acyclovir-resistant herpes simplex virus (HSV).  Viral DNA analysis reveals a mutation in the thymidine kinase gene, resulting in a mutated enzyme that does not phosphorylate acyclovir to its active form.  In an experiment, a resistant HSV type 2 strain containing this mutation is cultured in a cell line, and the cell culture is coinfected with a nonresistant HSV type 1 strain.  It is found that some of the newly produced type 1 virions acquire resistance to acyclovir, and subsequent progeny continue to be resistant.',
+      q:'Which of the following mechanisms best explains the observed findings?',
+      options:[
+        {label:'A', text:'Interference'},
+        {label:'B', text:'Phenotypic mixing'},
+        {label:'C', text:'Reassortment'},
+        {label:'D', text:'Recombination'},
+        {label:'E', text:'Transformation'},
+      ],
+      correct:'D',
+      explC:'This scenario describes the exchange of genetic information between 2 virus strains that have nonsegmented, double-stranded DNA genomes.  Recombination refers to exchange of genes between 2 chromosomes via crossing over within homologous regions.  The resulting progeny can have recombined genomes with traits from both parent viruses.  In this case, the thymidine kinase genes in HSV type 1 and 2 virions likely have significant sequence similarity, allowing crossing over to occur with relatively high frequency.',
+      explI:[
+        {option:'A', explanation:'Interference occurs when one virus inhibits replication or release of a second virus infecting the same cell.  Simple interference would not result in recombinant progeny virions.'},
+        {option:'B', explanation:'Phenotypic mixing can give progeny the genome of one strain and capsid or envelope proteins of another, but the genome is unchanged and later progeny do not retain the trait.'},
+        {option:'C', explanation:'Reassortment occurs when segmented viruses exchange whole genome segments.  Herpesvirus genomes are nonsegmented, so they do not reassort.'},
+        {option:'E', explanation:'Transformation is uptake of naked DNA by a cell or incorporation of viral DNA into a host chromosome; it does not typically cause genomic change in progeny virions.'},
+      ],
+      objective:'Recombination is gene exchange through crossing over of 2 double-stranded DNA molecules.  Reassortment is mixing of genome segments in segmented viruses infecting the same host cell.',
+      peer:{A:1, B:12, C:21, D:37, E:26},
+      ptTranslation:{
+        vignette:'Um virologista está pesquisando herpes simplex virus (HSV) resistente ao aciclovir.  A análise do DNA viral revela uma mutação no gene da timidina quinase, resultando em uma enzima mutada que não fosforila o aciclovir para sua forma ativa.  Em um experimento, uma cepa resistente de HSV tipo 2 contendo essa mutação é cultivada em uma linhagem celular, e a cultura celular é coinfectada com uma cepa de HSV tipo 1 não resistente.  Observa-se que alguns dos vírions tipo 1 recém-produzidos adquirem resistência ao aciclovir, e a progênie subsequente continua resistente.',
+        q:'Qual dos seguintes mecanismos melhor explica os achados observados?',
+        objective:'A recombinação é a troca de genes por crossing-over entre 2 moléculas de DNA de fita dupla.  O reassortimento é a mistura de segmentos genômicos em vírus segmentados que infectam a mesma célula hospedeira.',
+        options:[
+          {label:'A', text:'Interferência'},
+          {label:'B', text:'Mistura fenotípica'},
+          {label:'C', text:'Reassortimento'},
+          {label:'D', text:'Recombinação'},
+          {label:'E', text:'Transformação'},
+        ],
+        explC:'Este cenário descreve a troca de informação genética entre 2 cepas virais com genomas de DNA de fita dupla não segmentados.  Recombinação refere-se à troca de genes entre 2 cromossomos por crossing-over em regiões homólogas.  A progênie resultante pode ter genomas recombinados com características de ambos os vírus parentais.  Neste caso, os genes da timidina quinase nos vírions HSV tipo 1 e 2 provavelmente têm similaridade de sequência significativa, permitindo que o crossing-over ocorra com frequência relativamente alta.',
+        explI:[
+          {option:'A', explanation:'A interferência ocorre quando um vírus inibe a replicação ou liberação de um segundo vírus que infecta a mesma célula.  Interferência simples não resultaria em vírions de progênie recombinantes.'},
+          {option:'B', explanation:'A mistura fenotípica pode dar à progênie o genoma de uma cepa e proteínas do capsídeo ou envelope de outra, mas o genoma fica inalterado e a progênie posterior não retém a característica.'},
+          {option:'C', explanation:'O reassortimento ocorre quando vírus segmentados trocam segmentos inteiros do genoma.  Os genomas dos herpesvírus são não segmentados, portanto eles não realizam reassortimento.'},
+          {option:'E', explanation:'A transformação é a captação de DNA nu por uma célula ou a incorporação de DNA viral em um cromossomo hospedeiro; ela tipicamente não causa alteração genômica na progênie viral.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0023', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0023_hcv_antigenic_variation.png',
+      vignette:'A 35-year-old man is found to have elevated alanine aminotransferase and aspartate aminotransferase levels.  He has no abdominal pain, nausea, or vomiting.  The patient has used intravenous drugs in the past but denies significant alcohol use.  His past medical history is negative for blood transfusions or excessive acetaminophen use.  Physical examination findings are normal.  Laboratory studies show high titers of IgG directed against the hepatitis C envelope protein.',
+      q:'Which of the following is the most likely reason that these antibodies do not confer effective immunity against the infection?',
+      options:[
+        {label:'A', text:'Envelope proteins are lost after recurrent viral replication'},
+        {label:'B', text:'Envelope proteins are sequestered within hepatocytes'},
+        {label:'C', text:'Envelope proteins have low immunogenicity'},
+        {label:'D', text:'Envelope proteins have variations in their antigenic structure'},
+        {label:'E', text:'The antibodies do not have neutralizing properties'},
+      ],
+      correct:'D',
+      explC:'Hepatitis C virus has 6 or more genotypes and multiple subtypes that differ markedly in genomic composition because its RNA-dependent RNA polymerase lacks proofreading activity.  The high mutation rate leads to distinct quasispecies within infected individuals, especially in hypervariable regions coding for envelope glycoproteins.  As host antibodies are produced against one quasispecies, that strain dies off and new antigenic variants take its place, preventing effective immune clearance and complicating vaccine development.',
+      explI:[
+        {option:'A and B', explanation:'HCV envelope proteins are not lost after recurrent replication and are not sequestered within hepatocytes; they are necessary for viral infectivity because they mediate adhesion and fusion with host hepatocytes.'},
+        {option:'C', explanation:'Like most foreign proteins, HCV envelope proteins are immunogenic.'},
+        {option:'E', explanation:'Host antibodies against HCV can neutralize established quasispecies; the difficulty is the continual emergence of mutant strains.'},
+      ],
+      objective:'Genetic variation created during HCV replication produces marked antigenic diversity in envelope proteins, so antibody production lags behind newly emerging mutant strains.',
+      peer:{A:5, B:10, C:10, D:68, E:5},
+      ptTranslation:{
+        vignette:'Um homem de 35 anos apresenta níveis elevados de alanina aminotransferase e aspartato aminotransferase.  Ele não tem dor abdominal, náuseas ou vômitos.  O paciente já usou drogas intravenosas no passado, mas nega uso significativo de álcool.  Sua história médica pregressa é negativa para transfusões sanguíneas ou uso excessivo de acetaminofeno.  Os achados do exame físico são normais.  Os exames laboratoriais mostram altos títulos de IgG direcionados contra a proteína do envelope da hepatite C.',
+        q:'Qual das seguintes é a razão mais provável pela qual esses anticorpos não conferem imunidade efetiva contra a infecção?',
+        objective:'A variação genética criada durante a replicação do HCV produz grande diversidade antigênica nas proteínas do envelope, de modo que a produção de anticorpos fica atrás das novas cepas mutantes emergentes.',
+        options:[
+          {label:'A', text:'As proteínas do envelope são perdidas após replicação viral recorrente'},
+          {label:'B', text:'As proteínas do envelope ficam sequestradas dentro dos hepatócitos'},
+          {label:'C', text:'As proteínas do envelope têm baixa imunogenicidade'},
+          {label:'D', text:'As proteínas do envelope têm variações em sua estrutura antigênica'},
+          {label:'E', text:'Os anticorpos não têm propriedades neutralizantes'},
+        ],
+        explC:'O vírus da hepatite C tem 6 ou mais genótipos e múltiplos subtipos que diferem acentuadamente em composição genômica porque sua RNA polimerase dependente de RNA não tem atividade de proofreading.  A alta taxa de mutação leva a quasispecies distintas dentro dos indivíduos infectados, especialmente em regiões hipervariáveis que codificam glicoproteínas do envelope.  À medida que anticorpos do hospedeiro são produzidos contra uma quasispecies, essa cepa desaparece e novas variantes antigênicas a substituem, impedindo depuração imune efetiva e dificultando o desenvolvimento de vacinas.',
+        explI:[
+          {option:'A and B', explanation:'As proteínas do envelope do HCV não são perdidas após replicação recorrente e não ficam sequestradas dentro dos hepatócitos; elas são necessárias para a infectividade viral porque mediam adesão e fusão com hepatócitos hospedeiros.'},
+          {option:'C', explanation:'Como a maioria das proteínas estranhas, as proteínas do envelope do HCV são imunogênicas.'},
+          {option:'E', explanation:'Os anticorpos do hospedeiro contra o HCV podem neutralizar quasispecies estabelecidas; a dificuldade é o surgimento contínuo de cepas mutantes.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0024', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'medium',
+      vignette:'A 64-year-old man comes to the emergency department due to 2 days of abrupt-onset fever, malaise, and myalgia.  He has also had nasal discharge, sore throat, and a nonproductive cough.  The patient has a history of hypertension and chronic obstructive pulmonary disease.  He is a former smoker but does not use alcohol or illicit drugs.  Temperature is 38.3 C (101 F), blood pressure is 130/70 mm Hg, pulse is 96/min, and respirations are 18/min.  Physical examination shows watery nasal discharge, pharyngeal erythema, and clear lungs on auscultation.  Droplet precautions are immediately instituted to prevent spread of the infection.  Hand hygiene with an alcohol-based disinfectant following patient contact is also initiated.',
+      q:'This patient\'s infecting pathogen is likely susceptible to the disinfectant due to the presence of which of the following characteristics?',
+      options:[
+        {label:'A', text:'Lipid bilayer envelope'},
+        {label:'B', text:'Nucleocapsid proteins'},
+        {label:'C', text:'Segmented RNA genome'},
+        {label:'D', text:'Surface glycoproteins'},
+        {label:'E', text:'Surface ion channels'},
+      ],
+      correct:'A',
+      explC:'Abrupt fever, malaise, myalgias, rhinorrhea, sore throat, and cough are consistent with influenza.  Influenza is an enveloped orthomyxovirus with a segmented, negative-sense, single-stranded RNA genome and spreads through large-particle droplets.  Alcohol-based disinfectants kill vegetative bacteria, fungi, and enveloped viruses by dissolving lipid bilayer membranes and denaturing proteins.  Nonenveloped viruses are less susceptible because they lack a lipid envelope.',
+      explI:[
+        {option:'B', explanation:'Proteins and spores are sterilized by moist heat, which denatures proteins.  Alcohol has variable protein effects but its strongest action is on lipophilic membranes.'},
+        {option:'C', explanation:'RNA can be rendered inert by ionizing radiation; alcohol has minimal effect on RNA molecule integrity.'},
+        {option:'D', explanation:'Neuraminidase, an influenza surface glycoprotein, is targeted by neuraminidase inhibitors such as oseltamivir and zanamivir.'},
+        {option:'E', explanation:'The M2 ion channel mediates influenza envelope fusion with the endosome membrane.  M2 inhibitors are not recommended in the United States due to widespread resistance.'},
+      ],
+      objective:'Alcohol-based disinfectants kill enveloped viruses such as influenza by dissolving their outer lipid envelope; nonenveloped viruses are less susceptible.',
+      peer:{A:56, B:10, C:6, D:18, E:8},
+      ptTranslation:{
+        vignette:'Um homem de 64 anos vai ao pronto-socorro devido a 2 dias de febre de início abrupto, mal-estar e mialgia.  Ele também apresentou secreção nasal, dor de garganta e tosse não produtiva.  O paciente tem história de hipertensão e doença pulmonar obstrutiva crônica.  É ex-tabagista, mas não usa álcool nem drogas ilícitas.  A temperatura é 38,3°C (101°F), a pressão arterial é 130/70 mmHg, o pulso é 96/min, e a frequência respiratória é 18/min.  O exame físico mostra secreção nasal aquosa, eritema faríngeo e pulmões limpos à ausculta.  Precauções contra gotículas são instituídas imediatamente para prevenir a disseminação da infecção.  Higiene das mãos com desinfetante à base de álcool após contato com o paciente também é iniciada.',
+        q:'O patógeno que infecta este paciente provavelmente é suscetível ao desinfetante devido à presença de qual das seguintes características?',
+        objective:'Desinfetantes à base de álcool matam vírus envelopados, como influenza, ao dissolver seu envelope lipídico externo; vírus não envelopados são menos suscetíveis.',
+        options:[
+          {label:'A', text:'Envelope de bicamada lipídica'},
+          {label:'B', text:'Proteínas do nucleocapsídeo'},
+          {label:'C', text:'Genoma de RNA segmentado'},
+          {label:'D', text:'Glicoproteínas de superfície'},
+          {label:'E', text:'Canais iônicos de superfície'},
+        ],
+        explC:'Febre abrupta, mal-estar, mialgias, rinorreia, dor de garganta e tosse são compatíveis com influenza.  Influenza é um ortomixovírus envelopado com genoma de RNA de fita simples, sentido negativo e segmentado, transmitido por gotículas grandes.  Desinfetantes à base de álcool matam bactérias vegetativas, fungos e vírus envelopados ao dissolver membranas de bicamada lipídica e desnaturar proteínas.  Vírus não envelopados são menos suscetíveis porque não têm envelope lipídico.',
+        explI:[
+          {option:'B', explanation:'Proteínas e esporos são esterilizados por calor úmido, que desnatura proteínas.  O álcool tem efeitos variáveis sobre proteínas, mas sua ação mais forte é em membranas lipofílicas.'},
+          {option:'C', explanation:'O RNA pode ser tornado inerte por radiação ionizante; o álcool tem efeito mínimo sobre a integridade da molécula de RNA.'},
+          {option:'D', explanation:'A neuraminidase, uma glicoproteína de superfície da influenza, é alvo de inibidores da neuraminidase, como oseltamivir e zanamivir.'},
+          {option:'E', explanation:'O canal iônico M2 medeia a fusão do envelope da influenza com a membrana do endossomo.  Inibidores de M2 não são recomendados nos Estados Unidos devido à resistência disseminada.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0025', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'easy',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0025_hbv_life_cycle.png',
+      vignette:'A 36-year-old man comes to the office due to 2 months of fatigue, intermittent arthralgias, and poor appetite.  The patient has no prior medical conditions and takes no medications.  He does not use tobacco or illicit drugs, and he drinks alcohol occasionally.  The patient has had multiple sexual partners and uses condoms inconsistently.  Physical examination shows no abnormalities.  Liver aminotransferases are elevated.  Hepatitis serology shows the following:\n\nHepatitis A virus antibody, total: negative\nHepatitis B surface antibody (HBsAb): negative\nHepatitis B core antibody (HBcAb), total: positive\nHepatitis B surface antigen (HBsAg): positive\nHepatitis B E antigen (HBeAg): positive\nHepatitis C virus antibody: negative',
+      q:'Which of the following genome replicative processes is most likely used by the virus infecting this patient?',
+      options:[
+        {label:'A', text:'Double-stranded DNA → double-stranded DNA template → double-stranded DNA progeny'},
+        {label:'B', text:'Double-stranded DNA → +RNA template → partially double-stranded DNA progeny'},
+        {label:'C', text:'Single-stranded DNA → double-stranded DNA template → single-stranded DNA progeny'},
+        {label:'D', text:'Single-stranded +RNA → double-stranded DNA template → single-stranded +RNA progeny'},
+        {label:'E', text:'Single-stranded +RNA → -RNA template → single-stranded +RNA progeny'},
+        {label:'F', text:'Single-stranded -RNA → +RNA template → single-stranded -RNA progeny'},
+      ],
+      correct:'B',
+      explC:'Acute hepatitis B virus infection is marked by HBsAg, HBeAg, anti-HBc, and absence of anti-HBs.  HBV is a hepadnavirus with an outer lipid envelope, an icosahedral nucleocapsid, a circular partially double-stranded DNA genome, and a DNA polymerase with reverse transcriptase activity.  After entry and uncoating, the single-stranded DNA portion is repaired to double-stranded viral DNA.  Host RNA polymerase transcribes this DNA into a positive-sense RNA pregenome, which is translated into viral proteins and reverse transcribed by viral polymerase into partially double-stranded DNA progeny.',
+      explI:[
+        {option:'A', explanation:'This replicative sequence characterizes adenovirus, herpesvirus, and poxvirus.'},
+        {option:'C', explanation:'This replicative sequence characterizes parvovirus B19.'},
+        {option:'D', explanation:'This replicative sequence characterizes retroviruses such as HIV.'},
+        {option:'E', explanation:'This replicative sequence characterizes poliovirus.'},
+        {option:'F', explanation:'This replicative sequence characterizes influenza virus, measles virus, and rabies virus.'},
+      ],
+      objective:'HBV replicates through double-stranded DNA → +RNA template → partially double-stranded DNA progeny; although it is a DNA virus, it uses reverse transcription.',
+      peer:{A:16, B:63, C:7, D:8, E:3, F:1},
+      ptTranslation:{
+        vignette:'Um homem de 36 anos vai ao consultório devido a 2 meses de fadiga, artralgias intermitentes e pouco apetite.  O paciente não tem condições médicas prévias e não toma medicamentos.  Ele não usa tabaco nem drogas ilícitas, e bebe álcool ocasionalmente.  O paciente teve múltiplas parceiras sexuais e usa preservativos de forma inconsistente.  O exame físico não mostra anormalidades.  As aminotransferases hepáticas estão elevadas.  A sorologia para hepatite mostra o seguinte:\n\nAnticorpo total contra vírus da hepatite A: negativo\nAnticorpo de superfície da hepatite B (HBsAb): negativo\nAnticorpo core da hepatite B (HBcAb), total: positivo\nAntígeno de superfície da hepatite B (HBsAg): positivo\nAntígeno E da hepatite B (HBeAg): positivo\nAnticorpo contra vírus da hepatite C: negativo',
+        q:'Qual dos seguintes processos de replicação genômica é mais provavelmente usado pelo vírus que infecta este paciente?',
+        objective:'O HBV replica por DNA de fita dupla → molde de +RNA → progênie de DNA parcialmente fita dupla; embora seja um vírus de DNA, ele usa transcrição reversa.',
+        options:[
+          {label:'A', text:'DNA de fita dupla → molde de DNA de fita dupla → progênie de DNA de fita dupla'},
+          {label:'B', text:'DNA de fita dupla → molde de +RNA → progênie de DNA parcialmente fita dupla'},
+          {label:'C', text:'DNA de fita simples → molde de DNA de fita dupla → progênie de DNA de fita simples'},
+          {label:'D', text:'RNA de fita simples + → molde de DNA de fita dupla → progênie de RNA de fita simples +'},
+          {label:'E', text:'RNA de fita simples + → molde de -RNA → progênie de RNA de fita simples +'},
+          {label:'F', text:'RNA de fita simples - → molde de +RNA → progênie de RNA de fita simples -'},
+        ],
+        explC:'A infecção aguda pelo vírus da hepatite B é marcada por HBsAg, HBeAg, anti-HBc e ausência de anti-HBs.  O HBV é um hepadnavírus com envelope lipídico externo, nucleocapsídeo icosaédrico, genoma circular de DNA parcialmente fita dupla e uma DNA polimerase com atividade de transcriptase reversa.  Após entrada e desnudamento, a porção de DNA de fita simples é reparada para DNA viral de fita dupla.  A RNA polimerase do hospedeiro transcreve esse DNA em um pré-genoma de RNA de sentido positivo, que é traduzido em proteínas virais e transcrito reversamente pela polimerase viral em progênie de DNA parcialmente fita dupla.',
+        explI:[
+          {option:'A', explanation:'Essa sequência replicativa caracteriza adenovírus, herpesvírus e poxvírus.'},
+          {option:'C', explanation:'Essa sequência replicativa caracteriza o parvovírus B19.'},
+          {option:'D', explanation:'Essa sequência replicativa caracteriza retrovírus, como o HIV.'},
+          {option:'E', explanation:'Essa sequência replicativa caracteriza o poliovírus.'},
+          {option:'F', explanation:'Essa sequência replicativa caracteriza vírus influenza, vírus do sarampo e vírus da raiva.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0026', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0026_hbv_life_cycle.png',
+      vignette:'A 22-year-old man with fever and joint pain is found to have atypical lymphocytes on his blood smear.  Further evaluation shows that his condition is caused by an enveloped virus containing partially double-stranded circular DNA.  An enzyme packed in its virion has RNA-dependent DNA-polymerase activity.',
+      q:'This patient is most likely infected with which of the following viruses?',
+      options:[
+        {label:'A', text:'Coxsackie virus'},
+        {label:'B', text:'Cytomegalovirus'},
+        {label:'C', text:'Epstein-Barr virus'},
+        {label:'D', text:'Hepatitis B virus'},
+        {label:'E', text:'Human immunodeficiency virus'},
+        {label:'F', text:'Parvovirus B19'},
+      ],
+      correct:'D',
+      explC:'The described morphology is classic for hepatitis B virus, a DNA-containing hepadnavirus.  The mature Dane particle has a protein core surrounded by a lipid bilayer envelope and contains a partially double-stranded circular DNA genome.  Replication occurs in a newly synthesized capsid containing full-length viral mRNA; reverse transcriptase acts on this RNA template to create a single-stranded DNA intermediate that is converted back into circular, partially double-stranded DNA.',
+      explI:[
+        {option:'A', explanation:'Coxsackie virus is a picornavirus with a nonenveloped icosahedral capsid and a positive-sense single-stranded RNA genome.'},
+        {option:'B and C', explanation:'Cytomegalovirus and Epstein-Barr virus are herpesviruses with double-stranded linear DNA and envelopes acquired by budding from the nuclear membrane.'},
+        {option:'E', explanation:'HIV is a retrovirus with 2 positive-sense single-stranded RNA molecules transcribed into double-stranded DNA by reverse transcriptase.'},
+        {option:'F', explanation:'Parvovirus B19 is a small nonenveloped icosahedral virus with linear single-stranded DNA and no polymerase in the virion.'},
+      ],
+      objective:'The mature hepatitis B virion contains partially double-stranded circular DNA and reverse transcriptase, which replicates the genome through an RNA template inside the capsid.',
+      peer:{A:2, B:5, C:23, D:55, E:7, F:5},
+      ptTranslation:{
+        vignette:'Um homem de 22 anos com febre e dor articular apresenta linfócitos atípicos no esfregaço sanguíneo.  Avaliação adicional mostra que sua condição é causada por um vírus envelopado contendo DNA circular parcialmente fita dupla.  Uma enzima empacotada em seu vírion tem atividade de DNA polimerase dependente de RNA.',
+        q:'Este paciente está mais provavelmente infectado por qual dos seguintes vírus?',
+        objective:'O vírion maduro da hepatite B contém DNA circular parcialmente fita dupla e transcriptase reversa, que replica o genoma por meio de um molde de RNA dentro do capsídeo.',
+        options:[
+          {label:'A', text:'Vírus coxsackie'},
+          {label:'B', text:'Citomegalovírus'},
+          {label:'C', text:'Vírus Epstein-Barr'},
+          {label:'D', text:'Vírus da hepatite B'},
+          {label:'E', text:'Vírus da imunodeficiência humana'},
+          {label:'F', text:'Parvovírus B19'},
+        ],
+        explC:'A morfologia descrita é clássica do vírus da hepatite B, um hepadnavírus contendo DNA.  A partícula de Dane madura tem um core proteico circundado por envelope de bicamada lipídica e contém um genoma circular de DNA parcialmente fita dupla.  A replicação ocorre em um capsídeo recém-sintetizado contendo mRNA viral de comprimento completo; a transcriptase reversa atua nesse molde de RNA para criar um intermediário de DNA de fita simples, que é convertido novamente em DNA circular parcialmente fita dupla.',
+        explI:[
+          {option:'A', explanation:'O vírus coxsackie é um picornavírus com capsídeo icosaédrico não envelopado e genoma de RNA de fita simples de sentido positivo.'},
+          {option:'B and C', explanation:'Citomegalovírus e vírus Epstein-Barr são herpesvírus com DNA linear de fita dupla e envelopes adquiridos por brotamento a partir da membrana nuclear.'},
+          {option:'E', explanation:'O HIV é um retrovírus com 2 moléculas de RNA de fita simples de sentido positivo transcritas em DNA de fita dupla pela transcriptase reversa.'},
+          {option:'F', explanation:'O parvovírus B19 é um pequeno vírus icosaédrico não envelopado com DNA linear de fita simples e sem polimerase no vírion.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0027', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'medium',
+      vignette:'Researchers are studying mechanisms of human infection by animal viruses.  The investigators induce random mutations in the genome of an avian influenza virus that is unable to infect humans but is structurally similar to human influenza A virus.  A mutated isolate is found to be able to infect human upper respiratory tract epithelial cells.',
+      q:'Alteration in which of the following viral components most likely enabled this novel strain to cause cross-species infection?',
+      options:[
+        {label:'A', text:'Antigenic glycoprotein'},
+        {label:'B', text:'Lipid bilayer envelope'},
+        {label:'C', text:'mRNA endonuclease'},
+        {label:'D', text:'Nucleocapsid protein'},
+        {label:'E', text:'RNA polymerase'},
+      ],
+      correct:'A',
+      explC:'Influenza virus is an enveloped, segmented, negative-sense RNA virus.  Host cell interaction depends on hemagglutinin, a viral surface glycoprotein that binds sialic acid receptors on respiratory epithelial cells.  Influenza strains that cannot infect humans encode hemagglutinin that cannot bind human cells.  Antigenic changes to hemagglutinin can alter tissue tropism and allow animal strains to infect human cells.',
+      explI:[
+        {option:'B', explanation:'The lipid bilayer envelope is generated from host cells during viral replication and is not the main determinant of host-cell binding.'},
+        {option:'C, D, and E', explanation:'mRNA endonuclease, nucleocapsid protein, and RNA polymerase are released into the cytoplasm after attachment and endocytosis.  Mutations in these proteins may affect replication but are unlikely to alter tissue tropism because they do not mediate surface attachment.'},
+      ],
+      objective:'Viral tissue tropism is primarily mediated by viral surface glycoproteins that bind specific host cell receptors; mutations in these proteins can permit cross-species infection.',
+      peer:{A:54, B:9, C:5, D:23, E:6},
+      ptTranslation:{
+        vignette:'Pesquisadores estão estudando mecanismos de infecção humana por vírus animais.  Os investigadores induzem mutações aleatórias no genoma de um vírus influenza aviário incapaz de infectar humanos, mas estruturalmente semelhante ao vírus influenza A humano.  Um isolado mutado é capaz de infectar células epiteliais do trato respiratório superior humano.',
+        q:'A alteração de qual dos seguintes componentes virais mais provavelmente permitiu que essa nova cepa causasse infecção entre espécies?',
+        objective:'O tropismo tecidual viral é mediado principalmente por glicoproteínas de superfície viral que se ligam a receptores específicos da célula hospedeira; mutações nessas proteínas podem permitir infecção entre espécies.',
+        options:[
+          {label:'A', text:'Glicoproteína antigênica'},
+          {label:'B', text:'Envelope de bicamada lipídica'},
+          {label:'C', text:'Endonuclease de mRNA'},
+          {label:'D', text:'Proteína do nucleocapsídeo'},
+          {label:'E', text:'RNA polimerase'},
+        ],
+        explC:'O vírus influenza é um vírus de RNA envelopado, segmentado e de sentido negativo.  A interação com a célula hospedeira depende da hemaglutinina, uma glicoproteína de superfície viral que se liga a receptores de ácido siálico nas células epiteliais respiratórias.  Cepas de influenza incapazes de infectar humanos codificam hemaglutinina que não consegue se ligar a células humanas.  Alterações antigênicas na hemaglutinina podem modificar o tropismo tecidual e permitir que cepas animais infectem células humanas.',
+        explI:[
+          {option:'B', explanation:'O envelope de bicamada lipídica é gerado a partir de células hospedeiras durante a replicação viral e não é o principal determinante da ligação à célula hospedeira.'},
+          {option:'C, D, and E', explanation:'Endonuclease de mRNA, proteína do nucleocapsídeo e RNA polimerase são liberadas no citoplasma após ligação e endocitose.  Mutações nessas proteínas podem afetar a replicação, mas provavelmente não alteram o tropismo tecidual porque elas não medeiam a ligação de superfície.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0028', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'easy',
+      vignette:'A 23-year-old woman participates in a research study evaluating the effect of monoclonal antibodies on viral infection.  The patient has no past medical history and takes no medications.  She has not been ill recently.  During the study, a peripheral blood specimen is obtained.  CD19-positive cells are isolated, purified, and exposed to monoclonal antibodies against cell surface complement receptor CD21.  The cells are subsequently incubated along with several viruses being studied.',
+      q:'Initial exposure to monoclonal antibodies against CD21 is most likely to prevent cell infection with which of the following viruses?',
+      options:[
+        {label:'A', text:'Adenovirus'},
+        {label:'B', text:'Cytomegalovirus'},
+        {label:'C', text:'Epstein-Barr virus'},
+        {label:'D', text:'Human immunodeficiency virus'},
+        {label:'E', text:'Parvovirus B19'},
+      ],
+      correct:'C',
+      explC:'Initial attachment of virion envelope or capsid surface proteins to complementary host cell surface receptors determines tissue tropism and invasion.  Epstein-Barr virus is a herpesvirus that causes infectious mononucleosis, nasopharyngeal carcinoma, and certain lymphomas.  EBV envelope glycoprotein gp350 binds CD21, also called CR2, the receptor for complement component C3d.  CD21 is present on B cells and nasopharyngeal epithelial cells, so anti-CD21 antibody can interfere with EBV attachment to B cells.',
+      explI:[
+        {option:'A', explanation:'Adenovirus attachment is mediated by fibers projecting from penton base capsomeres, not CD21.'},
+        {option:'B', explanation:'Cytomegalovirus initially contacts glycosaminoglycan chains on host cell surface proteoglycans and does not require CD21.'},
+        {option:'D', explanation:'HIV attaches through gp120 binding to CD4 and a coreceptor such as CCR5 or CXCR4; gp41 then mediates fusion.'},
+        {option:'E', explanation:'Parvovirus B19 attaches to erythroid cells via blood group P antigen (globoside).'},
+      ],
+      objective:'Important receptor interactions include CD4 with HIV gp120, CD21 with EBV gp350, and erythrocyte P antigen with parvovirus B19.',
+      peer:{A:2, B:4, C:83, D:5, E:4},
+      ptTranslation:{
+        vignette:'Uma mulher de 23 anos participa de um estudo de pesquisa avaliando o efeito de anticorpos monoclonais sobre infecção viral.  A paciente não tem história médica pregressa e não toma medicamentos.  Ela não ficou doente recentemente.  Durante o estudo, uma amostra de sangue periférico é obtida.  Células CD19-positivas são isoladas, purificadas e expostas a anticorpos monoclonais contra o receptor de complemento de superfície celular CD21.  As células são subsequentemente incubadas junto com vários vírus estudados.',
+        q:'A exposição inicial a anticorpos monoclonais contra CD21 tem maior probabilidade de prevenir infecção celular por qual dos seguintes vírus?',
+        objective:'Interações receptoras importantes incluem CD4 com gp120 do HIV, CD21 com gp350 do EBV e antígeno P eritrocitário com parvovírus B19.',
+        options:[
+          {label:'A', text:'Adenovírus'},
+          {label:'B', text:'Citomegalovírus'},
+          {label:'C', text:'Vírus Epstein-Barr'},
+          {label:'D', text:'Vírus da imunodeficiência humana'},
+          {label:'E', text:'Parvovírus B19'},
+        ],
+        explC:'A ligação inicial das proteínas de superfície do envelope ou capsídeo viral aos receptores complementares da superfície celular do hospedeiro determina tropismo tecidual e invasão.  O vírus Epstein-Barr é um herpesvírus que causa mononucleose infecciosa, carcinoma nasofaríngeo e certos linfomas.  A glicoproteína de envelope gp350 do EBV liga-se ao CD21, também chamado CR2, o receptor para o componente C3d do complemento.  O CD21 está presente em células B e células epiteliais nasofaríngeas, portanto o anticorpo anti-CD21 pode interferir na ligação do EBV às células B.',
+        explI:[
+          {option:'A', explanation:'A ligação do adenovírus é mediada por fibras que se projetam dos capsômeros da base penton, não por CD21.'},
+          {option:'B', explanation:'O citomegalovírus inicialmente contata cadeias de glicosaminoglicanos em proteoglicanos da superfície celular do hospedeiro e não requer CD21.'},
+          {option:'D', explanation:'O HIV se liga por meio da gp120 ao CD4 e a um correceptor como CCR5 ou CXCR4; a gp41 então medeia a fusão.'},
+          {option:'E', explanation:'O parvovírus B19 se liga a células eritroides por meio do antígeno P do grupo sanguíneo (globosídeo).'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-MIC-0029', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0029_reassortment.png',
+      vignette:'A 41-year-old woman comes to the emergency department due to 2 days of severe shortness of breath, high fevers, cough, and myalgias.  The patient is a businesswoman who works in the poultry industry.  She recently returned from a trip to China, where she visited several factories in different parts of the country.  Her temperature is 39.1 C (102.4 F).  The patient is in respiratory distress, and crackles and diffuse wheezes are present on pulmonary examination.  Laboratory results show that she contracted an orthomyxovirus that was responsible for an upper respiratory infection epidemic in China.  Transmission of the virus was originally thought to occur only through contact with poultry, but during the outbreak, sustained human-to-human transmission was observed.',
+      q:'Which of the following is most likely responsible for the infectivity of this virus in humans?',
+      options:[
+        {label:'A', text:'Antigenic drift'},
+        {label:'B', text:'Complementation'},
+        {label:'C', text:'Frameshift mutation'},
+        {label:'D', text:'Genetic reassortment'},
+        {label:'E', text:'Phenotypic mixing'},
+      ],
+      correct:'D',
+      explC:'Influenza viruses possess hemagglutinin and neuraminidase surface proteins, which are required for infectivity and are major immune targets.  Orthomyxoviruses have segmented genomes, and hemagglutinin and neuraminidase are encoded by separate RNA segments.  When 2 distinct influenza strains infect the same cell, genetic reassortment can package segments from different strains into a novel virion.  This antigenic shift can create a strain to which humans are susceptible but have no preexisting immunity, causing epidemics or pandemics.',
+      explI:[
+        {option:'A', explanation:'Antigenic drift refers to point mutations in hemagglutinin and neuraminidase genes that slightly alter proteins and help evade immunity; major changes in species transmission are better explained by reassortment.'},
+        {option:'B', explanation:'Complementation occurs when 2 mutant strains together produce a wild-type phenotype by providing normal gene products in trans.'},
+        {option:'C', explanation:'Frameshift mutations occur when inserted or deleted bases are not a multiple of 3, often creating premature termination and a truncated protein.'},
+        {option:'E', explanation:'Phenotypic mixing produces virions with proteins not encoded by their packaged genome, but subsequent progeny express only proteins encoded by their own genome; sustained transmission suggests genetic change.'},
+      ],
+      objective:'Influenza epidemics and pandemics are typically caused by reassortment of RNA segments encoding hemagglutinin or neuraminidase, producing major antigenic shift.',
+      peer:{A:31, B:1, C:3, D:54, E:9},
+      ptTranslation:{
+        vignette:'Uma mulher de 41 anos vai ao pronto-socorro devido a 2 dias de falta de ar intensa, febre alta, tosse e mialgias.  A paciente é empresária e trabalha na indústria avícola.  Ela retornou recentemente de uma viagem à China, onde visitou várias fábricas em diferentes partes do país.  Sua temperatura é 39,1°C (102,4°F).  A paciente está em desconforto respiratório, e há crepitações e sibilos difusos ao exame pulmonar.  Os resultados laboratoriais mostram que ela contraiu um ortomixovírus responsável por uma epidemia de infecção do trato respiratório superior na China.  A transmissão do vírus inicialmente era considerada restrita ao contato com aves, mas, durante o surto, foi observada transmissão sustentada de humano para humano.',
+        q:'Qual dos seguintes é mais provavelmente responsável pela infectividade desse vírus em humanos?',
+        objective:'Epidemias e pandemias de influenza são tipicamente causadas por reassortimento dos segmentos de RNA que codificam hemaglutinina ou neuraminidase, produzindo grande shift antigênico.',
+        options:[
+          {label:'A', text:'Drift antigênico'},
+          {label:'B', text:'Complementação'},
+          {label:'C', text:'Mutação frameshift'},
+          {label:'D', text:'Reassortimento genético'},
+          {label:'E', text:'Mistura fenotípica'},
+        ],
+        explC:'Os vírus influenza possuem hemaglutinina e neuraminidase como proteínas de superfície, necessárias para infectividade e principais alvos imunes.  Ortomixovírus têm genomas segmentados, e hemaglutinina e neuraminidase são codificadas por segmentos separados de RNA.  Quando 2 cepas distintas de influenza infectam a mesma célula, o reassortimento genético pode empacotar segmentos de diferentes cepas em um novo vírion.  Esse shift antigênico pode criar uma cepa à qual humanos são suscetíveis, mas contra a qual não têm imunidade prévia, causando epidemias ou pandemias.',
+        explI:[
+          {option:'A', explanation:'Drift antigênico refere-se a mutações pontuais nos genes da hemaglutinina e neuraminidase que alteram levemente as proteínas e ajudam a escapar da imunidade; mudanças importantes na transmissão entre espécies são melhor explicadas por reassortimento.'},
+          {option:'B', explanation:'Complementação ocorre quando 2 cepas mutantes juntas produzem um fenótipo selvagem ao fornecer produtos gênicos normais em trans.'},
+          {option:'C', explanation:'Mutações frameshift ocorrem quando bases inseridas ou deletadas não são múltiplos de 3, frequentemente gerando terminação prematura e uma proteína truncada.'},
+          {option:'E', explanation:'A mistura fenotípica produz vírions com proteínas não codificadas por seu genoma empacotado, mas a progênie subsequente expressa apenas proteínas codificadas por seu próprio genoma; transmissão sustentada sugere alteração genética.'},
         ]
       }
     },
