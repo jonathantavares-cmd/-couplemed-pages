@@ -64,11 +64,48 @@ Não existe modo "reescrever" para essas questões — isso só se aplicaria se 
 Quando o usuário disser **"adicionar questões novas"**, **"incluir questões"** ou **"incluir questões novas"** (ou variação equivalente) **sem colar/anexar o material direto na mensagem**, o procedimento é diferente do passo 1a da Seção 0 (que só se aplica quando o material vem colado na própria mensagem). O fluxo obrigatório é sempre o mesmo, nesta ordem: **(1)** ler este arquivo (`QBANK_ADD_QUESTION.md`) do início ao fim; **(2)** varrer a pasta `/Users/jonathan/Desktop/Questões Novas QBank 1/` e visualizar o conteúdo de cada arquivo encontrado; **(3)** processar tudo conforme os passos abaixo.
 
 1. **Localizar a pasta**: `/Users/jonathan/Desktop/Questões Novas QBank 1/` (nome atualizado pelo usuário em 2026-07-25; a pasta antiga `Questões novas/` foi renomeada e não existe mais). Varrer **recursivamente** — pode haver múltiplas subpastas dentro dela, com nomes/localizações diferentes a cada leva (por tema, por data, por lote enviado etc.), em qualquer profundidade. Listar todo arquivo de imagem (screenshot/foto de questão) encontrado.
+   - **Regra do ✅ no nome da pasta/subpasta:** se uma pasta ou subpasta já tiver `✅` no próprio nome (ex.: `06 - Biostatistics & Epidemiology ✅`, `01 - Epidemiology and population health ✅`), considerar que ela já foi concluída/auditada e **não precisa ser aberta nem reprocessada**. Seguir automaticamente para a próxima pasta/subpasta sem `✅` e verificar se há imagens/questões novas nela.
+   - Se houver um arquivo marcador como `✅ AUDITORIA CONCLUÍDA.txt`, ele confirma a conclusão, mas o marcador principal que deve guiar a navegação é o `✅` no **nome** da pasta/subpasta, pois é visível no Finder.
 2. **Processar TODAS as questões encontradas, independente da quantidade** — 50, 100, 200, 300 ou mais. Nunca parar no meio nem perguntar se deve continuar para o próximo lote. Trabalhar em lotes menores (5 questões por vez é o padrão sugerido, mas outro tamanho pode ser usado se ajudar a manter a qualidade da transcrição) e seguir automaticamente lote após lote, aplicando o procedimento completo da Seção 0 (fidelidade 0.1, dificuldade 0.2, labs 16b, tradução 17, imagem 19, taxonomia/dedup de ID Seção 3) em cada questão, até que **a pasta inteira** tenha sido incluída no SEED.
 3. **Exceções que ainda exigem parar e perguntar ao usuário** (não cobertas pela autonomia deste modo): dado realmente ausente no material (Seção 0.1 — nunca inventar), imagem corrompida/ilegível, ou ambiguidade de taxonomia que não seja resolvível sozinho consultando a Seção 5/6.
 4. Rodar `node --check public/js/qbank.js` ao final de cada lote (pega erro de sintaxe cedo) e novamente ao final da pasta inteira.
 5. Depois que **toda a pasta** tiver sido processada: *(opcional)* gerar o(s) link(s) de preview (Seção 20.3) só para conferência própria — não precisa ser aberto/enviado ao usuário.
 6. Seguir para `git add`/`git commit`/`git push` **automaticamente** (Seção 0, passos 5–6 — mudança de política em 2026-07-13: nem commit nem push esperam aprovação ou pedido explícito por leva). O usuário confere depois direto no site publicado, localizando as questões novas pela seção/taxonomia em que foram inseridas.
+
+### 0.4 Marcadores de conclusão com ✅ — obrigatório para pastas novas
+
+Ao processar conjuntos grandes em `/Users/jonathan/Desktop/Questões Novas QBank 1/` (especialmente as próximas pastas `07 - Poisoning & Environmental Exposure` até `26 - Miscellaneous (Multisystem)`), usar os marcadores de conclusão abaixo para deixar claro o que já foi incluído e auditado:
+
+1. **Antes de abrir uma pasta/subpasta**, verificar o nome:
+   - Com `✅`: pular, pois já foi concluída.
+   - Sem `✅`: abrir, contar/visualizar as imagens e processar o conteúdo.
+2. **Quando todas as questões de uma subpasta forem incluídas e auditadas**, renomear a subpasta adicionando ` ✅` ao final do nome. Exemplo:
+   - Antes: `01 - Epidemiology and population health`
+   - Depois: `01 - Epidemiology and population health ✅`
+3. **Quando todas as subpastas de uma pasta principal estiverem com `✅`**, renomear a pasta principal adicionando ` ✅` ao final. Exemplo:
+   - Antes: `06 - Biostatistics & Epidemiology`
+   - Depois: `06 - Biostatistics & Epidemiology ✅`
+4. Opcional, mas recomendado: criar dentro da pasta/subpasta um arquivo curto `✅ AUDITORIA CONCLUÍDA.txt` com o resumo do que foi feito. Isso ajuda caso algum app não mostre bem o emoji no nome, mas **não substitui** o `✅` no nome da pasta.
+5. Nunca remover ou alterar conteúdo original das imagens-fonte. A marcação com `✅` só indica que a pasta/subpasta já foi processada, conferida e não precisa ser reaberta em passadas futuras.
+6. Ao retomar trabalho depois de pausa, limite de uso ou troca de sessão, a primeira ação deve ser listar as pastas/subpastas e pular automaticamente tudo que já tiver `✅`, seguindo para a próxima pasta sem marca.
+
+### 0.5 Auditoria de pastas já processadas — imagens, transcrição e contagem
+
+Quando o usuário pedir auditoria/refinamento de questões já incluídas por VS Code, Claude Code ou outro fluxo anterior, executar uma segunda passada específica:
+
+1. **Auditar por subpasta**, não por ordem solta de IDs. Para cada subpasta sem `✅`, comparar as capturas-fonte com as questões já existentes no `SEED`.
+2. Confirmar a **contagem esperada por subpasta** contra o QBank. Se a tela/fonte indicar, por exemplo, `31 / 11 / 23 / 54 / 1`, a taxonomia do QBank deve refletir exatamente esses números.
+3. Conferir se a questão publicada corresponde à imagem-fonte correta. Se uma questão antiga estiver no tópico certo, mas com conteúdo de outra questão, substituir pelo conteúdo correto da imagem-fonte, mantendo a contagem.
+4. Conferir `img` e `explImg`:
+   - Tabelas, gráficos, diagramas, fluxogramas, exames e figuras da aba Explanation devem ser incluídos quando melhoram a visualização.
+   - Recortes com margem exagerada, texto cortado, gabarito colado, UI do navegador/Finder ou área vazia excessiva devem ser refeitos a partir da imagem-fonte limpa.
+   - Reutilizar assets idênticos quando a mesma tabela/diagrama aparece em várias questões; não duplicar arquivo só para trocar o ID se o conteúdo visual é o mesmo e já está claro.
+5. Conferir fidelidade de transcrição em inglês e tradução PT-BR, com atenção especial a números, unidades, `peer`, gabarito, Lab Values e sinais matemáticos (`<`, `>`, `≥`, `≤`, `−`, `×`).
+6. Rodar validações ao final de cada subpasta auditada:
+   - `node --check public/js/qbank.js`
+   - contagem por categoria/subcategoria
+   - checagem de assets referenciados inexistentes
+7. Só depois de corrigir tudo da subpasta, marcar a subpasta com `✅`. Só depois de todas as subpastas estarem marcadas, marcar a pasta principal com `✅`.
 
 **Sobre permissões de comando:** desde 2026-07-13, comandos de terminal (Bash/Read/Write) rodam em modo bypass — não pedem mais aprovação individual —, por isso este modo consegue rodar do início ao fim sem interrupção por prompt de permissão. Isso é independente da exigência de fidelidade (Seção 0.1), que continua valendo normalmente: só o gate de *aprovação humana antes do commit* foi removido, não a exigência de transcrever certo.
 
@@ -903,6 +940,9 @@ A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linh
    im = Image.open('original.png')
    im.crop((left, top, right, bottom)).save('cropped.png')  # coordenadas em pixels
    ```
+   - Em tabelas, gráficos e diagramas, o objetivo é que o conteúdo visual fique grande e legível no QBank. Se a tabela aparecer pequena por causa de espaço vazio lateral/superior/inferior, refazer o crop.
+   - Não recortar tão justo a ponto de cortar bordas, títulos, legendas, unidades, eixos ou notas importantes. A imagem final deve parecer uma figura limpa, não um pedaço arrancado de screenshot.
+   - Se o material-fonte já trouxer uma imagem isolada/limpa da tabela/diagrama em uma captura separada, preferir essa imagem limpa em vez de recortar a captura ampla da questão.
 3. **Redimensionar** para um tamanho eficiente e nítido dentro do container real do site — como a caixa tem no máximo 760px de largura exibida, mas telas retina mostram 2x, o ideal é salvar a imagem com **~1200–1600px de largura** (ou a largura nativa se for menor) mantendo a proporção original, sem forçar um aspect ratio diferente do da imagem-fonte. Nunca estique/distorça.
    ```python
    im.thumbnail((1600, 1600))  # mantém proporção, não amplia além do original
@@ -1074,7 +1114,8 @@ Lista de todo ponto de contato encontrado no código entre o QBank e outros mód
 - [ ] `id` único (grep para confirmar que não existe)
 - [ ] `system`, `category` e `discipline` válidos (consultar Seções 4 e 5) — ou subtópico novo registrado no TAXONOMY (Seção 6)
 - [ ] Vignette/q/options/correct/explC/explI/objective transcritos **verbatim** do material do usuário (Seção 0.1)
-- [ ] `peer` veio do material do usuário e soma exatamente 100 (Seção 0.1) — nunca inventado
+- [ ] `peer` veio do material do usuário e foi transcrito verbatim (Seção 0.1) — nunca inventado nem ajustado para somar 100
+- [ ] Se a pasta/subpasta de origem já tinha `✅`, ela foi pulada; se não tinha, foi processada/auditada antes de marcar (Seções 0.4 e 0.5)
 - [ ] `correct` é uma das letras em `options`
 - [ ] `difficulty` calculado a partir de `peer[correct]` pela tabela da Seção 0.2 (não escolhido no olho)
 - [ ] `explI` cobre TODAS as alternativas incorretas
