@@ -7725,6 +7725,47 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-MIC-0030', system:'microbiology', discipline:'microbiology', category:'microbiology::virology', difficulty:'medium',
+      explImg:'assets/qbank/CMQ-STEP1-MIC-0030_expl_erythema_infectiosum.png',
+      vignette:'A 7-year-old girl is brought to the office due to a diffuse rash.  The father says she developed a lace-like, erythematous rash this morning on her abdomen, back, and extremities.  Two days ago, the girl developed red, flushed cheeks.  She also had congestion, headache, and a low-grade fever for 3 days earlier this week.  Last week, her younger brother had similar symptoms that resolved spontaneously.  The infectious agent most likely responsible for this patient\'s disease replicates in progenitors of which of the following cell lines?',
+      q:'',
+      options:[
+        {label:'A', text:'Erythrocytes'},
+        {label:'B', text:'Hepatocytes'},
+        {label:'C', text:'Intestinal epithelial cells'},
+        {label:'D', text:'Lymphocytes'},
+        {label:'E', text:'Respiratory epithelial cells'},
+      ],
+      correct:'A',
+      explC:'Erythema infectiosum, or fifth disease, is a benign childhood illness caused by parvovirus B19, a single-stranded DNA virus.  After a 1-2 week incubation period, a nonspecific prodrome (eg, malaise, congestion, headache, fever) is followed by an erythematous rash on the cheeks.  This "slapped-cheek" rash, as shown in the image above, usually spares the nasolabial folds and develops after the initial symptoms have resolved.  A lacy, reticular rash then follows, spreading over the trunk and extremities.  The rash may result from immune complex deposition, the timing of which coincides with increasing levels of serum virus-specific IgM and IgG.\n\nParvovirus B19 replicates in erythrocyte precursors in the bone marrow.  These cells express blood group P antigen (also known as globoside), which is the cellular receptor for parvovirus B19.  Viral replication in the nucleus leads to cell lysis (ie, decreased reticulocytes and mature red blood cells).  Acute and chronic sequelae of parvovirus B19 infection can occur in specific populations (eg, chronic anemia in immunosuppressed patients, aplastic crisis in those with underlying hematologic abnormalities such as sickle cell disease).',
+      explI:[
+        {option:'B', explanation:'Hepatitis A-E viruses replicate within mature hepatocytes and cause inflammation and cell necrosis.  Hepatitis B and C are chronic infections and the most common causes of cirrhosis and liver cancer.'},
+        {option:'C', explanation:'Rotavirus replicates in fully differentiated intestinal epithelial cells.  The infected and damaged enterocytes slough into the intestinal lumen, leading to profuse watery diarrhea.'},
+        {option:'D', explanation:'Mature lymphocytes are a common site of viral replication (eg, human herpesvirus-6 [HHV-6], HIV).  HHV-6 causes roseola infantum, which presents as high fever followed by a diffuse maculopapular rash in children age <2.'},
+        {option:'E', explanation:'Many common viruses (eg, influenza, parainfluenza, rhinovirus) replicate within respiratory epithelial cells (but not their precursors).  Parainfluenza replication, for example, can be localized to only nasal and pharyngeal epithelium (eg, rhinorrhea, sore throat) or can spread more extensively, causing laryngotracheitis (croup), bronchiolitis, or pneumonia.'},
+      ],
+      objective:'Erythema infectiosum (fifth disease) is caused by parvovirus B19 and presents with a nonspecific prodrome (eg, malaise, fever, congestion) followed by a classic "slapped-cheek" facial rash and a lacy, reticular body rash.  Parvovirus is highly tropic for erythroid precursor cells and replicates predominantly in the bone marrow.',
+      peer:{A:56, B:1, C:3, D:20, E:17},
+      ptTranslation:{
+        vignette:'Uma menina de 7 anos é levada ao consultório devido a uma erupção cutânea difusa.  O pai diz que ela desenvolveu uma erupção eritematosa rendilhada nesta manhã no abdome, nas costas e nas extremidades.  Dois dias atrás, a menina desenvolveu bochechas vermelhas e ruborizadas.  Ela também teve congestão, cefaleia e febre baixa por 3 dias no início desta semana.  Na semana passada, seu irmão mais novo teve sintomas semelhantes que se resolveram espontaneamente.  O agente infeccioso mais provavelmente responsável pela doença desta paciente replica-se em progenitores de qual das seguintes linhagens celulares?',
+        q:'',
+        objective:'O eritema infeccioso (quinta doença) é causado pelo parvovírus B19 e se apresenta com um pródromo inespecífico (ex.: mal-estar, febre, congestão) seguido por uma erupção facial clássica em "bochechas esbofeteadas" e uma erupção corporal rendilhada e reticular.  O parvovírus tem alto tropismo por células precursoras eritroides e replica-se predominantemente na medula óssea.',
+        options:[
+          {label:'A', text:'Eritrócitos'},
+          {label:'B', text:'Hepatócitos'},
+          {label:'C', text:'Células epiteliais intestinais'},
+          {label:'D', text:'Linfócitos'},
+          {label:'E', text:'Células epiteliais respiratórias'},
+        ],
+        explC:'O eritema infeccioso, ou quinta doença, é uma doença benigna da infância causada pelo parvovírus B19, um vírus de DNA de fita simples.  Após um período de incubação de 1-2 semanas, um pródromo inespecífico (ex.: mal-estar, congestão, cefaleia, febre) é seguido por uma erupção eritematosa nas bochechas.  Essa erupção em "bochechas esbofeteadas", como mostrado na imagem acima, geralmente poupa os sulcos nasolabiais e se desenvolve depois que os sintomas iniciais se resolveram.  Em seguida, ocorre uma erupção rendilhada e reticular que se espalha pelo tronco e pelas extremidades.  A erupção pode resultar da deposição de imunocomplexos, cujo momento coincide com níveis crescentes de IgM e IgG séricos específicos contra o vírus.\n\nO parvovírus B19 replica-se em precursores eritrocitários na medula óssea.  Essas células expressam o antígeno P do grupo sanguíneo (também conhecido como globosídeo), que é o receptor celular do parvovírus B19.  A replicação viral no núcleo leva à lise celular (isto é, diminuição de reticulócitos e hemácias maduras).  Sequelas agudas e crônicas da infecção por parvovírus B19 podem ocorrer em populações específicas (ex.: anemia crônica em pacientes imunossuprimidos, crise aplásica naqueles com anormalidades hematológicas subjacentes, como doença falciforme).',
+        explI:[
+          {option:'B', explanation:'Os vírus das hepatites A-E replicam-se dentro de hepatócitos maduros e causam inflamação e necrose celular.  As hepatites B e C são infecções crônicas e as causas mais comuns de cirrose e câncer de fígado.'},
+          {option:'C', explanation:'O rotavírus replica-se em células epiteliais intestinais totalmente diferenciadas.  Os enterócitos infectados e danificados descamam para o lúmen intestinal, levando a diarreia aquosa profusa.'},
+          {option:'D', explanation:'Linfócitos maduros são um local comum de replicação viral (ex.: herpesvírus humano 6 [HHV-6], HIV).  O HHV-6 causa roséola infantil, que se apresenta como febre alta seguida por uma erupção maculopapular difusa em crianças com idade <2 anos.'},
+          {option:'E', explanation:'Muitos vírus comuns (ex.: influenza, parainfluenza, rinovírus) replicam-se dentro de células epiteliais respiratórias (mas não em seus precursores).  A replicação do parainfluenza, por exemplo, pode localizar-se apenas ao epitélio nasal e faríngeo (ex.: rinorreia, dor de garganta) ou pode se disseminar de modo mais extenso, causando laringotraqueíte (crupe), bronquiolite ou pneumonia.'},
+        ]
+      }
+    },
 
     // BATCH PAT 01 — Pathology: Inflammation and repair
     { id:'CMQ-STEP1-PAT-0001', system:'pathology', discipline:'pathology', category:'pathology::inflammation_repair', difficulty:'hard',
