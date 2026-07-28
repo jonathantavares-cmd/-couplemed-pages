@@ -15014,6 +15014,85 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-BST-0105',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'easy',
+      vignette:'Researchers studying the effects of hormone replacement therapy (HRT) on the risk of myocardial infarction (MI) among postmenopausal women calculate the relative risk (RR) of MI to be 1.30 (p = 0.07) among women who are taking HRT compared to those who are not.  The researchers conclude that there is no statistically significant increased risk of MI with HRT (based on a cutoff of α = 0.05).  Subsequently, the results of a meta-analysis determine that there actually is an increased risk of MI, with an overall RR = 1.32 (p = 0.03) among postmenopausal women who are taking HRT compared to those who are not.  Which of the following was the most likely problem in the first study?',
+      q:'',
+      options:[
+        {label:'A', text:'Berkson\'s bias'},
+        {label:'B', text:'Placebo effect'},
+        {label:'C', text:'Poor blinding'},
+        {label:'D', text:'Researcher expectancy'},
+        {label:'E', text:'Sample size'},
+      ],
+      correct:'E',
+      explC:'The first study and the meta-analysis (combined results of several studies) had similar outcomes in terms of relative risk (RR); however, they arrived at different conclusions because the p-value reached statistical significance (p < α = 0.05) in the meta-analysis but not in the first study.  The most probable reason behind this is that the larger meta-analysis reflects the true status (increased risk of myocardial infarction [MI] with hormone replacement therapy [HRT]), whereas the first study result represented a type II (β) error (falsely concluded there was no increased risk of MI with HRT).\n\nThe probability of a type II (β) error is related to how much power a study has to detect a difference when a difference actually exists (power = 1 − β).  Sample size and power are related in that studies with a larger sample size have greater power to detect differences if these exist.  The small sample size of the first study made it underpowered to detect a difference in outcome between patients who were treated with HRT and those who were not.\n\nThe sample size did not change the value of α (typically set at 0.05).  However, because the first study was underpowered, the p-value obtained was not statistically significant (p = 0.07 > α = 0.05), leading to a false conclusion of no increased risk of MI with HRT.',
+      explI:[
+        {option:'A', explanation:'Berkson\'s bias refers to selection bias that can be created by selecting hospitalized patients as the control group.'},
+        {option:'B', explanation:'Placebo effect refers to patients\' expectations affecting an outcome.  However, in this case, the control group is taking neither HRT nor a placebo medication.'},
+        {option:'C and D', explanation:'Given that the RR obtained in the first study was similar to the one obtained in the meta-analysis (1.32 versus 1.30), it is unlikely that design flaws (eg, poor blinding, researcher expectancy) were present in the study.'},
+      ],
+      objective:'A study\'s power increases as its sample size increases.  Therefore, the larger the sample, the greater the ability of a study to detect a difference when one truly exists.',
+      peer:{A:8, B:1, C:3, D:9, E:77},
+      labs:[
+        {name:'p-value', value:'0.07 then 0.03', normal:'Significance threshold α = 0.05'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0105_expl_type_i_type_ii_errors.png',
+      ptTranslation:{
+        vignette:'Pesquisadores que estudam os efeitos da terapia de reposição hormonal (HRT) sobre o risco de infarto do miocárdio (MI) entre mulheres pós-menopáusicas calculam o risco relativo (RR) de MI como 1,30 (p = 0,07) entre mulheres que usam HRT em comparação com aquelas que não usam.  Os pesquisadores concluem que não há aumento estatisticamente significativo do risco de MI com HRT (com base em um ponto de corte de α = 0,05).  Subsequentemente, os resultados de uma meta-análise determinam que na verdade há aumento do risco de MI, com RR global = 1,32 (p = 0,03) entre mulheres pós-menopáusicas que usam HRT em comparação com aquelas que não usam.  Qual dos seguintes foi o problema mais provável no primeiro estudo?',
+        q:'',
+        objective:'O poder de um estudo aumenta à medida que seu tamanho amostral aumenta.  Portanto, quanto maior a amostra, maior a capacidade de um estudo detectar uma diferença quando ela realmente existe.',
+        options:[
+          {label:'A', text:'Viés de Berkson'},
+          {label:'B', text:'Efeito placebo'},
+          {label:'C', text:'Cegamento inadequado'},
+          {label:'D', text:'Expectativa do pesquisador'},
+          {label:'E', text:'Tamanho da amostra'},
+        ],
+        explC:'O primeiro estudo e a meta-análise (resultados combinados de vários estudos) tiveram resultados semelhantes em termos de risco relativo (RR); no entanto, chegaram a conclusões diferentes porque o valor de p alcançou significância estatística (p < α = 0,05) na meta-análise, mas não no primeiro estudo.  A razão mais provável para isso é que a meta-análise maior reflete o status verdadeiro (aumento do risco de infarto do miocárdio [MI] com terapia de reposição hormonal [HRT]), enquanto o resultado do primeiro estudo representou um erro tipo II (β) (concluiu falsamente que não havia aumento do risco de MI com HRT).\n\nA probabilidade de um erro tipo II (β) está relacionada a quanto poder um estudo tem para detectar uma diferença quando uma diferença realmente existe (poder = 1 − β).  Tamanho da amostra e poder estão relacionados, pois estudos com maior tamanho amostral têm maior poder para detectar diferenças se elas existirem.  O pequeno tamanho amostral do primeiro estudo o deixou subpotente para detectar uma diferença no desfecho entre pacientes tratadas com HRT e aquelas não tratadas.\n\nO tamanho da amostra não alterou o valor de α (tipicamente definido em 0,05).  No entanto, como o primeiro estudo estava subpotente, o valor de p obtido não foi estatisticamente significativo (p = 0,07 > α = 0,05), levando a uma falsa conclusão de ausência de aumento do risco de MI com HRT.',
+        explI:[
+          {option:'A', explanation:'Viés de Berkson refere-se ao viés de seleção que pode ser criado ao selecionar pacientes hospitalizados como grupo controle.'},
+          {option:'B', explanation:'Efeito placebo refere-se às expectativas dos pacientes afetando um desfecho.  No entanto, neste caso, o grupo controle não está usando HRT nem uma medicação placebo.'},
+          {option:'C e D', explanation:'Dado que o RR obtido no primeiro estudo foi semelhante ao obtido na meta-análise (1,32 versus 1,30), é improvável que falhas de desenho (ex.: cegamento inadequado, expectativa do pesquisador) estivessem presentes no estudo.'},
+        ]
+      }
+    },
+    { id:'CMQ-STEP1-BST-0106',
+      system:'biostatistics_epidemiology', discipline:'biostatistics', category:'biostatistics_epidemiology::study_design_interpretation', difficulty:'medium',
+      vignette:'In a reference sample of hundreds of healthy subjects, the laboratory reference range for a novel marker of cardiac injury is 0.04-0.08 U/mL at the standard 95% level of probability.  The marker has very high sensitivity and specificity for myocardial tissue.  The clinical cardiology team would like to use a 99.7% reference range to assess patients who come to the emergency department with chest pain and have a high pretest probability of cardiac ischemia.  An elevated value of the marker is defined as exceeding the 99.7th percentile of the reference sample.  Assuming a normal (Gaussian) distribution with a mean of 0.06 U/mL, which of the following most closely approximates the corresponding reference range?',
+      q:'',
+      options:[
+        {label:'A', text:'0.03 to 0.09'},
+        {label:'B', text:'0.035 to 0.085'},
+        {label:'C', text:'0.045 to 0.075'},
+        {label:'D', text:'0.05 to 0.07'},
+        {label:'E', text:'0.055 to 0.065'},
+      ],
+      correct:'A',
+      explC:'A normal (Gaussian) distribution refers to a symmetrical, bell-shaped distribution with a fixed proportion of observations lying within a certain distance of the mean.  This distance is called the standard deviation (SD) and reflects the degree of dispersion from the mean.  According to the properties of this distribution, 68% of observations lie within 1 SD from the mean, with half (ie, 68/2 = 34%) above and half (34%) below the mean.  The remaining 32% (= 100% − 68%) lie outside 1 SD from the mean, with half (ie, 32/2 = 16%) above and the other half (16%) below 1 SD from the mean.  In addition, 95% of all observations lie within 2 SD of the mean, and 99.7% of all observations lie within 3 SD from the mean.  This is the 68-95-99.7 rule.\n\nThe 95% range for this marker with a mean of 0.06 U/mL is 0.04 to 0.08 U/mL; given a normal distribution, this represents the range given by mean ± 2 SD.  Therefore, 1 SD = 0.01 (because 0.04 = mean − 2 SD = 0.06 − 2 SD = 0.06 − 2 × 0.01 and, similarly, 0.08 = 0.06 + 2 × 0.01).  The 99.7% range is given by mean ± 3 SD; therefore, the 99.7% range is 0.03 (= mean − 3 SD = 0.06 − 3 × 0.01) to 0.09 (= mean + 3 SD = 0.06 + 3 × 0.01).  Any result that falls outside this range (eg, a value exceeding this range) indicates that the value is different from what is seen in 99.7% of the reference population.\n\nIn laboratory measurements, although 95% is often used as a reference range, a 99% range is used in certain cases (eg, to determine cutoff for troponin in acute myocardial infarction).  Other laboratory analysis methods involve performing more specific calculations when it is important to detect a difference in one direction (eg, for a cancer marker, knowing that the value is significantly higher than normal is more important than knowing that it is significantly different — either higher or lower — than normal).  In some cases, high-sensitivity assays (eg, high-sensitivity C-reactive protein testing) allow the detection of values in the lower range of normal, which would not have been possible with standard assays.',
+      explI:[],
+      objective:'In a normal (bell-shaped) distribution, 68% of all values are within 1 standard deviation (SD) from the mean; 95% are within 2 SD from the mean; and 99.7% are within 3 SD from the mean.',
+      peer:{A:66, B:13, C:7, D:6, E:4},
+      labs:[
+        {name:'Marker reference range', value:'0.04-0.08 U/mL at 95%', normal:'Mean ± 2 SD'},
+        {name:'Mean', value:'0.06 U/mL', normal:'Normal distribution'}
+      ],
+      explImg:'assets/qbank/CMQ-STEP1-BST-0106_expl_normal_distribution_68_95_997.png',
+      ptTranslation:{
+        vignette:'Em uma amostra de referência de centenas de indivíduos saudáveis, o intervalo de referência laboratorial para um novo marcador de lesão cardíaca é 0,04-0,08 U/mL no nível padrão de 95% de probabilidade.  O marcador tem sensibilidade e especificidade muito altas para tecido miocárdico.  A equipe de cardiologia clínica gostaria de usar um intervalo de referência de 99,7% para avaliar pacientes que chegam ao pronto-socorro com dor torácica e têm alta probabilidade pré-teste de isquemia cardíaca.  Um valor elevado do marcador é definido como excedendo o percentil 99,7 da amostra de referência.  Assumindo uma distribuição normal (gaussiana) com média de 0,06 U/mL, qual dos seguintes mais se aproxima do intervalo de referência correspondente?',
+        q:'',
+        objective:'Em uma distribuição normal (em forma de sino), 68% de todos os valores estão dentro de 1 desvio-padrão (DP) da média; 95% estão dentro de 2 DP da média; e 99,7% estão dentro de 3 DP da média.',
+        options:[
+          {label:'A', text:'0,03 a 0,09'},
+          {label:'B', text:'0,035 a 0,085'},
+          {label:'C', text:'0,045 a 0,075'},
+          {label:'D', text:'0,05 a 0,07'},
+          {label:'E', text:'0,055 a 0,065'},
+        ],
+        explC:'Uma distribuição normal (gaussiana) refere-se a uma distribuição simétrica, em forma de sino, com uma proporção fixa de observações situadas a uma certa distância da média.  Essa distância é chamada de desvio-padrão (DP) e reflete o grau de dispersão em relação à média.  De acordo com as propriedades dessa distribuição, 68% das observações ficam dentro de 1 DP da média, com metade (ou seja, 68/2 = 34%) acima e metade (34%) abaixo da média.  Os 32% restantes (= 100% − 68%) ficam fora de 1 DP da média, com metade (ou seja, 32/2 = 16%) acima e a outra metade (16%) abaixo de 1 DP da média.  Além disso, 95% de todas as observações ficam dentro de 2 DP da média, e 99,7% de todas as observações ficam dentro de 3 DP da média.  Esta é a regra 68-95-99,7.\n\nO intervalo de 95% para este marcador com média de 0,06 U/mL é 0,04 a 0,08 U/mL; dada uma distribuição normal, isso representa o intervalo dado por média ± 2 DP.  Portanto, 1 DP = 0,01 (porque 0,04 = média − 2 DP = 0,06 − 2 DP = 0,06 − 2 × 0,01 e, de forma semelhante, 0,08 = 0,06 + 2 × 0,01).  O intervalo de 99,7% é dado por média ± 3 DP; portanto, o intervalo de 99,7% é 0,03 (= média − 3 DP = 0,06 − 3 × 0,01) a 0,09 (= média + 3 DP = 0,06 + 3 × 0,01).  Qualquer resultado que fique fora desse intervalo (ex.: um valor que exceda esse intervalo) indica que o valor é diferente do observado em 99,7% da população de referência.\n\nEm medidas laboratoriais, embora 95% seja frequentemente usado como intervalo de referência, um intervalo de 99% é usado em certos casos (ex.: para determinar o ponto de corte de troponina no infarto agudo do miocárdio).  Outros métodos de análise laboratorial envolvem realizar cálculos mais específicos quando é importante detectar uma diferença em uma direção (ex.: para um marcador de câncer, saber que o valor é significativamente maior que o normal é mais importante do que saber que ele é significativamente diferente — maior ou menor — que o normal).  Em alguns casos, ensaios de alta sensibilidade (ex.: teste de proteína C reativa de alta sensibilidade) permitem a detecção de valores na faixa inferior da normalidade, o que não teria sido possível com ensaios padrão.',
+        explI:[]
+      }
+    },
 
   ];
 
