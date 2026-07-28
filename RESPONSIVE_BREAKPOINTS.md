@@ -221,6 +221,29 @@ Use a menor capacidade que execute o gate sem adivinhar:
 
 Modelo mais forte não autoriza inventar conteúdo. Fonte ilegível, ausente ou contraditória continua exigindo parar e pedir material melhor ao usuário.
 
+### 7.1 Política multiplataforma de modelos e esforços
+
+Os níveis acima representam **capacidade**, não um produto específico. Quando a
+plataforma separar modelo e esforço, configurar ambos.
+
+- [ ] **Medium:** modelo econômico em esforço `medium`, somente para checklist,
+      inspeção e correção mecânica sem ambiguidade.
+- [ ] **High:** modelo intermediário em esforço `high`/`xhigh`, para diagnóstico
+      visual e correção localizada permitida pela tabela acima.
+- [ ] **Ultra:** modelo mais forte em esforço `ultra` (ou `max`, se esse for o
+      maior valor da plataforma), apenas para CSS responsivo crítico, conflito,
+      regressão ou falha repetida.
+- [ ] Começar no menor nível seguro, escalonar a menor unidade e voltar ao
+      econômico após resolver a parte crítica.
+- [ ] Se a interface não fizer a troca automaticamente, informar unidade,
+      motivo, nível necessário e ponto de retorno.
+- [ ] Modelo forte nunca autoriza inventar conteúdo nem ultrapassar as
+      permissões específicas de QBank e Library 1.
+
+Mapeamentos atuais e regras de fallback estão nas seções `3.2`–`3.4` de
+`QBANK_ADD_QUESTION.md` e `0.4.2`–`0.4.4` de
+`LIBRARY1_ADD_CONTENT.md`.
+
 ---
 
 ## 8. Sincronização deste documento

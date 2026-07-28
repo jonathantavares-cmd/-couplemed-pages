@@ -68,6 +68,96 @@ Escalonar a menor unidade possível — uma questão ou subpasta, não necessari
 
 O processamento médico completo normalmente exige **high**. `medium` é adequado para etapas mecânicas ou para uma questão já transcrita e auditada por um nível superior.
 
+### 3.1 Política multiplataforma de modelos e esforços
+
+Os níveis deste guia descrevem a **capacidade necessária para a tarefa**, não
+um nome fixo de produto. Modelo e esforço de raciocínio são controles
+independentes: selecionar os dois quando a plataforma permitir.
+
+| Nível operacional | Trabalho permitido |
+|---|---|
+| **econômico — medium** | Trabalho mecânico, previsível e estruturado, sem ambiguidade: inventário, ordenação, aplicação de schema conhecido, edições localizadas e testes determinísticos. |
+| **econômico — high** | Tradução médica PT-BR, Lab Values com fonte autoritativa, tabelas densas, OCR ou crop que exija julgamento, QA responsivo comum e auditoria final. |
+| **forte — ultra** | Conflito de fontes, ambiguidade médica/visual/estrutural, CSS responsivo crítico, taxonomia nova, regressão ou falha repetida sem causa. |
+
+Regras operacionais:
+
+- [ ] Começar no menor nível seguro.
+- [ ] Escalonar somente a menor unidade afetada: trecho, imagem, Lab Value ou
+      questão; não promover a leva inteira sem necessidade.
+- [ ] Depois da parte crítica, voltar ao nível econômico para as etapas
+      mecânicas.
+- [ ] Nunca usar capacidade maior como autorização para inventar, completar ou
+      “corrigir” a fonte sem evidência.
+- [ ] Se a interface não puder trocar modelo/esforço automaticamente, informar
+      ao usuário antes da unidade crítica: unidade, motivo, nível necessário e
+      ponto de retorno.
+- [ ] Se o modelo solicitado não estiver disponível, usar o equivalente mais
+      próximo que cumpra o nível e registrar a substituição.
+
+Perfis de execução:
+
+- **máxima economia:** `medium` por padrão, com escalonamento pontual;
+- **menor risco / menor intervenção:** `high` no fluxo médico/visual e
+  `medium` apenas no trabalho determinístico;
+- **ultra pontual:** `ultra` somente na unidade crítica, seguido de retorno ao
+  nível anterior.
+
+Relatório mínimo de escalonamento:
+
+```text
+Unidade: <trecho/imagem/Lab Value/questão>
+Motivo: <ambiguidade ou risco observável>
+Nível necessário: <medium|high|ultra>
+Retorno: <etapa em que volta ao nível econômico>
+```
+
+### 3.2 ChatGPT / Codex
+
+Usar a família atual disponível; não confundir o nome do modelo com o esforço.
+
+| Nível do guia | Modelo preferencial | Esforço |
+|---|---|---|
+| **medium** | GPT-5.6 Luna; na ausência, GPT-5.4 ou equivalente econômico | `medium` |
+| **high** | GPT-5.6 Terra; na ausência, GPT-5.5 ou equivalente intermediário | `high` ou `xhigh` |
+| **ultra** | GPT-5.6 Sol | `ultra` no Codex; `max` quando a API não expuser `ultra` |
+
+Se a sessão oferecer somente parte dessas opções, preservar primeiro o nível
+de capacidade e registrar o modelo/esforço efetivamente usados. Referência:
+[guia oficial de modelos OpenAI](https://developers.openai.com/api/docs/guides/latest-model).
+
+### 3.3 Claude / Claude Code
+
+Preferir os aliases atuais, sem fixar versões que podem envelhecer:
+
+| Nível do guia | Alias/modelo | Esforço |
+|---|---|---|
+| **medium** | `haiku` | `medium` |
+| **high** | `sonnet` | `high` ou `xhigh` |
+| **ultra** | `opus` ou `best` | `xhigh` ou `max`, se disponível |
+
+O perfil `opusplan` é adequado quando a parte ambígua exige planejamento com
+Opus e a execução pode voltar ao Sonnet. Confirmar o modelo resolvido pela
+interface antes da unidade crítica. Referência:
+[configuração oficial do Claude Code](https://code.claude.com/docs/en/model-config).
+
+### 3.4 Kimi / Kimi Code
+
+Usar os nomes e controles realmente exibidos na instalação atual:
+
+| Nível do guia | Modelo sugerido | Esforço/modo |
+|---|---|---|
+| **medium** | K3-256k ou K2.7 Code (`kimi-for-coding`) | menor esforço seguro; Thinking pode ficar desligado no trabalho puramente mecânico |
+| **high** | K3-256k ou K3 | `high` / Thinking ligado |
+| **ultra** | K3 ou o modelo mais forte disponível | `max` / Thinking ligado |
+
+Usar `/model` para conferir ou trocar modelo e Thinking Mode quando disponível.
+Opções chamadas **Auto Model**, tiers ou modos Architect/Code/Debug só podem ser
+usadas se aparecerem na interface atual; nunca presumir que existem. Registrar
+qual modelo foi resolvido automaticamente. Referências:
+[modelos do Kimi Code](https://www.kimi.com/code/docs/en/kimi-code/models.html)
+e [interação da CLI](https://www.kimi.com/help/kimi-code/cli-interaction).
+
 ---
 
 ## 4. Pré-voo seguro
