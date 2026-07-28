@@ -1,7 +1,12 @@
 # CoupleMed — Breakpoints Responsivos (Media Queries)
 
-> Referência definitiva de todo `@media` do site: onde está, o que exatamente controla, e os 3 breakpoints estruturais que fazem o layout migrar entre desktop → iPad → mobile.
-> Verificado linha a linha contra o CSS real em 2026-07-11. Se algum valor mudar no CSS, atualizar esta tabela junto — não deixar o arquivo divergir do código.
+> Referência dos breakpoints responsivos estruturais e dos principais `@media` por módulo: onde estão, o que controlam, e os 3 breakpoints que fazem o layout migrar entre desktop → iPad → mobile.
+> Verificado contra o CSS real em 2026-07-28 para o fluxo do QBank e seus breakpoints principais. Se algum valor mudar no CSS, atualizar esta tabela junto — não deixar o arquivo divergir do código.
+
+Para auditoria completa de todos os `@media` atuais, usar sempre:
+```bash
+rg -n "@media" public/css/*.css
+```
 
 ---
 
@@ -51,12 +56,29 @@ Todo o resto do site (My Workspace, Flashcards, QBank, Notebook, AI Tutor, Setti
 | Linha | Breakpoint | O que acontece |
 |---|---|---|
 | 20 | `max-width:640px` | `#internalContent.qb-wide .internal-card` reduz padding (18px 14px) |
-| 85 | `max-width:560px` | `.qb-stepper` (navegador de passadas) quebra linha; cada `.qb-step` ocupa 100%; conector entre steps some. **v52**: antes havia um estágio intermediário em 900px (2 por linha) — removido de propósito para o iPad ficar visualmente igual ao desktop (só reagrupa perto da largura real de celular) |
-| 120 | `max-width:720px` | `.qb-row` (grid de 2 colunas do Create Test — usado só na tela standalone `/create` com o filtro "Passada" visível) vira 1 coluna |
-| 158 | `max-width:480px` | Barra unificada "Nº de questões + disponíveis + Gerar Teste" (`.qb-gen`) empilha em coluna; botão vira 100% da largura |
-| 274 | `max-width:640px` | Tela de resultados/resolução: `.qb-perf`, `.qb-res-top`, `.qb-nav` empilham em coluna; `.qb-head-tools` ocupa 100% |
-| 289 | `max-width:560px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna. **v52**: era 820px — baixado para 560px para o iPad manter 2 colunas igual ao desktop, só virando 1 coluna perto da largura real de celular (mesmo valor do stepper acima) |
-| 377 | `max-width:640px` | Imagem da questão (`.qb-question-image`): reduz padding/margem, `max-height` da imagem cai para 300px, legenda "Click to enlarge" some |
+| 74 | `max-width:760px` | Guia visual do QBank reorganiza hero/quick/steps/nav para telas menores |
+| 75 | `max-width:520px` | Guia visual empilha steps/nav/items em 1 coluna, reduz padding e oculta número decorativo |
+| 120 | `max-width:560px` | `.qb-stepper` (navegador de passadas) quebra linha; cada `.qb-step` ocupa 100%; conector entre steps some. **v52**: antes havia um estágio intermediário em 900px (2 por linha) — removido de propósito para iPad/MacBook ficarem visualmente iguais ao desktop |
+| 155 | `max-width:720px` | `.qb-row` (grid de 2 colunas do Create Test — usado só na tela standalone `/create` com o filtro "Passada" visível) vira 1 coluna |
+| 193 | `max-width:480px` | Barra unificada "Nº de questões + disponíveis + Gerar Teste" (`.qb-gen`) empilha em coluna; botão vira 100% da largura |
+| 317 | `max-width:640px` | Tela de resultados/resolução: `.qb-perf`, `.qb-res-top`, `.qb-nav` empilham em coluna; `.qb-head-tools` ocupa 100% |
+| 332 | `max-width:560px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna. **v52**: era 820px — baixado para 560px para iPad/MacBook manterem 2 colunas igual ao desktop |
+| 423 | `max-width:640px` | Imagem da questão (`.qb-question-image`): reduz padding/margem, `max-height` da imagem cai para 300px, legenda "Click to enlarge" some |
+| 437 | `max-width:640px` | Toolbar de resolução compacta: cabeçalho não quebra, `.qb-head-tools` rola horizontalmente, ferramentas reduzem fonte/padding e timer reduz fonte |
+
+### 2.1 QBank — obrigação de QA responsivo para questões e imagens
+
+Toda questão nova ou auditada, especialmente quando tiver `img` ou `explImg`, deve ser conferida contra estes breakpoints antes de ser marcada como concluída:
+
+| Classe de dispositivo | Largura sugerida para teste | Critérios obrigatórios |
+|---|---|---|
+| Monitor grande / 27" | `2560×1440` ou largura equivalente | Figura/tabela não deve ficar pequena por excesso de margem; conteúdo centralizado e legível dentro do limite do QBank |
+| Desktop / laptop grande | `1440×900` | Toolbar, enunciado, alternativas, imagem e explicação sem sobreposição ou desalinhamento |
+| MacBook | `1280×800` ou `1366×768` | Stepper/taxonomia mantêm o comportamento desktop/tablet quando houver largura; sem truncamentos ruins |
+| iPad | `1024×768` e `820×1180` | Sidebar vira hambúrguer em `820px`; QBank continua sem overflow horizontal; imagem permanece legível |
+| Mobile | `390×844` e `360×780` | Imagem respeita `max-height:300px`, toolbar rola horizontalmente, alternativas/explicações/Lab Values não se sobrepõem |
+
+Falhas bloqueiam o `✅`: overflow horizontal da página, texto sobreposto, botão inacessível, imagem distorcida, imagem importante ilegível no mobile ou recorte com margem excessiva que reduza demais o conteúdo real.
 
 ---
 

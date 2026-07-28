@@ -108,7 +108,8 @@ Quando o usuário pedir auditoria/refinamento de questões já incluídas por VS
    - `node --check public/js/qbank.js`
    - contagem por categoria/subcategoria
    - checagem de assets referenciados inexistentes
-7. Só depois de corrigir tudo da subpasta, marcar a subpasta com `✅`. Só depois de todas as subpastas estarem marcadas, marcar a pasta principal com `✅`.
+   - checagem responsiva conforme `RESPONSIVE_BREAKPOINTS.md`/Seção 22: as questões e imagens precisam renderizar corretamente em monitor grande/27", desktop, MacBook, iPad e mobile, sem desalinhamento, corte indevido, overflow horizontal, texto sobreposto ou imagem ilegível.
+7. Só depois de corrigir tudo da subpasta, inclusive problemas de responsividade, marcar a subpasta com `✅`. Só depois de todas as subpastas estarem marcadas, marcar a pasta principal com `✅`.
 
 **Sobre permissões de comando:** desde 2026-07-13, comandos de terminal (Bash/Read/Write) rodam em modo bypass — não pedem mais aprovação individual —, por isso este modo consegue rodar do início ao fim sem interrupção por prompt de permissão. Isso é independente da exigência de fidelidade (Seção 0.1), que continua valendo normalmente: só o gate de *aprovação humana antes do commit* foi removido, não a exigência de transcrever certo.
 
@@ -959,6 +960,7 @@ A imagem é exibida dentro de `.qb-question-image` (`public/css/qbank.css` ~linh
 6. **Local:** salvar em `public/assets/qbank/`.
 7. **Múltiplas imagens na mesma questão:** usar array no campo `img: ['assets/qbank/ID_parte1.png', 'assets/qbank/ID_parte2.png']` — todas empilhadas verticalmente na vinheta, cada uma respeitando os mesmos limites de tamanho. O mesmo vale para `explImg` (ver 19.4b).
 8. **Revisar sempre no preview (Seção 20)** antes de aprovar — é a única forma de ver exatamente como a imagem vai renderizar (tamanho final, corte, nitidez) dentro do layout real do site.
+9. **Responsividade obrigatória:** toda imagem precisa ser visualmente correta nos breakpoints do site (Seção 22 / `RESPONSIVE_BREAKPOINTS.md`). Conferir que o CSS reconhece automaticamente o dispositivo/largura e que a questão continua usável em monitor grande/27", desktop, MacBook, iPad e mobile: sem overflow horizontal, sem desalinhamento da toolbar, sem sobreposição de texto, sem imagem comprimida a ponto de ficar ilegível e sem corte indevido por `max-height`.
 
 ### 19.4 Campo no objeto da questão — imagem do ENUNCIADO
 
@@ -1095,12 +1097,29 @@ Lista de todo ponto de contato encontrado no código entre o QBank e outros mód
 | Linha | Breakpoint | O que acontece |
 |---|---|---|
 | 20 | `max-width:640px` | `#internalContent.qb-wide .internal-card` reduz padding |
-| 82 | `max-width:900px` | `.qb-stepper` (navegador de passadas) quebra linha; `.qb-step` ~44% cada; conector some |
-| 83 | `max-width:560px` | Cada `.qb-step` ocupa 100% |
-| 118 | `max-width:720px` | `.qb-row` (grid 2 colunas do Create Test) vira 1 coluna |
-| 246 | `max-width:640px` | Tela de resultados/resolução empilha em coluna (`.qb-perf`, `.qb-res-top`, `.qb-nav`, `.qb-head-tools`) |
-| 259 | `max-width:820px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna |
-| 344 | `max-width:640px` | Imagem da questão: reduz padding/margem, `max-height` cai para 300px, legenda some — **ver Seção 19.1, é o valor usado no workflow de imagem** |
+| 74 | `max-width:760px` | Guia visual do QBank reorganiza hero/quick/steps/nav para telas menores |
+| 75 | `max-width:520px` | Guia visual empilha cards/itens em 1 coluna e reduz padding |
+| 120 | `max-width:560px` | `.qb-stepper` (navegador de passadas) quebra para 1 step por linha; conector some. iPad/MacBook mantêm layout desktop |
+| 155 | `max-width:720px` | `.qb-row` (grid 2 colunas do Create Test) vira 1 coluna |
+| 193 | `max-width:480px` | Barra unificada de gerar teste (`.qb-gen`) empilha; botão ocupa 100% |
+| 317 | `max-width:640px` | Tela de resultados/resolução empilha em coluna (`.qb-perf`, `.qb-res-top`, `.qb-nav`, `.qb-head-tools`) |
+| 332 | `max-width:560px` | `.qb-tax` (accordion de sistemas no Create Test) vira 1 coluna; iPad mantém 2 colunas |
+| 423 | `max-width:640px` | Imagem da questão: reduz padding/margem, `max-height` cai para 300px, legenda some — **ver Seção 19.1, é o valor usado no workflow de imagem** |
+| 437 | `max-width:640px` | Toolbar de resolução compacta: cabeçalho não quebra, ferramentas rolam horizontalmente e fonte/padding reduzem |
+
+### 22.2b Checklist responsivo obrigatório para questões/imagens
+
+Ao incluir ou auditar qualquer questão com `img`/`explImg`, validar a renderização nos tamanhos abaixo, usando preview isolado (`previewIds`) quando possível:
+
+| Classe de dispositivo | Largura sugerida para teste | O que conferir |
+|---|---|---|
+| Monitor grande / 27" | `2560×1440` ou largura equivalente | A imagem não fica minúscula por margens vazias; conteúdo centralizado; tabela/gráfico legível dentro do limite de 760px do QBank |
+| Desktop / laptop grande | `1440×900` | Layout de resolução normal, toolbar sem sobreposição, imagem com proporção correta |
+| MacBook | `1280×800` ou `1366×768` | Stepper e taxonomia ainda em padrão desktop/tablet quando couber; nenhuma linha crítica truncada de forma ruim |
+| iPad | `1024×768` e `820×1180` | Sidebar vira hambúrguer em `820px`; QBank continua sem overflow horizontal; taxonomia/stepper mantêm comportamento esperado |
+| Mobile | `390×844` e `360×780` | Imagem usa `max-height:300px`, sem texto cortado indevidamente; toolbar rola horizontalmente; alternativas, explicações e Lab Values não sobrepõem |
+
+Critérios de aprovação: não pode haver overflow horizontal da página, texto sobreposto, botões inacessíveis, imagem distorcida, imagem importante ilegível no mobile, nem tabela/diagrama com margem excessiva que faça o conteúdo real ficar pequeno. Se falhar em qualquer largura, corrigir o asset, o campo `img`/`explImg` ou o CSS antes de marcar `✅`.
 
 ### 22.3 Demais módulos (referência rápida — tabela completa por linha está em `RESPONSIVE_BREAKPOINTS.md`)
 
@@ -1130,6 +1149,7 @@ Lista de todo ponto de contato encontrado no código entre o QBank e outros mód
 - [ ] `ptTranslation` incluída com todos os campos, fiel ao original (Seção 17)
 - [ ] Se tiver imagem no ENUNCIADO: processada segundo a Seção 19.3/19.4 (recorte, tamanho, formato, nome, local em `public/assets/qbank/`), campo `img`
 - [ ] Checar também a aba "Explanation" do material de origem: se houver imagem/diagrama/tabela lá, processar do mesmo jeito e incluir via campo `explImg` (Seção 19.4b) — não é só o enunciado que pode ter imagem
+- [ ] Responsividade conferida conforme `RESPONSIVE_BREAKPOINTS.md`/Seção 22: questão e imagens renderizam corretamente em monitor grande/27", desktop, MacBook, iPad e mobile, sem overflow, desalinhamento, sobreposição ou imagem ilegível
 - [ ] `library` omitido (ou explicitamente `1`) a menos que o usuário tenha pedido Library 2/3 (Seção 4b)
 - [ ] `node --check public/js/qbank.js` sem erro de sintaxe
 - [ ] *(Opcional)* Leva conferida via `previewIds` (Seção 20.3) só para checagem própria — não precisa ser mostrada/enviada ao usuário nem aguardar aprovação (mudança de política em 2026-07-13, Seção 0.3)
