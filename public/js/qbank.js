@@ -6410,6 +6410,46 @@
         ]
       }
     },
+    { id:'CMQ-STEP1-GEN-0062', system:'genetics', discipline:'genetics', category:'genetics::rna_structure_synthesis_processing', difficulty:'easy',
+      img:'assets/qbank/CMQ-STEP1-GEN-0062_ikap_splice_site_sequence.png',
+      explImg:'assets/qbank/CMQ-STEP1-GEN-0062_expl_splicing_pre_mrna.png',
+      vignette:'An 8-year-old boy of Ashkenazi Jewish ancestry is brought to the office after developing reduced sensitivity to pain, impaired tear formation, and orthostatic hypotension.  Familial dysautonomia is suspected due to the patient\'s symptoms and heritage.  This disorder is caused by loss of function of the IKAP protein, which is essential for development and survival of sensory and autonomic neurons.  IKAP gene sequencing reveals a single nucleotide substitution that causes a guanine residue to be replaced by adenine at the highlighted position in the normal gene sequence shown below.  Exon sequences are represented by capital letters and introns by lowercase letters.',
+      q:'Which of the following is the most likely effect of this mutation?',
+      options:[
+        {label:'A', text:'Decreased mRNA export to the cytosol'},
+        {label:'B', text:'Impaired ribosomal attachment to mRNA'},
+        {label:'C', text:'Incorrect splicing of pre-mRNA'},
+        {label:'D', text:'Increased degradation of mRNA by 5\' exonucleases'},
+        {label:'E', text:'Translation of the 3\'-untranslated region of mRNA'},
+      ],
+      correct:'C',
+      explC:'Following transcription, pre-mRNA is the initial transcript that contains both intron and exon sequences.  Before leaving the nucleus, pre-mRNA must be processed to mature mRNA by 3 post-transcriptional modifications: 5\' methylguanosine capping, addition of a 3\' polyadenine (Poly A) tail, and splicing.\n\nSplicing is performed by spliceosomes, which are complexes of small nuclear ribonucleoproteins (snRNPs) and other proteins that assemble on pre-mRNA.  Spliceosomes remove introns containing GU at the 5\' splice site and AG at the 3\' splice site.  Initially, the 5\' end of intron 1 (splice donor site) is cleaved and joined to the branch point.  The freed 3\'-OH of exon 1 then forms a phosphodiester bond with the 5\'-phosphate at the splice acceptor site, joining exons 1 and 2.  Mutations at splice sites may result in inappropriate removal of exons and retention of introns.  This often leads to the formation of proteins with impaired structure and function as described in the case above.',
+      explI:[
+        {option:'A', explanation:'Polyadenylation of the 3\' end of mRNA is performed by the enzyme polyadenylate polymerase.  This process stabilizes mRNA and helps it exit the nucleus.'},
+        {option:'B and D', explanation:'In eukaryotes, translation is initiated when the small ribosomal subunit attaches to the 5\' cap of mRNA and then scans for the AUG start codon within the Kozak consensus sequence.  The 5\' cap also protects against exonucleases and helps stabilize mRNA in the cytosol.'},
+        {option:'E', explanation:'Termination of polypeptide synthesis occurs at the 3 stop codons (UAA, UAG, UGA) in mRNA.  Mutations in stop codons (nonstop mutations) can result in continued and inappropriate translation of mRNA into the 3\'-untranslated region, producing an extremely long, nonfunctional polypeptide.'},
+      ],
+      objective:'Splicing is performed by spliceosomes, which remove introns containing GU at the 5\' splice site and AG at the 3\' splice site.  Splice site mutations may result in inappropriate removal of exons and retention of introns, leading to the formation of dysfunctional proteins.',
+      peer:{A:2, B:5, C:84, D:3, E:3},
+      ptTranslation:{
+        vignette:'Um menino de 8 anos, de ascendência judaica asquenaze, é levado ao consultório após desenvolver redução da sensibilidade à dor, formação prejudicada de lágrimas e hipotensão ortostática.  Suspeita-se de disautonomia familiar devido aos sintomas e à origem do paciente.  Esse distúrbio é causado por perda de função da proteína IKAP, que é essencial para o desenvolvimento e a sobrevivência de neurônios sensitivos e autonômicos.  O sequenciamento do gene IKAP revela uma substituição de nucleotídeo único que faz com que um resíduo de guanina seja substituído por adenina na posição destacada na sequência gênica normal mostrada abaixo.  Sequências de éxons são representadas por letras maiúsculas e íntrons por letras minúsculas.',
+        q:'Qual dos seguintes é o efeito mais provável desta mutação?',
+        objective:'O splicing é realizado por spliceossomos, que removem íntrons contendo GU no sítio de splicing 5\' e AG no sítio de splicing 3\'.  Mutações em sítios de splicing podem resultar em remoção inadequada de éxons e retenção de íntrons, levando à formação de proteínas disfuncionais.',
+        options:[
+          {label:'A', text:'Diminuição da exportação de mRNA para o citosol'},
+          {label:'B', text:'Ligação prejudicada do ribossomo ao mRNA'},
+          {label:'C', text:'Splicing incorreto do pré-mRNA'},
+          {label:'D', text:'Aumento da degradação do mRNA por exonucleases 5\''},
+          {label:'E', text:'Tradução da região 3\' não traduzida do mRNA'},
+        ],
+        explC:'Após a transcrição, o pré-mRNA é o transcrito inicial que contém sequências de íntrons e éxons.  Antes de sair do núcleo, o pré-mRNA deve ser processado em mRNA maduro por 3 modificações pós-transcricionais: capeamento por 5\' metilguanosina, adição de uma cauda de poliadenina (poli-A) 3\' e splicing.\n\nO splicing é realizado por spliceossomos, que são complexos de pequenas ribonucleoproteínas nucleares (snRNPs) e outras proteínas que se montam no pré-mRNA.  Os spliceossomos removem íntrons contendo GU no sítio de splicing 5\' e AG no sítio de splicing 3\'.  Inicialmente, a extremidade 5\' do íntron 1 (sítio doador de splicing) é clivada e unida ao ponto de ramificação.  O 3\'-OH livre do éxon 1 então forma uma ligação fosfodiéster com o 5\'-fosfato no sítio aceitador de splicing, unindo os éxons 1 e 2.  Mutações em sítios de splicing podem resultar em remoção inadequada de éxons e retenção de íntrons.  Isso frequentemente leva à formação de proteínas com estrutura e função prejudicadas, como descrito no caso acima.',
+        explI:[
+          {option:'A', explanation:'A poliadenilação da extremidade 3\' do mRNA é realizada pela enzima poliadenilato polimerase.  Esse processo estabiliza o mRNA e ajuda sua saída do núcleo.'},
+          {option:'B and D', explanation:'Em eucariotos, a tradução é iniciada quando a subunidade ribossômica pequena se liga ao cap 5\' do mRNA e então percorre a molécula em busca do códon de início AUG dentro da sequência consenso de Kozak.  O cap 5\' também protege contra exonucleases e ajuda a estabilizar o mRNA no citosol.'},
+          {option:'E', explanation:'A terminação da síntese polipeptídica ocorre nos 3 códons de parada (UAA, UAG, UGA) no mRNA.  Mutações em códons de parada (mutações nonstop) podem resultar em tradução contínua e inadequada do mRNA na região 3\' não traduzida, produzindo um polipeptídeo extremamente longo e não funcional.'},
+        ]
+      }
+    },
     // BATCH GEN 07 — Genetics: Miscellaneous
     { id:'CMQ-STEP1-GEN-0060', system:'genetics', discipline:'genetics', category:'genetics::miscellaneous', difficulty:'easy',
       img:'assets/qbank/CMQ-STEP1-GEN-0060_desc.png',
