@@ -1731,25 +1731,14 @@
       const savedLight=STG_LIGHT_BGS.includes(prefs.theme)?prefs.theme:'light';
       applyAppearance(document.body.classList.contains('light')?savedDark:savedLight, p);
     });
-    /* "Voltar" hierárquico/contextual — sobe UM nível na hierarquia lógica da
-       tela atual (padrão dos grandes sites/apps), nunca desfila o histórico
-       bruto nem pula para módulos sem relação com a tela. A Home é o destino
-       final quando a página já é de primeiro nível. */
+    /* "Voltar" padrão QBank — o botão global sempre leva para a Home do site,
+       independentemente da página atual. Mesma semântica do "Back to QBank"
+       dentro do módulo QBank: voltar = ir para o início do aplicativo. */
     const backBtn=$('#cmBackHome'); if(backBtn)backBtn.addEventListener('click',e=>{
       e.preventDefault();
-      const u=new URL(location.href);
-      const p=u.searchParams.get('page')||'home';
-      const go=page=>{ location.href=`app.html?page=${page}&u=${user()}`; };
-      // Library: PDF → tópico → pasta → raiz da library → Home
-      if(LIB_TITLE_KEY[p]){
-        for(const k of ['pdf','topic','folder']){ if(u.searchParams.get(k)){ u.searchParams.delete(k); location.href=u.toString(); return; } }
-        go('home'); return;
-      }
-      // QBank: telas do banco voltam para a seleção QBank 1/2; a seleção volta para a Home
-      if(p==='qbank'){ go('home'); return; }
-      if(QBANK_PAGES.includes(p)||p==='qbank-2'){ go('qbank'); return; }
-      if(p!=='home'){ go('home'); return; }
-      location.href=backBtn.getAttribute('href');
+      const p=(new URL(location.href)).searchParams.get('page')||'home';
+      if(p==='home'){ location.href=backBtn.getAttribute('href'); return; }
+      location.href=`app.html?page=home&u=${user()}`;
     });
     /* voltar/avançar do NAVEGADOR: a navegação interna usa pushState; recarregar
        garante que a tela renderizada corresponda exatamente à URL. */
