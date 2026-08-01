@@ -51,6 +51,7 @@ Extensões de fonte usuais: `.png`, `.jpg`, `.jpeg`, `.webp`, `.heic` e `.pdf`. 
 - A subpasta define o tópico de `category`.
 - Remover apenas o prefixo numérico e o sufixo `✅` ao comparar o nome da pasta com a taxonomia.
 - `Others`, `Others : Miscellaneous` e `Miscellaneous` correspondem a `misc`.
+- No nome de pasta, a barra `/` do nome canônico é gravada como `:` pelo sistema de arquivos (o Finder exibe `/`). Tratar `/` e `:` como equivalentes ao comparar com a taxonomia; o hífen `-` legado (ex.: `Psychiatric-Behavioral`) é equivalente à barra.
 - Não reclassificar por preferência pessoal.
 - Se o conteúdo for claramente incompatível com a pasta, não mover a fonte e não adivinhar: marcar conflito, escalonar e continuar os demais itens seguros.
 
@@ -264,6 +265,7 @@ Regras inegociáveis:
 - Se só parte de `peer` estiver ausente, bloquear a questão; não completar.
 - `correct` deve corresponder exatamente a uma label existente.
 - `explI` deve cobrir as explicações fornecidas para as incorretas. Se a fonte agrupar letras, manter uma única entrada, por exemplo `option:'B, D, and E'`; não duplicar o mesmo parágrafo.
+- **Justificativa das incorretas dentro da explicação geral:** quando a fonte explicar as alternativas incorretas apenas dentro de `explC` (sem seções próprias por alternativa), extrair o trecho correspondente de cada incorreta para `explI`, agrupando as que compartilham a mesma justificativa (ex.: `option:'B, and C'`). Nesse caso `explI` não pode ficar vazio. Extração não é invenção: usar somente o que a fonte afirma sobre cada alternativa, sem criar raciocínio novo. `explI` vazio só é aceito quando a fonte realmente não explica nenhuma incorreta em lugar nenhum.
 - Em uma questão com seis alternativas, adicionar `F` a `options` e a `peer` quando este existir. Adicionar `F` a `explI` somente se `F` for incorreta e conforme a fonte.
 
 Se um campo obrigatório estiver realmente ausente ou ilegível, não gerar texto plausível. Bloquear e pedir a fonte correta.
@@ -469,6 +471,54 @@ Calcular somente a partir de `peer[correct]`:
 
 Nunca estimar dificuldade “no olho”.
 
+### 8.3 Estrutura canônica, nomes e metas (UWorld Step 1)
+
+A estrutura abaixo é a referência oficial de **nomes** (sistemas e tópicos) e
+**metas de quantidade** do QBank 1. Ela prevalece sobre nomes divergentes em
+pastas, taxonomia do código e labels. Total planejado: **3.657 questões**.
+
+Regras:
+
+- [ ] Pastas e subpastas do Desktop usam o nome canônico (prefixo numérico e
+      sufixo `✅` continuam sendo ignorados na comparação).
+- [ ] `TAXONOMY` (EN) e `TAX_PT` (PT-BR) refletem exatamente estes nomes;
+      todo label canônico tem tradução PT-BR, como o restante da plataforma.
+- [ ] Uma subpasta só é considerada **concluída** quando a contagem de
+      questões do tópico no `SEED` atinge a meta. A meta não autoriza
+      inventar questões: ela apenas indica o trabalho restante.
+- [ ] Sistemas já concluídos com meta atingida: Biochemistry 65, Genetics 62,
+      Microbiology 30, Pathology 39, Pharmacology 45,
+      Biostatistics & Epidemiology 120, Poisoning & Environmental Exposure 32.
+
+| Sistema (meta) | Tópico — meta |
+|---|---|
+| **Biochemistry (General Principles)** — 65 | Amino acids, proteins, and enzymes — 20; Bioenergetics and carbohydrate metabolism — 21; Cell and molecular biology — 17; Lipid metabolism — 3; Miscellaneous — 4 |
+| **Genetics (General Principles)** — 62 | Clinical genetics — 21; DNA structure, replication, and repair — 18; Gene expression and regulation — 7; Protein synthesis — 1; RNA structure, synthesis, and processing — 13; Miscellaneous — 2 |
+| **Microbiology (General Principles)** — 30 | Bacteriology — 15; Mycology — 2; Parasitology — 1; Virology — 10; Miscellaneous — 2 |
+| **Pathology (General Principles)** — 39 | Cellular pathology — 6; Inflammation and repair — 2; Neoplasia — 31 |
+| **Pharmacology (General Principles)** — 45 | Drug metabolism and toxicity — 18; Drug receptors and pharmacodynamics — 5; Pharmacokinetics — 14; Miscellaneous — 8 |
+| **Biostatistics & Epidemiology** — 120 | Epidemiology and population health — 31; Measures and distribution of data — 11; Probability and principles of testing — 23; Study design and interpretation — 54; Miscellaneous — 1 |
+| **Poisoning & Environmental Exposure** — 32 | Environmental exposure — 7; Toxicology — 25 |
+| **Psychiatric/Behavioral & Substance Use Disorder** — 179 | Normal behavior and development — 18; Anxiety and trauma-related disorders — 24; Mood disorders — 33; Neurodevelopmental disorders — 17; Personality disorders — 7; Psychotic disorders — 26; Substance use disorders — 26; Eating disorders — 8; Somatoform disorders — 2; Miscellaneous — 18 |
+| **Social Sciences (Ethics/Legal/Professional)** — 107 | Communication and interpersonal skills — 62; Healthcare policy and economics — 9; Medical ethics and jurisprudence — 20; Patient safety — 8; System based-practice and quality improvement — 5; Miscellaneous — 3 |
+| **Miscellaneous (Multisystem)** — 24 | Miscellaneous — 24 |
+| **Allergy & Immunology** — 108 | Anaphylaxis and allergic reactions — 19; Autoimmune diseases — 13; Immune deficiencies — 23; Transplant medicine — 7; Principles of immunology — 25; Miscellaneous — 21 |
+| **Cardiovascular System** — 417 | Normal structure and function of the cardiovascular system — 56; Aortic and peripheral artery diseases — 37; Cardiac arrhythmias — 50; Congenital heart disease — 32; Coronary heart disease — 46; Heart failure and shock — 46; Hypertension — 24; Myopericardial diseases — 52; Valvular heart diseases — 46; Cardiovascular drugs — 17; Miscellaneous — 11 |
+| **Dermatology** — 100 | Normal structure and function of skin — 6; Disorders of epidermal appendages — 11; Inflammatory dermatoses and bullous diseases — 28; Skin and soft tissue infections — 18; Skin tumors and tumor-like lesions — 32; Miscellaneous — 5 |
+| **Ear, Nose & Throat (ENT)** — 40 | Disorders of the ear, nose, and throat — 40 |
+| **Endocrine, Diabetes & Metabolism** — 199 | Normal structure and function of endocrine glands — 3; Congenital and developmental anomalies — 19; Adrenal disorders — 11; Diabetes mellitus — 49; Endocrine tumors — 26; Hypothalamus and pituitary disorders — 13; Obesity and dyslipidemia — 13; Reproductive endocrinology — 21; Thyroid disorders — 34; Miscellaneous — 10 |
+| **Female Reproductive System & Breast** — 79 | Normal structure and function of the female reproductive system and breast — 11; Congenital and developmental anomalies — 10; Breast disorders — 7; Genital tract tumors and tumor-like lesions — 26; Genitourinary tract infections — 13; Menstrual disorders and contraception — 4; Miscellaneous — 8 |
+| **Gastrointestinal & Nutrition** — 306 | Normal structure and function of the GI tract — 22; Congenital and developmental anomalies — 21; Biliary tract disorders — 17; Disorders of nutrition — 18; Gastroesophageal disorders — 45; Hepatic disorders — 59; Intestinal and colorectal disorders — 66; Pancreatic disorders — 17; Tumors of the GI tract — 27; Miscellaneous — 14 |
+| **Hematology & Oncology** — 231 | Normal hematologic structure and function — 10; Hemostasis and thrombosis — 37; Plasma cell disorders — 2; Platelet disorders — 15; Red blood cell disorders — 85; Transfusion medicine — 4; White blood cell disorders — 47; Principles of oncology — 24; Miscellaneous — 7 |
+| **Infectious Diseases** — 272 | Antimicrobial drugs — 23; Bacterial infections — 112; Fungal infections — 12; HIV and sexually transmitted infections — 42; Infection control — 6; Parasitic and helminthic infections — 26; Viral infections — 44; Miscellaneous — 7 |
+| **Male Reproductive System** — 52 | Normal structure and function of the male reproductive system — 4; Disorders of the male reproductive system — 48 |
+| **Nervous System** — 402 | Normal structure and function of the nervous system — 48; Congenital and developmental anomalies — 36; Cerebrovascular disease — 62; CNS infections — 30; Demyelinating diseases — 9; Disorders of peripheral nerves and muscles — 69; Headache — 12; Neurodegenerative disorders and dementias — 35; Seizures and epilepsy — 19; Spinal cord disorders — 14; Traumatic brain injuries — 8; Tumors of the nervous system — 17; Hydrocephalus — 5; Anesthesia — 12; Sleep disorders — 8; Miscellaneous — 18 |
+| **Ophthalmology** — 31 | Normal structure and function of the eye and associated structures — 3; Disorders of the eye and associated structures — 28 |
+| **Pregnancy, Childbirth & Puerperium** — 59 | Normal pregnancy, childbirth, and puerperium — 15; Disorders of pregnancy, childbirth, and puerperium — 44 |
+| **Pulmonary & Critical Care** — 264 | Normal pulmonary structure and function — 25; Congenital and developmental anomalies — 9; Critical care medicine — 40; Interstitial lung disease — 26; Lung cancer — 10; Obstructive lung disease — 48; Pulmonary infections — 61; Pulmonary vascular disease — 23; Sleep disorders — 1; Miscellaneous — 21 |
+| **Renal, Urinary Systems & Electrolytes** — 226 | Normal structure and function of the kidneys and urinary system — 24; Congenital and developmental anomalies — 21; Acute kidney injury — 22; Bone metabolism — 8; Chronic kidney disease — 15; Cystic kidney diseases — 3; Fluid, electrolytes, and acid-base — 38; Glomerular diseases — 39; Neoplasms of the kidneys and urinary tract — 12; Nephrolithiasis and urinary tract obstruction — 16; Diabetes insipidus — 8; Urinary incontinence — 5; Miscellaneous — 15 |
+| **Rheumatology/Orthopedics & Sports** — 168 | Normal structure and function of the musculoskeletal system — 31; Congenital and developmental anomalies — 9; Arthritis and spondyloarthropathies — 38; Autoimmune disorders and vasculitides — 25; Bone/joint injuries and infections — 35; Bone tumors and tumor-like lesions — 6; Spinal disorders and back pain — 4; Metabolic bone disorders — 14; Miscellaneous — 6 |
+
 ---
 
 ## 9. Lab Values
@@ -615,7 +665,8 @@ troca do texto antes de registrar cada conferência:
 - PT-BR;
 - Lab Values;
 - `img` no enunciado e `explImg` na explicação;
-- crop, nitidez e ordem dos assets.
+- crop, nitidez e ordem dos assets;
+- **zoom da imagem** abre e funciona (ampliar e reduzir) no desktop e no mobile, sem deslocar o layout da questão.
 
 Para navegação fora do preview, usar conta de teste (`guest1`), nunca uma conta real.
 
@@ -678,6 +729,7 @@ próprio diff de forma superficial.
 - [ ] `git diff --check`
 - [ ] `git diff --cached --check` depois do stage.
 - [ ] `git diff` revisado; nenhuma alteração alheia.
+- [ ] Questões novas disponíveis nas **4 passadas** (o pool de cada passada é recalculado a partir do `SEED`, nunca congelado); contagem da árvore de sistemas coerente com o campo “disponíveis” do gerador de teste.
 
 O `SEED` é global: questões novas ficam disponíveis a todas as contas. Uma leva grande aumenta o denominador das passadas e pode reduzir percentuais antes concluídos; mencionar isso no resumo final.
 

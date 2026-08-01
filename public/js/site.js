@@ -1397,7 +1397,7 @@
     return Number(localStorage.getItem('couplemed_qbank_1_total')||0);
   }
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
-  const COMING_SOON_PAGES=['qbank-2','step-2','step-3','languages','observership','residency-match','links'];
+  const COMING_SOON_PAGES=['qbank-2','self-assessment','step-2','step-3','languages','observership','residency-match','links'];
   const QBANK_PAGES=['qbank-1','qbank1-pass-1','qbank1-pass-2','qbank1-pass-3','qbank1-pass-4','library-1','library-2'];
   const WS_ITEMS=[
     {page:'notebooks',   key:'notebooks',   descKey:'wsNotebooksDesc', cls:'ws-ico-nb',   svg:'<rect x="4" y="3" width="15" height="18" rx="2.2" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v18" stroke="currentColor" stroke-width="1.8"/><path d="M12 8h4M12 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'},
@@ -1428,10 +1428,32 @@
     </div>`;
     preserveUserLinks();
   }
+  /* ===================== SELEÇÃO DE QBANK (Step 1 → QBank) =====================
+     Página intermediária com duas caixas premium centralizadas:
+     QBank 1 (azul) leva ao banco real; QBank 2 (vermelho) mantém a página
+     "em construção" atual. */
+  function renderQbankSelect(lang){
+    const rp=$('#regularPage'); if(!rp) return;
+    const pt = lang==='pt';
+    rp.innerHTML=`
+      <h1 id="internalTitle">QBank</h1>
+      <p class="qbank-select-sub">${pt?'Escolha qual banco de questões você quer usar:':'Choose which question bank you want to use:'}</p>
+      <div class="qbank-select">
+        <a class="qbank-select-card qb1" href="app.html?page=qbank-1&u=${user()}">
+          <strong>QBank 1</strong>
+          <small>${pt?'Banco de questões — USMLE Step 1':'Question bank — USMLE Step 1'}</small>
+        </a>
+        <a class="qbank-select-card qb2" href="app.html?page=qbank-2&u=${user()}">
+          <strong>QBank 2</strong>
+          <small>${pt?'Em construção':'Under construction'}</small>
+        </a>
+      </div>`;
+  }
   function updateDynamicContent(lang){
     const p=page(); if(p==='home')return;
     if(p==='settings'){ renderSettings(lang); return; }
     if(p==='my-workspace'){ renderWorkspace(lang); return; }
+    if(p==='qbank'){ renderQbankSelect(lang); return; }
     if(p==='step1-instructions'){ location.replace(`app.html?page=qbank-1&u=${user()}`); return; }
     if(LIB_TITLE_KEY[p]){ renderLibrary(p,lang); return; }
     if(QBANK_PAGES.includes(p))return; // qbank.js monta e traduz sozinho
@@ -1709,17 +1731,29 @@
       const savedLight=STG_LIGHT_BGS.includes(prefs.theme)?prefs.theme:'light';
       applyAppearance(document.body.classList.contains('light')?savedDark:savedLight, p);
     });
-    /* "voltar" real (histórico do navegador) — só cai na Home quando a página
-       anterior de fato foi a Home. Só usa history.back() quando o referrer é
-       do próprio site (ou seja, o usuário realmente veio navegando de outra
-       página interna); caso contrário (aba nova, link direto, referrer externo)
-       cai na Home, pra nunca sair do site ou voltar pra uma página em branco. */
+    /* "Voltar" hierárquico/contextual — sobe UM nível na hierarquia lógica da
+       tela atual (padrão dos grandes sites/apps), nunca desfila o histórico
+       bruto nem pula para módulos sem relação com a tela. A Home é o destino
+       final quando a página já é de primeiro nível. */
     const backBtn=$('#cmBackHome'); if(backBtn)backBtn.addEventListener('click',e=>{
       e.preventDefault();
-      let sameOrigin=false;
-      try{ sameOrigin = document.referrer && new URL(document.referrer).origin===location.origin; }catch(err){}
-      if(sameOrigin && history.length>1) history.back(); else location.href=backBtn.getAttribute('href');
+      const u=new URL(location.href);
+      const p=u.searchParams.get('page')||'home';
+      const go=page=>{ location.href=`app.html?page=${page}&u=${user()}`; };
+      // Library: PDF → tópico → pasta → raiz da library → Home
+      if(LIB_TITLE_KEY[p]){
+        for(const k of ['pdf','topic','folder']){ if(u.searchParams.get(k)){ u.searchParams.delete(k); location.href=u.toString(); return; } }
+        go('home'); return;
+      }
+      // QBank: telas do banco voltam para a seleção QBank 1/2; a seleção volta para a Home
+      if(p==='qbank'){ go('home'); return; }
+      if(QBANK_PAGES.includes(p)||p==='qbank-2'){ go('qbank'); return; }
+      if(p!=='home'){ go('home'); return; }
+      location.href=backBtn.getAttribute('href');
     });
+    /* voltar/avançar do NAVEGADOR: a navegação interna usa pushState; recarregar
+       garante que a tela renderizada corresponda exatamente à URL. */
+    window.addEventListener('popstate',()=>{ location.reload(); });
     const backLabel=$('#cmBackLabel');if(backLabel)backLabel.textContent=cmLang()==='pt'?'Voltar':'Back';
     cmEnhanceBreadcrumbs(document);
     const crumbRoot=$('#regularPage');if(crumbRoot&&!window.__cmBreadcrumbObserver){window.__cmBreadcrumbObserver=new MutationObserver(()=>cmEnhanceBreadcrumbs(crumbRoot));window.__cmBreadcrumbObserver.observe(crumbRoot,{childList:true,subtree:true});}

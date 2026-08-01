@@ -273,13 +273,8 @@ body.light .qb .qb-guide-hero p{color:#c5d8f4}
 .qb-sys-row>span{flex:0 0 42%;font-size:13px;color:var(--qb-text)}
 .qb-sys-bar{flex:1;height:9px;border-radius:6px;background:rgba(140,160,190,.16);overflow:hidden}
 .qb-sys-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--qb-ok-d,#2E7D32),var(--qb-ok));border-radius:6px}
-.qb-sys-bar.rc span{background:linear-gradient(90deg,#c62828,var(--qb-bad))}
 .qb-sys-row b{font-size:12.5px;font-weight:800;color:var(--qb-text);min-width:34px;text-align:right}
 .qb-sys-row b em{font-style:normal;font-weight:500;color:var(--qb-muted);font-size:11px}
-.qb-surgical{display:block;width:100%;text-align:left;margin-top:22px;padding:16px 18px;border-radius:14px;border:1px solid rgba(255,90,95,.35);background:linear-gradient(145deg,rgba(255,90,95,.10),rgba(255,90,95,.03));color:var(--qb-text);transition:.16s}
-.qb-surgical:hover{transform:translateY(-2px);border-color:var(--qb-bad)}
-.qb-surgical strong{display:block;font-size:14px;color:var(--qb-bad)}
-.qb-surgical small{display:block;font-size:12.5px;color:var(--qb-muted);margin-top:3px}
 .qb-res-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
 
 /* -------- ANALYTICS -------- */
@@ -301,10 +296,6 @@ body:not(.light) .qb-ta{--qb-card2:#122844}
 .qb-ta:focus{outline:2px solid var(--qb-blue,#2768ff);outline-offset:1px;border-color:transparent}
 .qb-modal-hint{font-size:12px;color:var(--qb-muted,#5f748f);margin:8px 0 0}
 .qb-modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
-.qb-rc-opts{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
-.qb-rc-opt{text-align:left;border:1px solid var(--qb-line,#e2eaf5);background:var(--qb-card2,#f4f8fe);color:var(--qb-text,#132235);border-radius:11px;padding:13px 15px;font-size:13.5px;font-weight:600;transition:.14s}
-body:not(.light) .qb-rc-opt{--qb-card2:#122844}
-.qb-rc-opt:hover{border-color:var(--qb-blue,#2768ff);transform:translateX(3px)}
 .qb-labtable{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
 .qb-labtable td{padding:8px 10px;border-bottom:1px solid var(--qb-line,#e2eaf5);color:var(--qb-text,#132235)}
 .qb-labtable td:first-child{font-weight:700;color:var(--qb-muted,#5f748f)}
@@ -411,6 +402,7 @@ body:not(.light) .qb-lab-tip::after{border-top-color:#1b3a63}
   object-position:center center;
   border-radius:10px;
   transform:none;
+  cursor:zoom-in;
 }
 .qb-question-image figcaption{
   margin-top:8px;
@@ -436,3 +428,43 @@ body:not(.light) .qb-lab-tip::after{border-top-color:#1b3a63}
 .qb-qnum{font-size:11px;color:var(--qb-muted);white-space:nowrap}.qb-tool:focus-visible{outline:2px solid color-mix(in srgb,var(--qb-blue) 40%,transparent);outline-offset:1px}
 @media(max-width:640px){.qb-test-head{flex-wrap:nowrap}.qb-head-tools{width:auto;flex:1}.qb-tool{font-size:9.5px;padding:5px 7px}.qb-timer{font-size:10px}}
 .platform-page.internal .qb-guide>.qb-link{display:none!important}
+
+/* -------- QBank image zoom (lightbox responsivo) --------
+   Overlay próprio, fora do fluxo da questão: não altera layout/posição
+   das figuras; funciona com mouse, teclado e toque em todos os viewports. */
+body.qb-zoom-open{overflow:hidden}
+.qb-zoom{position:fixed;inset:0;z-index:12000;background:rgba(8,12,22,.88);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.qb-zoom-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;cursor:grab}
+.qb-zoom-stage:active{cursor:grabbing}
+.qb-zoom-stage img{max-width:92vw;max-height:82vh;border-radius:8px;box-shadow:0 18px 60px rgba(0,0,0,.5);user-select:none;-webkit-user-select:none;-webkit-user-drag:none;transform-origin:center center;transition:transform .12s ease-out}
+.qb-zoom-bar{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:rgba(20,26,40,.85);border:1px solid rgba(255,255,255,.14);box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.qb-zoom-bar button{min-width:40px;height:40px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-weight:600;line-height:1;cursor:pointer}
+.qb-zoom-bar button:hover{background:rgba(255,255,255,.14)}
+.qb-zoom-bar .qb-zoom-close{background:rgba(220,60,60,.22);border-color:rgba(255,120,120,.35)}
+.qb-zoom-bar .qb-zoom-close:hover{background:rgba(220,60,60,.36)}
+.qb-zoom-pct{min-width:52px;text-align:center;color:#dbe4f3;font-size:13px;font-variant-numeric:tabular-nums}
+@media(max-width:640px){
+  .qb-zoom-bar{gap:6px;padding:6px 8px;bottom:max(10px,env(safe-area-inset-bottom))}
+  .qb-zoom-bar button{min-width:44px;height:44px;font-size:15px}
+  .qb-zoom-pct{min-width:46px;font-size:12px}
+}
+
+/* -------- Experimento tipográfico reversível (Alt 7) --------
+   Ativado por body.qb-uwtype (param ?uwtype=1 / localStorage couplemed_qb_uwtype).
+   Aproxima a tipografia do padrão UWorld: sans-serif de sistema, corpo menor,
+   medida mais compacta — avaliando legibilidade e expansão responsiva.
+   Para reverter: remover este bloco e o snippet de boot em qbank.js. */
+body.qb-uwtype .qb-vignette p,
+body.qb-uwtype .qb-stem,
+body.qb-uwtype .qb-opt-t,
+body.qb-uwtype .qb-expl-correct,
+body.qb-uwtype .qb-expl-incorrect li,
+body.qb-uwtype .qb-labtable{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+body.qb-uwtype .qb-vignette p{font-size:15px;line-height:1.55;letter-spacing:0}
+body.qb-uwtype .qb-stem{font-size:15px;line-height:1.5;font-weight:700}
+body.qb-uwtype .qb-opt-t{font-size:14px;line-height:1.5}
+body.qb-uwtype .qb-expl-correct{font-size:14px;line-height:1.6}
+body.qb-uwtype .qb-expl-incorrect li{font-size:13.5px;line-height:1.55}
+body.qb-uwtype .qb-opt{padding:11px 14px 11px 40px}

@@ -8,9 +8,9 @@
    - Parte 2  Create Test (filtros combináveis + contador dinâmico)
    - Parte 3  Tela de resolução (strikethrough, flag, lab values, grid colorido, End Block)
    - Parte 4  Sistema de passes (pass_number calculado por attempts; nunca sobrescreve)
-   - Parte 5  Causa-raiz do erro (modal 5 tags) + Surgical Review
+   - Parte 5  (removida) — modal causa-raiz do erro e Surgical Review foram descontinuados
    - Parte 6/15 SmartCards: "Add to Flashcards" grava no mesmo banco do módulo Flashcards
-   - Parte 7  Analytics (overview, por sistema, comparação por pass, causa-raiz)
+   - Parte 7  Analytics (overview, por sistema, comparação por pass)
    Próximos: import pipeline (Parte 16 UI), self-assessments (Parte 8), study planner (Parte 9).
    ============================================================================ */
 (function(){
@@ -43,86 +43,6 @@
      Substituível pelo pipeline de importação (Parte 16) ou pela API D1.
      Cada questão: vinheta estilo NBME, 5 alternativas, explicações e peer stats. */
   const SEED = [
-    { id:'q_cv_as', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::valvular_heart_diseases', difficulty:'easy',
-      vignette:'A 72-year-old man is evaluated for two episodes of syncope during exertion over the past month. He also reports dyspnea on climbing stairs. On auscultation there is a harsh crescendo-decrescendo systolic murmur best heard at the right upper sternal border, radiating to both carotids. The murmur intensity decreases with handgrip. Peripheral pulses are delayed and diminished (pulsus parvus et tardus).',
-      q:'Which of the following is the most likely diagnosis?',
-      options:[{label:'A',text:'Aortic stenosis'},{label:'B',text:'Mitral regurgitation'},{label:'C',text:'Hypertrophic obstructive cardiomyopathy'},{label:'D',text:'Aortic regurgitation'},{label:'E',text:'Mitral valve prolapse'}],
-      correct:'A',
-      explC:'The triad of exertional syncope, a crescendo-decrescendo systolic murmur radiating to the carotids, and pulsus parvus et tardus is classic for severe aortic stenosis. The murmur is a systolic ejection murmur produced by turbulent flow across a narrowed valve; handgrip (↑afterload) decreases the gradient and softens the murmur.',
-      explI:[{option:'B',explanation:'Mitral regurgitation produces a holosystolic murmur at the apex radiating to the axilla, not to the carotids, and it increases with handgrip.'},{option:'C',explanation:'HOCM murmur increases with maneuvers that decrease preload (Valsalva, standing) and decreases with handgrip — but it does not cause pulsus parvus et tardus; the carotid upstroke is brisk/bifid.'},{option:'D',explanation:'Aortic regurgitation is a diastolic decrescendo murmur with a wide pulse pressure and bounding pulses — the opposite of the diminished pulses here.'},{option:'E',explanation:'MVP causes a mid-systolic click followed by a late systolic murmur, not the described ejection quality with carotid radiation.'}],
-      objective:'Recognize severe aortic stenosis by exertional syncope, an ejection systolic murmur radiating to the carotids, and pulsus parvus et tardus.',
-      peer:{A:71,B:9,C:12,D:5,E:3} },
-
-    { id:'q_resp_emph', system:'pulmonary_critical_care', discipline:'pathology', category:'pulmonary_critical_care::obstructive_lung', difficulty:'medium',
-      vignette:'A 66-year-old man with a 45-pack-year smoking history reports progressive exertional dyspnea. He is thin, sits leaning forward, and breathes through pursed lips. The chest is hyperresonant with diminished breath sounds and a prolonged expiratory phase. Chest imaging shows hyperinflation with a flattened diaphragm and increased retrosternal air space. Arterial blood gas is near normal at rest.',
-      q:'Which pathologic process best explains these findings?',
-      options:[{label:'A',text:'Destruction of alveolar walls distal to the terminal bronchiole'},{label:'B',text:'Hyperplasia of bronchial submucosal glands'},{label:'C',text:'Non-caseating granulomas in the interstitium'},{label:'D',text:'Diffuse alveolar damage with hyaline membranes'},{label:'E',text:'Reversible bronchospasm from mast cell degranulation'}],
-      correct:'A',
-      explC:'The "pink puffer" phenotype — thin, pursed-lip breathing, hyperinflation, near-normal gas exchange — reflects emphysema: destruction of alveolar septa distal to the terminal bronchiole, loss of elastic recoil, and air trapping. Centriacinar emphysema is the smoking-related pattern.',
-      explI:[{option:'B',explanation:'Submucosal gland hyperplasia (↑Reid index) defines chronic bronchitis — the "blue bloater" with productive cough, not the hyperinflated thin patient here.'},{option:'C',explanation:'Non-caseating granulomas suggest sarcoidosis, which causes restrictive interstitial disease and bilateral hilar adenopathy, not hyperinflation.'},{option:'D',explanation:'Diffuse alveolar damage with hyaline membranes is ARDS — an acute process with hypoxemia, not a chronic smoker phenotype.'},{option:'E',explanation:'Reversible bronchospasm describes asthma; airflow obstruction here is fixed and structural.'}],
-      objective:'Attribute the emphysema ("pink puffer") phenotype to destruction of alveolar walls distal to the terminal bronchiole with loss of elastic recoil.',
-      peer:{A:64,B:20,C:4,D:5,E:7} },
-
-    { id:'q_renal_hyperk', system:'renal_urinary', discipline:'physiology', category:'renal_urinary::fluid_electrolytes_acidbase', difficulty:'medium',
-      vignette:'A 59-year-old man with end-stage renal disease missed his last two dialysis sessions. He presents with weakness and palpitations. Serum potassium is 7.2 mEq/L. The ECG shows peaked T waves, a widened QRS, and loss of P waves.',
-      q:'Which is the most appropriate immediate next step in management?',
-      options:[{label:'A',text:'Intravenous calcium gluconate'},{label:'B',text:'Intravenous regular insulin with dextrose'},{label:'C',text:'Nebulized albuterol'},{label:'D',text:'Oral sodium polystyrene sulfonate'},{label:'E',text:'Urgent hemodialysis'}],
-      correct:'A',
-      explC:'With ECG changes of hyperkalemia, the FIRST step is IV calcium to stabilize the cardiac membrane. Calcium raises the threshold potential and antagonizes the depolarizing effect of potassium within minutes; it does not lower serum K+ but prevents lethal arrhythmia while other measures take effect.',
-      explI:[{option:'B',explanation:'Insulin+dextrose shifts K+ intracellularly and is essential, but it is given AFTER membrane stabilization because it takes longer to act and does not immediately protect the myocardium.'},{option:'C',explanation:'Albuterol also shifts K+ intracellularly but is adjunctive and slower than membrane stabilization.'},{option:'D',explanation:'Cation-exchange resins remove K+ from the body over hours and do nothing for the acute arrhythmia risk.'},{option:'E',explanation:'Dialysis is the definitive treatment for total-body potassium in ESRD, but it takes time to arrange; calcium must be given first when ECG changes are present.'}],
-      objective:'When hyperkalemia produces ECG changes, give IV calcium first to stabilize the myocardium before shifting or removing potassium.',
-      peer:{A:52,B:31,C:2,D:4,E:11} },
-
-    { id:'q_id_gc', system:'infectious_diseases', discipline:'microbiology', category:'infectious_diseases::hiv_sti', difficulty:'easy',
-      vignette:'A 24-year-old sexually active man presents with dysuria and a purulent urethral discharge for three days. Gram stain of the discharge shows numerous neutrophils containing gram-negative diplococci.',
-      q:'Which organism is the most likely cause?',
-      options:[{label:'A',text:'Neisseria gonorrhoeae'},{label:'B',text:'Chlamydia trachomatis'},{label:'C',text:'Treponema pallidum'},{label:'D',text:'Trichomonas vaginalis'},{label:'E',text:'Haemophilus ducreyi'}],
-      correct:'A',
-      explC:'Intracellular gram-negative diplococci within neutrophils on a Gram stain of urethral discharge are diagnostic of Neisseria gonorrhoeae. It is oxidase-positive and grows on Thayer-Martin agar. Empiric therapy also covers Chlamydia because of frequent co-infection.',
-      explI:[{option:'B',explanation:'Chlamydia is an obligate intracellular organism that does not Gram stain (no classic peptidoglycan wall); it causes a similar but often milder, clear discharge.'},{option:'C',explanation:'Treponema pallidum causes syphilis (painless chancre) and is not seen on Gram stain — it requires darkfield microscopy.'},{option:'D',explanation:'Trichomonas is a flagellated protozoan seen on wet mount, not a diplococcus.'},{option:'E',explanation:'H. ducreyi causes chancroid (painful genital ulcers), described as a "school of fish" on Gram stain, not urethritis with intracellular diplococci.'}],
-      objective:'Identify Neisseria gonorrhoeae from intracellular gram-negative diplococci in neutrophils on urethral Gram stain.',
-      peer:{A:78,B:14,C:3,D:3,E:2} },
-
-    { id:'q_endo_graves', system:'endocrine', discipline:'pathophysiology', category:'endocrine::thyroid_disorders', difficulty:'medium',
-      vignette:'A 32-year-old woman reports a 6-kg weight loss despite increased appetite, palpitations, heat intolerance, and anxiety over three months. On exam she has a fine resting tremor, warm moist skin, a diffusely enlarged nontender thyroid with a bruit, and bilateral proptosis. TSH is undetectable and free T4 is elevated.',
-      q:'Which finding is most specific for the underlying diagnosis?',
-      options:[{label:'A',text:'Proptosis (exophthalmos)'},{label:'B',text:'Fine resting tremor'},{label:'C',text:'Undetectable TSH'},{label:'D',text:'Weight loss with increased appetite'},{label:'E',text:'Heat intolerance'}],
-      correct:'A',
-      explC:'The picture is Graves disease, caused by stimulating anti-TSH-receptor antibodies. Ophthalmopathy (proptosis) results from autoantibody-driven inflammation and glycosaminoglycan deposition in retro-orbital tissue and occurs almost exclusively in Graves — making it the most specific feature. The other findings occur in any cause of thyrotoxicosis.',
-      explI:[{option:'B',explanation:'Tremor is a general adrenergic manifestation of thyrotoxicosis from any cause.'},{option:'C',explanation:'Suppressed TSH occurs in all forms of primary hyperthyroidism and does not distinguish Graves from toxic nodule or thyroiditis.'},{option:'D',explanation:'Hypermetabolism with weight loss is nonspecific to the etiology.'},{option:'E',explanation:'Heat intolerance reflects the hypermetabolic state generally, not Graves specifically.'}],
-      objective:'Recognize that thyroid ophthalmopathy is specific to Graves disease among the causes of thyrotoxicosis.',
-      peer:{A:58,B:6,C:22,D:6,E:8} },
-
-    { id:'q_neuro_levodopa', system:'nervous_system', discipline:'pharmacology', category:'nervous_system::neurodegenerative_dementias', difficulty:'medium',
-      vignette:'A 68-year-old man has a resting pill-rolling tremor, cogwheel rigidity, bradykinesia, and a shuffling gait. He is started on a medication that is combined with carbidopa.',
-      q:'What is the purpose of adding carbidopa to this therapy?',
-      options:[{label:'A',text:'It inhibits peripheral DOPA decarboxylase, reducing peripheral side effects and increasing central levodopa delivery'},{label:'B',text:'It directly stimulates central dopamine receptors'},{label:'C',text:'It inhibits catechol-O-methyltransferase in the brain'},{label:'D',text:'It blocks central muscarinic receptors to reduce tremor'},{label:'E',text:'It crosses the blood-brain barrier to be converted to dopamine'}],
-      correct:'A',
-      explC:'Carbidopa inhibits peripheral aromatic L-amino acid (DOPA) decarboxylase but does not cross the blood-brain barrier. This decreases peripheral conversion of levodopa to dopamine, reducing nausea and hypotension while allowing more levodopa to reach the CNS.',
-      explI:[{option:'B',explanation:'Direct dopamine-receptor agonism describes drugs like pramipexole/ropinirole, not carbidopa.'},{option:'C',explanation:'COMT inhibition is the mechanism of entacapone/tolcapone; carbidopa inhibits decarboxylase, not COMT.'},{option:'D',explanation:'Central antimuscarinic action describes benztropine/trihexyphenidyl used for tremor, not carbidopa.'},{option:'E',explanation:'Levodopa (not carbidopa) crosses the BBB and is converted to dopamine centrally; carbidopa acts only peripherally.'}],
-      objective:'Explain that carbidopa blocks peripheral DOPA decarboxylase to reduce peripheral side effects and boost central levodopa availability.',
-      peer:{A:61,B:8,C:18,D:6,E:7} },
-
-    { id:'q_heme_ida', system:'heme_onc', discipline:'pathology', category:'heme_onc::rbc_disorders', difficulty:'easy',
-      vignette:'A 41-year-old woman with heavy menstrual bleeding reports fatigue and pica (craving ice). Labs show hemoglobin 9.1 g/dL, MCV 74 fL, low serum ferritin, elevated total iron-binding capacity, and low transferrin saturation.',
-      q:'Which is the most likely diagnosis?',
-      options:[{label:'A',text:'Iron deficiency anemia'},{label:'B',text:'Anemia of chronic disease'},{label:'C',text:'Beta-thalassemia minor'},{label:'D',text:'Sideroblastic anemia'},{label:'E',text:'Vitamin B12 deficiency'}],
-      correct:'A',
-      explC:'Microcytic anemia with LOW ferritin, HIGH TIBC, and low transferrin saturation in a woman with menorrhagia and pica is iron deficiency. Low ferritin is highly specific because ferritin reflects total body iron stores; TIBC rises as the body upregulates transferrin.',
-      explI:[{option:'B',explanation:'Anemia of chronic disease also causes microcytosis but with HIGH or normal ferritin and LOW TIBC (iron is sequestered), the opposite iron studies.'},{option:'C',explanation:'Thalassemia minor gives microcytosis with a normal/high RBC count and NORMAL iron studies; ferritin is not low.'},{option:'D',explanation:'Sideroblastic anemia typically shows HIGH ferritin and iron overload with ringed sideroblasts.'},{option:'E',explanation:'B12 deficiency causes a MACROcytic (high MCV) anemia, not microcytosis.'}],
-      objective:'Distinguish iron deficiency (low ferritin, high TIBC) from other microcytic anemias using iron studies.',
-      peer:{A:74,B:15,C:6,D:2,E:3} },
-
-    { id:'q_gi_scc', system:'gi_nutrition', discipline:'pathophysiology', category:'gi_nutrition::tumors_gi', difficulty:'medium',
-      vignette:'A 61-year-old man with a long history of tobacco and alcohol use reports difficulty swallowing solid foods for two months, now progressing to difficulty with liquids as well. He has lost 7 kg. Upper endoscopy reveals an irregular ulcerated mass in the mid-esophagus.',
-      q:'Which is the most likely diagnosis?',
-      options:[{label:'A',text:'Squamous cell carcinoma of the esophagus'},{label:'B',text:'Esophageal adenocarcinoma'},{label:'C',text:'Achalasia'},{label:'D',text:'Diffuse esophageal spasm'},{label:'E',text:'Eosinophilic esophagitis'}],
-      correct:'A',
-      explC:'Progressive dysphagia (solids → liquids) with weight loss and a mid-esophageal mass in a patient with tobacco AND alcohol use points to squamous cell carcinoma, which classically arises in the upper/middle third and is strongly linked to smoking and alcohol.',
-      explI:[{option:'B',explanation:'Adenocarcinoma arises in the DISTAL esophagus from Barrett metaplasia due to chronic GERD/obesity, not the mid-esophagus in a smoker/drinker.'},{option:'C',explanation:'Achalasia causes dysphagia to solids AND liquids simultaneously from the start, with a "bird-beak" on barium study — not a discrete mass.'},{option:'D',explanation:'Diffuse esophageal spasm causes intermittent chest pain and dysphagia without a mass or progressive weight loss.'},{option:'E',explanation:'Eosinophilic esophagitis affects younger atopic patients with food impaction and concentric rings, not an ulcerated mass with weight loss.'}],
-      objective:'Link progressive dysphagia, weight loss, and a mid-esophageal mass in a smoker/drinker to squamous cell carcinoma.',
-      peer:{A:56,B:30,C:6,D:3,E:5} },
-
     { id:'CMQ-STEP1-BST-0120', system:'biostatistics_epidemiology', discipline:'genetics', category:'biostatistics_epidemiology::misc', difficulty:'hard',
       vignette:'A group of geneticists plans to conduct a study on the distribution of allelic variants for a particular gene in a rat population.  In the sample population of 15 rats, the genotype distribution is 5 AA, 5 Aa, and 5 aa.  The phenotypes represented by the various allele combinations do not provide any specific benefit for survival.  During the study, rats will be allowed to mate randomly, but no new rats will be introduced to the population.  Based on the information provided, are the current allele and genotype frequencies in this population in Hardy-Weinberg equilibrium?',
       q:'',
@@ -152,989 +72,6 @@
         explI:[]
       }
     },
-
-    { id:'q_psych_mdd', system:'psychiatric_behavioral', discipline:'behavioral_science', category:'psychiatric_behavioral::mood_disorders', difficulty:'easy',
-      vignette:'A 29-year-old woman reports six weeks of depressed mood and loss of interest in activities she used to enjoy. She also describes insomnia, poor concentration, low energy, feelings of worthlessness, and a 4-kg unintentional weight loss. She denies manic episodes, substance use, and has a normal physical exam and TSH.',
-      q:'Which is the most likely diagnosis?',
-      options:[{label:'A',text:'Major depressive disorder'},{label:'B',text:'Persistent depressive disorder (dysthymia)'},{label:'C',text:'Adjustment disorder with depressed mood'},{label:'D',text:'Bipolar II disorder'},{label:'E',text:'Normal grief'}],
-      correct:'A',
-      explC:'At least five SIG E CAPS symptoms (including depressed mood or anhedonia) present most of the day for ≥2 weeks meets criteria for major depressive disorder. This patient has depressed mood, anhedonia, insomnia, poor concentration, low energy, worthlessness, and weight change over six weeks.',
-      explI:[{option:'B',explanation:'Persistent depressive disorder requires depressed mood for ≥2 YEARS with fewer acute symptoms; six weeks is too short.'},{option:'C',explanation:'Adjustment disorder requires an identifiable stressor and does not meet full MDD criteria; none is described here.'},{option:'D',explanation:'Bipolar II requires at least one hypomanic episode, which she explicitly denies.'},{option:'E',explanation:'Grief is tied to a specific loss and centers on the deceased; there is no bereavement described.'}],
-      objective:'Apply DSM-5 criteria (≥5 SIG E CAPS symptoms for ≥2 weeks) to diagnose major depressive disorder.',
-      peer:{A:70,B:12,C:10,D:5,E:3} },
-
-    // ═══════════════════════════════════════════════════════════════
-    // BATCH 01 — Male Reproductive System (10 questions)
-    // ═══════════════════════════════════════════════════════════════
-    { id:'CMQ-STEP1-MRS-0001', system:'male_repro', discipline:'microbiology', category:'male_repro::disorders_male_repro', difficulty:'easy',
-      vignette:'A 24-year-old man comes to the office due to 2 days of burning pain with urination. The patient has also had increased urinary frequency over the past few days. He has had no fever, chills, nausea, vomiting, flank pain, or penile discharge. The patient is sexually active with his longtime boyfriend. Vital signs are within normal limits. Physical examination shows mild suprapubic tenderness. There is no costovertebral angle tenderness. The penis is uncircumcised. Laboratory results are as follows:\n\nUrinalysis:\nSpecific gravity: 1.016\npH: 5\nBlood: negative\nLeukocyte esterase: positive\nNitrites: positive',
-      q:'Based on the urinalysis results, which of the following organisms is the most likely cause of this patient\'s illness?',
-      options:[{label:'A',text:'Candida albicans'},{label:'B',text:'Enterococcus faecalis'},{label:'C',text:'Escherichia coli'},{label:'D',text:'Herpes simplex virus'},{label:'E',text:'Proteus mirabilis'},{label:'F',text:'Staphylococcus saprophyticus'}],
-      correct:'C',
-      explC:'Dysuria in sexually active male patients is most commonly due to urethritis and less commonly caused by prostatitis, epididymitis, or urinary tract infection (UTI). In this case, the patient\'s lack of systemic symptoms, absence of penile discharge, and positive urine dipstick analysis are consistent with UTI. The most common cause of UTI is fecal flora, including gram-negative rods such as Escherichia coli. Urinalysis findings: positive leukocyte esterase (marker of inflammation), positive nitrites (produced by nitrate reductase-producing bacteria like E. coli), and acidic pH (pH = 5, ruling out Proteus mirabilis which produces alkaline urine via urease). This dipstick pattern is most consistent with E. coli UTI.',
-      explI:[{option:'A',explanation:'UTI with Candida albicans is generally seen only in elderly, hospitalized, and immunocompromised patients. Dipstick would be positive for leukocyte esterase but negative for nitrites.'},{option:'B',explanation:'Enterococcus faecalis does not produce nitrate reductase, making its presence inconsistent with this patient\'s positive urinary nitrites.'},{option:'D',explanation:'Genital herpes simplex virus typically presents with clusters of vesicles that may cause dysuria. Leukocyte esterase may be present but nitrites would not.'},{option:'E',explanation:'Proteus mirabilis produces urease which generates alkaline urine (pH >8). This patient\'s acidic pH (5) makes P. mirabilis unlikely.'},{option:'F',explanation:'Staphylococcus saprophyticus does not produce nitrate reductase, making it inconsistent with positive urinary nitrites.'}],
-      objective:'The most common cause of urinary tract infection is Escherichia coli, a nitrate reductase-producing bacterium. Dipstick analysis should show positive leukocyte esterase, positive nitrites, and a mildly acidic pH.',
-      peer:{A:1,B:7,C:70,D:1,E:13,F:6},
-      ptTranslation:{vignette:'Um homem de 24 anos procura o consultório com 2 dias de dor ao urinar e aumento da frequência urinária. Sem febre, calafrios, dor nas costas ou secreção peniana. Sexualmente ativo com seu namorado. Urinálise: esterase de leucócitos positiva, nitritos positivos, pH 5.',q:'Com base nos resultados da urinálise, qual organismo é a causa mais provável?',objective:'A causa mais comum de ITU é Escherichia coli, produtora de nitrato redutase.',
-      options:[{label:'A',text:'Candida albicans'},{label:'B',text:'Enterococcus faecalis'},{label:'C',text:'Escherichia coli'},{label:'D',text:'Vírus herpes simples'},{label:'E',text:'Proteus mirabilis'},{label:'F',text:'Staphylococcus saprophyticus'}],
-      explC:'A disúria em homens sexualmente ativos é mais comumente causada por uretrite e, menos comumente, por prostatite, epididimite ou infecção do trato urinário (ITU). Neste caso, a ausência de sintomas sistêmicos, a ausência de secreção peniana e a urinálise positiva são consistentes com ITU. A causa mais comum de ITU é a flora fecal, incluindo bacilos gram-negativos como a Escherichia coli. Achados da urinálise: esterase de leucócitos positiva (marcador de inflamação), nitritos positivos (produzidos por bactérias produtoras de nitrato redutase, como E. coli) e pH ácido (pH = 5, o que torna improvável o Proteus mirabilis, que produz urina alcalina via urease). Esse padrão é mais consistente com ITU por E. coli.',
-      explI:[{option:'A',explanation:'ITU por Candida albicans ocorre geralmente apenas em pacientes idosos, hospitalizados ou imunocomprometidos. O exame seria positivo para esterase de leucócitos, mas negativo para nitritos.'},{option:'B',explanation:'Enterococcus faecalis não produz nitrato redutase, o que é inconsistente com os nitritos urinários positivos deste paciente.'},{option:'D',explanation:'O herpes simples genital geralmente se apresenta com vesículas em cacho que podem causar disúria. A esterase de leucócitos pode estar presente, mas os nitritos não.'},{option:'E',explanation:'Proteus mirabilis produz urease, que gera urina alcalina (pH >8). O pH ácido (5) deste paciente torna P. mirabilis improvável.'},{option:'F',explanation:'Staphylococcus saprophyticus não produz nitrato redutase, o que é inconsistente com nitritos urinários positivos.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0002', system:'male_repro', discipline:'pharmacology', category:'male_repro::disorders_male_repro', difficulty:'hard',
-      vignette:'A 65-year-old man with benign prostatic hyperplasia has moderately severe symptoms and is started on finasteride. After six months of treatment with finasteride, his symptoms improve markedly and his prostate has regressed in size.',
-      q:'Which of the following histological patterns was most likely present at the time of initiation of treatment?',
-      options:[{label:'A',text:'Hyperplasia of prostate with predominance of epithelial components'},{label:'B',text:'Hyperplasia of prostate with predominance of muscular element'},{label:'C',text:'Hyperplasia of prostate with predominance of collagen'},{label:'D',text:'Hyperplasia of prostate with predominance of both collagen and smooth muscles'}],
-      correct:'A',
-      explC:'Finasteride is a 5-alpha reductase inhibitor that inhibits the conversion of testosterone to dihydrotestosterone. It acts on the epithelial components of the prostate gland and produces improvement of symptoms as well as reduction in the size of the gland. Patients with epithelial predominance best respond to treatment with finasteride.',
-      explI:[{option:'B',explanation:'Alpha-1 blockers produce symptomatic improvement in patients with BPH by their action on smooth muscles in prostate and bladder base. Patients with smooth muscle predominance respond to alpha-1 blockers, not finasteride.'},{option:'C',explanation:'Patients with collagen predominance respond neither to finasteride nor to alpha-1 blockers.'},{option:'D',explanation:'Patients with both collagen and smooth muscle predominance respond neither to finasteride nor to alpha-1 blockers.'}],
-      objective:'Finasteride acts on epithelium and alpha-1 blockers act on smooth muscles of prostate and bladder base.',
-      peer:{A:41,B:25,C:5,D:27},
-      ptTranslation:{vignette:'Um homem de 65 anos com HPB tem sintomas moderadamente graves e é iniciado em finasterida. Após seis meses, seus sintomas melhoram e a próstata regrediu.',q:'Qual padrão histológico era mais provável no início do tratamento?',objective:'A finasterida atua no epitélio e os bloqueadores alfa-1 nos músculos lisos da próstata.',
-      options:[{label:'A',text:'Hiperplasia da próstata com predomínio de componentes epiteliais'},{label:'B',text:'Hiperplasia da próstata com predomínio do elemento muscular'},{label:'C',text:'Hiperplasia da próstata com predomínio de colágeno'},{label:'D',text:'Hiperplasia da próstata com predomínio de colágeno e músculo liso'}],
-      explC:'A finasterida é um inibidor da 5-alfa redutase que inibe a conversão de testosterona em di-hidrotestosterona. Ela atua nos componentes epiteliais da próstata, produzindo melhora dos sintomas e redução do tamanho da glândula. Pacientes com predomínio epitelial respondem melhor ao tratamento com finasterida.',
-      explI:[{option:'B',explanation:'Os bloqueadores alfa-1 melhoram os sintomas da HPB por atuarem no músculo liso da próstata e da base da bexiga. Pacientes com predomínio de músculo liso respondem aos bloqueadores alfa-1, não à finasterida.'},{option:'C',explanation:'Pacientes com predomínio de colágeno não respondem nem à finasterida nem aos bloqueadores alfa-1.'},{option:'D',explanation:'Pacientes com predomínio de colágeno e músculo liso não respondem nem à finasterida nem aos bloqueadores alfa-1.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0003', system:'male_repro', discipline:'pathophysiology', category:'male_repro::disorders_male_repro', difficulty:'medium',
-      vignette:'A 19-year-old man comes to the emergency department due to intense scrotal pain over the past 6 hours. The pain started shortly after participating in a soccer game; he does not recall any specific trauma and took ibuprofen at home with minimal relief. He is sexually active and has been treated twice in the past for Neisseria gonorrhoeae. Temperature is 36.9 C (98.5 F), blood pressure is 110/86 mm Hg, and pulse is 92/min. On examination, there is no inguinal lymphadenopathy or palpable mass. There is significant discomfort with scrotal examination primarily on the right where a high-riding swollen mass is palpable within the hemiscrotum; the left testicle is palpated lower in the scrotum.',
-      q:'Which of the following additional physical examination findings is most likely present in this patient?',
-      options:[{label:'A',text:'Absent elevation of the mass with stroking of the ipsilateral thigh'},{label:'B',text:'Enlargement of the mass when the patient coughs or bears down'},{label:'C',text:'Increase in the size of the mass when standing relative to laying'},{label:'D',text:'Reduction in pain with manual elevation of the mass'},{label:'E',text:'Transillumination of the mass when a flashlight is placed behind the scrotum'}],
-      correct:'A',
-      explC:'This patient has acute, severe, progressive unilateral scrotal pain with a high-riding scrotal mass, findings concerning for testicular torsion. An absent cremasteric reflex (testicular elevation when stroking the ipsilateral inner thigh) is highly suggestive of testicular torsion.',
-      explI:[{option:'B',explanation:'Cough/Valsalva causing bulging suggests inguinal hernia, not testicular torsion.'},{option:'C',explanation:'Varicocele increases in size when standing and causes a dull ache, not acute severe pain.'},{option:'D',explanation:'Pain relief with elevation (positive Prehn sign) suggests epididymitis, not torsion.'},{option:'E',explanation:'Transillumination suggests hydrocele, a fluid collection that causes enlargement but not acute pain.'}],
-      objective:'Testicular torsion presents with acute unilateral scrotal pain. Classic findings include a high-riding testicle and absent cremasteric reflex.',
-      peer:{A:66,B:6,C:3,D:18,E:5},
-      ptTranslation:{vignette:'Um homem de 19 anos com dor escrotal intensa há 6 horas, iniciada após jogo de futebol; sem trauma específico, uso de ibuprofeno em casa com alívio mínimo. Sem linfadenopatia ou massa inguinal. Massa elevada e inchada no hemiscroto direito; o testículo esquerdo está posicionado mais baixo no escroto.',q:'Qual achado de exame físico adicional é mais provável?',objective:'A torção testicular apresenta dor escrotal aguda com testículo elevado e reflexo cremastérico ausente.',
-      options:[{label:'A',text:'Ausência de elevação da massa ao estimular a face interna da coxa ipsilateral'},{label:'B',text:'Aumento da massa quando o paciente tosse ou faz força'},{label:'C',text:'Aumento do tamanho da massa em pé em comparação à posição deitada'},{label:'D',text:'Redução da dor com elevação manual da massa'},{label:'E',text:'Transiluminação da massa ao posicionar uma lanterna atrás do escroto'}],
-      explC:'Este paciente apresenta dor escrotal aguda, intensa e progressiva, unilateral, com massa escrotal elevada — achados preocupantes para torção testicular. A ausência do reflexo cremastérico (elevação testicular ao estimular a face interna da coxa ipsilateral) é altamente sugestiva de torção testicular.',
-      explI:[{option:'B',explanation:'O aumento da massa com tosse/Valsalva sugere hérnia inguinal, não torção testicular.'},{option:'C',explanation:'O varicocele aumenta de tamanho em pé e causa dor surda, não dor aguda e intensa.'},{option:'D',explanation:'O alívio da dor com elevação (sinal de Prehn positivo) sugere epididimite, não torção.'},{option:'E',explanation:'A transiluminação sugere hidrocele, uma coleção de líquido que causa aumento de volume, mas não dor aguda.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0004', system:'male_repro', discipline:'genetics', category:'male_repro::disorders_male_repro', difficulty:'medium',
-      vignette:'A 16-year-old boy is brought to the office for a well-child visit. The parents report that his teacher has expressed concerns about the patient\'s reading and writing skills. Height is at the 98th percentile and weight is at the 75th percentile. He has bilateral gynecomastia and Tanner stage 1 genitalia.',
-      q:'Which of the following is the most likely underlying mechanism responsible for this patient\'s condition?',
-      options:[{label:'A',text:'FBN1 gene mutation on chromosome 15'},{label:'B',text:'Loss of paternally derived genes on chromosome 15'},{label:'C',text:'Meiotic nondisjunction of chromosome X'},{label:'D',text:'Meiotic nondisjunction of chromosome Y'},{label:'E',text:'Trinucleotide repeat expansion on chromosome X'}],
-      correct:'C',
-      explC:'This patient with learning disabilities, tall stature, small testes, and gynecomastia most likely has Klinefelter syndrome (47,XXY), the most common cause of primary hypogonadism in males. The pathogenesis involves meiotic nondisjunction of the X chromosome.',
-      explI:[{option:'A',explanation:'FBN1 mutation causes Marfan syndrome. Tall stature but no hypogonadism or gynecomastia.'},{option:'B',explanation:'Loss of paternal genes on chr 15 causes Prader-Willi: short stature and obesity, not seen here.'},{option:'D',explanation:'Nondisjunction of Y gives XYY (47,XYY): tall stature and learning disabilities but no hypogonadism.'},{option:'E',explanation:'Trinucleotide repeat on X causes Fragile X: macroorchidism (not Tanner 1), long face, large ears.'}],
-      objective:'Klinefelter syndrome (47,XXY) is the most common cause of male primary hypogonadism, caused by meiotic nondisjunction of chromosome X.',
-      peer:{A:5,B:7,C:61,D:12,E:12},
-      ptTranslation:{vignette:'Um menino de 16 anos com dificuldades de leitura e escrita, altura no P98, ginecomastia bilateral e Tanner 1.',q:'Qual é o mecanismo subjacente mais provável?',objective:'Síndrome de Klinefelter (47,XXY): causa mais comum de hipogonadismo primário masculino.',
-      options:[{label:'A',text:'Mutação do gene FBN1 no cromossomo 15'},{label:'B',text:'Perda de genes de origem paterna no cromossomo 15'},{label:'C',text:'Não disjunção meiótica do cromossomo X'},{label:'D',text:'Não disjunção meiótica do cromossomo Y'},{label:'E',text:'Expansão de repetição trinucleotídica no cromossomo X'}],
-      explC:'Este paciente com dificuldades de aprendizagem, estatura elevada, testículos pequenos e ginecomastia provavelmente tem síndrome de Klinefelter (47,XXY), a causa mais comum de hipogonadismo primário em homens. A patogênese envolve não disjunção meiótica do cromossomo X.',
-      explI:[{option:'A',explanation:'A mutação do FBN1 causa síndrome de Marfan. Há estatura elevada, mas sem hipogonadismo ou ginecomastia.'},{option:'B',explanation:'A perda de genes paternos no cromossomo 15 causa síndrome de Prader-Willi: estatura baixa e obesidade, não observadas aqui.'},{option:'D',explanation:'A não disjunção do Y resulta em síndrome XYY (47,XYY): estatura elevada e dificuldades de aprendizagem, mas sem hipogonadismo.'},{option:'E',explanation:'A repetição trinucleotídica no X causa síndrome do X frágil: macro-orquidismo (não Tanner 1), face alongada, orelhas grandes.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0005', system:'male_repro', discipline:'behavioral_science', category:'male_repro::disorders_male_repro', difficulty:'medium',
-      vignette:'A 78-year-old man comes to the office for a regularly scheduled review. He has hypertension, CAD, and type 2 DM, taking metformin, atorvastatin, lisinopril, and nitroglycerin PRN. He hesitates, laughs nervously, and says, "I can\'t get an erection anymore, and my wife says I have to ask you about getting the blue pill."',
-      q:'Which of the following is the most appropriate response to this patient\'s concern?',
-      options:[{label:'A',text:'"I can see that you feel uncomfortable talking about this. It can be a sensitive subject for some men."'},{label:'B',text:'"I can understand your concern, but at your age, we hesitate to start too many medications."'},{label:'C',text:'"Medications for erectile dysfunction have significant side effects. I would not pursue them unless you feel it is important."'},{label:'D',text:'"This is a very common problem for men as they age. It is good that you mentioned it."'},{label:'E',text:'"We can try medication for erectile dysfunction, but it may not be effective at your age."'}],
-      correct:'D',
-      explC:'When counseling on sexuality, the first objective is making the patient feel comfortable. Reassure that sexual dysfunction is common and appropriate to discuss. Choice D normalizes the concern and affirms the patient for bringing it up.',
-      explI:[{option:'A',explanation:'Reiterates and draws attention to his anxiety, potentially reinforcing awkwardness.'},{option:'B',explanation:'Age is not a contraindication. However, his nitrate use does contraindicate PDE5 inhibitors.'},{option:'C',explanation:'This may make him feel he must justify raising the concern.'},{option:'E',explanation:'Age does not determine efficacy. This is dismissive.'}],
-      objective:'When counseling patients on sexuality, the clinician should normalize the concern and reassure them.',
-      peer:{A:18,B:4,C:7,D:69,E:1},
-      ptTranslation:{vignette:'Um homem de 78 anos com HAS, DAC e DM2 hesita e diz: "Não consigo mais ter ereção, minha esposa diz que devo perguntar sobre a pílula azul."',q:'Qual é a resposta mais apropriada?',objective:'Ao aconselhar sobre sexualidade, normalize a preocupação e tranquilize o paciente.',
-      options:[{label:'A',text:'"Percebo que você se sente desconfortável falando sobre isso. Pode ser um assunto delicado para alguns homens."'},{label:'B',text:'"Entendo sua preocupação, mas na sua idade, hesitamos em iniciar muitos medicamentos."'},{label:'C',text:'"Medicamentos para disfunção erétil têm efeitos colaterais significativos. Eu não os buscaria a menos que você considere importante."'},{label:'D',text:'"Este é um problema muito comum para homens conforme envelhecem. É bom que você tenha mencionado."'},{label:'E',text:'"Podemos tentar um medicamento para disfunção erétil, mas pode não ser eficaz na sua idade."'}],
-      explC:'Ao aconselhar sobre sexualidade, o primeiro objetivo é deixar o paciente confortável. Tranquilizar que a disfunção sexual é comum e apropriada para discussão. A alternativa D normaliza a preocupação e valida o paciente por trazer o assunto.',
-      explI:[{option:'A',explanation:'Reitera e chama atenção para sua ansiedade, podendo reforçar o constrangimento.'},{option:'B',explanation:'A idade não é uma contraindicação. No entanto, o uso de nitrato sim contraindica inibidores da PDE5.'},{option:'C',explanation:'Isso pode fazer o paciente sentir que precisa justificar a preocupação.'},{option:'E',explanation:'A idade não determina a eficácia. Essa resposta é desdenhosa.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0006', system:'male_repro', discipline:'histology', category:'male_repro::normal_male_repro', difficulty:'medium',
-      vignette:'A 34-year-old man is found to have low sperm count during an infertility evaluation. He has a history of testicular trauma from a motorcycle accident several years ago. Further evaluation reveals antisperm antibodies.',
-      q:'This patient\'s testicular trauma most likely damaged an anatomic barrier formed from which of the following components?',
-      options:[{label:'A',text:'Leydig cells'},{label:'B',text:'Primary spermatocytes'},{label:'C',text:'Secondary spermatocytes'},{label:'D',text:'Sertoli cells'},{label:'E',text:'Tunica albuginea'}],
-      correct:'D',
-      explC:'The blood-testis barrier (BTB) is formed by tight junctions between Sertoli cells in the seminiferous tubules. Disruption can lead to antisperm antibodies and impaired fertility.',
-      explI:[{option:'A',explanation:'Leydig cells produce testosterone outside the tubules. They do not form the BTB.'},{option:'B',explanation:'Primary spermatocytes migrate inside the BTB but do not form it.'},{option:'C',explanation:'Secondary spermatocytes are inside the BTB but do not form the barrier.'},{option:'E',explanation:'Tunica albuginea is the outer capsule of the testis, not the BTB.'}],
-      objective:'The blood-testis barrier is formed by tight junctions between Sertoli cells. Disruption leads to antisperm antibodies.',
-      peer:{A:9,B:3,C:3,D:58,E:25},
-      ptTranslation:{vignette:'Um homem de 34 anos com baixa contagem de esperma e histórico de trauma testicular desenvolveu anticorpos antiesperma.',q:'Qual componente formava a barreira danificada?',objective:'A barreira sangue-testis é formada por junções entre células de Sertoli.',
-      options:[{label:'A',text:'Células de Leydig'},{label:'B',text:'Espermatócitos primários'},{label:'C',text:'Espermatócitos secundários'},{label:'D',text:'Células de Sertoli'},{label:'E',text:'Túnica albugínea'}],
-      explC:'A barreira hematotesticular é formada por junções firmes entre as células de Sertoli nos túbulos seminíferos. Sua disrupção pode levar à formação de anticorpos antiesperma e prejudicar a fertilidade.',
-      explI:[{option:'A',explanation:'As células de Leydig produzem testosterona fora dos túbulos. Não formam a barreira hematotesticular.'},{option:'B',explanation:'Os espermatócitos primários migram dentro da barreira, mas não a formam.'},{option:'C',explanation:'Os espermatócitos secundários estão dentro da barreira, mas não a formam.'},{option:'E',explanation:'A túnica albugínea é a cápsula externa do testículo, não a barreira hematotesticular.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0007', system:'male_repro', discipline:'anatomy', category:'male_repro::normal_male_repro', difficulty:'medium',
-      vignette:'A 42-year-old man with 6 children elects to undergo a vasectomy after appropriate discussion regarding contraceptive options. On examination, normal circumcised penis with no abnormalities.',
-      q:'The patient should be advised to expect which of the following side effects during the first few months following the procedure?',
-      options:[{label:'A',text:'Decreased interest in sexual activity'},{label:'B',text:'Difficulty in maintaining an erection'},{label:'C',text:'Large reduction in the volume of ejaculate'},{label:'D',text:'Reduced testosterone production'},{label:'E',text:'Viable sperm in the ejaculate'}],
-      correct:'E',
-      explC:'Vasectomy transects the vas deferens. Sperm may persist in the ejaculate for months until cleared proximal to the transection. Alternative contraception needed until two azoospermic semen analyses.',
-      explI:[{option:'A',explanation:'Vasectomy does not affect libido; testosterone production continues.'},{option:'B',explanation:'Erectile function is not affected by vasectomy.'},{option:'C',explanation:'Ejaculate volume is determined by seminal vesicles and prostate, which are unaffected.'},{option:'D',explanation:'Testosterone production is unaffected; testes and blood supply remain intact.'}],
-      objective:'After vasectomy, viable sperm may persist for months until cleared. Alternative contraception is needed until confirmed azoospermia.',
-      peer:{A:2,B:4,C:22,D:2,E:68},
-      ptTranslation:{vignette:'Um homem de 42 anos com 6 filhos opta pela vasectomia.',q:'Qual efeito colateral esperar nos primeiros meses?',objective:'Após vasectomia, esperma viável pode persistir por meses até ser eliminado.',
-      options:[{label:'A',text:'Diminuição do interesse na atividade sexual'},{label:'B',text:'Dificuldade em manter uma ereção'},{label:'C',text:'Grande redução no volume do ejaculado'},{label:'D',text:'Redução da produção de testosterona'},{label:'E',text:'Espermatozoides viáveis no ejaculado'}],
-      explC:'A vasectomia secciona o ducto deferente. Espermatozoides podem persistir no ejaculado por meses até serem eliminados da porção proximal à secção. É necessário método contraceptivo alternativo até duas análises seminais confirmarem azoospermia.',
-      explI:[{option:'A',explanation:'A vasectomia não afeta a libido; a produção de testosterona continua normalmente.'},{option:'B',explanation:'A função erétil não é afetada pela vasectomia.'},{option:'C',explanation:'O volume do ejaculado é determinado pelas vesículas seminais e pela próstata, que não são afetadas.'},{option:'D',explanation:'A produção de testosterona não é afetada; os testículos e o suprimento sanguíneo permanecem intactos.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0008', system:'male_repro', discipline:'genetics', category:'male_repro::disorders_male_repro', difficulty:'hard',
-      vignette:'An autopsy on a stillborn fetus at 20 weeks gestation reveals a 46,XY karyotype with a loss of function mutation of the androgen receptor gene on the X chromosome, resulting in complete androgen insensitivity.',
-      q:'Which of the following phenotypes is most likely to be present in this fetus?',
-      options:[{label:'A',text:'Absent internal genital ducts, Female external genitalia'},{label:'B',text:'Absent internal genital ducts, Male external genitalia'},{label:'C',text:'Uterus and fallopian tubes, Ambiguous external genitalia'},{label:'D',text:'Uterus and fallopian tubes, Male external genitalia'},{label:'E',text:'Vas deferens and epididymis, Female external genitalia'}],
-      correct:'A',
-      explC:'In CAIS, testes produce AMH (Müllerian regression) and testosterone (but androgen receptor is nonfunctional). Result: Müllerian ducts regress (no uterus/tubes), Wolffian ducts also regress (no vas deferens), external genitalia female (no DHT response).',
-      explI:[{option:'B',explanation:'Male external genitalia need DHT via functional androgen receptor. Absent in CAIS.'},{option:'C',explanation:'AMH is produced normally, so Müllerian structures (uterus, tubes) regress.'},{option:'D',explanation:'Both Müllerian structures and male genitalia cannot co-develop in CAIS.'},{option:'E',explanation:'Wolffian duct development requires functional androgen receptor, absent in CAIS.'}],
-      objective:'CAIS: 46,XY with absent internal genital ducts and female external genitalia.',
-      peer:{A:34,B:6,C:17,D:5,E:36},
-      ptTranslation:{vignette:'Feto natimorto 46,XY com mutação do receptor androgênico, insensibilidade androgênica completa.',q:'Qual fenótipo é mais provável?',objective:'CAIS: cariótipo 46,XY com dutos genitais internos ausentes e genitália externa feminina.',
-      options:[{label:'A',text:'Dutos genitais internos ausentes, genitália externa feminina'},{label:'B',text:'Dutos genitais internos ausentes, genitália externa masculina'},{label:'C',text:'Útero e tubas uterinas, genitália externa ambígua'},{label:'D',text:'Útero e tubas uterinas, genitália externa masculina'},{label:'E',text:'Ducto deferente e epidídimo, genitália externa feminina'}],
-      explC:'Na síndrome de insensibilidade androgênica completa (CAIS), os testículos produzem AMH (regressão mülleriana) e testosterona, mas o receptor androgênico é não funcional. Resultado: os ductos müllerianos regridem (sem útero/tubas), os ductos wolffianos também regridem (sem ducto deferente), e a genitália externa é feminina (sem resposta à DHT).',
-      explI:[{option:'B',explanation:'A genitália externa masculina requer DHT via receptor androgênico funcional, ausente na CAIS.'},{option:'C',explanation:'O AMH é produzido normalmente, portanto as estruturas müllerianas (útero, tubas) regridem.'},{option:'D',explanation:'As estruturas müllerianas e a genitália masculina não podem coexistir na CAIS.'},{option:'E',explanation:'O desenvolvimento do ducto wolffiano requer receptor androgênico funcional, ausente na CAIS.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0009', system:'male_repro', discipline:'anatomy', category:'male_repro::disorders_male_repro', difficulty:'medium', img:['assets/qbank/CMQ-STEP1-MRS-0009_urethral_anatomy_labeled.png'],
-      vignette:'A 45-year-old man is brought to the ED after a high-speed motor vehicle collision. He has lower abdominal pain, sensation of bladder fullness, but has been unable to urinate since the collision. CT reveals rib fractures and a pelvic fracture.',
-      q:'Which of the following portions of the urogenital tract is most likely injured in this patient?',
-      options:[{label:'A',text:'Anterior bladder wall'},{label:'B',text:'Prostatic urethra'},{label:'C',text:'Membranous urethra (bulbomembranous junction)'},{label:'D',text:'Bulbar urethra'},{label:'E',text:'Penile urethra'}],
-      correct:'C',
-      explC:'Pelvic fracture most commonly causes posterior urethral injury at the bulbomembranous junction. The posterior urethra is fixed to pelvic bones. Traumatic fracture causes upward displacement and tearing. Clinical findings: blood at meatus, high-riding prostate, inability to void.',
-      explI:[{option:'A',explanation:'Bladder wall injury presents with extraperitoneal urine leakage. Inability to void suggests urethral, not bladder injury.'},{option:'B',explanation:'Prostatic urethra is supported by prostate tissue and is less likely to be injured.'},{option:'D',explanation:'Bulbar urethra (anterior) is mobile and protected from indirect forces; injured by straddle injury.'},{option:'E',explanation:'Penile urethra is anterior and mobile; injured by direct trauma, not pelvic fracture.'}],
-      objective:'Pelvic fractures are associated with posterior urethral injury at the bulbomembranous junction.',
-      peer:{A:17,B:12,C:61,D:6,E:1},
-      ptTranslation:{vignette:'Um homem de 45 anos após colisão veicular com dor abdominal, bexiga cheia mas incapaz de urinar. TC: fratura pélvica.',q:'Qual porção do trato urogenital está mais provavelmente ferida?',objective:'Fraturas pélvicas associam-se a lesão da uretra posterior na junção bulbomembranosa.',
-      options:[{label:'A',text:'Parede anterior da bexiga'},{label:'B',text:'Uretra prostática'},{label:'C',text:'Uretra membranosa (junção bulbomembranosa)'},{label:'D',text:'Uretra bulbar'},{label:'E',text:'Uretra peniana'}],
-      explC:'A fratura pélvica causa mais comumente lesão da uretra posterior na junção bulbomembranosa. A uretra posterior é fixa aos ossos pélvicos. A fratura traumática causa deslocamento superior e ruptura. Achados clínicos: sangue no meato, próstata elevada ("high-riding"), incapacidade de urinar.',
-      explI:[{option:'A',explanation:'A lesão da parede da bexiga se apresenta com extravasamento extraperitoneal de urina. A incapacidade de urinar sugere lesão uretral, não vesical.'},{option:'B',explanation:'A uretra prostática é sustentada pelo tecido prostático e é menos propensa a ser lesada.'},{option:'D',explanation:'A uretra bulbar (anterior) é móvel e protegida de forças indiretas; é lesada por trauma direto (straddle injury).'},{option:'E',explanation:'A uretra peniana é anterior e móvel; é lesada por trauma direto, não por fratura pélvica.'}]} },
-
-    { id:'CMQ-STEP1-MRS-0010', system:'male_repro', discipline:'pathology', category:'male_repro::disorders_male_repro', difficulty:'easy',
-      vignette:'A 28-year-old man comes to the office due to a bump on his right testicle. He is otherwise asymptomatic and healthy. A solid mass is palpated. Scrotal ultrasound reveals a suspicious, partially necrotic mass. Serum LDH and AFP are markedly elevated. He undergoes right radical inguinal orchiectomy.',
-      q:'Which of the following is the most likely histologic diagnosis?',
-      options:[{label:'A',text:'Leydig cell tumor'},{label:'B',text:'Nonseminomatous germ cell tumor'},{label:'C',text:'Sertoli cell tumor'},{label:'D',text:'Teratoma'},{label:'E',text:'Testicular lymphoma'}],
-      correct:'B',
-      explC:'Testicular cancer is the most common solid organ malignancy in men age 15-35. Painless mass + elevated AFP strongly suggests nonseminomatous germ cell tumor (NSGCT). NSGCTs produce AFP and/or hCG. Seminomas do not produce AFP.',
-      explI:[{option:'A',explanation:'Leydig cell tumors produce testosterone, not AFP.'},{option:'C',explanation:'Sertoli cell tumors are rare and do not elevate AFP.'},{option:'D',explanation:'Pure teratomas typically do not elevate AFP.'},{option:'E',explanation:'Testicular lymphoma is most common in men over 60, not in young men.'}],
-      objective:'NSGCT is the most likely diagnosis with elevated AFP in a young man with a testicular mass.',
-      peer:{A:5,B:74,C:7,D:10,E:1},
-      ptTranslation:{vignette:'Um homem de 28 anos com massa testicular direita. AFP e LDH elevados. Orquiectomia inguinal radical.',q:'Qual é o diagnóstico histológico mais provável?',objective:'Tumor germinativo não seminomatoso: AFP elevada em homem jovem com massa testicular.',
-      options:[{label:'A',text:'Tumor de células de Leydig'},{label:'B',text:'Tumor germinativo não seminomatoso'},{label:'C',text:'Tumor de células de Sertoli'},{label:'D',text:'Teratoma'},{label:'E',text:'Linfoma testicular'}],
-      explC:'O câncer testicular é a neoplasia sólida mais comum em homens de 15 a 35 anos. Uma massa indolor associada a AFP elevada sugere fortemente tumor germinativo não seminomatoso (NSGCT). Os NSGCTs produzem AFP e/ou hCG. Os seminomas não produzem AFP.',
-      explI:[{option:'A',explanation:'Os tumores de células de Leydig produzem testosterona, não AFP.'},{option:'C',explanation:'Os tumores de células de Sertoli são raros e não elevam a AFP.'},{option:'D',explanation:'Os teratomas puros geralmente não elevam a AFP.'},{option:'E',explanation:'O linfoma testicular é mais comum em homens acima de 60 anos, não em homens jovens.'}]} },
-
-    // ═══════════════════════════════════════════════════════════════
-    // BATCH 02 — Cardiovascular System (9 questions)
-    // ═══════════════════════════════════════════════════════════════
-    { id:'CMQ-STEP1-CVS-0001', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiovascular_drugs', difficulty:'medium',
-      vignette:'A 53-year-old man comes for follow-up after acute myocardial infarction. Medications include metoprolol and low-dose aspirin. He quit smoking after his MI. He is obese (100 kg, 178 cm). Total cholesterol 155 mg/dL, HDL 27 mg/dL, triglycerides 92 mg/dL.',
-      q:'Which of the following lipid-lowering agents would be most effective for preventing future cardiovascular events?',
-      options:[{label:'A',text:'Absorption inhibitor'},{label:'B',text:'Cationic exchange resin'},{label:'C',text:'Enzyme inhibitor'},{label:'D',text:'Essential fatty acids'},{label:'E',text:'Pharmacologic vitamin'},{label:'F',text:'Transcription factor ligand'}],
-      correct:'C',
-      explC:'Statins (HMG-CoA reductase inhibitors / enzyme inhibitors) are the most effective lipid-lowering drugs for preventing cardiovascular events. Indicated for secondary prevention in all patients with known ASCVD, regardless of baseline lipid levels.',
-      explI:[{option:'A',explanation:'Ezetimibe: mixed evidence for CV event reduction; minimal benefit over statin monotherapy.'},{option:'B',explanation:'Bile acid sequestrants: mixed CV outcomes evidence.'},{option:'D',explanation:'Omega-3 fatty acids: no significant CV outcome improvement.'},{option:'E',explanation:'Niacin raises HDL but does not improve CV outcomes when added to statin therapy.'},{option:'F',explanation:'Fibrates (PPARα ligands) primarily lower triglycerides; no significant CV benefit with statins.'}],
-      objective:'Statins are the most effective lipid-lowering drugs for preventing cardiovascular events.',
-      peer:{A:5,B:2,C:55,D:6,E:26,F:4},
-      ptTranslation:{vignette:'Um homem de 53 anos pós-IAM. Colesterol total 155, HDL 27, triglicerídeos 92 mg/dL.',q:'Qual agente redutor de lipídios é mais eficaz para prevenção secundária?',objective:'As estatinas são os medicamentos mais eficazes para prevenir eventos cardiovasculares.',
-      options:[{label:'A',text:'Inibidor de absorção'},{label:'B',text:'Resina de troca catiônica'},{label:'C',text:'Inibidor de enzima'},{label:'D',text:'Ácidos graxos essenciais'},{label:'E',text:'Vitamina farmacológica'},{label:'F',text:'Ligante de fator de transcrição'}],
-      explC:'As estatinas (inibidores da HMG-CoA redutase / inibidores de enzima) são os medicamentos redutores de lipídios mais eficazes para prevenir eventos cardiovasculares. Indicadas para prevenção secundária em todos os pacientes com doença aterosclerótica conhecida, independentemente dos níveis lipídicos basais.',
-      explI:[{option:'A',explanation:'Ezetimiba: evidência mista de redução de eventos cardiovasculares; benefício mínimo sobre a monoterapia com estatina.'},{option:'B',explanation:'Sequestrantes de ácidos biliares: evidência mista sobre desfechos cardiovasculares.'},{option:'D',explanation:'Ácidos graxos ômega-3: sem melhora significativa de desfechos cardiovasculares.'},{option:'E',explanation:'A niacina eleva o HDL, mas não melhora desfechos cardiovasculares quando associada à estatina.'},{option:'F',explanation:'Os fibratos (ligantes de PPARα) reduzem principalmente os triglicerídeos; sem benefício cardiovascular significativo associado a estatinas.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0002', system:'cardiovascular', discipline:'embryology', category:'cardiovascular::congenital_heart_disease', difficulty:'hard',
-      vignette:'A newborn girl born at 39 weeks via SVD. At 1 hour, a 2/6 systolic murmur at the left upper sternal border. At 8 hours, the murmur is continuous (systole and diastole). At 24 hours, no murmur.',
-      q:'Which of the following most likely occurred immediately prior to the disappearance of this patient\'s murmur?',
-      options:[{label:'A',text:'Closure of a ventricular left-to-right shunt'},{label:'B',text:'Closure of a ventricular right-to-left shunt'},{label:'C',text:'Closure of an arterial left-to-right shunt'},{label:'D',text:'Closure of an arterial right-to-left shunt'},{label:'E',text:'Closure of an atrial left-to-right shunt'},{label:'F',text:'Closure of an atrial right-to-left shunt'}],
-      correct:'C',
-      explC:'The murmur evolution reflects normal ductus arteriosus closure. After birth, PVR drops and SVR increases, reversing fetal right-to-left flow to left-to-right through the DA. This creates a continuous murmur. As the DA closes (24-72 hours), the L-to-R shunt stops and the murmur disappears.',
-      explI:[{option:'A',explanation:'VSD would cause a holosystolic murmur that does not self-resolve in 24 hours.'},{option:'B',explanation:'Ventricular R-to-L shunt suggests cyanotic disease, not a benign self-resolving murmur.'},{option:'D',explanation:'R-to-L arterial flow occurs in fetal life; after birth it reverses to L-to-R before DA closure.'},{option:'E',explanation:'ASD does not typically close within 24 hours.'},{option:'F',explanation:'Foramen ovale closure is gradual and does not produce the described murmur pattern.'}],
-      objective:'The ductus arteriosus normally closes 24-72 hours after birth. The murmur disappears when the left-to-right shunt ceases.',
-      peer:{A:5,B:2,C:44,D:18,E:17,F:12},
-      ptTranslation:{vignette:'Recém-nascida com sopro sistólico que se torna contínuo e desaparece em 24 horas.',q:'O que ocorreu imediatamente antes do desaparecimento do sopro?',objective:'O ducto arterioso normalmente fecha 24-72 horas após o nascimento.',
-      options:[{label:'A',text:'Fechamento de um shunt ventricular esquerda-direita'},{label:'B',text:'Fechamento de um shunt ventricular direita-esquerda'},{label:'C',text:'Fechamento de um shunt arterial esquerda-direita'},{label:'D',text:'Fechamento de um shunt arterial direita-esquerda'},{label:'E',text:'Fechamento de um shunt atrial esquerda-direita'},{label:'F',text:'Fechamento de um shunt atrial direita-esquerda'}],
-      explC:'A evolução do sopro reflete o fechamento normal do ducto arterioso. Após o nascimento, a RVP cai e a RVS aumenta, revertendo o fluxo fetal direita-esquerda para esquerda-direita através do ducto arterioso. Isso cria um sopro contínuo. Quando o ducto se fecha (24-72 horas), o shunt esquerda-direita cessa e o sopro desaparece.',
-      explI:[{option:'A',explanation:'A CIV causaria um sopro holossistólico que não se resolve espontaneamente em 24 horas.'},{option:'B',explanation:'Um shunt ventricular direita-esquerda sugere doença cianótica, não um sopro benigno autolimitado.'},{option:'D',explanation:'O fluxo arterial direita-esquerda ocorre na vida fetal; após o nascimento, reverte para esquerda-direita antes do fechamento do ducto.'},{option:'E',explanation:'A CIA normalmente não se fecha em 24 horas.'},{option:'F',explanation:'O fechamento do forame oval é gradual e não produz o padrão de sopro descrito.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0003', system:'cardiovascular', discipline:'pathology', category:'cardiovascular::valvular_heart_diseases', difficulty:'hard',
-      vignette:'A 63-year-old man with hypertension, hyperlipidemia, and diet-controlled DM2 presents with 2 hours of chest pain. A systolic murmur is heard. Basilar crackles bilaterally. Coronary catheterization reveals an occlusion; successfully revascularized. The next morning, lungs are clear and no murmur is present.',
-      q:'The murmur heard during initial presentation is most likely explained by a pathologic process involving which of the following structures?',
-      options:[{label:'A',text:'Aortic root'},{label:'B',text:'Aortic valve leaflets'},{label:'C',text:'Interventricular septum'},{label:'D',text:'Mitral valve chordae'},{label:'E',text:'Papillary muscle'}],
-      correct:'E',
-      explC:'MI-induced papillary muscle ischemia causes dysfunction and mitral regurgitation. Revascularization restores papillary muscle function, resolving the MR. Unlike rupture (which does not resolve with revascularization), dysfunction improves.',
-      explI:[{option:'A',explanation:'Aortic root is not directly affected by myocardial ischemia.'},{option:'B',explanation:'Aortic valve leaflets are not affected by MI.'},{option:'C',explanation:'Septal rupture is a mechanical complication (3-5 days post-MI) that requires surgery.'},{option:'D',explanation:'Chordae rupture is also a mechanical complication requiring surgery.'}],
-      objective:'MI can cause papillary muscle dysfunction leading to MR that improves with revascularization.',
-      peer:{A:8,B:19,C:7,D:21,E:43},
-      ptTranslation:{vignette:'Um homem de 63 anos com IAM, sopro sistólico que desaparece após revascularização.',q:'O sopro é explicado por processo envolvendo qual estrutura?',objective:'A isquemia do músculo papilar causa regurgitação mitral que melhora com revascularização.',
-      options:[{label:'A',text:'Raiz aórtica'},{label:'B',text:'Folhetos da valva aórtica'},{label:'C',text:'Septo interventricular'},{label:'D',text:'Cordas tendíneas da valva mitral'},{label:'E',text:'Músculo papilar'}],
-      explC:'A isquemia do músculo papilar induzida pelo IAM causa disfunção e regurgitação mitral. A revascularização restaura a função do músculo papilar, resolvendo a RM. Diferentemente da ruptura (que não se resolve com revascularização), a disfunção melhora.',
-      explI:[{option:'A',explanation:'A raiz aórtica não é diretamente afetada pela isquemia miocárdica.'},{option:'B',explanation:'Os folhetos da valva aórtica não são afetados pelo IAM.'},{option:'C',explanation:'A ruptura septal é uma complicação mecânica (3-5 dias pós-IAM) que requer cirurgia.'},{option:'D',explanation:'A ruptura das cordas tendíneas também é uma complicação mecânica que requer cirurgia.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0004', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::heart_failure_shock', difficulty:'medium',
-      vignette:'A 55-year-old man collapses at home with chest pain. BP 80/50, pulse 120/min. Bilateral crackles. S3 audible. ECG: ST elevation in V2-V6.',
-      q:'Which of the following hemodynamic changes are most likely present?',
-      options:[{label:'A',text:'Decreased PCWP, Decreased CVP, Decreased coronary perfusion pressure'},{label:'B',text:'Decreased PCWP, Increased CVP, Decreased coronary perfusion pressure'},{label:'C',text:'Increased PCWP, Decreased CVP, Increased coronary perfusion pressure'},{label:'D',text:'Increased PCWP, Increased CVP, Decreased coronary perfusion pressure'},{label:'E',text:'Increased PCWP, Increased CVP, Increased coronary perfusion pressure'}],
-      correct:'D',
-      explC:'STEMI with cardiogenic shock: LV failure → increased LV end-diastolic pressure → increased PCWP → pulmonary edema. Increased pressure impairs RV → increased CVP. Decreased cardiac output → hypotension → decreased coronary perfusion pressure.',
-      explI:[{option:'A',explanation:'Decreased CVP/PCWP/CPP = hypovolemic or septic shock.'},{option:'B',explanation:'Decreased PCWP + increased CVP = obstructive shock (PE, tension pneumothorax).'},{option:'C',explanation:'Decreased CVP with increased PCWP is atypical.'},{option:'E',explanation:'Increased coronary perfusion pressure would not occur in shock.'}],
-      objective:'Cardiogenic shock: increased PCWP and CVP with decreased coronary perfusion pressure.',
-      peer:{A:10,B:10,C:10,D:60,E:8},
-      ptTranslation:{vignette:'Um homem de 55 anos com colapso, dor no peito, PA 80/50, estertores bilaterais, S3, supra ST V2-V6.',q:'Quais mudanças hemodinâmicas estão presentes?',objective:'Choque cardiogênico: aumento de PCWP e CVP com diminuição da pressão de perfusão coronária.',
-      options:[{label:'A',text:'PCWP diminuída, PVC diminuída, pressão de perfusão coronariana diminuída'},{label:'B',text:'PCWP diminuída, PVC aumentada, pressão de perfusão coronariana diminuída'},{label:'C',text:'PCWP aumentada, PVC diminuída, pressão de perfusão coronariana aumentada'},{label:'D',text:'PCWP aumentada, PVC aumentada, pressão de perfusão coronariana diminuída'},{label:'E',text:'PCWP aumentada, PVC aumentada, pressão de perfusão coronariana aumentada'}],
-      explC:'No IAMCST com choque cardiogênico: a falência do VE aumenta a pressão diastólica final do VE, aumentando a PCWP e causando edema pulmonar. O aumento de pressão prejudica o VD, aumentando a PVC. A queda do débito cardíaco causa hipotensão e diminuição da pressão de perfusão coronariana.',
-      explI:[{option:'A',explanation:'PVC/PCWP/pressão de perfusão coronariana diminuídas = choque hipovolêmico ou séptico.'},{option:'B',explanation:'PCWP diminuída + PVC aumentada = choque obstrutivo (TEP, pneumotórax hipertensivo).'},{option:'C',explanation:'PVC diminuída com PCWP aumentada é atípico.'},{option:'E',explanation:'O aumento da pressão de perfusão coronariana não ocorreria em choque.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0005', system:'cardiovascular', discipline:'pathophysiology', category:'cardiovascular::heart_failure_shock', difficulty:'hard',
-      vignette:'A 53-year-old smoker (2 packs/day for 35 years) has progressive exertional dyspnea, increased AP diameter, decreased breath sounds, scattered wheezes. Extremities unremarkable. Echo: RV dilation, increased CVP.',
-      q:'The absence of peripheral edema in this patient is best explained by which of the following compensatory mechanisms?',
-      options:[{label:'A',text:'Decreased capillary permeability'},{label:'B',text:'Decreased circulating aldosterone levels'},{label:'C',text:'Decreased interstitial fluid pressure'},{label:'D',text:'Increased plasma oncotic pressure'},{label:'E',text:'Increased tissue lymphatic drainage'}],
-      correct:'E',
-      explC:'Despite elevated CVP and right heart failure, no peripheral edema yet. In chronic heart failure, increased lymphatic drainage initially offsets factors favoring edema, temporarily delaying its development.',
-      explI:[{option:'A',explanation:'Capillary permeability is unchanged in heart failure.'},{option:'B',explanation:'Aldosterone is elevated (not decreased) in HF, promoting sodium retention.'},{option:'C',explanation:'Decreased interstitial pressure would promote edema, not prevent it.'},{option:'D',explanation:'Plasma oncotic pressure is decreased (not increased) in HF due to hemodilution.'}],
-      objective:'In chronic heart failure, increased lymphatic drainage initially offsets edema-promoting factors.',
-      peer:{A:14,B:23,C:9,D:22,E:30},
-      ptTranslation:{vignette:'Um fumante de 53 anos com DPOC, dilatação de VD e PVC aumentada, mas sem edema periférico.',q:'A ausência de edema é melhor explicada por qual mecanismo?',objective:'Na IC crônica, a drenagem linfática aumentada inicialmente compensa fatores que favorecem edema.',
-      options:[{label:'A',text:'Diminuição da permeabilidade capilar'},{label:'B',text:'Diminuição dos níveis de aldosterona circulante'},{label:'C',text:'Diminuição da pressão do líquido intersticial'},{label:'D',text:'Aumento da pressão oncótica plasmática'},{label:'E',text:'Aumento da drenagem linfática tecidual'}],
-      explC:'Apesar da PVC elevada e da insuficiência cardíaca direita, ainda não há edema periférico. Na insuficiência cardíaca crônica, o aumento da drenagem linfática inicialmente compensa os fatores que favorecem o edema, retardando temporariamente seu desenvolvimento.',
-      explI:[{option:'A',explanation:'A permeabilidade capilar não se altera na insuficiência cardíaca.'},{option:'B',explanation:'A aldosterona está elevada (não diminuída) na IC, promovendo retenção de sódio.'},{option:'C',explanation:'A diminuição da pressão intersticial favoreceria o edema, não o preveniria.'},{option:'D',explanation:'A pressão oncótica plasmática está diminuída (não aumentada) na IC devido à hemodiluição.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0006', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiac_arrhythmias', difficulty:'hard',
-      vignette:'An 82-year-old man with recent atrial fibrillation (discharged 2 weeks ago on oral meds), hypertension, and severe COPD. He now has syncope and constipation. BP 105/60, pulse 50/min. ECG: new-onset second-degree AV block.',
-      q:'Which of the following drugs is the most likely cause of his current condition?',
-      options:[{label:'A',text:'Amlodipine'},{label:'B',text:'Diltiazem'},{label:'C',text:'Hydrochlorothiazide'},{label:'D',text:'Lidocaine'},{label:'E',text:'Propranolol'},{label:'F',text:'Terazosin'},{label:'G',text:'Valsartan'}],
-      correct:'B',
-      explC:'Constipation + second-degree AV block (syncope) = adverse effects of nondihydropyridine CCB (diltiazem/verapamil). These block L-type calcium channels, decreasing AV node conduction. Negative chronotropic and inotropic effects. Constipation from reduced colonic smooth muscle contraction.',
-      explI:[{option:'A',explanation:'Amlodipine is a dihydropyridine CCB with minimal cardiac conduction effects. Does not cause AV block.'},{option:'C',explanation:'HCTZ is a diuretic for hypertension, not for AF. Does not cause AV block.'},{option:'D',explanation:'Lidocaine is for ventricular arrhythmias, not AF.'},{option:'E',explanation:'Propranolol can cause AV block but is avoided in severe COPD and does not cause constipation.'},{option:'F',explanation:'Terazosin causes orthostatic hypotension, not AV block.'},{option:'G',explanation:'Valsartan does not cause AV block or constipation.'}],
-      objective:'Nondihydropyridine CCBs (diltiazem, verapamil) can cause constipation, bradycardia, and AV block.',
-      peer:{A:10,B:48,C:1,D:5,E:29,F:1,G:1},
-      ptTranslation:{vignette:'Um homem de 82 anos pós-FA com síncope e constipação. DPOC grave. Pulso 50/min. ECG: BAV 2° grau.',q:'Qual medicamento é a causa mais provável?',objective:'BCC não-dihidropiridínicos (diltiazem, verapamil) podem causar constipação, bradicardia e BAV.',
-      options:[{label:'A',text:'Anlodipino'},{label:'B',text:'Diltiazem'},{label:'C',text:'Hidroclorotiazida'},{label:'D',text:'Lidocaína'},{label:'E',text:'Propranolol'},{label:'F',text:'Terazosina'},{label:'G',text:'Valsartana'}],
-      explC:'Constipação + bloqueio atrioventricular de segundo grau (síncope) = efeitos adversos de bloqueador dos canais de cálcio não di-hidropiridínico (diltiazem/verapamil). Esses fármacos bloqueiam os canais de cálcio tipo L, reduzindo a condução no nó AV. Efeitos cronotrópico e inotrópico negativos. A constipação decorre da redução da contração da musculatura lisa colônica.',
-      explI:[{option:'A',explanation:'O anlodipino é um BCC di-hidropiridínico com efeitos mínimos sobre a condução cardíaca. Não causa BAV.'},{option:'C',explanation:'A hidroclorotiazida é um diurético para hipertensão, não para FA. Não causa BAV.'},{option:'D',explanation:'A lidocaína é usada para arritmias ventriculares, não para FA.'},{option:'E',explanation:'O propranolol pode causar BAV, mas é evitado em DPOC grave e não causa constipação.'},{option:'F',explanation:'A terazosina causa hipotensão ortostática, não BAV.'},{option:'G',explanation:'A valsartana não causa BAV nem constipação.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0007', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::coronary_heart_disease', difficulty:'easy', img:['assets/qbank/CMQ-STEP1-CVS-0007_cardiac_output_venous_return_curves.png'],
-      vignette:'The cardiac output and venous return curves of a healthy person are shown with solid lines. The dashed lines depict decreased cardiac output with unchanged venous return (unchanged blood volume and TPR).',
-      q:'Which of the following is the most likely cause of the change depicted by the dashed lines?',
-      options:[{label:'A',text:'Excessive hydration'},{label:'B',text:'Acute hemorrhage'},{label:'C',text:'Chronic anemia'},{label:'D',text:'Myocardial infarction'},{label:'E',text:'Anaphylaxis'}],
-      correct:'D',
-      explC:'Isolated decrease in cardiac output with unchanged venous return indicates decreased contractility from myocardial injury. MI decreases both the slope and maximal height of the cardiac function curve.',
-      explI:[{option:'A',explanation:'Excessive hydration shifts venous return curve rightward, not just cardiac output down.'},{option:'B',explanation:'Hemorrhage shifts venous return curve leftward and downward.'},{option:'C',explanation:'Chronic anemia increases cardiac output to meet metabolic demands.'},{option:'E',explanation:'Anaphylaxis causes widespread vasodilation and drops venous return.'}],
-      objective:'MI causes decreased cardiac output by loss of contractile function.',
-      peer:{A:2,B:13,C:4,D:75,E:3},
-      ptTranslation:{vignette:'Curvas de débito cardíaco e retorno venoso mostram diminuição isolada do débito com retorno venoso inalterado.',q:'Qual é a causa mais provável?',objective:'O IM causa diminuição do débito cardíaco por perda de função contrátil.',
-      options:[{label:'A',text:'Hidratação excessiva'},{label:'B',text:'Hemorragia aguda'},{label:'C',text:'Anemia crônica'},{label:'D',text:'Infarto do miocárdio'},{label:'E',text:'Anafilaxia'}],
-      explC:'A diminuição isolada do débito cardíaco com retorno venoso inalterado indica diminuição da contratilidade por lesão miocárdica. O infarto do miocárdio diminui tanto a inclinação quanto a altura máxima da curva de função cardíaca.',
-      explI:[{option:'A',explanation:'A hidratação excessiva desloca a curva de retorno venoso para a direita, não apenas reduz o débito cardíaco.'},{option:'B',explanation:'A hemorragia desloca a curva de retorno venoso para a esquerda e para baixo.'},{option:'C',explanation:'A anemia crônica aumenta o débito cardíaco para atender às demandas metabólicas.'},{option:'E',explanation:'A anafilaxia causa vasodilatação generalizada e reduz o retorno venoso.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0008', system:'cardiovascular', discipline:'pharmacology', category:'cardiovascular::cardiac_arrhythmias', difficulty:'easy',
-      vignette:'A 24-year-old man with sudden-onset palpitations ("my heart is racing"), similar episode a year ago that resolved spontaneously. BP 126/74, pulse 164/min regular. Rapid IV medication causes instantaneous resolution with short-lived flushing, burning in the chest, and shortness of breath.',
-      q:'Which of the following medications was used to treat this patient\'s condition?',
-      options:[{label:'A',text:'Adenosine'},{label:'B',text:'Amiodarone'},{label:'C',text:'Digoxin'},{label:'D',text:'Ibutilide'},{label:'E',text:'Lidocaine'},{label:'F',text:'Verapamil'}],
-      correct:'A',
-      explC:'SVT in a young man terminated by rapid IV push with transient flushing/dyspnea = adenosine. It blocks AV node conduction with ultra-short half-life (~10 seconds), explaining the transient side effects.',
-      explI:[{option:'B',explanation:'Amiodarone has slow onset, not used for acute SVT termination.'},{option:'C',explanation:'Digoxin has slow onset (hours), not for acute SVT.'},{option:'D',explanation:'Ibutilide is for atrial flutter/fibrillation, not SVT.'},{option:'E',explanation:'Lidocaine is for ventricular arrhythmias.'},{option:'F',explanation:'Verapamil can terminate SVT but has slower onset and different side effect profile.'}],
-      objective:'Adenosine is a rapid-acting, ultra-short-lived drug for terminating acute SVT.',
-      peer:{A:72,B:8,C:4,D:1,E:5,F:6},
-      ptTranslation:{vignette:'Um homem de 24 anos com palpitações súbitas, pulso 164/min. Medicação IV rápida resolve instantaneamente com rubor transitório.',q:'Qual medicamento foi usado?',objective:'Adenosina: ação rápida e ultra-curta para encerrar TVS aguda.',
-      options:[{label:'A',text:'Adenosina'},{label:'B',text:'Amiodarona'},{label:'C',text:'Digoxina'},{label:'D',text:'Ibutilida'},{label:'E',text:'Lidocaína'},{label:'F',text:'Verapamil'}],
-      explC:'TVS (taquicardia supraventricular) em um homem jovem, encerrada por injeção IV rápida com rubor/dispneia transitórios = adenosina. Ela bloqueia a condução no nó AV com meia-vida ultracurta (~10 segundos), explicando os efeitos colaterais transitórios.',
-      explI:[{option:'B',explanation:'A amiodarona tem início de ação lento, não é usada para o encerramento agudo de TVS.'},{option:'C',explanation:'A digoxina tem início de ação lento (horas), não é usada para TVS aguda.'},{option:'D',explanation:'A ibutilida é usada para flutter/fibrilação atrial, não para TVS.'},{option:'E',explanation:'A lidocaína é usada para arritmias ventriculares.'},{option:'F',explanation:'O verapamil pode encerrar a TVS, mas tem início mais lento e perfil de efeitos colaterais diferente.'}]} },
-
-    { id:'CMQ-STEP1-CVS-0009', system:'cardiovascular', discipline:'physiology', category:'cardiovascular::cardiovascular_drugs', difficulty:'medium',
-      vignette:'A 44-year-old woman with pyelonephritis and septic shock (BP 80/40, pulse 140/min) receives IV phenylephrine. Her heart rate decreases to 100/min.',
-      q:'The infusion most likely induced which of the following intracellular changes?',
-      options:[{label:'A',text:'Decreased cAMP in ventricular myocytes, Increased IP3 in vascular smooth muscle, Decreased inward calcium current in SA nodal cells'},{label:'B',text:'Decreased cAMP in ventricular myocytes, Decreased IP3 in vascular smooth muscle, No change in SA nodal calcium current'},{label:'C',text:'Increased cAMP in ventricular myocytes, Increased IP3 in vascular smooth muscle, Increased SA nodal calcium current'},{label:'D',text:'Increased cAMP in ventricular myocytes, No change in IP3, Increased SA nodal calcium current'},{label:'E',text:'No change in cAMP, Decreased IP3 in vascular smooth muscle, Decreased SA nodal calcium current'}],
-      correct:'A',
-      explC:'Phenylephrine (alpha-1 agonist) → increased IP3 in vascular smooth muscle → vasoconstriction → increased BP → baroreceptor reflex → increased parasympathetic + decreased sympathetic outflow → decreased cAMP in ventricular myocytes + decreased inward calcium current in SA node → decreased HR.',
-      explI:[{option:'B',explanation:'Phenylephrine increases (not decreases) IP3 via alpha-1 activation.'},{option:'C',explanation:'Baroreceptor reflex decreases (not increases) sympathetic outflow, so cAMP and SA calcium current decrease.'},{option:'D',explanation:'IP3 does change (increases) and SA calcium current decreases (not increases).'},{option:'E',explanation:'cAMP does change (decreases via baroreceptor reflex) and IP3 increases (not decreases).'}],
-      objective:'Phenylephrine raises BP via alpha-1/IP3 → baroreceptor reflex → decreased cardiac cAMP and SA node calcium current → decreased HR.',
-      peer:{A:50,B:9,C:18,D:8,E:12},
-      ptTranslation:{vignette:'Uma mulher de 44 anos com pielonefrite e choque séptico recebe fenilefrina IV. FC diminui de 140 para 100/min.',q:'Quais mudanças intracelulares a infusão induziu?',objective:'Fenilefrina causa vasoconstrição via alfa-1/IP3. O reflexo barorreceptor diminui cAMP cardíaco e corrente de cálcio no nó SA.',
-      options:[{label:'A',text:'cAMP diminuído nos miócitos ventriculares, IP3 aumentado no músculo liso vascular, corrente de cálcio diminuída nas células do nó SA'},{label:'B',text:'cAMP diminuído nos miócitos ventriculares, IP3 diminuído no músculo liso vascular, sem alteração na corrente de cálcio do nó SA'},{label:'C',text:'cAMP aumentado nos miócitos ventriculares, IP3 aumentado no músculo liso vascular, corrente de cálcio aumentada no nó SA'},{label:'D',text:'cAMP aumentado nos miócitos ventriculares, sem alteração no IP3, corrente de cálcio aumentada no nó SA'},{label:'E',text:'Sem alteração no cAMP, IP3 diminuído no músculo liso vascular, corrente de cálcio diminuída no nó SA'}],
-      explC:'A fenilefrina (agonista alfa-1) aumenta o IP3 no músculo liso vascular → vasoconstrição → aumento da PA → reflexo barorreceptor → aumento do tônus parassimpático e diminuição do simpático → diminuição do cAMP nos miócitos ventriculares e da corrente de cálcio no nó SA → diminuição da FC.',
-      explI:[{option:'B',explanation:'A fenilefrina aumenta (não diminui) o IP3 via ativação alfa-1.'},{option:'C',explanation:'O reflexo barorreceptor diminui (não aumenta) o tônus simpático, portanto o cAMP e a corrente de cálcio no nó SA diminuem.'},{option:'D',explanation:'O IP3 se altera (aumenta) e a corrente de cálcio do nó SA diminui (não aumenta).'},{option:'E',explanation:'O cAMP se altera (diminui via reflexo barorreceptor) e o IP3 aumenta (não diminui).'}]} },
-
-    // ═══════════════════════════════════════════════════════════════
-    // BATCH TEST 001 — Deploy test package generated by ChatGPT
-    // ═══════════════════════════════════════════════════════════════
-    {
-            "id": "CMQ-TEST-001",
-            "system": "renal_urinary",
-            "discipline": "histology",
-            "category": "renal_urinary::glomerular_diseases",
-            "difficulty": "easy",
-            "vignette": "An 8-year-old boy is brought to the office due to acute facial puffiness. His mother reports that for the preceding 24 hours he has been easily fatigued and has had dark urine. The patient was treated for a skin infection 3 weeks ago but has no chronic medical conditions. Temperature is 36.1 C (97 F) and blood pressure is 140/94 mm Hg. Physical examination shows periorbital edema and mild pitting edema along the ankles. The remainder of the examination shows no abnormalities. A representative renal biopsy sample is shown in the image below:",
-            "q": "The fluorescent areas on the slide most likely indicate the presence of which of the following substances?",
-            "options": [
-                {
-                    "label": "A",
-                    "text": "Albumin"
-                },
-                {
-                    "label": "B",
-                    "text": "C1q"
-                },
-                {
-                    "label": "C",
-                    "text": "C3"
-                },
-                {
-                    "label": "D",
-                    "text": "Fibrin"
-                },
-                {
-                    "label": "E",
-                    "text": "IgE"
-                },
-                {
-                    "label": "F",
-                    "text": "M protein"
-                }
-            ],
-            "correct": "C",
-            "explC": "This pediatric patient with nephritic syndrome (eg, periorbital edema, hematuria, hypertension) following a recent skin infection most likely has poststreptococcal glomerulonephritis (PSGN), the most common cause of pediatric nephritic syndrome. This typically occurs after exposure to strains of group A Streptococcus that produce nephritogenic antigens that can activate the alternate complement pathway. These combine with antibodies to form immune complexes, which deposit on the glomerular basement membrane (GBM) and induce complement activation and inflammation.\n\nThese immune complexes are visible on immunofluorescence microscopy as granular deposits of IgG, IgM, and C3 on the GBM and mesangium. Because these particular immune complexes tend to activate complement via the alternate pathway, the deposits rarely contain C1q or C4 (classic complement pathway components).",
-            "explI": [
-                {
-                    "option": "A",
-                    "explanation": "Disruption of the GBM in PSGN causes increased filtration of proteins such as albumin, which are lost in urine and do not deposit in the GBM. The loss of albumin results in decreased plasma oncotic pressure and subsequent peripheral edema."
-                },
-                {
-                    "option": "B",
-                    "explanation": "C1q is a classic complement pathway component. In PSGN, the immune complexes tend to activate complement via the alternate pathway; therefore, the deposits rarely contain C1q or C4."
-                },
-                {
-                    "option": "D",
-                    "explanation": "Fibrin deposits in the Bowman space of the glomerulus are found in the crescents of rapidly progressive glomerulonephritis."
-                },
-                {
-                    "option": "E",
-                    "explanation": "IgE deposits are sometimes seen in lupus nephritis and are confined to the capillary wall. They are associated with a poorer prognosis."
-                },
-                {
-                    "option": "F",
-                    "explanation": "M protein is a component of the streptococcal cell wall that acts as an antiphagocytic virulence factor and stimulates antibody formation. The cross-reactivity of these antibodies to myosin within myocardial cells is likely responsible for rheumatic heart disease. However, M protein has not been isolated in the immune complexes in PSGN."
-                }
-            ],
-            "objective": "Poststreptococcal glomerulonephritis occurs after exposure to strains of group A Streptococcus that produce nephritogenic antigens; antigen-antibody complexes deposit on the glomerular basement membrane and activate the alternate complement pathway. Immunofluorescence microscopy shows granular deposits of IgG, IgM, and C3 in the basement membranes and mesangium.",
-            "ptTranslation": {
-            "vignette": "Um menino de 8 anos é levado ao consultório por inchaço facial agudo. A mãe relata que nas últimas 24 horas ele tem apresentado fadiga fácil e urina escura. O paciente foi tratado por uma infecção de pele há 3 semanas e não possui doenças crônicas. A temperatura é 36,1 °C e a pressão arterial é 140/94 mmHg. O exame físico mostra edema periorbitário e leve edema depressível nos tornozelos. O restante do exame não apresenta alterações. Uma amostra representativa de biópsia renal é mostrada na imagem abaixo:",
-            "q": "As áreas fluorescentes na lâmina indicam mais provavelmente a presença de qual das seguintes substâncias?",
-            "options": [
-                        {
-                                    "label": "A",
-                                    "text": "Albumina"
-                        },
-                        {
-                                    "label": "B",
-                                    "text": "C1q"
-                        },
-                        {
-                                    "label": "C",
-                                    "text": "C3"
-                        },
-                        {
-                                    "label": "D",
-                                    "text": "Fibrina"
-                        },
-                        {
-                                    "label": "E",
-                                    "text": "IgE"
-                        },
-                        {
-                                    "label": "F",
-                                    "text": "Proteína M"
-                        }
-            ],
-            "explC": "Este paciente pediátrico com síndrome nefrítica, evidenciada por edema periorbitário, hematúria e hipertensão após infecção cutânea recente, provavelmente tem glomerulonefrite pós-estreptocócica. Essa condição ocorre após exposição a cepas nefritogênicas de Streptococcus do grupo A. Os antígenos nefritogênicos se combinam com anticorpos para formar imunocomplexos, que se depositam na membrana basal glomerular e no mesângio, induzindo inflamação e ativação do complemento. Na imunofluorescência, esses depósitos aparecem em padrão granular, contendo principalmente IgG, IgM e C3. Como a ativação ocorre predominantemente pela via alternativa, os depósitos raramente contêm C1q ou C4.",
-            "explI": [
-                        {
-                                    "option": "A",
-                                    "explanation": "A albumina pode ser perdida na urina devido ao aumento da permeabilidade glomerular, contribuindo para edema, mas não é o principal depósito fluorescente na membrana basal glomerular."
-                        },
-                        {
-                                    "option": "B",
-                                    "explanation": "C1q é componente da via clássica do complemento. Na glomerulonefrite pós-estreptocócica, a ativação é principalmente pela via alternativa, portanto C1q costuma estar ausente ou pouco representado."
-                        },
-                        {
-                                    "option": "D",
-                                    "explanation": "Depósitos proeminentes de fibrina são mais característicos de glomerulonefrite rapidamente progressiva com crescentes."
-                        },
-                        {
-                                    "option": "E",
-                                    "explanation": "IgE está relacionada a reações alérgicas e parasitoses; não é o principal componente dos depósitos granulares nessa síndrome nefrítica."
-                        },
-                        {
-                                    "option": "F",
-                                    "explanation": "Proteína M sugere gamopatia monoclonal, como mieloma múltiplo, e não explica o quadro nefrítico pós-infeccioso pediátrico."
-                        }
-            ],
-            "objective": "Reconhecer a glomerulonefrite pós-estreptocócica como síndrome nefrítica pós-infecção associada a depósitos granulares de IgG, IgM e C3."
-},
-            "peer": {
-                "A": 2,
-                "B": 4,
-                "C": 71,
-                "D": 2,
-                "E": 5,
-                "F": 14
-            },
-            "img": "assets/qbank/CMQ-TEST-001_renal_biopsy_if.png"
-        },
-        {
-            "id": "CMQ-TEST-002",
-            "system": "female_repro_breast",
-            "discipline": "histology",
-            "category": "female_repro_breast::breast_disorders",
-            "difficulty": "hard",
-            "vignette": "A 34-year-old woman comes to the office with bleeding from the right nipple. The patient has noticed blood staining her bra on several occasions over the past week but has no fever or breast pain. She has no chronic medical conditions and does not take any medications. Breast examination shows no palpable masses or skin changes. A thin, blood-tinged discharge can be expressed from the right nipple. There are no enlarged axillary lymph nodes.",
-            "q": "Which of the following is the most likely histopathologic finding in this patient's right breast?",
-            "options": [
-                {
-                    "label": "A",
-                    "text": "Atypical cells infiltrating the nipple skin"
-                },
-                {
-                    "label": "B",
-                    "text": "Cysts lined by metaplastic apocrine cells"
-                },
-                {
-                    "label": "C",
-                    "text": "Epithelial cells lining fibrovascular cores"
-                },
-                {
-                    "label": "D",
-                    "text": "Necrotic adipocytes with inflammation"
-                },
-                {
-                    "label": "E",
-                    "text": "Stromal proliferation compressing the ducts to slits"
-                }
-            ],
-            "correct": "C",
-            "explC": "Nipple discharge can be physiologic (ie, bilateral, nonbloody or milky, without masses or skin changes) or pathologic (ie, bloody or serosanguineous and unilateral with or without palpable masses and skin changes).\n\nThe most common cause of pathologic nipple discharge is an intraductal papilloma, which classically presents as a unilateral, bloody nipple discharge with no associated breast masses, skin changes, or axillary lymphadenopathy. Although most cases of intraductal papilloma are benign, all patients with pathologic nipple discharge require evaluation with imaging (eg, mammogram or ultrasound, depending upon age) and possibly with biopsy. On microscopy, intraductal papilloma shows epithelial and myoepithelial cells lining fibrovascular cores forming papillae within a duct or cyst wall. The bloody discharge results from twisting of the vascular stalk of the papilloma in the duct.",
-            "explI": [
-                {
-                    "option": "A",
-                    "explanation": "Paget disease of the breast occurs due to the ductal spread of atypical malignant cells to the nipple epidermis. Although patients may have bloody nipple discharge, they also have a unilateral erythematous, intensely pruritic, ulcerative lesion over the nipple and areola, which is not seen in this patient."
-                },
-                {
-                    "option": "B",
-                    "explanation": "Fibrocystic changes of the breast may show cysts with or without metaplasia and areas of fibrosis. Patients with fibrocystic changes typically have cyclic breast pain, not nipple discharge."
-                },
-                {
-                    "option": "D",
-                    "explanation": "Fat necrosis typically presents as an irregular breast mass with no associated nipple discharge after localized trauma or biopsy. Microscopy may show adipocytes undergoing necrosis with inflammation, including macrophages and giant cells."
-                },
-                {
-                    "option": "E",
-                    "explanation": "Fibroadenomas are small, firm, and mobile breast masses that occur due to proliferation of breast stroma and ducts. Fibroadenomas do not typically cause bloody nipple discharge. Microscopic examination shows stromal proliferation compressing the ducts to slits."
-                }
-            ],
-            "objective": "Intraductal papilloma is characterized by epithelial and myoepithelial cells lining fibrovascular cores in a cyst wall or duct. It is the most common cause of bloody nipple discharge and typically presents without breast masses or skin changes.",
-            "ptTranslation": {
-            "vignette": "Uma mulher de 34 anos procura atendimento por sangramento pelo mamilo direito. Ela percebeu manchas de sangue no sutiã em várias ocasiões durante a última semana, mas não tem febre nem dor mamária. Não possui doenças crônicas e não usa medicamentos. O exame das mamas não mostra massas palpáveis nem alterações cutâneas. Uma secreção fina e sanguinolenta pode ser expressa pelo mamilo direito. Não há linfonodos axilares aumentados.",
-            "q": "Qual é o diagnóstico mais provável?",
-            "options": [
-                        {
-                                    "label": "A",
-                                    "text": "Ectasia ductal"
-                        },
-                        {
-                                    "label": "B",
-                                    "text": "Fibroadenoma"
-                        },
-                        {
-                                    "label": "C",
-                                    "text": "Papiloma intraductal"
-                        },
-                        {
-                                    "label": "D",
-                                    "text": "Mastite"
-                        },
-                        {
-                                    "label": "E",
-                                    "text": "Doença de Paget da mama"
-                        }
-            ],
-            "explC": "O quadro é mais compatível com papiloma intraductal, uma lesão benigna que cresce dentro dos ductos mamários maiores, geralmente próxima ao mamilo. A apresentação clássica é secreção unilateral espontânea, serosa ou sanguinolenta, frequentemente sem massa palpável. Histologicamente, há projeções papilares fibrovasculares revestidas por células epiteliais e mioepiteliais.",
-            "explI": [
-                        {
-                                    "option": "A",
-                                    "explanation": "A ectasia ductal costuma ocorrer em mulheres peri ou pós-menopáusicas e causa secreção espessa, pegajosa e frequentemente esverdeada ou multicolorida, com possível retração mamilar."
-                        },
-                        {
-                                    "option": "B",
-                                    "explanation": "Fibroadenoma é uma massa mamária benigna, bem delimitada, móvel e indolor em mulheres jovens. Normalmente não causa secreção mamilar sanguinolenta."
-                        },
-                        {
-                                    "option": "D",
-                                    "explanation": "Mastite geralmente ocorre durante a lactação e cursa com dor, eritema, calor local e febre. Esses achados inflamatórios estão ausentes."
-                        },
-                        {
-                                    "option": "E",
-                                    "explanation": "A doença de Paget da mama causa lesão eczematosa, eritematosa e descamativa do mamilo/aréola, frequentemente associada a carcinoma ductal subjacente."
-                        }
-            ],
-            "objective": "Associar secreção mamilar unilateral sanguinolenta, sem massa palpável, a papiloma intraductal."
-},
-            "peer": {
-                "A": 14,
-                "B": 10,
-                "C": 45,
-                "D": 7,
-                "E": 22
-            },
-            "img": "assets/qbank/CMQ-TEST-002_intraductal_papilloma_histology.png"
-        },
-        {
-            "id": "CMQ-TEST-003",
-            "system": "female_repro_breast",
-            "discipline": "histology",
-            "category": "female_repro_breast::menstrual_disorders_contraception",
-            "difficulty": "hard",
-            "vignette": "A 42-year-old woman, gravida 4 para 4, comes to the office due to heavy and painful menstrual bleeding over the past 3 months. The patient's last menstrual period was 3 weeks ago. Menarche was at age 10, and menstrual periods last for 3-5 days and occur every 30 days. She is sexually active with her husband and does not have pain with intercourse. The patient had a bilateral tubal ligation 3 years ago after the birth of her last child. She takes no medications and has no allergies. BMI is 24 kg/m². Vital signs are normal. On bimanual examination, the uterus is uniformly enlarged and tender. Urine β-hCG is negative.",
-            "q": "Which of the following is the most likely cause of this patient's symptoms?",
-            "options": [
-                {
-                    "label": "A",
-                    "text": "Benign myometrial smooth muscle cell proliferation"
-                },
-                {
-                    "label": "B",
-                    "text": "Blastocyst implantation in the fallopian tube"
-                },
-                {
-                    "label": "C",
-                    "text": "Endometrial glands and stroma within the myometrium"
-                },
-                {
-                    "label": "D",
-                    "text": "Localized overgrowth of endometrium into the uterine cavity"
-                },
-                {
-                    "label": "E",
-                    "text": "Unregulated endometrial proliferation with increased gland-to-stroma ratio"
-                }
-            ],
-            "correct": "C",
-            "explC": "This patient has adenomyosis, a disorder caused by an abnormal collection of endometrial glands and stroma within the uterine myometrium. Adenomyosis is common in multiparous women, and prior uterine surgery (eg, cesarean delivery) is a risk factor.\n\nAlthough the exact pathogenesis is unclear, adenomyosis may occur due to endometrial invagination into the myometrium during periods of myometrial weakening or changes in vascularity at the endomyometrial interface (eg, pregnancy, uterine surgery). The clinical features of adenomyosis reflect its pathophysiology: endometrial gland proliferation and cyclic bleeding within the myometrium leads to dysmenorrhea and uterine tenderness; abnormal myometrial hyperplasia and hypertrophy results in a concentric, uniformly enlarged uterus; uterine enlargement and subsequently increased endometrial surface area causes regular, heavy menstrual bleeding. Definitive therapy is with hysterectomy, which allows for histologic diagnosis.",
-            "explI": [
-                {
-                    "option": "A",
-                    "explanation": "Leiomyomas (ie, uterine fibroids) are benign myometrial smooth muscle cell tumors. Although fibroids can cause regular, heavy menses (also due to increased endometrial surface area), the uterus is typically nontender and irregularly enlarged rather than tender and uniformly enlarged."
-                },
-                {
-                    "option": "B",
-                    "explanation": "An ectopic pregnancy most commonly occurs due to abnormal blastocyst implantation in the fallopian tube. Although prior tubal surgery (eg, bilateral tubal ligation) is a risk factor, ectopic pregnancy is unlikely in this patient with a negative urine β-hCG. In addition, uterine enlargement would not be seen."
-                },
-                {
-                    "option": "D",
-                    "explanation": "Endometrial polyps are benign, intracavitary, focal hyperplastic growths of endometrial tissue. In contrast to adenomyosis, endometrial polyps cause painless intermenstrual bleeding rather than painful, cyclic, heavy menses. There is also no associated uterine tenderness or enlargement."
-                },
-                {
-                    "option": "E",
-                    "explanation": "Patients with endometrial hyperplasia have unregulated endometrial gland proliferation with increased gland-to-stroma ratio; the thickened endometrial lining may slightly increase uterine size and cause heavy menses. However, endometrial hyperplasia does not typically cause dysmenorrhea or uterine tenderness. In addition, the most common risk factor is unopposed estrogen from chronic anovulation and/or obesity; this patient has regular menses and a normal BMI."
-                }
-            ],
-            "objective": "Adenomyosis is the abnormal presence of endometrial glands and stroma within the uterine myometrium. Affected patients are typically multiparous women with dysmenorrhea, heavy menses, and a uniformly enlarged uterus.",
-            "ptTranslation": {
-            "vignette": "Uma mulher de 44 anos procura atendimento por cólicas menstruais intensas e sangramento menstrual aumentado há vários meses. Ela tem dois filhos e não usa contraceptivos. O exame pélvico mostra útero aumentado de forma difusa, macio e doloroso. A imagem mostra a alteração uterina esperada.",
-            "q": "Qual achado histológico é esperado nessa condição?",
-            "options": [
-                        {
-                                    "label": "A",
-                                    "text": "Glândulas e estroma endometriais dentro do miométrio"
-                        },
-                        {
-                                    "label": "B",
-                                    "text": "Glândulas endometriais atípicas confinadas ao endométrio"
-                        },
-                        {
-                                    "label": "C",
-                                    "text": "Cistos ovarianos de conteúdo escuro"
-                        },
-                        {
-                                    "label": "D",
-                                    "text": "Tumor benigno de músculo liso bem delimitado"
-                        },
-                        {
-                                    "label": "E",
-                                    "text": "Tecido endometrial fora do útero, com fibrose e aderências"
-                        }
-            ],
-            "explC": "Adenomiose é a presença de glândulas e estroma endometriais dentro do miométrio. Essa invasão causa hipertrofia do músculo liso adjacente, levando a útero aumentado de forma difusa, globoso e doloroso. O quadro clínico típico inclui dismenorreia, menorragia e dor pélvica em mulheres de meia-idade, especialmente multíparas.",
-            "explI": [
-                        {
-                                    "option": "B",
-                                    "explanation": "Glândulas endometriais atípicas confinadas ao endométrio sugerem hiperplasia endometrial ou carcinoma endometrial inicial, não adenomiose."
-                        },
-                        {
-                                    "option": "C",
-                                    "explanation": "Cistos ovarianos com conteúdo escuro são endometriomas, associados à endometriose ovariana."
-                        },
-                        {
-                                    "option": "D",
-                                    "explanation": "Tumor benigno de músculo liso bem delimitado corresponde a leiomioma, que forma massas firmes circunscritas."
-                        },
-                        {
-                                    "option": "E",
-                                    "explanation": "Tecido endometrial fora do útero com fibrose e aderências caracteriza endometriose; na adenomiose, o tecido endometrial está dentro do miométrio."
-                        }
-            ],
-            "objective": "Distinguir adenomiose, definida por glândulas e estroma endometriais dentro do miométrio, de endometriose e leiomiomas."
-},
-            "peer": {
-                "A": 20,
-                "B": 1,
-                "C": 46,
-                "D": 10,
-                "E": 20
-            },
-            "img": "assets/qbank/CMQ-TEST-003_adenomyosis_diagram.png"
-        },
-        {
-            "id": "CMQ-TEST-004",
-            "system": "renal_urinary",
-            "discipline": "histology",
-            "category": "renal_urinary::glomerular_diseases",
-            "difficulty": "easy",
-            "vignette": "A 9-year-old girl is brought to the office due to 2 days of face and eye puffiness. The patient was treated for a rash on her leg with an antibiotic about 3 weeks ago. Temperature is 37.2 C (99 F) and blood pressure is 150/90 mm Hg. On physical examination, there is generalized edema but no rash. Urinalysis reveals proteinuria and hematuria. An electron microscopy image representative of this patient's disease process is shown below:",
-            "q": "The area marked by the arrow most likely represents which of the following?",
-            "options": [
-                {
-                    "label": "A",
-                    "text": "Albumin buildup"
-                },
-                {
-                    "label": "B",
-                    "text": "Eosinophil enzymes"
-                },
-                {
-                    "label": "C",
-                    "text": "Fibrin deposition"
-                },
-                {
-                    "label": "D",
-                    "text": "Hyaline accumulation"
-                },
-                {
-                    "label": "E",
-                    "text": "Immune complex deposits"
-                },
-                {
-                    "label": "F",
-                    "text": "Lipid droplet"
-                },
-                {
-                    "label": "G",
-                    "text": "Neutrophil enzymes"
-                }
-            ],
-            "correct": "E",
-            "explC": "This pediatric patient with hypertension, hematuria, proteinuria, and edema has a nephritic syndrome. The timeline (3 weeks after a skin infection) of symptoms suggests the most likely cause is poststreptococcal glomerulonephritis (PSGN), an immune complex-mediated disease that occurs after exposure to nephritogenic strains of group A Streptococcus. Laboratory evaluation reveals classic signs of nephritic syndrome (eg, hematuria, red blood cell [RBC] casts, mild proteinuria).\n\nThe immune complexes in PSGN are deposited along the glomerular basement membrane (GBM) and are visible on electron microscopy as large, dome-shaped, subepithelial, electron-dense deposits (\"humps\"). These can also be visualized on immunofluorescence as granular deposits of IgG, IgM, and C3 along the GBM and glomerular mesangium (\"lumpy-bumpy\" appearance). Because the immune complexes trigger an inflammatory reaction, light microscopy shows large glomeruli that are hypercellular due to leukocyte infiltration and proliferation of glomerular cells (a response to injury).",
-            "explI": [
-                {
-                    "option": "A",
-                    "explanation": "Proteins such as albumin may be lost in the urine due to increased permeability of the glomerular capillary wall in PSGN. However, albumin does not deposit within the glomerulus or renal tubules."
-                },
-                {
-                    "option": "B",
-                    "explanation": "Many antibiotics (eg, penicillins, cephalosporins) can cause acute interstitial nephritis (AIN), which often manifests as peritubular T-lymphocyte, macrophage, and eosinophilic infiltration. However, edema, significant hematuria, and proteinuria are uncommon, and AIN usually resolves when the offending agent is discontinued."
-                },
-                {
-                    "option": "C",
-                    "explanation": "Prominent fibrin deposition is characteristic of rapidly progressive (crescentic) glomerulonephritis."
-                },
-                {
-                    "option": "D",
-                    "explanation": "Hyaline (acellular, homogeneous, proteinaceous material) can accumulate within the glomerular capillary and arteriolar walls in diabetic nephropathy due to extravasation of plasma proteins."
-                },
-                {
-                    "option": "F",
-                    "explanation": "Lipid droplets in renal tubules may be seen in conditions causing nephrotic syndrome, which leads to heavy proteinuria and edema; however, gross hematuria and RBC casts are unexpected. In addition, lipid droplets do not deposit on the basement membrane."
-                },
-                {
-                    "option": "G",
-                    "explanation": "Neutrophils and monocytes infiltrate the glomeruli in PSGN, contributing to the hypercellular appearance on light microscopy. Enzymes released from these cells would not typically form extracellular aggregates."
-                }
-            ],
-            "objective": "Poststreptococcal glomerulonephritis is an immune complex-mediated disease that occurs 2-4 weeks after group A Streptococcus skin infections. Immune complexes composed of IgG, IgM, and C3 are deposited along the glomerular basement membrane and are visible on electron microscopy as large, dome-shaped, subepithelial, electron-dense deposits.",
-            "ptTranslation": {
-            "vignette": "Um menino apresenta edema periorbitário, hipertensão e urina escura algumas semanas após uma infecção estreptocócica. A biópsia renal mostra a alteração representativa na microscopia eletrônica.",
-            "q": "Qual achado de microscopia eletrônica é mais característico dessa condição?",
-            "options": [
-                        {
-                                    "label": "A",
-                                    "text": "Depósitos subepiteliais em forma de corcova"
-                        },
-                        {
-                                    "label": "B",
-                                    "text": "Espessamento difuso da membrana basal glomerular com espículas"
-                        },
-                        {
-                                    "label": "C",
-                                    "text": "Apagamento difuso dos pedicelos"
-                        },
-                        {
-                                    "label": "D",
-                                    "text": "Depósitos mesangiais de IgA"
-                        },
-                        {
-                                    "label": "E",
-                                    "text": "Depósitos lineares de IgG na membrana basal"
-                        }
-            ],
-            "explC": "A glomerulonefrite pós-estreptocócica é uma síndrome nefrítica causada por deposição de imunocomplexos após infecção por cepas nefritogênicas de Streptococcus do grupo A. Na microscopia eletrônica, o achado clássico são depósitos subepiteliais grandes em forma de corcova. A imunofluorescência mostra padrão granular de IgG, IgM e C3.",
-            "explI": [
-                        {
-                                    "option": "B",
-                                    "explanation": "Espessamento difuso da membrana basal com espículas sugere nefropatia membranosa, uma causa de síndrome nefrótica."
-                        },
-                        {
-                                    "option": "C",
-                                    "explanation": "Apagamento difuso dos pedicelos é típico da doença de lesões mínimas, que causa síndrome nefrótica em crianças."
-                        },
-                        {
-                                    "option": "D",
-                                    "explanation": "Depósitos mesangiais de IgA caracterizam nefropatia por IgA, que geralmente causa hematúria logo após infecção respiratória."
-                        },
-                        {
-                                    "option": "E",
-                                    "explanation": "Deposição linear de IgG na membrana basal é típica da síndrome anti-MBG/Goodpasture."
-                        }
-            ],
-            "objective": "Reconhecer depósitos subepiteliais em forma de corcova na microscopia eletrônica como achado clássico da glomerulonefrite pós-estreptocócica."
-},
-            "peer": {
-                "A": 3,
-                "B": 2,
-                "C": 4,
-                "D": 5,
-                "E": 79,
-                "F": 4,
-                "G": 1
-            },
-            "img": "assets/qbank/CMQ-TEST-004_psgn_em_hump.png"
-        },
-        {
-            "id": "CMQ-TEST-005",
-            "system": "pulmonary_critical_care",
-            "discipline": "histology",
-            "category": "pulmonary_critical_care::obstructive_lung",
-            "difficulty": "medium",
-            "vignette": "A 64-year-old man is brought to the emergency department due to worsening shortness of breath. The patient is able to speak in short sentences only and becomes hypoxemic with minimal exertion. His medical history includes hypertension and dyslipidemia. He smoked a pack of cigarettes a day for 40 years and worked for 25 years as a nickel miner. His father died of chronic respiratory failure. While in the emergency department, he rapidly develops respiratory failure and is intubated. Despite appropriate treatment, he dies several days later in the intensive care unit. Autopsy is performed, and examination of the bronchi reveals thickened bronchial walls, inflammatory infiltrates, mucous gland enlargement, and patchy squamous metaplasia of the bronchial mucosa.",
-            "q": "Which of the following factors was likely the greatest contributor to this patient's pathological findings?",
-            "options": [
-                {
-                    "label": "A",
-                    "text": "Allergic"
-                },
-                {
-                    "label": "B",
-                    "text": "Behavioral"
-                },
-                {
-                    "label": "C",
-                    "text": "Genetic"
-                },
-                {
-                    "label": "D",
-                    "text": "Infectious"
-                },
-                {
-                    "label": "E",
-                    "text": "Neoplastic"
-                },
-                {
-                    "label": "F",
-                    "text": "Occupational"
-                }
-            ],
-            "correct": "B",
-            "explC": "This patient with respiratory failure, hypoxemia, and thickened bronchial walls with inflammatory infiltrates and mucous gland enlargement likely had chronic bronchitis. Chronic bronchitis is characterized by chronic, productive cough with airflow limitation and is part of the spectrum of chronic obstructive pulmonary disease. It is most commonly caused by tobacco smoking. Chronic irritation by other inhaled environmental substances, such as air pollutants and grain, cotton, or silica dusts, can also contribute to its development. Biopsy typically shows thickened bronchial walls with predominantly lymphocytic infiltrates, mucous gland enlargement with increased numbers of goblet cells (increasing mucus production), and patchy squamous metaplasia of the bronchial mucosa.",
-            "explI": [
-                {
-                    "option": "A",
-                    "explanation": "Patients with allergic asthma can develop pathologic remodeling of the bronchial wall, which includes thickening of the bronchial epithelium, basement membrane, and bronchial smooth muscle as well as edema, inflammatory infiltrates, and submucosal mucous gland enlargement. However, the infiltrates consist predominantly of eosinophils and mast cells. In addition, although asthma is a risk factor for chronic bronchitis, smoking is a much more common cause."
-                },
-                {
-                    "option": "C",
-                    "explanation": "Genetic factors are not known to strongly predispose to chronic bronchitis. Genetic mutation causing alpha-1 antitrypsin deficiency can lead to panacinar emphysema; however, chronic bronchitis is not a significant component of the disease."
-                },
-                {
-                    "option": "D",
-                    "explanation": "Repeated bronchial/bronchiolar bacterial and viral infections can contribute to the development of chronic bronchitis, although less significantly than can smoking. Tobacco smoke predisposes to infection by impairing ciliary clearance and directly damaging the respiratory epithelium."
-                },
-                {
-                    "option": "E",
-                    "explanation": "Nickel is a carcinogen, and occupational exposure is associated with nasal and lung cancers. However, neoplastic transformation itself does not contribute to the development of chronic bronchitis."
-                },
-                {
-                    "option": "F",
-                    "explanation": "Although this patient's history of nickel mining is also suggestive of silica dust exposure, smoking is the most important risk factor for chronic bronchitis."
-                }
-            ],
-            "objective": "Thickened bronchial walls, lymphocytic infiltration, mucous gland enlargement, and patchy squamous metaplasia of the bronchial mucosa are features of chronic bronchitis. Tobacco smoking is the leading cause of chronic bronchitis.",
-            "ptTranslation": {
-            "vignette": "Um paciente apresenta quadro compatível com bronquite crônica, com tosse produtiva crônica, limitação ao fluxo aéreo e alterações histológicas de parede brônquica espessada, aumento de glândulas mucosas e infiltrado inflamatório.",
-            "q": "Qual fator é a causa mais importante para o desenvolvimento dessa condição?",
-            "options": [
-                        {
-                                    "label": "A",
-                                    "text": "Asma alérgica"
-                        },
-                        {
-                                    "label": "B",
-                                    "text": "Predisposição genética"
-                        },
-                        {
-                                    "label": "C",
-                                    "text": "Infecções respiratórias recorrentes"
-                        },
-                        {
-                                    "label": "D",
-                                    "text": "Transformação neoplásica"
-                        },
-                        {
-                                    "label": "E",
-                                    "text": "Tabagismo"
-                        }
-            ],
-            "explC": "Bronquite crônica é definida clinicamente por tosse produtiva por pelo menos 3 meses em 2 anos consecutivos e faz parte do espectro da doença pulmonar obstrutiva crônica. O tabagismo é o principal fator de risco. A irritação crônica da fumaça lesiona o epitélio respiratório, prejudica a depuração mucociliar, promove inflamação crônica e causa hiperplasia de glândulas mucosas e aumento de células caliciformes.",
-            "explI": [
-                        {
-                                    "option": "A",
-                                    "explanation": "A asma alérgica causa inflamação eosinofílica e remodelamento das vias aéreas, mas não é a principal causa da bronquite crônica."
-                        },
-                        {
-                                    "option": "B",
-                                    "explanation": "Fatores genéticos não são a principal causa de bronquite crônica. Deficiência de alfa-1 antitripsina se associa principalmente a enfisema panacinar."
-                        },
-                        {
-                                    "option": "C",
-                                    "explanation": "Infecções respiratórias recorrentes podem agravar ou contribuir para bronquite crônica, mas têm papel menor que o tabagismo."
-                        },
-                        {
-                                    "option": "D",
-                                    "explanation": "Transformação neoplásica não causa bronquite crônica."
-                        }
-            ],
-            "objective": "Identificar o tabagismo como o principal fator de risco para bronquite crônica."
-},
-            "peer": {
-                "A": 2,
-                "B": 58,
-                "C": 2,
-                "D": 1,
-                "E": 5,
-                "F": 29
-            }
-        },
-        {
-            "id": "CMQ-TEST-006",
-            "system": "nervous_system",
-            "discipline": "histology",
-            "category": "nervous_system::normal_nervous",
-            "difficulty": "medium",
-            "vignette": "A 20-year-old woman comes to the office due to blisters around her mouth associated with a mild burning sensation. She reports that she has been having frequent recurrence of these lesions, which resolve spontaneously within a few days. She has no medical problems and does not take any medications. Physical examination findings are shown in the image below.\n\nIt is determined that the causative organism of this patient's condition remains in a latent state in the neuronal cell bodies of sensory ganglia. Upon reactivation, the virus is transported through the nerve axon to the skin.",
-            "q": "Which of the following proteins is most likely involved in the transport process leading to disease recurrence?",
-            "options": [
-                {
-                    "label": "A",
-                    "text": "Dynein"
-                },
-                {
-                    "label": "B",
-                    "text": "Kinesin"
-                },
-                {
-                    "label": "C",
-                    "text": "Lamin"
-                },
-                {
-                    "label": "D",
-                    "text": "Selectin"
-                },
-                {
-                    "label": "E",
-                    "text": "Spectrin"
-                },
-                {
-                    "label": "F",
-                    "text": "Vimentin"
-                }
-            ],
-            "correct": "B",
-            "explC": "This patient is suffering from recurrent bouts of herpes labialis (\"cold sores\"), which is most commonly caused by herpes simplex virus 1 (HSV-1). Primary infection occurs following contact with an affected individual's saliva. Although it is often asymptomatic, infection can result in painful blister formation on the oral mucosa and surrounding skin of the mouth and lips. After resolution of the initial infection, the virus enters a latent phase where viral particles lay dormant in neural sensory ganglia (most commonly the trigeminal).\n\nReactivation of the virus occurs during times of stress or illness, resulting in recurrence of the characteristic perioral vesicular lesions. During reactivation, HSV particles rely on anterograde axonal transport to reach the skin and oral mucosa. Anterograde axonal transport is mediated by kinesin, a motor protein that moves intracellular cargo (eg, organelles, viral particles) away from the nucleus, down the axon, and toward the nerve terminal. Kinesin-mediated movement is powered by ATP hydrolysis and guided by microtubule filaments, which function as an intracellular \"track\" system.",
-            "explI": [
-                {
-                    "option": "A",
-                    "explanation": "Dynein is a microtubular motor protein that participates in retrograde axonal transport (ie, moving organelles toward the nucleus). Dynein is important in establishing the latent phase following primary HSV infection by transporting viral particles to the neural sensory ganglia. However, it is not responsible for disease recurrence."
-                },
-                {
-                    "option": "C",
-                    "explanation": "Lamins are proteins that help form the fibrillar network that lines the inside of the nuclear envelope. In addition to providing structural support, they also help to organize the genome and regulate gene transcription."
-                },
-                {
-                    "option": "D",
-                    "explanation": "Selectins are a group of cell adhesion molecules that are expressed on endothelial cells during the inflammatory response. They function to bind leukocytes, allowing them to exit blood vessels at the site of inflammation."
-                },
-                {
-                    "option": "E",
-                    "explanation": "Spectrin is a cytoskeletal protein located intracellularly along the plasma membrane. It is responsible for maintaining the distinct shape of red blood cells. Protein defects may result in hereditary elliptocytosis and spherocytosis."
-                },
-                {
-                    "option": "F",
-                    "explanation": "Vimentin is a type of intermediate filament expressed in mesenchymal cells. It is responsible for securing organelles inside the cytosol and provides resistance to mechanical stress."
-                }
-            ],
-            "objective": "Kinesin is a microtubule-associated motor protein that functions in the anterograde transport of materials and organelles within cells. Reactivation of latent herpes simplex virus requires anterograde transport of viral particles from neuronal cell bodies in the sensory ganglia to the skin and oral mucosa.",
-            "ptTranslation": {
-            "vignette": "Uma mulher apresenta episódios recorrentes de vesículas dolorosas ao redor dos lábios, desencadeadas por estresse ou doença. A infecção primária ocorreu por contato com saliva contaminada, e o vírus permanece latente em gânglios sensitivos. A imagem mostra a lesão característica.",
-            "q": "Durante a recorrência da doença, qual proteína motora é responsável pelo transporte das partículas virais até a pele e mucosa oral?",
-            "options": [
-                        {
-                                    "label": "A",
-                                    "text": "Dineína"
-                        },
-                        {
-                                    "label": "B",
-                                    "text": "Cinesina"
-                        },
-                        {
-                                    "label": "C",
-                                    "text": "Laminas"
-                        },
-                        {
-                                    "label": "D",
-                                    "text": "Selectinas"
-                        },
-                        {
-                                    "label": "E",
-                                    "text": "Espectrina"
-                        },
-                        {
-                                    "label": "F",
-                                    "text": "Vimentina"
-                        }
-            ],
-            "explC": "O quadro representa herpes labial recorrente, mais frequentemente causado pelo vírus herpes simples tipo 1. Após a infecção primária, o vírus permanece latente em gânglios sensitivos, especialmente o trigeminal. Na reativação, as partículas virais precisam se deslocar do corpo neuronal em direção à pele e à mucosa oral. Esse transporte anterógrado ao longo do axônio é mediado pela cinesina, proteína motora que move cargas intracelulares para longe do núcleo e em direção ao terminal axonal, utilizando microtúbulos como trilhos e energia da hidrólise de ATP.",
-            "explI": [
-                        {
-                                    "option": "A",
-                                    "explanation": "A dineína participa do transporte axonal retrógrado, levando cargas em direção ao corpo celular. Ela ajuda a estabelecer latência, mas não leva o vírus à pele na recorrência."
-                        },
-                        {
-                                    "option": "C",
-                                    "explanation": "Laminas são proteínas da lâmina nuclear, envolvidas na sustentação do envelope nuclear e organização do genoma."
-                        },
-                        {
-                                    "option": "D",
-                                    "explanation": "Selectinas são moléculas de adesão expressas no endotélio durante a inflamação; não transportam partículas virais no axônio."
-                        },
-                        {
-                                    "option": "E",
-                                    "explanation": "Espectrina é proteína do citoesqueleto associada à membrana plasmática, importante para manter a forma das hemácias."
-                        },
-                        {
-                                    "option": "F",
-                                    "explanation": "Vimentina é filamento intermediário de células mesenquimais; não é a proteína motora responsável pelo transporte anterógrado."
-                        }
-            ],
-            "objective": "Diferenciar transporte axonal anterógrado por cinesina, usado na reativação do HSV, do transporte retrógrado por dineína, usado para estabelecer latência."
-},
-            "peer": {
-                "A": 28,
-                "B": 59,
-                "C": 2,
-                "D": 2,
-                "E": 2,
-                "F": 4
-            },
-            "img": "assets/qbank/CMQ-TEST-006_herpes_labialis.png"
-        },
-
     // BATCH 03 — Biochemistry (15 questions)
     { id:'CMQ-STEP1-BCH-0001', system:'biochemistry', discipline:'biochemistry', category:'biochemistry::amino_acids_proteins_enzymes', difficulty:'hard',
       vignette:'A research scientist develops an agent that specifically blocks the interaction of inositol triphosphate with its intracellular receptor. A study is then performed in which vascular smooth muscle cells are divided into 2 groups: an experimental group treated with the receptor blocker and an untreated control group. Both groups are exposed to phenylephrine.',
@@ -1788,6 +725,7 @@
       explI:[
         {option:'A', explanation:'Cysteine supplementation may be required in homocystinuria, a condition in which cystathionine synthase deficiency leads to reduced cysteine production and homocysteine and methionine accumulation. Fair complexion and seizures may be seen in infancy; other characteristic features (eg, downward lens dislocation, thrombosis) usually present later. However, musty body odor would not be expected.'},
         {option:'B, C, and F', explanation:'The branched-chain amino acids (isoleucine, leucine, valine) are elevated in maple syrup urine disease, which is due to branched-chain alpha-ketoacid dehydrogenase deficiency. Buildup of branched-chain amino acids and their metabolites leads to ketonuria (urine with a sweet odor) and encephalopathy within a week of birth; management is dietary restriction of these amino acids.'},
+        {option:'D', explanation:'Most patients with PKU are identified via routine newborn screening (ie, via elevated phenylalanine levels) and treated with a phenylalanine-restricted diet starting in the neonatal period. This diet is typically sufficient to prevent manifestations of disease, which are largely due to hyperphenylalaninemia.'},
       ],
       objective:'Untreated phenylketonuria leads to irreversible neurologic abnormalities (eg, intellectual disability, seizures), as well as reduced melanin production and a musty odor. Pathophysiology involves impaired metabolism of phenylalanine to tyrosine, and treatment includes a phenylalanine-restricted diet that may require supplemental tyrosine.',
       peer:{A:6, B:1, C:2, D:23, E:64, F:1},
@@ -1813,6 +751,7 @@
         explI:[
           {option:'A', explanation:'A suplementação de cisteína pode ser necessária na homocistinúria, uma condição em que a deficiência de cistationina sintase leva à redução da produção de cisteína e ao acúmulo de homocisteína e metionina. Pele clara e convulsões podem ser observadas na infância; outras características típicas (por exemplo, deslocamento do cristalino para baixo, trombose) geralmente se manifestam mais tarde. No entanto, o odor corporal almiscarado não seria esperado.'},
           {option:'B, C, and F', explanation:'Os aminoácidos de cadeia ramificada (isoleucina, leucina, valina) estão elevados na doença da urina em xarope de bordo, causada pela deficiência da alfa-cetoácido desidrogenase de cadeia ramificada. O acúmulo de aminoácidos de cadeia ramificada e seus metabólitos leva à cetonúria (urina com odor adocicado) e encefalopatia dentro de uma semana após o nascimento; o manejo consiste na restrição dietética desses aminoácidos.'},
+          {option:'D', explanation:'A maioria dos pacientes com PKU é identificada por meio da triagem neonatal de rotina (isto é, por níveis elevados de fenilalanina) e tratada com uma dieta restrita em fenilalanina iniciada no período neonatal. Essa dieta geralmente é suficiente para prevenir as manifestações da doença, que se devem, em grande parte, à hiperfenilalaninemia.'},
         ]
       }
     },
@@ -2389,6 +1328,7 @@
       explI:[
         {option:'A', explanation:'Aldolase B plays a nonessential role in glycolysis due to the redundant function of aldolase A. However, it is particularly important during fructose metabolism as deficiency of this enzyme leads to toxic accumulation of fructose-1-phosphate (hereditary fructose intolerance). This life-threatening disorder presents in infancy after the introduction of fructose-containing foods.'},
         {option:'B', explanation:'Aldose reductase is the enzyme that converts glucose to sorbitol. Aldose reductase has a low affinity for glucose, and normally only very small amounts of glucose are metabolized by this enzyme. The amount of glucose metabolized by the aldose reductase pathway increases significantly in diabetes mellitus and contributes to chronic complications such as neuropathy and retinopathy.'},
+        {option:'C', explanation:'Fructose is normally phosphorylated by fructokinase in the liver, yielding fructose-1-phosphate, which is converted by aldolase B to dihydroxyacetone phosphate (DHAP) and glyceraldehyde.'},
         {option:'E', explanation:'UDP-galactose-4-epimerase is involved in the metabolism of galactose; it does not play a role in fructose metabolism.'},
       ],
       objective:'Essential fructosuria is a benign disorder of fructose metabolism caused by fructokinase deficiency. In patients with essential fructosuria, some of the dietary fructose load is converted by hexokinase to fructose-6-phosphate, which can then enter glycolysis in normal individuals.',
@@ -2414,6 +1354,7 @@
         explI:[
           {option:'A', explanation:'A aldolase B desempenha um papel não essencial na glicólise devido à função redundante da aldolase A. Entretanto, ela é particularmente importante durante o metabolismo da frutose, já que a deficiência dessa enzima leva ao acúmulo tóxico de frutose-1-fosfato (intolerância hereditária à frutose). Esse distúrbio potencialmente fatal se manifesta na infância após a introdução de alimentos contendo frutose.'},
           {option:'B', explanation:'A aldose redutase é a enzima que converte glicose em sorbitol. A aldose redutase tem baixa afinidade pela glicose, e normalmente apenas quantidades muito pequenas de glicose são metabolizadas por essa enzima. A quantidade de glicose metabolizada pela via da aldose redutase aumenta significativamente no diabetes mellitus e contribui para complicações crônicas, como neuropatia e retinopatia.'},
+          {option:'C', explanation:'A frutose é normalmente fosforilada pela frutocinase no fígado, produzindo frutose-1-fosfato, que é convertida pela aldolase B em di-hidroxiacetona fosfato (DHAP) e gliceraldeído.'},
           {option:'E', explanation:'A UDP-galactose-4-epimerase está envolvida no metabolismo da galactose; ela não desempenha papel no metabolismo da frutose.'},
         ]
       }
@@ -3210,6 +2151,7 @@
       explC:'Folate is a naturally occurring vitamin found in animal and plant products, most notably liver and leafy green vegetables; it is also fortified in many cereals and grains. Therefore, folate deficiency is rare in persons who consume a varied diet. However, deficiency can occur in the setting of increased cell turnover (eg, pregnancy, chronic hemolytic anemia), medications that interfere with folate metabolism (eg, methotrexate, antiseizure agents), and intestinal malabsorption. This patient with celiac disease, who is noncompliant with dietary restrictions, likely developed folate deficiency due to inflammation in the wall of the jejunum, where intestinal folate absorption occurs.\n\nFolate has a crucial role in the generation of purines and pyrimidines by converting homocysteine to methionine. Specifically, 5-methyl-tetrahydrofolate donates its methyl group to vitamin B12, forming methylcobalamin, then methylcobalamin donates its methyl group to homocysteine to form methionine. In folate deficiency, homocysteine cannot be converted to methionine, leading to homocysteine accumulation (Choice C). In contrast, folate supplementation results in the rapid conversion of homocysteine to methionine, leading to low homocysteine and high methionine.\n\nMethylmalonic acid is a biomarker for vitamin B12 because conversion of methylmalonyl-coenzyme A (CoA) to succinyl-CoA requires vitamin B12. Because methylmalonyl-CoA is not a folate-dependent enzyme, it is unaffected by changes in folate level.',
       explI:[
         {option:'B', explanation:'Decreased homocysteine, increased methionine, and decreased methylmalonic acid would be expected after vitamin B12 supplementation, not folate supplementation.'},
+        {option:'C', explanation:'In folate deficiency, homocysteine cannot be converted to methionine, leading to homocysteine accumulation.'},
         {option:'D', explanation:'Increased homocysteine, decreased methionine, and increased methylmalonic acid would be expected in vitamin B12 deficiency.'},
         {option:'E', explanation:'Isolated methylmalonic acidemia occurs in a rare autosomal recessive condition and is unrelated to folate deficiency and supplementation.'},
       ],
@@ -3238,6 +2180,7 @@
         explC:'O folato é uma vitamina naturalmente encontrada em produtos animais e vegetais, principalmente fígado e vegetais folhosos verde-escuros; também é adicionado (fortificado) em muitos cereais e grãos. Portanto, a deficiência de folato é rara em pessoas que consomem uma dieta variada. Entretanto, a deficiência pode ocorrer em contextos de maior renovação celular (por exemplo, gravidez, anemia hemolítica crônica), medicamentos que interferem no metabolismo do folato (por exemplo, metotrexato, anticonvulsivantes) e má absorção intestinal. Esta paciente com doença celíaca, não aderente às restrições dietéticas, provavelmente desenvolveu deficiência de folato devido à inflamação na parede do jejuno, local onde ocorre a absorção intestinal de folato.\n\nO folato tem papel fundamental na geração de purinas e pirimidinas ao converter homocisteína em metionina. Especificamente, o 5-metil-tetra-hidrofolato doa seu grupo metila à vitamina B12, formando metilcobalamina; em seguida, a metilcobalamina doa seu grupo metila à homocisteína para formar metionina. Na deficiência de folato, a homocisteína não pode ser convertida em metionina, levando ao acúmulo de homocisteína (Alternativa C). Em contraste, a suplementação de folato resulta na rápida conversão de homocisteína em metionina, levando a homocisteína baixa e metionina alta.\n\nO ácido metilmalônico é um biomarcador para vitamina B12, pois a conversão de metilmalonil-coenzima A (CoA) em succinil-CoA requer vitamina B12. Como a metilmalonil-CoA não depende de uma enzima folato-dependente, ela não é afetada por alterações no nível de folato.',
         explI:[
           {option:'B', explanation:'Homocisteína diminuída, metionina aumentada e ácido metilmalônico diminuído seriam esperados após a suplementação de vitamina B12, não de folato.'},
+          {option:'C', explanation:'Na deficiência de folato, a homocisteína não pode ser convertida em metionina, levando ao acúmulo de homocisteína.'},
           {option:'D', explanation:'Homocisteína aumentada, metionina diminuída e ácido metilmalônico aumentado seriam esperados na deficiência de vitamina B12.'},
           {option:'E', explanation:'A acidemia metilmalônica isolada ocorre em uma condição autossômica recessiva rara e não está relacionada à deficiência ou suplementação de folato.'},
         ]
@@ -3493,6 +2436,7 @@
       explI:[
         {option:'A', explanation:'ATP is produced in the cytosol during glycolysis and in the mitochondria via oxidative phosphorylation.  The proteins in both of these cellular compartments are synthesized by free ribosomes in the cytosol.'},
         {option:'B and E', explanation:'Steroid hormone synthesis and drug detoxification are performed by various proteins found within the smooth ER (SER).  The SER does not bind to ribosomes as it lacks the translocon complex.'},
+        {option:'D', explanation:'Free ribosomes remain floating in the cytosol throughout protein synthesis.  They are responsible for translating proteins found within the cytosol, nucleosol, peroxisome matrix, and nuclear-encoded mitochondrial proteins.'},
       ],
       objective:'The rough endoplasmic reticulum (RER) is covered with ribosomes and is involved in the transfer of proteins to the cell membrane and extracellular space.  The RER is well developed in protein-secreting cells.  The smooth ER lacks surface ribosomes and functions in lipid synthesis, carbohydrate metabolism, and detoxification of harmful substances.',
       peer:{A:3, B:3, C:63, D:25, E:4},
@@ -3511,6 +2455,7 @@
         explI:[
           {option:'A', explanation:'O ATP é produzido no citosol durante a glicólise e nas mitocôndrias por meio da fosforilação oxidativa.  As proteínas em ambos os compartimentos celulares são sintetizadas por ribossomos livres no citosol.'},
           {option:'B and E', explanation:'A síntese de hormônios esteroides e a desintoxicação de fármacos são realizadas por diversas proteínas encontradas no RE liso (REL).  O REL não se liga a ribossomos, pois não possui o complexo translocon.'},
+          {option:'D', explanation:'Os ribossomos livres permanecem flutuando no citosol durante toda a síntese proteica.  Eles são responsáveis por traduzir proteínas encontradas no citosol, no nucleosol, na matriz do peroxissomo e proteínas mitocondriais codificadas pelo núcleo.'},
         ]
       }
     },
@@ -4225,6 +3170,7 @@
       correct:'E',
       explC:'Intellectual disability, gait abnormalities, a musty body odor, and eczema are signs consistent with phenylketonuria (PKU).  PKU is caused by a mutation in a single gene that codes for phenylalanine hydroxylase.  This enzyme normally synthesizes tyrosine from phenylalanine, and a buildup of phenylalanine in the CNS results in neurologic dysfunction.  In the United States, phenylalanine levels are measured in neonates via routine newborn screening.\n\nPKU is an autosomal recessive disease.  Therefore, when a child is affected but parents are unaffected, the parents are very likely to be heterozygous carriers of the mutation.  The probability of a child inheriting any disease with an autosomal recessive inheritance pattern, including PKU, depends on the following factors:\n\np1 = probability that the mother transmits the mutant allele = 1/2\np2 = probability that the father transmits the mutant allele = 1/2\n\nThe probability that a child will inherit a mutant allele from each carrier parent is equal to p1 × p2 = 1/4 because these are independent events (Choices A, B, and D).',
       explI:[
+        {option:'A, B, and D', explanation:'The probability that a child will inherit a mutant allele from each carrier parent is equal to p1 × p2 = 1/4 because these are independent events.'},
         {option:'C', explanation:'The probability of having two future children both inherit an autosomal recessive disease from parents who are heterozygous carriers is 1/4 × 1/4 = 1/16 (each 1/4 representing the likelihood of 1 child inheriting the disease).  In this case, this family already has an affected child, making the probability of a single subsequent child with the disease remain at 1/4.'},
         {option:'F', explanation:'The probability that a child will inherit an autosomal dominant disorder if one parent is affected is 1/2.'},
       ],
@@ -4249,6 +3195,7 @@
         ],
         explC:'Deficiência intelectual, alterações da marcha, odor corporal característico ("mofado") e eczema são sinais compatíveis com fenilcetonúria (PKU).  A PKU é causada por uma mutação em um único gene que codifica a fenilalanina hidroxilase.  Essa enzima normalmente sintetiza tirosina a partir da fenilalanina, e o acúmulo de fenilalanina no SNC resulta em disfunção neurológica.  Nos Estados Unidos, os níveis de fenilalanina são medidos em neonatos por meio da triagem neonatal de rotina.\n\nA PKU é uma doença autossômica recessiva.  Portanto, quando uma criança é afetada mas os pais não são, é muito provável que os pais sejam portadores heterozigotos da mutação.  A probabilidade de um filho herdar qualquer doença com padrão de herança autossômico recessivo, incluindo a PKU, depende dos seguintes fatores:\n\np1 = probabilidade de a mãe transmitir o alelo mutante = 1/2\np2 = probabilidade de o pai transmitir o alelo mutante = 1/2\n\nA probabilidade de um filho herdar um alelo mutante de cada genitor portador é igual a p1 × p2 = 1/4, pois esses são eventos independentes (Alternativas A, B e D).',
         explI:[
+          {option:'A, B, and D', explanation:'A probabilidade de um filho herdar um alelo mutante de cada genitor portador é igual a p1 × p2 = 1/4, pois esses são eventos independentes.'},
           {option:'C', explanation:'A probabilidade de dois futuros filhos herdarem uma doença autossômica recessiva de pais que são portadores heterozigotos é 1/4 × 1/4 = 1/16 (cada 1/4 representando a probabilidade de 1 filho herdar a doença).  Neste caso, esta família já tem um filho afetado, o que faz a probabilidade de um filho subsequente com a doença permanecer em 1/4.'},
           {option:'F', explanation:'A probabilidade de um filho herdar um distúrbio autossômico dominante, se um dos genitores for afetado, é de 1/2.'},
         ]
@@ -4670,6 +3617,7 @@
       correct:'E',
       explC:'This man\'s short stature and morphologic features are suggestive of achondroplasia, the most common form of bone dysplasia.  It is caused by a gain-of-function mutation in the fibroblast growth factor receptor 3 (FGFR3) gene, which encodes a protein that inhibits chondrocyte proliferation and endochondral bone growth.\n\nAchondroplasia occurs as a sporadic mutation in 85% of cases; advanced paternal age is a risk factor due to increased DNA replication errors during spermatogenesis.  However, once a mutation occurs, it can be transmitted as an autosomal dominant trait (responsible for the remaining 15% of cases) with complete penetrance (Choice A).\n\nInheritance of only 1 mutant allele causes the disorder; inheritance of 2 mutant alleles (ie, homozygous achondroplasia) is lethal.  As a result, the man must be heterozygous for the achondroplasia mutation.  A heterozygous parent has a 50% chance of transmitting the mutated allele; therefore, the unborn child has a 50% chance of inheriting achondroplasia.  Because achondroplasia is a rare condition, the probability of having a sporadic mutation does not significantly add to the probability of inheriting the disease.',
       explI:[
+        {option:'A', explanation:'Achondroplasia occurs as a sporadic mutation in 85% of cases; advanced paternal age is a risk factor due to increased DNA replication errors during spermatogenesis.  However, once a mutation occurs, it can be transmitted as an autosomal dominant trait (responsible for the remaining 15% of cases) with complete penetrance.'},
         {option:'B', explanation:'In sex-linked disorders, the responsible gene is located on a sex chromosome (either X or Y).  Most sex-linked disorders are X-linked recessive; females with 1 copy of the defective gene will not have the disorder (they will be carriers), but all males who inherit the defective gene will be affected.  In X-linked dominant disorders, both males and females are affected following inheritance of the defective gene.'},
         {option:'C', explanation:'Because inheritance of only 1 mutant allele causes achondroplasia and the disease is completely penetrant, carriers do not exist.  This woman must be homozygous for the normal allele (since she is average height with no features that suggest achondroplasia).'},
         {option:'D', explanation:'About 25% of children are affected in autosomal recessive disorders if both parents carry 1 copy of the defective gene.  Many recessive disorders are the result of enzymatic deficiencies (eg, phenylketonuria) that require both copies of the gene to be knocked out, as 1 functional copy usually provides sufficient enzymatic activity to prevent occurrence of the disease.'},
@@ -4689,6 +3637,7 @@
         ],
         explC:'A baixa estatura e as características morfológicas deste homem sugerem acondroplasia, a forma mais comum de displasia óssea.  Ela é causada por uma mutação de ganho de função no gene do receptor 3 do fator de crescimento de fibroblastos (FGFR3), que codifica uma proteína que inibe a proliferação de condrócitos e o crescimento ósseo endocondral.\n\nA acondroplasia ocorre como mutação esporádica em 85% dos casos; idade paterna avançada é fator de risco devido ao aumento de erros de replicação do DNA durante a espermatogênese.  Entretanto, uma vez que a mutação ocorre, ela pode ser transmitida como um traço autossômico dominante (responsável pelos 15% restantes dos casos) com penetrância completa (Alternativa A).\n\nA herança de apenas 1 alelo mutante causa o distúrbio; a herança de 2 alelos mutantes (isto é, acondroplasia homozigota) é letal.  Como resultado, o homem deve ser heterozigoto para a mutação da acondroplasia.  Um genitor heterozigoto tem 50% de chance de transmitir o alelo mutado; portanto, o feto tem 50% de chance de herdar acondroplasia.  Como a acondroplasia é uma condição rara, a probabilidade de haver uma mutação esporádica não aumenta significativamente a probabilidade de herdar a doença.',
         explI:[
+          {option:'A', explanation:'A acondroplasia ocorre como mutação esporádica em 85% dos casos; idade paterna avançada é fator de risco devido ao aumento de erros de replicação do DNA durante a espermatogênese.  Entretanto, uma vez que a mutação ocorre, ela pode ser transmitida como um traço autossômico dominante (responsável pelos 15% restantes dos casos) com penetrância completa.'},
           {option:'B', explanation:'Em distúrbios ligados ao sexo, o gene responsável está localizado em um cromossomo sexual (X ou Y).  A maioria dos distúrbios ligados ao sexo é recessiva ligada ao X; mulheres com 1 cópia do gene defeituoso não terão o distúrbio (serão portadoras), mas todos os homens que herdarem o gene defeituoso serão afetados.  Em distúrbios dominantes ligados ao X, tanto homens quanto mulheres são afetados após herdar o gene defeituoso.'},
           {option:'C', explanation:'Como a herança de apenas 1 alelo mutante causa acondroplasia e a doença é completamente penetrante, portadores não existem.  Esta mulher deve ser homozigota para o alelo normal (já que ela tem altura média, sem características que sugiram acondroplasia).'},
           {option:'D', explanation:'Cerca de 25% dos filhos são afetados em distúrbios autossômicos recessivos se ambos os pais carregarem 1 cópia do gene defeituoso.  Muitos distúrbios recessivos são resultado de deficiências enzimáticas (ex.: fenilcetonúria) que exigem que ambas as cópias do gene sejam inativadas, já que 1 cópia funcional geralmente fornece atividade enzimática suficiente para prevenir a ocorrência da doença.'},
@@ -5125,6 +4074,7 @@
       explC:'Telomerase is a ribonucleoprotein that adds TTAGGG repeats to the 3\' end of chromosomes (telomere region).  It is similar to other reverse transcriptase enzymes in that it synthesizes single-stranded DNA using single-stranded RNA as a template (RNA-dependent DNA polymerase).  Telomerase is composed of 2 main subunits, the telomerase reverse transcriptase (TERT) subunit and the telomerase RNA component (TERC).  TERC is a "built-in" RNA template that is repeatedly read by the TERT subunit to add TTAGGG DNA sequence repeats to telomeres.\n\nStem cells have very long telomeres due to their high telomerase activity, allowing them to proliferate indefinitely in a controlled manner.  In contrast, most terminally differentiated adult somatic cells (eg, myocardial cells, neurons, pancreatic β cells) have short telomeres as they do not express telomerase and their telomeres shorten with every cell division (Choices C, D, and E).  Critical shortening in telomere length is thought to be a signal for programmed cell death.  In fact, syndromes of premature aging (eg, Bloom syndrome) are associated with shortened telomeres.  In contrast, cancer cells upregulate their telomerase activity, preventing cell death by maintaining their telomere length.\n\nStem cells are undifferentiated cells with the potential to differentiate into other cell types and can be classified as either embryonic or adult stem cells.  Although embryonic stem cells are present in the very early stages of embryogenesis and can give rise to every cell type in adult humans (pluripotent), adult stem cells are present in most tissues and are generally responsible for replacing dead cells.  For example, the epidermis is continuously replaced by stem cells present in the basal cell layers.  Bone marrow stem cells similarly replace peripheral red and white blood cells.',
       explI:[
         {option:'B', explanation:'Erythrocytes have no nuclei and therefore have no potential to divide.'},
+        {option:'C, D, and E', explanation:'In contrast, most terminally differentiated adult somatic cells (eg, myocardial cells, neurons, pancreatic β cells) have short telomeres as they do not express telomerase and their telomeres shorten with every cell division.'},
       ],
       objective:'Critical shortening in telomere length can signal for programmed cell death.  Telomerase is a reverse transcriptase (RNA-dependent DNA polymerase) that lengthens telomeres by adding TTAGGG repeats to the 3\' end of chromosomes.  Stem cells have long telomeres due to high telomerase activity, allowing them to proliferate indefinitely in a controlled manner.',
       peer:{A:66, B:8, C:5, D:13, E:6},
@@ -5142,6 +4092,7 @@
         explC:'A telomerase é uma ribonucleoproteína que adiciona repetições TTAGGG à extremidade 3\' dos cromossomos (região do telômero).  É semelhante a outras enzimas transcriptase reversa, pois sintetiza DNA de fita simples usando RNA de fita simples como molde (DNA polimerase RNA-dependente).  A telomerase é composta por 2 subunidades principais, a subunidade transcriptase reversa da telomerase (TERT) e o componente de RNA da telomerase (TERC).  O TERC é um molde de RNA "embutido" que é lido repetidamente pela subunidade TERT para adicionar repetições da sequência de DNA TTAGGG aos telômeros.\n\nCélulas-tronco têm telômeros muito longos devido à sua alta atividade de telomerase, permitindo que proliferem indefinidamente de forma controlada.  Em contraste, a maioria das células somáticas adultas terminalmente diferenciadas (ex.: células miocárdicas, neurônios, células β pancreáticas) tem telômeros curtos, pois não expressam telomerase e seus telômeros encurtam a cada divisão celular (Alternativas C, D e E).  Acredita-se que o encurtamento crítico do comprimento telomérico seja um sinal para morte celular programada.  De fato, síndromes de envelhecimento precoce (ex.: síndrome de Bloom) estão associadas a telômeros encurtados.  Em contraste, células cancerígenas aumentam sua atividade de telomerase, prevenindo a morte celular ao manter o comprimento telomérico.\n\nCélulas-tronco são células indiferenciadas com potencial de se diferenciar em outros tipos celulares e podem ser classificadas como embrionárias ou adultas.  Embora células-tronco embrionárias estejam presentes nos estágios muito iniciais da embriogênese e possam dar origem a todos os tipos celulares em humanos adultos (pluripotentes), células-tronco adultas estão presentes na maioria dos tecidos e geralmente são responsáveis por substituir células mortas.  Por exemplo, a epiderme é continuamente substituída por células-tronco presentes nas camadas basais.  Células-tronco da medula óssea, de forma semelhante, substituem células vermelhas e brancas periféricas do sangue.',
         explI:[
           {option:'B', explanation:'Eritrócitos não têm núcleo e, portanto, não têm potencial de se dividir.'},
+          {option:'C, D, and E', explanation:'Em contraste, a maioria das células somáticas adultas terminalmente diferenciadas (ex.: células miocárdicas, neurônios, células β pancreáticas) tem telômeros curtos, pois não expressam telomerase e seus telômeros encurtam a cada divisão celular.'},
         ]
       }
     },
@@ -5528,6 +4479,7 @@
       correct:'A',
       explC:"DNA polymerases I and III are the main polymerase enzymes involved in prokaryotic DNA replication.  This process involves the following steps:\n\n- Separation of the parent strands: DNA helicase hydrolyzes ATP to separate the parent strands at the origin of replication, creating a replication fork on either side.  Single-stranded DNA-binding proteins bind, stabilize, and protect the now single-stranded parent strands.  DNA gyrase relaxes the supercoiling that forms as the parent strands unwind and the replication fork advances.  Helicases, single-strand DNA-binding proteins, and gyrase act on the parent, not the daughter, strands (Choices B, C, and E).\n- Priming of the template strands: Because DNA polymerase can only extend an existing strand, it requires a primer before DNA synthesis can begin.  Primase, a DNA-dependent RNA polymerase, synthesizes short RNA primers on each of the parent strands that accept the first nucleotide added by DNA polymerase.\n- Synthesis of the daughter strands: This process occurs simultaneously by DNA polymerase III using both parent strands as templates.  However, DNA polymerase can only synthesize DNA in the 5' to 3' direction.  Therefore, only one daughter strand, the leading strand, can be synthesized continuously.  In contrast, the lagging strand is synthesized in short fragments (Okazaki fragments), each requiring its own RNA primer.  These primers are subsequently removed and replaced with DNA (by DNA polymerase I), and then joined together by DNA ligase to form a continuous strand.\n\nBecause of the discontinuous nature of DNA synthesis on the lagging strand, DNA ligase acts many more times on the lagging strand than on the leading strand.",
       explI:[
+        {option:'B, C, and E', explanation:'Helicases, single-strand DNA-binding proteins, and gyrase act on the parent, not the daughter, strands.'},
         {option:'D', explanation:"DNA polymerase III proofreads both daughter strands (ie, leading and lagging strands) in the 3' to 5' direction using its 3' to 5' exonuclease activity."},
       ],
       objective:"DNA polymerase can synthesize DNA only in the 5' to 3' direction during replication.  Therefore, the leading strand can be synthesized continuously, whereas the lagging strand is synthesized in short fragments that are subsequently joined by DNA ligase to form a continuous strand.",
@@ -5545,6 +4497,7 @@
         ],
         explC:'As DNA polimerases I e III são as principais enzimas polimerase envolvidas na replicação do DNA procariótico.  Esse processo envolve as seguintes etapas:\n\n- Separação das fitas parentais: a DNA helicase hidrolisa ATP para separar as fitas parentais na origem de replicação, criando uma forquilha de replicação de cada lado.  Proteínas ligadoras de DNA de fita simples se ligam, estabilizam e protegem as fitas parentais agora de fita simples.  A DNA girase relaxa o superenrolamento que se forma à medida que as fitas parentais se desenrolam e a forquilha de replicação avança.  Helicases, proteínas ligadoras de DNA de fita simples e girase atuam nas fitas parentais, não nas fitas-filhas (Alternativas B, C e E).\n- Iniciação (priming) das fitas molde: como a DNA polimerase só consegue estender uma fita já existente, ela requer um primer antes de a síntese de DNA começar.  A primase, uma RNA polimerase DNA-dependente, sintetiza pequenos primers de RNA em cada uma das fitas parentais, que aceitam o primeiro nucleotídeo adicionado pela DNA polimerase.\n- Síntese das fitas-filhas: esse processo ocorre simultaneamente pela DNA polimerase III usando ambas as fitas parentais como molde.  Entretanto, a DNA polimerase só consegue sintetizar DNA na direção 5\' para 3\'.  Portanto, apenas uma fita-filha, a fita líder, pode ser sintetizada de forma contínua.  Em contraste, a fita tardia é sintetizada em pequenos fragmentos (fragmentos de Okazaki), cada um exigindo seu próprio primer de RNA.  Esses primers são subsequentemente removidos e substituídos por DNA (pela DNA polimerase I) e então unidos pela DNA ligase para formar uma fita contínua.\n\nDevido à natureza descontínua da síntese de DNA na fita tardia, a DNA ligase atua muito mais vezes na fita tardia do que na fita líder.',
         explI:[
+          {option:'B, C, and E', explanation:'Helicases, proteínas ligadoras de DNA de fita simples e girase atuam nas fitas parentais, não nas fitas-filhas.'},
           {option:'D', explanation:'A DNA polimerase III revisa ambas as fitas-filhas (isto é, fita líder e fita tardia) na direção 3\' para 5\' usando sua atividade exonucleásica 3\' para 5\'.'},
         ]
       }
@@ -5809,7 +4762,9 @@
       ],
       correct:'A',
       explC:'This patient has hemophilia A, an X-linked recessive disorder characterized by easy bruising and excessive bleeding due to a deficiency in coagulation factor VIII.  Causes include a variety of different mutations in the factor VIII gene, including deletions in the enhancer sequence.\n\nDuring eukaryotic gene transcription, nuclear RNA polymerase II uses a DNA template to generate complementary mRNA, which is then processed and translated into protein.  Eukaryotic genes have associated promoter and enhancer sequences that facilitate transcription:\n\n- Promoter sequences directly bind general transcription factors and RNA polymerase II upstream from the coding region; this process is necessary for the initiation of transcription.  These sequences include the TATA box (25 bases upstream) and the CAAT box (70-80 bases upstream).\n- Enhancer sequences are not required to initiate transcription but increase transcription via interaction with transcription factors and promoter sequences.  Enhancers may be located upstream or downstream of the promoter (up to thousands of base pairs away), within the gene\'s noncoding regions (introns), or even on a separate chromosome.  In contrast to promoter sequences, enhancer sequences bind activator proteins (eg, specific transcription factors), not RNA polymerase, which leads to remodeling of the chromosomal 3D structure (eg, DNA looping) so that the enhancer is spatially close to its promoter (Choices B, C, D and E).\n\nMutations in enhancer sequences cause limited transcription (ie, reduced gene expression).  Silencers are similar to enhancers, but they decrease transcription rates by binding transcription repressor proteins.',
-      explI:[],
+      explI:[
+        {option:'B, C, D, and E', explanation:'Enhancer sequences are not required to initiate transcription but increase transcription via interaction with transcription factors and promoter sequences.  Enhancers may be located upstream or downstream of the promoter (up to thousands of base pairs away), within the gene\'s noncoding regions (introns), or even on a separate chromosome.  In contrast to promoter sequences, enhancer sequences bind activator proteins (eg, specific transcription factors), not RNA polymerase, which leads to remodeling of the chromosomal 3D structure (eg, DNA looping) so that the enhancer is spatially close to its promoter.'},
+      ],
       objective:'In contrast to promoter sequences, which are required to initiate transcription and located closely upstream to the gene being transcribed, enhancers increase the rate of transcription and have a variable location; they may be located upstream or downstream (up to thousands of base pairs away) or even within introns or on a separate chromosome.',
       peer:{A:50, B:11, C:21, D:7, E:10},
       ptTranslation:{
@@ -5824,7 +4779,9 @@
           {label:'E', text:'É necessária para iniciar a transcrição'},
         ],
         explC:'Este paciente tem hemofilia A, um distúrbio recessivo ligado ao X caracterizado por formação fácil de hematomas e sangramento excessivo devido a uma deficiência do fator de coagulação VIII.  As causas incluem uma variedade de mutações diferentes no gene do fator VIII, incluindo deleções na sequência enhancer.\n\nDurante a transcrição gênica eucariótica, a RNA polimerase II nuclear usa um molde de DNA para gerar mRNA complementar, que é então processado e traduzido em proteína.  Genes eucarióticos têm sequências promotoras e enhancer associadas que facilitam a transcrição:\n\n- Sequências promotoras ligam diretamente fatores de transcrição gerais e a RNA polimerase II a montante da região codificante; esse processo é necessário para a iniciação da transcrição.  Essas sequências incluem a caixa TATA (25 bases a montante) e a caixa CAAT (70-80 bases a montante).\n- Sequências enhancer não são necessárias para iniciar a transcrição, mas aumentam a transcrição por meio de interação com fatores de transcrição e sequências promotoras.  Enhancers podem estar localizados a montante ou a jusante do promotor (até a milhares de pares de bases de distância), dentro das regiões não codificantes do gene (íntrons) ou até mesmo em um cromossomo separado.  Em contraste com as sequências promotoras, as sequências enhancer ligam proteínas ativadoras (ex.: fatores de transcrição específicos), não a RNA polimerase, o que leva ao remodelamento da estrutura 3D cromossômica (ex.: dobramento do DNA, DNA looping), de modo que o enhancer fique espacialmente próximo de seu promotor (Alternativas B, C, D e E).\n\nMutações em sequências enhancer causam transcrição limitada (isto é, expressão gênica reduzida).  Silenciadores são semelhantes aos enhancers, mas diminuem as taxas de transcrição ao ligar proteínas repressoras da transcrição.',
-        explI:[]
+        explI:[
+          {option:'B, C, D, and E', explanation:'Sequências enhancer não são necessárias para iniciar a transcrição, mas aumentam a transcrição por meio de interação com fatores de transcrição e sequências promotoras.  Enhancers podem estar localizados a montante ou a jusante do promotor (até a milhares de pares de bases de distância), dentro das regiões não codificantes do gene (íntrons) ou até mesmo em um cromossomo separado.  Em contraste com as sequências promotoras, as sequências enhancer ligam proteínas ativadoras (ex.: fatores de transcrição específicos), não a RNA polimerase, o que leva ao remodelamento da estrutura 3D cromossômica (ex.: dobramento do DNA, DNA looping), de modo que o enhancer fique espacialmente próximo de seu promotor.'},
+        ]
       }
     },
     { id:'CMQ-STEP1-GEN-0046', system:'genetics', discipline:'genetics', category:'genetics::gene_expression_regulation', difficulty:'medium',
@@ -6007,6 +4964,7 @@
       correct:'C',
       explC:'In this experiment, a drug affects protein synthesis by inhibiting molecules that recognize the codon UAA.  Although most codons code for amino acids that are sequentially added to a growing polypeptide chain during translation, stop codons (ie, UAA, UAG, UGA) signal for the termination of protein synthesis.\n\nDuring translation of a growing peptide chain, a charged transfer RNA (ie, tRNA that is covalently attached to an amino acid) enters the A site of the ribosome, and the tRNA anticodon binds to the corresponding mRNA codon.  A peptide bond forms between the newly added amino acid and the polypeptide strand, and the peptidyl-tRNA moves to the P site as the ribosome translocates to the next codon.\n\nHowever, when a stop codon enters the A site, it is not recognized by a charged tRNA because it does not code for an amino acid (Choice A).  Instead, the stop codon is recognized by releasing factor proteins, which bind the stop codon and hydrolyze the bond between the polypeptide chain and the tRNA in the P site.  The newly formed polypeptide chain is then released, and the ribosome–messenger RNA (mRNA) complex disassembles.',
       explI:[
+        {option:'A', explanation:'However, when a stop codon enters the A site, it is not recognized by a charged tRNA because it does not code for an amino acid.'},
         {option:'B', explanation:'Elongation factors facilitate tRNA binding and the translocation steps of protein synthesis, not translation termination.'},
         {option:'D', explanation:'Splicing is a posttranscriptional modification in which introns are removed from pre-mRNA in eukaryotes via small nuclear ribonucleoproteins (snRNPs).  This process does not occur in prokaryotes.'},
         {option:'E', explanation:'Transcription factors bind to the regulatory region of the gene to initiate transcription (eg, transcription factor IID binds to the TATA promoter sequence).  They do not bind stop codons and are not involved in translation termination.'},
@@ -6028,6 +4986,7 @@
         ],
         explC:'Neste experimento, um fármaco afeta a síntese proteica ao inibir moléculas que reconhecem o códon UAA.  Embora a maioria dos códons codifique aminoácidos que são sequencialmente adicionados a uma cadeia polipeptídica em crescimento durante a tradução, os códons de parada (ie, UAA, UAG, UGA) sinalizam o término da síntese proteica.\n\nDurante a tradução de uma cadeia peptídica em crescimento, um tRNA carregado (ie, tRNA covalentemente ligado a um aminoácido) entra no sítio A do ribossomo, e o anticódon do tRNA liga-se ao códon de mRNA correspondente.  Uma ligação peptídica se forma entre o aminoácido recém-adicionado e a fita polipeptídica, e o peptidil-tRNA move-se para o sítio P à medida que o ribossomo se transloca para o próximo códon.\n\nEntretanto, quando um códon de parada entra no sítio A, ele não é reconhecido por um tRNA carregado porque não codifica um aminoácido (Alternativa A).  Em vez disso, o códon de parada é reconhecido por proteínas fatores de liberação (releasing factors), que se ligam ao códon de parada e hidrolisam a ligação entre a cadeia polipeptídica e o tRNA no sítio P.  A cadeia polipeptídica recém-formada é então liberada, e o complexo ribossomo–RNA mensageiro (mRNA) se desmonta.',
         explI:[
+          {option:'A', explanation:'Entretanto, quando um códon de parada entra no sítio A, ele não é reconhecido por um tRNA carregado porque não codifica um aminoácido.'},
           {option:'B', explanation:'Os fatores de elongação facilitam a ligação do tRNA e as etapas de translocação da síntese proteica, não o término da tradução.'},
           {option:'D', explanation:'O splicing é uma modificação pós-transcricional na qual os íntrons são removidos do pré-mRNA em eucariotos por meio de pequenas ribonucleoproteínas nucleares (snRNPs).  Esse processo não ocorre em procariotos.'},
           {option:'E', explanation:'Os fatores de transcrição ligam-se à região regulatória do gene para iniciar a transcrição (ex.: o fator de transcrição IID liga-se à sequência promotora TATA).  Eles não se ligam a códons de parada e não estão envolvidos no término da tradução.'},
@@ -6089,8 +5048,10 @@
       correct:'B',
       explC:'The amino acid sequence in a polypeptide chain is dictated by mRNA sequence; each codon (ie, nucleotide triplet) in the mRNA coding region specifies a particular amino acid.  During translation, the mRNA codons bind complementary anticodons on transfer RNA.\n\nNormally, the 3\' end of each tRNA is attached to a specific amino acid based on its anticodon, a process catalyzed by aminoacyl-tRNA synthetases (AA-tRNA synthetases).  Each amino acid/tRNA pair has a specific AA-tRNA synthetase that links them together.  AA-tRNA synthetases are highly specific for their correct amino acids and tRNA molecules; some AA-tRNA synthetases can also proofread their specific tRNA molecules and hydrolyze the amino acid bond when their tRNAs are incorrectly charged.  Accurate charging is important because erroneous amino acid/tRNA coupling causes the wrong amino acid to be incorporated into the growing polypeptide chain (Choice E).\n\nIn this experiment, the involved tRNA molecules have cysteine anticodons and were originally charged with cysteine.  However, the cysteine residues were then chemically modified into alanine (ie, the cysteine tRNA is now mischarged with alanine).  When these mischarged tRNA molecules are subsequently used to synthesize proteins, alanine will be incorrectly incorporated into the growing polypeptide chain instead of cysteine (Choice A).',
       explI:[
+        {option:'A', explanation:'When these mischarged tRNA molecules are subsequently used to synthesize proteins, alanine will be incorrectly incorporated into the growing polypeptide chain instead of cysteine.'},
         {option:'C', explanation:'During polypeptide chain elongation, ribosomes move sequentially (not randomly) on mRNA from codon to codon in the 5\' to 3\' direction, adding amino acids from charged tRNA to the peptide chain until the ribosome encounters a stop codon (ie, UAA, UAG, or UGA), which signals the end of protein synthesis.'},
         {option:'D', explanation:'Errors in tRNA/amino acid binding can often be proofread by AA-tRNA synthetases (not the ribosome).  In this case, the charged tRNA molecules were extracted from the cell before being chemically modified (ie, mischarged), so there was no opportunity for proofreading by AA-tRNA synthetase.'},
+        {option:'E', explanation:'Accurate charging is important because erroneous amino acid/tRNA coupling causes the wrong amino acid to be incorporated into the growing polypeptide chain.'},
       ],
       objective:'The sequence of amino acids in a growing polypeptide chain is dictated by mRNA codons, which bind to the complementary anticodon on tRNA that has the corresponding amino acid attached.  tRNA that is mischarged with an incorrect amino acid will incorporate it into the growing polypeptide chain in place of the correct amino acid.',
       peer:{A:19, B:61, C:6, D:5, E:6},
@@ -6107,8 +5068,10 @@
         ],
         explC:'A sequência de aminoácidos em uma cadeia polipeptídica é ditada pela sequência de mRNA; cada códon (ie, trinca de nucleotídeos) na região codificadora do mRNA especifica um aminoácido particular.  Durante a tradução, os códons de mRNA ligam-se aos anticódons complementares no RNA transportador.\n\nNormalmente, a extremidade 3\' de cada tRNA é ligada a um aminoácido específico com base em seu anticódon, um processo catalisado pelas aminoacil-tRNA sintetases (AA-tRNA sintetases).  Cada par aminoácido/tRNA tem uma AA-tRNA sintetase específica que os liga.  As AA-tRNA sintetases são altamente específicas para seus aminoácidos e moléculas de tRNA corretos; algumas AA-tRNA sintetases também podem revisar (proofread) suas moléculas de tRNA específicas e hidrolisar a ligação do aminoácido quando seus tRNAs estão carregados incorretamente.  A carga precisa é importante porque o acoplamento errôneo de aminoácido/tRNA faz com que o aminoácido errado seja incorporado à cadeia polipeptídica em crescimento (Alternativa E).\n\nNeste experimento, as moléculas de tRNA envolvidas têm anticódons de cisteína e foram originalmente carregadas com cisteína.  Entretanto, os resíduos de cisteína foram então quimicamente modificados em alanina (ie, o tRNA de cisteína está agora carregado incorretamente com alanina).  Quando essas moléculas de tRNA carregadas incorretamente são subsequentemente usadas para sintetizar proteínas, a alanina será incorretamente incorporada à cadeia polipeptídica em crescimento no lugar da cisteína (Alternativa A).',
         explI:[
+          {option:'A', explanation:'Quando essas moléculas de tRNA carregadas incorretamente são subsequentemente usadas para sintetizar proteínas, a alanina será incorretamente incorporada à cadeia polipeptídica em crescimento no lugar da cisteína.'},
           {option:'C', explanation:'Durante a elongação da cadeia polipeptídica, os ribossomos movem-se sequencialmente (não aleatoriamente) no mRNA de códon em códon no sentido 5\' para 3\', adicionando aminoácidos do tRNA carregado à cadeia peptídica até que o ribossomo encontre um códon de parada (ie, UAA, UAG ou UGA), que sinaliza o fim da síntese proteica.'},
           {option:'D', explanation:'Erros na ligação tRNA/aminoácido podem frequentemente ser revisados (proofread) pelas AA-tRNA sintetases (não pelo ribossomo).  Neste caso, as moléculas de tRNA carregadas foram extraídas da célula antes de serem quimicamente modificadas (ie, carregadas incorretamente), de modo que não houve oportunidade de revisão pela AA-tRNA sintetase.'},
+          {option:'E', explanation:'A carga precisa é importante porque o acoplamento errôneo de aminoácido/tRNA faz com que o aminoácido errado seja incorporado à cadeia polipeptídica em crescimento.'},
         ]
       }
     },
@@ -6210,6 +5173,7 @@
         {option:'A', explanation:'Aminoacyl-tRNA is tRNA charged with its amino acid.  The cloverleaf structure of tRNA consists of a 3\' CCA tail (amino acid binding site); a T loop abundant in ribothymidine, pseudouridine, and cytidine residues; a D loop rich in dihydrouridine residues; and an anticodon loop.'},
         {option:'C', explanation:'DNA promoter regions help initiate transcription by binding transcription factors and RNA polymerase II.  Promoter regions contain consensus sequences that are typically AT-rich (eg, TATA and CAAT boxes) or GC-rich (eg, GC box).'},
         {option:'D', explanation:'Ribosomal RNA (rRNA) is a component of the ribosome that catalyzes peptide bond formation during translation.'},
+        {option:'E', explanation:'Spliceosomes (complexes of small nuclear ribonucleoproteins [snRNPs] and other proteins) remove introns containing GU at the 5\' splice site and AG at the 3\' splice site.'},
         {option:'F', explanation:'Telomeres are located at the ends of chromosomes and contain TTAGGG repeats, which are added by the enzyme telomerase (RNA-dependent DNA polymerase).  Critical shortening in telomere length is thought to signal programmed cell death.'},
       ],
       objective:'The poly-A tail is not transcribed from DNA; instead, it is added as a post-transcriptional modification downstream of the consensus sequence (AAUAAA) located near the 3\' end of the mRNA molecule.  This tail protects mRNA from degradation within the cytoplasm after it exits the nucleus.',
@@ -6231,6 +5195,7 @@
           {option:'A', explanation:'O aminoacil-tRNA é o tRNA carregado com seu aminoácido.  A estrutura em folha de trevo do tRNA consiste em uma cauda CCA 3\' (sítio de ligação do aminoácido); uma alça T abundante em resíduos de ribotimidina, pseudouridina e citidina; uma alça D rica em resíduos de di-hidrouridina; e uma alça do anticódon.'},
           {option:'C', explanation:'As regiões promotoras do DNA ajudam a iniciar a transcrição ao ligar fatores de transcrição e a RNA polimerase II.  As regiões promotoras contêm sequências de consenso que são tipicamente ricas em AT (ex.: caixas TATA e CAAT) ou ricas em GC (ex.: caixa GC).'},
           {option:'D', explanation:'O RNA ribossômico (rRNA) é um componente do ribossomo que catalisa a formação de ligações peptídicas durante a tradução.'},
+          {option:'E', explanation:'Os spliceossomos (complexos de pequenas ribonucleoproteínas nucleares [snRNPs] e outras proteínas) removem íntrons contendo GU no sítio de splicing 5\' e AG no sítio de splicing 3\'.'},
           {option:'F', explanation:'Os telômeros estão localizados nas extremidades dos cromossomos e contêm repetições TTAGGG, que são adicionadas pela enzima telomerase (DNA polimerase dependente de RNA).  O encurtamento crítico do comprimento do telômero é considerado um sinal para a morte celular programada.'},
         ]
       }
@@ -15933,7 +14898,10 @@
       correct:'B',
       explC:"This patient developed severe hyperthermia and encephalopathy while spending time outside on a hot summer day.  This presentation is suggestive of nonexertional heat stroke (NHS), a life-threatening multisystem disorder characterized by hyperthermia (typically >40 C [104 F]) associated with CNS dysfunction (eg, encephalopathy, syncope).  Other classic manifestations of heat stroke include tachycardia, tachypnea, hypotension, flushing, and end-organ dysfunction (eg, pulmonary edema, renal/hepatic failure).  Diaphoresis may or may not be present on examination, depending on hydration status and sweat gland function.\n\nThe body normally maintains a core temperature of ~37 C (98.6 F) through multiple thermoregulatory mechanisms controlled by the anterior hypothalamus; excessive temperature stimulates diaphoresis, peripheral vasodilation, and behavioral changes (eg, seeking shade).  However, certain medications can interfere with these processes, thereby promoting hyperthermia.  These medications include the following:\n\n- Anticholinergics (eg, amitriptyline, scopolamine) inhibit diaphoresis, limiting the body's primary mechanism of heat dissipation.\n- Sympathomimetics (eg, amphetamines, cocaine) impair peripheral vasodilation, limiting heat transfer to the skin (Choice E).\n- Dopaminergic antagonists (eg, chlorpromazine, haloperidol) disrupt hypothalamic thermoregulation, likely by blocking dopamine transmission in the hypothalamus (Choice C).\n- Diuretics (eg, furosemide) and beta blockers (eg, metoprolol) limit the cardiac response to heat stress by reducing blood volume or heart rate, thereby decreasing blood flow to the skin (Choice A).",
       explI:[
+        {option:'A', explanation:'Diuretics (eg, furosemide) and beta blockers (eg, metoprolol) limit the cardiac response to heat stress by reducing blood volume or heart rate, thereby decreasing blood flow to the skin.'},
+        {option:'C', explanation:'Dopaminergic antagonists (eg, chlorpromazine, haloperidol) disrupt hypothalamic thermoregulation, likely by blocking dopamine transmission in the hypothalamus.'},
         {option:'D', explanation:'Malignant hyperthermia is a rare autosomal dominant disorder that occurs due to uncontrolled efflux of calcium from the sarcoplasmic reticulum, resulting in increasing muscle tone (eg, myoclonus, rigidity) and hyperthermia.  However, it typically occurs after administration of certain anesthetics (eg, halothane, succinylcholine), not tricyclic antidepressants.'},
+        {option:'E', explanation:'Sympathomimetics (eg, amphetamines, cocaine) impair peripheral vasodilation, limiting heat transfer to the skin.'},
       ],
       objective:'Nonexertional heat stroke (NHS) is a life-threatening disorder characterized by hyperthermia (typically >40 C [104 F]) associated with CNS dysfunction (eg, encephalopathy, syncope).  Anticholinergic medications promote heat stroke by impairing diaphoresis.  Other medications associated with NHS include sympathomimetics, dopamine antagonists, diuretics, and beta blockers.',
       peer:{A:15, B:49, C:10, D:9, E:14},
@@ -15951,7 +14919,10 @@
         ],
         explC:'Esta paciente desenvolveu hipertermia grave e encefalopatia enquanto passava tempo ao ar livre em um dia quente de verão.  Esta apresentação é sugestiva de golpe de calor não extenuante (NHS), um distúrbio multissistêmico potencialmente fatal caracterizado por hipertermia (tipicamente >40°C [104°F]) associada à disfunção do SNC (ex.: encefalopatia, síncope).  Outras manifestações clássicas do golpe de calor incluem taquicardia, taquipneia, hipotensão, rubor e disfunção de órgãos-alvo (ex.: edema pulmonar, insuficiência renal/hepática).  A diaforese pode ou não estar presente ao exame, dependendo do estado de hidratação e da função das glândulas sudoríparas.\n\nO corpo normalmente mantém uma temperatura central de ~37°C (98,6°F) por meio de múltiplos mecanismos termorregulatórios controlados pelo hipotálamo anterior; a temperatura excessiva estimula a diaforese, a vasodilatação periférica e mudanças comportamentais (ex.: procurar sombra).  No entanto, certas medicações podem interferir nesses processos, promovendo assim a hipertermia.  Essas medicações incluem as seguintes:\n\n- Anticolinérgicos (ex.: amitriptilina, escopolamina) inibem a diaforese, limitando o principal mecanismo de dissipação de calor do corpo.\n- Simpatomiméticos (ex.: anfetaminas, cocaína) prejudicam a vasodilatação periférica, limitando a transferência de calor para a pele (Alternativa E).\n- Antagonistas dopaminérgicos (ex.: clorpromazina, haloperidol) perturbam a termorregulação hipotalâmica, provavelmente ao bloquear a transmissão dopaminérgica no hipotálamo (Alternativa C).\n- Diuréticos (ex.: furosemida) e betabloqueadores (ex.: metoprolol) limitam a resposta cardíaca ao estresse pelo calor ao reduzir o volume sanguíneo ou a frequência cardíaca, diminuindo assim o fluxo sanguíneo para a pele (Alternativa A).',
         explI:[
+          {option:'A', explanation:'Diuréticos (ex.: furosemida) e betabloqueadores (ex.: metoprolol) limitam a resposta cardíaca ao estresse pelo calor ao reduzir o volume sanguíneo ou a frequência cardíaca, diminuindo assim o fluxo sanguíneo para a pele.'},
+          {option:'C', explanation:'Antagonistas dopaminérgicos (ex.: clorpromazina, haloperidol) perturbam a termorregulação hipotalâmica, provavelmente ao bloquear a transmissão dopaminérgica no hipotálamo.'},
           {option:'D', explanation:'A hipertermia maligna é um distúrbio autossômico dominante raro que ocorre devido ao efluxo descontrolado de cálcio do retículo sarcoplasmático, resultando em aumento do tônus muscular (ex.: mioclonia, rigidez) e hipertermia.  No entanto, ela tipicamente ocorre após a administração de certos anestésicos (ex.: halotano, succinilcolina), não de antidepressivos tricíclicos.'},
+          {option:'E', explanation:'Simpatomiméticos (ex.: anfetaminas, cocaína) prejudicam a vasodilatação periférica, limitando a transferência de calor para a pele.'},
         ]
       }
     },
@@ -15969,6 +14940,8 @@
       correct:'E',
       explC:'The body maintains its core temperature in a tightly controlled process known as thermoregulation.  In a normal state, body temperature is maintained between 36.5-37.5 C (97.7-99.5 F) via anterior hypothalamic control.  Afferent signals (from central and peripheral thermal receptors) are interpreted by the hypothalamus, which promotes temperature homeostasis through alterations in the autonomic nervous system as well as the thyroid and adrenal axes.\n\nHypothermia, defined as a core body temperature <35 C, occurs when the body loses more heat than it generates.  It most commonly occurs due to cold exposure but may also occur due to endocrine disorders (eg, hypothyroidism), skin disorders (eg, burns), abnormal autonomic function (eg, peripheral neuropathies, stroke, spinal cord injury), or drugs that promote vasodilation (eg, alcohol) or impair sympathetic response (eg, beta blockers).\n\nThe following physiologic adaptations occur in patients with hypothermia:\n\n- Increased sympathetic activity (catecholamine release): promotes peripheral vasoconstriction and results in shunting of blood away from the skin.  It also increases muscle tone and brown fat metabolism (Choices A and C).\n- Shivering: rapid involuntary muscle contractions that increase muscle metabolism, generating heat as a byproduct.\n- Increased thyroid function: prolonged cold exposure leads to increased production of thyroid hormone, which increases basal metabolic rate.\n\nThese actions promote normalization of body temperature by reducing heat loss and increasing metabolic rate (heat generation) (Choice B).',
       explI:[
+        {option:'A, and C', explanation:'Increased sympathetic activity (catecholamine release): promotes peripheral vasoconstriction and results in shunting of blood away from the skin.  It also increases muscle tone and brown fat metabolism.'},
+        {option:'B', explanation:'These actions promote normalization of body temperature by reducing heat loss and increasing metabolic rate (heat generation).'},
         {option:'D', explanation:'The sympathetic, not the parasympathetic nervous system, is responsible for the physiologic adaptations in hypothermia.  Most blood vessels do not have parasympathetic innervation; therefore, an increase in parasympathetic activity would not have significant effect on vascular tone.'},
       ],
       objective:'The hypothalamus controls thermoregulation by promoting alterations in the autonomic nervous system and the adrenal and thyroid axes.  Physiologic adaptations in response to hypothermia include increased sympathetic activity and thyroid hormone release, shivering, and peripheral vasoconstriction.  These actions normalize body temperature by reducing heat loss and increasing metabolic rate (promoting thermogenesis).',
@@ -15987,6 +14960,8 @@
         ],
         explC:'O corpo mantém sua temperatura central em um processo rigorosamente controlado conhecido como termorregulação.  Em estado normal, a temperatura corporal é mantida entre 36,5-37,5°C (97,7-99,5°F) via controle do hipotálamo anterior.  Sinais aferentes (de receptores térmicos centrais e periféricos) são interpretados pelo hipotálamo, que promove a homeostase da temperatura por meio de alterações no sistema nervoso autônomo, bem como nos eixos tireoidiano e adrenal.\n\nA hipotermia, definida como temperatura corporal central <35°C, ocorre quando o corpo perde mais calor do que gera.  Ela ocorre mais comumente devido à exposição ao frio, mas também pode ocorrer devido a distúrbios endócrinos (ex.: hipotireoidismo), distúrbios da pele (ex.: queimaduras), função autonômica anormal (ex.: neuropatias periféricas, AVC, lesão medular) ou fármacos que promovem vasodilatação (ex.: álcool) ou prejudicam a resposta simpática (ex.: betabloqueadores).\n\nAs seguintes adaptações fisiológicas ocorrem em pacientes com hipotermia:\n\n- Aumento da atividade simpática (liberação de catecolaminas): promove vasoconstrição periférica e resulta no desvio de sangue para longe da pele.  Também aumenta o tônus muscular e o metabolismo da gordura marrom (Alternativas A e C).\n- Tremores: contrações musculares involuntárias rápidas que aumentam o metabolismo muscular, gerando calor como subproduto.\n- Aumento da função tireoidiana: a exposição prolongada ao frio leva ao aumento da produção de hormônio tireoidiano, o que aumenta a taxa metabólica basal.\n\nEssas ações promovem a normalização da temperatura corporal ao reduzir a perda de calor e aumentar a taxa metabólica (geração de calor) (Alternativa B).',
         explI:[
+          {option:'A, and C', explanation:'Aumento da atividade simpática (liberação de catecolaminas): promove vasoconstrição periférica e resulta no desvio de sangue para longe da pele.  Também aumenta o tônus muscular e o metabolismo da gordura marrom.'},
+          {option:'B', explanation:'Essas ações promovem a normalização da temperatura corporal ao reduzir a perda de calor e aumentar a taxa metabólica (geração de calor).'},
           {option:'D', explanation:'O sistema nervoso simpático, e não o parassimpático, é responsável pelas adaptações fisiológicas na hipotermia.  A maioria dos vasos sanguíneos não possui inervação parassimpática; portanto, um aumento da atividade parassimpática não teria efeito significativo sobre o tônus vascular.'},
         ]
       }
@@ -16974,6 +15949,7 @@
       correct:'D',
       explC:'Muscarine, a toxin found in certain mushrooms, acts as a muscarinic (M) agonist in place of acetylcholine, resulting in an increase in parasympathetic nervous system activity.  The M2 and M3 subtype receptors are responsible for most of the toxicities seen in patients.\n\nAlthough the walls of peripheral blood vessels lack cholinergic innervation, M3 receptors are present on the endothelial surface.  Activation of M3 receptors promotes synthesis of nitric oxide (NO), an endothelium-derived relaxing factor.  NO diffuses into vascular smooth muscle cells, activating guanylate cyclase and increasing intracellular cyclic-GMP.  Increased levels of cyclic-GMP activate myosin light chain phosphatase, which dephosphorylates myosin and prevents interaction of the myosin head with actin, resulting in smooth muscle relaxation and vasodilation.  Vasodilation results in hypotension, with persistently low blood pressure leading to somnolence due to inadequate cerebral perfusion.\n\nIn contrast, activation of M3 receptors in other sites leads to a G-protein-coupled increase in intracellular calcium, resulting in smooth muscle contraction.  Clinically, this contraction manifests as detrusor bladder muscle contraction (Choice A), pupillary constriction or miosis (Choice E), and exocrine gland secretion (eg, salivation) (Choice F).',
       explI:[
+        {option:'A, E, and F', explanation:'In contrast, activation of M3 receptors in other sites leads to a G-protein-coupled increase in intracellular calcium, resulting in smooth muscle contraction.  Clinically, this contraction manifests as detrusor bladder muscle contraction, pupillary constriction or miosis, and exocrine gland secretion (eg, salivation).'},
         {option:'B', explanation:'M2 receptors are predominantly found in cardiac muscle.  Activation of M2 receptors leads to a G-protein-coupled decrease in intracellular cyclic-AMP and opens potassium channels to slow depolarization.  This combination results in decreased inotropy (less contractility) and chronotropy (decreased heart rate).'},
         {option:'C', explanation:'Juxtaglomerular cells in the kidney release renin in response to decreased renal perfusion pressure.  A muscarinic agonist would not have a direct effect on renin release, although the peripheral vasodilation and bradycardia might indirectly lead to renin release.'},
       ],
@@ -16994,6 +15970,7 @@
         ],
         explC:'A muscarina, uma toxina encontrada em certos cogumelos, atua como um agonista muscarínico (M) no lugar da acetilcolina, resultando em um aumento da atividade do sistema nervoso parassimpático.  Os receptores dos subtipos M2 e M3 são responsáveis pela maioria das toxicidades observadas nos pacientes.\n\nEmbora as paredes dos vasos sanguíneos periféricos não tenham inervação colinérgica, os receptores M3 estão presentes na superfície endotelial.  A ativação dos receptores M3 promove a síntese de óxido nítrico (NO), um fator relaxante derivado do endotélio.  O NO se difunde para as células da musculatura lisa vascular, ativando a guanilato ciclase e aumentando o GMP cíclico intracelular.  Níveis aumentados de GMP cíclico ativam a fosfatase da cadeia leve de miosina, que desfosforila a miosina e impede a interação da cabeça da miosina com a actina, resultando em relaxamento da musculatura lisa e vasodilatação.  A vasodilatação resulta em hipotensão, com a pressão arterial persistentemente baixa levando à sonolência devido à perfusão cerebral inadequada.\n\nEm contraste, a ativação dos receptores M3 em outros locais leva a um aumento do cálcio intracelular acoplado à proteína G, resultando em contração da musculatura lisa.  Clinicamente, essa contração se manifesta como contração do músculo detrusor da bexiga (Alternativa A), constrição pupilar ou miose (Alternativa E) e secreção de glândulas exócrinas (ex.: salivação) (Alternativa F).',
         explI:[
+          {option:'A, E, and F', explanation:'Em contraste, a ativação dos receptores M3 em outros locais leva a um aumento do cálcio intracelular acoplado à proteína G, resultando em contração da musculatura lisa.  Clinicamente, essa contração se manifesta como contração do músculo detrusor da bexiga, constrição pupilar ou miose e secreção de glândulas exócrinas (ex.: salivação).'},
           {option:'B', explanation:'Os receptores M2 são encontrados predominantemente no músculo cardíaco.  A ativação dos receptores M2 leva a uma diminuição do AMP cíclico intracelular acoplada à proteína G e abre canais de potássio para retardar a despolarização.  Essa combinação resulta em inotropia diminuída (menos contratilidade) e cronotropia diminuída (frequência cardíaca diminuída).'},
           {option:'C', explanation:'As células justaglomerulares no rim liberam renina em resposta à diminuição da pressão de perfusão renal.  Um agonista muscarínico não teria efeito direto sobre a liberação de renina, embora a vasodilatação periférica e a bradicardia possam indiretamente levar à liberação de renina.'},
         ]
@@ -17184,6 +16161,7 @@
         {option:'B', explanation:'Flumazenil is indicated to treat benzodiazepine overdose, which presents with sedation but would not be expected to cause bradycardia, tachypnea, or hypersalivation.'},
         {option:'C', explanation:'Naloxone is indicated for treatment of opioid intoxication, which can cause sedation and miosis but suppresses (not increases) the respiratory rate.  Opioid intoxication usually occurs via injection or ingestion, rather than external contact with aerosolized agents.'},
         {option:'D', explanation:'Neostigmine is another acetylcholinesterase inhibitor that is sometimes used to treat myasthenia gravis; its use would worsen this patient\'s cholinergic symptoms.'},
+        {option:'E', explanation:'Patients who exhibit signs of nicotinic hyperstimulation (eg, weakness) should then receive pralidoxime, a cholinesterase-reactivating agent that treats both the muscarinic and nicotinic effects of organophosphates.  However, pralidoxime should be given only after atropine because it can cause transient acetylcholinesterase inhibition, which can momentarily worsen symptoms.'},
         {option:'F', explanation:'Sodium bicarbonate is indicated to treat patients with tricyclic antidepressant (TCA) overdose who are at risk for ventricular arrhythmias.  However, TCA poisoning presents with altered mental status and anticholinergic signs (ie, flushed skin, mydriasis).'},
       ],
       objective:'Organophosphates are acetylcholinesterase inhibitors that are commonly used as agricultural pesticides.  Toxicity is characterized by signs of cholinergic excess (eg, miosis, bronchospasm, muscle fasciculations/weakness, diarrhea, vomiting, lacrimation).  First-line therapy is atropine, a competitive inhibitor of acetylcholine at the muscarinic receptor.',
@@ -17206,6 +16184,7 @@
           {option:'B', explanation:'O flumazenil é indicado para tratar a overdose de benzodiazepínicos, que se apresenta com sedação, mas não se esperaria que causasse bradicardia, taquipneia ou hipersalivação.'},
           {option:'C', explanation:'A naloxona é indicada para o tratamento da intoxicação por opioides, que pode causar sedação e miose, mas suprime (não aumenta) a frequência respiratória.  A intoxicação por opioides geralmente ocorre por injeção ou ingestão, e não por contato externo com agentes aerossolizados.'},
           {option:'D', explanation:'A neostigmina é outro inibidor da acetilcolinesterase que é às vezes usado para tratar a miastenia gravis; seu uso pioraria os sintomas colinérgicos desta paciente.'},
+          {option:'E', explanation:'Os pacientes que exibem sinais de hiperestimulação nicotínica (ex.: fraqueza) devem então receber pralidoxima, um agente reativador da colinesterase que trata tanto os efeitos muscarínicos quanto os nicotínicos dos organofosforados.  No entanto, a pralidoxima deve ser administrada somente após a atropina porque ela pode causar inibição transitória da acetilcolinesterase, o que pode piorar momentaneamente os sintomas.'},
           {option:'F', explanation:'O bicarbonato de sódio é indicado para tratar pacientes com overdose de antidepressivos tricíclicos (ATC) que estão em risco de arritmias ventriculares.  No entanto, a intoxicação por ATC se apresenta com alteração do estado mental e sinais anticolinérgicos (ou seja, pele ruborizada, midríase).'},
         ]
       }
@@ -17299,14 +16278,6 @@
   // quando o usuário está de fato numa página do QBank — o provider acima já
   // ficou registrado e funciona independente disso.
   if(!QB_PAGES.includes(PAGE)) return;
-
-  const ROOT_CAUSES = [
-    {id:'knowledge_gap',              en:'Knowledge gap',                 pt:'Falta de conteúdo'},
-    {id:'similar_diagnosis_confusion',en:'Confused similar diagnoses',    pt:'Confundi diagnósticos parecidos'},
-    {id:'mechanism_misunderstanding', en:'Misunderstood the mechanism',   pt:'Entendi mal o mecanismo'},
-    {id:'reading_error',              en:'Misread the vignette',          pt:'Erro de leitura da vinheta'},
-    {id:'time_pressure',              en:'Time pressure',                 pt:'Pressão do tempo'},
-  ];
 
   /* ===================== TAXONOMIA OFICIAL (Systems → Subjects) =====================
      Taxonomia oficial de sistemas e disciplinas do USMLE Step 1. Cada subtópico tem id namespaced
@@ -17470,13 +16441,12 @@
       // preview mode (staging review before commit)
       previewBanner:n=>`🔍 PREVIEW MODE — ${n} newly added question${n===1?'':'s'}, shown in order. This is read-only: answers are disabled and nothing is saved to your progress/analytics.`,
       previewMissing:ids=>`⚠ ID(s) not found in the bank: ${ids.join(', ')}`,
-      // root cause
-      rcTitle:'Why did you miss this?', rcSub:'One tap — this powers your Directed Pass and analytics.', rcSkip:'Skip',
       // results
-      resTitle:'Block results', score:'Score', bySystem:'By system', reviewQ:'Review questions', surgical:'⚑ Generate Surgical Review', surgicalSub:n=>`Builds a focused test from your most frequent error cause (${n} questions).`,
+      resTitle:'Block results', score:'Score', bySystem:'By system', reviewQ:'Review questions',
       backHome:'Back to QBank', reviewAll:'Review all answers', imageHint:'Click to enlarge image',
+      zoomIn:'Zoom in', zoomOut:'Zoom out', zoomReset:'Reset zoom',
       // analytics
-      analytics:'Analytics', anOverview:'Overview', anBySystem:'Performance by system', anByPass:'Pass comparison', anRootCause:'Error causes', anEmpty:'Answer some questions to unlock analytics.',
+      analytics:'Analytics', anOverview:'Overview', anBySystem:'Performance by system', anByPass:'Pass comparison', anEmpty:'Answer some questions to unlock analytics.',
       disclaimer:'Correlation with real exam scores is orientative only and not a guarantee of performance.',
       // smartcards
       scTitle:'Create Flashcard', scFront:'Front (write the question to actively recall)', scBack:'Back (answer — pre-filled, editable)', scHint:'Tip: keep one idea per card. Front is required for active recall.', scSave:'Save flashcard', scSaved:'✓ Flashcard added to your deck (QBank SmartCards).', scCancel:'Cancel', scDeck:'QBank SmartCards',
@@ -17515,10 +16485,10 @@
       addFlash:'+ Criar Flashcard', addNote:'+ Caderno', explanation:'Explicação',
       previewBanner:n=>`🔍 MODO PREVIEW — ${n} questão${n===1?'':'ões'} recém-adicionada${n===1?'':'s'}, na ordem enviada. Somente leitura: respostas ficam desabilitadas e nada é salvo no seu progresso/análises.`,
       previewMissing:ids=>`⚠ ID(s) não encontrado(s) no banco: ${ids.join(', ')}`,
-      rcTitle:'Por que você errou?', rcSub:'Um toque — isso alimenta sua Passada Dirigida e as análises.', rcSkip:'Pular',
-      resTitle:'Resultado do bloco', score:'Nota', bySystem:'Por sistema', reviewQ:'Revisar questões', surgical:'⚑ Gerar Revisão Cirúrgica', surgicalSub:n=>`Monta um teste focado na sua causa de erro mais frequente (${n} questões).`,
+      resTitle:'Resultado do bloco', score:'Nota', bySystem:'Por sistema', reviewQ:'Revisar questões',
       backHome:'Voltar ao Banco', reviewAll:'Revisar todas as respostas', imageHint:'Clique para ampliar a imagem',
-      analytics:'Análises', anOverview:'Visão geral', anBySystem:'Desempenho por sistema', anByPass:'Comparação por passada', anRootCause:'Causas de erro', anEmpty:'Responda algumas questões para liberar as análises.',
+      zoomIn:'Ampliar', zoomOut:'Reduzir', zoomReset:'Restaurar zoom',
+      analytics:'Análises', anOverview:'Visão geral', anBySystem:'Desempenho por sistema', anByPass:'Comparação por passada', anEmpty:'Responda algumas questões para liberar as análises.',
       disclaimer:'A correlação com notas reais do exame é apenas orientativa e não garante desempenho.',
       scTitle:'Criar Flashcard', scFront:'Frente (escreva a pergunta para recordar ativamente)', scBack:'Verso (resposta — pré-preenchida, editável)', scHint:'Dica: uma ideia por card. A frente é obrigatória para recall ativo.', scSave:'Salvar flashcard', scSaved:'✓ Flashcard adicionado ao seu deck (QBank SmartCards).', scCancel:'Cancelar', scDeck:'QBank SmartCards',
       nbTitle:'Adicionar ao Caderno', nbPh:'Escreva uma nota sobre esta questão…', nbSave:'Salvar nota', nbSaved:'✓ Salvo no Caderno.',
@@ -17589,8 +16559,10 @@
       // Parte 4.1 — pass_number calculado por attempts anteriores
       passNumber(qid){ const n = this.attemptsFor(qid).length; return n===0?1:n===1?2:n===2?3:99; },
       lastAttempt(qid){ const a=this.attemptsFor(qid); return a.length?a[a.length-1]:null; },
-      // status agregado de uma questão para o usuário
-      statusOf(qid){ const a=this.attemptsFor(qid); if(!a.length) return 'unused'; const last=a[a.length-1]; return last.status; },
+      // status agregado de uma questão para o usuário; com pn (1|2|3), status DENTRO daquela passada
+      statusOf(qid, pn){ const a=this.attemptsFor(qid); if(!a.length) return 'unused';
+        if(pn==null){ const last=a[a.length-1]; return last.status; }
+        return a.length>=pn ? a[pn-1].status : 'unused'; },
       isFlagged(qid){ return !!db.flags[qid]; },
       toggleFlag(qid){ db.flags[qid]=!db.flags[qid]; if(!db.flags[qid]) delete db.flags[qid]; save(); return !!db.flags[qid]; },
       addAttempt(a){ // INSERT-only, nunca sobrescreve (Parte 4.2)
@@ -17667,8 +16639,8 @@
     return SEED.filter(q=>{
       if(f.subjects && f.subjects.length && !f.subjects.includes(q.category)) return false;
       if(f.difficulty!=='all' && q.difficulty!==f.difficulty) return false;
-      // status
-      const st = store.statusOf(q.id);
+      // status (nas passadas 1/2/3 o status é DENTRO da passada: toda questão vale em todas as passadas)
+      const st = store.statusOf(q.id, (f.pass!=='all' && f.pass!=='99') ? Number(f.pass) : null);
       if(f.status!=='all'){
         if(f.status==='unused' && st!=='unused') return false;
         if(f.status==='correct' && st!=='correct') return false;
@@ -17676,12 +16648,9 @@
         if(f.status==='omitted' && st!=='omitted') return false;
         if(f.status==='marked' && !store.isFlagged(q.id)) return false;
       }
-      // pass
-      if(f.pass!=='all'){
-        const pn = store.passNumber(q.id);
-        if(f.pass==='99'){ if(!store.directedPool().some(x=>x.id===q.id)) return false; }
-        else if(String(pn)!==String(f.pass)) return false;
-      }
+      // pass: nas passadas 1/2/3 o pool é o banco inteiro (progresso medido pelo attempt N da questão);
+      // na dirigida (99) o pool é dinâmico
+      if(f.pass==='99' && !store.directedPool().some(x=>x.id===q.id)) return false;
       return true;
     });
   }
@@ -17689,7 +16658,7 @@
   function availablePool(f){
     return SEED.filter(q=>{
       if(f.difficulty!=='all' && q.difficulty!==f.difficulty) return false;
-      const st = store.statusOf(q.id);
+      const st = store.statusOf(q.id, (f.pass!=='all' && f.pass!=='99') ? Number(f.pass) : null);
       if(f.status!=='all'){
         if(f.status==='unused' && st!=='unused') return false;
         if(f.status==='correct' && st!=='correct') return false;
@@ -17697,11 +16666,7 @@
         if(f.status==='omitted' && st!=='omitted') return false;
         if(f.status==='marked' && !store.isFlagged(q.id)) return false;
       }
-      if(f.pass!=='all'){
-        const pn = store.passNumber(q.id);
-        if(f.pass==='99'){ if(!store.directedPool().some(x=>x.id===q.id)) return false; }
-        else if(String(pn)!==String(f.pass)) return false;
-      }
+      if(f.pass==='99' && !store.directedPool().some(x=>x.id===q.id)) return false;
       return true;
     });
   }
@@ -17711,6 +16676,14 @@
   const passFromPage = { 'qbank1-pass-1':'1','qbank1-pass-2':'2','qbank1-pass-3':'3','qbank1-pass-4':'99' };
 
   function boot(){
+    // Experimento tipográfico reversível (comparativo UWorld × atual):
+    // ?uwtype=1 liga, ?uwtype=0 desliga; preferência fica em localStorage.
+    try{
+      const pUw = params.get('uwtype');
+      if(pUw==='1') localStorage.setItem('couplemed_qb_uwtype','1');
+      if(pUw==='0') localStorage.removeItem('couplemed_qb_uwtype');
+      if(localStorage.getItem('couplemed_qb_uwtype')==='1') document.body.classList.add('qb-uwtype');
+    }catch(e){}
     host = document.querySelector('#internalContent .internal-card');
     if(!host) return;
     host.classList.add('qb-host');
@@ -17941,24 +16914,22 @@
         ['learn','05','📚','Explicação e retenção','A resposta é o início da revisão, não o fim.',[
           ['Explicação completa','Revise a justificativa correta, as alternativas incorretas, imagens e o objetivo educacional.'],
           ['Comparação com colegas','As barras mostram a distribuição das respostas e ajudam a identificar distratores fortes.'],
-          ['Causa do erro','Classifique por que errou; esse dado alimenta análises e a Passada Dirigida.'],
           ['Flashcard e Caderno','Transforme uma ideia em card de recuperação ativa ou salve uma anotação vinculada à questão.']]],
         ['results','06','📈','Resultados e estratégia','Use os dados para decidir o próximo bloco.',[
           ['Resultado do bloco','Confira nota, desempenho por sistema e revise todas as respostas.'],
-          ['Análises','Compare sistemas, passadas e causas de erro; procure tendências, não apenas uma nota isolada.'],
-          ['Revisão Cirúrgica','Gera um teste focado na causa de erro mais frequente para corrigir o gargalo atual.']]]
+          ['Análises','Compare sistemas e passadas; procure tendências, não apenas uma nota isolada.']]]
       ]
     }:{
       title:'QBank 1 complete guide', sub:'From your first block to directed review: understand every tool and turn mistakes into a study plan.',
-      badge:'PRACTICAL MANUAL', start:'Start in 4 steps', contents:'Explore the guide', tipTitle:'A routine that works', tip:'Use short blocks, read the full explanation, and record the cause of each miss. Consistency across passes matters more than one huge block.',
+      badge:'PRACTICAL MANUAL', start:'Start in 4 steps', contents:'Explore the guide', tipTitle:'A routine that works', tip:'Use short blocks, read the full explanation, and review every miss. Consistency across passes matters more than one huge block.',
       steps:['Choose your active pass','Filter system, status, and difficulty','Set Tutor and Timer','Generate the block and review mistakes'],
       chapters:[
         ['passes','01','🧭','Passes and progress','Organize the bank into learning, consolidation, and mastery cycles.',[['Pass 1 — Learning','Answer every question for the first time to build pattern recognition.'],['Passes 2 and 3','They unlock after completing 100% of the previous pass. Compare progress and refine weak areas.'],['Directed Pass','Collects missed or flagged questions for a short, high-impact review.']]],
         ['build','02','⚙️','Build a test','Combine filters while keeping the available-question count in view.',[['Status and difficulty','Use unused questions to advance; missed and flagged questions to review.'],['Systems and topics','Open each system, select topics, or select the full system. Counts update automatically.'],['Question count','Choose a block size within the available total. Blocks of 10–20 make careful review easier.']]],
         ['modes','03','⏱️','Tutor and Timer','Choose the right experience for the current study phase.',[['Tutor mode','Reveals the explanation immediately after each answer.'],['Timed mode','Adds a countdown per question for exam pacing.'],['Mix freely','Enable both, either one, or neither. Without Tutor, review appears after the block.']]],
         ['solve','04','🩺','While answering','Tools for reasoning, marking uncertainty, and maintaining flow.',[['Eliminate choices','Use ✕ to strike unlikely options before answering.'],['Flag and navigate','Flags save key questions; the grid jumps directly to any item.'],['Lab values','Open Lab Values for common and question-specific reference ranges.'],['Suspend or end','Suspend saves progress. End records unanswered items as omitted.']]],
-        ['learn','05','📚','Explanation and retention','The answer begins the review; it does not end it.',[['Full explanation','Review the correct rationale, incorrect choices, images, and educational objective.'],['Peer comparison','Distribution bars expose strong distractors.'],['Root cause','Record why you missed; it powers analytics and Directed Pass.'],['Flashcard and Notebook','Turn one idea into active recall or save a linked note.']]],
-        ['results','06','📈','Results and strategy','Use data to choose your next block.',[['Block results','Check score, system performance, and review every answer.'],['Analytics','Compare systems, passes, and error causes; look for trends.'],['Surgical Review','Builds a test around your most frequent error cause.']]]
+        ['learn','05','📚','Explanation and retention','The answer begins the review; it does not end it.',[['Full explanation','Review the correct rationale, incorrect choices, images, and educational objective.'],['Peer comparison','Distribution bars expose strong distractors.'],['Flashcard and Notebook','Turn one idea into active recall or save a linked note.']]],
+        ['results','06','📈','Results and strategy','Use data to choose your next block.',[['Block results','Check score, system performance, and review every answer.'],['Analytics','Compare systems and passes; look for trends.']]]
       ]
     };
     const nav=copy.chapters.map(c=>`<a class="qb-guide-nav-card" href="#qb-guide-${c[0]}"><span>${c[1]}</span><b>${c[2]} ${esc(c[3])}</b><small>${esc(c[4])}</small></a>`).join('');
@@ -17970,7 +16941,7 @@
   /* =========================== CREATE TEST ===========================
      v52: o miolo do Create Test virou uma função compartilhada (createPanelHTML),
      usada tanto inline na Home (abaixo do painel da passada selecionada) quanto
-     na tela standalone /create (usada por "Revisar marcadas", Surgical Review,
+     na tela standalone /create (usada por "Revisar marcadas",
      as pastas antigas ?page=qbank1-pass-N e o link genérico "+ Criar Teste" dos
      resultados). opts.showPass controla se o segmento "Passada" aparece — na Home
      ele some, porque a passada já está definida pelo stepper acima. */
@@ -18091,7 +17062,7 @@
   function startTest(){
     const f=view.f; const pool=filterPool(f);
     const picked = shuffle(pool).slice(0, Math.min(f.count,pool.length));
-    const test = { id:uid('test'), user_id:USER, test_type: f.pass==='99'?'surgical_review':'custom',
+    const test = { id:uid('test'), user_id:USER, test_type: f.pass==='99'?'directed_review':'custom',
       filters:JSON.parse(JSON.stringify(f)), tutor:!!f.tutor, timed:!!f.timed, secs:f.secs, status:'in_progress',
       qids:picked.map(q=>q.id), idx:0, answers:{}, strikes:{}, times:{}, started_at:new Date().toISOString() };
     store.saveTest(test);
@@ -18100,7 +17071,12 @@
   function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[b[i],b[j]]=[b[j],b[i]];}return b;}
 
   function renderTest(){
-    const T0=view.test, q=store.question(T0.qids[T0.idx]);
+    const T0=view.test;
+    // IDs removidos do banco (ex.: questões de teste excluídas) não podem quebrar blocos antigos
+    T0.qids = T0.qids.filter(id=>SEED.some(q=>q.id===id));
+    if(!T0.qids.length){ go({name:'home', sel:store.currentPass()}); return; }
+    if(T0.idx>=T0.qids.length) T0.idx=0;
+    const q=store.question(T0.qids[T0.idx]);
     const ans=T0.answers[q.id], answered=ans!=null;
     const revealed = (T0.tutor && answered) || view.showAns;
     const strikes=T0.strikes[q.id]||{};
@@ -18119,7 +17095,7 @@
     const grid = T0.qids.map((qid,n)=>{
       const a=T0.answers[qid]; let cls='qb-grid-cell';
       if(n===T0.idx)cls+=' cur';
-      if(a!=null){ const qq=store.question(qid); cls+= a===qq.correct?' g-ok':' g-bad'; }
+      if(a!=null){ const qq=store.question(qid); if(qq) cls+= a===qq.correct?' g-ok':' g-bad'; }
       if(store.isFlagged(qid))cls+=' g-flag';
       return `<button class="${cls}" data-act="goto" data-n="${n}">${n+1}</button>`;
     }).join('');
@@ -18174,6 +17150,83 @@
     const imgs = Array.isArray(q.explImg) ? q.explImg : [q.explImg];
     return imgs.filter(Boolean).map(src => `<figure class="qb-question-image qb-expl-image"><img src="${esc(src)}" alt="Explanation image" loading="lazy" decoding="async" /></figure>`).join('');
   }
+
+  /* ===================== ZOOM DE IMAGEM (lightbox) =====================
+     Abre img/explImg em overlay fora do fluxo da questão: botões +/−, roda
+     do mouse (desktop), pinça e arrasto (touch), duplo clique/toque e Esc.
+     Não altera o layout nem o posicionamento atual das imagens. */
+  let zoomEl=null;
+  function openImgZoom(src){
+    closeImgZoom();
+    const st={scale:1,tx:0,ty:0};
+    const el=document.createElement('div');
+    el.className='qb-zoom';
+    el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
+    el.innerHTML=`
+      <div class="qb-zoom-stage"><img src="${esc(src)}" alt="Zoom"></div>
+      <div class="qb-zoom-bar">
+        <button type="button" data-z="out" aria-label="${esc(t('zoomOut'))}">−</button>
+        <span class="qb-zoom-pct">100%</span>
+        <button type="button" data-z="in" aria-label="${esc(t('zoomIn'))}">+</button>
+        <button type="button" data-z="reset">${esc(t('zoomReset'))}</button>
+        <button type="button" class="qb-zoom-close" data-z="close" aria-label="${esc(t('close'))}">✕</button>
+      </div>`;
+    document.body.appendChild(el);
+    document.body.classList.add('qb-zoom-open');
+    zoomEl=el;
+    const img=el.querySelector('img');
+    const stage=el.querySelector('.qb-zoom-stage');
+    const pct=el.querySelector('.qb-zoom-pct');
+    let moved=false;
+    const apply=()=>{ img.style.transform=`translate(${st.tx}px,${st.ty}px) scale(${st.scale})`; pct.textContent=Math.round(st.scale*100)+'%'; };
+    const clamp=()=>{ st.scale=Math.min(5,Math.max(.5,st.scale)); };
+    const zoomAt=(f,cx,cy)=>{
+      const old=st.scale; st.scale*=f; clamp();
+      if(cx!=null && old>0){ const r=stage.getBoundingClientRect();
+        const px=cx-r.left-r.width/2, py=cy-r.top-r.height/2;
+        st.tx=px-(px-st.tx)*(st.scale/old); st.ty=py-(py-st.ty)*(st.scale/old); }
+      apply();
+    };
+    const pointers=new Map();
+    let pinch0=0, scale0=1;
+    stage.addEventListener('pointerdown',e=>{ moved=false; stage.setPointerCapture(e.pointerId);
+      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(pointers.size===2){ const p=[...pointers.values()];
+        pinch0=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y); scale0=st.scale; } });
+    stage.addEventListener('pointermove',e=>{ if(!pointers.has(e.pointerId))return;
+      const prev=pointers.get(e.pointerId); pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(Math.hypot(e.clientX-prev.x,e.clientY-prev.y)>3) moved=true;
+      if(pointers.size===1 && st.scale>1){ st.tx+=e.clientX-prev.x; st.ty+=e.clientY-prev.y; apply(); }
+      else if(pointers.size===2 && pinch0>0){ const p=[...pointers.values()];
+        st.scale=scale0*(Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)/pinch0); clamp(); apply(); } });
+    const up=e=>{ pointers.delete(e.pointerId); if(pointers.size<2) pinch0=0; };
+    stage.addEventListener('pointerup',up); stage.addEventListener('pointercancel',up);
+    stage.addEventListener('wheel',e=>{ e.preventDefault(); zoomAt(e.deltaY<0?1.15:1/1.15,e.clientX,e.clientY); },{passive:false});
+    stage.addEventListener('dblclick',e=>{ if(st.scale>1.01){ st.scale=1;st.tx=0;st.ty=0;apply(); } else zoomAt(2,e.clientX,e.clientY); });
+    el.querySelector('.qb-zoom-bar').addEventListener('click',e=>{ const b=e.target.closest('[data-z]'); if(!b)return;
+      const a=b.dataset.z;
+      if(a==='in')zoomAt(1.25);
+      else if(a==='out')zoomAt(1/1.25);
+      else if(a==='reset'){ st.scale=1;st.tx=0;st.ty=0;apply(); }
+      else if(a==='close')closeImgZoom(); });
+    el.addEventListener('click',e=>{ if(moved)return; if(e.target===el||e.target===stage) closeImgZoom(); });
+    document.addEventListener('keydown',escCloseZoom);
+    apply();
+  }
+  function escCloseZoom(e){ if(e.key==='Escape') closeImgZoom(); }
+  function closeImgZoom(){
+    if(!zoomEl) return;
+    zoomEl.remove(); zoomEl=null;
+    document.removeEventListener('keydown',escCloseZoom);
+    document.body.classList.remove('qb-zoom-open');
+  }
+  // abertura por clique/toque em qualquer figura de questão (enunciado ou explicação)
+  document.addEventListener('click',e=>{
+    const fig=e.target.closest && e.target.closest('.qb-question-image');
+    if(!fig) return;
+    const img=fig.querySelector('img');
+    if(img){ e.preventDefault(); openImgZoom(img.currentSrc||img.src); }
+  });
 
   function renderExplanation(q,ans,preview){
     const correct = ans===q.correct;
@@ -18256,8 +17309,6 @@
       store.saveTest(serializeTest(T0));
     }
     if(timerH)clearInterval(timerH);
-    // Parte 5: modal causa-raiz em erro (modo tutor)
-    if(T0.tutor && ans!=null && ans!==q.correct){ view.showAns=true; render(); openRootCause(q); return; }
     view.showAns = !!T0.tutor; render();
   }
 
@@ -18265,8 +17316,8 @@
     const {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at}=T0;
     return {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at,
       total_count:qids.length,
-      correct_count:qids.filter(q=>answers[q]===store.question(q).correct).length,
-      incorrect_count:qids.filter(q=>answers[q]!=null&&answers[q]!==store.question(q).correct).length,
+      correct_count:qids.filter(q=>{const x=store.question(q);return x&&answers[q]===x.correct;}).length,
+      incorrect_count:qids.filter(q=>{const x=store.question(q);return x&&answers[q]!=null&&answers[q]!==x.correct;}).length,
       omitted_count:qids.filter(q=>answers[q]==null).length };
   }
 
@@ -18275,7 +17326,7 @@
     if(T0.preview) return; // preview mode: never records attempts/saves state
     // registra omitidas restantes
     if(!T0._recorded)T0._recorded={};
-    T0.qids.forEach(qid=>{ if(!T0._recorded[qid]){ const q=store.question(qid);
+    T0.qids.forEach(qid=>{ if(!T0._recorded[qid]){ const q=store.question(qid); if(!q){ T0._recorded[qid]=true; return; }
       store.addAttempt({question_id:qid,test_id:T0.id,selected_option:null,is_correct:null,status:'omitted',
         time_spent_seconds:0,tutor:T0.tutor,timed:T0.timed,flagged:store.isFlagged(qid),strikethrough_options:[]});
       T0._recorded[qid]=true; } });
@@ -18285,21 +17336,18 @@
     go({name:'results', test:T0});
   }
 
-  /* ===================== RESULTADOS (Parte 5.5 surgical) ===================== */
+  /* ===================== RESULTADOS ===================== */
   function renderResults(){
     const T0=view.test;
     let c=0,i=0,o=0;
-    T0.qids.forEach(qid=>{ const a=T0.answers[qid]; if(a==null)o++; else if(a===store.question(qid).correct)c++; else i++; });
+    T0.qids.forEach(qid=>{ const a=T0.answers[qid]; const q=store.question(qid); if(a==null)o++; else if(q&&a===q.correct)c++; else i++; });
     const answered=c+i, score= answered?Math.round(100*c/answered):0;
     // por sistema
     const bySys={};
-    T0.qids.forEach(qid=>{ const q=store.question(qid),a=T0.answers[qid]; const s=q.system; bySys[s]=bySys[s]||{c:0,n:0};
+    T0.qids.forEach(qid=>{ const q=store.question(qid),a=T0.answers[qid]; if(!q)return; const s=q.system; bySys[s]=bySys[s]||{c:0,n:0};
       if(a!=null){bySys[s].n++; if(a===q.correct)bySys[s].c++;} });
     const sysRows=Object.entries(bySys).map(([s,v])=>{ const p=v.n?Math.round(100*v.c/v.n):0;
       return `<div class="qb-sys-row"><span>${esc(sysName(s))}</span><div class="qb-sys-bar"><span style="width:${p}%"></span></div><b>${p}%</b></div>`; }).join('');
-    // causa-raiz mais frequente para surgical review
-    const rc=rootCauseCounts(); const topRc=rc[0];
-    const surgN = topRc? Math.min(15, store.allAttempts().filter(a=>a.root_cause_tag===topRc.tag).length):0;
 
     root.innerHTML=`
       <div class="qb qb-results">
@@ -18315,7 +17363,6 @@
         </div>
         <h2 class="qb-h2">${esc(t('bySystem'))}</h2>
         <div class="qb-sys">${sysRows||'<p class="qb-muted">—</p>'}</div>
-        ${topRc?`<button class="qb-surgical" data-act="surgical"><strong>${esc(t('surgical'))}</strong><small>${esc(t('surgicalSub')(surgN||i))}</small></button>`:''}
         <div class="qb-res-actions">
           <button class="qb-btn ghost" data-act="review-block">${esc(t('reviewAll'))}</button>
           <button class="qb-btn primary" data-act="create">＋ ${esc(t('createTest'))}</button>
@@ -18325,17 +17372,12 @@
   }
 
   /* ===================== ANALYTICS (Parte 7) ===================== */
-  function rootCauseCounts(){
-    const m={};
-    store.allAttempts().forEach(a=>{ if(a.root_cause_tag) m[a.root_cause_tag]=(m[a.root_cause_tag]||0)+1; });
-    return Object.entries(m).map(([tag,n])=>({tag,n})).sort((a,b)=>b.n-a.n);
-  }
   function renderAnalytics(){
     const att=store.allAttempts();
     if(!att.length){ root.innerHTML=`<div class="qb"><button class="qb-link" data-act="home">${esc(t('back'))}</button><h1>${esc(t('analytics'))}</h1><p class="qb-empty">${esc(t('anEmpty'))}</p></div>`; return wire(); }
     // por sistema
     const sys={};
-    att.forEach(a=>{ if(a.status==='omitted')return; const q=store.question(a.question_id); const s=q.system; sys[s]=sys[s]||{c:0,n:0}; sys[s].n++; if(a.is_correct)sys[s].c++; });
+    att.forEach(a=>{ if(a.status==='omitted')return; const q=store.question(a.question_id); if(!q)return; const s=q.system; sys[s]=sys[s]||{c:0,n:0}; sys[s].n++; if(a.is_correct)sys[s].c++; });
     const sysRows=Object.entries(sys).sort((a,b)=>a[0].localeCompare(b[0])).map(([s,v])=>{const p=v.n?Math.round(100*v.c/v.n):0;
       return `<div class="qb-sys-row"><span>${esc(sysName(s))}</span><div class="qb-sys-bar"><span style="width:${p}%"></span></div><b>${p}% <em>(${v.c}/${v.n})</em></b></div>`;}).join('');
     // por pass
@@ -18343,10 +17385,6 @@
     att.forEach(a=>{ if(a.status==='omitted')return; pass[a.pass_number]=pass[a.pass_number]||{c:0,n:0}; pass[a.pass_number].n++; if(a.is_correct)pass[a.pass_number].c++; });
     const passRows=Object.entries(pass).sort((a,b)=>a[0]-b[0]).map(([p,v])=>{const pc=v.n?Math.round(100*v.c/v.n):0; const lbl=p==='99'?t('dirigido'):`${p}ª ${t('pass')}`;
       return `<div class="qb-sys-row"><span>${esc(lbl)}</span><div class="qb-sys-bar"><span style="width:${pc}%"></span></div><b>${pc}% <em>(${v.c}/${v.n})</em></b></div>`;}).join('');
-    // causa raiz
-    const rc=rootCauseCounts(); const rcMax=Math.max(1,...rc.map(x=>x.n));
-    const rcName=id=>{const o=ROOT_CAUSES.find(r=>r.id===id);return o?o[lang()]:id;};
-    const rcRows=rc.map(x=>`<div class="qb-sys-row"><span>${esc(rcName(x.tag))}</span><div class="qb-sys-bar rc"><span style="width:${Math.round(100*x.n/rcMax)}%"></span></div><b>${x.n}</b></div>`).join('');
 
     root.innerHTML=`
       <div class="qb qb-analytics">
@@ -18354,7 +17392,6 @@
         <h1>${esc(t('analytics'))}</h1>
         <section class="qb-an-block"><h2>${esc(t('anBySystem'))}</h2><div class="qb-sys">${sysRows}</div></section>
         <section class="qb-an-block"><h2>${esc(t('anByPass'))}</h2><div class="qb-sys">${passRows||'<p class="qb-muted">—</p>'}</div></section>
-        ${rc.length?`<section class="qb-an-block"><h2>${esc(t('anRootCause'))}</h2><div class="qb-sys">${rcRows}</div></section>`:''}
         <p class="qb-disclaimer">${esc(t('disclaimer'))}</p>
       </div>`;
     wire();
@@ -18365,17 +17402,6 @@
     const m=document.createElement('div'); m.className='qb-modal'; m.innerHTML=`<div class="qb-modal-card">${html}</div>`;
     m.addEventListener('click',e=>{if(e.target===m)m.remove();});
     document.body.appendChild(m); return m;
-  }
-  function openRootCause(q){
-    const opts=ROOT_CAUSES.map(r=>`<button class="qb-rc-opt" data-rc="${r.id}">${esc(r[lang()])}</button>`).join('');
-    const m=modal(`<h3>${esc(t('rcTitle'))}</h3><p class="qb-modal-sub">${esc(t('rcSub'))}</p><div class="qb-rc-opts">${opts}</div><button class="qb-btn ghost small" data-rc="skip">${esc(t('rcSkip'))}</button>`);
-    m.querySelectorAll('[data-rc]').forEach(b=>b.addEventListener('click',()=>{
-      const tag=b.dataset.rc;
-      if(tag!=='skip'){ // grava no último attempt desta questão
-        const list=store.attemptsFor(q.id); const last=list[list.length-1]; if(last){last.root_cause_tag=tag; store.save();}
-      }
-      m.remove();
-    }));
   }
   function openFlashcard(q,ans){
     const back = `${q.explC}\n\n🎯 ${q.objective}`;
@@ -18533,7 +17559,6 @@
       case 'flash': openFlashcard(currentQ(), view.test.answers[currentQ().id]); break;
       case 'note': openNote(currentQ()); break;
       // resultados
-      case 'surgical': startSurgical(); break;
       case 'review-block': { view.test.idx=0; view.showAns=true; go({name:'test',test:view.test,showAns:true,qStart:Date.now()}); break; }
     }
   }
@@ -18542,17 +17567,6 @@
     root.querySelectorAll('.qb-opt').forEach(d=>d.classList.remove('chosen'));
     const d=[...root.querySelectorAll('.qb-opt')].find(x=>x.dataset.o===o); if(d)d.classList.add('chosen');
     const sub=document.getElementById('qbSubmit'); if(sub)sub.disabled=false;
-  }
-  function startSurgical(){
-    const rc=rootCauseCounts()[0];
-    const pool = rc? SEED.filter(q=>store.attemptsFor(q.id).some(a=>a.root_cause_tag===rc.tag)) : store.directedPool();
-    const extra = store.directedPool();
-    const set=[...new Set([...pool,...extra])].slice(0,15);
-    if(!set.length){ toast(t('flaggedEmpty')); return; }
-    view.f={subjects:[],status:'all',pass:'all',difficulty:'all',tutor:true,timed:false,secs:90,count:set.length};
-    const test={id:uid('test'),user_id:USER,test_type:'surgical_review',filters:{},tutor:true,timed:false,secs:90,status:'in_progress',
-      qids:set.map(q=>q.id),idx:0,answers:{},strikes:{},times:{},started_at:new Date().toISOString()};
-    store.saveTest(test); go({name:'test',test,showAns:false,qStart:Date.now()});
   }
 
   window.addEventListener('couplemed:langchange', ()=>{
