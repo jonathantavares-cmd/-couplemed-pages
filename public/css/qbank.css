@@ -449,3 +449,84 @@ body.qb-zoom-open{overflow:hidden}
   .qb-zoom-pct{min-width:46px;font-size:12px}
 }
 
+/* -------- Experimento tipográfico reversível (teste) --------
+   Ativado por body.qb-typo-test (param ?typo=1 / localStorage couplemed_qb_typo_test).
+   Reproduce o visual das imagens de referência: sans-serif, tamanhos menores,
+   badges com fundo claro/borda cinza, checkboxes customizadas e tema claro.
+   Para reverter: remover este bloco e o snippet de boot em qbank.js. */
+body.qb-typo-test .qb{
+  --qb-ok:#2E7D32; --qb-ok-d:#1B5E20; --qb-bad:#C62828; --qb-bad-d:#B71C1C;
+  --qb-om:#E08A00; --qb-om-d:#EF6C00; --qb-blue:#2768ff; --qb-blue-d:#1B4965;
+  --qb-card:#ffffff; --qb-card2:#f4f8fe; --qb-line:#e2eaf5;
+  --qb-text:#132235; --qb-muted:#5f748f; --qb-chip:#eef4fd;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+body.qb-typo-test .qb h1{font-size:24px;font-weight:700}
+body.qb-typo-test .qb h2.qb-h2{font-size:11px;letter-spacing:.08em;color:#5f748f}
+
+/* conteúdo da questão */
+body.qb-typo-test .qb-vignette p,
+body.qb-typo-test .qb-stem,
+body.qb-typo-test .qb-opt-t,
+body.qb-typo-test .qb-expl-correct,
+body.qb-typo-test .qb-expl-incorrect li,
+body.qb-typo-test .qb-obj p{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+body.qb-typo-test .qb-vignette p{font-size:15px;line-height:1.55;letter-spacing:0}
+body.qb-typo-test .qb-stem{font-size:15px;line-height:1.5;font-weight:700}
+body.qb-typo-test .qb-opt-t{font-size:14px;line-height:1.5}
+body.qb-typo-test .qb-expl-correct{font-size:14px;line-height:1.6}
+body.qb-typo-test .qb-expl-incorrect li{font-size:13.5px;line-height:1.55}
+body.qb-typo-test .qb-opt{padding:11px 14px 11px 40px}
+
+/* chips / badges no estilo das imagens */
+body.qb-typo-test .qb-chip,
+body.qb-typo-test .qb-seg{
+  border:1px solid #d0d8e6;
+  background:#ffffff;
+  color:#132235;
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:13px;
+  font-weight:500;
+}
+body.qb-typo-test .qb-chip em,
+body.qb-typo-test .qb-seg em{
+  background:#eef4fd;
+  color:#2768ff;
+  font-weight:600;
+}
+body.qb-typo-test .qb-chip.on,
+body.qb-typo-test .qb-seg.on{
+  background:#2768ff;
+  border-color:#2768ff;
+  color:#fff;
+}
+body.qb-typo-test .qb-chip.on em,
+body.qb-typo-test .qb-seg.on em{background:rgba(255,255,255,.25);color:#fff}
+
+/* checkboxes customizadas */
+body.qb-typo-test .qb input[type=checkbox]{
+  appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid #b8c2d4;border-radius:4px;background:#fff;cursor:pointer;position:relative;flex:none;margin:0;
+}
+body.qb-typo-test .qb input[type=checkbox]:checked{background:#2768ff;border-color:#2768ff}
+body.qb-typo-test .qb input[type=checkbox]:checked::after{
+  content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);
+}
+
+/* labels ao lado de checkboxes */
+body.qb-typo-test .qb-tax-name{font-size:13.5px;font-weight:500;color:#132235}
+body.qb-typo-test .qb-tax-count{background:#fff;border:1px solid #d0d8e6;color:#2768ff;font-weight:600}
+
+/* tela de criação de teste */
+body.qb-typo-test .qb-field>label{font-size:11px;font-weight:800;color:#5f748f}
+body.qb-typo-test .qb-mode-title{font-size:11px;font-weight:800;color:#5f748f}
+body.qb-typo-test .qb-mode-item span{font-size:14px;font-weight:500;color:#132235}
+body.qb-typo-test .qb-avail{font-size:13px;color:#5f748f}
+body.qb-typo-test .qb-avail strong{font-size:20px;color:#132235}
+
+/* switches */
+body.qb-typo-test .qb-switch-track{background:#b8c2d4}
+body.qb-typo-test .qb-switch input:checked + .qb-switch-track{background:#2768ff}
+

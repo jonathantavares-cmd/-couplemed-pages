@@ -16702,6 +16702,14 @@
   const passFromPage = { 'qbank1-pass-1':'1','qbank1-pass-2':'2','qbank1-pass-3':'3','qbank1-pass-4':'99' };
 
   function boot(){
+    // Experimento tipográfico reversível (teste de layout/fonte):
+    // ?typo=1 liga, ?typo=0 desliga; preferência fica em localStorage.
+    try{
+      const pTypo = params.get('typo');
+      if(pTypo==='1') localStorage.setItem('couplemed_qb_typo_test','1');
+      if(pTypo==='0') localStorage.removeItem('couplemed_qb_typo_test');
+      if(localStorage.getItem('couplemed_qb_typo_test')==='1') document.body.classList.add('qb-typo-test');
+    }catch(e){}
     host = document.querySelector('#internalContent .internal-card');
     if(!host) return;
     host.classList.add('qb-host');
