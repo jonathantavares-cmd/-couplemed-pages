@@ -1475,7 +1475,10 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
   .streak-stats b{font-size:14px}
   .streak-stats b .unit{font-size:8px}
   .streak-stats i{font-size:7.5px;letter-spacing:.06em}
-  .split-half{padding:10px 13px}
+  /* no empilhamento do celular as metades voltam a ter altura natural: com
+     flex:1 e min-height:0 (regra do desktop) elas colapsavam e o conteúdo de
+     uma passava por cima do da outra */
+  .split-half{flex:0 0 auto;justify-content:flex-start;padding:11px 13px}
   .split-half h3{font-size:9.5px;margin:0 0 6px}
   .bar-pass{font-size:11px}
   .bar-count,.bar-pct{font-size:10px}
