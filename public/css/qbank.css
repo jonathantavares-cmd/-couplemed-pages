@@ -835,6 +835,14 @@ body.qb-ui .qb-qnum{flex:none}
 body.qb-ui .qb-head-tools{flex-wrap:nowrap;overflow:visible;gap:4px;min-width:0}
 body.qb-ui .qb-timer[hidden]{display:none!important}
 body.qb-ui .qb-lbl-short{display:none}
+/* Flashcard e Caderno com a descrição inteira só onde há espaço de sobra
+   (desktop, monitor e Mac). No iPad e no celular ficam com o rótulo curto. */
+body.qb-ui .qb-lbl-xl{display:none}
+body.qb-ui .qb-lbl-sm{display:inline}
+@media(min-width:1181px){
+  body.qb-ui .qb-lbl-xl{display:inline}
+  body.qb-ui .qb-lbl-sm{display:none}
+}
 
 /* No celular o número não cabe na barra (que fecha em 324 dos 366px úteis):
    lá ele sobe para a linha do Voltar. No desktop fica dentro da barra. */

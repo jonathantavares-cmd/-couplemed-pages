@@ -16460,7 +16460,8 @@
       back:'‹ Back to QBank',
       // solve
       qOf:(a,b)=>`Question ${a} of ${b}`, suspend:'Stop and Save', endBlock:'End Block',
-      suspendShort:'Stop', endBlockShort:'End', flashShort:'Flashcard', noteShort:'Notebook', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
+      suspendShort:'Stop', endBlockShort:'End', flashShort:'Flashcard', noteShort:'Notebook',
+      flashFull:'+ Add Flashcard', noteFull:'+ Add Notebook', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
       submit:'Submit', next:'Next ›', prev:'‹ Prev', confirmEnd:'End this block now? Unanswered questions will be recorded as omitted.',
       confirmSuspend:'Suspend and leave? Your progress is saved and you can resume later.',
       correctBadge:'Correct', incorrectBadge:'Incorrect', omittedBadge:'Omitted',
@@ -16512,7 +16513,8 @@
       available:'disponíveis', generate:'Gerar Teste', noMatch:'Nenhuma questão corresponde a esses filtros. Afrouxe um filtro para continuar.',
       back:'‹ Voltar ao Banco',
       qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Parar e Salvar', endBlock:'Encerrar Bloco',
-      suspendShort:'Parar', endBlockShort:'Encerrar', flashShort:'Flashcard', noteShort:'Caderno', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
+      suspendShort:'Parar', endBlockShort:'Encerrar', flashShort:'Flashcard', noteShort:'Caderno',
+      flashFull:'+ Adicionar Flashcard', noteFull:'+ Adicionar Caderno', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
       submit:'Responder', next:'Próxima ›', prev:'‹ Anterior', confirmEnd:'Encerrar o bloco agora? Questões sem resposta serão registradas como omitidas.',
       confirmSuspend:'Suspender e sair? Seu progresso é salvo e você pode retomar depois.',
       correctBadge:'Correta', incorrectBadge:'Incorreta', omittedBadge:'Omitida',
@@ -17235,8 +17237,8 @@
           <span class="qb-qnum">${esc(t('qOf')(T0.idx+1,T0.qids.length))}</span>
           <div class="qb-head-tools">
             <button class="qb-tool qb-tool-flag ${flagged?'on':''}" data-act="flag" title="${esc(flagged?t('unflag'):t('flag'))}">⚑ <span class="qb-tool-lbl">${esc(flagged?t('unflag'):t('flag'))}</span></button>
-            <button class="qb-tool" data-act="flash">${esc(t('flashShort'))}${links?` (${links})`:''}</button>
-            <button class="qb-tool" data-act="note">${esc(t('noteShort'))}</button>
+            <button class="qb-tool" data-act="flash"><span class="qb-lbl-xl">${esc(t('flashFull'))}</span><span class="qb-lbl-sm">${esc(t('flashShort'))}</span>${links?` (${links})`:''}</button>
+            <button class="qb-tool" data-act="note"><span class="qb-lbl-xl">${esc(t('noteFull'))}</span><span class="qb-lbl-sm">${esc(t('noteShort'))}</span></button>
             <button class="qb-tool" data-act="labs">🧪 <span class="qb-tool-lbl">${esc(t('labValues'))}</span></button>
             ${T0.timed?`<span class="qb-timer" id="qbTimer">00:00</span>`:`<span class="qb-timer" id="qbTimer" hidden>00:00</span>`}
             ${T0.preview?'':`<button class="qb-tool warn" data-act="suspend"><span class="qb-lbl-full">${esc(t('suspend'))}</span><span class="qb-lbl-short">${esc(t('suspendShort'))}</span></button>
