@@ -16702,14 +16702,6 @@
   const passFromPage = { 'qbank1-pass-1':'1','qbank1-pass-2':'2','qbank1-pass-3':'3','qbank1-pass-4':'99' };
 
   function boot(){
-    // Experimento tipográfico reversível (comparativo UWorld × atual):
-    // ?uwtype=1 liga, ?uwtype=0 desliga; preferência fica em localStorage.
-    try{
-      const pUw = params.get('uwtype');
-      if(pUw==='1') localStorage.setItem('couplemed_qb_uwtype','1');
-      if(pUw==='0') localStorage.removeItem('couplemed_qb_uwtype');
-      if(localStorage.getItem('couplemed_qb_uwtype')==='1') document.body.classList.add('qb-uwtype');
-    }catch(e){}
     host = document.querySelector('#internalContent .internal-card');
     if(!host) return;
     host.classList.add('qb-host');

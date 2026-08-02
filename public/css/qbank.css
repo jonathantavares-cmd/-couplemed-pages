@@ -449,22 +449,3 @@ body.qb-zoom-open{overflow:hidden}
   .qb-zoom-pct{min-width:46px;font-size:12px}
 }
 
-/* -------- Experimento tipográfico reversível (Alt 7) --------
-   Ativado por body.qb-uwtype (param ?uwtype=1 / localStorage couplemed_qb_uwtype).
-   Aproxima a tipografia do padrão UWorld: sans-serif de sistema, corpo menor,
-   medida mais compacta — avaliando legibilidade e expansão responsiva.
-   Para reverter: remover este bloco e o snippet de boot em qbank.js. */
-body.qb-uwtype .qb-vignette p,
-body.qb-uwtype .qb-stem,
-body.qb-uwtype .qb-opt-t,
-body.qb-uwtype .qb-expl-correct,
-body.qb-uwtype .qb-expl-incorrect li,
-body.qb-uwtype .qb-labtable{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-}
-body.qb-uwtype .qb-vignette p{font-size:15px;line-height:1.55;letter-spacing:0}
-body.qb-uwtype .qb-stem{font-size:15px;line-height:1.5;font-weight:700}
-body.qb-uwtype .qb-opt-t{font-size:14px;line-height:1.5}
-body.qb-uwtype .qb-expl-correct{font-size:14px;line-height:1.6}
-body.qb-uwtype .qb-expl-incorrect li{font-size:13.5px;line-height:1.55}
-body.qb-uwtype .qb-opt{padding:11px 14px 11px 40px}
