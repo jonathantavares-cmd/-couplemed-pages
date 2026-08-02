@@ -16712,69 +16712,19 @@
   let host, root, view={name:'home'};
   const passFromPage = { 'qbank1-pass-1':'1','qbank1-pass-2':'2','qbank1-pass-3':'3','qbank1-pass-4':'99' };
 
-  /* ===================== TOM (Claro / Sépia / Escuro) =====================
-     Padrão visual das imagens de referência: o QBank abre no tom Claro e o
-     usuário troca pela barra superior. A escolha é global da plataforma
-     (localStorage 'cm-tone' + body[data-tone]), para as demais áreas
-     herdarem o mesmo tom conforme forem migrando. */
-  const TONES = ['light','sepia','dark'];
-  function currentTone(){
-    let v=null;
-    try{ v = localStorage.getItem('cm-tone'); }catch(e){}
-    return TONES.includes(v) ? v : 'light';
-  }
-  function applyTone(tone){
-    const v = TONES.includes(tone) ? tone : 'light';
-    document.body.setAttribute('data-tone', v);
-    document.documentElement.setAttribute('data-tone', v);
-    try{ localStorage.setItem('cm-tone', v); }catch(e){}
-  }
-  function renderToneBar(){
-    const cur = currentTone();
-    const opts = [['light',t('toneLight')],['sepia',t('toneSepia')],['dark',t('toneDark')]];
-    return `<div class="cm-tonebar" role="group" aria-label="${esc(t('tone'))}">
-      <span class="cm-tonebar-lbl">${esc(t('tone'))}</span>
-      <div class="cm-tone-seg">
-        ${opts.map(([v,lbl])=>`<button type="button" class="cm-tone-opt" data-tone="${v}" aria-pressed="${v===cur}">${esc(lbl)}</button>`).join('')}
-      </div>
-    </div>`;
-  }
-  /* A barra vive fora do card (topo do conteúdo interno), então sobrevive aos
-     re-renders do QBank e aparece em todas as telas. */
-  function mountToneBar(){
-    const wrap = document.querySelector('#internalContent');
-    if(!wrap) return;
-    let bar = wrap.querySelector('.cm-tonebar');
-    const html = renderToneBar();
-    if(!bar){
-      const holder = document.createElement('div');
-      holder.innerHTML = html;
-      bar = holder.firstElementChild;
-      wrap.insertBefore(bar, wrap.firstChild);
-      bar.addEventListener('click', ev=>{
-        const b = ev.target.closest('.cm-tone-opt');
-        if(!b) return;
-        applyTone(b.dataset.tone);
-        mountToneBar();
-      });
-    } else {
-      const holder = document.createElement('div');
-      holder.innerHTML = html;
-      bar.replaceChildren(...holder.firstElementChild.childNodes);
-    }
-  }
+  /* O tom (Claro / Sépia / Escuro) é global da plataforma e vive na barra
+     superior do site (site.js). O QBank apenas herda o data-tone já aplicado —
+     não mantém seletor próprio nem grava a preferência. */
 
   /* Layout tipográfico aprovado (Imagens 6–10): sans-serif, tamanhos e tons
      das imagens de referência. Aplicado em todas as telas do QBank para
      manter consistência premium e legibilidade. */
   function boot(){
     document.body.classList.add('qb-ui');
-    applyTone(currentTone());
     host = document.querySelector('#internalContent .internal-card');
     if(!host) return;
     host.classList.add('qb-host');
     document.querySelector('#internalContent').classList.add('qb-wide');
-    mountToneBar();
     root = host;
     // ?previewIds=ID1,ID2,... — modo de revisão isolada pré-commit (só leitura, não grava attempt/pass/sync)
     const previewIds = params.get('previewIds');
@@ -16811,7 +16761,6 @@
     else if(view.name==='results') renderResults();
     else if(view.name==='analytics') renderAnalytics();
     else if(view.name==='guide') renderGuide();
-    mountToneBar();
     translateVisibleQuestionTexts();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
@@ -17311,6 +17260,7 @@
           ${revealed?`<div class="qb-splitter" role="separator" aria-orientation="vertical" tabindex="0" aria-label="${esc(t('resizeColumns'))}"></div>
           <div class="qb-explanation-col">${renderExplanation(q,ans,T0.preview)}</div>`:''}
         </div>
+        ${revealed?renderQuestionMeta(q):''}
 
         <div class="qb-nav">
           <button class="qb-btn ghost" data-act="prev" ${T0.idx===0?'disabled':''}>${esc(t('prev'))}</button>
@@ -17484,8 +17434,18 @@
       <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
       <div class="qb-obj"><div class="qb-obj-head"><span class="qb-obj-lbl">${esc(t('eduObjective'))}</span></div><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
-      ${renderQuestionMeta(q)}
     </div>`;
+  }
+
+  /* Pasta da Library 1 correspondente ao System da questão. Sem correspondência,
+     devolve vazio e o link abre a Library 1 na raiz — nunca numa rota inválida. */
+  function l1FolderSlug(m){
+    const list = window.LIBRARY1_STRUCTURE || [];
+    const norm = x => String(x||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const want = norm(m.system);
+    const hit = list.find(f => norm(f.name)===want)
+             || list.find(f => norm(f.name).startsWith(want.split('-')[0]));
+    return hit ? norm(hit.name) : '';
   }
 
   function renderQuestionMeta(q){
@@ -17497,7 +17457,7 @@
         <span>${esc(m.subject)}</span><small>${esc(t('metaSubject'))}</small></button>
       <button class="qb-meta-col" data-act="meta-filter" data-kind="system" data-v="${esc(m.systemId)}">
         <span>${esc(m.system)}</span><small>${esc(t('metaSystem'))}</small></button>
-      <button class="qb-meta-col" data-act="meta-filter" data-kind="topic" data-v="${esc(m.topicId)}">
+      <button class="qb-meta-col" data-act="meta-filter" data-kind="topic" data-v="${esc(m.topicId)}" data-folder="${esc(l1FolderSlug(m))}">
         <span>${esc(m.topic)}</span><small>${esc(t('metaTopic'))}</small></button>
     </div>`;
   }
@@ -17760,8 +17720,16 @@
       case 'diff': view.f.difficulty=el.dataset.v; render(); break;
       case 'tutor-toggle': view.f.tutor=el.checked; render(); break;
       case 'timed-toggle': view.f.timed=el.checked; render(); break;
+      /* Tags do rodapé da questão: Subject e System levam à página principal do
+         QBank 1 já filtrada por eles; Topic abre o tópico correspondente na
+         Library 1 — mesmo que o tópico ainda não tenha conteúdo. */
       case 'meta-filter': {
         const kind=el.dataset.kind, val=el.dataset.v;
+        if(kind==='topic'){
+          const folder=el.dataset.folder||'';
+          location.href=`app.html?page=library-1&u=${encodeURIComponent(USER)}${folder?`&folder=${encodeURIComponent(folder)}`:''}`;
+          break;
+        }
         const nf={systems:[],disciplines:[],subjects:[],status:'all',pass:'all',difficulty:'all',tutor:true,timed:false,secs:90,count:10};
         if(kind==='system'){
           const sys=TAXONOMY.find(x=>x.id===val);
@@ -17770,8 +17738,7 @@
         if(kind==='subject'){
           nf.subjects = [...new Set(SEED.filter(q=>metaFor(q).subjectId===val).map(q=>q.category))];
         }
-        if(kind==='topic') nf.subjects=[val];
-        go({name:'create',f:nf}); break;
+        go({name:'home', sel:store.currentPass(), f:nf}); break;
       }
       case 'generate': startTest(); break;
       // teste
@@ -17793,8 +17760,11 @@
   }
   const currentQ = ()=> store.question(view.test.qids[view.test.idx]);
   function markPending(o){ // atualiza seleção sem re-render completo
-    root.querySelectorAll('.qb-opt').forEach(d=>d.classList.remove('chosen'));
-    const d=[...root.querySelectorAll('.qb-opt')].find(x=>x.dataset.o===o); if(d)d.classList.add('chosen');
+    // 'picked' é a classe que pinta o radio; 'chosen' segue por compatibilidade
+    // com regras antigas. As duas precisam andar juntas, senão a seleção não
+    // aparece antes do Submit e o clique parece não funcionar.
+    root.querySelectorAll('.qb-opt').forEach(d=>d.classList.remove('chosen','picked'));
+    const d=[...root.querySelectorAll('.qb-opt')].find(x=>x.dataset.o===o); if(d)d.classList.add('chosen','picked');
     const sub=document.getElementById('qbSubmit'); if(sub)sub.disabled=false;
   }
 
@@ -17802,6 +17772,26 @@
     if(!root) return;
     render();
   });
+
+  /* Voltar hierárquico (site.js → cmGoBack): dentro do QBank, "subir um nível"
+     é sair da tela atual para a anterior do módulo, e nunca abandonar um bloco
+     em andamento sem confirmar. Devolver true significa "eu tratei". */
+  window.CM_BACK_HANDLER = function(){
+    if(!root || !view) return false;
+    if(view.name==='test'){
+      const T0=view.test;
+      if(T0 && !T0.preview && T0.status!=='finished'){
+        if(!confirm(t('confirmSuspend'))) return true;   // ficou onde estava
+      }
+      go({name:'home', sel:store.currentPass()});
+      return true;
+    }
+    if(view.name==='create' || view.name==='results' || view.name==='analytics' || view.name==='guide'){
+      go({name:'home', sel:store.currentPass()});
+      return true;
+    }
+    return false; // já na home do QBank: o site decide o próximo nível
+  };
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 })();

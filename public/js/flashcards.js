@@ -1857,6 +1857,18 @@
     }
   }
 
+  /* Ponte para o card de Flashcards do dashboard: quantos cards vencem hoje e
+     quantos já foram revisados. Retorna null se o banco ainda não carregou —
+     o dashboard tenta de novo em vez de mostrar número inventado. */
+  window.CM_FLASH_TODAY = function(){
+    try{
+      const q = queues(), dc = dayCounters();
+      const due  = q.learn.length + q.review.length + q.fresh.length;
+      const done = (dc.revDone||0) + (dc.newDone||0);
+      return {due, done, total: due + done};
+    }catch(e){ return null; }
+  };
+
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
   /* O tradutor global do site (site.js setLang → couplemed:langchange) troca a página

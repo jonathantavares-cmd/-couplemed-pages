@@ -8,7 +8,7 @@
    herança do body e o tom escolhido não teria efeito dentro do QBank. */
 .qb{ color:var(--qb-text) }
 /* deixa o card do QBank mais largo que as outras páginas internas */
-#internalContent.qb-wide .internal-card{max-width:1220px;padding:26px 30px}
+#internalContent.qb-wide .internal-card{max-width:var(--cm-measure,none);padding:22px 26px}
 @media(max-width:640px){#internalContent.qb-wide .internal-card{padding:18px 14px}}
 
 .qb h1{font-size:28px;font-weight:400;margin:0 0 4px;color:var(--qb-text)}
@@ -499,37 +499,16 @@ body.qb-ui{
   --qb-blue:var(--qb-accent); --qb-blue-d:var(--qb-accent);
 }
 body.qb-ui .qb{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  /* Arial/Helvetica é o "UWorld clássico" declarado na barra da Imagem 10.
+     -apple-system resolveria para SF Pro no Mac, que tem desenho diferente. */
+  font-family:Arial,Helvetica,'Helvetica Neue','Liberation Sans',sans-serif;
+  /* --cm-scale vem do painel Aa da barra superior (1 = tamanho de referência) */
+  --qb-fs:calc(14px * var(--cm-scale,1));
+  --qb-lh:1.45;
   color:var(--qb-text);
 }
 body.qb-ui .qb h1{font-size:24px;font-weight:700;color:var(--qb-text)}
 body.qb-ui .qb h2.qb-h2{font-size:11px;letter-spacing:.08em;color:var(--qb-muted)}
-
-/* ==========================================================================
-   BARRA SUPERIOR — seletor de tom (Imagens 6 / 8 / 9)
-   ========================================================================== */
-.cm-tonebar{
-  /* alinhada à esquerda: os controles fixos do canto superior direito da
-     plataforma (busca, notificações, tema, idioma) passariam por cima. */
-  display:flex;align-items:center;gap:12px;
-  padding:9px 16px;margin:0 0 14px;padding-right:220px;
-  border:1px solid var(--qb-line,#e2eaf5);border-radius:12px;
-  background:var(--qb-card,#fff);box-shadow:0 2px 10px rgba(11,25,45,.05);
-}
-.cm-tonebar-lbl{font-size:13px;font-weight:600;color:var(--qb-muted,#5f748f);letter-spacing:.01em}
-.cm-tone-seg{display:inline-flex;padding:3px;border-radius:10px;background:var(--qb-card2,#f4f8fe);border:1px solid var(--qb-line,#e2eaf5)}
-.cm-tone-opt{
-  border:0;background:transparent;color:var(--qb-muted,#5f748f);
-  font:inherit;font-size:13.5px;font-weight:600;line-height:1;
-  padding:8px 18px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap;
-}
-.cm-tone-opt:hover{color:var(--qb-text,#132235)}
-.cm-tone-opt[aria-pressed="true"]{background:var(--qb-accent,#2768ff);color:#fff;box-shadow:0 2px 8px rgba(11,25,45,.14)}
-.cm-tone-opt:focus-visible{outline:2px solid var(--qb-accent,#2768ff);outline-offset:2px}
-@media(max-width:520px){
-  .cm-tonebar{justify-content:space-between;padding:8px 12px;gap:8px}
-  .cm-tone-opt{padding:8px 12px;font-size:12.5px}
-}
 
 /* ==========================================================================
    CONTEÚDO DA QUESTÃO
@@ -540,14 +519,15 @@ body.qb-ui .qb-opt-t,
 body.qb-ui .qb-expl-correct,
 body.qb-ui .qb-expl-incorrect li,
 body.qb-ui .qb-obj p{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  font-family:Arial,Helvetica,'Helvetica Neue','Liberation Sans',sans-serif;
+  font-size:var(--qb-fs);line-height:var(--qb-lh);
   overflow-wrap:break-word;word-break:normal;hyphens:none;
 }
-body.qb-ui .qb-vignette p{font-size:15.5px;line-height:1.55;letter-spacing:0;color:var(--qb-text)}
-body.qb-ui .qb-stem{font-size:15.5px;line-height:1.5;font-weight:700;color:var(--qb-text);margin-top:16px!important}
-body.qb-ui .qb-opt-t{font-size:14.5px;line-height:1.5;color:var(--qb-text)}
-body.qb-ui .qb-expl-correct{font-size:14.5px;line-height:1.6;color:var(--qb-text)}
-body.qb-ui .qb-expl-incorrect li{font-size:14px;line-height:1.55;color:var(--qb-text)}
+body.qb-ui .qb-vignette p{letter-spacing:0;color:var(--qb-text)}
+body.qb-ui .qb-stem{font-weight:700;color:var(--qb-text);margin-top:16px!important}
+body.qb-ui .qb-opt-t{color:var(--qb-text)}
+body.qb-ui .qb-expl-correct{color:var(--qb-text)}
+body.qb-ui .qb-expl-incorrect li{color:var(--qb-text)}
 
 /* opções: lista simples com radio circular, ✓/✕ à direita (sem card) */
 body.qb-ui .qb-opts{display:flex;flex-direction:column;gap:12px;margin:18px 0 20px}
@@ -564,8 +544,9 @@ body.qb-ui .qb-opt::before{
 /* o radio preenchido é sempre a escolha do usuário — inclusive depois de
    revelada a resposta. A correta que não foi escolhida fica com o radio vazio
    e recebe o ✓ verde na margem, exatamente como na Imagem 10. */
-body.qb-ui .qb-opt.picked::before{border-color:var(--qb-accent);background:radial-gradient(circle,var(--qb-accent) 42%,var(--qb-card) 44%)}
-body.qb-ui .qb-opt-l{flex:none;font-size:14.5px;font-weight:700;color:var(--qb-text);line-height:24px;pointer-events:none;min-width:20px}
+body.qb-ui .qb-opt.picked::before,
+body.qb-ui .qb-opt.chosen::before{border-color:var(--qb-accent);background:radial-gradient(circle,var(--qb-accent) 42%,var(--qb-card) 44%)}
+body.qb-ui .qb-opt-l{flex:none;font-size:var(--qb-fs);font-weight:700;color:var(--qb-text);line-height:calc(var(--qb-fs) * var(--qb-lh));pointer-events:none;min-width:20px}
 /* percentual de escolha na própria alternativa, discreto */
 body.qb-ui .qb-opt-pct{color:var(--qb-muted);font-weight:400}
 /* a alternativa correta ganha peso, como na referência */
@@ -575,7 +556,7 @@ body.qb-ui .qb-opt.correct .qb-opt-pct{font-weight:700;color:var(--qb-text)}
 body.qb-ui .qb-opt.chosen .qb-opt-l,
 body.qb-ui .qb-opt.correct .qb-opt-l,
 body.qb-ui .qb-opt.chosen-wrong .qb-opt-l{color:var(--qb-text)}
-body.qb-ui .qb-opt-t{flex:1;line-height:24px}
+body.qb-ui .qb-opt-t{flex:1}
 /* ✓ e ✕ ficam na margem esquerda, antes do radio (padrão da Imagem 10).
    O espaço vem do padding da opção, então nada escapa da coluna. */
 body.qb-ui .qb-opts{padding-left:28px}
@@ -657,7 +638,7 @@ body.qb-ui .qb-obj{
 }
 body.qb-ui .qb-obj-head{margin-bottom:6px}
 body.qb-ui .qb-obj-lbl{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--qb-muted)}
-body.qb-ui .qb-obj p{margin:0;font-size:14.5px;line-height:1.55;color:var(--qb-text)}
+body.qb-ui .qb-obj p{margin:0;color:var(--qb-text)}
 body.qb-ui .qb-badge{font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:999px}
 body.qb-ui .qb-badge.ok{background:var(--qb-ok-soft);color:var(--qb-ok)}
 body.qb-ui .qb-badge.bad{background:var(--qb-bad-soft);color:var(--qb-bad)}
@@ -675,7 +656,7 @@ body.qb-ui .qb-question-col,
 body.qb-ui .qb-explanation-col{min-width:0}
 body.qb-ui .qb-splitter{display:none}
 
-@media(min-width:1024px){
+@media(min-width:768px){
   body.qb-ui .qb-test-body.has-explanation{
     grid-template-columns:minmax(0,var(--qb-split,50%)) 22px minmax(0,1fr);
     gap:0;align-items:start;
@@ -685,6 +666,13 @@ body.qb-ui .qb-splitter{display:none}
   body.qb-ui .qb-splitter{
     display:block;position:relative;align-self:stretch;width:22px;
     cursor:col-resize;background:transparent;border:0;padding:0;touch-action:none;
+  }
+  /* área de toque de 44px em telas de dedo — a alça visual continua fina,
+     mas o alvo cresce para os lados, que é o mínimo confortável no iPad. */
+  body.qb-ui .qb-splitter::after{content:'';position:absolute;top:0;bottom:0;left:50%;
+    width:44px;transform:translateX(-50%)}
+  @media(pointer:coarse){
+    body.qb-ui .qb-splitter::before{width:4px;background:var(--qb-line2)}
   }
   body.qb-ui .qb-splitter::before{
     content:'';position:absolute;left:50%;top:0;bottom:0;width:3px;transform:translateX(-50%);
@@ -755,17 +743,11 @@ body.qb-ui .qb-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;mar
    RESPONSIVO — coluna única abaixo de 1024px, tipografia progressiva
    ========================================================================== */
 @media(max-width:820px){
-  body.qb-ui .qb-vignette p{font-size:15.2px;line-height:1.55}
-  body.qb-ui .qb-stem{font-size:15.2px}
+  body.qb-ui .qb{--qb-fs:calc(13.6px * var(--cm-scale,1))}
   body.qb-ui .qb-test-body{gap:20px}
 }
 @media(max-width:640px){
-  body.qb-ui .qb-vignette p{font-size:15px;line-height:1.52}
-  body.qb-ui .qb-stem{font-size:15px}
-  body.qb-ui .qb-opt-t{font-size:14px;padding-right:24px}
-  body.qb-ui .qb-expl-correct{font-size:14px;line-height:1.55}
-  body.qb-ui .qb-expl-incorrect li{font-size:13.5px}
-  body.qb-ui .qb-obj p{font-size:14px}
+  body.qb-ui .qb{--qb-fs:calc(13.4px * var(--cm-scale,1))}
   body.qb-ui .qb-test-body{gap:18px}
   /* a margem negativa do botão de riscar não cabe: ele entra no próprio
      padding da opção, à esquerda, sem disputar espaço com o ✓/✕ da direita */
@@ -773,10 +755,8 @@ body.qb-ui .qb-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;mar
   body.qb-ui .qb-opt .qb-strike{left:0;opacity:.4}
 }
 @media(max-width:520px){
-  body.qb-ui .qb-vignette p{font-size:14.6px;line-height:1.5}
-  body.qb-ui .qb-stem{font-size:14.6px}
-  body.qb-ui .qb-opt-t{font-size:13.6px;line-height:1.45}
-  body.qb-ui .qb-opt-l{min-width:14px;font-size:13.6px}
+  body.qb-ui .qb{--qb-fs:calc(13.2px * var(--cm-scale,1))}
+  body.qb-ui .qb-opt-l{min-width:14px}
   body.qb-ui .qb-opt::before{width:18px;height:18px}
   body.qb-ui .qb-opt{gap:10px}
   body.qb-ui .qb-expl h3{font-size:13px;padding:7px 12px}
@@ -785,4 +765,60 @@ body.qb-ui .qb-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;mar
   body.qb-ui .qb-tax-name,
   body.qb-ui .qb-qm-label{word-break:keep-all;overflow-wrap:break-word}
   body.qb-ui .qb-res-summary-stats{gap:14px}
+}
+
+/* ==========================================================================
+   CREATE TEST COMPACTO — tamanhos das imagens 14 / 15
+   --------------------------------------------------------------------------
+   A referência tem razão texto/caixa ≈ 0,65: a caixa manda no ritmo da linha e
+   o rótulo é proporcionalmente menor. É isso que faz rótulos longos
+   ("Psychiatric/Behavioral & Substance Use Disorder") caberem em uma linha.
+   Os três números abaixo comandam a densidade inteira da tela.
+   ========================================================================== */
+body.qb-ui .qb{
+  --qb-box:17px;              /* checkbox */
+  --qb-tax-fs:12.5px;         /* rótulo */
+  --qb-tax-lh:27px;           /* altura da linha */
+}
+body.qb-ui .qb-tax-box{width:var(--qb-box);height:var(--qb-box);border-width:1.5px;border-radius:4px}
+body.qb-ui .qb-tax-sys,
+body.qb-ui .qb-tax-sub{gap:8px;padding:0 3px;min-height:var(--qb-tax-lh)}
+body.qb-ui .qb-tax-name{font-size:var(--qb-tax-fs);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.qb-ui .qb-tax-sub>.qb-tax-name{font-weight:400}
+body.qb-ui .qb-tax-count{min-width:20px;height:17px;padding:0 6px;font-size:10.5px;font-weight:700}
+body.qb-ui .qb-tax-group{margin-bottom:12px}
+body.qb-ui .qb-tax-subs{margin:2px 0 0 7px;padding-left:12px}
+body.qb-ui .qb-tax-toggle{width:20px;height:20px;font-size:14px}
+body.qb-ui .qb-tax-sys.master>.qb-tax-name{font-size:11.5px;letter-spacing:.06em}
+
+/* status numa linha só, como na Imagem 14 08.42.08 */
+body.qb-ui .qb-status-field .qb-status-row{gap:10px 22px;flex-wrap:wrap}
+body.qb-ui .qb-status-item{gap:7px;padding:2px}
+body.qb-ui .qb-status-item .qb-tax-box{width:var(--qb-box);height:var(--qb-box)}
+body.qb-ui .qb-status-name{font-size:var(--qb-tax-fs);font-weight:400;white-space:nowrap}
+body.qb-ui .qb-status-count{min-width:20px;height:17px;padding:0 6px;font-size:10.5px}
+
+/* Test Mode / Question Mode — Imagem 15 08.42.08 */
+body.qb-ui .qb-mode-title{font-size:10.5px;margin-bottom:9px}
+body.qb-ui .qb-mode-inline{gap:26px}
+body.qb-ui .qb-mode-item span{font-size:var(--qb-tax-fs);font-weight:400}
+body.qb-ui .qb-switch-track{width:34px;height:19px}
+body.qb-ui .qb-switch-knob{width:14px;height:14px;top:2.5px;left:2.5px}
+body.qb-ui .qb-switch input:checked + .qb-switch-track .qb-switch-knob{transform:translateX(15px)}
+body.qb-ui .qb-qm-label{font-size:var(--qb-tax-fs);font-weight:700}
+body.qb-ui .qb-qm-tip{font-size:11.5px}
+body.qb-ui .qb-field>label{font-size:10.5px;margin-bottom:8px}
+body.qb-ui .qb-chip,
+body.qb-ui .qb-seg{padding:5px 11px;font-size:11.5px}
+body.qb-ui .qb-avail{font-size:11.5px}
+body.qb-ui .qb-avail strong{font-size:18px}
+body.qb-ui .qb-info-ico{width:13px;height:13px;font-size:8.5px}
+
+/* No iPad e no celular a taxonomia mantém as duas colunas o quanto der; o
+   corte para uma coluna só acontece quando a linha realmente não cabe. */
+@media(max-width:700px){body.qb-ui .qb-tax{column-count:1}}
+@media(max-width:520px){
+  body.qb-ui .qb{--qb-box:16px;--qb-tax-fs:12px;--qb-tax-lh:25px}
+  body.qb-ui .qb-status-field .qb-status-row{gap:8px 16px}
+  body.qb-ui .qb-mode-inline{gap:18px}
 }

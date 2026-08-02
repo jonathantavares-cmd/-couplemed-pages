@@ -199,34 +199,169 @@
   /* Tema/fundo: '' = automático (escuro na Home, claro nas páginas internas — comportamento
      histórico). 'light' = claro. Os demais são tons ESCUROS de fundo, aplicados via
      html[data-bg]; a cor do texto continua a mesma do escuro, só o fundo muda. */
-  const STG_DARK_BGS=['dark','black','slate','indigo','ocean','plum'];
-  /* 'light' = branco puro (sem data-bg); os demais claros aplicam body.light + um
-     tom suave no fundo via html[data-bg], mantendo os cards brancos por cima. */
-  const STG_LIGHT_BGS=['light','paper','mist','sage','rose'];
-  const STG_THEMES=STG_LIGHT_BGS.concat(STG_DARK_BGS);
-  /* Aplica tema+fundo em qualquer página. `page` só importa quando theme='' (auto). */
-  function applyAppearance(theme,page){
+  /* ===================== TOM DA PLATAFORMA =====================
+     Três tons e só três: Claro, Sépia e Escuro. Substituem os onze temas
+     antigos (paper/mist/sage/rose/black/slate/indigo/ocean/plum), que viviam
+     só em Settings e conviviam mal com o seletor da barra superior.
+     A escolha é global, vale em todas as páginas e é a mesma que o QBank usa. */
+  const STG_TONES=['light','sepia','dark'];
+  /* Temas gravados antes desta versão caem no tom mais próximo, para ninguém
+     abrir a plataforma num estado sem tom definido. */
+  const STG_TONE_MIGRATION={
+    light:'light', paper:'sepia', mist:'light', sage:'light', rose:'light',
+    dark:'dark', black:'dark', slate:'dark', indigo:'dark', ocean:'dark', plum:'dark'
+  };
+  function stgNormalizeTone(v){
+    if(STG_TONES.includes(v)) return v;
+    return STG_TONE_MIGRATION[v] || 'light';
+  }
+  /* Aplica o tom no <html> e no <body>. `body.light` continua sendo a chave que
+     o CSS do site usa para superfícies claras — Claro e Sépia são claros. */
+  function applyAppearance(tone){
     const b=document.body, h=document.documentElement;
-    if(STG_LIGHT_BGS.includes(theme)){
-      b.classList.add('light');
-      if(theme==='light') h.removeAttribute('data-bg'); else h.setAttribute('data-bg',theme);
-      return;
-    }
-    if(STG_DARK_BGS.includes(theme)){
-      b.classList.remove('light');
-      if(theme==='dark') h.removeAttribute('data-bg'); else h.setAttribute('data-bg',theme);
-      return;
-    }
-    /* auto: Home escura, páginas internas claras (padrão original do site) */
-    b.classList.toggle('light',(page||'')!=='home');
+    const v=stgNormalizeTone(tone);
+    h.setAttribute('data-tone',v); b.setAttribute('data-tone',v);
+    h.classList.toggle('cm-light-tone', v!=='dark');
+    b.classList.toggle('light', v!=='dark');
     h.removeAttribute('data-bg');
+    try{ localStorage.setItem('cm-tone',v); }catch(e){}
+    return v;
+  }
+  function currentTone(){
+    let v=null;
+    try{ v=localStorage.getItem('cm-tone'); }catch(e){}
+    return STG_TONES.includes(v)?v:null;
+  }
+  /* ===================== VOLTAR HIERÁRQUICO =====================
+     "Voltar" sobe um nível na hierarquia da página — nunca desfaz histórico.
+     O destino sai da URL, então é o mesmo tendo o usuário chegado por menu,
+     por link direto ou depois de recarregar (casos em que history.back() sai
+     do site ou não tem para onde ir).
+     Ordem de resolução:
+       1) uma camada aberta por cima (zoom, modal, leitor) fecha primeiro;
+       2) o módulo da página pode interceptar (CM_BACK_HANDLER) — é como o
+          QBank pede confirmação antes de abandonar um bloco em andamento;
+       3) sobe um nível pelo mapa; sem pai definido, vai para a Home. */
+  const CM_PARENT={
+    'qbank1':'qbank', 'qbank2':'qbank',
+    'qbank1-pass-1':'qbank1', 'qbank1-pass-2':'qbank1',
+    'qbank1-pass-3':'qbank1', 'qbank1-pass-4':'qbank1',
+    'notebooks':'my-workspace', 'notes':'my-workspace',
+    'study-planner':'my-workspace', 'links':'my-workspace'
+  };
+  function cmCloseTopLayer(){
+    const layers=['.qb-zoom','.qb-modal','.l3r-modal','.l1r-modal','.cm-narrator-panel.open'];
+    for(const sel of layers){
+      const el=document.querySelector(sel);
+      if(el && el.offsetParent!==null){
+        const close=el.querySelector('[data-act="close"],.qb-zoom-close,.l3r-close,.l1r-close');
+        if(close) close.click(); else el.remove();
+        return true;
+      }
+    }
+    return false;
+  }
+  function cmGoBack(){
+    if(cmCloseTopLayer()) return;
+    if(typeof window.CM_BACK_HANDLER==='function' && window.CM_BACK_HANDLER()===true) return;
+    const page=(new URL(location.href)).searchParams.get('page')||'home';
+    if(page==='home'){ location.href='app.html'; return; }
+    const parent=CM_PARENT[page]||'home';
+    location.href = parent==='home' ? `app.html?page=home&u=${user()}` : `app.html?page=${parent}&u=${user()}`;
+  }
+  window.cmGoBack=cmGoBack;
+
+  /* Seletor de tom da barra superior. `onPick` grava a escolha nas preferências
+     do usuário; a aplicação visual já acontece em applyAppearance. */
+  function cmWireToneSeg(onPick){
+    const seg=document.getElementById('cmToneSeg'); if(!seg) return;
+    const paint=()=>{
+      const cur=document.documentElement.getAttribute('data-tone')||'light';
+      seg.querySelectorAll('.cm-tone-opt').forEach(b=>{
+        b.setAttribute('aria-pressed', String(b.dataset.tone===cur));
+      });
+    };
+    seg.addEventListener('click',ev=>{
+      const b=ev.target.closest('.cm-tone-opt'); if(!b) return;
+      const v=applyAppearance(b.dataset.tone);
+      paint();
+      if(onPick) onPick(v);
+      window.dispatchEvent(new CustomEvent('couplemed:tonechange',{detail:{tone:v}}));
+    });
+    paint();
+    window.addEventListener('couplemed:langchange',paint);
+  }
+
+  /* ===================== TAMANHO E LARGURA DO TEXTO =====================
+     Painel "Aa" da barra superior. Escala só o conteúdo de leitura (nunca
+     menu, sidebar ou barras) através de duas variáveis na raiz:
+       --cm-scale    multiplicador tipográfico (0.90 … 1.15)
+       --cm-measure  largura máxima da coluna de leitura (ch) ou 'none'
+     Guardar como passo (0..4), e não como px, mantém tudo proporcional e
+     impede combinações que quebrem o layout. */
+  const CM_SCALES  = [0.90, 0.95, 1.00, 1.08, 1.15];
+  const CM_MEASURES= ['72ch','84ch','96ch','112ch','none'];
+  function cmTypePrefs(){
+    let s=2, w=CM_MEASURES.length-1; // padrão: tamanho normal, largura total
+    try{
+      const raw=JSON.parse(localStorage.getItem('cm-type')||'{}');
+      if(Number.isInteger(raw.s) && raw.s>=0 && raw.s<CM_SCALES.length) s=raw.s;
+      if(Number.isInteger(raw.w) && raw.w>=0 && raw.w<CM_MEASURES.length) w=raw.w;
+    }catch(e){}
+    return {s,w};
+  }
+  function cmApplyType(p){
+    const h=document.documentElement;
+    h.style.setProperty('--cm-scale', String(CM_SCALES[p.s]));
+    h.style.setProperty('--cm-measure', CM_MEASURES[p.w]);
+    try{ localStorage.setItem('cm-type', JSON.stringify(p)); }catch(e){}
+  }
+  function cmWireTypePanel(){
+    const btn=document.getElementById('cmTypeBtn'), pop=document.getElementById('cmTypePop');
+    if(!btn||!pop) return;
+    let p=cmTypePrefs(); cmApplyType(p);
+    const t=()=>I18N[cmLang()];
+    const draw=()=>{
+      const L=t();
+      const steps=(n,cur,kind)=>Array.from({length:n},(_,i)=>
+        `<button type="button" class="cm-type-step ${i===cur?'on':''}" data-kind="${kind}" data-i="${i}" aria-label="${i+1}"></button>`).join('');
+      pop.innerHTML=`
+        <div class="cm-type-row">
+          <span class="cm-type-lbl">${L.typeSize||'Text size'}</span>
+          <div class="cm-type-steps">${steps(CM_SCALES.length,p.s,'s')}</div>
+          <span class="cm-type-val">${Math.round(CM_SCALES[p.s]*100)}%</span>
+        </div>
+        <div class="cm-type-row">
+          <span class="cm-type-lbl">${L.typeWidth||'Width'}</span>
+          <div class="cm-type-steps">${steps(CM_MEASURES.length,p.w,'w')}</div>
+          <span class="cm-type-val">${p.w===CM_MEASURES.length-1?(L.typeFull||'Full'):(L.typeComfort||'Comfortable')}</span>
+        </div>
+        <button type="button" class="cm-type-reset" id="cmTypeReset">${L.typeReset||'Reset'}</button>`;
+    };
+    const open=v=>{
+      pop.hidden=!v; btn.setAttribute('aria-expanded',String(v));
+      if(v){ draw(); }
+    };
+    btn.addEventListener('click',e=>{ e.stopPropagation(); open(pop.hidden); });
+    pop.addEventListener('click',e=>{
+      e.stopPropagation();
+      const step=e.target.closest('.cm-type-step');
+      if(step){
+        p = step.dataset.kind==='s' ? {s:+step.dataset.i, w:p.w} : {s:p.s, w:+step.dataset.i};
+        cmApplyType(p); draw(); return;
+      }
+      if(e.target.closest('#cmTypeReset')){ p={s:2,w:CM_MEASURES.length-1}; cmApplyType(p); draw(); }
+    });
+    document.addEventListener('click',()=>{ if(!pop.hidden) open(false); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!pop.hidden) open(false); });
+    window.addEventListener('couplemed:langchange',()=>{ if(!pop.hidden) draw(); });
   }
   function getPrefs(uid){
     let p={};
     try{ p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid))||{}; }catch(e){ p={}; }
     const qb = p.qbank||{};
     return {
-      theme: STG_THEMES.includes(p.theme) ? p.theme : '',
+      theme: stgNormalizeTone(p.theme),
       lang:  p.lang==='pt'||p.lang==='en' ? p.lang : '',
       qbank:{
         tutor: qb.tutor!=null ? !!qb.tutor : (qb.mode!=='timed'),
@@ -388,6 +523,9 @@
   Object.assign(I18N.en, {
     qbReview:'Review', qbStart:'Start',
     /* Settings — seções e navegação */
+    toneLight:'Light', toneSepia:'Sepia', toneDark:'Dark', toneLabel:'Tone',
+    typeSize:'Text size', typeWidth:'Width', typeFull:'Full', typeComfort:'Comfortable', typeReset:'Reset',
+    newsSoon:'News of the day', fcDueToday:'to review today', fcStudy:'Study', fcDone:'Done',
     stgSecProfile:'Profile', stgSecAppearance:'Appearance', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
     stgSecData:'My Data', stgSecDanger:'Danger Zone', stgSecUsers:'User Management', stgSecUnlock:'Pass Unlock',
     stgSecSystem:'System Info',
@@ -423,6 +561,9 @@
   });
   Object.assign(I18N.pt, {
     qbReview:'Revisar', qbStart:'Iniciar',
+    toneLight:'Claro', toneSepia:'Sépia', toneDark:'Escuro', toneLabel:'Tom',
+    typeSize:'Tamanho do texto', typeWidth:'Largura', typeFull:'Total', typeComfort:'Confortável', typeReset:'Padrão',
+    newsSoon:'Notícias do dia', fcDueToday:'para revisar hoje', fcStudy:'Estudar', fcDone:'Concluído',
     stgSecProfile:'Perfil', stgSecAppearance:'Aparência', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
     stgSecData:'Meus Dados', stgSecDanger:'Zona de Perigo', stgSecUsers:'Gestão de Usuários', stgSecUnlock:'Desbloqueio de Passadas',
     stgSecSystem:'Informações do Sistema',
@@ -1108,30 +1249,19 @@
   /* ---------------- Aparência ---------------- */
   function stgAppearance(panel,u,lang,t){
     const p=getPrefs(u);
-    const cur=p.theme||'auto';
+    const cur=stgNormalizeTone(p.theme);
     /* Cada opção é uma BOLINHA com o tom real do fundo — sem nomes escritos.
        O `title`/`aria-label` dá o nome para acessibilidade e tooltip. Agrupadas
        em Automático / Claros / Escuros para dar destaque aos tons claros. */
+    /* Três tons e só três — os mesmos da barra superior. Um seletor com onze
+       opções aqui e três lá seria a mesma preferência com duas respostas. */
     const swatches=[
-      {v:'auto',  l:t.stgThemeAuto,  cls:'stg-dot-auto',   g:'auto'},
-      {v:'light', l:t.stgBgWhite,    cls:'stg-dot-light',  g:'light'},
-      {v:'paper', l:t.stgBgPaper,    cls:'stg-dot-paper',  g:'light'},
-      {v:'mist',  l:t.stgBgMist,     cls:'stg-dot-mist',   g:'light'},
-      {v:'sage',  l:t.stgBgSage,     cls:'stg-dot-sage',   g:'light'},
-      {v:'rose',  l:t.stgBgRose,     cls:'stg-dot-rose',   g:'light'},
-      {v:'dark',  l:t.stgBgNavy,     cls:'stg-dot-navy',   g:'dark'},
-      {v:'black', l:t.stgBgBlack,    cls:'stg-dot-black',  g:'dark'},
-      {v:'slate', l:t.stgBgSlate,    cls:'stg-dot-slate',  g:'dark'},
-      {v:'indigo',l:t.stgBgIndigo,   cls:'stg-dot-indigo', g:'dark'},
-      {v:'ocean', l:t.stgBgOcean,    cls:'stg-dot-ocean',  g:'dark'},
-      {v:'plum',  l:t.stgBgPlum,     cls:'stg-dot-plum',   g:'dark'}
+      {v:'light', l:t.toneLight, cls:'stg-dot-light', g:'tone'},
+      {v:'sepia', l:t.toneSepia, cls:'stg-dot-paper', g:'tone'},
+      {v:'dark',  l:t.toneDark,  cls:'stg-dot-navy',  g:'tone'}
     ];
     const dot=s=>`<button type="button" class="stg-swatch ${s.v===cur?'on':''}" data-bg-choice="${s.v}" title="${stgEsc(s.l)}" aria-label="${stgEsc(s.l)}"><span class="stg-swatch-dot ${s.cls}"></span></button>`;
-    const groups=[
-      {id:'auto', label:t.stgBgGroupAuto},
-      {id:'light',label:t.stgBgGroupLight},
-      {id:'dark', label:t.stgBgGroupDark}
-    ];
+    const groups=[{id:'tone', label:t.toneLabel}];
     const swHTML=groups.map(g=>`<div class="stg-swatch-group">
         <span class="stg-swatch-glabel">${stgEsc(g.label)}</span>
         <div class="stg-swatches">${swatches.filter(s=>s.g===g.id).map(dot).join('')}</div>
@@ -1150,8 +1280,9 @@
       const v=btn.dataset.bgChoice;
       panel.querySelectorAll('.stg-swatch').forEach(b=>b.classList.remove('on'));
       btn.classList.add('on');
-      const cur2=getPrefs(u); cur2.theme = v==='auto'?'':v; setPrefs(u,cur2);
-      applyAppearance(cur2.theme, page());
+      const cur2=getPrefs(u); cur2.theme = v; setPrefs(u,cur2);
+      applyAppearance(cur2.theme);
+      cmWireToneSeg();
       const nameEl=$('#stgSwatchName'); if(nameEl) nameEl.textContent=(swatches.find(s=>s.v===v)||swatches[0]).l;
       stgFlashSaved($('#stgApprMsg'),t);
     }));
@@ -1567,6 +1698,33 @@
     if(uid==='john' || qbUnlockCeiling(uid)>=pn) return 'active';
     return 'locked';
   }
+  /* Metade de baixo da coluna dividida: revisões de hoje, com a mesma anatomia
+     do card da passada (contagem, barra e botão) para as duas metades ficarem
+     simétricas. */
+  function renderFlashToday(lang){
+    const body=document.getElementById('flashTodayBody'); if(!body) return;
+    const t=I18N[lang]||I18N.en;
+    const d = typeof window.CM_FLASH_TODAY==='function' ? window.CM_FLASH_TODAY() : null;
+    if(!d){ body.innerHTML=`<div class="bar-line"><div class="bar-body"><span class="bar-count">—</span></div></div>`; return; }
+    const pct = d.total ? Math.round((d.done/d.total)*100) : 0;
+    const label = d.due>0 ? (t.fcStudy||'Study') : (t.fcDone||'Done');
+    body.innerHTML=`<div class="bar-line">
+      <div class="bar-body">
+        <div class="bar-top">
+          <span class="bar-pass">${d.due} ${t.fcDueToday||'to review today'}</span>
+          <span class="bar-count">${d.done} / ${d.total}</span>
+        </div>
+        <div class="bar-bottom">
+          <div class="bar-progress"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <span class="bar-pct">${pct}%</span>
+        </div>
+      </div>
+      <button class="bar-btn" id="fcTodayBtn" ${d.due?'':'disabled'}>${label}</button>
+    </div>`;
+    const b=document.getElementById('fcTodayBtn');
+    if(b) b.addEventListener('click',()=>{ location.href=`app.html?page=flashcards&u=${user()}`; });
+  }
+
   function renderQBankProgress(lang){
     const body=document.getElementById('qbankProgressBody'); if(!body)return;
     const t=I18N[lang]||I18N.en;
@@ -1574,8 +1732,12 @@
     const total=window.QBANK_TOTAL||0;
     const map=qbAttemptsByQ(uid);
     const passLabels={1:t.pass1,2:t.pass2,3:t.pass3};
+    /* Só a passada em que o usuário está — o dashboard responde "o que faço
+       agora", não "qual é o mapa inteiro". A visão das quatro passadas continua
+       inteira dentro do QBank. A atual é a primeira não concluída. */
+    const current=[1,2,3].find(pn=>qbPassState(uid,map,total,pn)!=='completed') || 3;
     let html='';
-    [1,2,3].forEach(pn=>{
+    [current].forEach(pn=>{
       const prog=qbPassProgress(map,total,pn);
       const state=qbPassState(uid,map,total,pn);
       const locked=state==='locked';
@@ -1649,7 +1811,9 @@
     sec=Math.max(0,Math.floor(sec));
     const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);
     if(h>0)return h+'<small class="unit">h</small>'+(m<10?'0':'')+m+'<small class="unit">min</small>';
-    return m+'<small class="unit">'+(m===1?t.minuteOne:t.minuteMany)+'</small>';
+    // unidade por extenso ganha o mesmo respiro dos cartões de cima (unit-word);
+    // as abreviações h/min acima continuam coladas ao número, como devem ser.
+    return m+'<small class="unit unit-word">'+(m===1?t.minuteOne:t.minuteMany)+'</small>';
   }
   function renderStudyTime(){
     const t=I18N[cmLang()];
@@ -1720,25 +1884,13 @@
     const bootLang = sessLang==='pt'||sessLang==='en' ? sessLang : (prefs.lang||'en');
     $$('.flag-button').forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang))); setLang(bootLang);
     const sidebarUserEl=$('#sidebarUserName'); if(sidebarUserEl){ sidebarUserEl.textContent=getUserDisplay(user()); }
-    /* v51 — tema inicial: preferência do usuário; sem preferência, mantém o comportamento
-       original (home escuro, páginas internas claras). O botão do topo continua livre. */
-    applyAppearance(prefs.theme, p);
-    /* Botão de tema do topo: alterna claro ↔ escuro. Ao voltar ao escuro, restaura o
-       tom de fundo escolhido pelo usuário (não força o marinho padrão). Continua efêmero:
-       não grava em preferências, igual ao comportamento original. */
-    const theme=$('#themeToggle'); if(theme)theme.addEventListener('click',()=>{
-      const savedDark=STG_DARK_BGS.includes(prefs.theme)?prefs.theme:'dark';
-      const savedLight=STG_LIGHT_BGS.includes(prefs.theme)?prefs.theme:'light';
-      applyAppearance(document.body.classList.contains('light')?savedDark:savedLight, p);
-    });
-    /* "Voltar" padrão QBank — o botão global sempre leva para a Home do site,
-       independentemente da página atual. Mesma semântica do "Back to QBank"
-       dentro do módulo QBank: voltar = ir para o início do aplicativo. */
+    /* Tom inicial: o que o usuário escolheu na barra (localStorage, já aplicado
+       pelo script inline do <head>) e, na falta dele, a preferência migrada. */
+    applyAppearance(currentTone() || prefs.theme);
+    cmWireToneSeg(u=>{ const c=getPrefs(user()); c.theme=u; setPrefs(user(),c); });
+    cmWireTypePanel();
     const backBtn=$('#cmBackHome'); if(backBtn)backBtn.addEventListener('click',e=>{
-      e.preventDefault();
-      const p=(new URL(location.href)).searchParams.get('page')||'home';
-      if(p==='home'){ location.href=backBtn.getAttribute('href'); return; }
-      location.href=`app.html?page=home&u=${user()}`;
+      e.preventDefault(); cmGoBack();
     });
     /* voltar/avançar do NAVEGADOR: a navegação interna usa pushState; recarregar
        garante que a tela renderizada corresponda exatamente à URL. */
@@ -1756,7 +1908,7 @@
     });
     initSiteSearch();
     cmStartTimeTracking();
-    if(p==='home'){const hl=sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en';renderStreak(hl);renderStudyTime();(function qbProg(tries){ if(window.QBANK_TOTAL){ renderQBankProgress(hl); return; } if(tries<40) setTimeout(()=>qbProg(tries+1),100); })(0);}
+    if(p==='home'){const hl=sessionStorage.getItem(`couplemed_lang_current_${user()}`)==='pt'?'pt':'en';renderStreak(hl);renderStudyTime();(function qbProg(tries){ if(window.QBANK_TOTAL){ renderQBankProgress(hl); return; } if(tries<40) setTimeout(()=>qbProg(tries+1),100); })(0);(function fcToday(tries){ if(typeof window.CM_FLASH_TODAY==='function' && window.CM_FLASH_TODAY()){ renderFlashToday(hl); return; } if(tries<40) setTimeout(()=>fcToday(tries+1),100); else renderFlashToday(hl); })(0);}
     /* — QBank sidebar: atualiza "0 / XXXX" com SEED.length real —
        Retry porque qbank.js pode carregar depois de site.js */
     (function fillQBankTotal(tries){
