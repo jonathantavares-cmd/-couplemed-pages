@@ -17478,6 +17478,11 @@
     const q=store.question(T0.qids[T0.idx]);
     const ans = auto? null : T0.pending;
     const time=Math.round((Date.now()-(view.qStart||Date.now()))/1000);
+    /* O tempo era calculado e gravado só no histórico do attempt; o card de
+       resultado lê T0.times, que nunca era preenchido — daí "00 seg" sempre.
+       Guardado em milissegundos, que é a unidade que o card espera. */
+    if(!T0.times) T0.times={};
+    if(T0.times[q.id]==null) T0.times[q.id]=time*1000;
     T0.answers[q.id]= ans==null? (T0.answers[q.id]??null) : ans;
     // registra attempt imutável (Parte 3/4) — só na 1ª submissão desta questão neste bloco
     if(!T0._recorded) T0._recorded={};
@@ -17494,8 +17499,8 @@
   }
 
   function serializeTest(T0){ // grava sem campos voláteis
-    const {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at}=T0;
-    return {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at,
+    const {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at,times}=T0;
+    return {id,user_id,test_type,filters,tutor,timed,secs,status,qids,idx,answers,strikes,started_at,times,
       total_count:qids.length,
       correct_count:qids.filter(q=>{const x=store.question(q);return x&&answers[q]===x.correct;}).length,
       incorrect_count:qids.filter(q=>{const x=store.question(q);return x&&answers[q]!=null&&answers[q]!==x.correct;}).length,
