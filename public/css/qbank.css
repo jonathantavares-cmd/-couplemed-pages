@@ -906,6 +906,28 @@ body.qb-ui .qb-res-metric{gap:clamp(5px,1.2vw,9px);min-width:0;white-space:nowra
 body.qb-ui .qb-res-ico{font-size:clamp(12px,2.6vw,16px)}
 body.qb-ui .qb-res-metric b{font-size:clamp(11px,2.4vw,13.5px)}
 body.qb-ui .qb-res-metric small{font-size:clamp(9.5px,2vw,11.5px)}
+/* iPad: a coluna da questão fica estreita em retrato e os três blocos se
+   sobrepunham (nowrap não impede sobreposição, só impede a quebra do texto).
+   Aqui eles podem quebrar para a linha de baixo quando não couberem — em
+   retrato quebram, deitado continuam em uma linha, sem ficar colados. */
+@media(min-width:641px) and (max-width:1180px){
+  body.qb-ui .qb-res-summary{flex-wrap:wrap;row-gap:10px;column-gap:clamp(16px,3vw,34px)}
+  body.qb-ui .qb-res-verdict{flex:0 0 auto}
+  body.qb-ui .qb-res-metric{flex:0 0 auto}
+  /* a largura que importa é a da COLUNA, não a da tela: em retrato ela fica
+     perto de 280px e os três blocos empilhariam em três linhas. Abaixo de
+     420px de coluna, o veredito ocupa a linha de cima e as duas métricas
+     dividem a de baixo — duas linhas, como pedido. */
+  body.qb-ui .qb-question-col{container-type:inline-size}
+  @container (max-width:420px){
+    body.qb-ui .qb-res-verdict{flex:1 0 100%}
+    body.qb-ui .qb-res-metric{flex:1 1 0;min-width:0}
+    /* com a métrica dividindo ~130px, o rótulo por extenso não cabe numa
+       linha: aqui ele pode quebrar, em vez de vazar para fora do card */
+    body.qb-ui .qb-res-metric small{white-space:normal;line-height:1.25}
+  }
+}
+
 /* no celular os rótulos ficam por extenso, em duas linhas dentro do bloco */
 @media(max-width:640px){
   /* nada quebra linha: os rótulos ficam inteiros e a tipografia cede o
