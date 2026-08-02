@@ -979,23 +979,34 @@ body.qb-ui .qb-status-field .qb-status-row{flex-wrap:nowrap}
   body.qb-ui .qb-status-field .qb-status-row{gap:8px 14px}
   body.qb-ui .qb-status-name{font-size:11.5px}
 }
-@media(max-width:640px){
-  /* três por linha, exatamente duas linhas para as seis opções */
+@media(max-width:1180px){
+  /* três por linha, exatamente duas linhas para as seis opções. Em uma linha
+     só, as seis não cabem no iPad em retrato (precisariam de ~580px e há
+     ~560px no Pro e ~500px nos menores) e a última saía do card. Em grade o
+     resultado é o mesmo em qualquer iPad. */
   body.qb-ui .qb-status-field .qb-status-row{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:9px 6px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px 12px;
   }
-  body.qb-ui .qb-status-item{gap:5px;padding:0;min-width:0}
+  body.qb-ui .qb-status-item{gap:6px;padding:0;min-width:0}
+  body.qb-ui .qb-status-item .qb-tax-box{width:16px;height:16px}
+  body.qb-ui .qb-status-name{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.qb-ui .qb-status-count{min-width:18px;height:16px;padding:0 5px;font-size:9.5px}
+}
+@media(max-width:640px){
+  body.qb-ui .qb-status-field .qb-status-row{gap:9px 6px}
+  body.qb-ui .qb-status-item{gap:5px}
   body.qb-ui .qb-status-item .qb-tax-box{width:15px;height:15px}
-  body.qb-ui .qb-status-name{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.qb-ui .qb-status-name{font-size:10.5px}
   body.qb-ui .qb-status-count{min-width:17px;height:15px;padding:0 4px;font-size:9px}
 }
 
 /* ==========================================================================
    CELULAR — cabeçalho do QBank e "Não usadas" centralizado
    ========================================================================== */
-@media(max-width:640px){
+@media(max-width:1180px){
   /* "QBank 1" vira etiqueta de identificação, não título de página: ocupa
-     menos de um terço da altura que ocupava e libera espaço para o conteúdo. */
+     menos de um terço da altura que ocupava e libera espaço para o conteúdo.
+     Vale em todo o iPad, para telas grandes e pequenas ficarem iguais. */
   body.qb-ui .qb-top{align-items:center;gap:10px;margin-bottom:4px}
   body.qb-ui .qb-top h1{
     font-size:11px;font-weight:800;letter-spacing:.04em;line-height:1;
