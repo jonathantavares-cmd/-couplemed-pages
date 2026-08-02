@@ -1517,8 +1517,14 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
      centro vertical. Antes o hambúrguer era 42px e ficava mais alto que o
      resto, deixando o conjunto torto. */
   .mobile-menu-button{width:34px;height:34px;left:10px;top:9px;border-radius:10px}
-  .platform-page.internal .cm-back-home{position:fixed;left:52px;top:12px;height:28px;font-size:10px}
-  .platform-page.internal .internal-content{padding-top:86px}
+  /* O Voltar desce para a segunda linha, embaixo do hambúrguer: na linha de
+     cima ele era coberto pelo campo de busca ao expandir. Fica alinhado com as
+     bandeiras, que ocupam a mesma faixa do outro lado — e o espaço vazio
+     debaixo delas passa a ser usado. */
+  .platform-page.internal .cm-back-home{position:fixed;left:10px;top:41px;height:26px;font-size:10px;padding:0 10px 0 7px}
+  .platform-page.internal .internal-content{padding-top:74px}
+  /* com a linha de cima livre, a busca pode usar mais espaço sem alcançar o menu */
+  .site-search .search-input{max-width:min(196px,44vw)}
 }
 
 /* ==========================================================================

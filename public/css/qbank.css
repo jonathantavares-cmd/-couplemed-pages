@@ -835,6 +835,7 @@ body.qb-ui .qb-qnum{flex:none}
 body.qb-ui .qb-head-tools{flex-wrap:nowrap;overflow:visible;gap:4px;min-width:0}
 body.qb-ui .qb-timer[hidden]{display:none!important}
 body.qb-ui .qb-lbl-short{display:none}
+body.qb-ui .qb-guide-lbl-short{display:none}
 /* Flashcard e Caderno com a descrição inteira só onde há espaço de sobra
    (desktop, monitor e Mac). No iPad e no celular ficam com o rótulo curto. */
 body.qb-ui .qb-lbl-xl{display:none}
@@ -907,10 +908,18 @@ body.qb-ui .qb-res-metric b{font-size:clamp(11px,2.4vw,13.5px)}
 body.qb-ui .qb-res-metric small{font-size:clamp(9.5px,2vw,11.5px)}
 /* no celular os rótulos ficam por extenso, em duas linhas dentro do bloco */
 @media(max-width:640px){
-  body.qb-ui .qb-res-summary{gap:10px;padding:10px 11px}
+  /* nada quebra linha: os rótulos ficam inteiros e a tipografia cede o
+     necessário para os três blocos caberem lado a lado */
+  body.qb-ui .qb-res-summary{gap:9px;padding:10px}
   body.qb-ui .qb-res-metric small,
-  body.qb-ui .qb-res-lbl{white-space:normal;line-height:1.2;max-width:11ch}
-  body.qb-ui .qb-res-verdict{flex:1 1 0}
+  body.qb-ui .qb-res-lbl{white-space:nowrap;max-width:none}
+  body.qb-ui .qb-res-verdict{flex:0 1 auto}
+  body.qb-ui .qb-res-title{font-size:12px}
+  body.qb-ui .qb-res-lbl,
+  body.qb-ui .qb-res-metric small{font-size:9px}
+  body.qb-ui .qb-res-ans,
+  body.qb-ui .qb-res-metric b{font-size:11px}
+  body.qb-ui .qb-res-ico{font-size:12px}
 }
 
 /* ==========================================================================
@@ -992,6 +1001,10 @@ body.qb-ui .qb-status-field .qb-status-row{flex-wrap:nowrap}
     display:inline-block;margin:0;
   }
   body.qb-ui .qb-guide-open{font-size:10.5px;padding:6px 11px}
+  /* classes próprias: as da barra (qb-lbl-*) mudam de comportamento por
+     breakpoint e não servem aqui */
+  body.qb-ui .qb-guide-lbl-full{display:none}
+  body.qb-ui .qb-guide-lbl-short{display:inline}
 
   /* a quinta estatística ocupa a linha inteira: centralizada, e não encostada
      à esquerda como se faltasse um par */
