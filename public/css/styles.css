@@ -1523,18 +1523,17 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
      debaixo delas passa a ser usado. */
   .platform-page.internal .cm-back-home{position:fixed;left:10px;top:41px;height:26px;font-size:10px;padding:0 10px 0 7px}
   .platform-page.internal .internal-content{padding-top:74px}
-  /* Busca aberta no celular: o campo expandia para a esquerda a partir da lupa
-     e passava por cima do hambúrguer — a lupa é o primeiro item do grupo, não
-     havia espaço à esquerda dela. Enquanto a busca está aberta, os chips de tom
-     e o Aa recolhem e o campo ocupa a faixa livre entre o menu e a lupa. Ao
-     fechar, tudo volta. */
-  .site-search.open ~ .cm-tone-seg,
-  .site-search.open ~ .cm-type-wrap{display:none}
+  /* no celular o campo ocupa a faixa livre entre o menu e a lupa */
   .site-search.open .search-input{
-    position:fixed;left:52px;right:82px;top:10px;
+    position:fixed;left:52px;right:122px;top:10px;
     width:auto;max-width:none;margin:0;height:28px;font-size:12px;
   }
   .site-search .search-results{max-width:min(300px,86vw)}
+  /* bandeiras voltam para a linha de cima: com os tons compactos, os controles
+     ocupam ~292px dos 328 disponíveis ao lado do hambúrguer */
+  .top-actions{flex-direction:row;align-items:center}
+  .platform-page.internal .cm-back-home{top:44px}
+  .platform-page.internal .internal-content{padding-top:76px}
 }
 
 /* ==========================================================================
@@ -1555,3 +1554,12 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
   .platform-page:not(.internal) .hero-panel img{object-fit:cover;object-position:center 42%}
   .platform-page:not(.internal) .dashboard-strip{flex:0 0 auto}
 }
+
+/* ==========================================================================
+   BUSCA ABERTA — tom e tipografia recolhem, em qualquer dispositivo
+   --------------------------------------------------------------------------
+   Buscar é uma tarefa de cada vez: enquanto o campo está aberto, os chips de
+   tom e o Aa saem de cena para dar espaço a ele, e voltam ao fechar.
+   ========================================================================== */
+.site-search.open ~ .cm-tone-seg,
+.site-search.open ~ .cm-type-wrap{display:none}
