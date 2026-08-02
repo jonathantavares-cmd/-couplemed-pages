@@ -179,11 +179,13 @@ Rodada de ajustes sobre as fases 1–5, já concluídos e testados:
   de papel/capa) não acompanhava a orientação — ficava vertical mesmo com
   "A4, Horizontal" selecionado. Corrigido (classe `nb-gnb-prev-landscape`).
 - **Botão redondo "‹ voltar"** (`#cmBackHome`, `public/js/site.js`): aparece
-  acima do conteúdo em toda página interna do site (não só Notebooks/Notes),
-  um único elemento em `#internalContent`. Comportamento final: `history.back()`
-  quando `document.referrer` é do próprio site (usuário realmente veio
-  navegando de outra página interna); senão (aba nova, link direto, referrer
-  externo) cai na Home — nunca sai do site nem volta pra uma página em branco.
+  em toda página interna do site (não só Notebooks/Notes), na mesma linha dos
+  controles do topo. **Descrição desta linha superada** — o comportamento por
+  `document.referrer`/`history.back()` foi substituído (ago/2026) por um
+  Voltar hierárquico de verdade: `cmGoBack()` sobe um nível pela URL via o
+  mapa `CM_PARENT`, fecha camadas abertas primeiro e deixa a página
+  interceptar via `window.CM_BACK_HANDLER`. Comportamento atual documentado em
+  `RESPONSIVE_BREAKPOINTS.md` §1.3 — checar lá, não aqui.
 
 ## Fase 7 — Segunda rodada de ajustes (jul/2026)
 - **App Notes — sidebar**: ordem final **Notas, Pastas (personalizadas),

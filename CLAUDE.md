@@ -91,9 +91,13 @@ Não modificar arquivos fora do fluxo ativo sem necessidade explícita.
 
 Documentos canônicos (a fonte é o doc, não a memória):
 
-- `QBANK_ADD_QUESTION.md` — QBank
+- `QBANK_ADD_QUESTION.md` — QBank (conteúdo, questões, §12-A tempo por questão)
 - `LIBRARY1_ADD_CONTENT.md` — Library 1 e narração (§17)
-- `RESPONSIVE_BREAKPOINTS.md` — responsividade (1180 / 820 / 520 px)
+- `RESPONSIVE_BREAKPOINTS.md` — responsividade (1180 / 820 / 520 px) **e**
+  estrutura de plataforma do site inteiro (Seção 1): tom Claro/Sépia/Escuro,
+  botão Voltar hierárquico, barra superior, dashboard da Home. Mexer em
+  `site.js` ou nas regras globais de `styles.css` sem ler a Seção 1 é a causa
+  mais comum de regressão cross-módulo.
 - `WORKSPACE_GOODNOTES_SPEC.md` — My Workspace
 
 Regras:

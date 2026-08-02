@@ -1,6 +1,13 @@
 # CoupleMed — Responsividade operacional
 
-> Fonte canônica para QA responsivo do **QBank 1** e da **Library 1**.
+> Fonte canônica para QA responsivo do **QBank 1** e da **Library 1**, e para a
+> **estrutura de plataforma do site inteiro**: tom (Claro/Sépia/Escuro), botão
+> Voltar, barra superior e dashboard da Home (Seção 1). Qualquer sessão que vá
+> mexer em `public/js/site.js` ou nas regras globais de `public/css/styles.css`
+> (sidebar, `.top-actions`, `.cm-back-home`, `.dashboard-strip`) lê a Seção 1
+> **antes** de editar — é a área que mais gerou regressão cross-módulo nas
+> últimas rodadas (ago/2026): tom que não persistia por causa da sincronização
+> com o servidor, Voltar sobrepondo o card, busca cobrindo o hambúrguer.
 >
 > O CSS é a fonte executável da verdade. Este arquivo é o índice operacional. Se houver divergência, confirmar o comportamento no CSS, corrigir este arquivo no mesmo commit e nunca copiar um valor de memória.
 
@@ -24,58 +31,172 @@ Falha responsiva, auditoria com erro ou conteúdo não fiel à fonte bloqueiam o
 
 ---
 
-## 1. Breakpoints estruturais do site
+## 1. Estrutura da plataforma (site inteiro)
 
-Estes três cortes mudam a estrutura global. Os demais são ajustes internos de componentes.
+### 1.1 Breakpoints estruturais
 
 | Breakpoint | Estrutura obrigatória |
 |---|---|
-| `max-width:1180px` | A sidebar reduz para `214px`; o dashboard passa a 4 colunas; as duas últimas ações somem; a marca reduz. |
-| `max-width:820px` | Aparece o botão hambúrguer; a sidebar sai da tela e retorna com `.sidebar.open`; o scrim cobre a página; `.platform-main` perde a margem da sidebar; dashboard vira 1 coluna; progress card some. |
+| `max-width:1180px` | A sidebar reduz para `214px`; `.dashboard-strip` vai a 2 colunas (`minmax(240px,1fr) minmax(280px,1.1fr)`), com o slot de notícias ocupando a largura toda embaixo; a marca reduz. |
+| `max-width:820px` | Aparece o botão hambúrguer (`42px`); a sidebar sai da tela e retorna com `.sidebar.open`; o scrim cobre a página; `.platform-main` perde a margem da sidebar; `.dashboard-strip` vira 1 coluna; o Voltar passa a acompanhar o hambúrguer em vez da sidebar. |
+| `max-width:640px` | Corte interno mais comum para reorganizar conteúdo em celular (QBank, dashboard, barra superior) — não é estrutural por si só, mas é onde a maior parte dos componentes muda de forma. |
 | `max-width:520px` | `.platform-main` perde padding lateral; `.internal-card` fica full-width, sem bordas laterais nem arredondamento; a marca compacta. |
 
 Regras:
 
-- `820px` é o corte global mais crítico: nenhum controle fixo, toolbar, modal ou painel pode cobrir o hambúrguer.
-- `640px` é o corte interno mais comum para conteúdo, mas não substitui os cortes reais de cada módulo.
+- `820px` é o corte global mais crítico: nenhum controle fixo, toolbar, modal ou painel pode cobrir o hambúrguer — em nenhum estado (aberto/fechado, busca expandida ou não).
 - Tabelas podem ter rolagem horizontal **dentro do próprio componente**. A página inteira não pode rolar horizontalmente.
+
+### 1.2 Tom da plataforma (Claro / Sépia / Escuro)
+
+Três tons, e só três — não os onze temas de fundo que existiam antes de
+ago/2026. Vivem em `data-tone` (em `<html>` e em `<body>`); `body.light`
+continua sendo a chave que o CSS do site usa para superfícies claras (Claro e
+Sépia são claros; Escuro não).
+
+**Prioridade, nesta ordem** (`resolveTone()` em `public/js/site.js`):
+
+1. **Configurações** (`getPrefs(uid).theme`) — se o usuário fixou um tom lá,
+   ele vale em **tudo**, inclusive na Home, de forma permanente, até o usuário
+   trocar de novo ou escolher "Automático". É o único lugar com efeito
+   permanente.
+2. **Escolha pontual da barra superior** (`sessionStorage['cm-tone-session']`)
+   — vale só durante a sessão do navegador e só nas páginas **internas**; a
+   Home nunca usa essa escolha.
+3. **Automático** (padrão de fábrica, sem nada configurado): Home sempre
+   **escura** — ao entrar e toda vez que se volta a ela — e todas as páginas
+   internas **claras**.
+
+O seletor da barra sempre marca o tom da tela atual (na Home, em automático,
+marca *Dark*; numa página interna, *Light*).
+
+**Regras ao mexer nisso:**
+
+- **Sépia nunca é produzido por padrão nem migração** — só existe por escolha
+  explícita do usuário. `STG_TONE_MIGRATION` (`site.js`) nunca mapeia um tema
+  antigo para `sepia`; temas claros antigos (`paper`, `mist`, `sage`, `rose`)
+  caem em `light`, os escuros em `dark`.
+- O tom é resolvido **duas vezes**: no script inline do `<head>` de `app.html`
+  (evita flash antes do CSS carregar) e de novo em `site.js` no boot. As duas
+  resoluções de usuário têm que ser **idênticas** — `?u=` da URL vence
+  `sessionStorage['couplemed_active_user']`, que vence `'guest1'` — e seguir a
+  **mesma ordem de prioridade** acima. Divergir aqui foi a causa de um defeito
+  real: a Home abria clara para um usuário específico porque o script do
+  `<head>` lia as preferências de outro usuário.
+- `prefs` **sincroniza com o servidor** via `cm-sync.js` (`prefs` está em
+  `SYNCED`). Qualquer migração de valor antigo tem que:
+  1. gravar via `localStorage.setItem` (que o `cm-sync` intercepta e empurra
+     ao servidor — gravar por outro caminho não se propaga);
+  2. rodar **depois** que o pull do servidor já aconteceu, nunca antes — se
+     rodar antes, o servidor devolve o valor velho por cima na mesma carga.
+  3. usar uma marca de migração **por usuário** (`couplemed_tone_migrated_v3_<uid>`),
+     nunca uma marca global — uma marca global fica "gasta" no primeiro
+     usuário que abrir a plataforma e nunca mais roda para os demais.
+- Nenhuma cor literal fora dos três blocos de paleta — usar os tokens
+  (`--qb-text`, `--qb-card`, `--qb-line`, `--qb-accent`, …). Não redeclarar um
+  token dentro de um escopo aninhado (ex.: `.qb`): isso vence a herança do
+  `body` e o tom escolhido deixa de valer ali dentro.
+- Seletor descendente largo (`.internal-card p`) vence por especificidade
+  regras de conteúdo mais específicas (`.qb-expl-correct`); preferir filho
+  direto (`> p`) em regras globais que tocam páginas internas.
+
+### 1.3 Voltar hierárquico
+
+`#cmBackHome` (`.cm-back-home`) chama `cmGoBack()` em `site.js`. **Não é**
+`history.back()` e **não volta sempre para a Home** — sobe um nível na
+hierarquia da página, nesta ordem:
+
+1. Fecha uma camada aberta por cima (zoom de imagem, modal, leitor) —
+   `cmCloseTopLayer()`.
+2. Deixa o módulo da página interceptar via `window.CM_BACK_HANDLER()` — é
+   assim que o QBank confirma (e salva) antes de abandonar um bloco em
+   andamento, em vez de simplesmente navegar embaixo do usuário.
+3. Sobe um nível pelo mapa `CM_PARENT` (`site.js`), resolvido a partir da
+   **URL atual** — nunca do histórico do navegador. Página sem entrada no
+   mapa cai na Home.
+
+Por não depender de `document.referrer` nem de `history.length`, o botão se
+comporta igual vindo de link direto, de F5 ou de navegação interna, e nunca
+sai do site nem cai numa tela em branco.
+
+No layout, o botão fica **fixo, na mesma linha dos controles do topo**
+(`.top-actions`), não mais solto no fluxo do conteúdo — por isso
+`.internal-content` reserva `padding-top` (50px acima de 820px; 44px entre
+821–640px; 76px abaixo de 640px, quando ele desce para uma segunda linha ao
+lado do hambúrguer). Esquecer de ajustar esse padding ao mexer na altura do
+botão faz o card da página nascer por baixo dele.
+
+### 1.4 Barra superior unificada
+
+Uma linha só, em qualquer dispositivo. Ordem fixa, da esquerda para a
+direita: **busca → notificação → tons → `Aa` → bandeiras** (PT/EN).
+
+- Enquanto a busca está aberta (`.site-search.open`), os chips de tom
+  (`.cm-tone-seg`) e o botão `Aa` (`.cm-type-wrap`) recolhem para abrir espaço
+  ao campo — em **qualquer** dispositivo, não só no celular. Voltam ao
+  fechar.
+- No celular (`≤640px`), as bandeiras ficam na mesma linha dos demais
+  controles (cabem: com os tons compactos o conjunto usa ~292px dos ~328
+  disponíveis ao lado do hambúrguer). O Voltar mora numa **segunda linha**,
+  abaixo do hambúrguer — não pode dividir a linha da busca, porque o campo
+  expandido o cobriria.
+- Com a busca aberta no celular, o campo ocupa a faixa livre entre o menu e a
+  lupa (`left:52px; right:122px`); nunca alcança o hambúrguer nem as
+  bandeiras.
+
+### 1.5 Dashboard da Home
+
+Três colunas: Sequência de Estudos, coluna dividida QBank/Flashcards
+(`.split-card` → dois `.split-half`) e o slot de notícias (`.news-slot`,
+ainda vazio — moldura pontilhada, sem conteúdo real).
+
+- Proporção base (desktop/monitor/Mac, `>1180px`): **27% / 28% / 45%**.
+  `≤1180px`: duas colunas, notícias embaixo. `≤820px`: uma coluna, tudo
+  empilhado.
+- As duas metades do card do QBank dividem a altura via `flex:1;min-height:0`
+  — isso só funciona quando o card **tem** altura reservada (grid do
+  desktop). No empilhamento do celular elas precisam de `flex:0 0 auto`;
+  herdar a regra do desktop ali faz as metades colapsarem para zero e o
+  conteúdo de uma se sobrepor ao da outra — já aconteceu.
+- A partir de `1181px`, a Home ocupa **exatamente uma tela, sem rolagem**: o
+  hero usa `flex:1 1 auto` dentro de `.platform-main{height:100vh}` e absorve
+  o espaço que sobra (`object-fit:cover`, cortando a imagem pelas bordas) em
+  vez de esticar a página; o dashboard mantém só a altura que precisa.
 
 ---
 
 ## 2. QBank 1 — `public/css/qbank.css`
 
+Padrão visual fiel às imagens de referência do UWorld: Arial/Helvetica 14px,
+entrelinha 1.45, opções sem card com radio circular e ✓/✕ na margem esquerda.
+Tamanho e entrelinha saem de `--qb-fs`/`--qb-lh` no escopo `.qb`, escaláveis
+pelo painel `Aa` da barra superior (`--cm-scale`) — nunca fixar `font-size`
+literal num seletor de conteúdo, sempre referenciar `--qb-fs`.
+
+O **tom** (Claro/Sépia/Escuro) não é mais local do QBank — é da plataforma
+inteira. Ver Seção 1.2. O QBank só herda o `data-tone` já aplicado no `body`.
+
 | Breakpoint | Seletores/área | Comportamento esperado |
 |---|---|---|
-| `1024px` (min-width) | `.qb-test-body.has-explanation` | **Acima** de 1024px a resolução fica em duas colunas (questão \| explicação) com a divisória `.qb-splitter` arrastável; a proporção vive em `--qb-split` (30–70%, salva em `localStorage['cm-qb-split']`). Abaixo de 1024px vira coluna única e a divisória some. O corte é 1024 — e não 1180 — porque o iPad landscape (1024×768) precisa das duas colunas. |
+| `1181px` (min-width) | Flashcard/Caderno na barra da questão | Rótulo completo (`+ Adicionar Flashcard`, `+ Adicionar Caderno`); abaixo disso, curto (`+ Flashcard`, `+ Caderno`). |
+| `1180px` (max-width) | `.qb-step-badge` (stepper), Question Status | Quadrado numerado (1/2/3/★) some — cabeçalho `QBank 1` também vira etiqueta azul de identificação e "Complete guide" vira "Guide"/"Guia". Question Status vai para grade de 3×2 (três opções por linha, sempre duas linhas) — em uma linha só, as seis opções não cabem em nenhum tamanho de iPad retrato (precisam de ~580px; há ~500–560px), então a grade vale na faixa inteira do iPad, não só no celular. |
+| `768px` (min-width) | `.qb-test-body.has-explanation` | **A partir de** 768px a resolução fica em duas colunas (questão \| explicação) com a divisória `.qb-splitter` arrastável (alça com 44px de área de toque em `pointer:coarse`); a proporção vive em `--qb-split` (30–70%, salva em `localStorage['cm-qb-split']`). Abaixo disso, coluna única. O corte é 768 — não 1024 — para cobrir o iPad em **retrato**, não só deitado. |
+| `641–1180px` | Card de resultado (`.qb-res-summary`) | Pode quebrar linha (a largura que importa é a da **coluna** da questão, via `container-type:inline-size` em `.qb-question-col`, não a da tela). Coluna larga (iPad deitado): uma linha. Coluna estreita (`<420px` de container, iPad retrato): duas linhas — veredito em cima, as duas métricas dividem a de baixo. |
 | `760px` | guia visual | Hero, quick links, etapas e navegação reorganizam. |
 | `720px` | `.qb-row` | Grid de duas colunas do Create Test standalone vira uma coluna. |
+| `700px` | `.qb-tax` | Taxonomia vira uma coluna (a partir daqui, e também em `560px` por uma segunda regra — checar as duas se mexer aqui). |
+| `640px` | Barra da questão (`.qb-head-tools`) | Tudo numa linha só, sem rolagem lateral: `⚑ Marcar → + Flashcard → + Caderno → 🧪 Valores Lab → [cronômetro, só se Cronometrado] → Parar e Salvar → Encerrar Bloco`. Rótulos abreviados (`Parar`/`Encerrar`) só abaixo de `379px`. Medido: 342px de conteúdo em 352px úteis a 390px. |
+| `640px` | "Questão X de Y" | Sai da barra (não cabe) e sobe para cima do card, no fluxo — nunca `position:absolute` com offset negativo em relação a `#internalContent`, que já causou o número sumir da tela por completo. |
+| `640px` | As 4 passadas (stepper) | Ficam **na mesma linha**, sem quebrar — rótulos abreviados (`Aprend.`, `Consol.`, `Refin.`, `Dirigida`); "VOCÊ ESTÁ AQUI" some (não cabe em ~86px) e vira só o realce de borda do card ativo. |
+| `640px` | Painel da passada (donut + estatísticas) | Donut encolhe para 88px e vai para a esquerda; as 5 estatísticas ficam ao lado, em duas colunas, em vez de embaixo — altura cai de ~380px para ~110px. |
 | `640px` | `#internalContent.qb-wide .internal-card` | Padding interno reduz. |
-| `640px` | resultados/resolução | `.qb-perf`, `.qb-res-top` e `.qb-nav` empilham; ferramentas continuam acessíveis. |
+| `640px` | Card de resultado no celular | Nunca quebra: rótulos por extenso, distribuídos pela linha (não amontoados à esquerda); a letra da resposta correta fica na mesma linha do rótulo ("Resposta correta **F**"), nunca sozinha embaixo. |
 | `640px` | `.qb-question-image` | Padding/margem reduzem; imagem usa `max-height:300px`; legenda decorativa some. |
-| `640px` | toolbar da resolução | Cabeçalho não quebra; ferramentas rolam horizontalmente; fonte/padding compactam. |
-| `560px` | `.qb-stepper` | Cada etapa ocupa uma linha e conectores somem. |
-| `560px` | `.qb-tax` | Taxonomia vira uma coluna. |
+| `640px` | Create Test (Test Mode, Systems, Status) | Ver §2.2 — compactado em toda a faixa `≤1180px`, não só no celular. |
+| `560px` | `.qb-tax` | Ver linha `700px` acima — segunda regra que também vira uma coluna. |
 | `520px` | guia visual | Etapas/itens viram uma coluna e elementos decorativos compactam ou somem. |
 | `480px` | `.qb-gen` | Quantidade, disponíveis e botão de gerar empilham; botão ocupa 100%. |
-
-### 2.0 Tom (Claro / Sépia / Escuro)
-
-O QBank abre sempre no tom **Claro**. A barra `.cm-tonebar` (topo de `#internalContent`)
-troca o tom; o valor vai para `localStorage['cm-tone']` e para `data-tone` em `<html>` e
-`<body>`, e é reaplicado antes da pintura por um script inline no `<head>` de `app.html`
-(evita flash ao trocar de página).
-
-Regras ao mexer em `qbank.css`:
-
-- **Nenhuma cor literal** nas regras do QBank — só tokens (`--qb-text`, `--qb-card`,
-  `--qb-line`, `--qb-accent`, …). Cor literal só dentro dos três blocos de paleta.
-- **Não redeclarar token dentro do escopo `.qb`**: o escopo venceria a herança do
-  `body` e o tom escolhido deixaria de valer dentro do QBank.
-- Cuidado com seletor descendente largo (`.internal-card p`): ele vence por
-  especificidade regras de conteúdo como `.qb-expl-correct`. Use filho direto (`> p`).
-
-As demais áreas da plataforma ainda não consomem os tons — a migração é por página,
-reaproveitando os mesmos tokens.
+| `379px` (max-width) | Barra da questão | Só abaixo daqui (iPhone mini/SE) o par Parar/Encerrar também abrevia. |
 
 ### 2.1 Checklist de questão, imagem e Lab Values
 
@@ -98,6 +219,29 @@ O guia do QBank exige preview de todas as questões. Para a matriz completa de
 viewports, selecionar ao menos os piores casos da leva: texto longo em PT-BR, seis
 alternativas, `img`, `explImg`, tabela e `labs`. Se os layouts forem materialmente
 diferentes, testar mais de uma questão em todos os viewports.
+
+---
+
+### 2.2 Create Test compacto (`1180px` para baixo)
+
+Densidade calibrada pela razão texto/caixa das imagens de referência (≈0,65):
+checkbox `17px`, rótulo `12.5px`, linha `27px` — três variáveis
+(`--qb-box`, `--qb-tax-fs`, `--qb-tax-lh`) comandam a tela inteira; não
+regular tamanho por seletor solto. Vale em iPad e celular igualmente, para o
+mesmo QBank não ficar diferente entre um iPad Pro e um iPad menor.
+
+- **"TEST MODE"** fica na mesma linha dos switches Tutor/Cronometrado, não
+  numa linha própria acima — em qualquer dispositivo.
+- **Status da Questão**: grade 3×2 de `1180px` para baixo (ver tabela acima).
+- **Systems**: duas colunas até onde couber; uma só a partir de `700px`.
+
+### 2.3 Timer / "Tempo gasto" — ver regra forte
+
+A medição de tempo por questão (acumulação entre visitas, pausa em aba
+oculta, limite do modo Cronometrado) é **REGRA FORTE**, documentada em
+`QBANK_ADD_QUESTION.md` §12-A. Qualquer mexida em `startTimer`, `accrueTime`,
+`submitAnswer` ou `endBlock` (todos em `public/js/qbank.js`) tem que ler
+aquela seção antes.
 
 ---
 
@@ -311,4 +455,9 @@ Qualquer `cmp` diferente de zero bloqueia a entrega. As cópias do Desktop não 
 
 ## 9. Outros módulos
 
-Este arquivo prioriza os dois fluxos de inclusão. Ao alterar Notebook, AI Tutor, Settings, My Workspace ou outra tela, auditar os `@media` do CSS correspondente com `rg -n "@media" public/css/*.css`; não reutilizar uma tabela de números de linha, porque linhas mudam a cada edição.
+Este arquivo prioriza os dois fluxos de inclusão, mais a estrutura de
+plataforma da Seção 1 (Home/dashboard, tom, Voltar, barra superior — essas
+NÃO são "outro módulo", são globais e vivem na Seção 1). Ao alterar Notebook,
+AI Tutor, Settings, My Workspace ou outra tela específica, auditar os
+`@media` do CSS correspondente com `rg -n "@media" public/css/*.css`; não
+reutilizar uma tabela de números de linha, porque linhas mudam a cada edição.
