@@ -1607,17 +1607,15 @@
   function renderQbankSelect(lang){
     const rp=$('#regularPage'); if(!rp) return;
     const pt = lang==='pt';
+    /* Só os dois cartões: o título e as descrições eram redundantes — a página
+       inteira já é a escolha do banco, e cada cartão diz o que é. */
     rp.innerHTML=`
-      <h1 id="internalTitle">QBank</h1>
-      <p class="qbank-select-sub">${pt?'Escolha qual banco de questões você quer usar:':'Choose which question bank you want to use:'}</p>
       <div class="qbank-select">
         <a class="qbank-select-card qb1" href="app.html?page=qbank-1&u=${user()}">
           <strong>QBank 1</strong>
-          <small>${pt?'Banco de questões — USMLE Step 1':'Question bank — USMLE Step 1'}</small>
         </a>
         <a class="qbank-select-card qb2" href="app.html?page=qbank-2&u=${user()}">
           <strong>QBank 2</strong>
-          <small>${pt?'Em construção':'Under construction'}</small>
         </a>
       </div>`;
   }

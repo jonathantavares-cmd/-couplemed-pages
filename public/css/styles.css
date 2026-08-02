@@ -1512,3 +1512,22 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
   .platform-page.internal .cm-back-home{left:50px;top:8px;height:26px;font-size:10px}
   .platform-page.internal .internal-content{padding-top:74px}
 }
+
+/* ==========================================================================
+   HOME SEM ROLAGEM — desktop, monitor e Mac (a partir de 1181px)
+   --------------------------------------------------------------------------
+   O hero tinha proporção fixa e, em telas largas, empurrava o dashboard para
+   fora da tela. Aqui a Home passa a ocupar exatamente uma tela: o dashboard
+   mantém a altura que precisa e o hero absorve o que sobra, cortando a imagem
+   pelas bordas (object-fit:cover) em vez de esticar a página.
+   ========================================================================== */
+@media(min-width:1181px){
+  .platform-page:not(.internal) .platform-main{
+    height:100vh;display:flex;flex-direction:column;overflow:hidden;
+  }
+  .platform-page:not(.internal) .hero-panel{
+    flex:1 1 auto;min-height:200px;aspect-ratio:auto;height:auto;
+  }
+  .platform-page:not(.internal) .hero-panel img{object-fit:cover;object-position:center 42%}
+  .platform-page:not(.internal) .dashboard-strip{flex:0 0 auto}
+}
