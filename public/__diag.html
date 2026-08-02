@@ -1,0 +1,36 @@
+<!doctype html><meta charset="utf-8">
+<body style="margin:0;background:#111;color:#0f0;font:12px monospace">
+<pre id="out" style="padding:6px">…</pre>
+<iframe id="f" src="/app.html?page=qbank1-pass-1" style="width:1280px;height:600px;border:0"></iframe>
+<script>
+var L=[];function say(s){L.push(s);document.getElementById('out').textContent=L.join('\n');}
+document.getElementById('f').onload=function(){
+  var d=document.getElementById('f').contentDocument,w=document.getElementById('f').contentWindow;
+  setTimeout(function(){
+    var num=d.querySelector('input[type=number]'); if(num){num.value=2;num.dispatchEvent(new w.Event('input',{bubbles:true}));}
+    var gen=[].slice.call(d.querySelectorAll('button')).find(function(b){return /Gerar|Generate/.test(b.textContent)});
+    gen.click();
+    setTimeout(function(){
+      say('Q1 aberta — fico 3s nela');
+      setTimeout(function(){
+        // vai para a Q2 sem responder, fica 2s, e volta para a Q1
+        [].slice.call(d.querySelectorAll('button')).find(function(b){return /Próxima|Next/.test(b.textContent)}).click();
+        say('fui para Q2 — fico 2s');
+        setTimeout(function(){
+          [].slice.call(d.querySelectorAll('button')).find(function(b){return /Anterior|Prev/.test(b.textContent)}).click();
+          say('voltei para Q1 — fico mais 3s e respondo');
+          setTimeout(function(){
+            d.querySelector('.qb-opt').click();
+            d.getElementById('qbSubmit').click();
+            setTimeout(function(){
+              var m=d.querySelectorAll('.qb-res-metric b');
+              say('Tempo da Q1 = '+m[1].textContent+'   (esperado ~6s: 3 da 1a visita + 3 da 2a)');
+              say('sem acumulacao mostraria ~3s');
+            },600);
+          },3000);
+        },2000);
+      },3000);
+    },1500);
+  },2500);
+};
+</script>

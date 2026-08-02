@@ -17454,35 +17454,75 @@
     </div>`;
   }
 
+  /* ===================== TEMPO POR QUESTÃO =====================
+     EXIGÊNCIA DO PRODUTO: esta medição tem de estar correta. Ela alimenta o
+     "Tempo gasto" do card, o histórico de cada tentativa e as análises de
+     desempenho — um número errado aqui contamina tudo isso em silêncio.
+
+     Regras que a implementação precisa respeitar:
+       1. ACUMULA. Sair da questão e voltar SOMA o tempo; não substitui nem
+          zera. Antes, o relógio reiniciava a cada visita e só a última contava.
+       2. PAUSA fora de vista. Aba em segundo plano não conta como tempo de
+          estudo; ao voltar, a contagem retoma de onde parou.
+       3. A fonte é sempre Date.now(), nunca a soma dos ticks do setInterval —
+          o intervalo atrasa quando a aba é desacelerada pelo navegador.
+       4. O limite do modo Cronometrado usa o tempo ACUMULADO da questão, não o
+          da visita atual, senão o usuário ganha tempo extra a cada ida e volta.
+       5. A contagem roda mesmo com o cronômetro oculto (modo Tutor): o que o
+          modo decide é a exibição, não a medição. */
   let timerH=null;
+  function accrueTime(){
+    const T0 = view && view.test;
+    if(!T0 || !view.qActive || !view.qStart) return;
+    if(!T0.times) T0.times={};
+    const now = Date.now();
+    T0.times[view.qActive] = (T0.times[view.qActive]||0) + (now - view.qStart);
+    view.qStart = now;
+  }
+  function stopTimer(){
+    accrueTime();
+    if(timerH){ clearInterval(timerH); timerH=null; }
+    if(view){ view.qStart=null; view.qActive=null; }
+  }
+  function qElapsedSecs(qid){
+    const T0 = view && view.test; if(!T0) return 0;
+    const base = (T0.times && T0.times[qid]) || 0;
+    const corrente = (view.qActive===qid && view.qStart) ? (Date.now()-view.qStart) : 0;
+    return Math.floor((base + corrente)/1000);
+  }
   function startTimer(qid){
-    const el=document.getElementById('qbTimer'); if(!el)return;
-    if(timerH)clearInterval(timerH);
-    const start=Date.now();
-    const T0=view.test;
-    const secsLimit = T0.timed? T0.secs : 0;
-    const tick=()=>{ const s=Math.floor((Date.now()-start)/1000);
-      const m=String(Math.floor(s/60)).padStart(2,'0'), ss=String(s%60).padStart(2,'0');
-      el.textContent=`${m}:${ss}`;
-      if(secsLimit && s>=secsLimit && view.test.answers[qid]==null){ // auto-omit no timed
-        clearInterval(timerH); submitAnswer(true);
+    accrueTime();                                  // fecha a questão anterior
+    if(timerH){ clearInterval(timerH); timerH=null; }
+    const T0=view.test; if(!T0) return;
+    view.qActive=qid;
+    view.qStart=Date.now();
+    const secsLimit = T0.timed ? T0.secs : 0;
+    const tick=()=>{
+      const s=qElapsedSecs(qid);
+      const el=document.getElementById('qbTimer');
+      if(el){
+        const m=String(Math.floor(s/60)).padStart(2,'0'), ss=String(s%60).padStart(2,'0');
+        el.textContent=`${m}:${ss}`;
+      }
+      if(secsLimit && s>=secsLimit && T0.answers[qid]==null){ // auto-omit no timed
+        clearInterval(timerH); timerH=null; submitAnswer(true);
       }
     };
     tick(); timerH=setInterval(tick,1000);
-    view.qStart=start;
   }
+  /* aba em segundo plano não conta como tempo de estudo */
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden){ accrueTime(); if(view) view.qStart=null; }
+    else if(view && view.qActive){ view.qStart=Date.now(); }
+  });
 
   function submitAnswer(auto){
     const T0=view.test;
     if(T0.preview) return; // preview mode: read-only, never records attempts/saves state
     const q=store.question(T0.qids[T0.idx]);
     const ans = auto? null : T0.pending;
-    const time=Math.round((Date.now()-(view.qStart||Date.now()))/1000);
-    /* O tempo era calculado e gravado só no histórico do attempt; o card de
-       resultado lê T0.times, que nunca era preenchido — daí "00 seg" sempre.
-       Guardado em milissegundos, que é a unidade que o card espera. */
-    if(!T0.times) T0.times={};
-    if(T0.times[q.id]==null) T0.times[q.id]=time*1000;
+    accrueTime();                                   // fecha a contagem desta questão
+    const time = Math.round((((T0.times&&T0.times[q.id])||0))/1000);
     T0.answers[q.id]= ans==null? (T0.answers[q.id]??null) : ans;
     // registra attempt imutável (Parte 3/4) — só na 1ª submissão desta questão neste bloco
     if(!T0._recorded) T0._recorded={};
@@ -17494,7 +17534,7 @@
       T0._recorded[q.id]=true;
       store.saveTest(serializeTest(T0));
     }
-    if(timerH)clearInterval(timerH);
+    stopTimer();
     view.showAns = !!T0.tutor; render();
   }
 
@@ -17512,13 +17552,14 @@
     if(T0.preview) return; // preview mode: never records attempts/saves state
     // registra omitidas restantes
     if(!T0._recorded)T0._recorded={};
+    stopTimer();   // fecha a contagem da questão aberta antes de registrar
     T0.qids.forEach(qid=>{ if(!T0._recorded[qid]){ const q=store.question(qid); if(!q){ T0._recorded[qid]=true; return; }
       store.addAttempt({question_id:qid,test_id:T0.id,selected_option:null,is_correct:null,status:'omitted',
-        time_spent_seconds:0,tutor:T0.tutor,timed:T0.timed,flagged:store.isFlagged(qid),strikethrough_options:[]});
+        time_spent_seconds:Math.round((((T0.times&&T0.times[qid])||0))/1000),
+        tutor:T0.tutor,timed:T0.timed,flagged:store.isFlagged(qid),strikethrough_options:[]});
       T0._recorded[qid]=true; } });
     const done=serializeTest(T0); done.status='completed'; done.completed_at=new Date().toISOString();
     store.saveTest(done);
-    if(timerH)clearInterval(timerH);
     go({name:'results', test:T0});
   }
 
@@ -17762,8 +17803,8 @@
   /* Salva o bloco em andamento e volta para a home do QBank. */
   function suspendTest(){
     const T0=view.test; if(!T0) return;
+    stopTimer();
     const s=serializeTest(T0); s.status='suspended'; store.saveTest(s);
-    if(timerH)clearInterval(timerH);
     go({name:'home', sel:store.currentPass()});
   }
 

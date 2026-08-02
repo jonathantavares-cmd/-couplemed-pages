@@ -689,6 +689,37 @@ Se a correção exigir CSS ou novo breakpoint, escalonar para GPT-5.6-sol —
 
 ---
 
+## 12-A. Medição do tempo por questão — REGRA FORTE
+
+**Esta medição não pode estar errada.** O tempo por questão alimenta o "Tempo gasto"
+do card de resultado, o campo `time_spent_seconds` de cada tentativa e, através dele,
+toda a análise de desempenho. Um número errado aqui não aparece como defeito: ele
+contamina o histórico em silêncio, e o usuário só descobre quando as estatísticas já
+não fazem sentido.
+
+Quem mexer no cronômetro (`startTimer`, `accrueTime`, `submitAnswer`, `endBlock` em
+`public/js/qbank.js`) tem de preservar as cinco regras abaixo:
+
+1. **Acumula, não substitui.** Sair da questão e voltar SOMA o tempo das visitas.
+   Já houve um defeito exatamente aqui: o relógio reiniciava a cada visita e só a
+   última contava.
+2. **Pausa fora de vista.** Aba em segundo plano não é tempo de estudo; ao voltar,
+   a contagem retoma de onde parou (`visibilitychange`).
+3. **A fonte é `Date.now()`**, nunca a soma dos ticks do `setInterval` — o navegador
+   desacelera intervalos em abas inativas e a contagem por ticks atrasa.
+4. **O limite do modo Cronometrado usa o tempo ACUMULADO** da questão, não o da
+   visita atual; senão o usuário ganha tempo extra a cada ida e volta.
+5. **A medição roda com o cronômetro oculto.** No modo Tutor o relógio não aparece,
+   mas o tempo continua sendo medido — o modo decide a exibição, não a medição.
+
+Além disso, `times` faz parte de `serializeTest`: sem isso o tempo se perde ao
+recarregar a página ou retomar um bloco suspenso, e as questões encerradas sem
+resposta gravam o tempo real que receberam, não zero.
+
+**Como conferir depois de mexer:** abrir uma questão, esperar alguns segundos, ir
+para a próxima, voltar e responder. O "Tempo gasto" tem de ser a soma das duas
+visitas — se mostrar só a última, a regra 1 foi quebrada.
+
 ## 13. Auditoria final
 
 Executar a auditoria em uma segunda passada, preferencialmente com contexto limpo e
