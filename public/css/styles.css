@@ -1483,3 +1483,29 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
   /* o espaço economizado vai para as notícias */
   .news-slot{min-height:132px;font-size:10px}
 }
+
+/* ==========================================================================
+   VOLTAR NA MESMA LINHA DOS CONTROLES SUPERIORES
+   --------------------------------------------------------------------------
+   O botão ficava no fluxo do conteúdo enquanto os controles ficam fixos no
+   topo, e as duas coisas caíam em alturas diferentes — sobrando uma faixa
+   vazia em toda página interna. Agora dividem a mesma linha e o card sobe.
+   ========================================================================== */
+.platform-page.internal .cm-back-home{
+  /* mesma altura e mesmo topo dos controles (.top-actions{top:14px}), para os
+     dois blocos ficarem exatamente na mesma linha */
+  position:fixed;left:calc(var(--sidebar) + 20px);top:14px;z-index:16;
+  height:28px;padding:0 11px 0 8px;margin:0;font-size:10.5px;border-radius:9px;
+}
+.platform-page.internal .cm-back-home svg{width:13px;height:13px}
+.platform-page.internal .internal-content{padding-top:8px}
+@media(max-width:820px){
+  /* sem sidebar fixa: o Voltar acompanha o hambúrguer, sem cobri-lo */
+  .platform-page.internal .cm-back-home{left:auto;right:auto;
+    position:absolute;left:56px;top:10px}
+  .platform-page.internal .internal-content{padding-top:44px}
+}
+@media(max-width:640px){
+  .platform-page.internal .cm-back-home{left:50px;top:8px;height:26px;font-size:10px}
+  .platform-page.internal .internal-content{padding-top:74px}
+}

@@ -830,21 +830,22 @@ body.qb-ui .qb-info-ico{width:13px;height:13px;font-size:8.5px}
    Salvar · Encerrar Bloco. O "Questão X de Y" saiu daqui e virou rótulo no
    topo da página. Nada rola para o lado e nada quebra para a linha de baixo.
    ========================================================================== */
-body.qb-ui .qb-test-head{justify-content:flex-end}
+body.qb-ui .qb-test-head{justify-content:space-between;gap:12px}
+body.qb-ui .qb-qnum{flex:none}
 body.qb-ui .qb-head-tools{flex-wrap:nowrap;overflow:visible;gap:4px;min-width:0}
 body.qb-ui .qb-timer[hidden]{display:none!important}
 body.qb-ui .qb-lbl-short{display:none}
 
-/* "Questão X de Y" no topo, na linha do Voltar — aproveita o vazio que existia
-   entre a barra superior e o card. */
+/* No celular o número não cabe na barra (que fecha em 324 dos 366px úteis):
+   lá ele sobe para a linha do Voltar. No desktop fica dentro da barra. */
 body.qb-ui #internalContent{position:relative}
-body.qb-ui .qb-test::before{
-  content:attr(data-qnum);
-  position:absolute;top:-42px;left:0;
-  font-size:12.5px;font-weight:700;color:var(--qb-muted);white-space:nowrap;
-}
-@media(max-width:820px){
-  body.qb-ui .qb-test::before{top:-38px;font-size:11.5px}
+@media(max-width:640px){
+  body.qb-ui .qb-test-head .qb-qnum{display:none}
+  body.qb-ui .qb-test::before{
+    content:attr(data-qnum);
+    position:absolute;top:-30px;left:2px;
+    font-size:11px;font-weight:700;color:var(--qb-muted);white-space:nowrap;
+  }
 }
 
 /* celular: rótulos curtos e fonte menor para tudo caber na mesma linha */
@@ -862,11 +863,9 @@ body.qb-ui .qb-test::before{
 }
 
 /* ==========================================================================
-   RODAPÉ Subject / System / Topic — fora do card, no rodapé da página
+   Subject / System / Topic — soltas, logo abaixo do Educational Objective
    ========================================================================== */
-.qb-meta-footer{max-width:var(--cm-measure,none);margin:14px auto 0;padding:0 26px}
-.qb-meta-footer .qb-meta-end{border-top:0;margin-top:0;padding-top:0}
-@media(max-width:520px){.qb-meta-footer{padding:0 14px}}
+body.qb-ui .qb-meta-end{border-top:0;background:none;margin-top:16px;padding:0}
 
 /* ==========================================================================
    CARD DE RESULTADO — menor e com escala contínua (sem degraus)

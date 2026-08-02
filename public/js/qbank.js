@@ -16763,7 +16763,6 @@
     else if(view.name==='results') renderResults();
     else if(view.name==='analytics') renderAnalytics();
     else if(view.name==='guide') renderGuide();
-    if(view.name!=='test') mountQuestionMeta('');
     translateVisibleQuestionTexts();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
@@ -17235,6 +17234,7 @@
       <div class="qb qb-test" data-qnum="${esc(t('qOf')(T0.idx+1,T0.qids.length))}">
         ${T0.preview?`<div class="qb-preview-banner">${esc(t('previewBanner')(T0.qids.length))}${(T0.previewMissing&&T0.previewMissing.length)?`<br>${esc(t('previewMissing')(T0.previewMissing))}`:''}</div>`:''}
         <div class="qb-test-head">
+          <span class="qb-qnum">${esc(t('qOf')(T0.idx+1,T0.qids.length))}</span>
           <div class="qb-head-tools">
             <button class="qb-tool qb-tool-flag ${flagged?'on':''}" data-act="flag" title="${esc(flagged?t('unflag'):t('flag'))}">⚑ <span class="qb-tool-lbl">${esc(flagged?t('unflag'):t('flag'))}</span></button>
             <button class="qb-tool" data-act="flash">${esc(t('flashShort'))}${links?` (${links})`:''}</button>
@@ -17268,26 +17268,7 @@
       </div>`;
     wire();
     wireSplitter();
-    mountQuestionMeta(revealed ? renderQuestionMeta(q) : '');
     startTimer(q.id);
-  }
-
-  /* O rodapé Subject/System/Topic vive FORA do card da questão, como rodapé da
-     página. Fica num irmão do card dentro de #internalContent, então sobrevive
-     aos re-renders do card e some sozinho nas telas que não são de questão. */
-  function mountQuestionMeta(html){
-    const wrap=document.querySelector('#internalContent'); if(!wrap) return;
-    let el=wrap.querySelector('#qbMetaFooter');
-    if(!html){ if(el) el.remove(); return; }
-    if(!el){
-      el=document.createElement('div');
-      el.id='qbMetaFooter';
-      el.className='qb qb-meta-footer';
-      wrap.appendChild(el);
-    }
-    el.innerHTML=html;
-    /* onAct lê e.currentTarget, então o ouvinte vai em cada botão — não no container */
-    el.querySelectorAll('[data-act]').forEach(b=>b.addEventListener('click',onAct));
   }
 
   /* ===== divisória arrastável entre questão e explicação (>=1024px) =====
@@ -17444,6 +17425,7 @@
       <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
       <div class="qb-obj"><div class="qb-obj-head"><span class="qb-obj-lbl">${esc(t('eduObjective'))}</span></div><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
+      ${renderQuestionMeta(q)}
     </div>`;
   }
 

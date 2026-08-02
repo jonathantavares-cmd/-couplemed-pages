@@ -8,9 +8,9 @@
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <meta name="theme-color" content="#081324" />
-  <link rel="stylesheet" href="css/styles.css?v=75" />
+  <link rel="stylesheet" href="css/styles.css?v=76" />
   <link rel="stylesheet" href="css/ai-tutor-widget.css?v=24" />
-  <link rel="stylesheet" href="css/qbank.css?v=60" />
+  <link rel="stylesheet" href="css/qbank.css?v=61" />
   <link rel="stylesheet" href="css/notebook.css?v=12" />
   <script>
     /* Tom da plataforma (Claro / Sépia / Escuro) — aplicado antes da pintura
@@ -21,8 +21,16 @@
       var page=new URLSearchParams(location.search).get('page')||'home';
       var v=null;
       try{
-        /* 1) padrão permanente definido em Settings — manda em tudo */
         var uid=sessionStorage.getItem('couplemed_active_user');
+        /* Migração única: uma versão anterior gravava nas preferências o tom
+           clicado na barra, o que prendia a Home no claro. Zera esse valor aqui,
+           antes da pintura, senão a primeira carga ainda sairia errada. */
+        if(uid && !localStorage.getItem('couplemed_tone_migrated_v2')){
+          var raw=localStorage.getItem('couplemed_prefs_'+uid);
+          if(raw){ var pp=JSON.parse(raw)||{}; if(pp.theme){ pp.theme=''; localStorage.setItem('couplemed_prefs_'+uid, JSON.stringify(pp)); } }
+          localStorage.setItem('couplemed_tone_migrated_v2','1');
+        }
+        /* 1) padrão permanente definido em Settings — manda em tudo */
         if(uid){
           var p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid)||'{}');
           if(OK[p.theme]) v=p.theme;
@@ -216,9 +224,9 @@
     window.CM_APP_SCRIPTS = [
       'js/library3-reader.js?v=24',
       'js/library1-reader.js?v=6',
-      'js/site.js?v=73',
+      'js/site.js?v=74',
       'js/flashcards.js?v=38',
-      'js/qbank.js?v=49',
+      'js/qbank.js?v=50',
       'js/notebook.js?v=11',
       'js/ai-tutor-widget.js?v=25',
       'js/select-translate.js?v=2'

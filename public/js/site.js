@@ -211,6 +211,24 @@
     light:'light', paper:'sepia', mist:'light', sage:'light', rose:'light',
     dark:'dark', black:'dark', slate:'dark', indigo:'dark', ocean:'dark', plum:'dark'
   };
+  /* Migração única: até o commit 9fcd3aa o clique na barra gravava o tom nas
+     preferências do usuário, o que fazia a Home abrir clara para sempre. O
+     valor gravado por aquele caminho é apagado uma vez, devolvendo todo mundo
+     ao Automático; quem quiser tom fixo redefine em Configurações. */
+  function stgMigrateTonePrefs(uid){
+    if(!uid) return;
+    const k='couplemed_tone_migrated_v2';
+    try{
+      if(localStorage.getItem(k)) return;
+      const raw=localStorage.getItem('couplemed_prefs_'+uid);
+      if(raw){
+        const p=JSON.parse(raw)||{};
+        if(p.theme){ p.theme=''; localStorage.setItem('couplemed_prefs_'+uid, JSON.stringify(p)); }
+      }
+      localStorage.setItem(k,'1');
+    }catch(e){}
+  }
+
   /* '' = automático (padrão de fábrica). Temas antigos caem no tom equivalente. */
   function stgNormalizeTone(v){
     if(!v) return '';
@@ -1903,6 +1921,7 @@
     const sidebarUserEl=$('#sidebarUserName'); if(sidebarUserEl){ sidebarUserEl.textContent=getUserDisplay(user()); }
     /* Tom inicial: o que o usuário escolheu na barra (localStorage, já aplicado
        pelo script inline do <head>) e, na falta dele, a preferência migrada. */
+    stgMigrateTonePrefs(user());
     applyAppearance(resolveTone(p));
     cmWireToneSeg();
     cmWireTypePanel();
@@ -1920,6 +1939,8 @@
       e.preventDefault();
       try{ await fetch('/api/logout',{method:'POST',credentials:'same-origin'}); }catch(err){}
       sessionStorage.removeItem('couplemed_active_user');
+      /* a escolha de tom da barra é da sessão: sair encerra a sessão */
+      try{ sessionStorage.removeItem('cm-tone-session'); }catch(err){}
       localStorage.removeItem(USERS_CACHE_KEY);
       location.href='index.html';
     });
