@@ -799,7 +799,12 @@ body.qb-ui .qb-status-name{font-size:var(--qb-tax-fs);font-weight:400;white-spac
 body.qb-ui .qb-status-count{min-width:20px;height:17px;padding:0 6px;font-size:10.5px}
 
 /* Test Mode / Question Mode — Imagem 15 08.42.08 */
-body.qb-ui .qb-mode-title{font-size:10.5px;margin-bottom:9px}
+/* Rótulo ao lado dos switches, não acima: economiza uma linha inteira em
+   qualquer dispositivo. Cabe com folga — em 390px o conjunto usa ~240px dos
+   348 disponíveis. */
+body.qb-ui .qb-mode-block{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+body.qb-ui .qb-mode-title{font-size:10.5px;margin-bottom:0;flex:none}
+body.qb-ui .qb-mode-block .qb-secs{flex:1 1 100%;margin-top:0}
 body.qb-ui .qb-mode-inline{gap:26px}
 body.qb-ui .qb-mode-item span{font-size:var(--qb-tax-fs);font-weight:400}
 body.qb-ui .qb-switch-track{width:34px;height:19px}
