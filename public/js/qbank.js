@@ -17209,11 +17209,9 @@
       return `<div class="qb-res-summary qb-res-${kind}">
         <div class="qb-res-verdict">
           <span class="qb-res-title ${kind}">${esc(label)}</span>
-          ${showAnswer?`<span class="qb-res-lbl">${esc(t('correctAnswer'))}</span>
-          <b class="qb-res-ans">${esc(q.correct)}</b>`:''}
+          ${showAnswer?`<span class="qb-res-lbl">${esc(t('correctAnswer'))} <b class="qb-res-ans">${esc(q.correct)}</b></span>`:''}
         </div>
         <div class="qb-res-metric">
-          <i class="qb-res-ico">☰</i>
           <span><b>${pct}%</b><small>${esc(t('answeredCorrectly'))}</small></span>
         </div>
         <div class="qb-res-metric">

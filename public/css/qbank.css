@@ -591,7 +591,7 @@ body.qb-ui .qb-res-summary{
 body.qb-ui .qb-res-summary.qb-res-ok{border-left-color:var(--qb-ok)}
 body.qb-ui .qb-res-summary.qb-res-bad{border-left-color:var(--qb-bad)}
 body.qb-ui .qb-res-summary.qb-res-om{border-left-color:var(--qb-om)}
-body.qb-ui .qb-res-verdict{display:flex;flex-direction:column;gap:1px;min-width:112px}
+body.qb-ui .qb-res-verdict{display:flex;flex-direction:column;gap:3px;min-width:0}
 body.qb-ui .qb-res-title{font-size:16px;font-weight:700;line-height:1.3}
 body.qb-ui .qb-res-title.ok{color:var(--qb-ok)}
 body.qb-ui .qb-res-title.bad{color:var(--qb-bad)}
@@ -875,15 +875,17 @@ body.qb-ui .qb-meta-end{border-top:0;background:none;margin-top:16px;padding:0}
    ========================================================================== */
 body.qb-ui .qb-res-summary{
   flex-wrap:nowrap;align-items:center;
-  gap:clamp(10px,3.2vw,30px);
+  gap:clamp(14px,4vw,44px);
   padding:clamp(9px,1.6vw,13px) clamp(11px,2vw,18px);
   margin:18px 0 6px;border-left-width:3px;
 }
 body.qb-ui .qb-res-verdict{min-width:0;flex:0 1 auto}
 body.qb-ui .qb-res-title{font-size:clamp(11.5px,2.6vw,15px)}
-body.qb-ui .qb-res-lbl{font-size:clamp(9.5px,2vw,11.5px)}
-body.qb-ui .qb-res-ans{font-size:clamp(11px,2.4vw,13.5px)}
-body.qb-ui .qb-res-metric{gap:clamp(5px,1.2vw,9px);min-width:0}
+/* "Resposta correta F" numa linha só, com a letra destacada logo depois do
+   rótulo — antes ela caía para a linha de baixo, sozinha. */
+body.qb-ui .qb-res-lbl{font-size:clamp(10px,2vw,12px);white-space:nowrap}
+body.qb-ui .qb-res-ans{font-size:clamp(11.5px,2.4vw,13.5px);font-weight:700;margin-left:5px;color:var(--qb-text)}
+body.qb-ui .qb-res-metric{gap:clamp(5px,1.2vw,9px);min-width:0;white-space:nowrap}
 body.qb-ui .qb-res-ico{font-size:clamp(12px,2.6vw,16px)}
 body.qb-ui .qb-res-metric b{font-size:clamp(11px,2.4vw,13.5px)}
 body.qb-ui .qb-res-metric small{font-size:clamp(9.5px,2vw,11.5px)}
