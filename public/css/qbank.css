@@ -849,9 +849,12 @@ body.qb-ui .qb-lbl-sm{display:inline}
 body.qb-ui #internalContent{position:relative}
 @media(max-width:640px){
   body.qb-ui .qb-test-head .qb-qnum{display:none}
+  /* estava absoluto em relação a #internalContent com top negativo, o que o
+     jogava para fora da área visível: no celular o número simplesmente não
+     aparecia. Agora é um bloco no fluxo, logo acima da barra. */
   body.qb-ui .qb-test::before{
     content:attr(data-qnum);
-    position:absolute;top:-30px;left:2px;
+    display:block;margin:0 0 6px 2px;
     font-size:11px;font-weight:700;color:var(--qb-muted);white-space:nowrap;
   }
 }
@@ -863,9 +866,12 @@ body.qb-ui #internalContent{position:relative}
      cedem juntos em vez de a barra estourar. */
   body.qb-ui .qb-tool{font-size:8.5px;padding:5px 2px;min-height:25px;letter-spacing:-.01em;min-width:0;flex-shrink:1}
   body.qb-ui .qb-tool-flag{padding-left:3px}
-  body.qb-ui .qb-tool-flag .qb-tool-lbl{display:none}
-  body.qb-ui .qb-lbl-full{display:none}
-  body.qb-ui .qb-lbl-short{display:inline}
+  /* Cabe mais texto do que parecia: medido em 390px, com "Marcar",
+     "Valores Lab", "Parar e Salvar" e "Encerrar Bloco" por extenso e só os dois
+     botões de adicionar encurtados, as ferramentas ocupam 342px dos 348
+     disponíveis. Abaixo de 380px o par Parar/Encerrar encurta também. */
+  body.qb-ui .qb-lbl-full{display:inline}
+  body.qb-ui .qb-lbl-short{display:none}
   body.qb-ui .qb-timer{font-size:9px;padding:3px 4px;height:25px}
   body.qb-ui .qb-test-head{padding:4px 5px}
 }
@@ -990,4 +996,11 @@ body.qb-ui .qb-status-field .qb-status-row{flex-wrap:nowrap}
   /* a quinta estatística ocupa a linha inteira: centralizada, e não encostada
      à esquerda como se faltasse um par */
   body.qb-ui .qb-perf-grid .qb-stat:nth-child(5){justify-content:center}
+}
+
+/* aparelhos estreitos (iPhone mini/SE): o par Parar/Encerrar encurta */
+@media(max-width:379px){
+  body.qb-ui .qb-lbl-full{display:none}
+  body.qb-ui .qb-lbl-short{display:inline}
+  body.qb-ui .qb-tool-flag .qb-tool-lbl{display:none}
 }
