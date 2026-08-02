@@ -1512,8 +1512,13 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
   .platform-page.internal .internal-content{padding-top:44px}
 }
 @media(max-width:640px){
-  .platform-page.internal .cm-back-home{left:50px;top:8px;height:26px;font-size:10px}
-  .platform-page.internal .internal-content{padding-top:74px}
+  /* Topo do celular alinhado como uma linha só: hambúrguer (34px, colado à
+     borda), Voltar logo ao lado e os controles à direita — todos com o mesmo
+     centro vertical. Antes o hambúrguer era 42px e ficava mais alto que o
+     resto, deixando o conjunto torto. */
+  .mobile-menu-button{width:34px;height:34px;left:10px;top:9px;border-radius:10px}
+  .platform-page.internal .cm-back-home{position:fixed;left:52px;top:12px;height:28px;font-size:10px}
+  .platform-page.internal .internal-content{padding-top:86px}
 }
 
 /* ==========================================================================

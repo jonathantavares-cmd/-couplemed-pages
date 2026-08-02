@@ -16914,7 +16914,7 @@
       <div class="qb">
         <div class="qb-top">
           <h1>${esc(t('home'))}</h1>
-          <div class="qb-top-actions"><button class="qb-btn ghost qb-guide-open" data-act="guide">ⓘ ${esc(lang()==='pt'?'Guia completo':'Complete guide')}</button></div>
+          <div class="qb-top-actions"><button class="qb-btn ghost qb-guide-open" data-act="guide">ⓘ <span class="qb-lbl-full">${esc(lang()==='pt'?'Guia completo':'Complete guide')}</span><span class="qb-lbl-short">${esc(lang()==='pt'?'Guia':'Guide')}</span></button></div>
         </div>
 
         <div class="qb-stepper">${stepHTML}</div>

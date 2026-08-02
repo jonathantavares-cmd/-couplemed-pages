@@ -972,3 +972,22 @@ body.qb-ui .qb-status-field .qb-status-row{flex-wrap:nowrap}
   body.qb-ui .qb-status-name{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   body.qb-ui .qb-status-count{min-width:17px;height:15px;padding:0 4px;font-size:9px}
 }
+
+/* ==========================================================================
+   CELULAR — cabeçalho do QBank e "Não usadas" centralizado
+   ========================================================================== */
+@media(max-width:640px){
+  /* "QBank 1" vira etiqueta de identificação, não título de página: ocupa
+     menos de um terço da altura que ocupava e libera espaço para o conteúdo. */
+  body.qb-ui .qb-top{align-items:center;gap:10px;margin-bottom:4px}
+  body.qb-ui .qb-top h1{
+    font-size:11px;font-weight:800;letter-spacing:.04em;line-height:1;
+    padding:6px 10px;border-radius:8px;background:var(--qb-accent);color:#fff;
+    display:inline-block;margin:0;
+  }
+  body.qb-ui .qb-guide-open{font-size:10.5px;padding:6px 11px}
+
+  /* a quinta estatística ocupa a linha inteira: centralizada, e não encostada
+     à esquerda como se faltasse um par */
+  body.qb-ui .qb-perf-grid .qb-stat:nth-child(5){justify-content:center}
+}
