@@ -530,3 +530,19 @@ body.qb-typo-test .qb-avail strong{font-size:20px;color:#132235}
 body.qb-typo-test .qb-switch-track{background:#b8c2d4}
 body.qb-typo-test .qb-switch input:checked + .qb-switch-track{background:#2768ff}
 
+/* experimento tipográfico: status como checkboxes com badges (referência imagens) */
+body.qb-typo-test .qb-status-field .qb-status-row{display:flex;flex-wrap:wrap;gap:12px 28px}
+body.qb-typo-test .qb-status-item{position:relative;display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:4px 2px}
+body.qb-typo-test .qb-status-item input[type=checkbox]{position:absolute;opacity:0;width:0;height:0}
+body.qb-typo-test .qb-status-item .qb-tax-box{width:18px;height:18px;border-color:#b8c2d4;border-radius:4px;background:#fff}
+body.qb-typo-test .qb-status-item.on .qb-tax-box{background:#2768ff;border-color:#2768ff}
+body.qb-typo-test .qb-status-name{font-size:14px;font-weight:500;color:#132235}
+body.qb-typo-test .qb-status-count{flex:none;min-width:22px;height:20px;padding:0 7px;border:1px solid #d0d8e6;border-radius:999px;background:#f3f6fb;font-size:11px;font-weight:700;color:#2768ff;display:inline-flex;align-items:center;justify-content:center}
+body.qb-typo-test .qb-status-item.on .qb-status-count{background:#eef4fd;border-color:#2768ff;color:#2768ff}
+
+/* Question Mode + Total Available */
+body.qb-typo-test .qb-question-mode{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--qb-line)}
+body.qb-typo-test .qb-qm-label{font-size:14px;font-weight:700;color:#132235}
+body.qb-typo-test .qb-qm-tip{font-size:13px;font-style:italic;color:#5f748f}
+body.qb-typo-test .qb-question-mode .qb-status-count{color:#2768ff;border-color:#d0d8e6;background:#fff}
+

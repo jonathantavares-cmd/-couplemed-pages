@@ -16455,6 +16455,7 @@
       diffAll:'All', easy:'Easy', medium:'Medium', hard:'Hard',
       tutor:'Tutor', timed:'Timed', secsPerQ:'sec / question',
       modeInfoTip:'Tutor reveals the explanation right after you answer each question. Timed adds a countdown per question. Turn on either, both, or neither.',
+      testMode:'Test Mode', questionMode:'Question Mode', totalAvailable:'Total Available',
       available:'available', generate:'Generate Test', noMatch:'No questions match these filters. Loosen a filter to continue.',
       back:'‹ Back to QBank',
       // solve
@@ -16501,6 +16502,7 @@
       diffAll:'Todas', easy:'Fácil', medium:'Média', hard:'Difícil',
       tutor:'Tutor', timed:'Cronometrado', secsPerQ:'seg / questão',
       modeInfoTip:'Tutor revela a explicação assim que você responde cada questão. Temporizador ativa uma contagem regressiva por questão. Ligue um, os dois, ou nenhum.',
+      testMode:'Modo de Teste', questionMode:'Modo de Questão', totalAvailable:'Total Disponível',
       available:'disponíveis', generate:'Gerar Teste', noMatch:'Nenhuma questão corresponde a esses filtros. Afrouxe um filtro para continuar.',
       back:'‹ Voltar ao Banco',
       qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Suspender', endBlock:'Encerrar Bloco', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
@@ -16989,8 +16991,45 @@
     const avail = availablePool(f);
     const countBy = {};                      // subjectId -> nº disponível
     avail.forEach(q=>{ countBy[q.category]=(countBy[q.category]||0)+1; });
+    const isTypo = document.body.classList.contains('qb-typo-test');
 
     const seg = (act,val,os)=>os.map(o=>`<button class="qb-seg ${val===o.v?'on':''}" data-act="${act}" data-v="${o.v}">${esc(o.l)}</button>`).join('');
+
+    // experimento tipográfico: status como checkboxes com badges de contagem
+    const statusCounts = (()=>{
+      const base = {...f, status:'all'};
+      const basePool = availablePool(base);
+      const passNum = (f.pass!=='all' && f.pass!=='99') ? Number(f.pass) : null;
+      const counts = {all: basePool.length, unused:0, correct:0, incorrect:0, omitted:0, marked:0};
+      basePool.forEach(q=>{
+        const st = store.statusOf(q.id, passNum);
+        if(st==='unused') counts.unused++;
+        else if(st==='correct') counts.correct++;
+        else if(st==='incorrect') counts.incorrect++;
+        else if(st==='omitted') counts.omitted++;
+        if(store.isFlagged(q.id)) counts.marked++;
+      });
+      return counts;
+    })();
+    const statusRowHTML = ()=>{
+      const items = [
+        {v:'all', l:t('stAll')},
+        {v:'unused', l:t('stUnused')},
+        {v:'correct', l:t('stCorrect')},
+        {v:'incorrect', l:t('stIncorrect')},
+        {v:'marked', l:t('stMarked')},
+        {v:'omitted', l:t('stOmitted')}
+      ];
+      return `<div class="qb-status-row">${items.map(o=>{
+        const on = f.status===o.v;
+        return `<label class="qb-status-item ${on?'on':''}">
+          <input type="checkbox" data-act="status" data-v="${o.v}" ${on?'checked':''}>
+          <span class="qb-tax-box"></span>
+          <span class="qb-status-name">${esc(o.l)}</span>
+          <span class="qb-status-count">${statusCounts[o.v]}</span>
+        </label>`;
+      }).join('')}</div>`;
+    };
 
     // accordion de um sistema
     const groupHTML = sys=>{
@@ -17032,14 +17071,25 @@
           ${diffField}
         </div>` : diffField;
 
-    return `
-        <div class="qb-pass-panel qb-create-panel">
-          <div class="qb-field"><label>${esc(t('ctStatus'))}</label><div class="qb-segs">${seg('status',f.status,[
-            {v:'all',l:t('stAll')},{v:'unused',l:t('stUnused')},{v:'correct',l:t('stCorrect')},{v:'incorrect',l:t('stIncorrect')},{v:'marked',l:t('stMarked')},{v:'omitted',l:t('stOmitted')}])}</div></div>
-          ${passRow}
+    const statusField = isTypo
+      ? `<div class="qb-field qb-status-field"><label>${esc(t('ctStatus'))}</label>${statusRowHTML()}</div>`
+      : `<div class="qb-field"><label>${esc(t('ctStatus'))}</label><div class="qb-segs">${seg('status',f.status,[
+            {v:'all',l:t('stAll')},{v:'unused',l:t('stUnused')},{v:'correct',l:t('stCorrect')},{v:'incorrect',l:t('stIncorrect')},{v:'marked',l:t('stMarked')},{v:'omitted',l:t('stOmitted')}])}</div></div>`;
 
-          <hr class="qb-divider">
-
+    const modeBlock = isTypo ? `
+          <div class="qb-mode-block qb-mode-typo">
+            <div class="qb-mode-title">${esc(t('testMode'))} <span class="qb-info-ico" title="${esc(t('modeInfoTip'))}">i</span></div>
+            <div class="qb-mode-inline">
+              <label class="qb-mode-item"><span class="qb-switch"><input type="checkbox" data-act="tutor-toggle" ${f.tutor?'checked':''}><span class="qb-switch-track"><span class="qb-switch-knob"></span></span></span><span>${esc(t('tutor'))}</span></label>
+              <label class="qb-mode-item"><span class="qb-switch"><input type="checkbox" data-act="timed-toggle" ${f.timed?'checked':''}><span class="qb-switch-track"><span class="qb-switch-knob"></span></span></span><span>${esc(t('timed'))}</span></label>
+            </div>
+            ${f.timed?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
+            <div class="qb-question-mode">
+              <span class="qb-qm-label">${esc(t('questionMode'))}</span>
+              <span class="qb-qm-tip">${esc(t('totalAvailable'))}</span>
+              <span class="qb-status-count">${availN}</span>
+            </div>
+          </div>` : `
           <div class="qb-mode-block">
             <div class="qb-mode-title">${esc(t('ctMode'))} <span class="qb-info-ico" title="${esc(t('modeInfoTip'))}">i</span></div>
             <div class="qb-mode-inline">
@@ -17047,7 +17097,16 @@
               <label class="qb-mode-item"><span class="qb-switch"><input type="checkbox" data-act="timed-toggle" ${f.timed?'checked':''}><span class="qb-switch-track"><span class="qb-switch-knob"></span></span></span><span>${esc(t('timed'))}</span></label>
             </div>
             ${f.timed?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
-          </div>
+          </div>`;
+
+    return `
+        <div class="qb-pass-panel qb-create-panel">
+          ${statusField}
+          ${passRow}
+
+          <hr class="qb-divider">
+
+          ${modeBlock}
 
           <hr class="qb-divider">
 
