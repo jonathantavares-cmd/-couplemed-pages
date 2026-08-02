@@ -46,6 +46,7 @@ Regras:
 
 | Breakpoint | Seletores/área | Comportamento esperado |
 |---|---|---|
+| `1024px` (min-width) | `.qb-test-body.has-explanation` | **Acima** de 1024px a resolução fica em duas colunas (questão \| explicação) com a divisória `.qb-splitter` arrastável; a proporção vive em `--qb-split` (30–70%, salva em `localStorage['cm-qb-split']`). Abaixo de 1024px vira coluna única e a divisória some. O corte é 1024 — e não 1180 — porque o iPad landscape (1024×768) precisa das duas colunas. |
 | `760px` | guia visual | Hero, quick links, etapas e navegação reorganizam. |
 | `720px` | `.qb-row` | Grid de duas colunas do Create Test standalone vira uma coluna. |
 | `640px` | `#internalContent.qb-wide .internal-card` | Padding interno reduz. |
@@ -56,6 +57,25 @@ Regras:
 | `560px` | `.qb-tax` | Taxonomia vira uma coluna. |
 | `520px` | guia visual | Etapas/itens viram uma coluna e elementos decorativos compactam ou somem. |
 | `480px` | `.qb-gen` | Quantidade, disponíveis e botão de gerar empilham; botão ocupa 100%. |
+
+### 2.0 Tom (Claro / Sépia / Escuro)
+
+O QBank abre sempre no tom **Claro**. A barra `.cm-tonebar` (topo de `#internalContent`)
+troca o tom; o valor vai para `localStorage['cm-tone']` e para `data-tone` em `<html>` e
+`<body>`, e é reaplicado antes da pintura por um script inline no `<head>` de `app.html`
+(evita flash ao trocar de página).
+
+Regras ao mexer em `qbank.css`:
+
+- **Nenhuma cor literal** nas regras do QBank — só tokens (`--qb-text`, `--qb-card`,
+  `--qb-line`, `--qb-accent`, …). Cor literal só dentro dos três blocos de paleta.
+- **Não redeclarar token dentro do escopo `.qb`**: o escopo venceria a herança do
+  `body` e o tom escolhido deixaria de valer dentro do QBank.
+- Cuidado com seletor descendente largo (`.internal-card p`): ele vence por
+  especificidade regras de conteúdo como `.qb-expl-correct`. Use filho direto (`> p`).
+
+As demais áreas da plataforma ainda não consomem os tons — a migração é por página,
+reaproveitando os mesmos tokens.
 
 ### 2.1 Checklist de questão, imagem e Lab Values
 

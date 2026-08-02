@@ -10,8 +10,18 @@
   <meta name="theme-color" content="#081324" />
   <link rel="stylesheet" href="css/styles.css?v=72" />
   <link rel="stylesheet" href="css/ai-tutor-widget.css?v=24" />
-  <link rel="stylesheet" href="css/qbank.css?v=53" />
+  <link rel="stylesheet" href="css/qbank.css?v=57" />
   <link rel="stylesheet" href="css/notebook.css?v=12" />
+  <script>
+    /* Tom da plataforma (Claro / Sépia / Escuro) — aplicado antes da pintura
+       para não haver flash ao trocar de página. A escolha vive em
+       localStorage 'cm-tone'; o QBank a expõe na barra superior. */
+    (function(){
+      var v='light';
+      try{ var s=localStorage.getItem('cm-tone'); if(s==='light'||s==='sepia'||s==='dark') v=s; }catch(e){}
+      document.documentElement.setAttribute('data-tone', v);
+    })();
+  </script>
 </head>
 <body class="platform-page" data-page="home">
   <script>
@@ -160,7 +170,7 @@
       'js/library1-reader.js?v=6',
       'js/site.js?v=71',
       'js/flashcards.js?v=37',
-      'js/qbank.js?v=44',
+      'js/qbank.js?v=45',
       'js/notebook.js?v=11',
       'js/ai-tutor-widget.js?v=25',
       'js/select-translate.js?v=2'

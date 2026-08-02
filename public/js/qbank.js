@@ -16465,6 +16465,10 @@
       correctBadge:'Correct', incorrectBadge:'Incorrect', omittedBadge:'Omitted',
       eduObjective:'Educational objective', peerTitle:'Peer answer choices', chosePct:p=>`${p}% chose this`, avgClass:'class average',
       addFlash:'+ Add to Flashcards', addNote:'+ Notebook', explanation:'Explanation',
+      correctAnswer:'Correct answer', answeredCorrectly:'Answered correctly', timeSpent:'Time spent',
+      // tom (aparência)
+      resizeColumns:'Drag to resize columns',
+      tone:'Tone', toneLight:'Light', toneSepia:'Sepia', toneDark:'Dark',
       // preview mode (staging review before commit)
       previewBanner:n=>`🔍 PREVIEW MODE — ${n} newly added question${n===1?'':'s'}, shown in order. This is read-only: answers are disabled and nothing is saved to your progress/analytics.`,
       previewMissing:ids=>`⚠ ID(s) not found in the bank: ${ids.join(', ')}`,
@@ -16511,6 +16515,9 @@
       correctBadge:'Correta', incorrectBadge:'Incorreta', omittedBadge:'Omitida',
       eduObjective:'Objetivo educacional', peerTitle:'Escolhas dos colegas', chosePct:p=>`${p}% escolheram`, avgClass:'média da turma',
       addFlash:'+ Criar Flashcard', addNote:'+ Caderno', explanation:'Explicação',
+      correctAnswer:'Resposta correta', answeredCorrectly:'Responderam corretamente', timeSpent:'Tempo gasto',
+      resizeColumns:'Arraste para redimensionar as colunas',
+      tone:'Tom', toneLight:'Claro', toneSepia:'Sépia', toneDark:'Escuro',
       previewBanner:n=>`🔍 MODO PREVIEW — ${n} questão${n===1?'':'ões'} recém-adicionada${n===1?'':'s'}, na ordem enviada. Somente leitura: respostas ficam desabilitadas e nada é salvo no seu progresso/análises.`,
       previewMissing:ids=>`⚠ ID(s) não encontrado(s) no banco: ${ids.join(', ')}`,
       resTitle:'Resultado do bloco', score:'Nota', bySystem:'Por sistema', reviewQ:'Revisar questões',
@@ -16703,31 +16710,69 @@
   let host, root, view={name:'home'};
   const passFromPage = { 'qbank1-pass-1':'1','qbank1-pass-2':'2','qbank1-pass-3':'3','qbank1-pass-4':'99' };
 
-  /* Toggle global do experimento tipográfico (para testes rápidos via console):
-     cmToggleTypoTest() liga/desliga e recarrega a página. */
-  window.cmToggleTypoTest = function(){
-    try{
-      const on = localStorage.getItem('couplemed_qb_typo_test')==='1';
-      if(on) localStorage.removeItem('couplemed_qb_typo_test'); else localStorage.setItem('couplemed_qb_typo_test','1');
-      location.reload();
-    }catch(e){}
-  };
+  /* ===================== TOM (Claro / Sépia / Escuro) =====================
+     Padrão visual das imagens de referência: o QBank abre no tom Claro e o
+     usuário troca pela barra superior. A escolha é global da plataforma
+     (localStorage 'cm-tone' + body[data-tone]), para as demais áreas
+     herdarem o mesmo tom conforme forem migrando. */
+  const TONES = ['light','sepia','dark'];
+  function currentTone(){
+    let v=null;
+    try{ v = localStorage.getItem('cm-tone'); }catch(e){}
+    return TONES.includes(v) ? v : 'light';
+  }
+  function applyTone(tone){
+    const v = TONES.includes(tone) ? tone : 'light';
+    document.body.setAttribute('data-tone', v);
+    document.documentElement.setAttribute('data-tone', v);
+    try{ localStorage.setItem('cm-tone', v); }catch(e){}
+  }
+  function renderToneBar(){
+    const cur = currentTone();
+    const opts = [['light',t('toneLight')],['sepia',t('toneSepia')],['dark',t('toneDark')]];
+    return `<div class="cm-tonebar" role="group" aria-label="${esc(t('tone'))}">
+      <span class="cm-tonebar-lbl">${esc(t('tone'))}</span>
+      <div class="cm-tone-seg">
+        ${opts.map(([v,lbl])=>`<button type="button" class="cm-tone-opt" data-tone="${v}" aria-pressed="${v===cur}">${esc(lbl)}</button>`).join('')}
+      </div>
+    </div>`;
+  }
+  /* A barra vive fora do card (topo do conteúdo interno), então sobrevive aos
+     re-renders do QBank e aparece em todas as telas. */
+  function mountToneBar(){
+    const wrap = document.querySelector('#internalContent');
+    if(!wrap) return;
+    let bar = wrap.querySelector('.cm-tonebar');
+    const html = renderToneBar();
+    if(!bar){
+      const holder = document.createElement('div');
+      holder.innerHTML = html;
+      bar = holder.firstElementChild;
+      wrap.insertBefore(bar, wrap.firstChild);
+      bar.addEventListener('click', ev=>{
+        const b = ev.target.closest('.cm-tone-opt');
+        if(!b) return;
+        applyTone(b.dataset.tone);
+        mountToneBar();
+      });
+    } else {
+      const holder = document.createElement('div');
+      holder.innerHTML = html;
+      bar.replaceChildren(...holder.firstElementChild.childNodes);
+    }
+  }
+
+  /* Layout tipográfico aprovado (Imagens 6–10): sans-serif, tamanhos e tons
+     das imagens de referência. Aplicado em todas as telas do QBank para
+     manter consistência premium e legibilidade. */
   function boot(){
-    // Experimento tipográfico reversível (teste de layout/fonte):
-    // ?typo=1 liga, ?typo=0 desliga; preferência fica em localStorage.
-    try{
-      const pTypo = params.get('typo');
-      if(pTypo==='1') localStorage.setItem('couplemed_qb_typo_test','1');
-      if(pTypo==='0') localStorage.removeItem('couplemed_qb_typo_test');
-      if(localStorage.getItem('couplemed_qb_typo_test')==='1'){
-        document.body.classList.add('qb-typo-test');
-        console.log('[QBank] Experimento tipográfico ATIVADO (qb-typo-test). Use cmToggleTypoTest() no console para desligar.');
-      }
-    }catch(e){}
+    document.body.classList.add('qb-ui');
+    applyTone(currentTone());
     host = document.querySelector('#internalContent .internal-card');
     if(!host) return;
     host.classList.add('qb-host');
     document.querySelector('#internalContent').classList.add('qb-wide');
+    mountToneBar();
     root = host;
     // ?previewIds=ID1,ID2,... — modo de revisão isolada pré-commit (só leitura, não grava attempt/pass/sync)
     const previewIds = params.get('previewIds');
@@ -16764,6 +16809,7 @@
     else if(view.name==='results') renderResults();
     else if(view.name==='analytics') renderAnalytics();
     else if(view.name==='guide') renderGuide();
+    mountToneBar();
     translateVisibleQuestionTexts();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
@@ -16991,7 +17037,7 @@
     const avail = availablePool(f);
     const countBy = {};                      // subjectId -> nº disponível
     avail.forEach(q=>{ countBy[q.category]=(countBy[q.category]||0)+1; });
-    const isTypo = document.body.classList.contains('qb-typo-test');
+    const isTypo = document.body.classList.contains('qb-ui');
 
     const seg = (act,val,os)=>os.map(o=>`<button class="qb-seg ${val===o.v?'on':''}" data-act="${act}" data-v="${o.v}">${esc(o.l)}</button>`).join('');
 
@@ -17187,8 +17233,35 @@
         <button class="qb-strike" data-act="strike" data-o="${o.label}" title="strikethrough">✕</button>
         <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${qbField(o.text, ptOptionText(q,o.label))}</span>
         ${revealed&&o.label===q.correct?'<span class="qb-tick">✓</span>':''}
+        ${revealed&&o.label===ans&&o.label!==q.correct?'<span class="qb-cross">✕</span>':''}
       </div>`;
     };
+    function renderResultSummary(q,ans,preview){
+      const correct = ans===q.correct;
+      const pct = (q.peer && q.peer[q.correct]) || 0;
+      const secs = Math.round((T0.times[q.id] || 0) / 1000);
+      const mm = String(Math.floor(secs/60)).padStart(2,'0');
+      const ss = String(secs%60).padStart(2,'0');
+      let title, sub;
+      if(preview){
+        title = `<span class="qb-res-title ok">${esc(t('correctBadge'))}</span>`;
+      } else if(ans==null){
+        title = `<span class="qb-res-title om">${esc(t('omittedBadge'))}</span>`;
+        sub = `<span class="qb-res-sub">${esc(t('correctAnswer'))} <b>${esc(q.correct)}</b></span>`;
+      } else if(correct){
+        title = `<span class="qb-res-title ok">${esc(t('correctBadge'))}</span>`;
+      } else {
+        title = `<span class="qb-res-title bad">${esc(t('incorrectBadge'))}</span>`;
+        sub = `<span class="qb-res-sub">${esc(t('correctAnswer'))} <b>${esc(q.correct)}</b></span>`;
+      }
+      return `<div class="qb-res-summary">
+        <div class="qb-res-summary-top">${title}${sub?` ${sub}`:''}</div>
+        <div class="qb-res-summary-stats">
+          <span><i>📊</i> ${pct}% ${esc(t('answeredCorrectly'))}</span>
+          <span><i>⏱</i> ${mm}:${ss} ${esc(t('timeSpent'))}</span>
+        </div>
+      </div>`;
+    }
     const grid = T0.qids.map((qid,n)=>{
       const a=T0.answers[qid]; let cls='qb-grid-cell';
       if(n===T0.idx)cls+=' cur';
@@ -17211,15 +17284,19 @@
           </div>
         </div>
 
-        <div class="qb-test-body">
-          <div class="qb-vignette">
-            ${q.vignette?`<p>${qbField(q.vignette, q.ptTranslation && q.ptTranslation.vignette)}</p>`:''}
-            ${renderQImage(q)}
-            <p class="qb-stem">${qbField(q.q, q.ptTranslation && q.ptTranslation.q)}</p>
-            <div class="qb-opts">${q.options.map(opt).join('')}</div>
-            ${(!answered && !T0.preview)?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
-            ${revealed?renderExplanation(q,ans,T0.preview):''}
+        <div class="qb-test-body ${revealed?'has-explanation':''}">
+          <div class="qb-question-col">
+            <div class="qb-vignette">
+              ${q.vignette?`<p>${qbField(q.vignette, q.ptTranslation && q.ptTranslation.vignette)}</p>`:''}
+              ${renderQImage(q)}
+              <p class="qb-stem">${qbField(q.q, q.ptTranslation && q.ptTranslation.q)}</p>
+              <div class="qb-opts">${q.options.map(opt).join('')}</div>
+              ${(!answered && !T0.preview)?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
+              ${revealed?renderResultSummary(q,ans,T0.preview):''}
+            </div>
           </div>
+          ${revealed?`<div class="qb-splitter" role="separator" aria-orientation="vertical" tabindex="0" aria-label="${esc(t('resizeColumns'))}"></div>
+          <div class="qb-explanation-col">${renderExplanation(q,ans,T0.preview)}</div>`:''}
         </div>
 
         <div class="qb-nav">
@@ -17229,7 +17306,60 @@
         </div>
       </div>`;
     wire();
+    wireSplitter();
     startTimer(q.id);
+  }
+
+  /* ===== divisória arrastável entre questão e explicação (>=1024px) =====
+     A proporção é uma porcentagem da largura do corpo da questão, guardada em
+     localStorage para valer nas próximas questões e sessões. Abaixo de 1024px
+     o CSS ignora a variável e o layout vira coluna única. */
+  const SPLIT_MIN = 30, SPLIT_MAX = 70;
+  function savedSplit(){
+    let raw = null;
+    try{ raw = localStorage.getItem('cm-qb-split'); }catch(e){}
+    const n = parseFloat(raw);
+    return (isFinite(n) && n>=SPLIT_MIN && n<=SPLIT_MAX) ? n : 50;
+  }
+  function setSplit(body, pct){
+    const v = Math.min(SPLIT_MAX, Math.max(SPLIT_MIN, pct));
+    body.style.setProperty('--qb-split', v.toFixed(2)+'%');
+    try{ localStorage.setItem('cm-qb-split', String(v)); }catch(e){}
+  }
+  function wireSplitter(){
+    const body = root.querySelector('.qb-test-body.has-explanation');
+    const bar  = body && body.querySelector('.qb-splitter');
+    if(!body || !bar) return;
+    setSplit(body, savedSplit());
+    const pctFromX = x => {
+      const r = body.getBoundingClientRect();
+      return r.width ? ((x - r.left) / r.width) * 100 : 50;
+    };
+    bar.addEventListener('pointerdown', ev=>{
+      if(!window.matchMedia('(min-width:1024px)').matches) return;
+      ev.preventDefault();
+      bar.setPointerCapture(ev.pointerId);
+      bar.classList.add('dragging');
+      document.body.classList.add('qb-splitting');
+      const move = e => setSplit(body, pctFromX(e.clientX));
+      const up = e => {
+        bar.removeEventListener('pointermove', move);
+        bar.removeEventListener('pointerup', up);
+        bar.removeEventListener('pointercancel', up);
+        bar.classList.remove('dragging');
+        document.body.classList.remove('qb-splitting');
+        try{ bar.releasePointerCapture(ev.pointerId); }catch(_){}
+      };
+      bar.addEventListener('pointermove', move);
+      bar.addEventListener('pointerup', up);
+      bar.addEventListener('pointercancel', up);
+    });
+    bar.addEventListener('keydown', ev=>{
+      if(ev.key!=='ArrowLeft' && ev.key!=='ArrowRight') return;
+      ev.preventDefault();
+      setSplit(body, savedSplit() + (ev.key==='ArrowRight' ? 2 : -2));
+    });
+    bar.addEventListener('dblclick', ()=> setSplit(body, 50));
   }
 
 
@@ -17327,10 +17457,6 @@
 
   function renderExplanation(q,ans,preview){
     const correct = ans===q.correct;
-    const badge = preview? `<span class="qb-badge ok">${esc(t('correctBadge'))}</span>`
-      : ans==null? `<span class="qb-badge om">${esc(t('omittedBadge'))}</span>`
-      : correct? `<span class="qb-badge ok">${esc(t('correctBadge'))}</span>`
-      : `<span class="qb-badge bad">${esc(t('incorrectBadge'))}</span>`;
     const links = store.linksFor(q.id).length;
     const peerRows = q.options.map(o=>{
       const pct=(q.peer&&q.peer[o.label])||0;
@@ -17341,7 +17467,7 @@
     }).join('');
     const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${qbField(e.explanation, ptExplIText(q,e.option))}</li>`).join('');
     return `<div class="qb-expl">
-      <div class="qb-expl-head">${badge}
+      <div class="qb-expl-head">
         <div class="qb-expl-actions">
           <button class="qb-btn tiny" data-act="flash">${esc(t('addFlash'))}${links?` (${links})`:''}</button>
           <button class="qb-btn tiny ghost" data-act="note">${esc(t('addNote'))}</button>
