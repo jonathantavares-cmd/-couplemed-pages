@@ -865,7 +865,9 @@ body.qb-ui #internalContent{position:relative}
 /* ==========================================================================
    Subject / System / Topic — soltas, logo abaixo do Educational Objective
    ========================================================================== */
-body.qb-ui .qb-meta-end{border-top:0;background:none;margin-top:16px;padding:0}
+/* a regra original definia border nos QUATRO lados: zerar só o de cima deixava
+   as laterais e a de baixo visíveis, desenhando a caixa que devia sumir */
+body.qb-ui .qb-meta-end{border:0;border-radius:0;background:none;box-shadow:none;margin-top:16px;padding:0}
 
 /* ==========================================================================
    CARD DE RESULTADO — menor e com escala contínua (sem degraus)
