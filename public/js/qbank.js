@@ -16701,6 +16701,15 @@
   let host, root, view={name:'home'};
   const passFromPage = { 'qbank1-pass-1':'1','qbank1-pass-2':'2','qbank1-pass-3':'3','qbank1-pass-4':'99' };
 
+  /* Toggle global do experimento tipográfico (para testes rápidos via console):
+     cmToggleTypoTest() liga/desliga e recarrega a página. */
+  window.cmToggleTypoTest = function(){
+    try{
+      const on = localStorage.getItem('couplemed_qb_typo_test')==='1';
+      if(on) localStorage.removeItem('couplemed_qb_typo_test'); else localStorage.setItem('couplemed_qb_typo_test','1');
+      location.reload();
+    }catch(e){}
+  };
   function boot(){
     // Experimento tipográfico reversível (teste de layout/fonte):
     // ?typo=1 liga, ?typo=0 desliga; preferência fica em localStorage.
@@ -16708,7 +16717,10 @@
       const pTypo = params.get('typo');
       if(pTypo==='1') localStorage.setItem('couplemed_qb_typo_test','1');
       if(pTypo==='0') localStorage.removeItem('couplemed_qb_typo_test');
-      if(localStorage.getItem('couplemed_qb_typo_test')==='1') document.body.classList.add('qb-typo-test');
+      if(localStorage.getItem('couplemed_qb_typo_test')==='1'){
+        document.body.classList.add('qb-typo-test');
+        console.log('[QBank] Experimento tipográfico ATIVADO (qb-typo-test). Use cmToggleTypoTest() no console para desligar.');
+      }
     }catch(e){}
     host = document.querySelector('#internalContent .internal-card');
     if(!host) return;
