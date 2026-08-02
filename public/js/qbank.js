@@ -16459,7 +16459,8 @@
       available:'available', generate:'Generate Test', noMatch:'No questions match these filters. Loosen a filter to continue.',
       back:'‹ Back to QBank',
       // solve
-      qOf:(a,b)=>`Question ${a} of ${b}`, suspend:'Suspend', endBlock:'End Block', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
+      qOf:(a,b)=>`Question ${a} of ${b}`, suspend:'Stop and Save', endBlock:'End Block',
+      suspendShort:'Stop', endBlockShort:'Suspend', flashShort:'Flashcard', noteShort:'Notebook', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
       submit:'Submit', next:'Next ›', prev:'‹ Prev', confirmEnd:'End this block now? Unanswered questions will be recorded as omitted.',
       confirmSuspend:'Suspend and leave? Your progress is saved and you can resume later.',
       correctBadge:'Correct', incorrectBadge:'Incorrect', omittedBadge:'Omitted',
@@ -16510,7 +16511,8 @@
       testMode:'Modo de Teste', questionMode:'Modo de Questão', totalAvailable:'Total Disponível',
       available:'disponíveis', generate:'Gerar Teste', noMatch:'Nenhuma questão corresponde a esses filtros. Afrouxe um filtro para continuar.',
       back:'‹ Voltar ao Banco',
-      qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Suspender', endBlock:'Encerrar Bloco', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
+      qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Parar e Salvar', endBlock:'Encerrar Bloco',
+      suspendShort:'Parar', endBlockShort:'Suspender', flashShort:'Flashcard', noteShort:'Caderno', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
       submit:'Responder', next:'Próxima ›', prev:'‹ Anterior', confirmEnd:'Encerrar o bloco agora? Questões sem resposta serão registradas como omitidas.',
       confirmSuspend:'Suspender e sair? Seu progresso é salvo e você pode retomar depois.',
       correctBadge:'Correta', incorrectBadge:'Incorreta', omittedBadge:'Omitida',
@@ -16761,6 +16763,7 @@
     else if(view.name==='results') renderResults();
     else if(view.name==='analytics') renderAnalytics();
     else if(view.name==='guide') renderGuide();
+    if(view.name!=='test') mountQuestionMeta('');
     translateVisibleQuestionTexts();
   }
   const go = v => { view=v; render(); window.scrollTo(0,0); };
@@ -17081,11 +17084,6 @@
               <label class="qb-mode-item"><span class="qb-switch"><input type="checkbox" data-act="timed-toggle" ${f.timed?'checked':''}><span class="qb-switch-track"><span class="qb-switch-knob"></span></span></span><span>${esc(t('timed'))}</span></label>
             </div>
             ${f.timed?`<div class="qb-secs"><input type="range" min="30" max="150" step="15" value="${f.secs}" data-act="secs"><span>${f.secs} ${esc(t('secsPerQ'))}</span></div>`:''}
-            <div class="qb-question-mode">
-              <span class="qb-qm-label">${esc(t('questionMode'))}</span>
-              <span class="qb-qm-tip">${esc(t('totalAvailable'))}</span>
-              <span class="qb-status-count">${availN}</span>
-            </div>
           </div>` : `
           <div class="qb-mode-block">
             <div class="qb-mode-title">${esc(t('ctMode'))} <span class="qb-info-ico" title="${esc(t('modeInfoTip'))}">i</span></div>
@@ -17112,7 +17110,7 @@
               <div class="qb-field qb-count-field"><label>${esc(t('ctCount'))}</label>
                 <div class="qb-count"><input type="number" min="1" max="${maxN}" value="${count}" data-act="count-num" ${availN?'':'disabled'}></div>
               </div>
-              <div class="qb-avail"><strong>${availN}</strong> ${esc(t('available'))}</div>
+              <div class="qb-avail"><strong>${availN}</strong> ${esc(t('totalAvailable'))}</div>
             </div>
             <button class="qb-btn primary big" data-act="generate" ${availN?'':'disabled'}>${esc(t('generate'))} →</button>
           </div>
@@ -17175,6 +17173,7 @@
     const revealed = (T0.tutor && answered) || view.showAns;
     const strikes=T0.strikes[q.id]||{};
     const flagged=store.isFlagged(q.id);
+    const links=store.linksFor(q.id).length;
     const opt = o=>{
       let cls='qb-opt'; const struck=strikes[o.label];
       if(revealed){ if(o.label===q.correct)cls+=' correct'; else if(o.label===ans)cls+=' chosen-wrong'; }
@@ -17233,16 +17232,17 @@
     }).join('');
 
     root.innerHTML = `
-      <div class="qb qb-test">
+      <div class="qb qb-test" data-qnum="${esc(t('qOf')(T0.idx+1,T0.qids.length))}">
         ${T0.preview?`<div class="qb-preview-banner">${esc(t('previewBanner')(T0.qids.length))}${(T0.previewMissing&&T0.previewMissing.length)?`<br>${esc(t('previewMissing')(T0.previewMissing))}`:''}</div>`:''}
         <div class="qb-test-head">
-          <span class="qb-qnum">${esc(t('qOf')(T0.idx+1,T0.qids.length))}</span>
           <div class="qb-head-tools">
-            <button class="qb-tool ${flagged?'on':''}" data-act="flag">⚑ ${esc(flagged?t('unflag'):t('flag'))}</button>
-            <button class="qb-tool" data-act="labs">🧪 ${esc(t('labValues'))}</button>
-            <span class="qb-timer" id="qbTimer">00:00</span>
-            ${T0.preview?'':`<button class="qb-tool warn" data-act="suspend">${esc(t('suspend'))}</button>
-            <button class="qb-tool danger" data-act="end">${esc(t('endBlock'))}</button>`}
+            <button class="qb-tool qb-tool-flag ${flagged?'on':''}" data-act="flag" title="${esc(flagged?t('unflag'):t('flag'))}">⚑ <span class="qb-tool-lbl">${esc(flagged?t('unflag'):t('flag'))}</span></button>
+            <button class="qb-tool" data-act="flash">${esc(t('flashShort'))}${links?` (${links})`:''}</button>
+            <button class="qb-tool" data-act="note">${esc(t('noteShort'))}</button>
+            <button class="qb-tool" data-act="labs">🧪 <span class="qb-tool-lbl">${esc(t('labValues'))}</span></button>
+            ${T0.timed?`<span class="qb-timer" id="qbTimer">00:00</span>`:`<span class="qb-timer" id="qbTimer" hidden>00:00</span>`}
+            ${T0.preview?'':`<button class="qb-tool warn" data-act="suspend"><span class="qb-lbl-full">${esc(t('suspend'))}</span><span class="qb-lbl-short">${esc(t('suspendShort'))}</span></button>
+            <button class="qb-tool danger" data-act="end"><span class="qb-lbl-full">${esc(t('endBlock'))}</span><span class="qb-lbl-short">${esc(t('endBlockShort'))}</span></button>`}
           </div>
         </div>
 
@@ -17260,8 +17260,6 @@
           ${revealed?`<div class="qb-splitter" role="separator" aria-orientation="vertical" tabindex="0" aria-label="${esc(t('resizeColumns'))}"></div>
           <div class="qb-explanation-col">${renderExplanation(q,ans,T0.preview)}</div>`:''}
         </div>
-        ${revealed?renderQuestionMeta(q):''}
-
         <div class="qb-nav">
           <button class="qb-btn ghost" data-act="prev" ${T0.idx===0?'disabled':''}>${esc(t('prev'))}</button>
           <div class="qb-grid">${grid}</div>
@@ -17270,7 +17268,26 @@
       </div>`;
     wire();
     wireSplitter();
+    mountQuestionMeta(revealed ? renderQuestionMeta(q) : '');
     startTimer(q.id);
+  }
+
+  /* O rodapé Subject/System/Topic vive FORA do card da questão, como rodapé da
+     página. Fica num irmão do card dentro de #internalContent, então sobrevive
+     aos re-renders do card e some sozinho nas telas que não são de questão. */
+  function mountQuestionMeta(html){
+    const wrap=document.querySelector('#internalContent'); if(!wrap) return;
+    let el=wrap.querySelector('#qbMetaFooter');
+    if(!html){ if(el) el.remove(); return; }
+    if(!el){
+      el=document.createElement('div');
+      el.id='qbMetaFooter';
+      el.className='qb qb-meta-footer';
+      wrap.appendChild(el);
+    }
+    el.innerHTML=html;
+    /* onAct lê e.currentTarget, então o ouvinte vai em cada botão — não no container */
+    el.querySelectorAll('[data-act]').forEach(b=>b.addEventListener('click',onAct));
   }
 
   /* ===== divisória arrastável entre questão e explicação (>=1024px) =====
@@ -17420,15 +17437,8 @@
 
   function renderExplanation(q,ans,preview){
     const correct = ans===q.correct;
-    const links = store.linksFor(q.id).length;
     const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${qbField(e.explanation, ptExplIText(q,e.option))}</li>`).join('');
     return `<div class="qb-expl">
-      <div class="qb-expl-head">
-        <div class="qb-expl-actions">
-          <button class="qb-btn tiny" data-act="flash">${esc(t('addFlash'))}${links?` (${links})`:''}</button>
-          <button class="qb-btn tiny ghost" data-act="note">${esc(t('addNote'))}</button>
-        </div>
-      </div>
       <h3>${esc(t('explanation'))}</h3>
       ${renderExplImage(q)}
       <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
@@ -17747,7 +17757,10 @@
       case 'submit': submitAnswer(false); break;
       case 'flag': store.toggleFlag(currentQ().id); render(); break;
       case 'labs': openLabs(currentQ()); break;
-      case 'suspend': if(view.test.preview){ go({name:'home'}); break; } if(confirm(t('confirmSuspend'))){ const s=serializeTest(view.test); s.status='suspended'; store.saveTest(s); if(timerH)clearInterval(timerH); go({name:'home'});} break;
+      /* "Parar e Salvar" é a ação explícita de sair salvando: não pergunta nada.
+         A confirmação existe só quando o usuário sai por outro caminho (Voltar,
+         menu, fechar a aba), onde o abandono não foi intencional. */
+      case 'suspend': { if(view.test.preview){ go({name:'home'}); break; } suspendTest(); break; }
       case 'end': if(view.test.preview){ go({name:'home'}); break; } if(confirm(t('confirmEnd'))) endBlock(); break;
       case 'prev': if(view.test.idx>0){view.test.idx--; view.showAns=!!view.test.preview; view.test.pending=null; render();} break;
       case 'next': if(view.test.idx<view.test.qids.length-1){view.test.idx++; view.showAns=!!view.test.preview; view.test.pending=null; render();} break;
@@ -17759,6 +17772,14 @@
     }
   }
   const currentQ = ()=> store.question(view.test.qids[view.test.idx]);
+  /* Salva o bloco em andamento e volta para a home do QBank. */
+  function suspendTest(){
+    const T0=view.test; if(!T0) return;
+    const s=serializeTest(T0); s.status='suspended'; store.saveTest(s);
+    if(timerH)clearInterval(timerH);
+    go({name:'home', sel:store.currentPass()});
+  }
+
   function markPending(o){ // atualiza seleção sem re-render completo
     // 'picked' é a classe que pinta o radio; 'chosen' segue por compatibilidade
     // com regras antigas. As duas precisam andar juntas, senão a seleção não
@@ -17782,6 +17803,8 @@
       const T0=view.test;
       if(T0 && !T0.preview && T0.status!=='finished'){
         if(!confirm(t('confirmSuspend'))) return true;   // ficou onde estava
+        suspendTest();                                   // sair aqui também salva
+        return true;
       }
       go({name:'home', sel:store.currentPass()});
       return true;

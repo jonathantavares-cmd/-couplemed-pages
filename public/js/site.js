@@ -211,26 +211,36 @@
     light:'light', paper:'sepia', mist:'light', sage:'light', rose:'light',
     dark:'dark', black:'dark', slate:'dark', indigo:'dark', ocean:'dark', plum:'dark'
   };
+  /* '' = automático (padrão de fábrica). Temas antigos caem no tom equivalente. */
   function stgNormalizeTone(v){
+    if(!v) return '';
     if(STG_TONES.includes(v)) return v;
-    return STG_TONE_MIGRATION[v] || 'light';
+    return STG_TONE_MIGRATION[v] || '';
+  }
+  /* Tom que a página deve exibir agora, na ordem de prioridade combinada:
+       1) padrão permanente de Settings — vale em tudo, inclusive na Home;
+       2) troca pontual feita na barra — vale na sessão, nunca na Home;
+       3) automático — Home escura, demais páginas claras. */
+  function resolveTone(page){
+    const fixed = stgNormalizeTone(getPrefs(user()).theme);
+    if(fixed) return fixed;
+    const p = page || (new URL(location.href)).searchParams.get('page') || 'home';
+    if(p!=='home'){
+      let s=null; try{ s=sessionStorage.getItem('cm-tone-session'); }catch(e){}
+      if(STG_TONES.includes(s)) return s;
+    }
+    return p==='home' ? 'dark' : 'light';
   }
   /* Aplica o tom no <html> e no <body>. `body.light` continua sendo a chave que
      o CSS do site usa para superfícies claras — Claro e Sépia são claros. */
   function applyAppearance(tone){
     const b=document.body, h=document.documentElement;
-    const v=stgNormalizeTone(tone);
+    const v=STG_TONES.includes(tone)?tone:resolveTone();
     h.setAttribute('data-tone',v); b.setAttribute('data-tone',v);
     h.classList.toggle('cm-light-tone', v!=='dark');
     b.classList.toggle('light', v!=='dark');
     h.removeAttribute('data-bg');
-    try{ localStorage.setItem('cm-tone',v); }catch(e){}
     return v;
-  }
-  function currentTone(){
-    let v=null;
-    try{ v=localStorage.getItem('cm-tone'); }catch(e){}
-    return STG_TONES.includes(v)?v:null;
   }
   /* ===================== VOLTAR HIERÁRQUICO =====================
      "Voltar" sobe um nível na hierarquia da página — nunca desfaz histórico.
@@ -243,9 +253,9 @@
           QBank pede confirmação antes de abandonar um bloco em andamento;
        3) sobe um nível pelo mapa; sem pai definido, vai para a Home. */
   const CM_PARENT={
-    'qbank1':'qbank', 'qbank2':'qbank',
-    'qbank1-pass-1':'qbank1', 'qbank1-pass-2':'qbank1',
-    'qbank1-pass-3':'qbank1', 'qbank1-pass-4':'qbank1',
+    'qbank-1':'qbank', 'qbank-2':'qbank',
+    'qbank1-pass-1':'qbank-1', 'qbank1-pass-2':'qbank-1',
+    'qbank1-pass-3':'qbank-1', 'qbank1-pass-4':'qbank-1',
     'notebooks':'my-workspace', 'notes':'my-workspace',
     'study-planner':'my-workspace', 'links':'my-workspace'
   };
@@ -284,6 +294,9 @@
     seg.addEventListener('click',ev=>{
       const b=ev.target.closest('.cm-tone-opt'); if(!b) return;
       const v=applyAppearance(b.dataset.tone);
+      /* Escolha pontual: vale nesta sessão e nas páginas internas. A Home volta
+         ao escuro sempre — só Settings define padrão permanente. */
+      try{ sessionStorage.setItem('cm-tone-session', v); }catch(e){}
       paint();
       if(onPick) onPick(v);
       window.dispatchEvent(new CustomEvent('couplemed:tonechange',{detail:{tone:v}}));
@@ -523,7 +536,7 @@
   Object.assign(I18N.en, {
     qbReview:'Review', qbStart:'Start',
     /* Settings — seções e navegação */
-    toneLight:'Light', toneSepia:'Sepia', toneDark:'Dark', toneLabel:'Tone',
+    toneLight:'Light', toneSepia:'Sepia', toneDark:'Dark', toneLabel:'Tone', toneAuto:'Automatic',
     typeSize:'Text size', typeWidth:'Width', typeFull:'Full', typeComfort:'Comfortable', typeReset:'Reset',
     newsSoon:'News of the day', fcDueToday:'to review today', fcStudy:'Study', fcDone:'Done',
     stgSecProfile:'Profile', stgSecAppearance:'Appearance', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
@@ -561,7 +574,7 @@
   });
   Object.assign(I18N.pt, {
     qbReview:'Revisar', qbStart:'Iniciar',
-    toneLight:'Claro', toneSepia:'Sépia', toneDark:'Escuro', toneLabel:'Tom',
+    toneLight:'Claro', toneSepia:'Sépia', toneDark:'Escuro', toneLabel:'Tom', toneAuto:'Automático',
     typeSize:'Tamanho do texto', typeWidth:'Largura', typeFull:'Total', typeComfort:'Confortável', typeReset:'Padrão',
     newsSoon:'Notícias do dia', fcDueToday:'para revisar hoje', fcStudy:'Estudar', fcDone:'Concluído',
     stgSecProfile:'Perfil', stgSecAppearance:'Aparência', stgSecQbank:'QBank', stgSecFlash:'Flashcards',
@@ -1249,13 +1262,14 @@
   /* ---------------- Aparência ---------------- */
   function stgAppearance(panel,u,lang,t){
     const p=getPrefs(u);
-    const cur=stgNormalizeTone(p.theme);
+    const cur=stgNormalizeTone(p.theme)||'auto';
     /* Cada opção é uma BOLINHA com o tom real do fundo — sem nomes escritos.
        O `title`/`aria-label` dá o nome para acessibilidade e tooltip. Agrupadas
        em Automático / Claros / Escuros para dar destaque aos tons claros. */
     /* Três tons e só três — os mesmos da barra superior. Um seletor com onze
        opções aqui e três lá seria a mesma preferência com duas respostas. */
     const swatches=[
+      {v:'auto',  l:t.toneAuto,  cls:'stg-dot-auto',  g:'tone'},
       {v:'light', l:t.toneLight, cls:'stg-dot-light', g:'tone'},
       {v:'sepia', l:t.toneSepia, cls:'stg-dot-paper', g:'tone'},
       {v:'dark',  l:t.toneDark,  cls:'stg-dot-navy',  g:'tone'}
@@ -1280,8 +1294,11 @@
       const v=btn.dataset.bgChoice;
       panel.querySelectorAll('.stg-swatch').forEach(b=>b.classList.remove('on'));
       btn.classList.add('on');
-      const cur2=getPrefs(u); cur2.theme = v; setPrefs(u,cur2);
-      applyAppearance(cur2.theme);
+      const cur2=getPrefs(u); cur2.theme = (v==='auto'?'':v); setPrefs(u,cur2);
+      /* Escolher "Automático" apaga também a troca pontual da sessão, senão a
+         página continuaria no tom antigo até fechar o navegador. */
+      if(v==='auto'){ try{ sessionStorage.removeItem('cm-tone-session'); }catch(e){} }
+      applyAppearance(cur2.theme || resolveTone());
       cmWireToneSeg();
       const nameEl=$('#stgSwatchName'); if(nameEl) nameEl.textContent=(swatches.find(s=>s.v===v)||swatches[0]).l;
       stgFlashSaved($('#stgApprMsg'),t);
@@ -1886,8 +1903,8 @@
     const sidebarUserEl=$('#sidebarUserName'); if(sidebarUserEl){ sidebarUserEl.textContent=getUserDisplay(user()); }
     /* Tom inicial: o que o usuário escolheu na barra (localStorage, já aplicado
        pelo script inline do <head>) e, na falta dele, a preferência migrada. */
-    applyAppearance(currentTone() || prefs.theme);
-    cmWireToneSeg(u=>{ const c=getPrefs(user()); c.theme=u; setPrefs(user(),c); });
+    applyAppearance(resolveTone(p));
+    cmWireToneSeg();
     cmWireTypePanel();
     const backBtn=$('#cmBackHome'); if(backBtn)backBtn.addEventListener('click',e=>{
       e.preventDefault(); cmGoBack();

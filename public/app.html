@@ -8,21 +8,36 @@
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <meta name="theme-color" content="#081324" />
-  <link rel="stylesheet" href="css/styles.css?v=74" />
+  <link rel="stylesheet" href="css/styles.css?v=75" />
   <link rel="stylesheet" href="css/ai-tutor-widget.css?v=24" />
-  <link rel="stylesheet" href="css/qbank.css?v=59" />
+  <link rel="stylesheet" href="css/qbank.css?v=60" />
   <link rel="stylesheet" href="css/notebook.css?v=12" />
   <script>
     /* Tom da plataforma (Claro / Sépia / Escuro) — aplicado antes da pintura
        para não haver flash ao trocar de página. A escolha vive em
        localStorage 'cm-tone'; o QBank a expõe na barra superior. */
     (function(){
-      var v='light';
-      try{ var s=localStorage.getItem('cm-tone'); if(s==='light'||s==='sepia'||s==='dark') v=s; }catch(e){}
+      var OK={light:1,sepia:1,dark:1};
+      var page=new URLSearchParams(location.search).get('page')||'home';
+      var v=null;
+      try{
+        /* 1) padrão permanente definido em Settings — manda em tudo */
+        var uid=sessionStorage.getItem('couplemed_active_user');
+        if(uid){
+          var p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid)||'{}');
+          if(OK[p.theme]) v=p.theme;
+        }
+        /* 2) troca pontual feita na barra: vale na sessão, mas nunca na Home */
+        if(!v && page!=='home'){
+          var s=sessionStorage.getItem('cm-tone-session');
+          if(OK[s]) v=s;
+        }
+      }catch(e){}
+      /* 3) automático: Home no escuro, demais páginas no claro */
+      if(!v) v = (page==='home') ? 'dark' : 'light';
       document.documentElement.setAttribute('data-tone', v);
       /* body.light é a chave que o CSS do site já usa para superfícies claras;
-         Claro e Sépia são tons claros, Escuro não. Marcado no <html> agora e
-         copiado para o <body> assim que ele existir, para não haver flash. */
+         Claro e Sépia são tons claros, Escuro não. */
       document.documentElement.classList.toggle('cm-light-tone', v!=='dark');
     })();
   </script>
@@ -127,6 +142,10 @@
           <button id="cmTypeBtn" class="cm-round-btn cm-type-btn" aria-label="Text size and width" aria-expanded="false"><span>Aa</span></button>
           <div class="cm-type-pop" id="cmTypePop" hidden></div>
         </div>
+      </div>
+      <!-- bandeiras em grupo próprio: ficam na mesma linha no desktop e descem
+           para a segunda linha no celular, sem a busca cobrir o hambúrguer -->
+      <div class="top-actions-row top-actions-flags">
         <button class="flag-button" data-lang="pt" aria-label="Português"><img src="assets/flag-br.svg" alt="" /></button>
         <button class="flag-button" data-lang="en" aria-label="English"><img src="assets/flag-us.svg" alt="" /></button>
       </div>
@@ -197,9 +216,9 @@
     window.CM_APP_SCRIPTS = [
       'js/library3-reader.js?v=24',
       'js/library1-reader.js?v=6',
-      'js/site.js?v=72',
+      'js/site.js?v=73',
       'js/flashcards.js?v=38',
-      'js/qbank.js?v=47',
+      'js/qbank.js?v=48',
       'js/notebook.js?v=11',
       'js/ai-tutor-widget.js?v=25',
       'js/select-translate.js?v=2'

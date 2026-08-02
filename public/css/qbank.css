@@ -822,3 +822,142 @@ body.qb-ui .qb-info-ico{width:13px;height:13px;font-size:8.5px}
   body.qb-ui .qb-status-field .qb-status-row{gap:8px 16px}
   body.qb-ui .qb-mode-inline{gap:18px}
 }
+
+/* ==========================================================================
+   BARRA DA QUESTÃO — tudo em uma linha, em qualquer dispositivo
+   --------------------------------------------------------------------------
+   Ordem: Marcar · Flashcard · Caderno · Valores Lab · [cronômetro] · Parar e
+   Salvar · Encerrar Bloco. O "Questão X de Y" saiu daqui e virou rótulo no
+   topo da página. Nada rola para o lado e nada quebra para a linha de baixo.
+   ========================================================================== */
+body.qb-ui .qb-test-head{justify-content:flex-end}
+body.qb-ui .qb-head-tools{flex-wrap:nowrap;overflow:visible;gap:4px;min-width:0}
+body.qb-ui .qb-timer[hidden]{display:none!important}
+body.qb-ui .qb-lbl-short{display:none}
+
+/* "Questão X de Y" no topo, na linha do Voltar — aproveita o vazio que existia
+   entre a barra superior e o card. */
+body.qb-ui #internalContent{position:relative}
+body.qb-ui .qb-test::before{
+  content:attr(data-qnum);
+  position:absolute;top:-42px;left:0;
+  font-size:12.5px;font-weight:700;color:var(--qb-muted);white-space:nowrap;
+}
+@media(max-width:820px){
+  body.qb-ui .qb-test::before{top:-38px;font-size:11.5px}
+}
+
+/* celular: rótulos curtos e fonte menor para tudo caber na mesma linha */
+@media(max-width:640px){
+  body.qb-ui .qb-head-tools{gap:1px}
+  /* min-width:0 + shrink dão folga: se um rótulo traduzido crescer, os botões
+     cedem juntos em vez de a barra estourar. */
+  body.qb-ui .qb-tool{font-size:8.5px;padding:5px 2px;min-height:25px;letter-spacing:-.01em;min-width:0;flex-shrink:1}
+  body.qb-ui .qb-tool-flag{padding-left:3px}
+  body.qb-ui .qb-tool-flag .qb-tool-lbl{display:none}
+  body.qb-ui .qb-lbl-full{display:none}
+  body.qb-ui .qb-lbl-short{display:inline}
+  body.qb-ui .qb-timer{font-size:9px;padding:3px 4px;height:25px}
+  body.qb-ui .qb-test-head{padding:4px 5px}
+}
+
+/* ==========================================================================
+   RODAPÉ Subject / System / Topic — fora do card, no rodapé da página
+   ========================================================================== */
+.qb-meta-footer{max-width:var(--cm-measure,none);margin:14px auto 0;padding:0 26px}
+.qb-meta-footer .qb-meta-end{border-top:0;margin-top:0;padding-top:0}
+@media(max-width:520px){.qb-meta-footer{padding:0 14px}}
+
+/* ==========================================================================
+   CARD DE RESULTADO — menor e com escala contínua (sem degraus)
+   --------------------------------------------------------------------------
+   clamp() faz o respiro e a tipografia acompanharem a largura de forma
+   contínua, do monitor ao celular, para os três blocos nunca saírem da linha.
+   ========================================================================== */
+body.qb-ui .qb-res-summary{
+  flex-wrap:nowrap;align-items:center;
+  gap:clamp(10px,3.2vw,30px);
+  padding:clamp(9px,1.6vw,13px) clamp(11px,2vw,18px);
+  margin:18px 0 6px;border-left-width:3px;
+}
+body.qb-ui .qb-res-verdict{min-width:0;flex:0 1 auto}
+body.qb-ui .qb-res-title{font-size:clamp(11.5px,2.6vw,15px)}
+body.qb-ui .qb-res-lbl{font-size:clamp(9.5px,2vw,11.5px)}
+body.qb-ui .qb-res-ans{font-size:clamp(11px,2.4vw,13.5px)}
+body.qb-ui .qb-res-metric{gap:clamp(5px,1.2vw,9px);min-width:0}
+body.qb-ui .qb-res-ico{font-size:clamp(12px,2.6vw,16px)}
+body.qb-ui .qb-res-metric b{font-size:clamp(11px,2.4vw,13.5px)}
+body.qb-ui .qb-res-metric small{font-size:clamp(9.5px,2vw,11.5px)}
+/* no celular os rótulos ficam por extenso, em duas linhas dentro do bloco */
+@media(max-width:640px){
+  body.qb-ui .qb-res-summary{gap:10px;padding:10px 11px}
+  body.qb-ui .qb-res-metric small,
+  body.qb-ui .qb-res-lbl{white-space:normal;line-height:1.2;max-width:11ch}
+  body.qb-ui .qb-res-verdict{flex:1 1 0}
+}
+
+/* ==========================================================================
+   STEPPER DAS PASSADAS — iPad e celular
+   --------------------------------------------------------------------------
+   Até 1180px o quadrado numerado sai: ele é o que força a altura e a largura
+   do card. As três informações continuam dentro de cada passada.
+   ========================================================================== */
+@media(max-width:1180px){
+  body.qb-ui .qb-step-badge{display:none}
+  body.qb-ui .qb-step{gap:0;padding:11px 12px}
+  body.qb-ui .qb-step-info strong{font-size:12.5px}
+  body.qb-ui .qb-step-info small{font-size:10.5px}
+  body.qb-ui .qb-step-sub{font-size:10.5px}
+  body.qb-ui .qb-step-conn{flex-basis:14px}
+}
+/* celular: as quatro passadas na MESMA linha, com rótulos abreviados */
+@media(max-width:640px){
+  body.qb-ui .qb-stepper{flex-wrap:nowrap;gap:5px}
+  body.qb-ui .qb-step{flex:1 1 0;min-width:0;padding:8px 6px;border-radius:12px;border-width:1px}
+  body.qb-ui .qb-step-conn{display:none}
+  body.qb-ui .qb-step-info{gap:1px}
+  body.qb-ui .qb-step-info strong{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.qb-ui .qb-step-info small,
+  body.qb-ui .qb-step-sub{font-size:9px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* o selo "VOCÊ ESTÁ AQUI" não cabe em ~86px: o realce do card já indica */
+  body.qb-ui .qb-step-here{display:none}
+  body.qb-ui .qb-step-sel{box-shadow:0 0 0 2px var(--qb-accent) inset}
+}
+
+/* ==========================================================================
+   PAINEL DA PASSADA no celular — donut menor com as estatísticas ao lado
+   ========================================================================== */
+@media(max-width:640px){
+  body.qb-ui .qb-perf{flex-direction:row;align-items:center;gap:14px;padding:14px}
+  body.qb-ui .qb-donut{width:88px;height:88px}
+  body.qb-ui .qb-donut-c{width:64px;height:64px}
+  body.qb-ui .qb-donut-c strong{font-size:19px}
+  body.qb-ui .qb-donut-c small{font-size:8.5px;margin-top:1px}
+  body.qb-ui .qb-perf-grid{grid-template-columns:1fr 1fr;gap:7px 10px;row-gap:7px}
+  /* cada estatística vira uma linha: ponto · número · rótulo */
+  body.qb-ui .qb-stat{flex-direction:row;align-items:baseline;gap:5px;text-align:left}
+  body.qb-ui .qb-stat b{font-size:14px;line-height:1}
+  body.qb-ui .qb-stat small{font-size:10px;line-height:1}
+  body.qb-ui .qb-dot{width:7px;height:7px;align-self:center}
+  /* "Não usadas" é o 5º item: ocupa a linha inteira embaixo */
+  body.qb-ui .qb-perf-grid .qb-stat:nth-child(5){grid-column:1/-1}
+}
+
+/* ==========================================================================
+   STATUS DA QUESTÃO — uma linha no desktop/iPad, duas no celular
+   ========================================================================== */
+body.qb-ui .qb-status-field .qb-status-row{flex-wrap:nowrap}
+@media(max-width:820px){
+  body.qb-ui .qb-status-field .qb-status-row{gap:8px 14px}
+  body.qb-ui .qb-status-name{font-size:11.5px}
+}
+@media(max-width:640px){
+  /* três por linha, exatamente duas linhas para as seis opções */
+  body.qb-ui .qb-status-field .qb-status-row{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:9px 6px;
+  }
+  body.qb-ui .qb-status-item{gap:5px;padding:0;min-width:0}
+  body.qb-ui .qb-status-item .qb-tax-box{width:15px;height:15px}
+  body.qb-ui .qb-status-name{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.qb-ui .qb-status-count{min-width:17px;height:15px;padding:0 4px;font-size:9px}
+}
