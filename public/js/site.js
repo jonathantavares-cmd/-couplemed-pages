@@ -226,6 +226,9 @@
       const raw=localStorage.getItem('couplemed_prefs_'+uid);
       if(raw){
         const p=JSON.parse(raw)||{};
+        /* Gravar por aqui é o que faz a limpeza chegar ao servidor: o cm-sync
+           intercepta localStorage.setItem e empurra a alteração. Sem isso o
+           theme antigo voltaria do servidor na próxima carga. */
         if(p.theme){ p.theme=''; localStorage.setItem('couplemed_prefs_'+uid, JSON.stringify(p)); }
       }
       localStorage.setItem(k,'1');

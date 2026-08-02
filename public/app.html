@@ -30,15 +30,16 @@
         /* Migração única: uma versão anterior gravava nas preferências o tom
            clicado na barra, o que prendia a Home no claro. Zera esse valor aqui,
            antes da pintura, senão a primeira carga ainda sairia errada. */
-        var mk='couplemed_tone_migrated_v3_'+uid;   /* por usuário, não global */
-        if(!localStorage.getItem(mk)){
-          var raw=localStorage.getItem('couplemed_prefs_'+uid);
-          if(raw){ var pp=JSON.parse(raw)||{}; if(pp.theme){ pp.theme=''; localStorage.setItem('couplemed_prefs_'+uid, JSON.stringify(pp)); } }
-          localStorage.setItem(mk,'1');
+        /* 1) padrão permanente definido em Settings — manda em tudo.
+           Só vale depois que a migração tiver rodado de verdade (no site.js,
+           DEPOIS do cm-sync): as preferências sincronizam com o servidor, e o
+           theme herdado da versão antiga volta de lá a cada carga. Enquanto a
+           marca não existir, o valor gravado é ignorado e vale o automático. */
+        var migrated = localStorage.getItem('couplemed_tone_migrated_v3_'+uid);
+        if(migrated){
+          var p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid)||'{}');
+          if(OK[p.theme]) v=p.theme;
         }
-        /* 1) padrão permanente definido em Settings — manda em tudo */
-        var p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid)||'{}');
-        if(OK[p.theme]) v=p.theme;
         /* 2) troca pontual feita na barra: vale na sessão, mas nunca na Home */
         if(!v && page!=='home'){
           var s=sessionStorage.getItem('cm-tone-session');
@@ -228,7 +229,7 @@
     window.CM_APP_SCRIPTS = [
       'js/library3-reader.js?v=24',
       'js/library1-reader.js?v=6',
-      'js/site.js?v=76',
+      'js/site.js?v=77',
       'js/flashcards.js?v=38',
       'js/qbank.js?v=51',
       'js/notebook.js?v=11',
