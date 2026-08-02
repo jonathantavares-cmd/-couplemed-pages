@@ -1523,8 +1523,18 @@ body.light .news-slot{border-color:rgba(11,25,48,.14);color:#8291a6}
      debaixo delas passa a ser usado. */
   .platform-page.internal .cm-back-home{position:fixed;left:10px;top:41px;height:26px;font-size:10px;padding:0 10px 0 7px}
   .platform-page.internal .internal-content{padding-top:74px}
-  /* com a linha de cima livre, a busca pode usar mais espaço sem alcançar o menu */
-  .site-search .search-input{max-width:min(196px,44vw)}
+  /* Busca aberta no celular: o campo expandia para a esquerda a partir da lupa
+     e passava por cima do hambúrguer — a lupa é o primeiro item do grupo, não
+     havia espaço à esquerda dela. Enquanto a busca está aberta, os chips de tom
+     e o Aa recolhem e o campo ocupa a faixa livre entre o menu e a lupa. Ao
+     fechar, tudo volta. */
+  .site-search.open ~ .cm-tone-seg,
+  .site-search.open ~ .cm-type-wrap{display:none}
+  .site-search.open .search-input{
+    position:fixed;left:52px;right:82px;top:10px;
+    width:auto;max-width:none;margin:0;height:28px;font-size:12px;
+  }
+  .site-search .search-results{max-width:min(300px,86vw)}
 }
 
 /* ==========================================================================
