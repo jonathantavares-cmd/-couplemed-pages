@@ -207,8 +207,11 @@
   const STG_TONES=['light','sepia','dark'];
   /* Temas gravados antes desta versão caem no tom mais próximo, para ninguém
      abrir a plataforma num estado sem tom definido. */
+  /* Sépia não é padrão de nada: só existe por escolha explícita do usuário.
+     Por isso nenhum tema antigo é traduzido para ele — os claros viram Claro,
+     os escuros viram Escuro, e o que não for reconhecido cai no Automático. */
   const STG_TONE_MIGRATION={
-    light:'light', paper:'sepia', mist:'light', sage:'light', rose:'light',
+    light:'light', paper:'light', mist:'light', sage:'light', rose:'light',
     dark:'dark', black:'dark', slate:'dark', indigo:'dark', ocean:'dark', plum:'dark'
   };
   /* Migração única: até o commit 9fcd3aa o clique na barra gravava o tom nas
