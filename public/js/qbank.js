@@ -16460,7 +16460,7 @@
       back:'‹ Back to QBank',
       // solve
       qOf:(a,b)=>`Question ${a} of ${b}`, suspend:'Stop and Save', endBlock:'End Block',
-      suspendShort:'Stop', endBlockShort:'Suspend', flashShort:'Flashcard', noteShort:'Notebook', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
+      suspendShort:'Stop', endBlockShort:'End', flashShort:'Flashcard', noteShort:'Notebook', labValues:'Lab Values', flag:'Flag', unflag:'Unflag',
       submit:'Submit', next:'Next ›', prev:'‹ Prev', confirmEnd:'End this block now? Unanswered questions will be recorded as omitted.',
       confirmSuspend:'Suspend and leave? Your progress is saved and you can resume later.',
       correctBadge:'Correct', incorrectBadge:'Incorrect', omittedBadge:'Omitted',
@@ -16512,7 +16512,7 @@
       available:'disponíveis', generate:'Gerar Teste', noMatch:'Nenhuma questão corresponde a esses filtros. Afrouxe um filtro para continuar.',
       back:'‹ Voltar ao Banco',
       qOf:(a,b)=>`Questão ${a} de ${b}`, suspend:'Parar e Salvar', endBlock:'Encerrar Bloco',
-      suspendShort:'Parar', endBlockShort:'Suspender', flashShort:'Flashcard', noteShort:'Caderno', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
+      suspendShort:'Parar', endBlockShort:'Encerrar', flashShort:'Flashcard', noteShort:'Caderno', labValues:'Valores Lab', flag:'Marcar', unflag:'Desmarcar',
       submit:'Responder', next:'Próxima ›', prev:'‹ Anterior', confirmEnd:'Encerrar o bloco agora? Questões sem resposta serão registradas como omitidas.',
       confirmSuspend:'Suspender e sair? Seu progresso é salvo e você pode retomar depois.',
       correctBadge:'Correta', incorrectBadge:'Incorreta', omittedBadge:'Omitida',
