@@ -910,16 +910,18 @@ body.qb-ui .qb-res-metric small{font-size:clamp(9.5px,2vw,11.5px)}
 @media(max-width:640px){
   /* nada quebra linha: os rótulos ficam inteiros e a tipografia cede o
      necessário para os três blocos caberem lado a lado */
-  body.qb-ui .qb-res-summary{gap:9px;padding:10px}
+  /* sobrava largura à direita e os três blocos ficavam amontoados à esquerda:
+     agora eles se distribuem pela linha inteira */
+  body.qb-ui .qb-res-summary{gap:9px;padding:11px 13px;justify-content:space-between}
   body.qb-ui .qb-res-metric small,
   body.qb-ui .qb-res-lbl{white-space:nowrap;max-width:none}
   body.qb-ui .qb-res-verdict{flex:0 1 auto}
-  body.qb-ui .qb-res-title{font-size:12px}
+  body.qb-ui .qb-res-title{font-size:12.5px}
   body.qb-ui .qb-res-lbl,
-  body.qb-ui .qb-res-metric small{font-size:9px}
+  body.qb-ui .qb-res-metric small{font-size:9.5px}
   body.qb-ui .qb-res-ans,
-  body.qb-ui .qb-res-metric b{font-size:11px}
-  body.qb-ui .qb-res-ico{font-size:12px}
+  body.qb-ui .qb-res-metric b{font-size:11.5px}
+  body.qb-ui .qb-res-ico{font-size:12.5px}
 }
 
 /* ==========================================================================
