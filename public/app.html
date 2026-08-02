@@ -18,23 +18,27 @@
        localStorage 'cm-tone'; o QBank a expõe na barra superior. */
     (function(){
       var OK={light:1,sepia:1,dark:1};
-      var page=new URLSearchParams(location.search).get('page')||'home';
+      var qs=new URLSearchParams(location.search);
+      var page=qs.get('page')||'home';
       var v=null;
       try{
-        var uid=sessionStorage.getItem('couplemed_active_user');
+        /* MESMA resolução de user() em site.js: ?u= vence o armazenamento da
+           sessão. Ler só a sessão aqui fazia este script migrar e consultar as
+           preferências de um usuário diferente do que o site.js usaria depois —
+           e o tom gravado para o usuário certo acabava vencendo. */
+        var uid=qs.get('u')||sessionStorage.getItem('couplemed_active_user')||'guest1';
         /* Migração única: uma versão anterior gravava nas preferências o tom
            clicado na barra, o que prendia a Home no claro. Zera esse valor aqui,
            antes da pintura, senão a primeira carga ainda sairia errada. */
-        if(uid && !localStorage.getItem('couplemed_tone_migrated_v2')){
+        var mk='couplemed_tone_migrated_v3_'+uid;   /* por usuário, não global */
+        if(!localStorage.getItem(mk)){
           var raw=localStorage.getItem('couplemed_prefs_'+uid);
           if(raw){ var pp=JSON.parse(raw)||{}; if(pp.theme){ pp.theme=''; localStorage.setItem('couplemed_prefs_'+uid, JSON.stringify(pp)); } }
-          localStorage.setItem('couplemed_tone_migrated_v2','1');
+          localStorage.setItem(mk,'1');
         }
         /* 1) padrão permanente definido em Settings — manda em tudo */
-        if(uid){
-          var p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid)||'{}');
-          if(OK[p.theme]) v=p.theme;
-        }
+        var p=JSON.parse(localStorage.getItem('couplemed_prefs_'+uid)||'{}');
+        if(OK[p.theme]) v=p.theme;
         /* 2) troca pontual feita na barra: vale na sessão, mas nunca na Home */
         if(!v && page!=='home'){
           var s=sessionStorage.getItem('cm-tone-session');
@@ -224,7 +228,7 @@
     window.CM_APP_SCRIPTS = [
       'js/library3-reader.js?v=24',
       'js/library1-reader.js?v=6',
-      'js/site.js?v=74',
+      'js/site.js?v=75',
       'js/flashcards.js?v=38',
       'js/qbank.js?v=50',
       'js/notebook.js?v=11',

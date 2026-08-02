@@ -217,7 +217,7 @@
      ao Automático; quem quiser tom fixo redefine em Configurações. */
   function stgMigrateTonePrefs(uid){
     if(!uid) return;
-    const k='couplemed_tone_migrated_v2';
+    const k='couplemed_tone_migrated_v3_'+uid;   /* por usuário, não global */
     try{
       if(localStorage.getItem(k)) return;
       const raw=localStorage.getItem('couplemed_prefs_'+uid);
