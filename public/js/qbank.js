@@ -16468,6 +16468,7 @@
       correctAnswer:'Correct answer', answeredCorrectly:'Answered correctly', timeSpent:'Time spent',
       // tom (aparência)
       resizeColumns:'Drag to resize columns',
+      secsShort:'secs',
       tone:'Tone', toneLight:'Light', toneSepia:'Sepia', toneDark:'Dark',
       // preview mode (staging review before commit)
       previewBanner:n=>`🔍 PREVIEW MODE — ${n} newly added question${n===1?'':'s'}, shown in order. This is read-only: answers are disabled and nothing is saved to your progress/analytics.`,
@@ -16517,6 +16518,7 @@
       addFlash:'+ Criar Flashcard', addNote:'+ Caderno', explanation:'Explicação',
       correctAnswer:'Resposta correta', answeredCorrectly:'Responderam corretamente', timeSpent:'Tempo gasto',
       resizeColumns:'Arraste para redimensionar as colunas',
+      secsShort:'seg',
       tone:'Tom', toneLight:'Claro', toneSepia:'Sépia', toneDark:'Escuro',
       previewBanner:n=>`🔍 MODO PREVIEW — ${n} questão${n===1?'':'ões'} recém-adicionada${n===1?'':'s'}, na ordem enviada. Somente leitura: respostas ficam desabilitadas e nada é salvo no seu progresso/análises.`,
       previewMissing:ids=>`⚠ ID(s) não encontrado(s) no banco: ${ids.join(', ')}`,
@@ -17228,12 +17230,19 @@
       let cls='qb-opt'; const struck=strikes[o.label];
       if(revealed){ if(o.label===q.correct)cls+=' correct'; else if(o.label===ans)cls+=' chosen-wrong'; }
       else if(o.label===ans)cls+=' chosen';
+      /* o radio preenchido marca a escolha do usuário (padrão da Imagem 10);
+         quem diz certo/errado é o ✓/✕ da margem esquerda. */
+      if(o.label===ans)cls+=' picked';
       if(struck)cls+=' struck';
+      /* percentual de escolha por alternativa (padrão da Imagem 10): fica na
+         própria opção, e só depois da revelação — antes, entregaria a resposta. */
+      const peerPct = (revealed && qbPrefDefaults().peer && q.peer && q.peer[o.label]!=null)
+        ? ` <span class="qb-opt-pct">(${q.peer[o.label]}%)</span>` : '';
       return `<div class="${cls}" data-act="pick" data-o="${o.label}">
         <button class="qb-strike" data-act="strike" data-o="${o.label}" title="strikethrough">✕</button>
-        <span class="qb-opt-l">${o.label}</span><span class="qb-opt-t">${qbField(o.text, ptOptionText(q,o.label))}</span>
         ${revealed&&o.label===q.correct?'<span class="qb-tick">✓</span>':''}
         ${revealed&&o.label===ans&&o.label!==q.correct?'<span class="qb-cross">✕</span>':''}
+        <span class="qb-opt-l">${o.label}.</span><span class="qb-opt-t">${qbField(o.text, ptOptionText(q,o.label))}${peerPct}</span>
       </div>`;
     };
     function renderResultSummary(q,ans,preview){
@@ -17242,23 +17251,27 @@
       const secs = Math.round((T0.times[q.id] || 0) / 1000);
       const mm = String(Math.floor(secs/60)).padStart(2,'0');
       const ss = String(secs%60).padStart(2,'0');
-      let title, sub;
-      if(preview){
-        title = `<span class="qb-res-title ok">${esc(t('correctBadge'))}</span>`;
-      } else if(ans==null){
-        title = `<span class="qb-res-title om">${esc(t('omittedBadge'))}</span>`;
-        sub = `<span class="qb-res-sub">${esc(t('correctAnswer'))} <b>${esc(q.correct)}</b></span>`;
-      } else if(correct){
-        title = `<span class="qb-res-title ok">${esc(t('correctBadge'))}</span>`;
-      } else {
-        title = `<span class="qb-res-title bad">${esc(t('incorrectBadge'))}</span>`;
-        sub = `<span class="qb-res-sub">${esc(t('correctAnswer'))} <b>${esc(q.correct)}</b></span>`;
-      }
-      return `<div class="qb-res-summary">
-        <div class="qb-res-summary-top">${title}${sub?` ${sub}`:''}</div>
-        <div class="qb-res-summary-stats">
-          <span><i>📊</i> ${pct}% ${esc(t('answeredCorrectly'))}</span>
-          <span><i>⏱</i> ${mm}:${ss} ${esc(t('timeSpent'))}</span>
+      /* card do resultado no padrão da Imagem 10: barra colorida à esquerda e
+         três blocos — veredito + resposta correta | % de acerto | tempo. */
+      let kind, label;
+      if(preview || correct){ kind='ok';  label=t('correctBadge'); }
+      else if(ans==null)    { kind='om';  label=t('omittedBadge'); }
+      else                  { kind='bad'; label=t('incorrectBadge'); }
+      const showAnswer = !preview && !correct;
+      const time = secs<60 ? `${ss} ${esc(t('secsShort'))}` : `${mm}:${ss}`;
+      return `<div class="qb-res-summary qb-res-${kind}">
+        <div class="qb-res-verdict">
+          <span class="qb-res-title ${kind}">${esc(label)}</span>
+          ${showAnswer?`<span class="qb-res-lbl">${esc(t('correctAnswer'))}</span>
+          <b class="qb-res-ans">${esc(q.correct)}</b>`:''}
+        </div>
+        <div class="qb-res-metric">
+          <i class="qb-res-ico">☰</i>
+          <span><b>${pct}%</b><small>${esc(t('answeredCorrectly'))}</small></span>
+        </div>
+        <div class="qb-res-metric">
+          <i class="qb-res-ico">◷</i>
+          <span><b>${time}</b><small>${esc(t('timeSpent'))}</small></span>
         </div>
       </div>`;
     }
@@ -17290,7 +17303,7 @@
               ${q.vignette?`<p>${qbField(q.vignette, q.ptTranslation && q.ptTranslation.vignette)}</p>`:''}
               ${renderQImage(q)}
               <p class="qb-stem">${qbField(q.q, q.ptTranslation && q.ptTranslation.q)}</p>
-              <div class="qb-opts">${q.options.map(opt).join('')}</div>
+              <div class="qb-opts ${revealed?'revealed':''}">${q.options.map(opt).join('')}</div>
               ${(!answered && !T0.preview)?`<button class="qb-btn primary" data-act="submit" ${ans!=null?'':'disabled'} id="qbSubmit">${esc(t('submit'))}</button>`:''}
               ${revealed?renderResultSummary(q,ans,T0.preview):''}
             </div>
@@ -17458,13 +17471,6 @@
   function renderExplanation(q,ans,preview){
     const correct = ans===q.correct;
     const links = store.linksFor(q.id).length;
-    const peerRows = q.options.map(o=>{
-      const pct=(q.peer&&q.peer[o.label])||0;
-      return `<div class="qb-peer-row ${o.label===q.correct?'is-correct':''}">
-        <span class="qb-peer-l">${o.label}</span>
-        <div class="qb-peer-bar"><span style="width:${pct}%"></span></div>
-        <span class="qb-peer-pct">${pct}%</span></div>`;
-    }).join('');
     const incorrectExpl = (q.explI||[]).map(e=>`<li><b>${esc(e.option)}.</b> ${qbField(e.explanation, ptExplIText(q,e.option))}</li>`).join('');
     return `<div class="qb-expl">
       <div class="qb-expl-head">
@@ -17478,21 +17484,21 @@
       <p class="qb-expl-correct">${qbField(q.explC, q.ptTranslation && q.ptTranslation.explC)}</p>
       ${incorrectExpl?`<ul class="qb-expl-incorrect">${incorrectExpl}</ul>`:''}
       <div class="qb-obj"><div class="qb-obj-head"><span class="qb-obj-lbl">${esc(t('eduObjective'))}</span></div><p>${qbField(q.objective, q.ptTranslation && q.ptTranslation.objective)}</p></div>
-      ${qbPrefDefaults().peer ? `<div class="qb-peer"><h4>${esc(t('peerTitle'))}</h4>${peerRows}</div>` : ''}
       ${renderQuestionMeta(q)}
     </div>`;
   }
 
   function renderQuestionMeta(q){
     const m=metaFor(q);
+    /* rodapé no padrão da Imagem 10: três colunas discretas — valor em cima,
+       rótulo pequeno embaixo. Continuam clicáveis para filtrar. */
     return `<div class="qb-meta-end">
-      <h4>${esc(t('metaTitle'))}</h4>
-      <div class="qb-meta-pills">
-        <button class="qb-meta-pill" data-act="meta-filter" data-kind="subject" data-v="${esc(m.subjectId)}"><b>${esc(t('metaSubject'))}</b><span>${esc(m.subject)}</span></button>
-        <button class="qb-meta-pill" data-act="meta-filter" data-kind="system" data-v="${esc(m.systemId)}"><b>${esc(t('metaSystem'))}</b><span>${esc(m.system)}</span></button>
-        <button class="qb-meta-pill" data-act="meta-filter" data-kind="topic" data-v="${esc(m.topicId)}"><b>${esc(t('metaTopic'))}</b><span>${esc(m.topic)}</span></button>
-      </div>
-      <small>${esc(m.libraryPath)}</small>
+      <button class="qb-meta-col" data-act="meta-filter" data-kind="subject" data-v="${esc(m.subjectId)}">
+        <span>${esc(m.subject)}</span><small>${esc(t('metaSubject'))}</small></button>
+      <button class="qb-meta-col" data-act="meta-filter" data-kind="system" data-v="${esc(m.systemId)}">
+        <span>${esc(m.system)}</span><small>${esc(t('metaSystem'))}</small></button>
+      <button class="qb-meta-col" data-act="meta-filter" data-kind="topic" data-v="${esc(m.topicId)}">
+        <span>${esc(m.topic)}</span><small>${esc(t('metaTopic'))}</small></button>
     </div>`;
   }
 

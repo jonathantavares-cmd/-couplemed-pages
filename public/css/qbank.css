@@ -561,39 +561,88 @@ body.qb-ui .qb-opt::before{
   content:'';flex:none;width:20px;height:20px;margin-top:2px;border:2px solid var(--qb-radio);border-radius:50%;
   background:var(--qb-card);transition:.12s;box-sizing:border-box;
 }
-body.qb-ui .qb-opt.chosen::before{border-color:var(--qb-accent);background:radial-gradient(circle,var(--qb-accent) 42%,var(--qb-card) 44%)}
-body.qb-ui .qb-opt.correct::before{border-color:var(--qb-ok);background:radial-gradient(circle,var(--qb-ok) 42%,var(--qb-card) 44%)}
-body.qb-ui .qb-opt.chosen-wrong::before{border-color:var(--qb-bad);background:radial-gradient(circle,var(--qb-bad) 42%,var(--qb-card) 44%)}
-body.qb-ui .qb-opt-l{flex:none;font-size:14.5px;font-weight:700;color:var(--qb-text);line-height:24px;pointer-events:none;min-width:18px}
+/* o radio preenchido é sempre a escolha do usuário — inclusive depois de
+   revelada a resposta. A correta que não foi escolhida fica com o radio vazio
+   e recebe o ✓ verde na margem, exatamente como na Imagem 10. */
+body.qb-ui .qb-opt.picked::before{border-color:var(--qb-accent);background:radial-gradient(circle,var(--qb-accent) 42%,var(--qb-card) 44%)}
+body.qb-ui .qb-opt-l{flex:none;font-size:14.5px;font-weight:700;color:var(--qb-text);line-height:24px;pointer-events:none;min-width:20px}
+/* percentual de escolha na própria alternativa, discreto */
+body.qb-ui .qb-opt-pct{color:var(--qb-muted);font-weight:400}
+/* a alternativa correta ganha peso, como na referência */
+body.qb-ui .qb-opt.correct .qb-opt-l,
+body.qb-ui .qb-opt.correct .qb-opt-t{font-weight:700}
+body.qb-ui .qb-opt.correct .qb-opt-pct{font-weight:700;color:var(--qb-text)}
 body.qb-ui .qb-opt.chosen .qb-opt-l,
 body.qb-ui .qb-opt.correct .qb-opt-l,
 body.qb-ui .qb-opt.chosen-wrong .qb-opt-l{color:var(--qb-text)}
-body.qb-ui .qb-opt-t{flex:1;padding-right:28px;line-height:24px}
-body.qb-ui .qb-opt .qb-tick{position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:18px;color:var(--qb-ok);opacity:0;transition:.12s}
+body.qb-ui .qb-opt-t{flex:1;line-height:24px}
+/* ✓ e ✕ ficam na margem esquerda, antes do radio (padrão da Imagem 10).
+   O espaço vem do padding da opção, então nada escapa da coluna. */
+body.qb-ui .qb-opts{padding-left:28px}
+body.qb-ui .qb-opt .qb-tick,
+body.qb-ui .qb-opt .qb-cross{
+  position:absolute;left:-28px;top:11px;width:20px;text-align:center;
+  font-size:17px;line-height:20px;opacity:0;transition:.12s;
+}
+body.qb-ui .qb-opt .qb-tick{color:var(--qb-ok)}
+body.qb-ui .qb-opt .qb-cross{color:var(--qb-bad)}
 body.qb-ui .qb-opt.correct .qb-tick{opacity:1}
-body.qb-ui .qb-opt .qb-cross{position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:18px;color:var(--qb-bad);opacity:0;transition:.12s}
 body.qb-ui .qb-opt.chosen-wrong .qb-cross{opacity:1}
 body.qb-ui .qb-opt .qb-strike{
-  position:absolute;left:-26px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:0;background:transparent;
+  position:absolute;left:-28px;top:11px;width:20px;height:20px;border:0;background:transparent;
   color:var(--qb-radio);font-size:12px;opacity:0;transition:.12s;cursor:pointer;display:grid;place-items:center;
 }
 body.qb-ui .qb-opt:hover .qb-strike{opacity:.7}
+/* respondida: riscar não faz mais sentido e disputaria o lugar do ✓/✕ */
+body.qb-ui .qb-opts.revealed .qb-strike{display:none}
 body.qb-ui .qb-opt .qb-strike:hover{opacity:1;color:var(--qb-bad)}
 body.qb-ui .qb-opt.struck{opacity:.45}
 body.qb-ui .qb-opt.struck .qb-opt-t{text-decoration:line-through}
 
-/* resumo do resultado abaixo das opções */
-body.qb-ui .qb-res-summary{margin:18px 0 8px;padding:14px 0;border-top:1px solid var(--qb-line);border-bottom:1px solid var(--qb-line)}
-body.qb-ui .qb-res-summary-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-body.qb-ui .qb-res-title{font-size:16px;font-weight:700}
+/* card do resultado (Imagem 10): barra colorida à esquerda e três blocos —
+   veredito + resposta correta | % de acerto | tempo gasto. */
+body.qb-ui .qb-res-summary{
+  display:flex;align-items:center;gap:38px;flex-wrap:wrap;
+  margin:22px 0 8px;padding:16px 22px;
+  border:1px solid var(--qb-line);border-radius:12px;background:var(--qb-card);
+  border-left:4px solid var(--qb-line2);
+}
+body.qb-ui .qb-res-summary.qb-res-ok{border-left-color:var(--qb-ok)}
+body.qb-ui .qb-res-summary.qb-res-bad{border-left-color:var(--qb-bad)}
+body.qb-ui .qb-res-summary.qb-res-om{border-left-color:var(--qb-om)}
+body.qb-ui .qb-res-verdict{display:flex;flex-direction:column;gap:1px;min-width:112px}
+body.qb-ui .qb-res-title{font-size:16px;font-weight:700;line-height:1.3}
 body.qb-ui .qb-res-title.ok{color:var(--qb-ok)}
 body.qb-ui .qb-res-title.bad{color:var(--qb-bad)}
 body.qb-ui .qb-res-title.om{color:var(--qb-om)}
-body.qb-ui .qb-res-sub{font-size:13.5px;color:var(--qb-muted)}
-body.qb-ui .qb-res-sub b{color:var(--qb-text);font-weight:700}
-body.qb-ui .qb-res-summary-stats{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-body.qb-ui .qb-res-summary-stats span{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--qb-muted)}
-body.qb-ui .qb-res-summary-stats i{font-style:normal;font-size:14px}
+body.qb-ui .qb-res-lbl{font-size:12px;color:var(--qb-muted);line-height:1.4}
+body.qb-ui .qb-res-ans{font-size:14.5px;font-weight:700;color:var(--qb-text);line-height:1.3}
+body.qb-ui .qb-res-metric{display:flex;align-items:center;gap:10px}
+body.qb-ui .qb-res-ico{font-style:normal;font-size:17px;color:var(--qb-muted);opacity:.8;line-height:1}
+body.qb-ui .qb-res-metric span{display:flex;flex-direction:column;gap:1px}
+body.qb-ui .qb-res-metric b{font-size:14.5px;font-weight:700;color:var(--qb-text);line-height:1.3;font-variant-numeric:tabular-nums}
+body.qb-ui .qb-res-metric small{font-size:12px;color:var(--qb-muted);line-height:1.3}
+@media(max-width:520px){
+  body.qb-ui .qb-res-summary{gap:16px 24px;padding:14px 16px}
+  body.qb-ui .qb-res-verdict{min-width:0;flex:1 1 100%}
+}
+
+/* rodapé Subject / System / Topic — três colunas discretas (Imagem 10) */
+body.qb-ui .qb-meta-end{
+  display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start;
+  margin-top:26px;padding:16px 0 0;border-top:1px solid var(--qb-line);
+  background:none;border-radius:0;
+}
+body.qb-ui .qb-meta-col{
+  display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;
+  border:0;background:none;padding:0;cursor:pointer;font:inherit;min-width:0;
+}
+body.qb-ui .qb-meta-col span{font-size:14px;font-weight:500;color:var(--qb-text);line-height:1.35}
+body.qb-ui .qb-meta-col small{font-size:12px;color:var(--qb-muted);line-height:1.3}
+body.qb-ui .qb-meta-col:hover span{color:var(--qb-accent)}
+@media(max-width:520px){
+  body.qb-ui .qb-meta-end{gap:14px 24px}
+}
 
 /* explicação + educational objective */
 body.qb-ui .qb-expl{margin-top:0;border-top:0;padding-top:0}
