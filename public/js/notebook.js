@@ -3480,6 +3480,26 @@
         quadráticas em vez de segmentos retos;
      3. o canvas trabalha na resolução real da tela (devicePixelRatio), senão a
         tinta sai borrada na Retina do iPad. */
+  /* Diagnóstico da tinta: abrir o caderno com &inkdebug=1 mostra um painel com
+     o que a camada de tinta recebe (tipo do contato, pressão, alvo do toque,
+     tamanho do canvas). É a forma de enxergar o Safari do iPad daqui. */
+  const INK_DEBUG = params.get('inkdebug')==='1';
+  let inkDbgBox = null, inkDbgLines = [];
+  function inkLog(msg){
+    if(!INK_DEBUG) return;
+    inkDbgLines.push(msg);
+    if(inkDbgLines.length > 16) inkDbgLines.shift();
+    if(!inkDbgBox){
+      inkDbgBox = document.createElement('div');
+      inkDbgBox.id = 'nbInkDbg';
+      inkDbgBox.style.cssText = 'position:fixed;left:6px;bottom:6px;z-index:99999;max-width:min(94vw,520px);'+
+        'max-height:44vh;overflow:auto;background:rgba(0,0,0,.86);color:#8fe;padding:7px 9px;border-radius:9px;'+
+        'font:11px/1.35 ui-monospace,Menlo,monospace;white-space:pre-wrap;pointer-events:none';
+      document.body.appendChild(inkDbgBox);
+    }
+    inkDbgBox.textContent = inkDbgLines.join('\n');
+    inkDbgBox.scrollTop = inkDbgBox.scrollHeight;
+  }
   const PEN_SEEN_KEY = 'couplemed_nb_pen_seen';
   let penSeen = (()=>{ try{ return localStorage.getItem(PEN_SEEN_KEY)==='1'; }catch(e){ return false; } })();
   const markPenSeen = ()=>{ if(penSeen) return; penSeen = true; try{ localStorage.setItem(PEN_SEEN_KEY,'1'); }catch(e){} };
@@ -3528,6 +3548,20 @@
     positionSelChip(null);
     if(!interactive) return;
 
+    /* A escuta fica na PÁGINA, não no canvas, e em fase de captura: qualquer
+       camada que fique por cima (texto, objetos, um overlay do site) deixa de
+       poder engolir o toque da caneta. As coordenadas continuam vindo do
+       retângulo do canvas, então o alvo do evento não importa. */
+    const surface = canvas.closest('.nb-page') || canvas;
+    const SKIP_SEL = '.nb-ruler, .nb-obj, .nb-lasso-del, .nb-pop, .nb-modal, button, input, select, textarea';
+    const skipTarget = e => !!(e.target && e.target.closest && e.target.closest(SKIP_SEL));
+    if(INK_DEBUG){
+      const r = canvas.getBoundingClientRect();
+      inkLog('setupInk tool='+tool+' canvas='+canvas.width+'x'+canvas.height+
+             ' css='+Math.round(r.width)+'x'+Math.round(r.height)+' dpr='+dpr+
+             ' penSeen='+penSeen+' penOnly='+!!gnT.penOnly+
+             ' surface='+(surface.id||surface.className)+' ta='+getComputedStyle(canvas).touchAction);
+    }
     const pos = e => {
       const r = canvas.getBoundingClientRect();
       return [ (e.clientX-r.left)*LW/r.width, (e.clientY-r.top)*LH/r.height ];
@@ -3627,7 +3661,11 @@
       st.redraw();
     }
 
-    canvas.addEventListener('pointerdown', e=>{
+    surface.addEventListener('pointerdown', e=>{
+      if(INK_DEBUG) inkLog('down '+e.pointerType+' p='+(e.pressure!=null?(+e.pressure).toFixed(2):'-')+
+        ' w='+(e.width||0)+' alvo='+(e.target&&e.target.className||e.target&&e.target.tagName||'?')+
+        ' pular='+skipTarget(e)+' permitido='+drawAllowed(e));
+      if(skipTarget(e)) return;
       /* o Safari às vezes engole o pointerup (dedo/palma saindo pela borda da
          tela): se o traço anterior ficou preso, ele é fechado antes de começar
          outro — senão a caneta some pro resto da sessão. */
@@ -3639,13 +3677,13 @@
            toque rola a vista, como no GoodNotes */
         if(e.pointerType==='touch' && panId===null){
           panId = e.pointerId; panLast = [e.clientX, e.clientY];
-          try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+          try{ surface.setPointerCapture(e.pointerId); }catch(err){}
         }
         return;
       }
       activePointerId = e.pointerId;
       if(e.cancelable) e.preventDefault();
-      try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+      try{ surface.setPointerCapture(e.pointerId); }catch(err){}
       const [x,y] = pos(e);
       if(tool==='laser'){ st.laser = [{x, y, t:performance.now()}]; st.laserOn = true; st.laserUp = 0; laserLoop(st); return; }
       if(tool==='lasso'){
@@ -3667,7 +3705,7 @@
       if(tool==='pen' && gnT.penStyle!=='fountain') cur.st = gnT.penStyle;
       st.cur = cur;
       schedulePaint();   // o ponto de apoio já aparece, mesmo sem mover
-    }, {passive:false});
+    }, {passive:false, capture:true});
     const movePointer = e=>{
       const [x,y] = pos(e);
       const now = performance.now();
@@ -3708,7 +3746,7 @@
       if(cur.m) schedulePaint();
       else drawStroke(ctx, cur, n-2);
     };
-    canvas.addEventListener('pointermove', e=>{
+    surface.addEventListener('pointermove', e=>{
       if(e.pointerId===panId){
         if(e.cancelable) e.preventDefault();
         const dx = panLast[0]-e.clientX, dy = panLast[1]-e.clientY;
@@ -3723,8 +3761,11 @@
          juntou num único pointermove — é daí que sai a curva fiel. */
       const events = typeof e.getCoalescedEvents==='function' ? e.getCoalescedEvents() : null;
       if(events && events.length) events.forEach(movePointer); else movePointer(e);
-    }, {passive:false});
+      if(INK_DEBUG && cur && cur.p.length===6) inkLog('  desenhando… pontos='+(cur.p.length/2));
+    }, {passive:false, capture:true});
     const end = e=>{
+      if(INK_DEBUG && e && e.type!=='lostpointercapture')
+        inkLog(e.type+' '+e.pointerType+' traço='+(cur ? (cur.p.length/2)+' pontos' : 'nenhum'));
       if(e && e.pointerId===panId){ panId = null; panLast = null; return; }
       if(e && activePointerId!==null && e.pointerId!==activePointerId) return;
       if(e && e.pointerType==='pen') penGuardUntil = performance.now()+900;
@@ -3738,15 +3779,15 @@
       if(tool==='eraser' && gnT.eraserMode==='stroke'){ activePointerId = null; erasing = false; if(strokeErased){ book.updated = Date.now(); save(); } return; }
       finishStroke();
     };
-    canvas.addEventListener('pointerup', end);
-    canvas.addEventListener('pointercancel', end);
-    canvas.addEventListener('lostpointercapture', end);
+    surface.addEventListener('pointerup', end, true);
+    surface.addEventListener('pointercancel', end, true);
+    surface.addEventListener('lostpointercapture', end, true);
     /* iPad/Safari: sem cancelar o gesto nativo, o toque da caneta vira rolagem
        ou zoom e o traço morre no meio (pointercancel). É esta parte que fazia a
        escrita "não reconhecer" a caneta no iPad. */
     const swallowGesture = e=>{ if(e.cancelable) e.preventDefault(); };
-    ['touchstart','touchmove','touchend','touchcancel','gesturestart','gesturechange','gestureend']
-      .forEach(n=>canvas.addEventListener(n, swallowGesture, {passive:false}));
+    ['touchmove','gesturestart','gesturechange','gestureend']
+      .forEach(n=>surface.addEventListener(n, swallowGesture, {passive:false}));
   }
 
   /* ---------- atalhos de teclado das ferramentas (V,P,E,I,N,L) — só desktop ---------- */
