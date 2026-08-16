@@ -3491,26 +3491,6 @@
         quadráticas em vez de segmentos retos;
      3. o canvas trabalha na resolução real da tela (devicePixelRatio), senão a
         tinta sai borrada na Retina do iPad. */
-  /* Diagnóstico da tinta: abrir o caderno com &inkdebug=1 mostra um painel com
-     o que a camada de tinta recebe (tipo do contato, pressão, alvo do toque,
-     tamanho do canvas). É a forma de enxergar o Safari do iPad daqui. */
-  const INK_DEBUG = params.get('inkdebug')==='1';
-  let inkDbgBox = null, inkDbgLines = [];
-  function inkLog(msg){
-    if(!INK_DEBUG) return;
-    inkDbgLines.push(msg);
-    if(inkDbgLines.length > 16) inkDbgLines.shift();
-    if(!inkDbgBox){
-      inkDbgBox = document.createElement('div');
-      inkDbgBox.id = 'nbInkDbg';
-      inkDbgBox.style.cssText = 'position:fixed;left:6px;bottom:6px;z-index:99999;max-width:min(94vw,520px);'+
-        'max-height:44vh;overflow:auto;background:rgba(0,0,0,.86);color:#8fe;padding:7px 9px;border-radius:9px;'+
-        'font:11px/1.35 ui-monospace,Menlo,monospace;white-space:pre-wrap;pointer-events:none';
-      document.body.appendChild(inkDbgBox);
-    }
-    inkDbgBox.textContent = inkDbgLines.join('\n');
-    inkDbgBox.scrollTop = inkDbgBox.scrollHeight;
-  }
   const PEN_SEEN_KEY = 'couplemed_nb_pen_seen';
   let penSeen = (()=>{ try{ return localStorage.getItem(PEN_SEEN_KEY)==='1'; }catch(e){ return false; } })();
   const markPenSeen = ()=>{ if(penSeen) return; penSeen = true; try{ localStorage.setItem(PEN_SEEN_KEY,'1'); }catch(e){} };
@@ -3566,13 +3546,6 @@
     const surface = canvas.closest('.nb-page') || canvas;
     const SKIP_SEL = '.nb-ruler, .nb-obj, .nb-lasso-del, .nb-pop, .nb-modal, button, input, select, textarea';
     const skipTarget = e => !!(e.target && e.target.closest && e.target.closest(SKIP_SEL));
-    if(INK_DEBUG){
-      const r = canvas.getBoundingClientRect();
-      inkLog('setupInk tool='+tool+' canvas='+canvas.width+'x'+canvas.height+
-             ' css='+Math.round(r.width)+'x'+Math.round(r.height)+' dpr='+dpr+
-             ' penSeen='+penSeen+' penOnly='+!!gnT.penOnly+
-             ' surface='+(surface.id||surface.className)+' ta='+getComputedStyle(canvas).touchAction);
-    }
     const pos = e => {
       const r = canvas.getBoundingClientRect();
       return [ (e.clientX-r.left)*LW/r.width, (e.clientY-r.top)*LH/r.height ];
@@ -3673,9 +3646,6 @@
     }
 
     surface.addEventListener('pointerdown', e=>{
-      if(INK_DEBUG) inkLog('down '+e.pointerType+' p='+(e.pressure!=null?(+e.pressure).toFixed(2):'-')+
-        ' w='+(e.width||0)+' alvo='+(e.target&&e.target.className||e.target&&e.target.tagName||'?')+
-        ' pular='+skipTarget(e)+' permitido='+drawAllowed(e));
       if(skipTarget(e)) return;
       /* o Safari às vezes engole o pointerup (dedo/palma saindo pela borda da
          tela): se o traço anterior ficou preso, ele é fechado antes de começar
@@ -3772,11 +3742,8 @@
          juntou num único pointermove — é daí que sai a curva fiel. */
       const events = typeof e.getCoalescedEvents==='function' ? e.getCoalescedEvents() : null;
       if(events && events.length) events.forEach(movePointer); else movePointer(e);
-      if(INK_DEBUG && cur && cur.p.length===6) inkLog('  desenhando… pontos='+(cur.p.length/2));
     }, {passive:false, capture:true});
     const end = e=>{
-      if(INK_DEBUG && e && e.type!=='lostpointercapture')
-        inkLog(e.type+' '+e.pointerType+' traço='+(cur ? (cur.p.length/2)+' pontos' : 'nenhum'));
       if(e && e.pointerId===panId){ panId = null; panLast = null; return; }
       if(e && activePointerId!==null && e.pointerId!==activePointerId) return;
       if(e && e.pointerType==='pen') penGuardUntil = performance.now()+900;
