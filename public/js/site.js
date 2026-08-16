@@ -1569,7 +1569,10 @@
     return Number(localStorage.getItem('couplemed_qbank_1_total')||0);
   }
   function updateRoundLabels(){const n=qCount(); $$('[data-round-label]').forEach(el=>{const r=el.dataset.roundLabel; el.textContent=`${r} Pass — ${n} questions`;});}
-  const COMING_SOON_PAGES=['qbank-2','self-assessment','step-2','step-3','languages','observership','residency-match','links'];
+  /* Páginas ainda em construção: mostram a arte "coming soon" no lugar do card
+     vazio. Aulas em Vídeo/Áudio entraram aqui em ago/2026, ao saírem de
+     "Materiais de Estudo" para dentro da Biblioteca Médica. */
+  const COMING_SOON_PAGES=['qbank-2','self-assessment','step-2','step-3','languages','observership','residency-match','links','video-lectures','audio-lessons'];
   const QBANK_PAGES=['qbank-1','qbank1-pass-1','qbank1-pass-2','qbank1-pass-3','qbank1-pass-4','library-1','library-2'];
   const WS_ITEMS=[
     {page:'notebooks',   key:'notebooks',   descKey:'wsNotebooksDesc', cls:'ws-ico-nb',   svg:'<rect x="4" y="3" width="15" height="18" rx="2.2" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v18" stroke="currentColor" stroke-width="1.8"/><path d="M12 8h4M12 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'},
