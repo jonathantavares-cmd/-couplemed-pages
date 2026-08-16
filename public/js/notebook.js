@@ -632,12 +632,15 @@
     '🎧','🎬','⚽','🏀','✈️','🚗','🏠','💼','🔒','🔑','🧩','🎲','🐝','🦋','🌸','🍁'
   ];
   // papéis "Essenciais" (ids legados ruled-m/grid-s/grid-l continuam válidos no CSS p/ cadernos antigos)
+  /* Ordem fixa dos papéis, pedida pelo Jonathan (ago/2026): branco, pautado
+     estreito, pautado largo, quadriculado, pontilhado. Vale em todo lugar que
+     lista modelos — Novo caderno, Adicionar página e Alterar modelo. */
   const GN_PAPERS = [
     {id:'blank',   k:'pBlank',  th:''},
-    {id:'dotted',  k:'pDotted', th:'nb-th-dotted'},
-    {id:'grid-m',  k:'pGridGN', th:'nb-th-grid-m'},
     {id:'ruled-s', k:'pNarrow', th:'nb-th-ruled-s'},
-    {id:'ruled-l', k:'pWide',   th:'nb-th-ruled-l'}
+    {id:'ruled-l', k:'pWide',   th:'nb-th-ruled-l'},
+    {id:'grid-m',  k:'pGridGN', th:'nb-th-grid-m'},
+    {id:'dotted',  k:'pDotted', th:'nb-th-dotted'}
   ];
   const GN_PAPER_ALIAS = { 'ruled-m':'ruled-s', 'grid-s':'grid-m', 'grid-l':'grid-m' }; // legado → card equivalente
   // cores de papel: as 3 do GoodNotes + azul claro, verde claro e rosa claro (pedido)
@@ -1674,9 +1677,17 @@
       const title = m.querySelector('#nbGnbName').value.trim() || t('nbUntitledPh');
       const data = { title, icon:cur.icon||'', paper:cur.paper, bg:cur.bg, orientation:cur.orientation,
                      cover:cur.cover, customPaper:cur.customPaper||null };
-      if(isNew) DB.notebooks.push(Object.assign({ id:uid(), folderId:folderId||null, created:Date.now(), updated:Date.now() }, data));
+      let created = null;
+      if(isNew){
+        created = Object.assign({ id:uid(), folderId:folderId||null, created:Date.now(), updated:Date.now() }, data);
+        DB.notebooks.push(created);
+      }
       else Object.assign(book, data, { updated:Date.now() });
-      save(); closePopover(); closeModal(); render();
+      save(); closePopover(); closeModal();
+      /* caderno novo abre direto nas páginas, sem passar pela estante — é o que
+         o GoodNotes faz ao criar (pedido do Jonathan, ago/2026) */
+      if(created){ view = { name:'notebook', nbId:created.id, page:0 }; syncUrl(); }
+      render();
     });
     const del = m.querySelector('#nbBDel');
     if(del) del.addEventListener('click', ()=>{

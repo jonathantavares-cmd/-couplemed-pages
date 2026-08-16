@@ -68,7 +68,14 @@ alterado com `/effort`/seletor de `/model`.
 ## Decisões acordadas
 - Sem linha "Idioma" no Novo caderno (site já é bilíngue).
 - Cores de papel: branco, amarelo/bege, preto **+ azul claro, verde claro, rosa claro**.
-- Papéis: Branco, Pontilhado, Quadriculado, Pautado estreito, Pautado largo, + Importar.
+- Papéis, **nesta ordem fixa** (Jonathan, ago/2026): Branco, Pautado estreito,
+  Pautado largo, Quadriculado, Pontilhado, + Importar. A ordem vem de
+  `GN_PAPERS` e vale em todo lugar que lista modelos (Novo caderno, Adicionar
+  página, Alterar modelo).
+- **Criar um caderno já abre o caderno** (Jonathan, ago/2026): confirmar o modal
+  "Novo caderno" leva direto às páginas, sem voltar para a estante e ter que
+  escolher o caderno. Editar um caderno existente pelo mesmo modal continua só
+  salvando, sem abrir.
 - Capas: Claras, Percurso, Simples, Sólida, Liso; cores Azul/Rosa/Roxo/Vermelho/
   Laranja/Amarelo/Verde/Cinza/Preto (`GN_COVER_COLORS`).
 - Conteúdo antigo migra automático (papel branco/sem capa quando faltar dado).
