@@ -343,8 +343,27 @@ Testado com Chrome via CDP (eventos `pointerType:'pen'` com pressão e eventos d
 toque reais): caneta desenha com pressão variável; dedo rola a página com ✋
 ligado e volta a desenhar com ✋ desligado; borracha (padrão e traço inteiro),
 laço, régua, desfazer/refazer, miniaturas e modo leitura sem regressão.
-**Falta confirmar no iPad de verdade** — o Safari do iPad é o alvo e não dá pra
-reproduzi-lo aqui.
+
+**Segunda rodada** (o Jonathan testou no iPad publicado e a caneta continuou sem
+escrever, com a ferramenta Caneta selecionada):
+- a escuta de ponteiro saiu do `<canvas>` e foi para a **página** (`.nb-page`),
+  em **fase de captura** — qualquer camada que fique por cima do canvas deixa de
+  poder engolir o toque, porque as coordenadas vêm do retângulo do canvas e o
+  alvo do evento não importa mais. Régua, objetos, botões e popovers seguem com
+  o toque deles pela lista `SKIP_SEL`;
+- `touchstart` saiu da lista de gestos cancelados: no WebKit os pointer events
+  são construídos sobre os touch events, e cancelar o `touchstart` pode
+  interromper a sequência do próprio traço. `touch-action:none` já impede
+  rolagem e zoom; `touchmove` e os `gesture*` continuam cancelados;
+- **`?inkdebug=1`**: abrir o caderno com esse parâmetro liga um painel que mostra
+  o que a camada de tinta recebe (tipo do contato, pressão, alvo, rejeição de
+  palma, tamanho do canvas) e se o traço termina em `pointerup` ou morre em
+  `pointercancel`;
+- **`/pen-test.html`**: página isolada, fora do app, para separar "o Safari não
+  entrega o evento" de "o app não usa o evento".
+
+**Causa ainda não confirmada no iPad real** — o Safari do iPad é o alvo e não dá
+pra reproduzi-lo aqui; as duas ferramentas acima existem pra fechar esse buraco.
 
 ## Como testar (sem deploy)
 ```
