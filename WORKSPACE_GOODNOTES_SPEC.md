@@ -54,6 +54,8 @@ alterado com `/effort`/seletor de `/model`.
   "‹ voltar" pra usar `history.back()` de verdade.
 - [x] **Fase 8 — Câmera, régua, gravações, compartilhamento real e mais**
   (jul/2026), ver seção própria abaixo.
+- [x] **Fase 9 — Escrita à mão fiel ao GoodNotes / Apple Pencil no iPad**
+  (ago/2026), ver seção própria abaixo.
 
 ## Arquivos
 - `public/js/notebook.js` — módulo My Workspace (dados em localStorage `couplemed_nb_${user}`)
@@ -300,6 +302,49 @@ Rodada de ajustes sobre as fases 1–5, já concluídos e testados:
   toolbar; modelo específico da régua) nunca chegaram a abrir (permissão do
   Desktop) e o Jonathan não reenviou — não implementadas por falta de
   especificação visual.
+
+## Fase 9 — Escrita à mão fiel ao GoodNotes (ago/2026)
+Motivo: a escrita do caderno não reconhecia a caneta no iPad. O motor de tinta
+(`setupInk` + `drawStroke` em `public/js/notebook.js`) foi refeito em quatro
+frentes; nenhuma outra ferramenta mudou de comportamento.
+
+- **Entrada da caneta no iPad (a causa da falha).** Com a ferramenta de tinta
+  ativa, a página inteira passa a bloquear rolagem, zoom, seleção e menu de
+  toque (`.nb-page.nb-drawmode` com `touch-action:none` + `-webkit-user-select`
+  + `-webkit-touch-callout`), e o canvas cancela `touchstart/touchmove/
+  gesturestart` (`{passive:false}`). Sem isso o Safari do iPad assume o gesto
+  como rolagem e dispara `pointercancel` no meio do traço — a caneta parecia
+  não ser reconhecida. Também foram cobertos: `lostpointercapture` como fim de
+  traço, destravamento de traço preso quando o Safari engole o `pointerup`
+  (>1,2 s sem evento), e `setPointerCapture` dentro de `try/catch`.
+- **Rejeição de palma no padrão do GoodNotes.** Quando o aparelho já viu uma
+  caneta (`couplemed_nb_pen_seen`), o dedo deixa de escrever e passa a **rolar a
+  página**; a palma apoiada até 900 ms depois de um traço da caneta é ignorada,
+  e contatos claramente grandes (>48 px) nunca desenham. O corte antigo era de
+  24 px e recusava dedo legítimo junto com a palma. Botão **✋** novo na barra
+  (`#nbGnPalm`, só em aparelhos com toque) alterna "só a caneta escreve" ↔ "o
+  dedo também desenha" (`gnT.penOnly`, padrão ligado). Aparelho sem caneta
+  nenhuma (celular) continua desenhando com o dedo normalmente.
+- **Traço.** Curvas quadráticas pelos pontos médios em vez de segmentos retos;
+  largura por ponto vinda da pressão real da Apple Pencil (com inclinação
+  `altitudeAngle` engrossando o pincel) e, sem caneta, da velocidade do gesto —
+  é o afinamento da caneta-tinteiro do GoodNotes. Pontos guardados com uma casa
+  decimal e passo mínimo de 0,8 px (antes 2 px inteiros), consumindo os ~240 Hz
+  da Pencil via `getCoalescedEvents`. Traços antigos, sem `pr`, continuam sendo
+  desenhados com largura constante.
+- **Nitidez e desempenho.** O canvas passa a ter resolução real de tela
+  (devicePixelRatio, limitado a 2× pela memória de canvas do iPad) com o
+  contexto em coordenadas da página. Cada página ganhou uma **camada base**
+  fora da tela com os traços já confirmados: repintar custa um blit em vez de
+  redesenhar a página inteira. O marca-texto passou a ser composto como um path
+  único — as emendas não escurecem mais.
+
+Testado com Chrome via CDP (eventos `pointerType:'pen'` com pressão e eventos de
+toque reais): caneta desenha com pressão variável; dedo rola a página com ✋
+ligado e volta a desenhar com ✋ desligado; borracha (padrão e traço inteiro),
+laço, régua, desfazer/refazer, miniaturas e modo leitura sem regressão.
+**Falta confirmar no iPad de verdade** — o Safari do iPad é o alvo e não dá pra
+reproduzi-lo aqui.
 
 ## Como testar (sem deploy)
 ```

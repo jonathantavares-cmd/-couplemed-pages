@@ -312,6 +312,7 @@
       styleFountain:'Fountain pen', styleBall:'Ballpoint', styleBrush:'Brush',
       eraserStandard:'Standard', eraserStroke:'Whole stroke', eraserSettings:'Eraser settings',
       customWidth:'Custom width', penWidthTitle:'Pen thickness',
+      penOnlyOn:'Apple Pencil only (finger scrolls)', penOnlyOff:'Finger draws too',
       accessories:'Accessories', recStart:'Record and Summarize', recStop:'Stop Recording',
       showRecordings:'Show Recordings', rulerTool:'Ruler', rulerRotate:'Rotate ruler',
       recUploadFail:'Could not save the recording (upload failed).', recFail:'Microphone unavailable.',
@@ -485,6 +486,7 @@
       styleFountain:'Caneta-tinteiro', styleBall:'Esferográfica', styleBrush:'Pincel',
       eraserStandard:'Padrão', eraserStroke:'Traço inteiro', eraserSettings:'Ajustes da borracha',
       customWidth:'Espessura personalizada', penWidthTitle:'Espessura da caneta',
+      penOnlyOn:'Só a caneta escreve (o dedo rola a página)', penOnlyOff:'O dedo também desenha',
       accessories:'Acessórios', recStart:'Gravar e resumir', recStop:'Parar gravação',
       showRecordings:'Mostrar gravações', rulerTool:'Régua', rulerRotate:'Rodar régua',
       recUploadFail:'Não foi possível salvar a gravação (falha no envio).', recFail:'Microfone indisponível.',
@@ -599,6 +601,7 @@
     markerWidth:22, markerSlots:['#fff176','#b9f6ca','#a8d8ff'], markerSlot:0, markerPresets:[],
     eraserMode:'standard', eraserWidth:18, eraserOnlyMarker:false,
     lassoMode:'rect', stickyColor:'#f9e08c', laserMode:'point',
+    penOnly:true,
     textPinned:false, favStyle:null, textColor:'#182233', textHilite:'#fff176'
   };
   let gnT = (function(){
@@ -2630,6 +2633,7 @@
     photo:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M8.5 6.5l1.2-1.8h4.6l1.2 1.8H19a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 19 18.5H5A1.5 1.5 0 0 1 3.5 17v-9A1.5 1.5 0 0 1 5 6.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12.3" r="3.4" stroke="currentColor" stroke-width="1.8"/></svg>',
     sticky:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M4.5 5.5a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v9l-5 5h-9a1 1 0 0 1-1-1v-13z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M19.5 14.5H15a1 1 0 0 0-1 1v4.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
     laser:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 4v2.4M12 17.6V20M4 12h2.4M17.6 12H20M6.3 6.3L8 8M16 16l1.7 1.7M17.7 6.3L16 8M8 16l-1.7 1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    palm:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M8.5 11V5.2a1.4 1.4 0 012.8 0V10m0-.6V4.1a1.4 1.4 0 012.8 0V10m0-.7V5.6a1.4 1.4 0 012.8 0V13c0 4-2.6 6.9-6.3 6.9-2 0-3.5-.8-4.6-2.4L5 13.4a1.4 1.4 0 012.2-1.7l1.3 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     accessories:'<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M9.5 4.5a2.5 2.5 0 015 0v4a2.5 2.5 0 01-5 0z" stroke="currentColor" stroke-width="1.7"/><path d="M7 10.5a5 5 0 0010 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 15.5V18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M14.5 19c0-2 1.6-3.2 3.5-3.2s3.5 1.2 3.5 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
   };
 
@@ -2656,6 +2660,7 @@
         <span class="nb-tb-sep"></span>
         ${tools.slice(3).map(([id,tt,k])=>`<button class="nb-gt nb-gt-advanced ${tool===id?'nb-on':''}" data-gt="${id}" title="${tt}${k?' ('+k+')':''}">${gnIco[id]}</button>`).join('')}
         <button class="nb-gt nb-gt-advanced ${(gnRulerState||gnRecState)?'nb-on':''}" id="nbGnAccBtn" title="${t('accessories')}">${gnIco.accessories}</button>
+        ${isTouchDevice() ? `<button class="nb-gt nb-gt-palm ${gnT.penOnly?'nb-on':''}" id="nbGnPalm" title="${gnT.penOnly?t('penOnlyOn'):t('penOnlyOff')}">${gnIco.palm}</button>` : ''}
         <button class="nb-gt nb-gt-more ${tools.slice(3).some(x=>x[0]===tool)?'nb-on':''}" id="nbGnMore" title="${t('accessories')}">•••</button>
         <span class="nb-gnflex"></span>
       </div>
@@ -2752,6 +2757,14 @@
       if(id==='image') setTimeout(()=>{ const f=root.querySelector('#nbGnImgFile'); if(f) f.click(); }, 60);
       if(id==='photo') setTimeout(()=>{ const f=root.querySelector('#nbGnPhotoFile'); if(f) f.click(); }, 60);
     }));
+    /* ✋ rejeição de palma: alterna entre "só a caneta escreve" (padrão do
+       GoodNotes quando há Apple Pencil) e "o dedo também desenha" */
+    const palmBtn = root.querySelector('#nbGnPalm');
+    if(palmBtn) palmBtn.addEventListener('click', ()=>{
+      gnT.penOnly = !gnT.penOnly; saveTools();
+      palmBtn.classList.toggle('nb-on', gnT.penOnly);
+      palmBtn.title = gnT.penOnly ? t('penOnlyOn') : t('penOnlyOff');
+    });
     /* desfazer/refazer: texto usa o histórico do navegador; tinta usa a pilha de traços */
     root.querySelector('#nbGnUndo').addEventListener('click', ()=>{
       if(gnT.tool==='text'){ editor.focus(); document.execCommand('undo'); return; }
@@ -3407,8 +3420,9 @@
       });
     }
     const cv = inkState.canvas;
-    chip.style.left = Math.min(97, Math.max(6, (sel.x+sel.w)/cv.width*100))+'%';
-    chip.style.top = Math.min(96, Math.max(4, sel.y/cv.height*100))+'%';
+    const cw = inkState.lw || cv.width, ch = inkState.lh || cv.height;
+    chip.style.left = Math.min(97, Math.max(6, (sel.x+sel.w)/cw*100))+'%';
+    chip.style.top = Math.min(96, Math.max(4, sel.y/ch*100))+'%';
   }
   function drawLassoPreview(ctx, path){
     ctx.save(); ctx.strokeStyle = '#2768ff'; ctx.lineWidth = 1.6; ctx.setLineDash([6,5]);
@@ -3430,7 +3444,8 @@
       const now = performance.now();
       if(gnT.laserMode==='point') st.laser = st.laser.filter(p=>now-p.t < 420);
       else if(!st.laserOn && st.laserUp && now-st.laserUp > 900) st.laser = [];
-      st.redraw();
+      const repaint = st.paint || st.redraw;
+      repaint();
       if(st.laser.length){
         const ctx = st.ctx;
         ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
@@ -3449,23 +3464,65 @@
         ctx.restore();
       }
       if(st.laser.length || st.laserOn) st.laserRaf = requestAnimationFrame(tick);
-      else st.redraw();
+      else repaint();
     };
     st.laserRaf = requestAnimationFrame(tick);
   }
+  /* ---------- motor de tinta estilo GoodNotes ----------
+     Três coisas separam "desenhar num canvas" de escrever como no GoodNotes, e
+     as três vivem aqui:
+     1. a caneta manda — Apple Pencil/stylus tem prioridade sobre dedo e palma,
+        e o Safari do iPad só entrega o traço inteiro se o alvo bloquear
+        rolagem/zoom (touch-action + touchstart cancelado). Sem isso o Safari
+        dispara pointercancel no meio do traço e a caneta parece "não ser
+        reconhecida";
+     2. o traço tem pressão (e inclinação) real, desenhado em curvas
+        quadráticas em vez de segmentos retos;
+     3. o canvas trabalha na resolução real da tela (devicePixelRatio), senão a
+        tinta sai borrada na Retina do iPad. */
+  const PEN_SEEN_KEY = 'couplemed_nb_pen_seen';
+  let penSeen = (()=>{ try{ return localStorage.getItem(PEN_SEEN_KEY)==='1'; }catch(e){ return false; } })();
+  const markPenSeen = ()=>{ if(penSeen) return; penSeen = true; try{ localStorage.setItem(PEN_SEEN_KEY,'1'); }catch(e){} };
+  const isTouchDevice = ()=> (navigator.maxTouchPoints||0) > 0 ||
+    (window.matchMedia ? window.matchMedia('(pointer: coarse)').matches : false);
+  /* 2x já é bem mais do que a página precisa (o canvas lógico tem 900 px de
+     largura para uns 650 px de tela) e mantém a memória de canvas do iPad
+     dentro do limite — cada página usa duas camadas. */
+  const inkDpr = ()=> Math.min(2, Math.max(1, window.devicePixelRatio||1));
+
   function setupInk(book, pg, interactive, tool){
     const canvas = root.querySelector('#nbCanvas'); if(!canvas) return;
     const ori = book.orientation==='landscape' ? 'landscape' : 'portrait';
-    canvas.width = CANVAS_W[ori]; canvas.height = CANVAS_H[ori];
+    const LW = CANVAS_W[ori], LH = CANVAS_H[ori], dpr = inkDpr();
+    canvas.width = Math.round(LW*dpr); canvas.height = Math.round(LH*dpr);
     const ctx = canvas.getContext ? canvas.getContext('2d') : null; if(!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);   // desenhar sempre em coordenadas da página
     pg.strokes = pg.strokes || [];
     if(inkPageId !== pg.id){ inkPageId = pg.id; inkRedoStack = []; }
-    const st = { canvas, ctx, book, pg, sel:null, laser:[], laserOn:false, laserUp:0, laserRaf:0 };
-    st.redraw = ()=>{
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      pg.strokes.forEach(s=>drawStroke(ctx, s));
+
+    /* camada base: tudo o que já está confirmado na página. Repintar o traço em
+       andamento custa um blit, não uma varredura de todos os traços da página. */
+    const base = document.createElement('canvas');
+    base.width = canvas.width; base.height = canvas.height;
+    const bctx = base.getContext ? base.getContext('2d') : null;
+    if(bctx) bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const st = { canvas, ctx, base, bctx, lw:LW, lh:LH, book, pg, cur:null, lasso:null,
+                 sel:null, laser:[], laserOn:false, laserUp:0, laserRaf:0 };
+    st.rebuild = ()=>{
+      if(!bctx) return;
+      bctx.clearRect(0, 0, LW, LH);
+      pg.strokes.forEach(s=>drawStroke(bctx, s));
+    };
+    st.paint = ()=>{
+      ctx.clearRect(0, 0, LW, LH);
+      if(bctx) ctx.drawImage(base, 0, 0, LW, LH);
+      else pg.strokes.forEach(s=>drawStroke(ctx, s));
+      if(st.cur) drawStroke(ctx, st.cur);
+      if(st.lasso) drawLassoPreview(ctx, st.lasso);
       if(st.sel) drawSelBox(ctx, st.sel);
     };
+    st.redraw = ()=>{ st.rebuild(); st.paint(); };   // API usada por desfazer/refazer e busca
     st.redraw();
     inkState = st;
     positionSelChip(null);
@@ -3473,7 +3530,7 @@
 
     const pos = e => {
       const r = canvas.getBoundingClientRect();
-      return [ (e.clientX-r.left)*canvas.width/r.width, (e.clientY-r.top)*canvas.height/r.height ];
+      return [ (e.clientX-r.left)*LW/r.width, (e.clientY-r.top)*LH/r.height ];
     };
     const hitStroke = (s, x, y, rad)=>{
       for(let i=0;i<s.p.length;i+=2){
@@ -3483,15 +3540,52 @@
       return false;
     };
     let cur = null, lassoPath = null, dragSel = null, erasing = false, strokeErased = false;
-    let activePointerId = null, penGuardUntil = 0;
-    const pointerAllowed = e=>{
-      /* Rejeição de palma: mantém a Apple Pencil soberana e ignora contatos
-         largos de mão/palma. Um toque de dedo continua disponível quando não
-         há caneta ativa, preservando o uso em celulares e tablets sem stylus. */
-      if(e.pointerType==='pen'){ penGuardUntil = performance.now()+700; return true; }
-      if(e.pointerType==='touch' && (performance.now()<penGuardUntil || (e.width||0)>24 || (e.height||0)>24)) return false;
+    let activePointerId = null, penGuardUntil = 0, lastEventAt = 0;
+    let panId = null, panLast = null;                 // dedo rolando a página
+    let prSmooth = .55, lastPt = null, lastT = 0;     // suavização de pressão/velocidade
+    let raf = 0;
+    const schedulePaint = ()=>{
+      if(raf || inkState!==st) return;
+      raf = requestAnimationFrame(()=>{ raf = 0; if(inkState===st) st.paint(); });
+    };
+    /* Rejeição de palma no padrão do GoodNotes: quando o aparelho já viu uma
+       caneta, o dedo deixa de escrever e passa a rolar a página, e a palma
+       apoiada logo depois de um traço da caneta é ignorada. O botão ✋ da barra
+       desliga isso pra quem quiser mesmo escrever com o dedo. */
+    const drawAllowed = e=>{
+      if(e.pointerType==='pen'){ markPenSeen(); penGuardUntil = performance.now()+900; return true; }
+      if(e.pointerType!=='touch') return true;                 // mouse / trackpad
+      if(gnT.penOnly && penSeen) return false;
+      if(performance.now() < penGuardUntil) return false;
+      /* contato largo = palma. A ponta do dedo mede uns 25–40 px no iPad, então
+         o corte só vale para contatos claramente grandes — sem isso o dedo
+         legítimo era recusado junto com a palma. */
+      if((e.width||0) > 48 || (e.height||0) > 48) return false;
       return true;
     };
+    /* Pressão: a caneta entrega a força real (e a inclinação, usada pelo
+       pincel); dedo e mouse não têm pressão, então a velocidade faz o
+       afinamento — é o que dá o traço "vivo" da caneta-tinteiro do GoodNotes. */
+    const PRESSURE_FLOOR = .08;
+    const pressureAt = (e, x, y, now)=>{
+      let raw;
+      if(e.pointerType==='pen'){
+        raw = (typeof e.pressure==='number' && e.pressure>0) ? e.pressure : prSmooth;
+        if(gnT.penStyle==='brush' && typeof e.altitudeAngle==='number'){
+          const flat = 1 - Math.min(1, Math.max(0, e.altitudeAngle/(Math.PI/2)));
+          raw = raw*(1+flat*0.7);
+        }
+      } else if(lastPt){
+        const d = Math.hypot(x-lastPt[0], y-lastPt[1]);
+        const dt = Math.max(4, now-lastT);
+        raw = 1 - Math.min(1, (d/dt)/2.2)*0.5;
+      } else raw = .62;
+      prSmooth = prSmooth*0.62 + Math.max(PRESSURE_FLOOR, Math.min(1, raw))*0.38;
+      lastPt = [x, y]; lastT = now;
+      return Math.round(Math.max(PRESSURE_FLOOR, Math.min(1, prSmooth))*100)/100;
+    };
+    const MIN_STEP = 0.8;                 // px lógicos entre pontos guardados
+    const q = v => Math.round(v*10)/10;   // subpixel: curva fiel sem inchar o localStorage
     const eraseWholeStrokes = (x,y)=>{
       const rad = Math.max(gnT.eraserWidth, 12);
       const before = pg.strokes.length;
@@ -3503,7 +3597,7 @@
       if(pg.strokes.length !== before){ strokeErased = true; st.redraw(); }
     };
     const finishLasso = ()=>{
-      const path = lassoPath; lassoPath = null;
+      const path = lassoPath; lassoPath = null; st.lasso = null;
       if(!path || path.length < 6){ st.redraw(); return; }
       let inside;
       if(gnT.lassoMode==='rect'){
@@ -3524,31 +3618,60 @@
       st.redraw(); positionSelChip(st.sel);
     };
 
+    function finishStroke(){
+      activePointerId = null;
+      if(!cur) return;
+      const s = cur; cur = null; st.cur = null;
+      pg.strokes.push(s); inkRedoStack = [];
+      book.updated = Date.now(); save();
+      st.redraw();
+    }
+
     canvas.addEventListener('pointerdown', e=>{
-      if(activePointerId!==null || !pointerAllowed(e)) return;
+      /* o Safari às vezes engole o pointerup (dedo/palma saindo pela borda da
+         tela): se o traço anterior ficou preso, ele é fechado antes de começar
+         outro — senão a caneta some pro resto da sessão. */
+      if(activePointerId!==null && performance.now()-lastEventAt > 1200) finishStroke();
+      if(activePointerId!==null) return;
+      lastEventAt = performance.now();
+      if(!drawAllowed(e)){
+        /* dedo/palma com a caneta no comando: em vez de riscar a página, o
+           toque rola a vista, como no GoodNotes */
+        if(e.pointerType==='touch' && panId===null){
+          panId = e.pointerId; panLast = [e.clientX, e.clientY];
+          try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+        }
+        return;
+      }
       activePointerId = e.pointerId;
-      e.preventDefault(); canvas.setPointerCapture(e.pointerId);
+      if(e.cancelable) e.preventDefault();
+      try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
       const [x,y] = pos(e);
       if(tool==='laser'){ st.laser = [{x, y, t:performance.now()}]; st.laserOn = true; st.laserUp = 0; laserLoop(st); return; }
       if(tool==='lasso'){
         if(st.sel && x>=st.sel.x && x<=st.sel.x+st.sel.w && y>=st.sel.y && y<=st.sel.y+st.sel.h){ dragSel = {lx:x, ly:y, moved:false}; return; }
-        st.sel = null; positionSelChip(null); lassoPath = [x, y]; return;
+        st.sel = null; positionSelChip(null); lassoPath = [x, y]; st.lasso = lassoPath; return;
       }
       if(tool==='eraser' && gnT.eraserMode==='stroke'){ erasing = true; strokeErased = false; eraseWholeStrokes(x, y); return; }
       const isM = tool==='marker';
+      prSmooth = e.pointerType==='pen' ? Math.max(.2, Math.min(1, e.pressure||.5)) : .62;
+      lastPt = null; lastT = performance.now();
       cur = {
         c: tool==='eraser' ? '#000' : (isM ? gnT.markerSlots[gnT.markerSlot] : gnT.penSlots[gnT.penSlot]),
         w: tool==='eraser' ? gnT.eraserWidth : (isM ? gnT.markerWidth : gnT.penWidth),
         e: tool==='eraser' ? 1 : 0,
         m: isM ? 1 : 0,
-        p: [Math.round(x), Math.round(y)],
-        pr: [e.pointerType==='pen' ? Math.max(.08,e.pressure||.45) : .5]
+        p: [q(x), q(y)],
+        pr: [pressureAt(e, x, y, lastT)]
       };
       if(tool==='pen' && gnT.penStyle!=='fountain') cur.st = gnT.penStyle;
-    });
+      st.cur = cur;
+      schedulePaint();   // o ponto de apoio já aparece, mesmo sem mover
+    }, {passive:false});
     const movePointer = e=>{
       const [x,y] = pos(e);
-      if(tool==='laser'){ if(st.laserOn) st.laser.push({x, y, t:performance.now()}); return; }
+      const now = performance.now();
+      if(tool==='laser'){ if(st.laserOn) st.laser.push({x, y, t:now}); return; }
       if(tool==='lasso'){
         if(dragSel){
           const dx = x-dragSel.lx, dy = y-dragSel.ly;
@@ -3558,11 +3681,11 @@
           st.redraw(); positionSelChip(st.sel);
           return;
         }
-        if(lassoPath){ lassoPath.push(x, y); st.redraw(); drawLassoPreview(ctx, lassoPath); }
+        if(lassoPath){ lassoPath.push(x, y); schedulePaint(); }
         return;
       }
       if(tool==='eraser' && gnT.eraserMode==='stroke'){ if(erasing) eraseWholeStrokes(x, y); return; }
-      if(!cur) return; e.preventDefault();
+      if(!cur) return;
       /* Régua ativa: a caneta/marcador desliza travada na direção da régua,
          igual a desenhar encostado numa régua de verdade. */
       if((tool==='pen'||tool==='marker') && gnRulerState){
@@ -3570,41 +3693,60 @@
         const dirX = Math.cos(rad), dirY = Math.sin(rad);
         const sx = cur.p[0], sy = cur.p[1];
         const proj = (x-sx)*dirX + (y-sy)*dirY;
-        cur.p = [sx, sy, Math.round(sx+proj*dirX), Math.round(sy+proj*dirY)];
-        st.redraw(); drawStroke(ctx, cur);
+        cur.p = [sx, sy, q(sx+proj*dirX), q(sy+proj*dirY)];
+        cur.pr = [cur.pr[0], cur.pr[0]];
+        schedulePaint();
         return;
       }
-      const n = cur.p.length, xi = Math.round(x), yi = Math.round(y);
-      if(n>=2 && Math.abs(cur.p[n-2]-xi)<2 && Math.abs(cur.p[n-1]-yi)<2) return;
-      cur.p.push(xi, yi);
-      cur.pr.push(e.pointerType==='pen' ? Math.max(.08,e.pressure||.45) : .5);
-      drawStroke(ctx, cur, n-2);
+      const n = cur.p.length, dx = x-cur.p[n-2], dy = y-cur.p[n-1];
+      if(dx*dx + dy*dy < MIN_STEP*MIN_STEP) return;
+      cur.p.push(q(x), q(y));
+      cur.pr.push(pressureAt(e, x, y, now));
+      /* marca-texto composita o traço inteiro de uma vez (senão as emendas
+         escurecem); caneta e borracha desenham só o pedaço novo, que é o
+         caminho mais curto entre a ponta da caneta e a tela. */
+      if(cur.m) schedulePaint();
+      else drawStroke(ctx, cur, n-2);
     };
     canvas.addEventListener('pointermove', e=>{
+      if(e.pointerId===panId){
+        if(e.cancelable) e.preventDefault();
+        const dx = panLast[0]-e.clientX, dy = panLast[1]-e.clientY;
+        panLast = [e.clientX, e.clientY];
+        if(dx || dy) window.scrollBy(dx, dy);
+        return;
+      }
       if(e.pointerId!==activePointerId) return;
-      e.preventDefault();
-      const events = typeof e.getCoalescedEvents==='function' ? e.getCoalescedEvents() : [e];
-      (events.length?events:[e]).forEach(movePointer);
-    });
+      if(e.cancelable) e.preventDefault();
+      lastEventAt = performance.now();
+      /* getCoalescedEvents devolve os ~240 Hz da Apple Pencil que o navegador
+         juntou num único pointermove — é daí que sai a curva fiel. */
+      const events = typeof e.getCoalescedEvents==='function' ? e.getCoalescedEvents() : null;
+      if(events && events.length) events.forEach(movePointer); else movePointer(e);
+    }, {passive:false});
     const end = e=>{
-      if(e && e.pointerId!==activePointerId) return;
-      if(e && e.pointerType==='pen') penGuardUntil = performance.now()+700;
-      activePointerId = null;
-      if(tool==='laser'){ st.laserOn = false; st.laserUp = performance.now(); return; }
+      if(e && e.pointerId===panId){ panId = null; panLast = null; return; }
+      if(e && activePointerId!==null && e.pointerId!==activePointerId) return;
+      if(e && e.pointerType==='pen') penGuardUntil = performance.now()+900;
+      if(tool==='laser'){ activePointerId = null; st.laserOn = false; st.laserUp = performance.now(); return; }
       if(tool==='lasso'){
+        activePointerId = null;
         if(dragSel){ const mv = dragSel.moved; dragSel = null; if(mv){ book.updated = Date.now(); save(); } return; }
         if(lassoPath) finishLasso();
         return;
       }
-      if(tool==='eraser' && gnT.eraserMode==='stroke'){ erasing = false; if(strokeErased){ book.updated = Date.now(); save(); } return; }
-      if(!cur) return;
-      if(cur.p.length===2) cur.p.push(cur.p[0]+1, cur.p[1]+1);
-      pg.strokes.push(cur); cur = null; inkRedoStack = [];
-      book.updated = Date.now(); save();
-      st.redraw();
+      if(tool==='eraser' && gnT.eraserMode==='stroke'){ activePointerId = null; erasing = false; if(strokeErased){ book.updated = Date.now(); save(); } return; }
+      finishStroke();
     };
     canvas.addEventListener('pointerup', end);
     canvas.addEventListener('pointercancel', end);
+    canvas.addEventListener('lostpointercapture', end);
+    /* iPad/Safari: sem cancelar o gesto nativo, o toque da caneta vira rolagem
+       ou zoom e o traço morre no meio (pointercancel). É esta parte que fazia a
+       escrita "não reconhecer" a caneta no iPad. */
+    const swallowGesture = e=>{ if(e.cancelable) e.preventDefault(); };
+    ['touchstart','touchmove','touchend','touchcancel','gesturestart','gesturechange','gestureend']
+      .forEach(n=>canvas.addEventListener(n, swallowGesture, {passive:false}));
   }
 
   /* ---------- atalhos de teclado das ferramentas (V,P,E,I,N,L) — só desktop ---------- */
@@ -3916,14 +4058,22 @@
     canvas.addEventListener('pointerup', end);
     canvas.addEventListener('pointercancel', end);
   }
+  /* Desenha um traço. Duas diferenças em relação a "ligar os pontos": a linha
+     passa por curvas quadráticas nos pontos médios (letra redonda, sem os
+     cantos de polígono) e cada ponto tem sua própria largura, vinda da pressão
+     da caneta ou da velocidade do gesto. `fromIdx` desenha só o pedaço novo
+     enquanto se escreve. */
   function drawStroke(ctx, s, fromIdx){
+    if(!s || !Array.isArray(s.p) || s.p.length < 2) return;
     ctx.save();
     if(s.m){ ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=0.38; }
     else ctx.globalCompositeOperation = s.e ? 'destination-out' : 'source-over';
-    ctx.strokeStyle = s.c; ctx.fillStyle = s.c; ctx.lineWidth = s.w; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.strokeStyle = s.c; ctx.fillStyle = s.c; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     /* v5: estilos de caneta (tinteiro = padrão; esferográfica = traço mais fino; pincel = mais largo e translúcido) */
-    if(s.st==='ball') ctx.lineWidth = Math.max(1, s.w*0.75);
-    else if(s.st==='brush'){ ctx.lineWidth = s.w*1.6; if(!s.m && !s.e) ctx.globalAlpha = 0.88; }
+    let base = s.w;
+    if(s.st==='ball') base = Math.max(1, s.w*0.75);
+    else if(s.st==='brush'){ base = s.w*1.6; if(!s.m && !s.e) ctx.globalAlpha = 0.88; }
+    ctx.lineWidth = base;
     const p = s.p;
     if(s.shape){
       const [x1,y1,x2,y2]=p;
@@ -3942,23 +4092,39 @@
       }
       ctx.restore(); return;
     }
-    const start = Math.max(0, fromIdx||0);
-    /* Pressão real da caneta (Pointer Events): cada segmento recebe a largura
-       correspondente ao ponto coletado. Strokes antigos, sem `pr`, continuam
-       sendo desenhados exatamente como antes. */
-    if(Array.isArray(s.pr) && s.pr.length>1 && !s.m && !s.e && p.length>=4){
-      const base = ctx.lineWidth;
-      for(let i=Math.max(2,start+2); i<p.length; i+=2){
-        const pressure = Math.max(.08, Math.min(1, Number(s.pr[i/2])||.5));
-        ctx.lineWidth = Math.max(.65, base*(.48+pressure*.92));
-        ctx.beginPath(); ctx.moveTo(p[i-2],p[i-1]); ctx.lineTo(p[i],p[i+1]); ctx.stroke();
-      }
+    const n = p.length/2;
+    if(n === 1){   // encostar e levantar = pingo de tinta
+      ctx.beginPath(); ctx.arc(p[0], p[1], Math.max(.6, base/2), 0, Math.PI*2); ctx.fill();
       ctx.restore(); return;
     }
-    ctx.beginPath();
-    ctx.moveTo(p[start], p[start+1]);
-    for(let i=start+2; i<p.length; i+=2) ctx.lineTo(p[i], p[i+1]);
-    ctx.stroke();
+    const mx = (a,b)=> (p[a*2]+p[b*2])/2, my = (a,b)=> (p[a*2+1]+p[b*2+1])/2;
+    /* Pressão real da caneta (Pointer Events) ou velocidade do gesto. Traços
+       antigos, sem `pr`, caem no caminho de largura constante. */
+    const varW = !s.m && !s.e && Array.isArray(s.pr) && s.pr.length*2 >= p.length;
+    if(!varW){
+      /* largura constante: um único path — assim o marca-texto não escurece
+         nas emendas, porque o canvas compõe o traço inteiro de uma vez */
+      const from = Math.max(0, Math.floor((fromIdx||0)/2));
+      ctx.beginPath(); ctx.moveTo(p[from*2], p[from*2+1]);
+      for(let i=from+1; i<n-1; i++) ctx.quadraticCurveTo(p[i*2], p[i*2+1], mx(i,i+1), my(i,i+1));
+      ctx.lineTo(p[(n-1)*2], p[(n-1)*2+1]);
+      ctx.stroke(); ctx.restore(); return;
+    }
+    const pr = i => { const v = Number(s.pr[i]); return Math.max(.08, Math.min(1, isFinite(v) ? v : .5)); };
+    const W  = i => Math.max(.6, base*(.46 + pr(i)*0.92));
+    const from = Math.max(1, Math.floor((fromIdx||0)/2) - 1);
+    if(from <= 1){
+      ctx.lineWidth = W(0);
+      ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(mx(0,1), my(0,1)); ctx.stroke();
+    }
+    for(let i=from; i<n-1; i++){
+      ctx.lineWidth = W(i);
+      ctx.beginPath(); ctx.moveTo(mx(i-1,i), my(i-1,i));
+      ctx.quadraticCurveTo(p[i*2], p[i*2+1], mx(i,i+1), my(i,i+1));
+      ctx.stroke();
+    }
+    ctx.lineWidth = W(n-1);
+    ctx.beginPath(); ctx.moveTo(mx(n-2,n-1), my(n-2,n-1)); ctx.lineTo(p[(n-1)*2], p[(n-1)*2+1]); ctx.stroke();
     ctx.restore();
   }
   function wireDrawBar(nt, page){
