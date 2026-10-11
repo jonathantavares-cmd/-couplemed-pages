@@ -1092,13 +1092,29 @@
   }
   function stgExportBackup(uid){
     const payload={_couplemed:'backup',_version:STG_VERSION,_user:uid,_exported_at:new Date().toISOString(),data:{}};
-    stgUserKeys(uid).forEach(k=>{ payload.data[k]=localStorage.getItem(k); });
+    stgBackupKeys(uid).forEach(k=>{ payload.data[k]=localStorage.getItem(k); });
     const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
     a.href=url; a.download=`couplemed_backup_${uid}_${new Date().toISOString().slice(0,10)}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }
+  /* Export only study data. Reader/notebook keys can exist only in this browser.
+     Keep this separate from stgUserKeys: reset/import behaviour stays unchanged. */
+  function stgBackupKeys(uid){
+    const families=['qb','qb_unlock','fc','streak','time','prefs','last_access',
+      'access_count','nb','nb_ui','notebook','notes','tutor_chat',
+      'lib1hl','lib1quiz','lib1read','lib3hl','lib3read','lang_current'];
+    const exact=new Set(families.map(f=>'couplemed_'+f+'_'+uid));
+    const shared=new Set(['couplemed_fc_shared','couplemed_share_feed',
+      'couplemed_nb_tools','couplemed_nb_colors_hist','couplemed_nb_pen_seen','cm-type']);
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(exact.has(k)||shared.has(k)||k==='couplemed_time_'+uid+'_lock') keys.push(k);
+    }
+    return keys.sort();
   }
   function stgImportBackup(uid,file,lang,onDone){
     const t=I18N[lang]||I18N.en;
